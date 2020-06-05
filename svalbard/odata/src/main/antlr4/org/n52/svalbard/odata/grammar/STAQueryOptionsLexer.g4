@@ -284,6 +284,10 @@ FILTER_EQ
    : EQ -> type (EQ)
    ;
 
+FILTER_AMPERSAND
+   : AMPERSAND -> popMode , popMode , type (AMPERSAND)
+   ;
+
 FILTER_SP
    : SP -> type (SP)
    ;
@@ -653,8 +657,16 @@ DIGIT5
 
 mode iso8601;
 ISO8601_SP
-   : SP -> type (SP)
+   : SP -> type (SP), popMode
    ;
+
+ISO8601_AMPERSAND
+    : AMPERSAND -> type(AMPERSAND), popMode, popMode, popMode
+    ;
+
+ISO8601_CP
+    : CP -> type (CP), popMode, popMode, popMode, popMode
+    ;
 
 ISO8601_MINUS
    : MINUS -> type (MINUS)
@@ -673,7 +685,7 @@ T
    ;
 
 Z
-   : 'Z' -> popMode
+   : 'Z'
    ;
 
 DIGIT3

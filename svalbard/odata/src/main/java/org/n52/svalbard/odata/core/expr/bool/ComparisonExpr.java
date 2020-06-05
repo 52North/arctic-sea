@@ -14,14 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.odata.core.expr.bool;
 
-import java.util.Optional;
+package org.n52.svalbard.odata.core.expr.bool;
 
 import org.n52.shetland.ogc.filter.FilterConstants.ComparisonOperator;
 import org.n52.svalbard.odata.core.expr.BinaryExpr;
 import org.n52.svalbard.odata.core.expr.Expr;
 import org.n52.svalbard.odata.core.expr.ExprVisitor;
+
+import java.util.Optional;
 
 /**
  * Class to hold a comparison expression.
@@ -68,5 +69,32 @@ public class ComparisonExpr extends BinaryExpr<ComparisonOperator> implements Bo
             return false;
         }
         return super.equals(o);
+    }
+
+    @Override
+    public String toODataString() {
+        return String.format("(%s %s %s)",
+                             getLeft().toODataString(),
+                             getSTAName(getOperator()),
+                             getRight().toODataString());
+    }
+
+    private String getSTAName(ComparisonOperator operator) {
+        switch (operator) {
+        case PropertyIsEqualTo:
+            return "eq";
+        case PropertyIsNotEqualTo:
+            return "ne";
+        case PropertyIsLessThan:
+            return "lt";
+        case PropertyIsGreaterThan:
+            return "gt";
+        case PropertyIsLessThanOrEqualTo:
+            return "le";
+        case PropertyIsGreaterThanOrEqualTo:
+            return "ge";
+        default:
+            throw new IllegalArgumentException(String.format("Operators %s is not supported.", operator));
+        }
     }
 }

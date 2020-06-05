@@ -17,6 +17,7 @@
 package org.n52.svalbard.encode.json;
 
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
+import org.n52.shetland.ogc.swe.SweDataRecord;
 import org.n52.shetland.ogc.swe.SweField;
 import org.n52.shetland.ogc.swe.simpleType.SweBoolean;
 import org.n52.shetland.ogc.swe.simpleType.SweCategory;
@@ -74,8 +75,10 @@ public class FieldEncoder
                 return encodeSweTimeRangeField(field);
             case Category:
                 return encodeSweCategoryField(field);
+            case DataRecord:
+                return encodeSweDataRecord(field);
             default:
-                throw new UnsupportedEncoderInputException(this, field);
+                throw new UnsupportedEncoderInputException(this, field.getElement().getDataComponentType());
         }
     }
 
@@ -205,6 +208,18 @@ public class FieldEncoder
         jfield.put(JSONConstants.CODESPACE, sweCategory.getCodeSpace());
         if (sweCategory.isSetValue()) {
             jfield.put(JSONConstants.VALUE, sweCategory.getValue());
+        }
+        return jfield;
+    }
+
+    private ObjectNode encodeSweDataRecord(SweField field)
+            throws EncodingException {
+        ObjectNode jfield = createField(field);
+        jfield.put(JSONConstants.TYPE, JSONConstants.DATA_RECORD_TYPE);
+        SweDataRecord sweDataRecord = (SweDataRecord) field.getElement();
+        ArrayNode fields = jfield.putArray(JSONConstants.FIELDS);
+        for (SweField f : sweDataRecord.getFields()) {
+            fields.add(encodeObjectToJson(f));
         }
         return jfield;
     }

@@ -70,6 +70,10 @@ public interface JSONConstants {
     String CRS = "crs";
     String D_WITHIN = "dWithin";
     String DATA_TYPE = "dataType";
+    String DATA_ARRAY = "dataArray";
+    String DATA_ARRAY_TYPE = DATA_ARRAY;
+    String DATA_RECORD = "dataRecord";
+    String DATA_RECORD_TYPE = DATA_RECORD;
     String DCP = "dcp";
     String DECIMAL_SEPARATOR = "decimalSeparator";
     String DEFAULT = "default";
@@ -248,6 +252,8 @@ public interface JSONConstants {
     String VALUE_REFERENCE = "valueReference";
     String VALUES = "values";
     String VALUES_UNIT = "valuesUnit";
+    String VECTOR = "vector";
+    String VECTOR_TYPE = VECTOR;
     String VERSION = "version";
     String VERSIONS = "versions";
     String VOICE = "voice";

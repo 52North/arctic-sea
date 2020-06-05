@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.n52.shetland.oasis.odata.query.option;
 
 import org.n52.shetland.filter.CountFilter;
@@ -27,8 +26,10 @@ import org.n52.shetland.ogc.filter.FilterClause;
 import org.n52.shetland.ogc.filter.FilterConstants;
 import org.n52.shetland.ogc.filter.FilterConstants.SkipTopOperator;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Class to hold Query Parameters
@@ -138,6 +139,32 @@ public class QueryOptions {
         return filterFilter;
     }
 
+    public Set<FilterClause> getAllFilters() {
+        Set<FilterClause> result = new HashSet<>();
+        if (this.hasCountFilter()) {
+            result.add(this.getCountFilter());
+        }
+        if (this.hasSelectFilter()) {
+            result.add(this.getSelectFilter());
+        }
+        if (this.hasExpandFilter()) {
+            result.add(this.getExpandFilter());
+        }
+        if (this.hasSkipFilter()) {
+            result.add(this.getSkipFilter());
+        }
+        if (this.hasTopFilter()) {
+            result.add(this.getTopFilter());
+        }
+        if (this.hasOrderByFilter()) {
+            result.add(this.getOrderByFilter());
+        }
+        if (this.hasFilterFilter()) {
+            result.add(this.getFilterFilter());
+        }
+        return result;
+    }
+
     @Override public int hashCode() {
         return Objects.hash(baseURL,
                             countFilter,
@@ -170,5 +197,12 @@ public class QueryOptions {
                 && Objects.equals(obj.getSkipFilter(), this.getSkipFilter())
                 && Objects.equals(obj.getTopFilter(), this.getTopFilter())
                 && Objects.equals(obj.getFilterFilter(), this.getFilterFilter());
+    }
+
+    @Override
+    public String toString() {
+        return getAllFilters().stream()
+                              .map(FilterClause::toString)
+                              .collect(Collectors.joining("&"));
     }
 }

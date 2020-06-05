@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.n52.svalbard.odata.core.expr.temporal;
 
 import org.n52.shetland.ogc.gml.time.TimeInstant;
@@ -55,8 +54,7 @@ public class TimeValueExpr implements TemporalExpr {
 
     @Override
     public String toString() {
-        //TODO: format correctly
-        return value.toString();
+        return (value instanceof TimeInstant) ? ((TimeInstant) value).getValue().toString() : value.toString();
     }
 
     @Override

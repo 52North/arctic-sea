@@ -23,13 +23,14 @@ import java.util.Optional;
  * Class to hold a binary expression.
  *
  * @param <T> the operator type
- *
  * @author Christian Autermann
  */
 public abstract class BinaryExpr<T> implements Expr {
+    private static final String TO_STRING_TEMPLATE = "(%s %s %s)";
     private final T operator;
     private final Expr left;
     private final Expr right;
+
 
     /**
      * Create a new {@code BinaryExpr}.
@@ -78,12 +79,19 @@ public abstract class BinaryExpr<T> implements Expr {
 
     @Override
     public Optional<BinaryExpr<?>> asBinary() {
-        return Optional.of((BinaryExpr<?>) this);
+        return Optional.of(this);
     }
 
     @Override
     public String toString() {
-        return String.format("(%s %s %s)", this.left, this.operator, this.right);
+        return String.format(TO_STRING_TEMPLATE, this.left, this.operator.toString(), this.right);
+    }
+
+    @Override public String toODataString() {
+        return String.format(TO_STRING_TEMPLATE,
+                             this.left.toODataString(),
+                             this.operator.toString().toLowerCase(),
+                             this.right.toODataString());
     }
 
     @Override public int hashCode() {

@@ -14,25 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.rdf.dct;
+package org.n52.shetland.rdf;
 
-import org.apache.jena.rdf.model.Property;
-import org.apache.jena.vocabulary.DCTerms;
-import org.n52.shetland.rdf.AbstractResource;
-
-public class AccrualPeriodicity extends AbstractResource implements DctRdfPrefix {
-
-    public AccrualPeriodicity(String value) {
-        super(value);
-    }
-
-    public AccrualPeriodicity(CLDFrequency value) {
-        super(value.getURI());
-    }
-
-    @Override
-    public Property getProperty() {
-        return DCTerms.accrualPeriodicity;
-    }
-
+public interface RDFMediaTypes {
+    String APPLICATION_RDF_XML = "application/rdf+xml";
+    String APPLICATION_N_TRIPLES = "application/n-triples";
+    String APPLICATION_LD_JSON = "application/ld+json";
+    String APPLICATION_RDF_JSON = "application/rdf+json";
+    String APPLICATION_N_QUADS = "application/n-quads";
+    String APPLICATION_TRIG = "application/trig";
+    String TEXT_TURTLE = "text/turtle";
+    String TEXT_N3 = "text/n3";
 }

@@ -14,25 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.rdf.dct;
+package org.n52.shetland.rdf;
 
-import org.apache.jena.rdf.model.Property;
-import org.apache.jena.vocabulary.DCTerms;
-import org.n52.shetland.rdf.AbstractResource;
+import org.apache.jena.datatypes.BaseDatatype;
+import org.apache.jena.datatypes.RDFDatatype;
 
-public class AccrualPeriodicity extends AbstractResource implements DctRdfPrefix {
-
-    public AccrualPeriodicity(String value) {
-        super(value);
-    }
-
-    public AccrualPeriodicity(CLDFrequency value) {
-        super(value.getURI());
-    }
-
-    @Override
-    public Property getProperty() {
-        return DCTerms.accrualPeriodicity;
-    }
-
+public interface RDFDataTypes {
+    RDFDatatype WKT_LITERAL = new BaseDatatype("http://www.opengis.net/ont/geosparql#wktLiteral");
+    RDFDatatype GML_LITERAL = new BaseDatatype("http://www.opengis.net/ont/geosparql#gmlLiteral");
+    RDFDatatype GEO_JSON = new BaseDatatype("https://www.iana.org/assignments/media-types/application/geo+json");
 }

@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.n52.shetland.filter;
 
 import org.n52.shetland.ogc.filter.FilterClause;
@@ -53,4 +52,7 @@ public class CountFilter implements FilterClause {
         return this.value.equals(((CountFilter) o).getValue());
     }
 
+    @Override public String toString() {
+        return "$count=" + getValue().toString();
+    }
 }

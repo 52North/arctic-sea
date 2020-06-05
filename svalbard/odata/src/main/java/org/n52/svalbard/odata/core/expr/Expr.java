@@ -16,6 +16,7 @@
  */
 package org.n52.svalbard.odata.core.expr;
 
+import org.n52.shetland.oasis.odata.ODataExpr;
 import org.n52.svalbard.odata.core.expr.arithmetic.ArithmeticExpr;
 import org.n52.svalbard.odata.core.expr.arithmetic.NumericValueExpr;
 import org.n52.svalbard.odata.core.expr.bool.BooleanBinaryExpr;
@@ -31,7 +32,7 @@ import java.util.Optional;
  *
  * @author Christian Autermann
  */
-public interface Expr {
+public interface Expr extends ODataExpr {
 
     /**
      * Check if this expression is a string expression.

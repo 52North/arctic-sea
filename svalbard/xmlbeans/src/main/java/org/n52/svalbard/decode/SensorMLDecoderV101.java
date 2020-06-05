@@ -60,6 +60,7 @@ import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.swe.DataRecord;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
+import org.n52.shetland.util.CollectionHelper;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.exception.UnsupportedDecoderXmlInputException;
 import org.n52.svalbard.util.CodingHelper;
@@ -113,6 +114,7 @@ import net.opengis.sensorML.x101.SmlLocation.SmlLocation2;
 import net.opengis.sensorML.x101.SystemDocument;
 import net.opengis.sensorML.x101.SystemType;
 import net.opengis.sensorML.x101.ValidTimeDocument.ValidTime;
+import net.opengis.swe.x101.DataComponentPropertyType;
 
 /**
  * @since 1.0.0
@@ -550,10 +552,16 @@ public class SensorMLDecoderV101 extends AbstractSensorMLDecoder {
         return null;
     }
 
-    private List<SmlParameter> parseParameters(final Parameters parameters) {
-        final List<SmlParameter> sosParameters = new ArrayList<>(0);
-        // TODO Auto-generated method stub
-        return sosParameters;
+    private List<SmlParameter> parseParameters(final Parameters parameters) throws DecodingException {
+        if (CollectionHelper.isNotNullOrEmpty(parameters.getParameterList().getParameterArray())) {
+            final List<SmlParameter> sweComponents
+                    = new ArrayList<>(parameters.getParameterList().getParameterArray().length);
+            for (final DataComponentPropertyType sweComponent : parameters.getParameterList().getParameterArray()) {
+                sweComponents.add(parseDataComponentPropertyType(sweComponent));
+            }
+            return sweComponents;
+        }
+        return Collections.emptyList();
     }
 
     private List<SmlContact> parseContact(final Contact[] contactArray) {
@@ -801,7 +809,6 @@ public class SensorMLDecoderV101 extends AbstractSensorMLDecoder {
      *
      * @throws DecodingException if an error occurs
      */
-    @SuppressWarnings({ "rawtypes" })
     private SmlIo parseIoComponentPropertyType(final IoComponentPropertyType xbIoCompPropType)
             throws DecodingException {
         final SmlIo sosIo = new SmlIo();
@@ -852,6 +859,56 @@ public class SensorMLDecoderV101 extends AbstractSensorMLDecoder {
                                         XmlHelper.getLocalName(toDecode), XmlHelper.getLocalName(xbIoCompPropType));
         }
         return sosIo;
+    }
+
+    private SmlParameter parseDataComponentPropertyType(final DataComponentPropertyType xbDataComponentPropertyType)
+            throws DecodingException {
+        final SmlParameter smlParameter = new SmlParameter();
+        smlParameter.setName(xbDataComponentPropertyType.getName());
+        XmlObject toDecode = null;
+        if (xbDataComponentPropertyType.isSetHref()) {
+            smlParameter.setHref(xbDataComponentPropertyType.getHref());
+            if (xbDataComponentPropertyType.isSetTitle()) {
+                smlParameter.setTitle(xbDataComponentPropertyType.getTitle());
+            }
+            return smlParameter;
+        }
+        if (xbDataComponentPropertyType.isSetBoolean()) {
+            toDecode = xbDataComponentPropertyType.getBoolean();
+        } else if (xbDataComponentPropertyType.isSetCategory()) {
+            toDecode = xbDataComponentPropertyType.getCategory();
+        } else if (xbDataComponentPropertyType.isSetCount()) {
+            toDecode = xbDataComponentPropertyType.getCount();
+        } else if (xbDataComponentPropertyType.isSetCountRange()) {
+            toDecode = xbDataComponentPropertyType.getCountRange();
+        } else if (xbDataComponentPropertyType.isSetQuantity()) {
+            toDecode = xbDataComponentPropertyType.getQuantity();
+        } else if (xbDataComponentPropertyType.isSetQuantityRange()) {
+            toDecode = xbDataComponentPropertyType.getQuantityRange();
+        } else if (xbDataComponentPropertyType.isSetText()) {
+            toDecode = xbDataComponentPropertyType.getText();
+        } else if (xbDataComponentPropertyType.isSetTime()) {
+            toDecode = xbDataComponentPropertyType.getTime();
+        } else if (xbDataComponentPropertyType.isSetTimeRange()) {
+            toDecode = xbDataComponentPropertyType.getTimeRange();
+        } else if (xbDataComponentPropertyType.isSetAbstractDataArray1()) {
+            toDecode = xbDataComponentPropertyType.getAbstractDataArray1();
+        } else if (xbDataComponentPropertyType.isSetAbstractDataRecord()) {
+            toDecode = xbDataComponentPropertyType.getAbstractDataRecord();
+        } else {
+            throw new DecodingException(XmlHelper.getLocalName(xbDataComponentPropertyType),
+                                        "An 'DataComponentProperty' is not supported");
+        }
+
+        final Object decodedObject = decodeXmlElement(toDecode);
+        if (decodedObject instanceof SweAbstractDataComponent) {
+            smlParameter.setParameter((SweAbstractDataComponent) decodedObject);
+        } else {
+            throw new DecodingException(XmlHelper.getLocalName(xbDataComponentPropertyType),
+                    "The 'DataComponentProperty' with type '%s' as value for '%s' is not supported.",
+                    XmlHelper.getLocalName(toDecode), XmlHelper.getLocalName(xbDataComponentPropertyType));
+        }
+        return smlParameter;
     }
 
     private String addSensorMLWrapperForXmlDescription(final AbstractProcessType xbProcessType) {

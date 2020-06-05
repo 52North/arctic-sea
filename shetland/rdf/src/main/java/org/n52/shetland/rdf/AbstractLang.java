@@ -16,26 +16,38 @@
  */
 package org.n52.shetland.rdf;
 
+import com.google.common.base.Strings;
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
 
 public abstract class AbstractLang extends AbstractValue {
 
-    private final String lang;
+    private final String language;
 
-    public AbstractLang(String value, String lang) {
-        super(value);
-        this.lang = lang;
+    public AbstractLang(String value) {
+        this(value, null);
     }
 
-    @Override
+    public AbstractLang(String value, String language) {
+        super(value);
+        this.language = language;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public boolean hasLanguage() {
+        return getLanguage() != null && !getLanguage().isEmpty();
+    }
+
+    public abstract Property getProperty();
+
     public Resource addToResource(Model model, Resource parent) {
         addNsPrefix(model);
-        if (lang != null) {
-            parent.addProperty(getProperty(), getValue(), lang);
-        } else {
-            parent.addProperty(getProperty(), getValue());
-        }
-        return parent;
+        return parent.addProperty(getProperty(),
+                                  getValue(),
+                                  Strings.nullToEmpty(getLanguage()));
     }
 }

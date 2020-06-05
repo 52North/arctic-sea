@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.n52.shetland.filter;
 
 import org.n52.shetland.oasis.odata.query.option.QueryOptions;
@@ -61,5 +60,9 @@ public class ExpandItem {
 
         return Objects.equals(this.path, ((ExpandItem) o).getPath()) &&
                 Objects.equals(this.queryOptions, ((ExpandItem) o).getQueryOptions());
+    }
+
+    @Override public String toString() {
+        return path + "(" + getQueryOptions().toString() + ")";
     }
 }

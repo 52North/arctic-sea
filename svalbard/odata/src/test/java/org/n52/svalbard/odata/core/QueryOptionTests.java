@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.n52.svalbard.odata.core;
 
 import org.n52.svalbard.odata.grammar.STAQueryOptionsGrammar;
@@ -29,7 +28,6 @@ public abstract class QueryOptionTests {
     protected STAQueryOptionsGrammar parser;
 
     protected void init(String query) {
-        System.out.println(query.trim());
         parser = new QueryOptionsFactory().createGrammar(query);
     }
 }

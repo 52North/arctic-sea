@@ -20,7 +20,7 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
 
-public abstract class AbstractValue implements ResourceAdder {
+public abstract class AbstractValue implements RdfPrefix, ResourceAdder {
 
     private final String value;
 
@@ -36,8 +36,7 @@ public abstract class AbstractValue implements ResourceAdder {
 
     public Resource addToResource(Model model, Resource parent) {
         addNsPrefix(model);
-        parent.addProperty(getProperty(), getValue());
-        return parent;
+        return parent.addProperty(getProperty(), getValue());
     }
 
 }

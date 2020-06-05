@@ -59,6 +59,7 @@ import org.n52.shetland.ogc.sensorML.elements.SmlIdentifier;
 import org.n52.shetland.ogc.sensorML.elements.SmlIo;
 import org.n52.shetland.ogc.sensorML.elements.SmlLink;
 import org.n52.shetland.ogc.sensorML.elements.SmlLocation;
+import org.n52.shetland.ogc.sensorML.elements.SmlParameter;
 import org.n52.shetland.ogc.sensorML.elements.SmlPosition;
 import org.n52.shetland.ogc.sos.ProcedureDescriptionFormat;
 import org.n52.shetland.ogc.sos.Sos1Constants;
@@ -72,6 +73,7 @@ import org.n52.shetland.ogc.swe.SweConstants.SweAggregateType;
 import org.n52.shetland.ogc.swe.SweCoordinate;
 import org.n52.shetland.ogc.swe.SweDataArray;
 import org.n52.shetland.ogc.swe.SweDataRecord;
+import org.n52.shetland.ogc.swe.SweEnvelope;
 import org.n52.shetland.ogc.swe.SweField;
 import org.n52.shetland.ogc.swe.SweSimpleDataRecord;
 import org.n52.shetland.ogc.swe.simpleType.SweAbstractSimpleType;
@@ -132,6 +134,8 @@ import net.opengis.sensorML.x101.LinkDocument.Link;
 import net.opengis.sensorML.x101.MethodPropertyType;
 import net.opengis.sensorML.x101.OutputsDocument.Outputs;
 import net.opengis.sensorML.x101.OutputsDocument.Outputs.OutputList;
+import net.opengis.sensorML.x101.ParametersDocument.Parameters;
+import net.opengis.sensorML.x101.ParametersDocument.Parameters.ParameterList;
 import net.opengis.sensorML.x101.PersonDocument.Person;
 import net.opengis.sensorML.x101.PositionDocument.Position;
 import net.opengis.sensorML.x101.ProcessMethodType;
@@ -149,7 +153,9 @@ import net.opengis.swe.x101.AbstractDataComponentType;
 import net.opengis.swe.x101.AnyScalarPropertyType;
 import net.opengis.swe.x101.DataArrayDocument;
 import net.opengis.swe.x101.DataArrayType;
+import net.opengis.swe.x101.DataComponentPropertyType;
 import net.opengis.swe.x101.DataRecordType;
+import net.opengis.swe.x101.EnvelopeType;
 import net.opengis.swe.x101.PositionType;
 import net.opengis.swe.x101.SimpleDataRecordType;
 import net.opengis.swe.x101.VectorType;
@@ -727,6 +733,10 @@ public class SensorMLEncoderv101
         if (system.isSetOutputs() && !xbSystem.isSetOutputs()) {
             xbSystem.setOutputs(createOutputs(system.getOutputs()));
         }
+        // set parameters
+        if (system.isSetParameters()) {
+            xbSystem.setParameters(createParameters(system.getParameters()));
+        }
         // set connections
         if (system.isSetConnections() && !xbSystem.isSetConnections()) {
             xbSystem.setConnections(createConnections(system.getConnections()));
@@ -751,6 +761,10 @@ public class SensorMLEncoderv101
         if (component.isSetOutputs()) {
             ct.setOutputs(createOutputs(component.getOutputs()));
         }
+        // set parameters
+        if (component.isSetParameters()) {
+            ct.setParameters(createParameters(component.getParameters()));
+        }
     }
 
     private void addProcessModelValues(final ProcessModelType processModel, final ProcessModel sosProcessModel)
@@ -762,6 +776,10 @@ public class SensorMLEncoderv101
         // set outputs
         if (sosProcessModel.isSetOutputs()) {
             processModel.setOutputs(createOutputs(sosProcessModel.getOutputs()));
+        }
+        // set parameters
+        if (sosProcessModel.isSetParameters()) {
+            processModel.setParameters(createParameters(sosProcessModel.getParameters()));
         }
         // set method
         processModel.setMethod(createMethod(sosProcessModel.getMethod()));
@@ -1076,6 +1094,60 @@ public class SensorMLEncoderv101
             }
         }
         return outputs;
+    }
+
+    private Parameters createParameters(List<SmlParameter> smlParameters) throws EncodingException {
+        final Parameters parameters = Parameters.Factory.newInstance(getXmlOptions());
+        ParameterList parameterList = parameters.addNewParameterList();
+        for (SmlParameter smlParameter : smlParameters) {
+            DataComponentPropertyType param = parameterList.addNewParameter();
+            param.setName(smlParameter.getName());
+            if (smlParameter.isSetHref()) {
+                param.setHref(smlParameter.getHref());
+                if (smlParameter.isSetTitle()) {
+                    param.setTitle(smlParameter.getTitle());
+                }
+            } else {
+                SweAbstractDataComponent parameter = smlParameter.getParameter();
+                XmlObject xmlObject = encodeObjectToXml(SweConstants.NS_SWE_101, parameter);
+                if (xmlObject != null) {
+                    if (parameter instanceof SweBoolean) {
+                        param.addNewBoolean().set(xmlObject);
+                    } else if (parameter instanceof SweCategory) {
+                        param.addNewCategory().set(xmlObject);
+                    } else if (parameter instanceof SweCount) {
+                        param.addNewCount().set(xmlObject);
+                    } else if (parameter instanceof SweQuantity) {
+                        param.addNewQuantity().set(xmlObject);
+                    } else if (parameter instanceof SweText) {
+                        param.addNewText().set(xmlObject);
+                    } else if (parameter instanceof SweTimeRange) {
+                        param.addNewTimeRange().set(xmlObject);
+                    } else if (parameter instanceof SweTime) {
+                        param.addNewTime().set(xmlObject);
+                    } else if (parameter instanceof SweEnvelope) {
+                        param.addNewAbstractDataRecord().set(xmlObject);
+                        param.getAbstractDataRecord()
+                                .substitute(SweConstants.QN_ENVELOPE_SWE_101, EnvelopeType.type);
+                    } else if (parameter instanceof SweDataRecord) {
+                        param.addNewAbstractDataRecord().set(xmlObject);
+                        param.getAbstractDataRecord()
+                                .substitute(SweConstants.QN_DATA_RECORD_SWE_101, DataRecordType.type);
+                    } else if (parameter instanceof SweSimpleDataRecord) {
+                        param.addNewAbstractDataRecord().set(xmlObject);
+                        param.getAbstractDataRecord()
+                                .substitute(SweConstants.QN_SIMPLEDATARECORD_SWE_101, SimpleDataRecordType.type);
+                    } else if (parameter instanceof SweDataArray) {
+                        param.addNewAbstractDataArray1().set(xmlObject);
+                        param.getAbstractDataArray1()
+                                .substitute(SweConstants.QN_DATA_RECORD_SWE_101, DataArrayType.type);
+                    } else {
+                        throw new UnsupportedEncoderInputException(this, parameter);
+                    }
+                }
+            }
+        }
+        return parameters;
     }
 
     /**

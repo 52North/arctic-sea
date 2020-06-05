@@ -60,6 +60,10 @@ public class GeoValueExpr implements Expr {
         return String.format("'%s'", this.value);
     }
 
+    @Override public String toODataString() {
+        return this.value;
+    }
+
     @Override
     public <T, X extends Throwable> T accept(ExprVisitor<T, X> visitor) throws X {
         return visitor.visitGeometry(this);

@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.n52.shetland.filter;
 
 import org.n52.shetland.ogc.filter.FilterClause;
@@ -22,6 +21,7 @@ import org.n52.shetland.ogc.filter.FilterClause;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ExpandFilter implements FilterClause {
 
@@ -54,5 +54,10 @@ public class ExpandFilter implements FilterClause {
         }
 
         return this.items.equals(((ExpandFilter) o).getItems());
+    }
+
+    @Override public String toString() {
+        return "$expand=" +
+                this.items.stream().map(ExpandItem::toString).collect(Collectors.joining(", "));
     }
 }

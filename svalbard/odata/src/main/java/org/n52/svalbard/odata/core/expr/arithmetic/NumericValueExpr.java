@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.n52.svalbard.odata.core.expr.arithmetic;
 
 import org.n52.svalbard.odata.core.expr.ExprVisitor;
@@ -71,6 +70,10 @@ public class NumericValueExpr implements ArithmeticExpr {
     @Override
     public String toString() {
         return String.format("As float: '%f'", this.value.floatValue());
+    }
+
+    @Override public String toODataString() {
+        return Float.toString(this.value.floatValue());
     }
 
     @Override

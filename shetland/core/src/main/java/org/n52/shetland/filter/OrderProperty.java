@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.n52.shetland.filter;
 
 import org.n52.shetland.ogc.filter.FilterConstants.SortOrder;
@@ -70,5 +69,10 @@ public class OrderProperty {
 
         return Objects.equals(this.valueReference, ((OrderProperty) o).getValueReference()) &&
                 Objects.equals(this.sortOrder, ((OrderProperty) o).getSortOrder());
+    }
+
+    @Override public String toString() {
+        return valueReference +
+                ((getSortOrder() != null) ? " " + getSortOrder().toString().toLowerCase() : "");
     }
 }

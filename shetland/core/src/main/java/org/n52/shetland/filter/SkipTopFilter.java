@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.n52.shetland.filter;
 
 import org.n52.shetland.ogc.filter.FilterClause;
@@ -58,5 +57,9 @@ public class SkipTopFilter implements FilterClause {
 
         return Objects.equals(this.operator, ((SkipTopFilter) o).getOperator())
                 && Objects.equals(this.value, ((SkipTopFilter) o).getValue());
+    }
+
+    @Override public String toString() {
+        return ((getOperator().equals(SkipTopOperator.Top)) ? "$top" : "$skip") + "=" + getValue().toString();
     }
 }

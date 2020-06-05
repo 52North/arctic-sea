@@ -16,12 +16,13 @@
  */
 package org.n52.shetland.ogc.sensorML.elements;
 
+import org.n52.shetland.ogc.gml.AbstractReferenceType;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 
 /**
  * @author <a href="mailto:m.radtke@52north.org">Maurin Radtke</a>
  */
-public class SmlParameter {
+public class SmlParameter extends AbstractReferenceType {
 
     private String name;
     private SweAbstractDataComponent parameter;

@@ -17,6 +17,7 @@
 package org.n52.shetland.rdf.locn;
 
 import org.n52.shetland.rdf.RdfPrefix;
+import org.n52.shetland.rdf.vocabulary.LOCN;
 
 public interface LocnRdfPrefix extends RdfPrefix {
 

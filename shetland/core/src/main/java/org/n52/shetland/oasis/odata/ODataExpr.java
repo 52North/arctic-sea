@@ -14,25 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.rdf.dct;
+package org.n52.shetland.oasis.odata;
 
-import org.apache.jena.rdf.model.Property;
-import org.apache.jena.vocabulary.DCTerms;
-import org.n52.shetland.rdf.AbstractResource;
+/**
+ * @author <a href="mailto:j.speckamp@52north.org">Jan Speckamp</a>
+ */
+public interface ODataExpr {
 
-public class AccrualPeriodicity extends AbstractResource implements DctRdfPrefix {
-
-    public AccrualPeriodicity(String value) {
-        super(value);
+    /**
+     * Returns a String representation of the Expr that can be used directly in an OData Query String.
+     * This might differ from the default toString() Method
+     *
+     * @return String representation of this Expr
+     */
+    default String toODataString() {
+        return toString();
     }
-
-    public AccrualPeriodicity(CLDFrequency value) {
-        super(value.getURI());
-    }
-
-    @Override
-    public Property getProperty() {
-        return DCTerms.accrualPeriodicity;
-    }
-
 }
