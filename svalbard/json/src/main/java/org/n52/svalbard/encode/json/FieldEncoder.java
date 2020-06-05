@@ -75,7 +75,7 @@ public class FieldEncoder
             case Category:
                 return encodeSweCategoryField(field);
             default:
-                throw new UnsupportedEncoderInputException(this, field);
+                throw new UnsupportedEncoderInputException(this, field.getElement().getDataComponentType());
         }
     }
 
