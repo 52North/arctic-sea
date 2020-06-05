@@ -168,26 +168,6 @@ public class SweCommonEncoderv101
         XmlObject encodedObject = null;
         if (element instanceof SweAbstractSimpleType) {
             encodedObject = createSimpleType((SweAbstractSimpleType<?>) element, context);
-            // }
-            // if (element instanceof SweBoolean) {
-            // encodedObject = createBoolean((SweBoolean) element);
-            // } else if (element instanceof SweCategory) {
-            // encodedObject = createCategory((SweCategory) element);
-            // } else if (element instanceof SweCount) {
-            // encodedObject = createCount((SweCount) element);
-            // } else if (element instanceof SweObservableProperty) {
-            // encodedObject = createObservableProperty((SweObservableProperty)
-            // element);
-            // } else if (element instanceof SweQuantity) {
-            // encodedObject = createQuantity((SweQuantity) element);
-            // } else if (element instanceof SweQuantityRange) {
-            // encodedObject = createQuantityRange((SweQuantityRange) element);
-            // } else if (element instanceof SweText) {
-            // encodedObject = createText((SweText) element);
-            // } else if (element instanceof SweTime) {
-            // encodedObject = createTime((SweTime) element);
-            // } else if (element instanceof SweTimeRange) {
-            // encodedObject = createTimeRange((SweTimeRange) element);
         } else if (element instanceof SweCoordinate) {
             encodedObject = createCoordinate((SweCoordinate<?>) element);
         } else if (element instanceof SweDataArray) {
@@ -400,7 +380,7 @@ public class SweCommonEncoderv101
             xml.setQuality(createQuality(component.getQuality())[0]);
         }
         if (component.isSetContstraint()) {
-            createConstraint(xml.getConstraint(), component.getConstraint());
+            createConstraint(xml.addNewConstraint(), component.getConstraint());
         }
         return xml;
     }
@@ -414,7 +394,7 @@ public class SweCommonEncoderv101
             xml.setQualityArray(createQuality(component.getQuality()));
         }
         if (component.isSetContstraint()) {
-            createConstraint(xml.getConstraint(), component.getConstraint());
+            createConstraint(xml.addNewConstraint(), component.getConstraint());
         }
         return xml;
     }
@@ -428,7 +408,7 @@ public class SweCommonEncoderv101
             xml.setQualityArray(createQuality(component.getQuality()));
         }
         if (component.isSetContstraint()) {
-            createConstraint(xml.getConstraint(), component.getConstraint());
+            createConstraint(xml.addNewConstraint(), component.getConstraint());
         }
         return xml;
     }
@@ -462,7 +442,7 @@ public class SweCommonEncoderv101
             xml.setQualityArray(createQuality(component.getQuality()));
         }
         if (component.isSetContstraint()) {
-            createConstraint(xml.getConstraint(), component.getConstraint());
+            createConstraint(xml.addNewConstraint(), component.getConstraint());
         }
         return xml;
     }
@@ -482,7 +462,7 @@ public class SweCommonEncoderv101
             xml.setQualityArray(createQuality(component.getQuality()));
         }
         if (component.isSetContstraint()) {
-            createConstraint(xml.getConstraint(), component.getConstraint());
+            createConstraint(xml.addNewConstraint(), component.getConstraint());
         }
         return xml;
     }
@@ -520,7 +500,7 @@ public class SweCommonEncoderv101
             xml.setQuality(createQuality(component.getQuality())[0]);
         }
         if (component.isSetContstraint()) {
-            createConstraint(xml.getConstraint(), component.getConstraint());
+            createConstraint(xml.addNewConstraint(), component.getConstraint());
         }
         return xml;
     }
