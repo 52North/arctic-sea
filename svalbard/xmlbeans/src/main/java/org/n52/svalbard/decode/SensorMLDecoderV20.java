@@ -793,14 +793,22 @@ public class SensorMLDecoderV20
 
     private SmlParameter parseSweParameter(Parameter xbParameter)
             throws DecodingException {
+        SmlParameter param = new SmlParameter();
         String name = xbParameter.getName();
+        if (xbParameter.isSetHref()) {
+            param.setHref(xbParameter.getHref());
+            if (xbParameter.isSetTitle()) {
+                param.setTitle(xbParameter.getTitle());
+            }
+            return param;
+        }
         Object parameter = decodeXmlElement(xbParameter.getAbstractDataComponent());
         if (parameter instanceof SweAbstractDataComponent) {
             if (xbParameter.getName() != null
                     && !xbParameter.getName().isEmpty()) {
                 ((SweAbstractDataComponent) parameter).setName(name);
             }
-            SmlParameter param = new SmlParameter();
+
             param.setName(name);
             param.setParameter((SweAbstractDataComponent) parameter);
             return param;

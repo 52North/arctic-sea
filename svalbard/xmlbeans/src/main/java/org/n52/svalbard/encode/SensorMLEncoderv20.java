@@ -57,6 +57,7 @@ import org.n52.shetland.ogc.sensorML.elements.SmlDocumentationList;
 import org.n52.shetland.ogc.sensorML.elements.SmlIdentifier;
 import org.n52.shetland.ogc.sensorML.elements.SmlIo;
 import org.n52.shetland.ogc.sensorML.elements.SmlLink;
+import org.n52.shetland.ogc.sensorML.elements.SmlParameter;
 import org.n52.shetland.ogc.sensorML.elements.SmlPosition;
 import org.n52.shetland.ogc.sensorML.v20.AbstractPhysicalProcess;
 import org.n52.shetland.ogc.sensorML.v20.AbstractProcessV20;
@@ -65,6 +66,7 @@ import org.n52.shetland.ogc.sensorML.v20.DescribedObject;
 import org.n52.shetland.ogc.sensorML.v20.PhysicalComponent;
 import org.n52.shetland.ogc.sensorML.v20.PhysicalSystem;
 import org.n52.shetland.ogc.sensorML.v20.SimpleProcess;
+import org.n52.shetland.ogc.sensorML.v20.SmlDataInterface;
 import org.n52.shetland.ogc.sensorML.v20.SmlFeatureOfInterest;
 import org.n52.shetland.ogc.sos.ProcedureDescriptionFormat;
 import org.n52.shetland.ogc.sos.Sos1Constants;
@@ -98,6 +100,7 @@ import net.opengis.sensorml.x20.AbstractProcessType;
 import net.opengis.sensorml.x20.AbstractProcessType.FeaturesOfInterest;
 import net.opengis.sensorml.x20.AbstractProcessType.Inputs;
 import net.opengis.sensorml.x20.AbstractProcessType.Outputs;
+import net.opengis.sensorml.x20.AbstractProcessType.Parameters;
 import net.opengis.sensorml.x20.AggregateProcessDocument;
 import net.opengis.sensorml.x20.AggregateProcessPropertyType;
 import net.opengis.sensorml.x20.AggregateProcessType;
@@ -128,6 +131,8 @@ import net.opengis.sensorml.x20.LinkType;
 import net.opengis.sensorml.x20.ObservablePropertyType;
 import net.opengis.sensorml.x20.OutputListType;
 import net.opengis.sensorml.x20.OutputListType.Output;
+import net.opengis.sensorml.x20.ParameterListType;
+import net.opengis.sensorml.x20.ParameterListType.Parameter;
 import net.opengis.sensorml.x20.PhysicalComponentDocument;
 import net.opengis.sensorml.x20.PhysicalComponentPropertyType;
 import net.opengis.sensorml.x20.PhysicalComponentType;
@@ -694,6 +699,14 @@ public class SensorMLEncoderv20
             }
         }
         // set parameters
+        if (abstractProcess.isSetParameters() && !apt.isSetParameters()) {
+            apt.setParameters(createParameters(abstractProcess.getParameters()));
+        } else if (abstractProcess.isSetParameters() && apt.isSetParameters()) {
+            Parameters createParameters = createParameters(abstractProcess.getParameters());
+            if (!createParameters.xmlText().equals(apt.getParameters().xmlText())) {
+                apt.setParameters(createParameters);
+            }
+        }
         // set modes
     }
 
@@ -1235,6 +1248,34 @@ public class SensorMLEncoderv20
             }
         }
         return outputs;
+    }
+
+    private Parameters createParameters(List<SmlParameter> smlParameters) throws EncodingException {
+        final Parameters parameters = Parameters.Factory.newInstance(getXmlOptions());
+        final ParameterListType parameterList = parameters.addNewParameterList();
+        for (SmlParameter smlParameter : smlParameters) {
+            Parameter param = parameterList.addNewParameter();
+            param.setName(smlParameter.getName());
+            if (smlParameter.isSetHref()) {
+                param.setHref(smlParameter.getHref());
+                if (smlParameter.isSetTitle()) {
+                    param.setTitle(smlParameter.getTitle());
+                }
+            } else {
+                XmlObject xmlObject = encodeObjectToXmlSwe20(smlParameter.getParameter());
+                if (xmlObject != null) {
+                    SweAbstractDataComponent parameter = smlParameter.getParameter();
+                    if (parameter instanceof SmlDataInterface) {
+                        substitute(param.addNewDataInterface(), xmlObject);
+                    } else if (parameter instanceof SweObservableProperty) {
+                        substitute(param.addNewObservableProperty(), xmlObject);
+                    } else {
+                        substitute(param.addNewAbstractDataComponent(), xmlObject);
+                    }
+                }
+            }
+        }
+        return parameters;
     }
 
     private FeaturesOfInterest createFeatureOfInterest(SmlFeatureOfInterest feature) {
