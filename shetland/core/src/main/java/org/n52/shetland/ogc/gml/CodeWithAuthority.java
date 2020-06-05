@@ -88,7 +88,7 @@ public class CodeWithAuthority implements Comparable<CodeWithAuthority> {
      * @return This CodeWithAuthority object
      */
     public CodeWithAuthority setValue(String value) {
-        this.value = value.trim();
+        this.value = trim(value);
         return this;
     }
 
@@ -100,7 +100,7 @@ public class CodeWithAuthority implements Comparable<CodeWithAuthority> {
      * @return This CodeWithAuthority object
      */
     public CodeWithAuthority setCodeSpace(String codeSpace) {
-        this.codeSpace = codeSpace.trim();
+        this.codeSpace = trim(codeSpace);
         return this;
     }
 
@@ -174,5 +174,9 @@ public class CodeWithAuthority implements Comparable<CodeWithAuthority> {
             }
         }
         return 1;
+    }
+
+    private String trim(String value) {
+        return value != null ? value.trim() : value;
     }
 }

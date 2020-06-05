@@ -38,8 +38,8 @@ public abstract class AbstractCodeType {
     }
 
     public AbstractCodeType(final String value, final URI codespace) {
-        this.value = value;
-        this.codeSpace = codespace;
+        setValue(value);
+        setCodeSpace(codespace);
     }
 
     /**
@@ -68,7 +68,7 @@ public abstract class AbstractCodeType {
      * @return This CodeType object
      */
     public AbstractCodeType setValue(String value) {
-        this.value = value;
+        this.value = trim(value);
         return this;
     }
 
@@ -116,6 +116,10 @@ public abstract class AbstractCodeType {
     @Override
     public int hashCode() {
         return Objects.hashCode(getValue(), getCodeSpace());
+    }
+
+    private String trim(String value) {
+        return value != null ? value.trim() : value;
     }
 
 }
