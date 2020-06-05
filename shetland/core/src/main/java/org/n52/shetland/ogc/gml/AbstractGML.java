@@ -328,7 +328,7 @@ public abstract class AbstractGML {
      * @return {@code this}
      */
     public AbstractGML addName(final String name) {
-        addName(new CodeType(name));
+        addName(new CodeType(name.trim()));
         return this;
     }
 
@@ -346,7 +346,7 @@ public abstract class AbstractGML {
      *             if the code space is not a valid URI
      */
     public AbstractGML addName(final String name, final URI codespace) throws URISyntaxException {
-        addName(new CodeType(name, codespace));
+        addName(new CodeType(name.trim(), codespace));
         return this;
     }
 
