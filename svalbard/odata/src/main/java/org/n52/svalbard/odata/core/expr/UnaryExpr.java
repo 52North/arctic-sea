@@ -27,10 +27,10 @@ import java.util.Optional;
  * @author Christian Autermann
  */
 public abstract class UnaryExpr<T> implements Expr {
-
+    private static final String TO_STRING_TEMPLATE = "(%s %s)";
     private final T operator;
     private final Expr operand;
-    private final String toStringTemplate = "(%s %s)";
+    
 
     /**
      * Create a new {@code UnaryExpr}.
@@ -68,11 +68,11 @@ public abstract class UnaryExpr<T> implements Expr {
 
     @Override
     public String toString() {
-        return String.format(toStringTemplate, operator.toString(), this.operand);
+        return String.format(TO_STRING_TEMPLATE, operator.toString(), this.operand);
     }
 
     @Override public String toODataString() {
-        return String.format(toStringTemplate,
+        return String.format(TO_STRING_TEMPLATE,
                              operator.toString().toLowerCase(),
                              this.operand.toODataString());
     }
