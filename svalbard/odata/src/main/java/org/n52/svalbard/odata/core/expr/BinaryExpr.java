@@ -26,7 +26,7 @@ import java.util.Optional;
  * @author Christian Autermann
  */
 public abstract class BinaryExpr<T> implements Expr {
-    private static final String toStringTemplate = "(%s %s %s)";
+    private static final String TO_STRING_TEMPLATE = "(%s %s %s)";
     private final T operator;
     private final Expr left;
     private final Expr right;
@@ -84,11 +84,11 @@ public abstract class BinaryExpr<T> implements Expr {
 
     @Override
     public String toString() {
-        return String.format(toStringTemplate, this.left, this.operator.toString(), this.right);
+        return String.format(TO_STRING_TEMPLATE, this.left, this.operator.toString(), this.right);
     }
 
     @Override public String toODataString() {
-        return String.format(toStringTemplate,
+        return String.format(TO_STRING_TEMPLATE,
                              this.left.toODataString(),
                              this.operator.toString().toLowerCase(),
                              this.right.toODataString());
