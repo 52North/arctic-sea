@@ -26,11 +26,11 @@ import java.util.Optional;
  * @author Christian Autermann
  */
 public abstract class BinaryExpr<T> implements Expr {
-
+    private static final String toStringTemplate = "(%s %s %s)";
     private final T operator;
     private final Expr left;
     private final Expr right;
-    private final String toStringTemplate = "(%s %s %s)";
+    
 
     /**
      * Create a new {@code BinaryExpr}.
