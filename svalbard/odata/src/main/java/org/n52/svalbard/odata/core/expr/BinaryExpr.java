@@ -30,7 +30,7 @@ public abstract class BinaryExpr<T> implements Expr {
     private final T operator;
     private final Expr left;
     private final Expr right;
-    
+
 
     /**
      * Create a new {@code BinaryExpr}.

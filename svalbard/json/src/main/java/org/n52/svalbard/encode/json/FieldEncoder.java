@@ -211,7 +211,7 @@ public class FieldEncoder
         }
         return jfield;
     }
-    
+
     private ObjectNode encodeSweDataRecord(SweField field)
             throws EncodingException {
         ObjectNode jfield = createField(field);

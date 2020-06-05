@@ -30,7 +30,7 @@ public abstract class UnaryExpr<T> implements Expr {
     private static final String TO_STRING_TEMPLATE = "(%s %s)";
     private final T operator;
     private final Expr operand;
-    
+
 
     /**
      * Create a new {@code UnaryExpr}.
