@@ -30,6 +30,7 @@ public abstract class BinaryExpr<T> implements Expr {
     private final T operator;
     private final Expr left;
     private final Expr right;
+    private final String toStringTemplate = "(%s %s %s)";
 
     /**
      * Create a new {@code BinaryExpr}.
@@ -83,15 +84,14 @@ public abstract class BinaryExpr<T> implements Expr {
 
     @Override
     public String toString() {
-        return format(this.operator.toString());
+        return String.format(toStringTemplate, this.left, this.operator.toString(), this.right);
     }
 
     @Override public String toODataString() {
-        return format(this.operator.toString().toLowerCase());
-    }
-
-    private String format(String operator) {
-        return String.format("(%s %s %s)", this.left, operator, this.right);
+        return String.format(toStringTemplate,
+                             this.left.toODataString(),
+                             this.operator.toString().toLowerCase(),
+                             this.right.toODataString());
     }
 
     @Override public int hashCode() {

@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.svalbard.odata.core.expr;
 
 import java.util.Objects;
@@ -29,6 +30,7 @@ public abstract class UnaryExpr<T> implements Expr {
 
     private final T operator;
     private final Expr operand;
+    private final String toStringTemplate = "(%s %s)";
 
     /**
      * Create a new {@code UnaryExpr}.
@@ -66,15 +68,13 @@ public abstract class UnaryExpr<T> implements Expr {
 
     @Override
     public String toString() {
-        return format(this.operator.toString());
+        return String.format(toStringTemplate, operator.toString(), this.operand);
     }
 
     @Override public String toODataString() {
-        return format(this.operator.toString().toLowerCase());
-    }
-
-    private String format(String operator) {
-        return String.format("(%s %s)", operator, this.operand);
+        return String.format(toStringTemplate,
+                             operator.toString().toLowerCase(),
+                             this.operand.toODataString());
     }
 
     @Override public int hashCode() {
