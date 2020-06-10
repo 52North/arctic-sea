@@ -22,6 +22,7 @@ import org.joda.time.DateTime;
 
 import org.n52.shetland.ogc.swe.RangeValue;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
+import org.n52.shetland.ogc.swe.SweDataRecord;
 import org.n52.shetland.ogc.swe.SweField;
 import org.n52.shetland.ogc.swe.simpleType.SweBoolean;
 import org.n52.shetland.ogc.swe.simpleType.SweCategory;
@@ -88,6 +89,8 @@ public class FieldDecoder extends JSONDecoder<SweField> {
             element = decodeTimeRange(node);
         } else if (type.equals(JSONConstants.CATEGORY_TYPE)) {
             element = decodeCategory(node);
+        } else if (type.equals(JSONConstants.DATA_RECORD_TYPE)) {
+            element = decodeDataRecord(node);
         } else {
             throw new UnsupportedDecoderInputException(this, node);
         }
@@ -180,5 +183,13 @@ public class FieldDecoder extends JSONDecoder<SweField> {
             swe.setValue(new RangeValue<DateTime>(parseDateTime(start), parseDateTime(end)));
         }
         return swe.setUom(node.path(JSONConstants.UOM).textValue());
+    }
+
+    protected SweAbstractDataComponent decodeDataRecord(JsonNode node) throws DecodingException {
+        SweDataRecord swe = new SweDataRecord();
+        for (JsonNode field : node.path(JSONConstants.FIELDS)) {
+            swe.addField(decodeJSON(field));
+        }
+        return swe;
     }
 }
