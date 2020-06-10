@@ -28,7 +28,7 @@ import java.util.Arrays;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
+import org.n52.shetland.ogc.om.values.ComplexValue;
 import org.n52.shetland.ogc.om.values.TextValue;
 import org.n52.shetland.ogc.sos.request.InsertObservationRequest;
 import org.n52.svalbard.decode.exception.DecodingException;
@@ -137,5 +137,22 @@ public class InsertObservationRequestDecoderTest {
         assertThat(req.getObservations(), hasSize(1));
         assertThat(req.getObservations().get(0), is(notNullValue()));
         assertThat(req.getObservations().get(0).getValue().getValue(), is(instanceOf(TextValue.class)));
+    }
+
+    public void complexObservation()
+            throws IOException, DecodingException {
+        final JsonNode json =
+                JsonLoader.fromResource("/examples/sos/InsertObservationRequest-complex.json");
+        final InsertObservationRequest req = decoder.decodeJSON(json, true);
+        assertThat(req.getService(), is(equalTo("SOS")));
+        assertThat(req.getVersion(), is(equalTo("2.0.0")));
+        assertThat(req.getOperationName(), is(equalTo("InsertObservation")));
+        assertThat(req.getOfferings(), is(notNullValue()));
+        assertThat(req.getOfferings(), hasSize(1));
+        assertThat(req.getOfferings().get(0), is(equalTo("offering2")));
+        assertThat(req.getObservations(), is(notNullValue()));
+        assertThat(req.getObservations(), hasSize(1));
+        assertThat(req.getObservations().get(0), is(notNullValue()));
+        assertThat(req.getObservations().get(0).getValue().getValue(), is(instanceOf(ComplexValue.class)));
     }
 }

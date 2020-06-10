@@ -40,6 +40,7 @@ import org.n52.shetland.ogc.om.OmObservationConstellation;
 import org.n52.shetland.ogc.om.SingleObservationValue;
 import org.n52.shetland.ogc.om.values.BooleanValue;
 import org.n52.shetland.ogc.om.values.CategoryValue;
+import org.n52.shetland.ogc.om.values.ComplexValue;
 import org.n52.shetland.ogc.om.values.CountValue;
 import org.n52.shetland.ogc.om.values.GeometryValue;
 import org.n52.shetland.ogc.om.values.HrefAttributeValue;
@@ -47,6 +48,8 @@ import org.n52.shetland.ogc.om.values.QuantityValue;
 import org.n52.shetland.ogc.om.values.ReferenceValue;
 import org.n52.shetland.ogc.om.values.TextValue;
 import org.n52.shetland.ogc.sensorML.SensorML;
+import org.n52.shetland.ogc.swe.SweDataRecord;
+import org.n52.shetland.ogc.swe.SweField;
 import org.n52.shetland.w3c.xlink.W3CHrefAttribute;
 import org.n52.svalbard.coding.json.JSONConstants;
 import org.n52.svalbard.coding.json.JSONValidator;
@@ -235,6 +238,8 @@ public class ObservationDecoder
                 return parseReferenceObservationValue(node);
             case OmConstants.OBS_TYPE_GEOMETRY_OBSERVATION:
                 return parseGeometryObservation(node);
+            case OmConstants.OBS_TYPE_COMPLEX_OBSERVATION:
+                return parseComplexObservation(node);
             default:
                 throw new JSONDecodingException("Unsupported observationType: " + type);
         }
@@ -243,10 +248,6 @@ public class ObservationDecoder
     protected ObservationValue<?> parseMeasurementValue(JsonNode node)
             throws DecodingException {
         final QuantityValue qv = parseQuantityValue(node.path(JSONConstants.RESULT));
-        // new
-        // QuantityValue(node.path(JSONConstants.RESULT).path(JSONConstants.VALUE).doubleValue(),
-        // node
-        // .path(JSONConstants.RESULT).path(JSONConstants.UOM).textValue());
         return new SingleObservationValue<>(parsePhenomenonTime(node), qv);
     }
 
@@ -277,10 +278,6 @@ public class ObservationDecoder
     private ObservationValue<?> parseCategoryObservationValue(JsonNode node)
             throws DecodingException {
         final CategoryValue v = parseCategroyValue(node.path(JSONConstants.RESULT));
-        // new
-        // CategoryValue(node.path(JSONConstants.RESULT).path(JSONConstants.VALUE).textValue(),
-        // node
-        // .path(JSONConstants.RESULT).path(JSONConstants.CODESPACE).textValue());
         return new SingleObservationValue<>(parsePhenomenonTime(node), v);
     }
 
@@ -313,6 +310,19 @@ public class ObservationDecoder
             ref.setRole(node.path(JSONConstants.ROLE).asText());
         }
         return ref;
+    }
+
+    private ObservationValue<?> parseComplexObservation(JsonNode node) throws DecodingException {
+        final ComplexValue v = parceComplexValue(node.path(JSONConstants.RESULT));
+        return new SingleObservationValue<>(parsePhenomenonTime(node), v);
+    }
+
+    private ComplexValue parceComplexValue(JsonNode node) throws DecodingException {
+        SweDataRecord dataRecord = new SweDataRecord();
+        for (JsonNode field : node) {
+            dataRecord.addField(decodeJsonToObject(field, SweField.class));
+        }
+        return new ComplexValue();
     }
 
 }

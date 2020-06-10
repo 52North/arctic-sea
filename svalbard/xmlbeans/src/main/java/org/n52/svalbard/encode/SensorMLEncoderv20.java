@@ -694,7 +694,7 @@ public class SensorMLEncoderv20
             apt.setOutputs(createOutputs(abstractProcess.getOutputs()));
         } else if (abstractProcess.isSetOutputs() && apt.isSetOutputs()) {
             Outputs createOutputs = createOutputs(abstractProcess.getOutputs());
-            if (!createOutputs.xmlText().equals(apt.getOutputs().xmlText())) {
+            if (!createOutputs.xmlText().equals(apt.getOutputs().xmlText(getXmlOptions()))) {
                 apt.setOutputs(createOutputs);
             }
         }
@@ -703,7 +703,7 @@ public class SensorMLEncoderv20
             apt.setParameters(createParameters(abstractProcess.getParameters()));
         } else if (abstractProcess.isSetParameters() && apt.isSetParameters()) {
             Parameters createParameters = createParameters(abstractProcess.getParameters());
-            if (!createParameters.xmlText().equals(apt.getParameters().xmlText())) {
+            if (!createParameters.xmlText().equals(apt.getParameters().xmlText(getXmlOptions()))) {
                 apt.setParameters(createParameters);
             }
         }
