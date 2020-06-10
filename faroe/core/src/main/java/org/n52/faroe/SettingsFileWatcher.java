@@ -84,7 +84,7 @@ public class SettingsFileWatcher implements Constructable, Destroyable {
         this.fileConfiguration = fileConfiguration;
     }
 
-    @Setting(FILE_WATCHER_ENABLED)
+    @Setting(value = FILE_WATCHER_ENABLED, required = false)
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }

@@ -16,6 +16,7 @@
  */
 package org.n52.shetland.util;
 
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.n52.faroe.annotation.Configurable;
@@ -24,8 +25,8 @@ import org.n52.faroe.annotation.Setting;
 @Configurable
 public class AqdHelper {
 
-    private Set<Integer> validityFlags;
-    private Set<Integer> verificationFlags;
+    private Set<Integer> validityFlags = new LinkedHashSet<>();
+    private Set<Integer> verificationFlags = new LinkedHashSet<>();
 
     /**
      * @return the validityFlags
@@ -37,9 +38,12 @@ public class AqdHelper {
     /**
      * @param validityFlags the validityFlags to set
      */
-    @Setting(EReportingSetting.EREPORTING_VALIDITY_FLAGS)
+    @Setting(value = EReportingSetting.EREPORTING_VALIDITY_FLAGS, required = false)
     public void setValidityFlags(String validityFlags) {
-        this.validityFlags = JavaHelper.getIntegerSetFromString(validityFlags);
+        this.validityFlags.clear();
+        if (validityFlags != null && !validityFlags.isEmpty()) {
+            this.validityFlags.addAll(JavaHelper.getIntegerSetFromString(validityFlags));
+        }
     }
 
     public boolean isSetValidityFlags() {
@@ -56,9 +60,12 @@ public class AqdHelper {
     /**
      * @param verificationFlags the verificationFlags to set
      */
-    @Setting(EReportingSetting.EREPORTING_VERIFICATION_FLAGS)
+    @Setting(value = EReportingSetting.EREPORTING_VERIFICATION_FLAGS, required = false)
     public void setVerificationFlags(String verificationFlags) {
-        this.verificationFlags = JavaHelper.getIntegerSetFromString(verificationFlags);
+        this.verificationFlags.clear();
+        if (verificationFlags != null && !verificationFlags.isEmpty()) {
+            this.verificationFlags = JavaHelper.getIntegerSetFromString(verificationFlags);
+        }
     }
 
     public boolean isSetVerificationFlags() {

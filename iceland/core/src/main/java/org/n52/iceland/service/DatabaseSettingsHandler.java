@@ -16,7 +16,6 @@
  */
 package org.n52.iceland.service;
 
-
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 
@@ -37,6 +36,5 @@ public class DatabaseSettingsHandler extends DelegatingPropertyFileHandler {
         String name = ctx.getInitParameter(INIT_PARAM_DATA_SOURCE_CONFIG_LOCATION);
         setDelegate(new ServletContextPropertyFileHandler(ctx, name));
     }
-
 
 }

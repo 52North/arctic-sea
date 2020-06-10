@@ -69,7 +69,7 @@ import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 public abstract class AbstractOperationHandler implements OperationHandler {
     private URI serviceURL;
     private BindingRepository bindingRepository;
-    private Locale defaultLanguage;
+    private Locale defaultLanguage = Locale.ENGLISH;
     private boolean showAllLanguages;
 
     @Inject
@@ -84,6 +84,12 @@ public abstract class AbstractOperationHandler implements OperationHandler {
     @Setting(ServiceSettings.SERVICE_URL)
     public void setServiceURL(final URI serviceURL)
             throws ConfigurationError {
+        setURL(serviceURL);
+    }
+    
+    @Setting(value = ServiceSettings.URL, required = false)
+    public void setURL(final URI serviceURL)
+            throws ConfigurationError {
         this.serviceURL = Validation.notNull("Service URL", serviceURL);
     }
 
@@ -91,7 +97,7 @@ public abstract class AbstractOperationHandler implements OperationHandler {
         return this.serviceURL;
     }
 
-    @Setting(I18NSettings.I18N_DEFAULT_LANGUAGE)
+    @Setting(value = I18NSettings.I18N_DEFAULT_LANGUAGE, required = false)
     public void setDefaultLanguage(String defaultLanguage) {
         this.defaultLanguage = LocaleHelper.decode(defaultLanguage);
     }
@@ -100,7 +106,7 @@ public abstract class AbstractOperationHandler implements OperationHandler {
         return defaultLanguage;
     }
 
-    @Setting(I18NSettings.I18N_SHOW_ALL_LANGUAGE_VALUES)
+    @Setting(value = I18NSettings.I18N_SHOW_ALL_LANGUAGE_VALUES, required = false)
     public void setShowAllLanguages(boolean showAllLanguages) {
         this.showAllLanguages = showAllLanguages;
     }

@@ -55,7 +55,7 @@ public class SoapChainResponseWriterFactory
         this.encoderRepository = encoderRepository;
     }
 
-    @Setting(StreamingSettings.FORCE_STREAMING_ENCODING)
+    @Setting(value = StreamingSettings.FORCE_STREAMING_ENCODING, required = false)
     public void setForceStreamingEncoding(boolean forceStreamingEncoding) {
         this.forceStreamingEncoding = forceStreamingEncoding;
     }

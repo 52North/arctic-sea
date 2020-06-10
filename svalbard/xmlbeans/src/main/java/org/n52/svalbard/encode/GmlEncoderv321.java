@@ -175,12 +175,12 @@ public class GmlEncoderv321
                 Joiner.on(", ").join(ENCODER_KEY_TYPES));
     }
 
-    @Setting(CodingSettings.SRS_NAME_PREFIX_URL)
+    @Setting(value = CodingSettings.SRS_NAME_PREFIX_URL, required = false)
     public void setSrsNamePrefixURL(String prefix) {
         this.srsNamePrefixURL = CRSHelper.asHttpPrefix(prefix);
     }
 
-    @Setting(CodingSettings.SRS_NAME_PREFIX_URN)
+    @Setting(value = CodingSettings.SRS_NAME_PREFIX_URN, required = false)
     public void setSrsNamePrefixURN(String prefix) {
         this.srsNamePrefixURN = CRSHelper.asUrnPrefix(prefix);
     }

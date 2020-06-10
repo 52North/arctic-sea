@@ -127,7 +127,7 @@ public final class XmlOptionsHelper implements Destroyable, Producer<XmlOptions>
         }
     }
 
-    @Setting(CodingSettings.CHARACTER_ENCODING)
+    @Setting(value = CodingSettings.CHARACTER_ENCODING, required = false)
     public void setCharacterEncoding(String characterEncoding) {
         lock.lock();
         try {

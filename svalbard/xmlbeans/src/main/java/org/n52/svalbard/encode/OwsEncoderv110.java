@@ -139,7 +139,7 @@ public class OwsEncoderv110 extends AbstractXmlEncoder<XmlObject, Object> {
                 Joiner.on(", ").join(ENCODER_KEYS));
     }
 
-    @Setting(OwsEncoderSettings.INCLUDE_STACK_TRACE_IN_EXCEPTION_REPORT)
+    @Setting(value = OwsEncoderSettings.INCLUDE_STACK_TRACE_IN_EXCEPTION_REPORT, required = false)
     public void setIncludeStackTraceInExceptionReport(boolean includeStackTraceInExceptionReport) {
         this.includeStackTraceInExceptionReport = includeStackTraceInExceptionReport;
     }

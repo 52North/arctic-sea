@@ -264,7 +264,7 @@ public class AqdEncoder extends AbstractXmlEncoder<XmlObject, Object>
         return namespace;
     }
 
-    @Setting(EReportingSetting.EREPORTING_NAMESPACE)
+    @Setting(value = EReportingSetting.EREPORTING_NAMESPACE, required = false)
     public void setEReportingNamespace(String namespace) throws ConfigurationError {
         this.namespace = namespace;
     }
@@ -273,7 +273,7 @@ public class AqdEncoder extends AbstractXmlEncoder<XmlObject, Object>
         return !Strings.isNullOrEmpty(getEReportingNamespace());
     }
 
-    @Setting(EReportingSetting.EREPORTING_OBSERVATION_PREFIX)
+    @Setting(value = EReportingSetting.EREPORTING_OBSERVATION_PREFIX, required = false)
     public void setEReportingObservationPrefix(String observationPrefix) throws ConfigurationError {
         this.observationPrefix = observationPrefix;
     }

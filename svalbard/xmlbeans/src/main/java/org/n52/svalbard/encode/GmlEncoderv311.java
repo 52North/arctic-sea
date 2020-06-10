@@ -112,14 +112,14 @@ public class GmlEncoderv311
             org.n52.shetland.ogc.gml.CodeType.class, AbstractFeature.class, GenericMetaData.class,
             org.n52.shetland.util.ReferencedEnvelope.class, org.n52.shetland.util.EnvelopeOrGeometry.class);
 
-    private String srsNamePrefix;
+    private String srsNamePrefix = "urn:ogc:def:crs:EPSG::";
 
     public GmlEncoderv311() {
         LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
                 Joiner.on(", ").join(ENCODER_KEYS));
     }
 
-    @Setting(CodingSettings.SRS_NAME_PREFIX_URN)
+    @Setting(value = CodingSettings.SRS_NAME_PREFIX_URN, required = false)
     public void setSrsNamePrefix(String prefix) {
         srsNamePrefix = CRSHelper.asUrnPrefix(prefix);
     }

@@ -219,7 +219,7 @@ public class UVFEncoder implements ObservationEncoder<BinaryAttachmentResponse, 
         throw new UnsupportedEncoderInputException(this, objectToEncode);
     }
 
-    @Setting(UVFSettingsProvider.UVF_TIME_ZONE_SETTING_KEY)
+    @Setting(value = UVFSettingsProvider.UVF_TIME_ZONE_SETTING_KEY, required = false)
     public void setTimeZone(String timeZone) {
         if (!Strings.isNullOrEmpty(timeZone)) {
             this.timeZone = DateTimeZone.forTimeZone(TimeZone.getTimeZone(timeZone.trim()));
@@ -228,7 +228,7 @@ public class UVFEncoder implements ObservationEncoder<BinaryAttachmentResponse, 
         }
     }
 
-    @Setting(UVFSettingsProvider.UVF_LINE_ENDING_KEY)
+    @Setting(value = UVFSettingsProvider.UVF_LINE_ENDING_KEY, required = false)
     public void setLineEnding(String lineEndingParameter) {
         if (!Strings.isNullOrEmpty(lineEndingParameter)) {
             this.fileLineEnding = UVFConstants.LineEnding.valueOf(lineEndingParameter.trim());
