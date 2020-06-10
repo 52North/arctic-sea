@@ -86,7 +86,7 @@ public abstract class AbstractOperationHandler implements OperationHandler {
             throws ConfigurationError {
         setURL(serviceURL);
     }
-    
+
     @Setting(value = ServiceSettings.URL, required = false)
     public void setURL(final URI serviceURL)
             throws ConfigurationError {

@@ -96,6 +96,4 @@ public class ObjectWithXmlString<T> {
                 && (this.isDecoded() && other.isDecoded() ? Objects.equals(this.object, other.object) : true)
                 && (this.isEncoded() && other.isEncoded() ? Objects.equals(this.xml, other.xml) : true);
     }
-    
-   
 }
