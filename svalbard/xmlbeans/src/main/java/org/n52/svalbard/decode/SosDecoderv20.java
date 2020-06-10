@@ -350,9 +350,9 @@ public class SosDecoderv20
         sosInsertResultTemplate.setObservationTemplate(sosObservationConstellation);
         try {
             sosInsertResultTemplate.setResultStructure(
-                    parseResultStructure(XmlObject.Factory.parse(resultTemplate.getResultStructure().xmlText())));
+                    parseResultStructure(XmlObject.Factory.parse(resultTemplate.getResultStructure().xmlText(getXmlOptions()))));
             sosInsertResultTemplate.setResultEncoding(
-                    parseResultEncoding(XmlObject.Factory.parse(resultTemplate.getResultEncoding().xmlText())));
+                    parseResultEncoding(XmlObject.Factory.parse(resultTemplate.getResultEncoding().xmlText(getXmlOptions()))));
         } catch (XmlException e) {
             throw new DecodingException(e, "Error while parsing InsertResultTemplate request!");
         }

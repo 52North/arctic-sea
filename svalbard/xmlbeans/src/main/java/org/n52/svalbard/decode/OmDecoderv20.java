@@ -263,7 +263,7 @@ public class OmDecoderv20 extends AbstractOmDecoderv20 {
                 return new SingleObservationValue<>(new NilTemplateValue());
             } else {
                 try {
-                    xbResult = XmlObject.Factory.parse(xbResult.xmlText().trim());
+                    xbResult = XmlObject.Factory.parse(xbResult.xmlText(getXmlOptions()).trim());
                 } catch (XmlException e) {
                     LOGGER.error("Error while parsing NamedValueValue", e);
                 }

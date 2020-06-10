@@ -203,7 +203,7 @@ public abstract class AbstractGmlDecoderv321<T, S>
         XmlObject xmlObject = xml;
         if (xmlObject.schemaType() == XmlAnyTypeImpl.type) {
             try {
-                xmlObject = XmlObject.Factory.parse(xml.xmlText().trim());
+                xmlObject = XmlObject.Factory.parse(xml.xmlText(getXmlOptions()).trim());
             } catch (XmlException e) {
                 LOGGER.error("Error while parsing NamedValueValue", e);
             }

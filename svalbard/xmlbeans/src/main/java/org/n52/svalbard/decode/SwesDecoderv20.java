@@ -318,7 +318,7 @@ public class SwesDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicati
                 if (decodedObject instanceof AbstractSamplingFeature) {
                     sosFeatureRelationship.setFeature((AbstractSamplingFeature) decodedObject);
                 } else {
-                    throw new DecoderResponseUnsupportedException(fpt.xmlText(), decodedObject);
+                    throw new DecoderResponseUnsupportedException(fpt.xmlText(getXmlOptions()), decodedObject);
                 }
             }
             sosFeatureRelationship.setRole(relatedFeature.getFeatureRelationship().getRole());
