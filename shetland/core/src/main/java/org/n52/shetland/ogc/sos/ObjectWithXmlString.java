@@ -92,7 +92,8 @@ public class ObjectWithXmlString<T> {
             return false;
         }
         ObjectWithXmlString<?> other = (ObjectWithXmlString<?>) obj;
-        return Objects.equals(this.object, other.object) &&
-               Objects.equals(this.xml, other.xml);
+        return ((this.isDecoded() && other.isDecoded()) || (this.isEncoded() && other.isEncoded()))
+                && (this.isDecoded() && other.isDecoded() ? Objects.equals(this.object, other.object) : true)
+                && (this.isEncoded() && other.isEncoded() ? Objects.equals(this.xml, other.xml) : true);
     }
 }

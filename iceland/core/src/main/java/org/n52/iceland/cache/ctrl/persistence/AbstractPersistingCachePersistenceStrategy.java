@@ -143,7 +143,7 @@ public abstract class AbstractPersistingCachePersistenceStrategy
     /**
      * @param cacheFileFolder the cacheFileFolder to set
      */
-    @Setting(CACHE_FILE_FOLDER)
+    @Setting(value = CACHE_FILE_FOLDER, required = false)
     public void setCacheFileFolder(File cacheFileFolder) {
         if (cacheFileFolder != null) {
             setCacheFileFolder(cacheFileFolder.toPath());

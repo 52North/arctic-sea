@@ -25,4 +25,6 @@ public interface ServiceSettings {
 
     String SERVICE_URL = "service.serviceURL";
 
+    String URL = "service.url";
+
 }

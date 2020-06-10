@@ -108,19 +108,19 @@ public final class SweHelper {
 
     private Set<String> altitudeNames = Collections.emptySet();
 
-    @Setting(CodingSettings.TOKEN_SEPARATOR)
+    @Setting(value = CodingSettings.TOKEN_SEPARATOR, required = false)
     public void setTokenSeparator(final String separator) throws ConfigurationError {
         Validation.notNullOrEmpty("Token separator", separator);
         tokenSeparator = separator;
     }
 
-    @Setting(CodingSettings.TUPLE_SEPARATOR)
+    @Setting(value = CodingSettings.TUPLE_SEPARATOR, required = false)
     public void setTupleSeparator(final String separator) throws ConfigurationError {
         Validation.notNullOrEmpty("Tuple separator", separator);
         tupleSeparator = separator;
     }
 
-    @Setting(CodingSettings.DECIMAL_SEPARATOR)
+    @Setting(value = CodingSettings.DECIMAL_SEPARATOR, required = false)
     public void setDecimalSeparator(final String separator) throws ConfigurationError {
         Validation.notNullOrEmpty("Decimal separator", separator);
         decimalSeparator = separator;
@@ -500,7 +500,7 @@ public final class SweHelper {
      * @param northingNames
      *            the northingNames to set
      */
-    @Setting(CoordinateSettingsProvider.NORTHING_COORDINATE_NAME)
+    @Setting(value = CoordinateSettingsProvider.NORTHING_COORDINATE_NAME, required = false)
     public void setNorthingNames(String northingNames) {
         if (!Strings.isNullOrEmpty(northingNames)) {
             this.northingNames = CollectionHelper.csvStringToSet(northingNames);
@@ -529,7 +529,7 @@ public final class SweHelper {
      * @param eastingNames
      *            the eastingNames to set
      */
-    @Setting(CoordinateSettingsProvider.EASTING_COORDINATE_NAME)
+    @Setting(value = CoordinateSettingsProvider.EASTING_COORDINATE_NAME, required = false)
     public void setEastingNames(String eastingNames) {
         if (!Strings.isNullOrEmpty(eastingNames)) {
             this.eastingNames = CollectionHelper.csvStringToSet(eastingNames);
@@ -558,7 +558,7 @@ public final class SweHelper {
      * @param altitudeNames
      *            the altitudeNames to set
      */
-    @Setting(CoordinateSettingsProvider.ALTITUDE_COORDINATE_NAME)
+    @Setting(value = CoordinateSettingsProvider.ALTITUDE_COORDINATE_NAME, required = false)
     public void setAltitudeNames(String altitudeNames) {
         if (!Strings.isNullOrEmpty(altitudeNames)) {
             this.altitudeNames = CollectionHelper.csvStringToSet(altitudeNames);

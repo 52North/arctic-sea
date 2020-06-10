@@ -98,7 +98,7 @@ public abstract class AbstractXmlResponseEncoder<T> extends AbstractXmlEncoder<X
         return schemaRepository;
     }
 
-    @Setting(CodingSettings.VALIDATE_RESPONSE)
+    @Setting(value = CodingSettings.VALIDATE_RESPONSE, required = false)
     public void setValidate(boolean validate) {
         this.validate = validate;
     }

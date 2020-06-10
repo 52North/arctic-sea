@@ -38,8 +38,8 @@ import org.locationtech.jts.geom.Envelope;
  */
 public class SweEnvelopeTest {
 
-    @Test public void
-    should_create_valid_sosSweEnvelope_from_sosEnvelope() {
+    @Test
+    public void should_create_valid_sosSweEnvelope_from_sosEnvelope() {
 
         final int srid = 52;
         final double x1 = 1;

@@ -335,7 +335,7 @@ public class SweCommonDecoderV101
         // }
         DataArrayDocument xbDataArrayDoc = DataArrayDocument.Factory.newInstance(getXmlOptions());
         xbDataArrayDoc.setDataArray1(xbDataArray);
-        dataArray.setXml(xbDataArrayDoc.xmlText());
+        dataArray.setXml(xbDataArrayDoc.xmlText(getXmlOptions()));
         return dataArray;
     }
 

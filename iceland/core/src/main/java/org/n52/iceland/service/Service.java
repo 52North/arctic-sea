@@ -304,7 +304,7 @@ public class Service {
         }
     }
 
-    @Setting(REQUEST_TIMEOUT)
+    @Setting(value = REQUEST_TIMEOUT, required = false)
     public void setRequestTimeout(Integer requestTimeout) {
         if (requestTimeout != null) {
             this.requestTimeout = requestTimeout;

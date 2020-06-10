@@ -38,8 +38,6 @@ import org.n52.shetland.ogc.swe.simpleType.SweQuantity;
 import org.n52.shetland.ogc.swe.simpleType.SweTime;
 import org.n52.shetland.ogc.swe.simpleType.SweTimeRange;
 import org.n52.svalbard.decode.exception.DecodingException;
-import org.n52.svalbard.decode.json.FieldDecoder;
-import org.n52.svalbard.decode.json.InsertResultTemplateRequestDecoder;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JsonLoader;
@@ -151,9 +149,51 @@ public class InsertResultTemplateRequestDecoderTest {
         assertThat(load().getIdentifier().getValue(), is("http://www.52north.org/test/procedure/6/template/1"));
     }
 
+    @Test
+    public void dataRecord() throws DecodingException, IOException {
+        InsertResultTemplateRequest req = load("/examples/sos/InsertResultTemplateRequest_DataRecord.json");
+        assertThat(req.getResultStructure(), is(notNullValue()));
+        assertThat(req.getResultStructure().isDecoded(), is(true));
+        assertThat(req.getResultStructure().isEncoded(), is(false));
+        assertThat(req.getResultStructure().get().get(), is(instanceOf(SweDataRecord.class)));
+        SweDataRecord structure = (SweDataRecord) req.getResultStructure().get().get();
+        assertThat(structure.getFields(), is(notNullValue()));
+        assertThat(structure.getFields(), hasSize(3));
+
+        SweField field1 = structure.getFields().get(0);
+        assertThat(field1, is(notNullValue()));
+        assertThat(field1.getName().getValue(), is("phenomenonTime"));
+        assertThat(field1.getElement(), is(instanceOf(SweTimeRange.class)));
+        SweTimeRange phenomenonTime = (SweTimeRange) field1.getElement();
+        assertThat(phenomenonTime.getDefinition(),
+                is("http://www.opengis.net/def/property/OGC/0/PhenomenonTime"));
+        assertThat(phenomenonTime.getUom(), is("http://www.opengis.net/def/uom/ISO-8601/0/Gregorian"));
+
+        SweField field2 = structure.getFields().get(1);
+        assertThat(field2, is(notNullValue()));
+        assertThat(field2.getName().getValue(), is("resultTime"));
+        assertThat(field2.getElement(), is(instanceOf(SweTime.class)));
+        SweTime resultTime = (SweTime) field2.getElement();
+        assertThat(resultTime.getDefinition(), is("http://www.opengis.net/def/property/OGC/0/ResultTime"));
+        assertThat(resultTime.getUom(), is("testunit1"));
+
+        SweField field3 = structure.getFields().get(2);
+        assertThat(field3, is(notNullValue()));
+        assertThat(field3.getName().getValue(), is("observable_property_6"));
+        assertThat(field3.getElement(), is(instanceOf(SweDataRecord.class)));
+        SweDataRecord record = (SweDataRecord) field3.getElement();
+        assertThat(record.getDefinition(), is("http://www.52north.org/test/observableProperty/6"));
+        assertThat(record.getFields(), hasSize(5));
+    }
+
     protected InsertResultTemplateRequest load()
             throws IOException, DecodingException {
-        final JsonNode json = JsonLoader.fromResource("/examples/sos/InsertResultTemplateRequest.json");
+        return load("/examples/sos/InsertResultTemplateRequest.json");
+    }
+
+    protected InsertResultTemplateRequest load(String file)
+            throws IOException, DecodingException {
+        final JsonNode json = JsonLoader.fromResource(file);
         final InsertResultTemplateRequest req = decoder.decodeJSON(json, true);
         assertThat(req, is(notNullValue()));
         return req;

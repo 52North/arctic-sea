@@ -53,7 +53,7 @@ public class AsyncCachePersistenceStrategy
         this.executor.schedule(updater, writeDelay, WRITE_DELAY_UNITS);
     }
 
-    @Setting(AsyncCachePersistenceStrategySettings.CACHE_PERSISTENCE_DELAY)
+    @Setting(value = AsyncCachePersistenceStrategySettings.CACHE_PERSISTENCE_DELAY, required = false)
     public void setDelay(int delay) {
         if (delay <= 1) {
             throw new ConfigurationError("The write delay has be greater than 1 second.");
