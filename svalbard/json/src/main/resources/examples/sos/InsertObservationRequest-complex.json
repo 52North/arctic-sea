@@ -1,0 +1,53 @@
+{
+  "request": "InsertObservation",
+  "service": "SOS",
+  "version": "2.0.0",
+  "offering": "offering2",
+  "observation": [
+    {
+      "type": "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_ComplexObservation",
+      "procedure": "http://52north.org/example/procedure/1",
+      "observedProperty": "http://52north.org/example/observedProperty/1",
+      "featureOfInterest": "http://52north.org/example/feature/1",
+      "phenomenonTime": "2013-01-01T00:00:00+02:00",
+      "resultTime": "2013-01-01T00:00:00+02:00",
+      "result": [
+          {
+            "name" : "sea_water_temperature",
+            "definition" : "http://vocab.nerc.ac.uk/standard_name/sea_water_temperature",
+            "label" : "sea water temperature",
+            "type" : "quantity",
+            "uom" : "degC"
+          },
+          {
+            "name" : "sea_water_electrical_conductivity",
+            "definition" : "http://vocab.nerc.ac.uk/standard_name/sea_water_electrical_conductivity",
+            "label" : "sea water electrical conductivity",
+            "type" : "quantity",
+            "uom" : "S/m"
+          },
+          {
+            "name" : "sea_water_pressure",
+            "definition" : "http://vocab.nerc.ac.uk/standard_name/sea_water_pressure",
+            "label" : "sea water pressure",
+            "type" : "quantity",
+            "uom" : "dbar"
+          },
+          {
+            "name" : "sea_water_salinity",
+            "definition" : "http://vocab.nerc.ac.uk/standard_name/sea_water_salinity",
+            "label" : "sea water salinity",
+            "type" : "quantity",
+            "uom" : "PSU"
+          },
+          {
+            "name" : "speed_of_sound_in_sea_water",
+            "definition" : "http://vocab.nerc.ac.uk/standard_name/speed_of_sound_in_sea_water",
+            "label" : "speed of sound in sea water",
+            "type" : "quantity",
+            "uom" : "m/s"
+          }
+        ]
+    }
+  ]
+}
