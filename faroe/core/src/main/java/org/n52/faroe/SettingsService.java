@@ -16,6 +16,7 @@
  */
 package org.n52.faroe;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
@@ -131,5 +132,9 @@ public interface SettingsService {
      * Gets all values for all definitions and udpates (changes or configures) all configured objets.
      */
     void reconfigure();
+
+    void addSetting(SettingDefinition<?> def);
+
+    void addSettings(Collection<SettingDefinition<?>> defs);
 
 }

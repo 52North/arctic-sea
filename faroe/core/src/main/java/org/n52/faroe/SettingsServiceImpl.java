@@ -93,6 +93,18 @@ public class SettingsServiceImpl implements SettingsService {
             if (this.definitionByKey.put(definition.getKey(), definition) != null) {
                 LOG.warn("Duplicate setting definition for key {}", definition.getKey());
             }
+    @Override
+    public void addSetting(SettingDefinition<?> definition) {
+        this.definitions.add(definition);
+        if (this.definitionByKey.put(definition.getKey(), definition) != null) {
+            LOG.warn("Duplicate setting definition for key {}", definition.getKey());
+        }
+    }
+
+    @Override
+    public void addSettings(Collection<SettingDefinition<?>> definitions) {
+        definitions.forEach(definition -> {
+            addSetting(definition);
         });
     }
 

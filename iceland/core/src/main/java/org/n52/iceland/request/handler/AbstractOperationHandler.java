@@ -87,7 +87,7 @@ public abstract class AbstractOperationHandler implements OperationHandler {
         setURL(serviceURL);
     }
 
-    @Setting(value = ServiceSettings.URL, required = false)
+//    @Setting(value = ServiceSettings.URL, required = false)
     public void setURL(final URI serviceURL)
             throws ConfigurationError {
         this.serviceURL = Validation.notNull("Service URL", serviceURL);

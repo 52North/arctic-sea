@@ -16,6 +16,7 @@
  */
 package org.n52.iceland.statistics.mock;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
@@ -84,6 +85,18 @@ public class MockSettingsService implements SettingsService {
 
     @Override
     public void configureOnce(Object object) throws ConfigurationError {
+    }
+
+    @Override
+    public void addSetting(SettingDefinition<?> def) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void addSettings(Collection<SettingDefinition<?>> defs) {
+        // TODO Auto-generated method stub
+
     }
 
 }
