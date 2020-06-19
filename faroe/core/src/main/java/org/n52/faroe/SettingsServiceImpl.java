@@ -30,6 +30,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -85,14 +86,18 @@ public class SettingsServiceImpl implements SettingsService {
     }
 
     @Inject
-    public void setSettingDefinitions(Collection<SettingDefinition<?>> def) {
-        this.definitions = new HashSet<>(def.size());
-        this.definitionByKey = new HashMap<>(def.size());
-        def.forEach(definition -> {
-            this.definitions.add(definition);
-            if (this.definitionByKey.put(definition.getKey(), definition) != null) {
-                LOG.warn("Duplicate setting definition for key {}", definition.getKey());
-            }
+    public void setSettingDefinitions(Optional<Collection<SettingDefinition<?>>> def) {
+        if (def.isPresent()) {
+            Collection<SettingDefinition<?>> defs = def.get();
+            this.definitions = new HashSet<>(defs.size());
+            this.definitionByKey = new HashMap<>(defs.size());
+            addSettings(defs);
+        } else {
+            this.definitions = new HashSet<>(0);
+            this.definitionByKey = new HashMap<>(0);
+        }
+    }
+
     @Override
     public void addSetting(SettingDefinition<?> definition) {
         this.definitions.add(definition);
