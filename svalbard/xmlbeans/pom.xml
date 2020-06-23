@@ -294,6 +294,10 @@
             <artifactId>52n-xml-inspire-ef-v40</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.n52.sensorweb</groupId>
+            <artifactId>52n-xml-wsdl-v11</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-nop</artifactId>
             <scope>test</scope>
