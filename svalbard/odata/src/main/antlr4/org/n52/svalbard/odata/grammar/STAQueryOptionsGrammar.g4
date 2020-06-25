@@ -189,6 +189,7 @@ boolMethodCallExpr
    | st_intersectsMethodCallExpr
    | st_containsMethodCallExpr
    | st_relateMethodCallExpr
+   | containsMethodCallExpr
    ;
 
 textOrMember
@@ -242,6 +243,10 @@ startsWithMethodCallExpr
 
 endsWithMethodCallExpr
    : EndsWith_LLC OP (SP)* textOrMember (SP)* COMMA (SP)* textOrMember (SP)* CP
+   ;
+
+containsMethodCallExpr
+   : Contains_LLC OP (SP)* memberExpr (SP)* COMMA (SP)* boolExpr (SP)* COMMA (SP)* boolExpr (SP)* CP
    ;
 
 intersectsMethodCallExpr
