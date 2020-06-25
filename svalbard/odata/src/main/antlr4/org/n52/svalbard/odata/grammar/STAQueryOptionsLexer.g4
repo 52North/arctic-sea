@@ -359,6 +359,10 @@ Trim_LLC
 Concat_LLC
    : 'concat'
    ;
+
+Contains_LLC
+  : 'contains'
+  ;
    // Date Functions
    
 Year_LLC
