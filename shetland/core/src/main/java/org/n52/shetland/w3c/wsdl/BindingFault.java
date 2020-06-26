@@ -20,30 +20,14 @@ import javax.xml.namespace.QName;
 
 import org.n52.shetland.w3c.wsdl.WSDLConstants.WSDLQNames;
 
-public class Port extends AbstractWsdl {
+public class BindingFault extends AbstractWsdl {
 
-    private Binding binding;
-
-    /**
-     * @return the binding
-     */
-    public Binding getBinding() {
-        return binding;
-    }
-
-    /**
-     * @param binding the binding to set
-     */
-    public void setBinding(Binding binding) {
-        this.binding = binding;
-    }
-
-    public boolean isSetBinding() {
-        return getBinding() != null;
+    public BindingFault(String name) {
+        super(name);
     }
 
     @Override
     public QName getQName() {
-        return WSDLQNames.QN_WSDL_PORT;
+        return WSDLQNames.QN_WSDL_FAULT;
     }
 }

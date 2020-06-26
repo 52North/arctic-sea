@@ -16,13 +16,53 @@
  */
 package org.n52.shetland.w3c.wsdl;
 
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.xml.namespace.QName;
 
-public class Service {
+import org.n52.shetland.w3c.wsdl.WSDLConstants.WSDLQNames;
 
-    public void setQName(QName qnSoswService) {
-        // TODO Auto-generated method stub
+public class Service extends AbstractWsdl {
 
+    private List<Port> ports = new LinkedList<>();
+
+    public Service(String name) {
+        super(name);
     }
 
+    @Override
+    public QName getQName() {
+        return WSDLQNames.QN_WSDL_SERVICE;
+    }
+
+    public Service addPort(Port port) {
+        if (port != null) {
+            this.ports.add(port);
+        }
+        return this;
+    }
+
+    public Service addPorts(Collection<Port> ports) {
+        if (ports != null) {
+            ports.forEach(p -> {
+                addPort(p);
+            });
+        }
+        return this;
+    }
+
+    public Service setPorts(Collection<Port> ports) {
+        this.ports.clear();
+        return addPorts(ports);
+    }
+
+    public List<Port> getPorts() {
+        return ports;
+    }
+
+    public boolean isSetPorts() {
+        return !getPorts().isEmpty();
+    }
 }

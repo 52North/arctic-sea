@@ -14,36 +14,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.w3c.wsdl;
+package org.n52.shetland.w3c.wsdl.soap;
 
-import javax.xml.namespace.QName;
+import org.n52.shetland.w3c.wsdl.ExtensibilityElement;
+import org.n52.shetland.w3c.wsdl.WSDLConstants;
 
-import org.n52.shetland.w3c.wsdl.WSDLConstants.WSDLQNames;
+public class SoapBody extends ExtensibilityElement {
 
-public class Port extends AbstractWsdl {
+    private String use;
 
-    private Binding binding;
-
-    /**
-     * @return the binding
-     */
-    public Binding getBinding() {
-        return binding;
+    public SoapBody(String use) {
+        super(WSDLConstants.QN_SOAP_12_BODY);
+        this.setUse(use);
     }
 
     /**
-     * @param binding the binding to set
+     * @return the use
      */
-    public void setBinding(Binding binding) {
-        this.binding = binding;
+    public String getUse() {
+        return use;
     }
 
-    public boolean isSetBinding() {
-        return getBinding() != null;
+    /**
+     * @param use the use to set
+     */
+    public void setUse(String use) {
+        this.use = use;
     }
 
-    @Override
-    public QName getQName() {
-        return WSDLQNames.QN_WSDL_PORT;
-    }
 }

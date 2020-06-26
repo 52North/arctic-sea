@@ -16,41 +16,243 @@
  */
 package org.n52.shetland.w3c.wsdl;
 
-public class Definitions {
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
-    public void addNamespace(String prefix, String namespace) {
-        // TODO Auto-generated method stub
+import javax.xml.namespace.QName;
 
+public class Definitions extends AbstractDocumentedWsdl {
+
+    private String targetNamespace;
+    private Map<String, String> namespaces = new LinkedHashMap<>();
+    private List<Message> messages = new LinkedList<>();
+    private List<Service> services = new LinkedList<>();
+    private List<Import> imports = new LinkedList<>();
+    private List<PortType> portTypes = new LinkedList<>();
+    private List<Types> types = new LinkedList<>();
+    private List<Binding> bindings = new LinkedList<>();
+
+    @Override
+    public QName getQName() {
+        return WSDLConstants.WSDLQNames.QN_WSDL_DEFINITIONS;
     }
 
-    public void addMessage(Message message) {
-        // TODO Auto-generated method stub
-
+    public Definitions setTargetNamespace(String targetNamespace) {
+        this.targetNamespace = targetNamespace;
+        return this;
     }
 
-    public void addService(Service service) {
-        // TODO Auto-generated method stub
-
+    public String getTargetNamespace() {
+        return targetNamespace;
     }
 
-    public void setTargetNamespace(String nsSosw) {
-        // TODO Auto-generated method stub
-
+    public boolean isSetTargetNamespace() {
+        return getTargetNamespace() != null && !getTargetNamespace().isEmpty();
     }
 
-    public void addImport(Import createSchemaImport) {
-        // TODO Auto-generated method stub
-
+    public Definitions addNamespace(String prefix, String namespace) {
+        if (prefix != null && !prefix.isEmpty() && namespace != null && !namespace.isEmpty()) {
+            this.namespaces.put(prefix, namespace);
+        }
+        return this;
     }
 
-    public void addPortType(PortType postPortType) {
-        // TODO Auto-generated method stub
-
+    public Definitions addNamespaces(Map<String, String> namespaces) {
+        if (namespaces != null && !namespaces.isEmpty()) {
+            namespaces.entrySet().forEach(n -> {
+                addNamespace(n.getKey(), n.getValue());
+            });
+        }
+        return this;
     }
 
-    public void setTypes(Types types) {
-        // TODO Auto-generated method stub
-
+    public Definitions setNamespaces(Map<String, String> namespaces) {
+        this.namespaces.clear();
+        return addNamespaces(namespaces);
     }
 
+    public Map<String, String> getNamespaces() {
+        return namespaces;
+    }
+
+    public boolean isSetNamespaces() {
+        return !getNamespaces().isEmpty();
+    }
+
+    public Definitions addMessage(Message message) {
+        if (message != null) {
+            this.messages.add(message);
+        }
+        return this;
+    }
+
+    public Definitions addMessages(Collection<Message> messages) {
+        if (messages != null) {
+            messages.forEach(p -> {
+                addMessage(p);
+            });
+        }
+        return this;
+    }
+
+    public Definitions setMessages(Collection<Message> messages) {
+        this.messages.clear();
+        return addMessages(messages);
+    }
+
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public boolean isSetMessages() {
+        return !getMessages().isEmpty();
+    }
+
+    public Definitions addService(Service service) {
+        if (service != null) {
+            this.services.add(service);
+        }
+        return this;
+    }
+
+    public Definitions addServices(Collection<Service> services) {
+        if (services != null) {
+            services.forEach(p -> {
+                addService(p);
+            });
+        }
+        return this;
+    }
+
+    public Definitions setServices(Collection<Service> services) {
+        this.services.clear();
+        return addServices(services);
+    }
+
+    public List<Service> getServices() {
+        return services;
+    }
+
+    public boolean isSetServices() {
+        return !getServices().isEmpty();
+    }
+
+    public Definitions addImport(Import imp) {
+        if (imp != null) {
+            this.imports.add(imp);
+        }
+        return this;
+    }
+
+    public Definitions addImports(Collection<Import> imports) {
+        if (imports != null) {
+            imports.forEach(p -> {
+                addImport(p);
+            });
+        }
+        return this;
+    }
+
+    public Definitions setImports(Collection<Import> imports) {
+        this.imports.clear();
+        return addImports(imports);
+    }
+
+    public List<Import> getImports() {
+        return imports;
+    }
+
+    public boolean isSetImports() {
+        return !getImports().isEmpty();
+    }
+
+    public Definitions addPortType(PortType portType) {
+        if (portType != null) {
+            this.portTypes.add(portType);
+        }
+        return this;
+    }
+
+    public Definitions addPortTypes(Collection<PortType> portTypes) {
+        if (portTypes != null) {
+            portTypes.forEach(p -> {
+                addPortType(p);
+            });
+        }
+        return this;
+    }
+
+    public Definitions setPortTypes(Collection<PortType> portTypes) {
+        this.portTypes.clear();
+        return addPortTypes(portTypes);
+    }
+
+    public List<PortType> getPortTypes() {
+        return portTypes;
+    }
+
+    public boolean isSetPortTypes() {
+        return !getPortTypes().isEmpty();
+    }
+
+    public Definitions addType(Types type) {
+        if (type != null) {
+            this.types.add(type);
+        }
+        return this;
+    }
+
+    public Definitions addTypes(Collection<Types> types) {
+        if (types != null) {
+            types.forEach(p -> {
+                addType(p);
+            });
+        }
+        return this;
+    }
+
+    public Definitions setTypes(Collection<Types> types) {
+        this.types.clear();
+        return addTypes(types);
+    }
+
+    public List<Types> getTypes() {
+        return types;
+    }
+
+    public boolean isSetTypes() {
+        return !getTypes().isEmpty();
+    }
+
+    public Definitions addBinding(Binding binding) {
+        if (binding != null) {
+            this.bindings.add(binding);
+        }
+        return this;
+    }
+
+    public Definitions addBindings(Collection<Binding> bindings) {
+        if (bindings != null) {
+            bindings.forEach(p -> {
+                addBinding(p);
+            });
+        }
+        return this;
+    }
+
+    public Definitions setBindings(Collection<Binding> bindings) {
+        this.bindings.clear();
+        return addBindings(bindings);
+    }
+
+    public List<Binding> getBindings() {
+        return bindings;
+    }
+
+    public boolean isSetBindings() {
+        return !getBindings().isEmpty();
+    }
 }

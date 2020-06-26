@@ -14,51 +14,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.w3c.wsdl;
+package org.n52.shetland.w3c.wsdl.soap;
 
 import java.net.URI;
 
-import javax.xml.namespace.QName;
+import org.n52.shetland.w3c.wsdl.ExtensibilityElement;
+import org.n52.shetland.w3c.wsdl.WSDLConstants;
 
-public abstract class Param extends AbstractWsdl {
+public class SoapOperation extends ExtensibilityElement {
 
-    private QName message;
+    private String style;
     private URI action;
 
-    public Param() {
-    }
-
-    public Param(String name) {
-        super(name);
-    }
-
-    public Param(String name, QName message) {
-        super(name);
-        this.message = message;
-    }
-
-    public Param(String name, URI action, QName message) {
-        super(name);
-        this.action = action;
-        this.message = message;
+    public SoapOperation(String style, URI action) {
+        super(WSDLConstants.QN_SOAP_OPERATION);
+        this.setStyle(style);
+        this.setAction(action);
     }
 
     /**
-     * @return the message
+     * @return the style
      */
-    public QName getMessage() {
-        return message;
+    public String getStyle() {
+        return style;
     }
 
     /**
-     * @param message the message to set
+     * @param style the style to set
      */
-    public void setMessage(QName message) {
-        this.message = message;
-    }
-
-    public boolean isSetMessage() {
-        return getMessage() != null;
+    public void setStyle(String style) {
+        this.style = style;
     }
 
     /**
@@ -75,7 +60,4 @@ public abstract class Param extends AbstractWsdl {
         this.action = action;
     }
 
-    public boolean isSetAction() {
-        return getAction() != null;
-    }
 }

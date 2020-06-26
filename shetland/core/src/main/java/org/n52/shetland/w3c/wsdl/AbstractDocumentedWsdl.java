@@ -16,34 +16,27 @@
  */
 package org.n52.shetland.w3c.wsdl;
 
-import javax.xml.namespace.QName;
+public abstract class AbstractDocumentedWsdl extends AbstractWsdl {
 
-import org.n52.shetland.w3c.wsdl.WSDLConstants.WSDLQNames;
-
-public class Port extends AbstractWsdl {
-
-    private Binding binding;
+    private String documentation;
 
     /**
-     * @return the binding
+     * @return the documentation
      */
-    public Binding getBinding() {
-        return binding;
+    public String getDocumentation() {
+        return documentation;
     }
 
     /**
-     * @param binding the binding to set
+     * @param documentation
+     *            the documentation to set
      */
-    public void setBinding(Binding binding) {
-        this.binding = binding;
+    public void setDocumentation(String documentation) {
+        this.documentation = documentation;
     }
 
-    public boolean isSetBinding() {
-        return getBinding() != null;
+    public boolean isSetDocuementation() {
+        return getDocumentation() != null && !getDocumentation().isEmpty();
     }
 
-    @Override
-    public QName getQName() {
-        return WSDLQNames.QN_WSDL_PORT;
-    }
 }

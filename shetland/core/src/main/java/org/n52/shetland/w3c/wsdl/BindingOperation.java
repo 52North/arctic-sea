@@ -24,18 +24,13 @@ import javax.xml.namespace.QName;
 
 import org.n52.shetland.w3c.wsdl.WSDLConstants.WSDLQNames;
 
-/**
- * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
- *
- * @since 4.0.0
- */
-public class Operation extends AbstractWsdl {
+public class BindingOperation extends AbstractWsdl {
 
-    private Input input;
-    private Output output;
-    private final Collection<Fault> faults = new LinkedList<>();
+    private BindingInput input;
+    private BindingOutput output;
+    private final Collection<BindingFault> faults = new LinkedList<>();
 
-    public Operation(String name) {
+    public BindingOperation(String name) {
         super(name);
     }
 
@@ -47,14 +42,14 @@ public class Operation extends AbstractWsdl {
     /**
      * @return the input
      */
-    public Input getInput() {
+    public BindingInput getInput() {
         return input;
     }
 
     /**
      * @param input the input to set
      */
-    public void setInput(Input input) {
+    public void setInput(BindingInput input) {
         this.input = input;
     }
 
@@ -65,14 +60,14 @@ public class Operation extends AbstractWsdl {
     /**
      * @return the output
      */
-    public Output getOutput() {
+    public BindingOutput getOutput() {
         return output;
     }
 
     /**
      * @param output the output to set
      */
-    public void setOutput(Output output) {
+    public void setOutput(BindingOutput output) {
         this.output = output;
     }
 
@@ -80,32 +75,32 @@ public class Operation extends AbstractWsdl {
         return getOutput() != null;
     }
 
-    public Collection<Fault> getFaults() {
+    public Collection<BindingFault> getBindingFaults() {
         return Collections.unmodifiableCollection(faults);
     }
 
-    public Operation addFault(Fault fault) {
+    public BindingOperation addBindingFault(BindingFault fault) {
         if (fault != null) {
             this.faults.add(fault);
         }
         return this;
     }
 
-    public Operation addFaults(Collection<Fault> faults) {
+    public BindingOperation addBindingFaults(Collection<BindingFault> faults) {
         if (faults != null) {
             faults.forEach(p -> {
-                addFault(p);
+                addBindingFault(p);
             });
         }
         return this;
     }
 
-    public Operation setFaults(Collection<Fault> faults) {
+    public BindingOperation setBindingFaults(Collection<BindingFault> faults) {
         this.faults.clear();
-        return addFaults(faults);
+        return addBindingFaults(faults);
     }
 
-    public boolean isSetFaults() {
-        return !getFaults().isEmpty();
+    public boolean isSetBindingFaults() {
+        return !getBindingFaults().isEmpty();
     }
 }

@@ -16,22 +16,71 @@
  */
 package org.n52.shetland.w3c.wsdl;
 
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.xml.namespace.QName;
 
-public class PortType {
+import org.n52.shetland.w3c.wsdl.WSDLConstants.WSDLQNames;
 
-    public void setQName(QName qnSoswPostPortType) {
-        // TODO Auto-generated method stub
+public class PortType extends AbstractWsdl {
 
+    private List<Operation> operations = new LinkedList<>();
+
+    public PortType(String name) {
+        super(name);
     }
 
-    public void setUndefined(boolean b) {
-        // TODO Auto-generated method stub
-
+    @Override
+    public QName getQName() {
+        return  WSDLQNames.QN_WSDL_PORT_TYPE;
     }
 
-    public Operation getOperation(String name, Object name2, Object object) {
-        // TODO Auto-generated method stub
+    public PortType addOperation(Operation operation) {
+        if (operation != null) {
+            this.operations.add(operation);
+        }
+        return this;
+    }
+
+    public PortType addOperations(Collection<Operation> operations) {
+        if (operations != null) {
+            operations.forEach(p -> {
+                addOperation(p);
+            });
+        }
+        return this;
+    }
+
+    public PortType setOperations(Collection<Operation> operations) {
+        this.operations.clear();
+        return addOperations(operations);
+    }
+
+    public List<Operation> getOperations() {
+        return operations;
+    }
+
+    public boolean isSetOperations() {
+        return !getOperations().isEmpty();
+    }
+
+    public Operation getOperation(String name, String request, String response) {
+        for (Operation operation : operations) {
+            if (operation.getName()
+                    .equals(name)
+                    && operation.getInput()
+                            .getMessage()
+                            .getLocalPart()
+                            .equals(request)
+                    && operation.getOutput()
+                            .getMessage()
+                            .getLocalPart()
+                            .equals(response)) {
+                return operation;
+            }
+        }
         return null;
     }
 

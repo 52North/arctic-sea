@@ -16,34 +16,20 @@
  */
 package org.n52.shetland.w3c.wsdl;
 
+import java.net.URI;
+
 import javax.xml.namespace.QName;
 
-import org.n52.shetland.w3c.wsdl.WSDLConstants.WSDLQNames;
+public abstract class AbstractAddress extends ExtensibilityElement {
 
-public class Port extends AbstractWsdl {
+    private URI location;
 
-    private Binding binding;
-
-    /**
-     * @return the binding
-     */
-    public Binding getBinding() {
-        return binding;
+    public AbstractAddress(QName qName, URI location) {
+        super(qName);
+        this.location = location;
     }
 
-    /**
-     * @param binding the binding to set
-     */
-    public void setBinding(Binding binding) {
-        this.binding = binding;
-    }
-
-    public boolean isSetBinding() {
-        return getBinding() != null;
-    }
-
-    @Override
-    public QName getQName() {
-        return WSDLQNames.QN_WSDL_PORT;
+    public URI getLocation() {
+        return location;
     }
 }

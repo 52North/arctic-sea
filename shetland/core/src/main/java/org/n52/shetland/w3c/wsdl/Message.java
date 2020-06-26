@@ -16,28 +16,53 @@
  */
 package org.n52.shetland.w3c.wsdl;
 
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.xml.namespace.QName;
 
-public class Message {
+import org.n52.shetland.w3c.wsdl.WSDLConstants.WSDLQNames;
 
+public class Message extends AbstractWsdl {
+
+    private List<Part> parts = new LinkedList<>();
+
+    public Message(String name) {
+        super(name);
+    }
+
+    @Override
     public QName getQName() {
-        // TODO Auto-generated method stub
-        return null;
+        return WSDLQNames.QN_WSDL_MESSAGE;
     }
 
-    public void addPart(Part part) {
-        // TODO Auto-generated method stub
-
+    public Message addPart(Part part) {
+        if (part != null) {
+            this.parts.add(part);
+        }
+        return this;
     }
 
-    public void setQName(QName qName) {
-        // TODO Auto-generated method stub
-
+    public Message addParts(Collection<Part> parts) {
+        if (parts != null) {
+            parts.forEach(p -> {
+                addPart(p);
+            });
+        }
+        return this;
     }
 
-    public void setUndefined(boolean b) {
-        // TODO Auto-generated method stub
-
+    public Message setParts(Collection<Part> parts) {
+        this.parts.clear();
+        return addParts(parts);
     }
 
+    public List<Part> getParts() {
+        return parts;
+    }
+
+    public boolean isSetParts() {
+        return getParts() != null && !getParts().isEmpty();
+    }
 }

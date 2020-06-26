@@ -14,36 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.w3c.wsdl;
+package org.n52.shetland.w3c.wsdl.mime;
 
-import javax.xml.namespace.QName;
+import org.n52.shetland.w3c.wsdl.ExtensibilityElement;
+import org.n52.shetland.w3c.wsdl.WSDLConstants;
 
-import org.n52.shetland.w3c.wsdl.WSDLConstants.WSDLQNames;
+public class MimeXml extends ExtensibilityElement {
 
-public class Port extends AbstractWsdl {
-
-    private Binding binding;
-
-    /**
-     * @return the binding
-     */
-    public Binding getBinding() {
-        return binding;
+    public MimeXml() {
+        super(WSDLConstants.QN_MIME_MIME_XML);
     }
 
-    /**
-     * @param binding the binding to set
-     */
-    public void setBinding(Binding binding) {
-        this.binding = binding;
-    }
-
-    public boolean isSetBinding() {
-        return getBinding() != null;
-    }
-
-    @Override
-    public QName getQName() {
-        return WSDLQNames.QN_WSDL_PORT;
-    }
 }

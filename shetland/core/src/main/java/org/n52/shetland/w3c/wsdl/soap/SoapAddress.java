@@ -14,36 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.w3c.wsdl;
+package org.n52.shetland.w3c.wsdl.soap;
 
-import javax.xml.namespace.QName;
+import java.net.URI;
 
-import org.n52.shetland.w3c.wsdl.WSDLConstants.WSDLQNames;
+import org.n52.shetland.w3c.wsdl.AbstractAddress;
+import org.n52.shetland.w3c.wsdl.WSDLConstants;
 
-public class Port extends AbstractWsdl {
+public class SoapAddress extends AbstractAddress {
 
-    private Binding binding;
-
-    /**
-     * @return the binding
-     */
-    public Binding getBinding() {
-        return binding;
+    public SoapAddress(URI location) {
+        super(WSDLConstants.QN_SOAP_12_ADDRESS, location);
     }
 
-    /**
-     * @param binding the binding to set
-     */
-    public void setBinding(Binding binding) {
-        this.binding = binding;
-    }
-
-    public boolean isSetBinding() {
-        return getBinding() != null;
-    }
-
-    @Override
-    public QName getQName() {
-        return WSDLQNames.QN_WSDL_PORT;
-    }
 }

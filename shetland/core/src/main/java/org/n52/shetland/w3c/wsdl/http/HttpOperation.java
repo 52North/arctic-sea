@@ -14,36 +14,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.w3c.wsdl;
+package org.n52.shetland.w3c.wsdl.http;
 
-import javax.xml.namespace.QName;
+import org.n52.shetland.w3c.wsdl.ExtensibilityElement;
+import org.n52.shetland.w3c.wsdl.WSDLConstants;
 
-import org.n52.shetland.w3c.wsdl.WSDLConstants.WSDLQNames;
+public class HttpOperation extends ExtensibilityElement {
 
-public class Port extends AbstractWsdl {
+    private String location;
 
-    private Binding binding;
-
-    /**
-     * @return the binding
-     */
-    public Binding getBinding() {
-        return binding;
+    public HttpOperation(String location) {
+        super(WSDLConstants.QN_HTTP_OPERATION);
+        this.setLocation(location);
     }
 
     /**
-     * @param binding the binding to set
+     * @return the location
      */
-    public void setBinding(Binding binding) {
-        this.binding = binding;
+    public String getLocation() {
+        return location;
     }
 
-    public boolean isSetBinding() {
-        return getBinding() != null;
+    /**
+     * @param location the location to set
+     */
+    public void setLocation(String location) {
+        this.location = location;
     }
 
-    @Override
-    public QName getQName() {
-        return WSDLQNames.QN_WSDL_PORT;
-    }
 }

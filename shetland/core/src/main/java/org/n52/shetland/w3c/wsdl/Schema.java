@@ -16,25 +16,32 @@
  */
 package org.n52.shetland.w3c.wsdl;
 
-import javax.xml.namespace.QName;
+public class Schema extends ExtensibilityElement {
 
-import org.w3c.dom.Element;
+    private String elementFormDefault;
+    private String targetNamespace;
+    private Include include;
 
-public class Schema {
-
-    public void setElementType(QName qnXsdSchema) {
-        // TODO Auto-generated method stub
-
+    public Schema(String targetNamespace, Include include) {
+        this("qualified", targetNamespace, include);
     }
 
-    public void setElement(Element buildSchemaImport) {
-        // TODO Auto-generated method stub
-
+    public Schema(String elementFormDefault, String targetNamespace, Include include) {
+        super(WSDLConstants.QN_XSD_SCHEMA);
+        this.elementFormDefault = elementFormDefault;
+        this.targetNamespace = targetNamespace;
+        this.include = include;
     }
 
-    public void addInclude(SchemaReference ref) {
-        // TODO Auto-generated method stub
-
+    public String getElementFormDefault() {
+        return elementFormDefault;
     }
 
+    public String getTargetNamespace() {
+        return targetNamespace;
+    }
+
+    public Include getInclude() {
+        return include;
+    }
 }

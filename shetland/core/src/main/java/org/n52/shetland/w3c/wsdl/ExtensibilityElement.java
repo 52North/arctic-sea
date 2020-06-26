@@ -16,6 +16,17 @@
  */
 package org.n52.shetland.w3c.wsdl;
 
+import javax.xml.namespace.QName;
+
 public class ExtensibilityElement {
 
+    private QName qName;
+
+    public ExtensibilityElement(QName qName) {
+        this.qName = qName;
+    }
+
+    public QName getQName() {
+        return qName;
+    }
 }

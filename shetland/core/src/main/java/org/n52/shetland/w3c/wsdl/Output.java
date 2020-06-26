@@ -16,11 +16,30 @@
  */
 package org.n52.shetland.w3c.wsdl;
 
-public class Output extends AbstractIO{
+import java.net.URI;
 
-    public Object getName() {
-        // TODO Auto-generated method stub
-        return null;
+import javax.xml.namespace.QName;
+
+public class Output extends Param {
+
+    public Output() {
+        super();
     }
 
+    public Output(String name) {
+        super(name);
+    }
+
+    public Output(String name, QName message) {
+        super(name, message);
+    }
+
+    public Output(String name, URI action, QName message) {
+        super(name, action, message);
+    }
+
+    @Override
+    public QName getQName() {
+        return WSDLConstants.WSDLQNames.QN_WSDL_OUTPUT;
+    }
 }

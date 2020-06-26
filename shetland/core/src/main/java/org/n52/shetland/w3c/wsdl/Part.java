@@ -18,16 +18,37 @@ package org.n52.shetland.w3c.wsdl;
 
 import javax.xml.namespace.QName;
 
-public class Part {
+import org.n52.shetland.w3c.wsdl.WSDLConstants.WSDLQNames;
 
-    public void setElementName(QName qname) {
-        // TODO Auto-generated method stub
+public class Part extends AbstractWsdl {
 
+    private QName element;
+
+    public Part(String name) {
+       super(name);
     }
 
-    public void setName(String messagePart) {
-        // TODO Auto-generated method stub
+    @Override
+    public QName getQName() {
+        return WSDLQNames.QN_WSDL_PART;
+    }
 
+    /**
+     * @return the element
+     */
+    public QName getElement() {
+        return element;
+    }
+
+    /**
+     * @param element the element to set
+     */
+    public void setElement(QName element) {
+        this.element = element;
+    }
+
+    public boolean isSetElement() {
+        return getElement() != null;
     }
 
 }

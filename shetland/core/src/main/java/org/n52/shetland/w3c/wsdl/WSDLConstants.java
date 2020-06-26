@@ -22,10 +22,8 @@ import javax.xml.namespace.QName;
 
 import org.n52.janmayen.http.HTTPMethods;
 import org.n52.janmayen.http.MediaTypes;
-import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.SosSoapConstants;
-import org.n52.shetland.ogc.swes.SwesConstants;
 
 /**
  *
@@ -71,15 +69,21 @@ public interface WSDLConstants {
 
     String AN_XSD_ELEMENT_FORM_DEFAULT = "elementFormDefault";
 
+    String AN_XSD_NAMESPACE = "namespace";
+
     String AN_XSD_SCHEMA_LOCATION = "schemaLocation";
 
     String AN_XSD_TARGET_NAMESPACE = "targetNamespace";
 
+    String EN_OPERATION = "operation";
+
+    String EN_BINDING = "binding";
+
     String EN_HTTP_ADDRESS = "address";
 
-    String EN_HTTP_BINDING = "binding";
+    String EN_HTTP_BINDING = EN_BINDING;
 
-    String EN_HTTP_OPERATION = "operation";
+    String EN_HTTP_OPERATION = EN_OPERATION;
 
     String EN_HTTP_URL_ENCODED = "urlEncoded";
 
@@ -89,13 +93,13 @@ public interface WSDLConstants {
 
     String EN_SOAP_ADDRESS = EN_HTTP_ADDRESS;
 
-    String EN_SOAP_BINDING = EN_HTTP_BINDING;
+    String EN_SOAP_BINDING = EN_BINDING;
 
     String EN_SOAP_BODY = "body";
 
     String EN_SOAP_FAULT = "fault";
 
-    String EN_SOAP_OPERATION = EN_HTTP_OPERATION;
+    String EN_SOAP_OPERATION = EN_OPERATION;
 
     String EN_SOSW_SOS_KVP_BINDING = "SosKvpBinding";
 
@@ -110,6 +114,27 @@ public interface WSDLConstants {
     String EN_XSD_INCLUDE = "include";
 
     String EN_XSD_SCHEMA = "schema";
+
+    String MESSAGE_PART = EN_SOAP_BODY;
+
+    String POX_CONTENT_TYPE = MediaTypes.TEXT_XML.toString();
+
+    String KVP_HTTP_VERB = HTTPMethods.GET;
+
+    String POX_HTTP_VERB = HTTPMethods.POST;
+
+    String QUALIFIED_ELEMENT_FORM_DEFAULT = "qualified";
+
+    String SOAP_BINDING_HTTP_TRANSPORT = "http://schemas.xmlsoap.org/soap/http";
+
+    // String SOAP_12_BINDING_HTTP_TRANSPORT = "http://www.w3.org/2003/05/soap/bindings/HTTP";
+    String SOAP_12_BINDING_HTTP_TRANSPORT = SOAP_BINDING_HTTP_TRANSPORT;
+
+    String SOAP_DOCUMENT_STYLE = "document";
+
+    URI OWS_EXCEPTION_ACTION = URI.create(SosSoapConstants.RESP_ACTION_OWS);
+
+    URI SWES_EXCEPTION_ACTION = URI.create(SosSoapConstants.RESP_ACTION_SWES);
 
     QName QN_HTTP_ADDRESS = new QName(NS_HTTP, EN_HTTP_ADDRESS, NS_HTTP_PREFIX);
 
@@ -157,26 +182,62 @@ public interface WSDLConstants {
 
     QName QN_XSD_SCHEMA = new QName(NS_XSD, EN_XSD_SCHEMA, NS_XSD_PREFIX);
 
-    String MESSAGE_PART = EN_SOAP_BODY;
+    QName QN_XSD_INCLUDE = new QName(NS_XSD, EN_XSD_INCLUDE, NS_XSD_PREFIX);
 
-    String POX_CONTENT_TYPE = MediaTypes.TEXT_XML.toString();
+    interface WSDLElements {
 
-    String KVP_HTTP_VERB = HTTPMethods.GET;
+        String EN_WSDL_DEFINITIONS = "definitions";
 
-    String POX_HTTP_VERB = HTTPMethods.POST;
+        String EN_WSDL_TYPES = "types";
 
-    String QUALIFIED_ELEMENT_FORM_DEFAULT = "qualified";
+        String EN_WSDL_MESSAGE = "message";
 
-    String SOAP_BINDING_HTTP_TRANSPORT = "http://schemas.xmlsoap.org/soap/http";
+        String EN_WSDL_PART = "part";
 
-    // String SOAP_12_BINDING_HTTP_TRANSPORT = "http://www.w3.org/2003/05/soap/bindings/HTTP";
-    String SOAP_12_BINDING_HTTP_TRANSPORT = SOAP_BINDING_HTTP_TRANSPORT;
+        String EN_WSDL_PORT = "port";
 
-    String SOAP_DOCUMENT_STYLE = "document";
+        String EN_WSDL_PORT_TYPE = "portType";
 
-    URI OWS_EXCEPTION_ACTION = URI.create(SosSoapConstants.RESP_ACTION_OWS);
+        String EN_WSDL_BINDING = EN_BINDING;
 
-    URI SWES_EXCEPTION_ACTION = URI.create(SosSoapConstants.RESP_ACTION_SWES);
+        String EN_WSDL_OPERATION = EN_OPERATION;
+
+        String EN_WSDL_INPUT = "input";
+
+        String EN_WSDL_OUTPUT = "output";
+
+        String EN_WSDL_FAULT = EN_SOAP_FAULT;
+
+        String EN_WSDL_SERVICE = "service";
+    }
+
+    interface WSDLQNames extends WSDLElements {
+
+        QName QN_WSDL_DEFINITIONS = new QName(NS_WSDL, EN_WSDL_DEFINITIONS, NS_WSDL_PREFIX);
+
+        QName QN_WSDL_TYPES = new QName(NS_WSDL, EN_WSDL_TYPES, NS_WSDL_PREFIX);
+
+        QName QN_WSDL_MESSAGE = new QName(NS_WSDL, EN_WSDL_MESSAGE, NS_WSDL_PREFIX);
+
+        QName QN_WSDL_PART = new QName(NS_WSDL, EN_WSDL_PART, NS_WSDL_PREFIX);
+
+        QName QN_WSDL_PORT = new QName(NS_WSDL, EN_WSDL_PORT, NS_WSDL_PREFIX);
+
+        QName QN_WSDL_PORT_TYPE = new QName(NS_WSDL, EN_WSDL_PORT_TYPE, NS_WSDL_PREFIX);
+
+        QName QN_WSDL_BINDING = new QName(NS_WSDL, EN_WSDL_BINDING, NS_WSDL_PREFIX);
+
+        QName QN_WSDL_OPERATION = new QName(NS_WSDL, EN_WSDL_OPERATION, NS_WSDL_PREFIX);
+
+        QName QN_WSDL_INPUT = new QName(NS_WSDL, EN_WSDL_INPUT, NS_WSDL_PREFIX);
+
+        QName QN_WSDL_OUTPUT = new QName(NS_WSDL, EN_WSDL_OUTPUT, NS_WSDL_PREFIX);
+
+        QName QN_WSDL_FAULT = new QName(NS_WSDL, EN_WSDL_FAULT, NS_WSDL_PREFIX);
+
+        QName QN_WSDL_SERVICE =  new QName(NS_WSDL, EN_WSDL_SERVICE, NS_WSDL_PREFIX);
+
+    }
 
     interface SoapResponseActionUris {
         URI DELETE_SENSOR = URI.create(SosSoapConstants.RESP_ACTION_DELETE_SENSOR);
@@ -234,98 +295,4 @@ public interface WSDLConstants {
         URI UPDATE_SENSOR_DESCRIPTION = URI.create(SosSoapConstants.REQ_ACTION_UPDATE_SENSOR_DESCRIPTION);
     }
 
-    interface Operations {
-        Operation DELETE_SENSOR = Operation.newWSDLOperation()
-                .setName(Sos2Constants.Operations.DeleteSensor.name()).setVersion(Sos2Constants.SERVICEVERSION)
-                .setRequest(SwesConstants.QN_DELETE_SENSOR).setRequestAction(SoapRequestActionUris.DELETE_SENSOR)
-                .setResponse(SwesConstants.QN_DELETE_SENSOR_RESPONSE)
-                .setResponseAction(SoapResponseActionUris.DELETE_SENSOR).setFaults(Fault.DEFAULT_FAULTS).build();
-
-        Operation DESCRIBE_SENSOR = Operation.newWSDLOperation()
-                .setName(SosConstants.Operations.DescribeSensor.name()).setVersion(Sos2Constants.SERVICEVERSION)
-                .setRequest(SwesConstants.QN_DESCRIBE_SENSOR).setRequestAction(SoapRequestActionUris.DESCRIBE_SENSOR)
-                .setResponse(SwesConstants.QN_DESCRIBE_SENSOR_RESPONSE)
-                .setResponseAction(SoapResponseActionUris.DESCRIBE_SENSOR).setFaults(Fault.DEFAULT_FAULTS).build();
-
-        Operation GET_CAPABILITIES = Operation.newWSDLOperation()
-                .setName(SosConstants.Operations.GetCapabilities.name()).setVersion(Sos2Constants.SERVICEVERSION)
-                .setRequest(Sos2Constants.QN_GET_CAPABILITIES)
-                .setRequestAction(SoapRequestActionUris.GET_CAPABILITIES).setResponse(Sos2Constants.QN_CAPABILITIES)
-                .setResponseAction(SoapResponseActionUris.GET_CAPABILITIES).setFaults(Fault.DEFAULT_FAULTS)
-                // .addFault(WSDLFault.VERSION_NEGOTIATION_FAILED_EXCEPTION)
-                // .addFault(WSDLFault.INVALID_UPDATE_SEQUENCE_EXCEPTION)
-                .build();
-
-        Operation GET_FEATURE_OF_INTEREST = Operation.newWSDLOperation()
-                .setName(SosConstants.Operations.GetFeatureOfInterest.name()).setVersion(Sos2Constants.SERVICEVERSION)
-                .setRequest(Sos2Constants.QN_GET_FEATURE_OF_INTEREST)
-                .setRequestAction(SoapRequestActionUris.GET_FEATURE_OF_INTEREST)
-                .setResponse(Sos2Constants.QN_GET_FEATURE_OF_INTEREST_RESPONSE)
-                .setResponseAction(SoapResponseActionUris.GET_FEATURE_OF_INTEREST).setFaults(Fault.DEFAULT_FAULTS)
-                .build();
-
-        Operation GET_OBSERVATION = Operation.newWSDLOperation()
-                .setName(SosConstants.Operations.GetObservation.name()).setVersion(Sos2Constants.SERVICEVERSION)
-                .setRequest(Sos2Constants.QN_GET_OBSERVATION).setRequestAction(SoapRequestActionUris.GET_OBSERVATION)
-                .setResponse(Sos2Constants.QN_GET_OBSERVATION_RESPONSE)
-                .setResponseAction(SoapResponseActionUris.INSERT_OBSERVATION).setFaults(Fault.DEFAULT_FAULTS)
-                .build();
-
-        Operation GET_OBSERVATION_BY_ID = Operation.newWSDLOperation()
-                .setName(SosConstants.Operations.GetObservationById.name()).setVersion(Sos2Constants.SERVICEVERSION)
-                .setRequest(Sos2Constants.QN_GET_OBSERVATION_BY_ID)
-                .setRequestAction(SoapRequestActionUris.GET_OBSERVATION_BY_ID)
-                .setResponse(Sos2Constants.QN_GET_OBSERVATION_BY_ID_RESPONSE)
-                .setResponseAction(SoapResponseActionUris.GET_OBSERVATION_BY_ID).setFaults(Fault.DEFAULT_FAULTS)
-                .build();
-
-        Operation GET_RESULT = Operation.newWSDLOperation().setName(SosConstants.Operations.GetResult.name())
-                .setVersion(Sos2Constants.SERVICEVERSION).setRequest(Sos2Constants.QN_GET_RESULT)
-                .setRequestAction(SoapRequestActionUris.GET_RESULT).setResponse(Sos2Constants.QN_GET_RESULT_RESPONSE)
-                .setResponseAction(SoapResponseActionUris.GET_RESULT).setFaults(Fault.DEFAULT_FAULTS).build();
-
-        Operation GET_RESULT_TEMPLATE = Operation.newWSDLOperation()
-                .setName(Sos2Constants.Operations.GetResultTemplate.name()).setVersion(Sos2Constants.SERVICEVERSION)
-                .setRequest(Sos2Constants.QN_GET_RESULT_TEMPLATE)
-                .setRequestAction(SoapRequestActionUris.GET_RESULT_TEMPLATE)
-                .setResponse(Sos2Constants.QN_GET_RESULT_TEMPLATE_RESPONSE)
-                .setResponseAction(SoapResponseActionUris.GET_RESULT_TEMPLATE).setFaults(Fault.DEFAULT_FAULTS)
-                .build();
-
-        Operation INSERT_OBSERVATION = Operation.newWSDLOperation()
-                .setName(SosConstants.Operations.InsertObservation.name()).setVersion(Sos2Constants.SERVICEVERSION)
-                .setRequest(Sos2Constants.QN_INSERT_OBSERVATION)
-                .setRequestAction(SoapRequestActionUris.INSERT_OBSERVATION)
-                .setResponse(Sos2Constants.QN_INSERT_OBSERVATION_RESPONSE)
-                .setResponseAction(SoapResponseActionUris.INSERT_OBSERVATION).setFaults(Fault.DEFAULT_FAULTS)
-                .build();
-
-        Operation INSERT_RESULT = Operation.newWSDLOperation()
-                .setName(Sos2Constants.Operations.InsertResult.name()).setVersion(Sos2Constants.SERVICEVERSION)
-                .setRequest(Sos2Constants.QN_INSERT_RESULT).setRequestAction(SoapRequestActionUris.INSERT_RESULT)
-                .setResponse(Sos2Constants.QN_INSERT_RESULT_RESPONSE)
-                .setResponseAction(SoapResponseActionUris.INSERT_RESULT).setFaults(Fault.DEFAULT_FAULTS).build();
-
-        Operation INSERT_RESULT_TEMPLATE = Operation.newWSDLOperation()
-                .setName(Sos2Constants.Operations.InsertResultTemplate.name())
-                .setVersion(Sos2Constants.SERVICEVERSION).setRequest(Sos2Constants.QN_INSERT_RESULT_TEMPLATE)
-                .setRequestAction(SoapRequestActionUris.INSERT_RESULT_TEMPLATE)
-                .setResponse(Sos2Constants.QN_INSERT_RESULT_TEMPLATE_RESPONSE)
-                .setResponseAction(SoapResponseActionUris.INSERT_RESULT_TEMPLATE).setFaults(Fault.DEFAULT_FAULTS)
-                .build();
-
-        Operation INSERT_SENSOR = Operation.newWSDLOperation()
-                .setName(Sos2Constants.Operations.InsertSensor.name()).setVersion(Sos2Constants.SERVICEVERSION)
-                .setRequest(SwesConstants.QN_INSERT_SENSOR).setRequestAction(SoapRequestActionUris.INSERT_SENSOR)
-                .setResponse(SwesConstants.QN_INSERT_SENSOR_RESPONSE)
-                .setResponseAction(SoapResponseActionUris.INSERT_SENSOR).setFaults(Fault.DEFAULT_FAULTS).build();
-
-        Operation UPDATE_SENSOR_DESCRIPTION = Operation.newWSDLOperation()
-                .setName(Sos2Constants.Operations.UpdateSensorDescription.name())
-                .setVersion(Sos2Constants.SERVICEVERSION).setRequest(SwesConstants.QN_UPDATE_SENSOR_DESCRIPTION)
-                .setRequestAction(SoapRequestActionUris.UPDATE_SENSOR_DESCRIPTION)
-                .setResponse(SwesConstants.QN_UPDATE_SENSOR_DESCRIPTION_RESPONSE)
-                .setResponseAction(SoapResponseActionUris.UPDATE_SENSOR_DESCRIPTION)
-                .setFaults(Fault.DEFAULT_FAULTS).build();
-    }
 }

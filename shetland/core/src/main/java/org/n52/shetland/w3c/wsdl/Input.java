@@ -16,15 +16,31 @@
  */
 package org.n52.shetland.w3c.wsdl;
 
+import java.net.URI;
+
 import javax.xml.namespace.QName;
 
-public class Input extends AbstractIO {
+public class Input extends Param {
 
-    public Object getName() {
-        // TODO Auto-generated method stub
-        return null;
+    public Input() {
+        super();
     }
 
+    public Input(String name) {
+        super(name);
+    }
 
+    public Input(String name, QName message) {
+        super(name, message);
+    }
+
+    public Input(String name, URI action, QName message) {
+        super(name, action, message);
+    }
+
+    @Override
+    public QName getQName() {
+        return WSDLConstants.WSDLQNames.QN_WSDL_INPUT;
+    }
 
 }

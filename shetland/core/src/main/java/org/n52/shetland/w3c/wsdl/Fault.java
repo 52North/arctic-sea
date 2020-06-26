@@ -21,6 +21,8 @@ import java.util.Collection;
 
 import javax.xml.namespace.QName;
 
+import org.n52.shetland.w3c.wsdl.WSDLConstants.WSDLQNames;
+
 import com.google.common.collect.ImmutableList;
 
 /**
@@ -29,7 +31,7 @@ import com.google.common.collect.ImmutableList;
  *
  * @since 4.0.0
  */
-public class Fault {
+public class Fault extends AbstractWsdl {
 
     public static final Fault EXCEPTION_MESSAGE = new Fault("ExceptionMessage",
             WSDLConstants.OWS_EXCEPTION_ACTION);
@@ -66,35 +68,30 @@ public class Fault {
 
     public static final Collection<Fault> DEFAULT_FAULTS = ImmutableList.of(EXCEPTION_MESSAGE);
 
-    private final String name;
-
     private final URI action;
 
+    private QName message;
+
     public Fault(String name, URI action) {
-        this.name = name;
-        this.action = action;
+        this(name, action, new QName(WSDLConstants.NS_SOSW, name, WSDLConstants.NS_SOSW_PREFIX));
     }
 
-    public String getName() {
-        return name;
+    public Fault(String name, URI action, QName message) {
+        super(name);
+        this.action = action;
+        this.message = message;
+    }
+
+    @Override
+    public QName getQName() {
+        return WSDLQNames.QN_WSDL_FAULT;
     }
 
     public URI getAction() {
         return action;
     }
 
-    public void setName(String name2) {
-        // TODO Auto-generated method stub
-
-    }
-
-    public void setMessage(Message message) {
-        // TODO Auto-generated method stub
-
-    }
-
-    public void setExtensionAttribute(QName qnWsamAction, String string) {
-        // TODO Auto-generated method stub
-
+    public QName getMessage() {
+        return message;
     }
 }

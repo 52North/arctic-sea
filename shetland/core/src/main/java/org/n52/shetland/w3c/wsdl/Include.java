@@ -18,32 +18,26 @@ package org.n52.shetland.w3c.wsdl;
 
 import javax.xml.namespace.QName;
 
-import org.n52.shetland.w3c.wsdl.WSDLConstants.WSDLQNames;
+public class Include extends AbstractWsdl {
 
-public class Port extends AbstractWsdl {
+    private String namespace;
+    private String schemaLocation;
 
-    private Binding binding;
-
-    /**
-     * @return the binding
-     */
-    public Binding getBinding() {
-        return binding;
-    }
-
-    /**
-     * @param binding the binding to set
-     */
-    public void setBinding(Binding binding) {
-        this.binding = binding;
-    }
-
-    public boolean isSetBinding() {
-        return getBinding() != null;
+    public Include(String namespace, String schemaLocation) {
+        this.namespace = namespace;
+        this.schemaLocation = schemaLocation;
     }
 
     @Override
     public QName getQName() {
-        return WSDLQNames.QN_WSDL_PORT;
+        return WSDLConstants.QN_XSD_SCHEMA;
+    }
+
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public String getSchemaLocation() {
+        return schemaLocation;
     }
 }

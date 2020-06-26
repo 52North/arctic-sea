@@ -16,7 +16,7 @@
  */
 package org.n52.shetland.w3c.wsdl;
 
-public class Import {
+public class Import extends AbstractWsdl {
 
     public void setLocationURI(String schemaLocation) {
         // TODO Auto-generated method stub
