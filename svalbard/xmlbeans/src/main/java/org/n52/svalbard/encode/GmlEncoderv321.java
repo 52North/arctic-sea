@@ -724,6 +724,7 @@ public class GmlEncoderv321
             if (cursor.toChild(GmlConstants.QN_ABSTRACT_RING_32)) {
                 cursor.setName(GmlConstants.QN_LINEAR_RING_32);
             }
+            cursor.dispose();
 
             // Interior ring
             int numberOfInteriorRings = pol.getNumInteriorRing();
@@ -745,6 +746,7 @@ public class GmlEncoderv321
                 if (cursor.toChild(GmlConstants.QN_ABSTRACT_RING_32)) {
                     cursor.setName(GmlConstants.QN_LINEAR_RING_32);
                 }
+                cursor.dispose();
             }
         }
     }
