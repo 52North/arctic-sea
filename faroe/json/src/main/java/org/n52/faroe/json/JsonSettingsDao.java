@@ -16,21 +16,14 @@
  */
 package org.n52.faroe.json;
 
-import java.util.HashSet;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.n52.faroe.ConfigurationError;
 import org.n52.faroe.JSONSettingConstants;
-import org.n52.faroe.SettingType;
 import org.n52.faroe.SettingValue;
-import org.n52.faroe.SettingValueFactory;
 import org.n52.faroe.SettingsDao;
-import org.n52.janmayen.i18n.LocaleHelper;
-import org.n52.janmayen.i18n.MultilingualString;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -42,6 +35,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 public class JsonSettingsDao extends AbstractJsonDao implements SettingsDao {
 
     private JsonSettingsEncoder settingsEncoder;
+    private JsonSettingsDecoder settingsDecoder;
 
     @Inject
     public void setSettingsEncoder(JsonSettingsEncoder settingsEncoder) {
@@ -52,14 +46,21 @@ public class JsonSettingsDao extends AbstractJsonDao implements SettingsDao {
         return this.settingsEncoder;
     }
 
+    @Inject
+    public void setSettingsDecoder(JsonSettingsDecoder settingsDecoder) {
+        this.settingsDecoder = settingsDecoder;
+    }
+
+    protected JsonSettingsDecoder getSettingsDecoder() {
+        return this.settingsDecoder;
+    }
+
     @Override
     public Set<SettingValue<?>> getSettingValues() {
         readLock().lock();
         try {
             JsonNode node = getConfiguration().path(JSONSettingConstants.SETTINGS_KEY);
-            Set<SettingValue<?>> values = new HashSet<>(node.size());
-            node.fieldNames().forEachRemaining(key -> values.add(createSettingValue(key, node.path(key))));
-            return values;
+            return getSettingsDecoder().decode(node);
         } finally {
             readLock().unlock();
         }
@@ -73,7 +74,7 @@ public class JsonSettingsDao extends AbstractJsonDao implements SettingsDao {
             if (!node.isObject()) {
                 return null;
             }
-            return createSettingValue(key, node);
+            return getSettingsDecoder().decode(key, node);
         } finally {
             readLock().unlock();
         }
@@ -99,7 +100,7 @@ public class JsonSettingsDao extends AbstractJsonDao implements SettingsDao {
             ObjectNode settingNode = (ObjectNode) Optional.ofNullable(node.isObject() ? node : null)
                     .orElseGet(() -> settings.putObject(value.getKey()));
             settingNode.put(JSONSettingConstants.TYPE_KEY, value.getType().toString());
-            settingNode.set(JSONSettingConstants.VALUE_KEY, this.settingsEncoder.encodeValue(value));
+            settingNode.set(JSONSettingConstants.VALUE_KEY, getSettingsEncoder().encodeValue(value));
         } finally {
             writeLock().unlock();
         }
@@ -110,56 +111,4 @@ public class JsonSettingsDao extends AbstractJsonDao implements SettingsDao {
     public void deleteAll() {
         this.configuration().delete();
     }
-
-    protected SettingValue<?> createSettingValue(String key, JsonNode node) {
-        SettingType type = SettingType.fromString(node.path(JSONSettingConstants.TYPE_KEY).asText(null));
-        Object value = decodeValue(type, node.path(JSONSettingConstants.VALUE_KEY));
-        return new JsonSettingValue<>(type, key, value);
-    }
-
-    protected Object decodeValue(SettingType type, JsonNode node) {
-        switch (type) {
-            case INTEGER:
-                if (!node.canConvertToInt()) {
-                    numberDecodeError(type, node);
-                }
-                return node.intValue();
-            case NUMERIC:
-                if (!node.isNumber()) {
-                    numberDecodeError(type, node);
-                }
-                return node.doubleValue();
-            case BOOLEAN:
-                return node.booleanValue();
-            case TIMEINSTANT:
-                return SettingValueFactory.decodeDateTimeValue(node.textValue());
-            case FILE:
-                return SettingValueFactory.decodeFileValue(node.textValue());
-            case STRING:
-                return node.textValue();
-            case URI:
-                return SettingValueFactory.decodeUriValue(node.textValue());
-            case MULTILINGUAL_STRING:
-                return decodeMultilingualString(node);
-            case CHOICE:
-                return node.textValue();
-            default:
-                throw new ConfigurationError(String.format("Unknown Type %s", type));
-        }
-    }
-
-    protected MultilingualString decodeMultilingualString(JsonNode json) {
-        MultilingualString mls = new MultilingualString();
-        json.fields().forEachRemaining(e -> {
-            Locale locale = LocaleHelper.decode(e.getKey());
-            mls.addLocalization(locale, e.getValue().asText());
-        });
-        return mls;
-    }
-
-    private void numberDecodeError(SettingType type, JsonNode node) {
-        throw new ConfigurationError(String.format("Cannot decode setting to %s type: node type = %s, value = >%s<",
-                                                   type, node.getNodeType(), node.toString()));
-    }
-
 }
