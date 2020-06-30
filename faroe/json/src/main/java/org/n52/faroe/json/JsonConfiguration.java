@@ -155,6 +155,15 @@ public class JsonConfiguration implements Destroyable,
     }
 
     /**
+     * Set the configuration
+     * 
+     * @param configuration the configuration
+     */
+    public void set(ObjectNode configuration) {
+        this.configuration = configuration;
+    }
+
+    /**
      * Sets the time to wait for additional changes before the configuration is persisted.
      *
      * @param writeTimeout the time out in milliseconds
