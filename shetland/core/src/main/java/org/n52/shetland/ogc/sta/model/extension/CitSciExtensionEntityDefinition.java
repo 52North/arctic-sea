@@ -26,6 +26,12 @@ import java.util.Set;
  */
 public class CitSciExtensionEntityDefinition extends STAEntityDefinition {
 
+    public static String[] ALLCOLLECTIONS = new String[] {
+            CSOBSERVATIONS,
+            OBSERVATION_GROUPS,
+            OBSERVATION_RELATIONS
+    };
+
     protected CitSciExtensionEntityDefinition(Set<String> navPropOptional,
                                               Set<String> navPropMandatory,
                                               Set<String> entityPropOptional,
@@ -40,16 +46,16 @@ public class CitSciExtensionEntityDefinition extends STAEntityDefinition {
         Map<String, STAEntityDefinition> coreMap = createMap();
 
         ObservationGroupEntityDefinition ogED = new ObservationGroupEntityDefinition();
-        coreMap.put(DATASTREAM, ogED);
-        coreMap.put(DATASTREAMS, ogED);
+        coreMap.put(OBSERVATION_GROUP, ogED);
+        coreMap.put(OBSERVATION_GROUPS, ogED);
 
         ObservationRelationEntityDefinition orED = new ObservationRelationEntityDefinition();
-        coreMap.put(DATASTREAM, orED);
-        coreMap.put(DATASTREAMS, orED);
+        coreMap.put(OBSERVATION_RELATION, orED);
+        coreMap.put(OBSERVATION_RELATIONS, orED);
 
         CSObservationEntityDefinition csoED = new CSObservationEntityDefinition();
-        coreMap.put(DATASTREAM, csoED);
-        coreMap.put(DATASTREAMS, csoED);
+        coreMap.put(CSOBSERVATION, csoED);
+        coreMap.put(CSOBSERVATIONS, csoED);
 
         return coreMap;
     }
