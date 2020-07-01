@@ -71,7 +71,7 @@ public abstract class STAEntityDefinition implements StaConstants {
         return entityPropsMandatory;
     }
 
-    static Set<String> combineSets(Set<String>... sets) {
+    protected static Set<String> combineSets(Set<String>... sets) {
         HashSet<String> result = new HashSet<>();
         for (Set<String> set : sets) {
             result.addAll(set);
@@ -79,7 +79,7 @@ public abstract class STAEntityDefinition implements StaConstants {
         return result;
     }
 
-    private static Map<String, STAEntityDefinition> createMap() {
+    protected static Map<String, STAEntityDefinition> createMap() {
         HashMap<String, STAEntityDefinition> map = new HashMap<>();
         DatastreamEntityDefinition dsED = new DatastreamEntityDefinition();
         FeatureOfInterestEntityDefinition foiED = new FeatureOfInterestEntityDefinition();

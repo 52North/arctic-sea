@@ -50,6 +50,18 @@ public interface StaConstants {
 
     String FEATURES_OF_INTEREST = "FeaturesOfInterest";
 
+    String OBSERVATION_GROUP = "ObservationGroup";
+
+    String OBSERVATION_GROUPS = "ObservationGroups";
+
+    String OBSERVATION_RELATION = "ObservationRelation";
+
+    String OBSERVATION_RELATIONS = "ObservationRelations";
+
+    String CSOBSERVATION = "CSObservation";
+
+    String CSOBSERVATIONS = "CSObservations";
+
     String AT = "@";
 
     String IOT_ID = "iot.id";
@@ -82,5 +94,6 @@ public interface StaConstants {
     String PROP_VALID_TIME = "validTime";
     String PROP_METADATA = "metadata";
     String PROP_SYMBOL = "symbol";
+    String PROP_TYPE = "type";
 
 }
