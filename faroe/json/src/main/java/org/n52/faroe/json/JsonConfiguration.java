@@ -156,7 +156,7 @@ public class JsonConfiguration implements Destroyable,
 
     /**
      * Set the configuration
-     * 
+     *
      * @param configuration the configuration
      */
     public void set(ObjectNode configuration) {

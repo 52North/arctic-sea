@@ -47,8 +47,8 @@ public class JsonSettingsDao extends AbstractJsonDao implements SettingsDao {
     }
 
     @Inject
-    public void setSettingsDecoder(JsonSettingsDecoder settingsDecoder) {
-        this.settingsDecoder = settingsDecoder;
+    public void setSettingsDecoder(Optional<JsonSettingsDecoder> settingsDecoder) {
+        this.settingsDecoder = settingsDecoder.isPresent() ? settingsDecoder.get() : new JsonSettingsDecoder();
     }
 
     protected JsonSettingsDecoder getSettingsDecoder() {
