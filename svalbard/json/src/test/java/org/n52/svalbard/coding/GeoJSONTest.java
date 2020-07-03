@@ -404,14 +404,21 @@ public class GeoJSONTest {
         }
 
         @Override
-        protected int getSortIndex() {
-            return 0;
-        }
-
-        @Override
         protected Geometry copyInternal() {
             // TODO Auto-generated method stub
             return null;
+        }
+
+        @Override
+        protected Geometry reverseInternal() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        protected int getTypeCode() {
+            // TODO Auto-generated method stub
+            return 0;
         }
     }
 
