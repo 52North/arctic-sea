@@ -390,12 +390,17 @@ public class UnknownGeometry extends Geometry {
     }
 
     @Override
-    protected int getSortIndex() {
-        return 0;
+    protected Geometry copyInternal() {
+        return new UnknownGeometry(geom.copy());
     }
 
     @Override
-    protected Geometry copyInternal() {
-        return new UnknownGeometry(geom.copy());
+    protected Geometry reverseInternal() {
+        return null;
+    }
+
+    @Override
+    protected int getTypeCode() {
+        return 0;
     }
 }
