@@ -49,25 +49,25 @@ public class ObjectWithXmlString<T> {
     public ObjectWithXmlString(@Nullable T object, @Nullable String xml) {
         this.object = Optional.ofNullable(object);
         this.xml = Optional.ofNullable(Strings.emptyToNull(xml));
-        if (!Optionals.any(this.object, this.xml)) {
-            throw new NullPointerException();
-        }
+        checkNullable();
     }
 
     public Optional<T> get() {
         return object;
     }
 
-    public void set(T object) {
+    public ObjectWithXmlString<T> set(T object) {
         this.object = Optional.of(object);
+        return this;
     }
 
     public Optional<String> getXml() {
         return xml;
     }
 
-    public void setXml(String xml) {
+    public ObjectWithXmlString<T> setXml(String xml) {
         this.xml = Optional.of(Strings.emptyToNull(xml));
+        return this;
     }
 
     public boolean isDecoded() {
@@ -76,6 +76,19 @@ public class ObjectWithXmlString<T> {
 
     public boolean isEncoded() {
         return this.xml.isPresent();
+    }
+
+    private void checkNullable() {
+        if (!Optionals.any(this.object, this.xml)) {
+            throw new NullPointerException();
+        }
+
+    }
+
+    public ObjectWithXmlString<T> clearXml() {
+        this.xml = Optional.empty();
+        checkNullable();
+        return this;
     }
 
     @Override

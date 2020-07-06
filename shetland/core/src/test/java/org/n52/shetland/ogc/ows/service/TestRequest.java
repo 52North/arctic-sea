@@ -16,8 +16,6 @@
  */
 package org.n52.shetland.ogc.ows.service;
 
-import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
-
 public class TestRequest extends OwsServiceRequest {
 
     @Override
