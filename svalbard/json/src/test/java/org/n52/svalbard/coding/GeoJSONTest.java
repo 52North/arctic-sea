@@ -16,15 +16,8 @@
  */
 package org.n52.svalbard.coding;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.hamcrest.MatcherAssert.assertThat;
-
-import java.io.IOException;
-import java.util.Random;
-
+import com.fasterxml.jackson.databind.JsonNode;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.CoordinateFilter;
@@ -44,8 +37,6 @@ import org.locationtech.jts.geom.MultiPolygon;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
 import org.locationtech.jts.geom.PrecisionModel;
-
-import org.n52.svalbard.coding.json.GeoJSONDecodingException;
 import org.n52.svalbard.coding.json.SchemaConstants;
 import org.n52.svalbard.coding.json.matchers.ValidationMatchers;
 import org.n52.svalbard.decode.exception.DecodingException;
@@ -54,13 +45,18 @@ import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.json.GeoJSONEncoder;
 import org.n52.svalbard.encode.json.JSONEncodingException;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import java.util.Random;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * TODO JavaDoc
  *
  * @author Christian Autermann <autermann@uni-muenster.de>
- *
  * @since 1.0.0
  */
 public class GeoJSONTest {
@@ -80,14 +76,16 @@ public class GeoJSONTest {
 
     private LineString randomLineString(int srid) {
         LineString geometry = geometryFactory
-                .createLineString(new Coordinate[] { randomCoordinate(), randomCoordinate(), randomCoordinate() });
+                                      .createLineString(new Coordinate[]{randomCoordinate(),
+                                                                         randomCoordinate(),
+                                                                         randomCoordinate()});
         geometry.setSRID(srid);
         return geometry;
     }
 
     private MultiLineString randomMultiLineString(int srid) {
         return geometryFactory.createMultiLineString(
-                new LineString[] { randomLineString(srid), randomLineString(srid), randomLineString(srid) });
+                new LineString[]{randomLineString(srid), randomLineString(srid), randomLineString(srid)});
     }
 
     private Point randomPoint(int srid) {
@@ -99,66 +97,70 @@ public class GeoJSONTest {
     private LinearRing randomLinearRing(int srid) {
         Coordinate p = randomCoordinate();
         LinearRing geometry = geometryFactory.createLinearRing(
-                new Coordinate[] { p, randomCoordinate(), randomCoordinate(), randomCoordinate(), p });
+                new Coordinate[]{p, randomCoordinate(), randomCoordinate(), randomCoordinate(), p});
         geometry.setSRID(srid);
         return geometry;
     }
 
     private Polygon randomPolygon(int srid) {
         Polygon geometry = geometryFactory.createPolygon(randomLinearRing(srid),
-                new LinearRing[] { randomLinearRing(srid), randomLinearRing(srid), randomLinearRing(srid) });
+                                                         new LinearRing[]{randomLinearRing(srid),
+                                                                          randomLinearRing(srid),
+                                                                          randomLinearRing(srid)});
         geometry.setSRID(srid);
         return geometry;
     }
 
     private MultiPoint randomMultiPoint(int srid) {
-        MultiPoint geometry = geometryFactory.createMultiPointFromCoords(new Coordinate[] { randomCoordinate(),
-                randomCoordinate(), randomCoordinate(), randomCoordinate(), randomCoordinate(), randomCoordinate() });
+        MultiPoint geometry = geometryFactory.createMultiPointFromCoords(new Coordinate[]{randomCoordinate(),
+                                                                                          randomCoordinate(),
+                                                                                          randomCoordinate(),
+                                                                                          randomCoordinate(),
+                                                                                          randomCoordinate(),
+                                                                                          randomCoordinate()});
         geometry.setSRID(srid);
         return geometry;
     }
 
     private MultiPolygon randomMultiPolygon(int srid) {
         MultiPolygon geometry = geometryFactory
-                .createMultiPolygon(new Polygon[] { randomPolygon(srid), randomPolygon(srid), randomPolygon(srid) });
+                                        .createMultiPolygon(new Polygon[]{randomPolygon(srid),
+                                                                          randomPolygon(srid),
+                                                                          randomPolygon(srid)});
         geometry.setSRID(srid);
         return geometry;
     }
 
     private GeometryCollection randomGeometryCollection(int srid) {
         GeometryCollection geometry = geometryFactory.createGeometryCollection(
-                new Geometry[] { randomPoint(srid), randomMultiPoint(srid), randomLineString(srid),
-                        randomMultiLineString(srid), randomPolygon(srid), randomMultiPolygon(srid) });
+                new Geometry[]{randomPoint(srid), randomMultiPoint(srid), randomLineString(srid),
+                               randomMultiLineString(srid), randomPolygon(srid), randomMultiPolygon(srid)});
         geometry.setSRID(srid);
         return geometry;
     }
 
     @Test
-    public void testGeometryCollection()
-            throws GeoJSONDecodingException, IOException {
+    public void testGeometryCollection() {
         readWriteTest(geometryFactory.createGeometryCollection(
-                new Geometry[] { randomGeometryCollection(EPSG_4326), randomGeometryCollection(2000) }));
+                new Geometry[]{randomGeometryCollection(EPSG_4326), randomGeometryCollection(2000)}));
     }
 
     @Test
-    public void testGeometryCollectionWithZCoordinate()
-            throws GeoJSONDecodingException, IOException {
+    public void testGeometryCollectionWithZCoordinate() {
         GeometryCollection geometry = geometryFactory.createGeometryCollection(
-                new Geometry[] { randomGeometryCollection(EPSG_4326), randomGeometryCollection(2000) });
+                new Geometry[]{randomGeometryCollection(EPSG_4326), randomGeometryCollection(2000)});
         geometry.apply(new RandomZCoordinateFilter());
         geometry.geometryChanged();
         readWriteTest(geometry);
     }
 
     @Test
-    public void testPolygon()
-            throws GeoJSONDecodingException, IOException {
+    public void testPolygon() {
         readWriteTest(randomPolygon(EPSG_4326));
     }
 
     @Test
-    public void testPolygonWithZCoordinate()
-            throws GeoJSONDecodingException, IOException {
+    public void testPolygonWithZCoordinate() {
         Polygon geometry = randomPolygon(EPSG_4326);
         geometry.apply(new RandomZCoordinateFilter());
         geometry.geometryChanged();
@@ -166,14 +168,12 @@ public class GeoJSONTest {
     }
 
     @Test
-    public void testMultiPolygon()
-            throws GeoJSONDecodingException, IOException {
+    public void testMultiPolygon() {
         readWriteTest(randomMultiPolygon(EPSG_4326));
     }
 
     @Test
-    public void testMultiPolygonWithZCoordinate()
-            throws GeoJSONDecodingException, IOException {
+    public void testMultiPolygonWithZCoordinate() {
         MultiPolygon geometry = randomMultiPolygon(EPSG_4326);
         geometry.apply(new RandomZCoordinateFilter());
         geometry.geometryChanged();
@@ -181,14 +181,12 @@ public class GeoJSONTest {
     }
 
     @Test
-    public void testPoint()
-            throws GeoJSONDecodingException, IOException {
+    public void testPoint() {
         readWriteTest(randomPoint(2000));
     }
 
     @Test
-    public void testCrsCombinations()
-            throws GeoJSONDecodingException, IOException {
+    public void testCrsCombinations() {
         testCrs(0, 0);
         testCrs(2000, 0);
         testCrs(EPSG_4326, 0);
@@ -201,14 +199,13 @@ public class GeoJSONTest {
     }
 
     private void testCrs(int parent, int child) {
-        final GeometryCollection col = geometryFactory.createGeometryCollection(new Geometry[] { randomPoint(child) });
+        final GeometryCollection col = geometryFactory.createGeometryCollection(new Geometry[]{randomPoint(child)});
         col.setSRID(parent);
         readWriteTest(col);
     }
 
     @Test
-    public void testPointWithZCoordinate()
-            throws GeoJSONDecodingException, IOException {
+    public void testPointWithZCoordinate() {
         Point geometry = randomPoint(2000);
         geometry.apply(new RandomZCoordinateFilter());
         geometry.geometryChanged();
@@ -264,26 +261,22 @@ public class GeoJSONTest {
             assertThat(json2, is(ValidationMatchers.instanceOf(SchemaConstants.Common.GEOMETRY)));
             assertThat(json, is(equalTo(json2)));
         } catch (EncodingException | DecodingException ex) {
+            Assertions.fail(ex);
         }
     }
 
     @Test
-    public void testNull()
-            throws JSONEncodingException {
+    public void testNull() throws JSONEncodingException {
         assertThat(enc.encodeJSON(null), is(nullValue()));
     }
 
     @Test
-    public void testUnknownGeometry()
-            throws JSONEncodingException {
-        assertThrows(JSONEncodingException.class, () -> {
-            enc.encodeJSON(new UnknownGeometry(geometryFactory));
-        });
+    public void testUnknownGeometry() {
+        assertThrows(JSONEncodingException.class, () -> enc.encodeJSON(new UnknownGeometry(geometryFactory)));
     }
 
     @Test
-    public void testEmpty()
-            throws JSONEncodingException {
+    public void testEmpty() throws JSONEncodingException {
         assertThat(enc.encodeJSON(new EmptyGeometry(geometryFactory)), is(nullValue()));
     }
 
@@ -299,8 +292,6 @@ public class GeoJSONTest {
             extends Geometry {
         private static final long serialVersionUID = 1L;
 
-        private final String type = "geom";
-
         private final Point delegate = geometryFactory.createPoint(new Coordinate(1, 2, 3));
 
         UnknownGeometry(GeometryFactory factory) {
@@ -309,7 +300,7 @@ public class GeoJSONTest {
 
         @Override
         public String getGeometryType() {
-            return type;
+            return "geom";
         }
 
         @Override
@@ -349,6 +340,7 @@ public class GeoJSONTest {
         }
 
         @Override
+        @Deprecated
         public Geometry reverse() {
             return delegate.reverse();
         }

@@ -28,21 +28,17 @@ public class SensorEntityDefinition extends STAEntityDefinition {
 
     public static final String ENTITY_SET_NAME = SENSORS;
 
-    private static final String[] NAV_PROPS_MANDATORY = new String[] {};
+    private static final String[] NAV_PROPS_MANDATORY = new String[]{};
 
-    private static final String[] NAV_PROPS_OPTIONAL = new String[] {
-            DATASTREAMS
-    };
+    private static final String[] NAV_PROPS_OPTIONAL = new String[]{DATASTREAMS};
 
-    private static final String[] ENTITY_PROPS_MANDATORY = new String[] {
-            PROP_ID,
-            PROP_NAME,
-            PROP_DESCRIPTION,
-            PROP_ENCODINGTYPE,
-            PROP_METADATA
-    };
+    private static final String[] ENTITY_PROPS_MANDATORY = new String[]{PROP_ID,
+                                                                        PROP_NAME,
+                                                                        PROP_DESCRIPTION,
+                                                                        PROP_ENCODINGTYPE,
+                                                                        PROP_METADATA};
 
-    private static final String[] ENTITY_PROPS_OPTIONAL = new String[] {};
+    private static final String[] ENTITY_PROPS_OPTIONAL = new String[]{};
 
     public static final Set<String> NAVIGATION_PROPERTIES_OPTIONAL =
             Collections.unmodifiableSet(new HashSet<>(Arrays.asList(NAV_PROPS_OPTIONAL)));

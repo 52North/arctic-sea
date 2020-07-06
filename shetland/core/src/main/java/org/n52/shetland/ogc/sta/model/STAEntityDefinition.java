@@ -26,16 +26,14 @@ import java.util.Set;
 @SuppressWarnings("VisibilityModifier")
 public abstract class STAEntityDefinition implements StaConstants {
 
-    public static String[] ALLCOLLECTIONS = new String[] {
-            DATASTREAMS,
-            OBSERVATIONS,
-            THINGS,
-            LOCATIONS,
-            HISTORICAL_LOCATIONS,
-            SENSORS,
-            OBSERVED_PROPERTIES,
-            FEATURES_OF_INTEREST
-    };
+    public static String[] ALLCOLLECTIONS = new String[]{DATASTREAMS,
+                                                         OBSERVATIONS,
+                                                         THINGS,
+                                                         LOCATIONS,
+                                                         HISTORICAL_LOCATIONS,
+                                                         SENSORS,
+                                                         OBSERVED_PROPERTIES,
+                                                         FEATURES_OF_INTEREST};
 
     // Map from EntityName to Definition
     public static Map<String, STAEntityDefinition> definitions = createMap();

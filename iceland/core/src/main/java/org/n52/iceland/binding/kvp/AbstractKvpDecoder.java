@@ -16,18 +16,7 @@
  */
 package org.n52.iceland.binding.kvp;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
-
+import com.google.common.base.Preconditions;
 import org.n52.janmayen.exception.CompositeException;
 import org.n52.janmayen.function.ThrowingBiConsumer;
 import org.n52.janmayen.function.ThrowingTriConsumer;
@@ -41,13 +30,23 @@ import org.n52.svalbard.decode.DecoderKey;
 import org.n52.svalbard.decode.OperationDecoderKey;
 import org.n52.svalbard.decode.exception.DecodingException;
 
-import com.google.common.base.Strings;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * TODO JavaDoc
  *
- * @author Christian Autermann
  * @param <R> the request type
+ * @author Christian Autermann
  */
 public abstract class AbstractKvpDecoder<R extends OwsServiceRequest> implements Decoder<R, Map<String, String>> {
 
@@ -85,8 +84,9 @@ public abstract class AbstractKvpDecoder<R extends OwsServiceRequest> implements
         R request = this.supplier.get();
 
         parameters.forEach(exceptions.wrapConsumer(getDecoder(new Builder<R>()
-                .add(this::getCommonRequestParameterDefinitions)
-                .add(this::getRequestParameterDefinitions).build()).curryFirst(request)));
+                                                                      .add(this::getCommonRequestParameterDefinitions)
+                                                                      .add(this::getRequestParameterDefinitions)
+                                                                      .build()).curryFirst(request)));
 
         if (exceptions.hasExceptions()) {
             throw new DecodingException(exceptions);
@@ -147,10 +147,10 @@ public abstract class AbstractKvpDecoder<R extends OwsServiceRequest> implements
 
         @SuppressWarnings("unchecked")
         public Builder<R> add(String name, ThrowingBiConsumer<? super R, String, DecodingException> parser) {
-            Objects.requireNonNull(Strings.emptyToNull(name));
+            Preconditions.checkArgument(!Objects.requireNonNull(name).isEmpty());
             Objects.requireNonNull(parser);
             this.parsers.merge(name, parser, (f1, f2) -> ((ThrowingBiConsumer<R, String, DecodingException>) f1)
-                    .andThen(f2));
+                                                                 .andThen(f2));
             return this;
         }
 

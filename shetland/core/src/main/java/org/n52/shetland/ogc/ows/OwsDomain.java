@@ -16,10 +16,11 @@
  */
 package org.n52.shetland.ogc.ows;
 
+import com.google.common.base.Strings;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.util.Collection;
 import java.util.Objects;
-
-import com.google.common.base.Strings;
 
 /**
  * TODO JavaDoc
@@ -58,6 +59,7 @@ public class OwsDomain extends OwsUnNamedDomain implements Comparable<OwsDomain>
 
     }
 
+    @SuppressFBWarnings("NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
     public OwsDomain(String name,
                      OwsPossibleValues possibleValues,
                      OwsValue defaultValue,
@@ -73,6 +75,7 @@ public class OwsDomain extends OwsUnNamedDomain implements Comparable<OwsDomain>
         return this.name;
     }
 
+    @SuppressFBWarnings("NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
     public void setName(String name) {
         this.name = Objects.requireNonNull(Strings.emptyToNull(name));
     }

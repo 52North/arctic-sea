@@ -57,11 +57,13 @@ public class ComparisonExpr extends BinaryExpr<ComparisonOperator> implements Bo
         return visitor.visitComparison(this);
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
         return super.hashCode();
     }
 
-    @Override public boolean equals(Object o) {
+    @Override
+    public boolean equals(Object o) {
         if (o == this) {
             return true;
         }
@@ -81,20 +83,20 @@ public class ComparisonExpr extends BinaryExpr<ComparisonOperator> implements Bo
 
     private String getSTAName(ComparisonOperator operator) {
         switch (operator) {
-        case PropertyIsEqualTo:
-            return "eq";
-        case PropertyIsNotEqualTo:
-            return "ne";
-        case PropertyIsLessThan:
-            return "lt";
-        case PropertyIsGreaterThan:
-            return "gt";
-        case PropertyIsLessThanOrEqualTo:
-            return "le";
-        case PropertyIsGreaterThanOrEqualTo:
-            return "ge";
-        default:
-            throw new IllegalArgumentException(String.format("Operators %s is not supported.", operator));
+            case PropertyIsEqualTo:
+                return "eq";
+            case PropertyIsNotEqualTo:
+                return "ne";
+            case PropertyIsLessThan:
+                return "lt";
+            case PropertyIsGreaterThan:
+                return "gt";
+            case PropertyIsLessThanOrEqualTo:
+                return "le";
+            case PropertyIsGreaterThanOrEqualTo:
+                return "ge";
+            default:
+                throw new IllegalArgumentException(String.format("Operators %s is not supported.", operator));
         }
     }
 }

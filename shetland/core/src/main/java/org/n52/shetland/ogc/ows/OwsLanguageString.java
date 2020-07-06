@@ -16,19 +16,16 @@
  */
 package org.n52.shetland.ogc.ows;
 
-import java.util.Comparator;
-import java.util.Objects;
-import java.util.Optional;
-
-import javax.annotation.Nullable;
-
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Strings;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.n52.janmayen.Optionals;
 import org.n52.janmayen.i18n.LocalizedString;
 
-import com.google.common.base.MoreObjects;
-import com.google.common.base.Strings;
-
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import javax.annotation.Nullable;
+import java.util.Comparator;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * TODO JavaDoc
@@ -38,12 +35,13 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 public class OwsLanguageString implements Comparable<OwsLanguageString> {
     private static final Comparator<OwsLanguageString> COMPARATOR
             = Comparator.nullsLast(Comparator
-                    .comparing(OwsLanguageString::getLang, Optionals.nullsLast())
-                    .thenComparing(OwsLanguageString::getValue));
+                                           .comparing(OwsLanguageString::getLang, Optionals.nullsLast())
+                                           .thenComparing(OwsLanguageString::getValue));
     private final String lang;
     private final String value;
 
-    @SuppressFBWarnings(value = "NP_PARAMETER_MUST_BE_NONNULL_BUT_MARKED_AS_NULLABLE")
+    @SuppressFBWarnings({"NP_PARAMETER_MUST_BE_NONNULL_BUT_MARKED_AS_NULLABLE",
+                         "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE"})
     public OwsLanguageString(@Nullable String lang, String value) {
         this.lang = Strings.emptyToNull(lang);
         this.value = Objects.requireNonNull(Strings.emptyToNull(value));
@@ -86,10 +84,10 @@ public class OwsLanguageString implements Comparable<OwsLanguageString> {
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .omitNullValues()
-                .add("lang", this.lang)
-                .add("value", this.value)
-                .toString();
+                          .omitNullValues()
+                          .add("lang", this.lang)
+                          .add("value", this.value)
+                          .toString();
     }
 
     @Override

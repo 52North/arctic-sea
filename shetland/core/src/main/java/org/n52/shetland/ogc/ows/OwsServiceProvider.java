@@ -16,10 +16,11 @@
  */
 package org.n52.shetland.ogc.ows;
 
+import com.google.common.base.Strings;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.util.Objects;
 import java.util.Optional;
-
-import com.google.common.base.Strings;
 
 /**
  * TODO JavaDoc
@@ -32,6 +33,7 @@ public class OwsServiceProvider {
     private final Optional<OwsOnlineResource> providerSite;
     private final OwsResponsibleParty serviceContact;
 
+    @SuppressFBWarnings("NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
     public OwsServiceProvider(String providerName,
                               OwsOnlineResource providerSite,
                               OwsResponsibleParty serviceContact) {
@@ -91,6 +93,5 @@ public class OwsServiceProvider {
                ", providerSite=" + providerSite + ", serviceContact=" +
                serviceContact + '}';
     }
-
 
 }

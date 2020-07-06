@@ -16,6 +16,11 @@
  */
 package org.n52.janmayen.http;
 
+import com.google.common.base.Strings;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import org.n52.janmayen.function.Functions;
+import org.n52.janmayen.stream.Streams;
+
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -30,11 +35,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-
-import org.n52.janmayen.function.Functions;
-import org.n52.janmayen.stream.Streams;
-
-import com.google.common.base.Strings;
 
 /**
  * TODO JavaDoc
@@ -61,7 +61,7 @@ public class QueryBuilder {
         this.url = builder.getURL();
         this.charset = builder.getCharset();
         this.listSeperator = builder.getListSeperator();
-        builder.getQuery().forEach((name, list) -> add(name, list));
+        builder.getQuery().forEach(this::add);
     }
 
     public QueryBuilder(String url) throws MalformedURLException {
@@ -84,6 +84,7 @@ public class QueryBuilder {
         return this.url;
     }
 
+    @SuppressFBWarnings("NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
     public QueryBuilder setListSeperator(String seperator) {
         this.listSeperator = Objects.requireNonNull(Strings.emptyToNull(seperator));
         return this;
@@ -121,7 +122,7 @@ public class QueryBuilder {
                     builder.append(encodeValue(iter.next()));
                     while (iter.hasNext()) {
                         builder.append(this.listSeperator)
-                                .append(encodeValue(iter.next()));
+                               .append(encodeValue(iter.next()));
                     }
                 }
             });

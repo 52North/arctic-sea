@@ -18,6 +18,7 @@ package org.n52.shetland.ogc.ows;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.n52.janmayen.Optionals;
 
 import java.io.Serializable;
@@ -41,14 +42,14 @@ public class OwsCode implements Comparable<OwsCode>, Serializable {
     private final String value;
     private final URI codeSpace;
 
+    @SuppressFBWarnings("NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
     public OwsCode(String value, URI codeSpace) {
         this.value = Objects.requireNonNull(Strings.emptyToNull(value));
         this.codeSpace = codeSpace;
     }
 
     public OwsCode(String value, String codeSpace) {
-        this.value = Objects.requireNonNull(Strings.emptyToNull(value));
-        this.codeSpace = Optional.ofNullable(codeSpace).map(URI::create).orElse(null);
+        this(value, Optional.ofNullable(codeSpace).map(URI::create).orElse(null));
     }
 
     public OwsCode(String value) {

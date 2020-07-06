@@ -54,6 +54,7 @@ import org.n52.shetland.ogc.filter.UnaryLogicFilter;
 import org.n52.svalbard.decode.Decoder;
 import org.n52.svalbard.decode.DecoderKey;
 import org.n52.svalbard.decode.exception.DecodingException;
+import org.n52.svalbard.odata.core.expr.BinaryExpr;
 import org.n52.svalbard.odata.core.expr.Expr;
 import org.n52.svalbard.odata.core.expr.ExprVisitor;
 import org.n52.svalbard.odata.core.expr.GeoValueExpr;
@@ -64,7 +65,6 @@ import org.n52.svalbard.odata.core.expr.TextExpr;
 import org.n52.svalbard.odata.core.expr.UnaryExpr;
 import org.n52.svalbard.odata.core.expr.arithmetic.NumericValueExpr;
 import org.n52.svalbard.odata.core.expr.arithmetic.SimpleArithmeticExpr;
-import org.n52.svalbard.odata.core.expr.BinaryExpr;
 import org.n52.svalbard.odata.core.expr.bool.BooleanBinaryExpr;
 import org.n52.svalbard.odata.core.expr.bool.BooleanExpr;
 import org.n52.svalbard.odata.core.expr.bool.BooleanUnaryExpr;
@@ -86,9 +86,8 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
- * Class to parse OData-based {@code $filter} expression into FES filters. See
- * {@link ObservationCsdlEdmProvider} for the available properties, their types
- * and the resulting value references.
+ * Class to parse OData-based {@code $filter} expression into FES filters. See {@link ObservationCsdlEdmProvider} for
+ * the available properties, their types and the resulting value references.
  *
  * @author Christian Autermann
  * @see ObservationCsdlEdmProvider
@@ -171,8 +170,8 @@ public class ODataFesParser
     }
 
     /**
-     * Parse the value expression as an {@code Geometry} in WKT or EWKT format.
-     * Geographies are handled as if they would be geometries.
+     * Parse the value expression as an {@code Geometry} in WKT or EWKT format. Geographies are handled as if they would
+     * be geometries.
      *
      * @param val the geometry value
      * @return the geometry
@@ -214,8 +213,8 @@ public class ODataFesParser
     }
 
     /**
-     * Get the the pair of value and member expression from the to expressions
-     * or {@code Optional.empty()} if the expression do not match the types.
+     * Get the the pair of value and member expression from the to expressions or {@code Optional.empty()} if the
+     * expression do not match the types.
      *
      * @param first  the first expression
      * @param second the second expression
@@ -234,8 +233,8 @@ public class ODataFesParser
     }
 
     /**
-     * Get the the pair of value and member expression from the to expressions
-     * or {@code Optional.empty()} if the expression do not match the types.
+     * Get the the pair of value and member expression from the to expressions or {@code Optional.empty()} if the
+     * expression do not match the types.
      *
      * @param expr the binary expression
      * @return the member-value-pair
@@ -245,8 +244,8 @@ public class ODataFesParser
     }
 
     /**
-     * Get the the pair of value and member expression from the to expressions
-     * or {@code Optional.empty()} if the expression do not match the types.
+     * Get the the pair of value and member expression from the to expressions or {@code Optional.empty()} if the
+     * expression do not match the types.
      *
      * @param expr the binary expression
      * @return the member-value-pair
@@ -268,59 +267,54 @@ public class ODataFesParser
     @CheckReturnValue
     private static String stripQuotes(String value) {
         return value != null && value.length() >= 2 && value.startsWith("'") && value.endsWith("'")
-                ? value.substring(1, value.length() - 1)
-                : value;
+               ? value.substring(1, value.length() - 1)
+               : value;
     }
 
     /**
-     * Get the {@code ComparisonOperator} matching the supplied
-     * {@code BinaryOperatorKind}.
+     * Get the {@code ComparisonOperator} matching the supplied {@code BinaryOperatorKind}.
      *
      * @param op the operator
-     * @return the {@code ComparisonOperator} or {@code Optional.empty()} if
-     * none matches
+     * @return the {@code ComparisonOperator} or {@code Optional.empty()} if none matches
      */
     private static Optional<ComparisonOperator> getComparisonOperator(BinaryOperatorKind op) {
         switch (op) {
-        case EQ:
-            return Optional.of(ComparisonOperator.PropertyIsEqualTo);
-        case GE:
-            return Optional.of(ComparisonOperator.PropertyIsGreaterThanOrEqualTo);
-        case LE:
-            return Optional.of(ComparisonOperator.PropertyIsLessThanOrEqualTo);
-        case GT:
-            return Optional.of(ComparisonOperator.PropertyIsGreaterThan);
-        case LT:
-            return Optional.of(ComparisonOperator.PropertyIsLessThan);
-        case NE:
-            return Optional.of(ComparisonOperator.PropertyIsNotEqualTo);
-        default:
-            return Optional.empty();
+            case EQ:
+                return Optional.of(ComparisonOperator.PropertyIsEqualTo);
+            case GE:
+                return Optional.of(ComparisonOperator.PropertyIsGreaterThanOrEqualTo);
+            case LE:
+                return Optional.of(ComparisonOperator.PropertyIsLessThanOrEqualTo);
+            case GT:
+                return Optional.of(ComparisonOperator.PropertyIsGreaterThan);
+            case LT:
+                return Optional.of(ComparisonOperator.PropertyIsLessThan);
+            case NE:
+                return Optional.of(ComparisonOperator.PropertyIsNotEqualTo);
+            default:
+                return Optional.empty();
         }
     }
 
     /**
-     * Get the {@code BinaryLogicOperator} matching the supplied
-     * {@code BinaryOperatorKind}.
+     * Get the {@code BinaryLogicOperator} matching the supplied {@code BinaryOperatorKind}.
      *
      * @param op the operator
-     * @return the {@code BinaryLogicOperator} or {@code Optional.empty()} if
-     * none matches
+     * @return the {@code BinaryLogicOperator} or {@code Optional.empty()} if none matches
      */
     private static Optional<BinaryLogicOperator> getLogicOperator(BinaryOperatorKind op) {
         switch (op) {
-        case AND:
-            return Optional.of(BinaryLogicOperator.And);
-        case OR:
-            return Optional.of(BinaryLogicOperator.Or);
-        default:
-            return Optional.empty();
+            case AND:
+                return Optional.of(BinaryLogicOperator.And);
+            case OR:
+                return Optional.of(BinaryLogicOperator.Or);
+            default:
+                return Optional.empty();
         }
     }
 
     /**
-     * Createa new {@code DecodingException} indicating that the geometry in
-     * {@code val} is invalid.
+     * Createa new {@code DecodingException} indicating that the geometry in {@code val} is invalid.
      *
      * @param val the value containing the invalid geometry
      * @return the exception
@@ -330,8 +324,7 @@ public class ODataFesParser
     }
 
     /**
-     * Createa new {@code DecodingException} indicating that the geometry in
-     * {@code val} is invalid.
+     * Createa new {@code DecodingException} indicating that the geometry in {@code val} is invalid.
      *
      * @param val   the value containing the invalid geometry
      * @param cause the exception describing the invalidity
@@ -378,7 +371,6 @@ public class ODataFesParser
         }
     }
 
-
     /**
      * Adapter for {@link ExpressionVisitor} to compensate for olingo's terrible version incompatibilities.
      *
@@ -409,7 +401,6 @@ public class ODataFesParser
                 throws ExpressionVisitException, ODataApplicationException;
     }
 
-
     /**
      * Class to generate a {@code Expr} from the Olingo structures.
      */
@@ -421,25 +412,25 @@ public class ODataFesParser
             Supplier<ExpressionVisitException> exceptionSupplier = () -> new ExpressionVisitException(
                     String.format("Operator %s is not supported: %s %s %s", op, left, op, right));
             switch (op) {
-            case AND:
-            case OR: {
-                BinaryLogicOperator operator = getLogicOperator(op).orElseThrow(exceptionSupplier);
-                BooleanExpr leftOperand = left.asBoolean().orElseThrow(exceptionSupplier);
-                BooleanExpr rightOperand = right.asBoolean().orElseThrow(exceptionSupplier);
-                return new BooleanBinaryExpr(operator, leftOperand, rightOperand);
-            }
-            case EQ:
-            case NE:
-            case GT:
-            case GE:
-            case LT:
-            case LE: {
-                MemberValueExprPair mv = getMemberValuePair(left, right).orElseThrow(exceptionSupplier);
-                ComparisonOperator operator = getComparisonOperator(op).orElseThrow(exceptionSupplier);
-                return new ComparisonExpr(operator, mv.getMember(), mv.getValue());
-            }
-            default:
-                throw exceptionSupplier.get();
+                case AND:
+                case OR: {
+                    BinaryLogicOperator operator = getLogicOperator(op).orElseThrow(exceptionSupplier);
+                    BooleanExpr leftOperand = left.asBoolean().orElseThrow(exceptionSupplier);
+                    BooleanExpr rightOperand = right.asBoolean().orElseThrow(exceptionSupplier);
+                    return new BooleanBinaryExpr(operator, leftOperand, rightOperand);
+                }
+                case EQ:
+                case NE:
+                case GT:
+                case GE:
+                case LT:
+                case LE: {
+                    MemberValueExprPair mv = getMemberValuePair(left, right).orElseThrow(exceptionSupplier);
+                    ComparisonOperator operator = getComparisonOperator(op).orElseThrow(exceptionSupplier);
+                    return new ComparisonExpr(operator, mv.getMember(), mv.getValue());
+                }
+                default:
+                    throw exceptionSupplier.get();
             }
 
         }
@@ -461,12 +452,12 @@ public class ODataFesParser
                     () -> new ExpressionVisitException(String.format("Operator is not supported: %s %s", op,
                                                                      operand));
             switch (op) {
-            case NOT:
-                return new BooleanUnaryExpr(UnaryLogicOperator.Not,
-                                            operand.asBoolean().orElseThrow(exceptionSupplier));
-            case MINUS:
-            default:
-                throw exceptionSupplier.get();
+                case NOT:
+                    return new BooleanUnaryExpr(UnaryLogicOperator.Not,
+                                                operand.asBoolean().orElseThrow(exceptionSupplier));
+                case MINUS:
+                default:
+                    throw exceptionSupplier.get();
 
             }
         }
@@ -509,7 +500,6 @@ public class ODataFesParser
         }
     }
 
-
     /**
      * Class to create a {@code Filter} from an {@code Expr}.
      */
@@ -539,36 +529,36 @@ public class ODataFesParser
         @Override
         public Filter<?> visitMethodCall(MethodCallExpr expr) throws DecodingException {
             switch (expr.getName()) {
-            case METHOD_CONTAINS: {
-                MemberValueExprPair mv = getMemberValuePair(expr.getParameters()).orElseThrow(this::unsupported);
-                String referenceValue = mv.getMember().getValue();
-                String value = WILDCARD + mv.getValue().getValue() + WILDCARD;
-                return new ComparisonFilter(ComparisonOperator.PropertyIsLike, referenceValue, value);
-            }
-            case METHOD_STARTS_WITH: {
-                MemberValueExprPair mv = getMemberValuePair(expr.getParameters()).orElseThrow(this::unsupported);
-                String referenceValue = mv.getMember().getValue();
-                String value = mv.getValue().getValue() + WILDCARD;
-                return new ComparisonFilter(ComparisonOperator.PropertyIsLike, referenceValue, value);
-            }
-            case METHOD_ENDS_WITH: {
-                MemberValueExprPair mv = getMemberValuePair(expr.getParameters()).orElseThrow(this::unsupported);
-                String referenceValue = mv.getMember().getValue();
-                String value = WILDCARD + mv.getValue().getValue();
-                return new ComparisonFilter(ComparisonOperator.PropertyIsLike, referenceValue, value);
-
-            }
-            case METHOD_GEO_INTERSECTS: {
-                MemberValueExprPair mv = getMemberValuePair(expr.getParameters()).orElseThrow(this::unsupported);
-                String referenceValue = mv.getMember().getValue();
-                if (referenceValue.equals("om:featureOfInterest")) {
-                    referenceValue += "/*/sams:shape";
+                case METHOD_CONTAINS: {
+                    MemberValueExprPair mv = getMemberValuePair(expr.getParameters()).orElseThrow(this::unsupported);
+                    String referenceValue = mv.getMember().getValue();
+                    String value = WILDCARD + mv.getValue().getValue() + WILDCARD;
+                    return new ComparisonFilter(ComparisonOperator.PropertyIsLike, referenceValue, value);
                 }
-                Geometry geometry = parseGeometry(mv.getValue());
-                return new SpatialFilter(SpatialOperator.Intersects, geometry, referenceValue);
-            }
-            default:
-                throw new DecodingException("unsupported method '%s'", expr.getName());
+                case METHOD_STARTS_WITH: {
+                    MemberValueExprPair mv = getMemberValuePair(expr.getParameters()).orElseThrow(this::unsupported);
+                    String referenceValue = mv.getMember().getValue();
+                    String value = mv.getValue().getValue() + WILDCARD;
+                    return new ComparisonFilter(ComparisonOperator.PropertyIsLike, referenceValue, value);
+                }
+                case METHOD_ENDS_WITH: {
+                    MemberValueExprPair mv = getMemberValuePair(expr.getParameters()).orElseThrow(this::unsupported);
+                    String referenceValue = mv.getMember().getValue();
+                    String value = WILDCARD + mv.getValue().getValue();
+                    return new ComparisonFilter(ComparisonOperator.PropertyIsLike, referenceValue, value);
+
+                }
+                case METHOD_GEO_INTERSECTS: {
+                    MemberValueExprPair mv = getMemberValuePair(expr.getParameters()).orElseThrow(this::unsupported);
+                    String referenceValue = mv.getMember().getValue();
+                    if (referenceValue.equals("om:featureOfInterest")) {
+                        referenceValue += "/*/sams:shape";
+                    }
+                    Geometry geometry = parseGeometry(mv.getValue());
+                    return new SpatialFilter(SpatialOperator.Intersects, geometry, referenceValue);
+                }
+                default:
+                    throw new DecodingException("unsupported method '%s'", expr.getName());
             }
         }
 
@@ -585,7 +575,8 @@ public class ODataFesParser
          * @return the result of the visit
          * @throws DecodingException if the visit fails
          */
-        @Override public Filter<?> visitString(StringValueExpr expr) throws DecodingException {
+        @Override
+        public Filter<?> visitString(StringValueExpr expr) throws DecodingException {
             return null;
         }
 
@@ -596,7 +587,8 @@ public class ODataFesParser
          * @return the result of the visit
          * @throws DecodingException if the visit fails
          */
-        @Override public Filter<?> visitSimpleArithmetic(SimpleArithmeticExpr expr) throws DecodingException {
+        @Override
+        public Filter<?> visitSimpleArithmetic(SimpleArithmeticExpr expr) throws DecodingException {
             return null;
         }
 
@@ -607,7 +599,8 @@ public class ODataFesParser
          * @return the result of the visit
          * @throws DecodingException if the visit fails
          */
-        @Override public Filter<?> visitTime(TimeValueExpr expr) throws DecodingException {
+        @Override
+        public Filter<?> visitTime(TimeValueExpr expr) throws DecodingException {
             return null;
         }
 
@@ -618,7 +611,8 @@ public class ODataFesParser
          * @return the result of the visit
          * @throws DecodingException if the visit fails
          */
-        @Override public Filter<?> visitGeometry(GeoValueExpr expr) throws DecodingException {
+        @Override
+        public Filter<?> visitGeometry(GeoValueExpr expr) throws DecodingException {
             return null;
         }
 
@@ -629,7 +623,8 @@ public class ODataFesParser
          * @return the result of the visit
          * @throws DecodingException if the visit fails
          */
-        @Override public Filter<?> visitNumeric(NumericValueExpr expr) throws DecodingException {
+        @Override
+        public Filter<?> visitNumeric(NumericValueExpr expr) throws DecodingException {
             return null;
         }
 
@@ -639,8 +634,7 @@ public class ODataFesParser
         }
 
         /**
-         * Creates an {@code DecodingException} indicating that the supplied
-         * expression is not supported.
+         * Creates an {@code DecodingException} indicating that the supplied expression is not supported.
          *
          * @return the exception
          */
@@ -648,7 +642,6 @@ public class ODataFesParser
             return new DecodingException("unsupported expression");
         }
     }
-
 
     /**
      * Abstract transforming visitor that is able to modify expression.
@@ -709,7 +702,8 @@ public class ODataFesParser
          * @return the result of the visit
          * @throws T if the visit fails
          */
-        @Override public Expr visitString(StringValueExpr expr) throws T {
+        @Override
+        public Expr visitString(StringValueExpr expr) throws T {
             String value = expr.getValue();
             return new StringValueExpr(value);
         }
@@ -721,7 +715,8 @@ public class ODataFesParser
          * @return the result of the visit
          * @throws T if the visit fails
          */
-        @Override public Expr visitSimpleArithmetic(SimpleArithmeticExpr expr) throws T {
+        @Override
+        public Expr visitSimpleArithmetic(SimpleArithmeticExpr expr) throws T {
             return null;
         }
 
@@ -732,7 +727,8 @@ public class ODataFesParser
          * @return the result of the visit
          * @throws T if the visit fails
          */
-        @Override public Expr visitTime(TimeValueExpr expr) throws T {
+        @Override
+        public Expr visitTime(TimeValueExpr expr) throws T {
             return null;
         }
 
@@ -743,7 +739,8 @@ public class ODataFesParser
          * @return the result of the visit
          * @throws T if the visit fails
          */
-        @Override public Expr visitGeometry(GeoValueExpr expr) throws T {
+        @Override
+        public Expr visitGeometry(GeoValueExpr expr) throws T {
             return null;
         }
 
@@ -754,11 +751,11 @@ public class ODataFesParser
          * @return the result of the visit
          * @throws T if the visit fails
          */
-        @Override public Expr visitNumeric(NumericValueExpr expr) throws T {
+        @Override
+        public Expr visitNumeric(NumericValueExpr expr) throws T {
             return null;
         }
     }
-
 
     /**
      * Transformer for expression that modifies the member referneces.

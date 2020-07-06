@@ -16,14 +16,14 @@
  */
 package org.n52.shetland.ogc.ows;
 
+import com.google.common.base.Strings;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import org.n52.shetland.util.CollectionHelper;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.SortedSet;
-
-import org.n52.shetland.util.CollectionHelper;
-
-import com.google.common.base.Strings;
 
 /**
  * TODO JavaDoc
@@ -37,6 +37,7 @@ public class OwsOperation implements Comparable<OwsOperation> {
     private SortedSet<OwsMetadata> metadata;
     private SortedSet<OwsDCP> dcp;
 
+    @SuppressFBWarnings("NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
     public OwsOperation(String name,
                         Collection<OwsDomain> parameters,
                         Collection<OwsDomain> constraints,
@@ -53,6 +54,7 @@ public class OwsOperation implements Comparable<OwsOperation> {
         return this.name;
     }
 
+    @SuppressFBWarnings("NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
     public void setName(String name) {
         this.name = Objects.requireNonNull(Strings.emptyToNull(name));
     }
@@ -145,10 +147,7 @@ public class OwsOperation implements Comparable<OwsOperation> {
         if (!Objects.equals(this.metadata, other.metadata)) {
             return false;
         }
-        if (!Objects.equals(this.dcp, other.dcp)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.dcp, other.dcp);
     }
 
     @Override
