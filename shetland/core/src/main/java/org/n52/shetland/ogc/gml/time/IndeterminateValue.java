@@ -16,6 +16,9 @@
  */
 package org.n52.shetland.ogc.gml.time;
 
+import com.google.common.base.Strings;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
@@ -23,10 +26,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 
-import com.google.common.base.Strings;
-
 /**
- *
  * @author Christian Autermann
  */
 public class IndeterminateValue implements Serializable {
@@ -40,6 +40,7 @@ public class IndeterminateValue implements Serializable {
     private final String value;
     private final TreeSet<String> alias;
 
+    @SuppressFBWarnings("NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
     public IndeterminateValue(String value, String... alias) {
         this.value = Objects.requireNonNull(Strings.emptyToNull(value));
         this.alias = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);

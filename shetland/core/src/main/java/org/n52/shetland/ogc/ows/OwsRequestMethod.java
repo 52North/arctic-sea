@@ -16,19 +16,19 @@
  */
 package org.n52.shetland.ogc.ows;
 
+import com.google.common.base.Strings;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import org.n52.janmayen.Optionals;
+import org.n52.shetland.util.CollectionHelper;
+import org.n52.shetland.w3c.xlink.Actuate;
+import org.n52.shetland.w3c.xlink.Show;
+
 import java.net.URI;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Objects;
 import java.util.SortedSet;
-
-import org.n52.janmayen.Optionals;
-import org.n52.shetland.util.CollectionHelper;
-import org.n52.shetland.w3c.xlink.Actuate;
-import org.n52.shetland.w3c.xlink.Show;
-
-import com.google.common.base.Strings;
 
 /**
  * TODO JavaDoc
@@ -38,18 +38,17 @@ import com.google.common.base.Strings;
 public class OwsRequestMethod extends OwsOnlineResource implements Comparable<OwsRequestMethod> {
     private static final Comparator<OwsRequestMethod> COMPARATOR
             = Comparator.nullsLast(Comparator.comparing(OwsRequestMethod::getHttpMethod)
-                    .thenComparing(OwsRequestMethod::getHref, Optionals.nullsLast())
-                    .thenComparing(OwsRequestMethod::getTitle, Optionals.nullsLast()));
+                                             .thenComparing(OwsRequestMethod::getHref, Optionals.nullsLast())
+                                             .thenComparing(OwsRequestMethod::getTitle, Optionals.nullsLast()));
 
     private final SortedSet<OwsDomain> constraints;
     private final String httpMethod;
 
     public OwsRequestMethod(URI href, String httpMethod, Collection<OwsDomain> constraints) {
-        super(href);
-        this.httpMethod = Objects.requireNonNull(Strings.emptyToNull(httpMethod));
-        this.constraints = CollectionHelper.newSortedSet(constraints);
+        this(href, constraints, httpMethod, null, null, null, null, null);
     }
 
+    @SuppressFBWarnings("NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
     public OwsRequestMethod(URI href, Collection<OwsDomain> constraints, String httpMethod,
                             URI role, URI arcrole, String title, Show show, Actuate actuate) {
         super(href, role, arcrole, title, show, actuate);

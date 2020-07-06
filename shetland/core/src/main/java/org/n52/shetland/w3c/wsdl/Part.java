@@ -16,16 +16,16 @@
  */
 package org.n52.shetland.w3c.wsdl;
 
-import javax.xml.namespace.QName;
-
 import org.n52.shetland.w3c.wsdl.WSDLConstants.WSDLQNames;
+
+import javax.xml.namespace.QName;
 
 public class Part extends AbstractWsdl {
 
     private QName element;
 
     public Part(String name) {
-       super(name);
+        super(name);
     }
 
     @Override

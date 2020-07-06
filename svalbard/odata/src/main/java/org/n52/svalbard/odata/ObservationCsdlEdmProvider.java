@@ -37,8 +37,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * {@code CsdlEdmProvider} for O&amp;M Observations.
- * This provider establishes the following properties:
+ * {@code CsdlEdmProvider} for O&amp;M Observations. This provider establishes the following properties:
  * <table>
  * <thead>
  * <tr><th>Name</th><th>Type</th><th>Value reference</th></tr>
@@ -117,53 +116,53 @@ public class ObservationCsdlEdmProvider extends CsdlAbstractEdmProvider {
             return null;
         }
         switch (property) {
-        case Prop.VALUE:
-        case Prop.VALUES:
-        case Prop.COUNT_VALUE:
-        case Prop.COUNT_VALUES:
-        case Prop.NUMERIC_VALUE:
-        case Prop.NUMERIC_VALUES:
-        case Prop.TEXT_VALUE:
-        case Prop.TEXT_VALUES:
-        case Prop.QUANTITY:
-        case Prop.QUANTITIES:
-        case Prop.RESULT:
-            return ValueReference.RESULT;
+            case Prop.VALUE:
+            case Prop.VALUES:
+            case Prop.COUNT_VALUE:
+            case Prop.COUNT_VALUES:
+            case Prop.NUMERIC_VALUE:
+            case Prop.NUMERIC_VALUES:
+            case Prop.TEXT_VALUE:
+            case Prop.TEXT_VALUES:
+            case Prop.QUANTITY:
+            case Prop.QUANTITIES:
+            case Prop.RESULT:
+                return ValueReference.RESULT;
 
-        case Prop.SAMPLING_GEOMETRY:
-            return ValueReference.SAMPLING_GEOMETRY;
+            case Prop.SAMPLING_GEOMETRY:
+                return ValueReference.SAMPLING_GEOMETRY;
 
-        case Prop.PHENOMENON_TIME:
-            return ValueReference.PHENOMENON_TIME;
+            case Prop.PHENOMENON_TIME:
+                return ValueReference.PHENOMENON_TIME;
 
-        case Prop.RESULT_TIME:
-            return ValueReference.RESULT_TIME;
+            case Prop.RESULT_TIME:
+                return ValueReference.RESULT_TIME;
 
-        case Prop.VALID_TIME:
-            return ValueReference.VALID_TIME;
+            case Prop.VALID_TIME:
+                return ValueReference.VALID_TIME;
 
-        case Prop.OBSERVED_PROPERTY:
-            return ValueReference.OBSERVED_PROPERTY;
+            case Prop.OBSERVED_PROPERTY:
+                return ValueReference.OBSERVED_PROPERTY;
 
-        case Prop.PROCEDURE:
-            return ValueReference.PROCEDURE;
+            case Prop.PROCEDURE:
+                return ValueReference.PROCEDURE;
 
-        case Prop.FEATURE_OF_INTEREST_ID:
-        case Prop.FEATURE_OF_INTEREST:
-            return ValueReference.FEATURE_OF_INTEREST;
-        case Prop.FEATURE:
-        case Prop.FEATURE_OF_INTEREST_SHAPE:
-            return ValueReference.FEATURE_OF_INTEREST_SHAPE;
+            case Prop.FEATURE_OF_INTEREST_ID:
+            case Prop.FEATURE_OF_INTEREST:
+                return ValueReference.FEATURE_OF_INTEREST;
+            case Prop.FEATURE:
+            case Prop.FEATURE_OF_INTEREST_SHAPE:
+                return ValueReference.FEATURE_OF_INTEREST_SHAPE;
 
-        case Prop.OFFERING:
-            return ValueReference.OFFERING;
+            case Prop.OFFERING:
+                return ValueReference.OFFERING;
 
-        case Prop.ID:
-        case Prop.IDENTIFIER:
-            return ValueReference.IDENTIFIER;
+            case Prop.ID:
+            case Prop.IDENTIFIER:
+                return ValueReference.IDENTIFIER;
 
-        default:
-            return property;
+            default:
+                return property;
         }
     }
 
@@ -171,32 +170,32 @@ public class ObservationCsdlEdmProvider extends CsdlAbstractEdmProvider {
     public CsdlEntityType getEntityType(FullQualifiedName name) throws ODataException {
         if (name.equals(FQN.OBSERVATION)) {
             return new CsdlEntityType()
-                    .setName(FQN.OBSERVATION.getName())
-                    .setKey(Collections.singletonList(newPropertyRef(Prop.IDENTIFIER)))
-                    .setOpenType(true)
-                    .setProperties(Arrays.asList(
-                            newProperty(Prop.IDENTIFIER, FQN.STRING),
-                            newProperty(Prop.ID, FQN.STRING),
-                            newProperty(Prop.VALUE, FQN.STRING),
-                            newProperty(Prop.VALUES, FQN.STRING),
-                            newProperty(Prop.COUNT_VALUE, FQN.COUNT),
-                            newProperty(Prop.COUNT_VALUES, FQN.COUNT),
-                            newProperty(Prop.NUMERIC_VALUE, FQN.QUANTITY),
-                            newProperty(Prop.NUMERIC_VALUES, FQN.QUANTITY),
-                            newProperty(Prop.QUANTITY, FQN.QUANTITY),
-                            newProperty(Prop.QUANTITIES, FQN.QUANTITY),
-                            newProperty(Prop.TEXT_VALUE, FQN.STRING),
-                            newProperty(Prop.TEXT_VALUES, FQN.STRING),
-                            newProperty(Prop.RESULT, FQN.STRING),
-                            newProperty(Prop.PHENOMENON_TIME, FQN.ABSTRACT_TIME_OBJECT),
-                            newProperty(Prop.RESULT_TIME, FQN.ABSTRACT_TIME_OBJECT),
-                            newProperty(Prop.VALID_TIME, FQN.TIME_PERIOD),
-                            newProperty(Prop.OBSERVED_PROPERTY, FQN.STRING),
-                            newProperty(Prop.PROCEDURE, FQN.STRING),
-                            newProperty(Prop.FEATURE, FQN.FEATURE_OF_INTEREST),
-                            newProperty(Prop.FEATURE_OF_INTEREST, FQN.FEATURE_OF_INTEREST),
-                            newProperty(Prop.SAMPLING_GEOMETRY, FQN.GEOMETRY_POINT),
-                            newProperty(Prop.OFFERING, FQN.STRING)));
+                           .setName(FQN.OBSERVATION.getName())
+                           .setKey(Collections.singletonList(newPropertyRef(Prop.IDENTIFIER)))
+                           .setOpenType(true)
+                           .setProperties(Arrays.asList(
+                                   newProperty(Prop.IDENTIFIER, FQN.STRING),
+                                   newProperty(Prop.ID, FQN.STRING),
+                                   newProperty(Prop.VALUE, FQN.STRING),
+                                   newProperty(Prop.VALUES, FQN.STRING),
+                                   newProperty(Prop.COUNT_VALUE, FQN.COUNT),
+                                   newProperty(Prop.COUNT_VALUES, FQN.COUNT),
+                                   newProperty(Prop.NUMERIC_VALUE, FQN.QUANTITY),
+                                   newProperty(Prop.NUMERIC_VALUES, FQN.QUANTITY),
+                                   newProperty(Prop.QUANTITY, FQN.QUANTITY),
+                                   newProperty(Prop.QUANTITIES, FQN.QUANTITY),
+                                   newProperty(Prop.TEXT_VALUE, FQN.STRING),
+                                   newProperty(Prop.TEXT_VALUES, FQN.STRING),
+                                   newProperty(Prop.RESULT, FQN.STRING),
+                                   newProperty(Prop.PHENOMENON_TIME, FQN.ABSTRACT_TIME_OBJECT),
+                                   newProperty(Prop.RESULT_TIME, FQN.ABSTRACT_TIME_OBJECT),
+                                   newProperty(Prop.VALID_TIME, FQN.TIME_PERIOD),
+                                   newProperty(Prop.OBSERVED_PROPERTY, FQN.STRING),
+                                   newProperty(Prop.PROCEDURE, FQN.STRING),
+                                   newProperty(Prop.FEATURE, FQN.FEATURE_OF_INTEREST),
+                                   newProperty(Prop.FEATURE_OF_INTEREST, FQN.FEATURE_OF_INTEREST),
+                                   newProperty(Prop.SAMPLING_GEOMETRY, FQN.GEOMETRY_POINT),
+                                   newProperty(Prop.OFFERING, FQN.STRING)));
         }
         return super.getEntityType(name);
     }
@@ -290,7 +289,6 @@ public class ObservationCsdlEdmProvider extends CsdlAbstractEdmProvider {
         FullQualifiedName GEOMETRY_POINT = EdmPrimitiveTypeKind.GeometryPoint.getFullQualifiedName();
     }
 
-
     /**
      * Property constants.
      */
@@ -331,7 +329,6 @@ public class ObservationCsdlEdmProvider extends CsdlAbstractEdmProvider {
         String FEATURE_OF_INTEREST_SHAPE = "featureOfInterest/shape";
 
     }
-
 
     /**
      * Value reference constants.
