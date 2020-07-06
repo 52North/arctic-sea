@@ -17,9 +17,11 @@
 package org.n52.shetland.ogc.sos;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
+import org.n52.janmayen.http.MediaType;
 
 public class ObjectWithXmlTest {
 
@@ -109,6 +111,23 @@ public class ObjectWithXmlTest {
         ObjectWithXmlString<Integer> other = createTestObject(Integer.valueOf(1), "xml2");
         assertFalse(one.equals(other));
         assertFalse(other.equals(one));
+    }
+
+    @Test
+    public void set_clear_xml() {
+        ObjectWithXmlString<Integer> o = createTestObject(Integer.valueOf(1), "xml");
+        o.clearXml();
+        assertTrue(o.get().isPresent());
+        assertFalse(o.getXml().isPresent());
+    }
+
+    @Test
+    public void set_clear_xml_null_object() {
+        ObjectWithXmlString<Integer> o = createTestObject(null, "xml");
+        assertThrows(NullPointerException.class, () -> {
+            o.clearXml();
+        });
+
     }
 
     private TestObject createTestObject(Integer object, String xml) {
