@@ -734,11 +734,9 @@ public class GmlEncoderv321
 
                 xbLrt = LinearRingType.Factory.newInstance();
 
-                ring = pol.getInteriorRingN(ringNumber);
-
                 xbPosList = xbLrt.addNewPosList();
                 xbPosList.setSrsName(srsName);
-                xbPosList.setStringValue(JTSHelper.getCoordinatesString(ring));
+                xbPosList.setStringValue(JTSHelper.getCoordinatesString(pol.getInteriorRingN(ringNumber)));
                 xbArt.set(xbLrt);
 
                 // Rename element name for output

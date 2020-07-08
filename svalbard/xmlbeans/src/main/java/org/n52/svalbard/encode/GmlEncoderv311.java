@@ -395,11 +395,9 @@ public class GmlEncoderv311
 
                 xbLrt = LinearRingType.Factory.newInstance(getXmlOptions());
 
-                ring = pol.getInteriorRingN(ringNumber);
-
                 xbPosList = xbLrt.addNewPosList();
                 xbPosList.setSrsName(getSrsName(jtsPolygon));
-                xbPosList.setStringValue(JTSHelper.getCoordinatesString(ring));
+                xbPosList.setStringValue(JTSHelper.getCoordinatesString(pol.getInteriorRingN(ringNumber)));
                 xbArt.set(xbLrt);
 
                 // Rename element name for output
