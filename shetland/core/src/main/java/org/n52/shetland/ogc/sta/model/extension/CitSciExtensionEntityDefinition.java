@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.shetland.ogc.sta.model.extension;
 
 import org.n52.shetland.ogc.sta.model.STAEntityDefinition;
@@ -29,7 +30,11 @@ public class CitSciExtensionEntityDefinition extends STAEntityDefinition {
     public static String[] ALLCOLLECTIONS = new String[] {
             CSOBSERVATIONS,
             OBSERVATION_GROUPS,
-            OBSERVATION_RELATIONS
+            OBSERVATION_RELATIONS,
+            PARTIES,
+            PROJECTS,
+            CSDATASTREAMS,
+            LICENSES,
     };
 
     protected CitSciExtensionEntityDefinition(Set<String> navPropOptional,
@@ -56,6 +61,22 @@ public class CitSciExtensionEntityDefinition extends STAEntityDefinition {
         CSObservationEntityDefinition csoED = new CSObservationEntityDefinition();
         coreMap.put(CSOBSERVATION, csoED);
         coreMap.put(CSOBSERVATIONS, csoED);
+
+        ProjectEntityDefinition proED = new ProjectEntityDefinition();
+        coreMap.put(PROJECT, proED);
+        coreMap.put(PROJECTS, proED);
+
+        PartyEntityDefinition parED = new PartyEntityDefinition();
+        coreMap.put(PARTY, parED);
+        coreMap.put(PARTIES, parED);
+
+        LicenseEntityDefinition lED = new LicenseEntityDefinition();
+        coreMap.put(LICENSE, lED);
+        coreMap.put(LICENSES, lED);
+
+        CSDatastreamEntityDefinition csdED = new CSDatastreamEntityDefinition();
+        coreMap.put(CSDATASTREAM, csdED);
+        coreMap.put(CSDATASTREAMS, csdED);
 
         return coreMap;
     }

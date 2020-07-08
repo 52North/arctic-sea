@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.n52.shetland.ogc.sta.model.extension;
 
 import org.n52.shetland.ogc.sta.model.STAEntityDefinition;
@@ -27,32 +26,37 @@ import java.util.Set;
 /**
  * @author <a href="mailto:j.speckamp@52north.org">Jan Speckamp</a>
  */
-public class CSObservationEntityDefinition extends STAEntityDefinition {
+public class CSDatastreamEntityDefinition extends STAEntityDefinition {
 
-    public static final String ENTITY_NAME = CSOBSERVATION;
+    public static final String ENTITY_NAME = CSDATASTREAM;
 
-    public static final String ENTITY_SET_NAME = CSOBSERVATIONS;
+    public static final String ENTITY_SET_NAME = CSDATASTREAMS;
 
     private static final String[] NAV_PROPS_MANDATORY = new String[] {
-            CSDATASTREAM,
-            FEATURE_OF_INTEREST
+            SENSOR,
+            THING,
+            OBSERVED_PROPERTY,
+            LICENSE,
+            PROJECT,
+            PARTY
     };
 
     private static final String[] NAV_PROPS_OPTIONAL = new String[] {
-            OBSERVATION_RELATIONS
+            CSOBSERVATIONS
     };
 
     private static final String[] ENTITY_PROPS_MANDATORY = new String[] {
             PROP_ID,
-            PROP_PHENOMENON_TIME,
-            PROP_RESULT,
-            PROP_RESULT_TIME,
+            PROP_NAME,
+            PROP_DESCRIPTION,
+            PROP_OBSERVATION_TYPE,
+            PROP_UOM,
     };
 
     private static final String[] ENTITY_PROPS_OPTIONAL = new String[] {
-            PROP_RESULT_QUALITY,
-            PROP_VALID_TIME,
-            PROP_PARAMETERS
+            PROP_OBSERVED_AREA,
+            PROP_PHENOMENON_TIME,
+            PROP_RESULT_TIME
     };
 
     public static final Set<String> NAVIGATION_PROPERTIES_OPTIONAL =
@@ -75,7 +79,7 @@ public class CSObservationEntityDefinition extends STAEntityDefinition {
             Collections.unmodifiableSet(STAEntityDefinition.combineSets(ENTITY_PROPERTIES_OPTIONAL,
                                                                         ENTITY_PROPERTIES_MANDATORY));
 
-    public CSObservationEntityDefinition() {
+    public CSDatastreamEntityDefinition() {
         super(NAVIGATION_PROPERTIES_OPTIONAL,
               NAVIGATION_PROPERTIES_MANDATORY,
               ENTITY_PROPERTIES_OPTIONAL,

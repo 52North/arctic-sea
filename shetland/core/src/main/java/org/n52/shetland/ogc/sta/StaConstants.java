@@ -14,10 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.shetland.ogc.sta;
 
 public interface StaConstants {
 
+    /**
+     * Core Entities + Collections
+     */
     String THING = "Thing";
 
     String THINGS = "Things";
@@ -50,6 +54,10 @@ public interface StaConstants {
 
     String FEATURES_OF_INTEREST = "FeaturesOfInterest";
 
+    /**
+     * CitSci Extension Entities + Collections
+     */
+
     String OBSERVATION_GROUP = "ObservationGroup";
 
     String OBSERVATION_GROUPS = "ObservationGroups";
@@ -62,6 +70,22 @@ public interface StaConstants {
 
     String CSOBSERVATIONS = "CSObservations";
 
+    String CSDATASTREAM = "CSDatastream";
+
+    String CSDATASTREAMS = "CSDatastreams";
+
+    String PARTY = "Party";
+
+    String PARTIES = "Parties";
+
+    String LICENSE = "License";
+
+    String LICENSES = "Licenses";
+
+    String PROJECT = "Project";
+
+    String PROJECTS = "Projects";
+
     String AT = "@";
 
     String IOT_ID = "iot.id";
@@ -72,7 +96,9 @@ public interface StaConstants {
 
     String AT_IOT_SELFLINK = AT + IOT_SELFLINK;
 
-    // Entity Property Names
+    /**
+     * Properties
+     */
     String PROP_ID = "id";
     String PROP_SELF_LINK = "selfLink";
     String PROP_DEFINITION = "definition";
@@ -95,5 +121,11 @@ public interface StaConstants {
     String PROP_METADATA = "metadata";
     String PROP_SYMBOL = "symbol";
     String PROP_TYPE = "type";
+    String PROP_NICKNAME = "nickname";
+    String PROP_ROLE = "role";
+    String PROP_RUNTIME = "runtime";
+    String PROP_URL = "url";
+    String PROP_LOGO = "logo";
+    String PROP_CREATED = "created";
 
 }
