@@ -16,6 +16,8 @@
  */
 package org.n52.shetland.util;
 
+import java.util.Arrays;
+
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.CoordinateFilter;
 import org.locationtech.jts.geom.CoordinateSequence;
@@ -95,8 +97,11 @@ public class JTSHelper {
      * @return Coordinates as String
      */
     public static String getCoordinatesString(Geometry geom) {
+        return getCoordinatesString(geom.getCoordinates());
+    }
+
+    public static String getCoordinatesString(Coordinate[] sourceCoords) {
         StringBuilder builder = new StringBuilder();
-        Coordinate[] sourceCoords = geom.getCoordinates();
         if (sourceCoords.length > 0) {
             getCoordinateString(builder, sourceCoords[0]);
             for (int i = 1; i < sourceCoords.length; ++i) {
@@ -225,6 +230,26 @@ public class JTSHelper {
         return geometry != null && !geometry.isEmpty();
     }
 
+    /**
+     * Fix for Binary-Incompatible-Change in JTS 1.17.0 Polygon getExteriorRing() which
+     * returns LinearRing instead of a LineString. This changes occurs
+     * errors in the SOS with Hinernate/Geolatte until the 3rd party
+     * libraries have not updated to JTS 1.17.0.
+     *
+     * @param geometry
+     *            polygon to get exterior ring from
+     * @return the coordinates
+     */
+    public static Coordinate[] getExteriorRingCoordinatesFromPolygon(Polygon polygon) {
+        int interiorNumPoints = 0;
+        for (int i = 0; i < polygon.getNumInteriorRing(); i++) {
+            interiorNumPoints += polygon.getInteriorRingN(i)
+                    .getNumPoints();
+        }
+        return interiorNumPoints == 0 ? polygon.getCoordinates()
+                : Arrays.copyOfRange(polygon.getCoordinates(), 0, polygon.getCoordinates().length - interiorNumPoints);
+    }
+
     private static class SwitchCoordinateGeometryFactory extends GeometryFactory {
 
         private static final long serialVersionUID = -4397568293678841518L;
@@ -245,7 +270,7 @@ public class JTSHelper {
                 for (int i = 0; i < ((Polygon) geometry).getNumInteriorRing(); i++) {
                     linearRings[i] = (LinearRing) convertSequence(((Polygon) geometry).getInteriorRingN(i));
                 }
-                return createPolygon((LinearRing) convertSequence(((Polygon) geometry).getExteriorRing()),
+                return createPolygon((LinearRing) convertSequence(getExteriorRingFromPolygon((Polygon) geometry)),
                         linearRings);
             } else if (geometry instanceof MultiPoint) {
                 return createMultiPointFromCoords(((MultiPoint) geometry).getCoordinates());
@@ -269,6 +294,21 @@ public class JTSHelper {
                 return createGeometryCollection(geometries);
             }
             return geometry;
+        }
+
+
+        /**
+         * Fix for Binary-Incompatible-Change in JTS 1.17.0 Polygon getExteriorRing() which
+         * returns LinearRing instead of a LineString. This changes occurs
+         * errors in the SOS with Hinernate/Geolatte until the 3rd party
+         * libraries have not updated to JTS 1.17.0.
+         *
+         * @param geometry
+         *            polygon to get exterior ring from
+         * @return the linear ring
+         */
+        private LinearRing getExteriorRingFromPolygon(Polygon polygon) {
+            return createLinearRing(getExteriorRingCoordinatesFromPolygon(polygon));
         }
 
         @Override

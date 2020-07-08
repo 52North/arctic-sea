@@ -28,6 +28,7 @@ import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.isotc211.x2005.gmd.EXExtentType;
+import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.LineString;
 import org.locationtech.jts.geom.MultiLineString;
@@ -712,7 +713,8 @@ public class GmlEncoderv321
             LinearRingType xbLrt = LinearRingType.Factory.newInstance();
 
             // Exterior ring
-            LineString ring = pol.getExteriorRing();
+//            LineString ring = pol.getExteriorRing();
+            Coordinate[] ring = JTSHelper.getExteriorRingCoordinatesFromPolygon(pol);
             DirectPositionListType xbPosList = xbLrt.addNewPosList();
 
             xbPosList.setSrsName(srsName);
