@@ -186,7 +186,7 @@ public abstract class AbstractSoapEncoder<T, S> extends AbstractXmlEncoder<T, S>
     /**
      * Get the content for the SOAPBody as {@link XmlObject}
      *
-     * @param response
+     * @param request
      *            SOAP response
      *
      * @return SOAPBody content as {@link XmlObject}
