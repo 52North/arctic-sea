@@ -632,7 +632,8 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
             coordinateString.append(directPositionType.getStringValue());
             coordinateString.append(", ");
         }
-        if (polygon) {
+        if (polygon && !xbPosArray[0].getStringValue()
+                .equalsIgnoreCase(xbPosArray[xbPosArray.length - 1].getStringValue())) {
             coordinateString.append(xbPosArray[0].getStringValue());
         } else {
             coordinateString.delete(coordinateString.length() - 2, coordinateString.length());

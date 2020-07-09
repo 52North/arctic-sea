@@ -29,6 +29,7 @@ import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlRuntimeException;
 import org.apache.xmlbeans.impl.values.XmlValueDisconnectedException;
+import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.LineString;
 import org.locationtech.jts.geom.Point;
@@ -372,7 +373,8 @@ public class GmlEncoderv311
             LinearRingType xbLrt = LinearRingType.Factory.newInstance(getXmlOptions());
 
             // Exterior ring
-            LineString ring = pol.getExteriorRing();
+//            LineString ring = pol.getExteriorRing();
+            Coordinate[] ring = JTSHelper.getExteriorRingCoordinatesFromPolygon(pol);
             String coords = JTSHelper.getCoordinatesString(ring);
             DirectPositionListType xbPosList = xbLrt.addNewPosList();
             xbPosList.setSrsName(getSrsName(jtsPolygon));
@@ -395,11 +397,9 @@ public class GmlEncoderv311
 
                 xbLrt = LinearRingType.Factory.newInstance(getXmlOptions());
 
-                ring = pol.getInteriorRingN(ringNumber);
-
                 xbPosList = xbLrt.addNewPosList();
                 xbPosList.setSrsName(getSrsName(jtsPolygon));
-                xbPosList.setStringValue(JTSHelper.getCoordinatesString(ring));
+                xbPosList.setStringValue(JTSHelper.getCoordinatesString(pol.getInteriorRingN(ringNumber)));
                 xbArt.set(xbLrt);
 
                 // Rename element name for output

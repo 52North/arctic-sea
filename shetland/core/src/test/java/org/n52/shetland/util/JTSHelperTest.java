@@ -92,6 +92,65 @@ public class JTSHelperTest extends JTSHelper {
     }
 
     @Test
+    public void testSizeOfConvertedPolygonNoHoles() throws ParseException {
+        final GeometryFactory factory = getGeometryFactoryForSRID(4326);
+        Polygon polygon = factory.createPolygon(
+                factory.createLinearRing(randomCoordinateRing(10)));
+        Polygon switched = switchCoordinateAxisOrder(polygon);
+        assertEquals(polygon.getNumPoints(), switched.getNumPoints());
+        assertEquals(polygon.getNumInteriorRing(), switched.getNumInteriorRing());
+        assertEquals(0, switched.getNumInteriorRing());
+        assertEquals(polygon.getExteriorRing().getNumPoints(), switched.getExteriorRing().getNumPoints());
+        assertEquals(polygon.getExteriorRing(), switchCoordinateAxisOrder(switched.getExteriorRing()));
+    }
+
+    @Test
+    public void testSizeOfConvertedPolygonOneHole() throws ParseException {
+        final GeometryFactory factory = getGeometryFactoryForSRID(4326);
+        Polygon polygon = factory.createPolygon(
+                factory.createLinearRing(randomCoordinateRing(10)),
+                new LinearRing[]{factory.createLinearRing(randomCoordinateRing(10))});
+        Polygon switched = switchCoordinateAxisOrder(polygon);
+        assertEquals(polygon.getNumPoints(), switched.getNumPoints());
+        assertEquals(polygon.getNumInteriorRing(), switched.getNumInteriorRing());
+        assertEquals(polygon.getExteriorRing().getNumPoints(), switched.getExteriorRing().getNumPoints());
+        assertEquals(polygon.getExteriorRing(), switchCoordinateAxisOrder(switched.getExteriorRing()));
+        assertEquals(polygon.getInteriorRingN(0).getNumPoints(), switched.getInteriorRingN(0).getNumPoints());
+        assertEquals(polygon.getInteriorRingN(0), switchCoordinateAxisOrder(switched.getInteriorRingN(0)));
+    }
+
+    @Test
+    public void testSizeOfConvertedPolygonMultiHoles() throws ParseException {
+        final GeometryFactory factory = getGeometryFactoryForSRID(4326);
+        Polygon polygon = factory.createPolygon(
+                factory.createLinearRing(randomCoordinateRing(10)),
+                new LinearRing[]{factory.createLinearRing(randomCoordinateRing(10)),
+                        factory.createLinearRing(randomCoordinateRing(41)),
+                        factory.createLinearRing(randomCoordinateRing(13))});
+        Polygon switched = switchCoordinateAxisOrder(polygon);
+        assertEquals(polygon.getNumPoints(), switched.getNumPoints());
+        assertEquals(polygon.getNumInteriorRing(), switched.getNumInteriorRing());
+        assertEquals(polygon.getExteriorRing().getNumPoints(), switched.getExteriorRing().getNumPoints());
+        assertEquals(polygon.getExteriorRing(), switchCoordinateAxisOrder(switched.getExteriorRing()));
+        assertEquals(3, switched.getNumInteriorRing());
+        for (int i = 0; i < polygon.getNumInteriorRing(); i++) {
+            assertEquals(polygon.getInteriorRingN(i).getNumPoints(), switched.getInteriorRingN(i).getNumPoints());
+            assertEquals(polygon.getInteriorRingN(i), switchCoordinateAxisOrder(switched.getInteriorRingN(i)));
+        }
+    }
+
+    @Test
+    public void shouldPolygonSwitchCoordinates() throws ParseException {
+        final GeometryFactory factory = getGeometryFactoryForSRID(4326);
+        Polygon polygon = factory.createPolygon(
+                factory.createLinearRing(randomCoordinateRing(10)),
+                new LinearRing[]{factory.createLinearRing(randomCoordinateRing(10)),
+                                 factory.createLinearRing(randomCoordinateRing(41)),
+                                 factory.createLinearRing(randomCoordinateRing(13))});
+        assertNotEquals(polygon, switchCoordinateAxisOrder(polygon));
+    }
+
+    @Test
     public void shouldPointWKTString() throws OwsExceptionReport, ParseException {
         String coordinates = "52.0 7.0";
         StringBuilder builder = new StringBuilder();
