@@ -236,7 +236,7 @@ public class JTSHelper {
      * errors in the SOS with Hinernate/Geolatte until the 3rd party
      * libraries have not updated to JTS 1.17.0.
      *
-     * @param geometry
+     * @param polygon
      *            polygon to get exterior ring from
      * @return the coordinates
      */
@@ -303,7 +303,7 @@ public class JTSHelper {
          * errors in the SOS with Hinernate/Geolatte until the 3rd party
          * libraries have not updated to JTS 1.17.0.
          *
-         * @param geometry
+         * @param polygon
          *            polygon to get exterior ring from
          * @return the linear ring
          */
