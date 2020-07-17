@@ -595,6 +595,10 @@ GEOLITERAL_OP
    : OP -> type (OP)
    ;
 
+GEOLITERAL_DOT
+   : DOT -> type (DOT)
+   ;
+
 GEOLITERAL_CP
    : CP -> type (CP)
    ;
