@@ -205,7 +205,6 @@ public class ODataFesParser
         GeometryFactory geometryFactory = new GeometryFactory(precisionModel, srid);
         WKTReader wktReader = new WKTReader(geometryFactory);
         try {
-
             return wktReader.read(value);
         } catch (ParseException ex) {
             throw invalidGeometry(val, ex);

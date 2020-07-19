@@ -57,6 +57,7 @@ public interface TestConstants {
             "$filter=st_disjoint(location, geography'POLYGON ((30 10, 10 20, 20 40, 40 40, 30 10))')",
             "$filter=st_touches(location, geography'LINESTRING (30 10, 10 30, 40 40)')",
             "$filter=st_within(location, geography'POLYGON ((30 10, 10 20, 20 40, 40 40, 30 10))')",
+            "$filter=st_within(location, geography'POLYGON ((30.0 10.0, 10.0 20.0, 20.0 40.0, 40.0 40.0, 30.0 10.0))')",
             "$filter=st_overlaps(location, geography'POLYGON ((30 10, 10 20, 20 40, 40 40, 30 10))')",
             "$filter=st_crosses(location, geography'LINESTRING (30 10, 10 30, 40 40)')",
             "$filter=st_intersects(location, geography'LINESTRING (30 10, 10 30, 40 40)')",
