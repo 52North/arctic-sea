@@ -293,7 +293,7 @@ FILTER_SP
    ;
 
 FILTER_SEMI
-   : SEMI -> type (SEMI) , popMode
+   : SEMI -> popMode, popMode, type (SEMI)
    ;
 
 FILTER_COMMA
