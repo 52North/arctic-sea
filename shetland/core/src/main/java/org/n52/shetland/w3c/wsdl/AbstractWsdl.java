@@ -18,10 +18,9 @@ package org.n52.shetland.w3c.wsdl;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.TreeSet;
 
 import javax.xml.namespace.QName;
 
@@ -35,7 +34,7 @@ public abstract class AbstractWsdl implements Comparable<AbstractWsdl> {
 
     private QName qName;
 
-    private List<ExtensibilityElement> extensibilityElements = new LinkedList<>();
+    private Collection<ExtensibilityElement> extensibilityElements = new TreeSet<>();
 
     public AbstractWsdl() {
         this(null, null);
@@ -131,7 +130,7 @@ public abstract class AbstractWsdl implements Comparable<AbstractWsdl> {
         return addExtensibilityElements(extensibilityElements);
     }
 
-    public List<ExtensibilityElement> getExtensibilityElements() {
+    public Collection<ExtensibilityElement> getExtensibilityElements() {
         return extensibilityElements;
     }
 

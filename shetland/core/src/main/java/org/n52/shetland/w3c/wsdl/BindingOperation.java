@@ -18,7 +18,7 @@ package org.n52.shetland.w3c.wsdl;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.LinkedList;
+import java.util.TreeSet;
 
 import javax.xml.namespace.QName;
 
@@ -28,7 +28,7 @@ public class BindingOperation extends AbstractWsdl {
 
     private BindingInput input;
     private BindingOutput output;
-    private final Collection<BindingFault> faults = new LinkedList<>();
+    private final Collection<BindingFault> faults = new TreeSet<>();
 
     public BindingOperation(String name) {
         super(name);
