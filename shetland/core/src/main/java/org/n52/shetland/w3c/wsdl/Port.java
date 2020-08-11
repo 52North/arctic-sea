@@ -22,19 +22,19 @@ import org.n52.shetland.w3c.wsdl.WSDLConstants.WSDLQNames;
 
 public class Port extends AbstractWsdl {
 
-    private Binding binding;
+    private QName binding;
 
     /**
      * @return the binding
      */
-    public Binding getBinding() {
+    public QName getBinding() {
         return binding;
     }
 
     /**
      * @param binding the binding to set
      */
-    public void setBinding(Binding binding) {
+    public void setBinding(QName binding) {
         this.binding = binding;
     }
 
