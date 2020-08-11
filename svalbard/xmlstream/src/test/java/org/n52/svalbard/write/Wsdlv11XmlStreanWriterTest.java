@@ -51,6 +51,7 @@ import org.n52.shetland.w3c.wsdl.PortType;
 import org.n52.shetland.w3c.wsdl.Schema;
 import org.n52.shetland.w3c.wsdl.Service;
 import org.n52.shetland.w3c.wsdl.Types;
+import org.n52.shetland.w3c.wsdl.WSDLConstants;
 import org.n52.shetland.w3c.wsdl.http.HttpAddress;
 import org.n52.shetland.w3c.wsdl.http.HttpBinding;
 import org.n52.shetland.w3c.wsdl.mime.MimeXml;
@@ -122,7 +123,7 @@ public class Wsdlv11XmlStreanWriterTest {
         definitions.addBinding(binding);
 
         Port port = new Port();
-        port.setBinding(binding);
+        port.setBinding(WSDLConstants.QN_SOSW_POX_BINDING);
         port.setName("SosKvpPort");
         port.addExtensibilityElement(new HttpAddress(URI.create("http://localhost:8080/52n-sos-webapp/service")));
 
