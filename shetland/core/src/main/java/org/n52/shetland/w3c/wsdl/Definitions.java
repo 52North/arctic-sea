@@ -18,9 +18,8 @@ package org.n52.shetland.w3c.wsdl;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 
 import javax.xml.namespace.QName;
 
@@ -28,12 +27,12 @@ public class Definitions extends AbstractDocumentedWsdl {
 
     private String targetNamespace;
     private Map<String, String> namespaces = new LinkedHashMap<>();
-    private List<Message> messages = new LinkedList<>();
-    private List<Service> services = new LinkedList<>();
-    private List<Import> imports = new LinkedList<>();
-    private List<PortType> portTypes = new LinkedList<>();
-    private List<Types> types = new LinkedList<>();
-    private List<Binding> bindings = new LinkedList<>();
+    private Collection<Message> messages = new TreeSet<>();
+    private Collection<Service> services = new TreeSet<>();
+    private Collection<Import> imports = new TreeSet<>();
+    private Collection<PortType> portTypes = new TreeSet<>();
+    private Collection<Types> types = new TreeSet<>();
+    private Collection<Binding> bindings = new TreeSet<>();
 
     @Override
     public QName getQName() {
@@ -103,7 +102,7 @@ public class Definitions extends AbstractDocumentedWsdl {
         return addMessages(messages);
     }
 
-    public List<Message> getMessages() {
+    public Collection<Message> getMessages() {
         return messages;
     }
 
@@ -132,7 +131,7 @@ public class Definitions extends AbstractDocumentedWsdl {
         return addServices(services);
     }
 
-    public List<Service> getServices() {
+    public Collection<Service> getServices() {
         return services;
     }
 
@@ -161,7 +160,7 @@ public class Definitions extends AbstractDocumentedWsdl {
         return addImports(imports);
     }
 
-    public List<Import> getImports() {
+    public Collection<Import> getImports() {
         return imports;
     }
 
@@ -190,7 +189,7 @@ public class Definitions extends AbstractDocumentedWsdl {
         return addPortTypes(portTypes);
     }
 
-    public List<PortType> getPortTypes() {
+    public Collection<PortType> getPortTypes() {
         return portTypes;
     }
 
@@ -219,7 +218,7 @@ public class Definitions extends AbstractDocumentedWsdl {
         return addTypes(types);
     }
 
-    public List<Types> getTypes() {
+    public Collection<Types> getTypes() {
         return types;
     }
 
@@ -248,7 +247,7 @@ public class Definitions extends AbstractDocumentedWsdl {
         return addBindings(bindings);
     }
 
-    public List<Binding> getBindings() {
+    public Collection<Binding> getBindings() {
         return bindings;
     }
 

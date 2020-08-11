@@ -17,8 +17,12 @@
 package org.n52.shetland.w3c.wsdl;
 
 import java.net.URI;
+import java.util.Objects;
 
 import javax.xml.namespace.QName;
+
+import org.n52.janmayen.Comparables;
+import org.n52.shetland.w3c.wsdl.http.HttpOperation;
 
 public abstract class AbstractAddress extends ExtensibilityElement {
 
@@ -31,5 +35,34 @@ public abstract class AbstractAddress extends ExtensibilityElement {
 
     public URI getLocation() {
         return location;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final AbstractAddress other = (AbstractAddress) obj;
+        return getLocation() != null && other.getLocation() != null && getLocation().equals(other.getLocation());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getLocation());
+    }
+
+    @Override
+    public int compareTo(ExtensibilityElement o) {
+        Objects.requireNonNull(o);
+        if (o instanceof HttpOperation) {
+            return Comparables.compare(getLocation(), ((AbstractAddress) o).getLocation());
+        }
+        return Comparables.compare(getQName().getNamespaceURI(), o.getQName().getNamespaceURI());
     }
 }

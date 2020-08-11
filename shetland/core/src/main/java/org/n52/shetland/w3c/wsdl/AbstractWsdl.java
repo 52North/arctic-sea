@@ -21,10 +21,13 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.xml.namespace.QName;
 
-public abstract class AbstractWsdl {
+import org.n52.janmayen.Comparables;
+
+public abstract class AbstractWsdl implements Comparable<AbstractWsdl> {
 
     private String name;
 
@@ -134,5 +137,31 @@ public abstract class AbstractWsdl {
 
     public boolean isSetExtensibilityElements() {
         return getExtensibilityElements() != null && !getExtensibilityElements().isEmpty();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final AbstractWsdl other = (AbstractWsdl) obj;
+        return getName() != null && other.getName() != null && getName().equals(other.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getName());
+    }
+
+    @Override
+    public int compareTo(AbstractWsdl o) {
+        Objects.requireNonNull(o);
+        return Comparables.compare(getName(), o.getName());
     }
 }

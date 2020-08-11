@@ -16,6 +16,10 @@
  */
 package org.n52.shetland.w3c.wsdl.http;
 
+import java.util.Objects;
+
+import org.n52.janmayen.Comparables;
+import org.n52.shetland.w3c.wsdl.AbstractAddress;
 import org.n52.shetland.w3c.wsdl.ExtensibilityElement;
 import org.n52.shetland.w3c.wsdl.WSDLConstants;
 
@@ -40,6 +44,35 @@ public class HttpBinding extends ExtensibilityElement {
      */
     public void setVerb(String verb) {
         this.verb = verb;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final HttpBinding other = (HttpBinding) obj;
+        return getVerb() != null && other.getVerb() != null && getVerb().equals(other.getVerb());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getVerb());
+    }
+
+    @Override
+    public int compareTo(ExtensibilityElement o) {
+        Objects.requireNonNull(o);
+        if (o instanceof HttpOperation) {
+            return Comparables.compare(getVerb(), ((HttpBinding) o).getVerb());
+        }
+        return Comparables.compare(getQName().getNamespaceURI(), o.getQName().getNamespaceURI());
     }
 
 }
