@@ -16,15 +16,11 @@
  */
 package org.n52.shetland.w3c.wsdl.soap;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Objects;
 
 import org.n52.janmayen.Comparables;
 import org.n52.shetland.w3c.wsdl.ExtensibilityElement;
 import org.n52.shetland.w3c.wsdl.WSDLConstants;
-import org.n52.shetland.w3c.wsdl.http.HttpBinding;
-import org.n52.shetland.w3c.wsdl.http.HttpOperation;
 
 import com.google.common.collect.ComparisonChain;
 
@@ -47,7 +43,8 @@ public class SoapBinding extends ExtensibilityElement {
     }
 
     /**
-     * @param style the style to set
+     * @param style
+     *            the style to set
      */
     public void setStyle(String style) {
         this.style = style;
@@ -61,7 +58,8 @@ public class SoapBinding extends ExtensibilityElement {
     }
 
     /**
-     * @param transport the transport to set
+     * @param transport
+     *            the transport to set
      */
     public void setTransport(String transport) {
         this.transport = transport;
@@ -80,7 +78,8 @@ public class SoapBinding extends ExtensibilityElement {
         }
         final SoapBinding other = (SoapBinding) obj;
         return (getStyle() != null && other.getStyle() != null && getStyle().equals(other.getStyle()))
-                &&  (getTransport() != null && other.getTransport() != null && getTransport().equals(other.getTransport()));
+                && (getTransport() != null && other.getTransport() != null
+                        && getTransport().equals(other.getTransport()));
     }
 
     @Override

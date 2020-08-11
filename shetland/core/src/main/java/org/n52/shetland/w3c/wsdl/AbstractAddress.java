@@ -22,7 +22,6 @@ import java.util.Objects;
 import javax.xml.namespace.QName;
 
 import org.n52.janmayen.Comparables;
-import org.n52.shetland.w3c.wsdl.http.HttpOperation;
 
 public abstract class AbstractAddress extends ExtensibilityElement {
 
@@ -60,7 +59,7 @@ public abstract class AbstractAddress extends ExtensibilityElement {
     @Override
     public int compareTo(ExtensibilityElement o) {
         Objects.requireNonNull(o);
-        if (o instanceof HttpOperation) {
+        if (o instanceof AbstractAddress) {
             return Comparables.compare(getLocation(), ((AbstractAddress) o).getLocation());
         }
         return Comparables.compare(getQName().getNamespaceURI(), o.getQName().getNamespaceURI());

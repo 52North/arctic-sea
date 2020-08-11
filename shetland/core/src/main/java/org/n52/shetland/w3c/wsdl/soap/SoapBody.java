@@ -21,8 +21,6 @@ import java.util.Objects;
 import org.n52.janmayen.Comparables;
 import org.n52.shetland.w3c.wsdl.ExtensibilityElement;
 import org.n52.shetland.w3c.wsdl.WSDLConstants;
-import org.n52.shetland.w3c.wsdl.http.HttpBinding;
-import org.n52.shetland.w3c.wsdl.http.HttpOperation;
 
 public class SoapBody extends ExtensibilityElement {
 
@@ -70,7 +68,7 @@ public class SoapBody extends ExtensibilityElement {
     @Override
     public int compareTo(ExtensibilityElement o) {
         Objects.requireNonNull(o);
-        if (o instanceof HttpOperation) {
+        if (o instanceof SoapBody) {
             return Comparables.compare(getUse(), ((SoapBody) o).getUse());
         }
         return Comparables.compare(getQName().getNamespaceURI(), o.getQName().getNamespaceURI());

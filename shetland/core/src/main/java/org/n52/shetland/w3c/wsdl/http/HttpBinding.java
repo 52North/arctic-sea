@@ -19,7 +19,6 @@ package org.n52.shetland.w3c.wsdl.http;
 import java.util.Objects;
 
 import org.n52.janmayen.Comparables;
-import org.n52.shetland.w3c.wsdl.AbstractAddress;
 import org.n52.shetland.w3c.wsdl.ExtensibilityElement;
 import org.n52.shetland.w3c.wsdl.WSDLConstants;
 
@@ -69,7 +68,7 @@ public class HttpBinding extends ExtensibilityElement {
     @Override
     public int compareTo(ExtensibilityElement o) {
         Objects.requireNonNull(o);
-        if (o instanceof HttpOperation) {
+        if (o instanceof HttpBinding) {
             return Comparables.compare(getVerb(), ((HttpBinding) o).getVerb());
         }
         return Comparables.compare(getQName().getNamespaceURI(), o.getQName().getNamespaceURI());

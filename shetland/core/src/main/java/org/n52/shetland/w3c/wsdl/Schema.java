@@ -19,7 +19,6 @@ package org.n52.shetland.w3c.wsdl;
 import java.util.Objects;
 
 import org.n52.janmayen.Comparables;
-import org.n52.shetland.w3c.wsdl.soap.SoapFault;
 
 import com.google.common.collect.ComparisonChain;
 

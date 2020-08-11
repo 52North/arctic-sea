@@ -16,9 +16,6 @@
  */
 package org.n52.shetland.w3c.wsdl.http;
 
-import java.util.Objects;
-
-import org.n52.janmayen.Comparables;
 import org.n52.shetland.w3c.wsdl.ExtensibilityElement;
 import org.n52.shetland.w3c.wsdl.WSDLConstants;
 
