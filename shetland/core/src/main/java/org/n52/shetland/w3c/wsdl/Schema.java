@@ -16,6 +16,13 @@
  */
 package org.n52.shetland.w3c.wsdl;
 
+import java.util.Objects;
+
+import org.n52.janmayen.Comparables;
+import org.n52.shetland.w3c.wsdl.soap.SoapFault;
+
+import com.google.common.collect.ComparisonChain;
+
 public class Schema extends ExtensibilityElement {
 
     private String elementFormDefault;
@@ -44,4 +51,40 @@ public class Schema extends ExtensibilityElement {
     public Include getInclude() {
         return include;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Schema other = (Schema) obj;
+        return getTargetNamespace() != null && other.getTargetNamespace() != null
+                && getTargetNamespace().equals(other.getTargetNamespace());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getTargetNamespace(), getElementFormDefault(), getInclude());
+    }
+
+    @Override
+    public int compareTo(ExtensibilityElement o) {
+        Objects.requireNonNull(o);
+        if (o instanceof Schema) {
+            return ComparisonChain.start()
+                    .compare(this.getTargetNamespace(), ((Schema) o).getTargetNamespace())
+                    .compare(this.getElementFormDefault(), ((Schema) o).getElementFormDefault())
+                    .compare(this.getInclude(), ((Schema) o).getInclude())
+                    .result();
+        }
+        return Comparables.compare(getQName().getNamespaceURI(), o.getQName()
+                .getNamespaceURI());
+    }
+
 }

@@ -17,8 +17,7 @@
 package org.n52.shetland.w3c.wsdl;
 
 import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.TreeSet;
 
 import javax.xml.namespace.QName;
 
@@ -26,7 +25,7 @@ import org.n52.shetland.w3c.wsdl.WSDLConstants.WSDLQNames;
 
 public class Service extends AbstractWsdl {
 
-    private List<Port> ports = new LinkedList<>();
+    private Collection<Port> ports = new TreeSet<>();
 
     public Service(String name) {
         super(name);
@@ -58,7 +57,7 @@ public class Service extends AbstractWsdl {
         return addPorts(ports);
     }
 
-    public List<Port> getPorts() {
+    public Collection<Port> getPorts() {
         return ports;
     }
 

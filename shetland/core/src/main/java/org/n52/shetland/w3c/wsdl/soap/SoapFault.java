@@ -16,8 +16,13 @@
  */
 package org.n52.shetland.w3c.wsdl.soap;
 
+import java.util.Objects;
+
+import org.n52.janmayen.Comparables;
 import org.n52.shetland.w3c.wsdl.ExtensibilityElement;
 import org.n52.shetland.w3c.wsdl.WSDLConstants;
+
+import com.google.common.collect.ComparisonChain;
 
 public class SoapFault extends ExtensibilityElement {
 
@@ -59,6 +64,40 @@ public class SoapFault extends ExtensibilityElement {
      */
     public void setUse(String use) {
         this.use = use;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final SoapFault other = (SoapFault) obj;
+        return (getUse() != null && other.getUse() != null && getUse().equals(other.getUse()))
+                &&  (getName() != null && other.getName() != null && getName().equals(other.getName()));
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getUse(), getName());
+    }
+
+    @Override
+    public int compareTo(ExtensibilityElement o) {
+        Objects.requireNonNull(o);
+        if (o instanceof SoapFault) {
+            return ComparisonChain.start()
+                    .compare(this.getUse(), ((SoapFault) o).getUse())
+                    .compare(this.getName(), ((SoapFault) o).getName())
+                    .result();
+        }
+        return Comparables.compare(getQName().getNamespaceURI(), o.getQName()
+                .getNamespaceURI());
     }
 
 }

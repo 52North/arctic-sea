@@ -17,8 +17,7 @@
 package org.n52.shetland.w3c.wsdl;
 
 import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.TreeSet;
 
 import javax.xml.namespace.QName;
 
@@ -26,7 +25,7 @@ import org.n52.shetland.w3c.wsdl.WSDLConstants.WSDLQNames;
 
 public class PortType extends AbstractWsdl {
 
-    private List<Operation> operations = new LinkedList<>();
+    private Collection<Operation> operations = new TreeSet<>();
 
     public PortType(String name) {
         super(name);
@@ -58,7 +57,7 @@ public class PortType extends AbstractWsdl {
         return addOperations(operations);
     }
 
-    public List<Operation> getOperations() {
+    public Collection<Operation> getOperations() {
         return operations;
     }
 
@@ -71,12 +70,10 @@ public class PortType extends AbstractWsdl {
             if (operation.getName()
                     .equals(name)
                     && operation.getInput()
-                            .getMessage()
-                            .getLocalPart()
+                            .getName()
                             .equals(request)
                     && operation.getOutput()
-                            .getMessage()
-                            .getLocalPart()
+                            .getName()
                             .equals(response)) {
                 return operation;
             }
