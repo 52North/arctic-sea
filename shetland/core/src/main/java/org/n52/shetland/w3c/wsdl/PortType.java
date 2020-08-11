@@ -70,12 +70,10 @@ public class PortType extends AbstractWsdl {
             if (operation.getName()
                     .equals(name)
                     && operation.getInput()
-                            .getMessage()
-                            .getLocalPart()
+                            .getName()
                             .equals(request)
                     && operation.getOutput()
-                            .getMessage()
-                            .getLocalPart()
+                            .getName()
                             .equals(response)) {
                 return operation;
             }
