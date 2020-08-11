@@ -279,7 +279,7 @@ public class Wsdlv11XmlStreamWriter extends XmlStreamWriter<Definitions> {
         start(port.getQName());
         addName(port);
         if (port.isSetBinding()) {
-            attrBinding(port.getBinding().getType());
+            attrBinding(port.getBinding());
         }
         encodeExtensibilityElements(port);
         end(port.getQName());
@@ -328,7 +328,6 @@ public class Wsdlv11XmlStreamWriter extends XmlStreamWriter<Definitions> {
 
     private void encodeInclude(Include include) throws XMLStreamException {
         empty(include.getQName());
-        attr(WSDLConstants.AN_XSD_NAMESPACE, include.getNamespace());
         attr(WSDLConstants.AN_XSD_SCHEMA_LOCATION, include.getSchemaLocation());
     }
 
