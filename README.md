@@ -62,7 +62,7 @@ All projects are available on Maven Central.
 
 ```xml
 <properties>
-  <version.arctic-sea>7.6.1</version.arctic-sea>
+  <version.arctic-sea>7.6.2</version.arctic-sea>
 </properties>
 <dependencies>
   <dependency>
