@@ -16,40 +16,31 @@
  */
 package org.n52.svalbard.decode;
 
-import java.io.IOException;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPHeader;
-import javax.xml.soap.SOAPHeaderElement;
-import javax.xml.soap.SOAPMessage;
+import javax.inject.Inject;
 
-import org.apache.xmlbeans.XmlException;
+import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
 import org.n52.janmayen.exception.CompositeException;
-import org.n52.janmayen.function.Functions;
-import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.util.CollectionHelper;
+import org.n52.shetland.w3c.W3CConstants;
 import org.n52.shetland.w3c.soap.AbstractSoap;
 import org.n52.shetland.w3c.soap.SoapHeader;
 import org.n52.shetland.w3c.wsa.WsaActionHeader;
 import org.n52.shetland.w3c.wsa.WsaConstants;
 import org.n52.svalbard.decode.exception.DecodingException;
-import org.n52.svalbard.util.W3cHelper;
+import org.n52.svalbard.encode.SchemaRepository;
+import org.n52.svalbard.util.XmlHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
-import com.google.common.collect.Lists;
+import com.google.common.base.Strings;
 
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
@@ -60,8 +51,15 @@ public abstract class AbstractSoapDecoder extends AbstractXmlDecoder<XmlObject, 
 
     private final Set<DecoderKey> decoderKeys;
 
+    private SchemaRepository schemaRepository;
+
     public AbstractSoapDecoder(String namespace) {
         this.decoderKeys = Collections.<DecoderKey> singleton(new XmlNamespaceDecoderKey(namespace, XmlObject.class));
+    }
+
+    @Inject
+    public void setSchemaRepository(SchemaRepository schemaRepository) {
+        this.schemaRepository = schemaRepository;
     }
 
     @Override
@@ -81,69 +79,6 @@ public abstract class AbstractSoapDecoder extends AbstractXmlDecoder<XmlObject, 
     protected abstract AbstractSoap<?> createEnvelope(XmlObject xml) throws DecodingException;
 
     protected abstract AbstractSoap<?> createFault(DecodingException xml);
-
-    /**
-     * Parses the SOAPBody content to a text representation
-     *
-     * @param message
-     *            SOAP message
-     *
-     * @return SOAPBody content as text
-     *
-     *
-     * @throws DecodingException
-     *             * if an error occurs.
-     * @deprecated javax.xml.soap.* is no longer supported from 8.0 because it
-     *             was removed from Java
-     */
-    @Deprecated
-    protected OwsServiceRequest getSOAPBodyContent(SOAPMessage message) throws DecodingException {
-        try {
-            Document bodyRequestDoc = message.getSOAPBody()
-                    .extractContentAsDocument();
-            String xmlString = W3cHelper.nodeToXmlString(bodyRequestDoc.getDocumentElement());
-            return decodeXmlElement(XmlObject.Factory.parse(xmlString, getXmlOptions()));
-        } catch (SOAPException | XmlException | IOException e) {
-            throw new DecodingException("Error while parsing SOAPMessage body content!", e);
-        }
-    }
-
-    @Deprecated
-    protected List<SoapHeader> getSoapHeader(SOAPHeader soapHeader) {
-        Map<String, List<SOAPHeaderElement>> headersByNamespace = new HashMap<>();
-        Iterator<?> headerElements = soapHeader.extractAllHeaderElements();
-        while (headerElements.hasNext()) {
-            SOAPHeaderElement element = (SOAPHeaderElement) headerElements.next();
-            headersByNamespace.computeIfAbsent(element.getNamespaceURI(), Functions.forSupplier(LinkedList::new))
-                    .add(element);
-        }
-        List<SoapHeader> soapHeaders = Lists.newArrayList();
-        for (Entry<String, List<SOAPHeaderElement>> key : headersByNamespace.entrySet()) {
-            String namespace = key.getKey();
-            try {
-                Decoder<?, List<SOAPHeaderElement>> decoder =
-                        getDecoder(new XmlNamespaceDecoderKey(namespace, SOAPHeaderElement.class));
-                if (decoder != null) {
-                    Object object = decoder.decode(headersByNamespace.get(namespace));
-                    if (object instanceof SoapHeader) {
-                        soapHeaders.add((SoapHeader) object);
-                    } else if (object instanceof List<?>) {
-                        for (Object o : (List<?>) object) {
-                            if (o instanceof SoapHeader) {
-                                soapHeaders.add((SoapHeader) o);
-                            }
-                        }
-                    }
-                } else {
-                    LOGGER.warn("The SOAP-Header elements for namespace '{}' are not supported by this server!",
-                            namespace);
-                }
-            } catch (DecodingException owse) {
-                LOGGER.debug("Requested SOAPHeader element is not supported", owse);
-            }
-        }
-        return soapHeaders;
-    }
 
     protected String checkSoapAction(String soapAction, List<SoapHeader> soapHeaders) {
         if (soapAction != null && !soapAction.isEmpty()) {
@@ -167,5 +102,33 @@ public abstract class AbstractSoapDecoder extends AbstractXmlDecoder<XmlObject, 
                             .collect(Collectors.toList()));
         }
         return de.getMessage();
+    }
+
+    protected void fixNamespaceForXsiType(XmlObject content, Map<?, ?> namespaces) {
+        final XmlCursor cursor = content.newCursor();
+        while (cursor.hasNextToken()) {
+            if (cursor.toNextToken().isStart()) {
+                final String xsiType = cursor.getAttributeText(W3CConstants.QN_XSI_TYPE);
+                if (xsiType != null) {
+                    final String[] toks = xsiType.split(":");
+                    if (toks.length > 1) {
+                        String prefix = toks[0];
+                        String localName = toks[1];
+                        String namespace = (String) namespaces.get(prefix);
+                        if (Strings.isNullOrEmpty(namespace)) {
+                            namespace = schemaRepository.getNamespaceFor(prefix);
+                        }
+                        if (!Strings.isNullOrEmpty(namespace)) {
+                            cursor.setAttributeText(W3CConstants.QN_XSI_TYPE,
+                                    Joiner.on(":").join(
+                                            XmlHelper.getPrefixForNamespace(content, (String) namespaces.get(prefix)),
+                                            localName));
+                        }
+                    }
+
+                }
+            }
+        }
+        cursor.dispose();
     }
 }

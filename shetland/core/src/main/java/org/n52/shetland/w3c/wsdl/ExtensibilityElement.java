@@ -16,9 +16,13 @@
  */
 package org.n52.shetland.w3c.wsdl;
 
+import java.util.Objects;
+
 import javax.xml.namespace.QName;
 
-public class ExtensibilityElement {
+import org.n52.janmayen.Comparables;
+
+public class ExtensibilityElement implements Comparable<ExtensibilityElement> {
 
     private QName qName;
 
@@ -28,5 +32,31 @@ public class ExtensibilityElement {
 
     public QName getQName() {
         return qName;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ExtensibilityElement other = (ExtensibilityElement) obj;
+        return getQName() != null && other.getQName() != null && getQName().equals(other.getQName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getQName());
+    }
+
+    @Override
+    public int compareTo(ExtensibilityElement o) {
+        Objects.requireNonNull(o);
+        return Comparables.compare(getQName().getNamespaceURI(), o.getQName().getNamespaceURI());
     }
 }

@@ -18,13 +18,15 @@ package org.n52.shetland.w3c.wsdl;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.TreeSet;
 
 import javax.xml.namespace.QName;
 
-public abstract class AbstractWsdl {
+import org.n52.janmayen.Comparables;
+
+public abstract class AbstractWsdl implements Comparable<AbstractWsdl> {
 
     private String name;
 
@@ -32,7 +34,7 @@ public abstract class AbstractWsdl {
 
     private QName qName;
 
-    private List<ExtensibilityElement> extensibilityElements = new LinkedList<>();
+    private Collection<ExtensibilityElement> extensibilityElements = new TreeSet<>();
 
     public AbstractWsdl() {
         this(null, null);
@@ -128,11 +130,37 @@ public abstract class AbstractWsdl {
         return addExtensibilityElements(extensibilityElements);
     }
 
-    public List<ExtensibilityElement> getExtensibilityElements() {
+    public Collection<ExtensibilityElement> getExtensibilityElements() {
         return extensibilityElements;
     }
 
     public boolean isSetExtensibilityElements() {
         return getExtensibilityElements() != null && !getExtensibilityElements().isEmpty();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final AbstractWsdl other = (AbstractWsdl) obj;
+        return getName() != null && other.getName() != null && getName().equals(other.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getName());
+    }
+
+    @Override
+    public int compareTo(AbstractWsdl o) {
+        Objects.requireNonNull(o);
+        return Comparables.compare(getName(), o.getName());
     }
 }

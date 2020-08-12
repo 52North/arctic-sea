@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.n52.arctic-sea</groupId>
         <artifactId>shetland-parent</artifactId>
-        <version>7.7.0-SNAPSHOT</version>
+        <version>8.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>shetland</artifactId>
@@ -135,37 +135,6 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-    <profiles>
-        <profile>
-            <id>since-jdk9</id>
-            <activation>
-                <jdk>[9,)</jdk>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>${version.maven-javadoc-plugin}</version>
-                        <dependencies>
-                            <dependency>
-                                <groupId>javax.xml.soap</groupId>
-                                <artifactId>javax.xml.soap-api</artifactId>
-                                <version>${version.javax-xml-soap}</version>
-                            </dependency>
-                        </dependencies>
-                    </plugin>
-                </plugins>
-            </build>
-            <dependencies>
-                <dependency>
-                    <groupId>javax.xml.soap</groupId>
-                    <artifactId>javax.xml.soap-api</artifactId>
-                    <scope>provided</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-    </profiles>
     
     <build>
         <plugins>

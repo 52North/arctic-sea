@@ -17,15 +17,14 @@
 package org.n52.shetland.w3c.wsdl;
 
 import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.TreeSet;
 
 import javax.xml.namespace.QName;
 
 public class Binding extends AbstractWsdl {
 
     private QName type;
-    private List<BindingOperation> bindingOperations = new LinkedList<>();
+    private Collection<BindingOperation> bindingOperations = new TreeSet<>();
 
     public Binding(String name) {
         super(name);
@@ -53,7 +52,8 @@ public class Binding extends AbstractWsdl {
     }
 
     /**
-     * @param type the type to set
+     * @param type
+     *            the type to set
      */
     public void setType(QName type) {
         this.type = type;
@@ -80,7 +80,7 @@ public class Binding extends AbstractWsdl {
         return addBindingOperations(bindingOperations);
     }
 
-    public List<BindingOperation> getBindingOperations() {
+    public Collection<BindingOperation> getBindingOperations() {
         return bindingOperations;
     }
 

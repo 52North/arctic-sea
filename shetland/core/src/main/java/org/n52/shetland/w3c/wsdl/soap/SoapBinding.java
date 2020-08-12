@@ -16,8 +16,13 @@
  */
 package org.n52.shetland.w3c.wsdl.soap;
 
+import java.util.Objects;
+
+import org.n52.janmayen.Comparables;
 import org.n52.shetland.w3c.wsdl.ExtensibilityElement;
 import org.n52.shetland.w3c.wsdl.WSDLConstants;
+
+import com.google.common.collect.ComparisonChain;
 
 public class SoapBinding extends ExtensibilityElement {
 
@@ -38,7 +43,8 @@ public class SoapBinding extends ExtensibilityElement {
     }
 
     /**
-     * @param style the style to set
+     * @param style
+     *            the style to set
      */
     public void setStyle(String style) {
         this.style = style;
@@ -52,10 +58,46 @@ public class SoapBinding extends ExtensibilityElement {
     }
 
     /**
-     * @param transport the transport to set
+     * @param transport
+     *            the transport to set
      */
     public void setTransport(String transport) {
         this.transport = transport;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final SoapBinding other = (SoapBinding) obj;
+        return (getStyle() != null && other.getStyle() != null && getStyle().equals(other.getStyle()))
+                && (getTransport() != null && other.getTransport() != null
+                        && getTransport().equals(other.getTransport()));
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getStyle(), getTransport());
+    }
+
+    @Override
+    public int compareTo(ExtensibilityElement o) {
+        Objects.requireNonNull(o);
+        if (o instanceof SoapBinding) {
+            return ComparisonChain.start()
+                    .compare(this.getStyle(), ((SoapBinding) o).getStyle())
+                    .compare(this.getTransport(), ((SoapBinding) o).getTransport())
+                    .result();
+        }
+        return Comparables.compare(getQName().getNamespaceURI(), o.getQName()
+                .getNamespaceURI());
     }
 
 }

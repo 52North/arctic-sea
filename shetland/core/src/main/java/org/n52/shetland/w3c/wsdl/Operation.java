@@ -18,7 +18,7 @@ package org.n52.shetland.w3c.wsdl;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.LinkedList;
+import java.util.TreeSet;
 
 import javax.xml.namespace.QName;
 
@@ -33,7 +33,7 @@ public class Operation extends AbstractWsdl {
 
     private Input input;
     private Output output;
-    private final Collection<Fault> faults = new LinkedList<>();
+    private final Collection<Fault> faults = new TreeSet<>();
 
     public Operation(String name) {
         super(name);

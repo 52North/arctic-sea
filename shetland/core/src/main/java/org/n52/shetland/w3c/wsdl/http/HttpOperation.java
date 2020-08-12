@@ -16,6 +16,9 @@
  */
 package org.n52.shetland.w3c.wsdl.http;
 
+import java.util.Objects;
+
+import org.n52.janmayen.Comparables;
 import org.n52.shetland.w3c.wsdl.ExtensibilityElement;
 import org.n52.shetland.w3c.wsdl.WSDLConstants;
 
@@ -40,6 +43,35 @@ public class HttpOperation extends ExtensibilityElement {
      */
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final HttpOperation other = (HttpOperation) obj;
+        return getLocation() != null && other.getLocation() != null && getLocation().equals(other.getLocation());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getLocation());
+    }
+
+    @Override
+    public int compareTo(ExtensibilityElement o) {
+        Objects.requireNonNull(o);
+        if (o instanceof HttpOperation) {
+            return Comparables.compare(getLocation(), ((HttpOperation) o).getLocation());
+        }
+        return Comparables.compare(getQName().getNamespaceURI(), o.getQName().getNamespaceURI());
     }
 
 }

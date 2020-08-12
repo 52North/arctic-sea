@@ -17,8 +17,7 @@
 package org.n52.shetland.w3c.wsdl;
 
 import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.TreeSet;
 
 import javax.xml.namespace.QName;
 
@@ -26,7 +25,7 @@ import org.n52.shetland.w3c.wsdl.WSDLConstants.WSDLQNames;
 
 public class Message extends AbstractWsdl {
 
-    private List<Part> parts = new LinkedList<>();
+    private Collection<Part> parts = new TreeSet<>();
 
     public Message(String name) {
         super(name);
@@ -58,7 +57,7 @@ public class Message extends AbstractWsdl {
         return addParts(parts);
     }
 
-    public List<Part> getParts() {
+    public Collection<Part> getParts() {
         return parts;
     }
 

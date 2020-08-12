@@ -16,8 +16,8 @@
  */
 package org.n52.svalbard.decode;
 
-import javax.xml.soap.SOAPConstants;
 
+import org.n52.shetland.w3c.soap.SoapConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +35,7 @@ public class Soap12StringDecoder extends AbstractSoapStringDecoder {
     private static final Logger LOGGER = LoggerFactory.getLogger(Soap12StringDecoder.class);
 
     public Soap12StringDecoder() {
-        super(SOAPConstants.URI_NS_SOAP_1_2_ENVELOPE);
+        super(SoapConstants.NS_SOAP_12);
         LOGGER.debug("Decoder for the following keys initialized successfully: {}!", Joiner.on(", ").join(getKeys()));
     }
 

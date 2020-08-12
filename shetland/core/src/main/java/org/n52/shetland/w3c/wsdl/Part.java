@@ -16,9 +16,9 @@
  */
 package org.n52.shetland.w3c.wsdl;
 
-import org.n52.shetland.w3c.wsdl.WSDLConstants.WSDLQNames;
-
 import javax.xml.namespace.QName;
+
+import org.n52.shetland.w3c.wsdl.WSDLConstants.WSDLQNames;
 
 public class Part extends AbstractWsdl {
 

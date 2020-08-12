@@ -30,7 +30,7 @@ public class Include extends AbstractWsdl {
 
     @Override
     public QName getQName() {
-        return WSDLConstants.QN_XSD_SCHEMA;
+        return WSDLConstants.QN_XSD_INCLUDE;
     }
 
     public String getNamespace() {

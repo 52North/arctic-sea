@@ -16,6 +16,9 @@
  */
 package org.n52.shetland.w3c.wsdl.soap;
 
+import java.util.Objects;
+
+import org.n52.janmayen.Comparables;
 import org.n52.shetland.w3c.wsdl.ExtensibilityElement;
 import org.n52.shetland.w3c.wsdl.WSDLConstants;
 
@@ -41,5 +44,35 @@ public class SoapBody extends ExtensibilityElement {
     public void setUse(String use) {
         this.use = use;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final SoapBody other = (SoapBody) obj;
+        return getUse() != null && other.getUse() != null && getUse().equals(other.getUse());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getUse());
+    }
+
+    @Override
+    public int compareTo(ExtensibilityElement o) {
+        Objects.requireNonNull(o);
+        if (o instanceof SoapBody) {
+            return Comparables.compare(getUse(), ((SoapBody) o).getUse());
+        }
+        return Comparables.compare(getQName().getNamespaceURI(), o.getQName().getNamespaceURI());
+    }
+
 
 }
