@@ -79,6 +79,8 @@ public interface TestConstants {
             "$filter=result mod 2 eq 0",
             "$filter=(result sub 5) gt 10",
             "$filter=geo.distance(Locations/location, geography'POINT(-122 43)') gt 1",
+            "$filter=time gt 2000-11-27T10:44:51.331Z and time lt 2020-08-27T15:45:31.021Z&$expand=Things" +
+                    "($select=name)&$select=time&$top=1000",
 
             "$select=result,resultTime",
             "$select=id,Observations&$expand=Observations/FeatureOfInterest",
@@ -106,16 +108,17 @@ public interface TestConstants {
             "$expand=Observations($orderby=result asc)",
             "$expand=Datastream&$orderby=Datastreams/id desc, phenomenonTime",
             "$orderby=phenomenonTime&$filter=phenomenonTime ge 2018-05-04T00:22:54.738+02:00 and " +
-                    "2018-05-05T09:58:53.338+02:00 le 2018-05-05T09:58:53.338+02:00&$top=200",
+            "2018-05-05T09:58:53.338+02:00 le 2018-05-05T09:58:53.338+02:00&$top=200",
 
             "$orderby=phenomenonTime&$filter=(phenomenonTime ge 2018-05-04T00:22:54.738+02:00) and " +
-                    "(2018-05-05T09:58:53.338+02:00 le 2018-05-05T09:58:53.338+02:00)&$top=200",
+            "(2018-05-05T09:58:53.338+02:00 le 2018-05-05T09:58:53.338+02:00)&$top=200",
 
             "$orderby=phenomenonTime&$filter=((phenomenonTime ge 2018-05-04T00:22:54.738+02:00) and " +
-                    "(2018-05-05T09:58:53.338+02:00 le 2018-05-05T09:58:53.338+02:00))&$top=200",
+            "(2018-05-05T09:58:53.338+02:00 le 2018-05-05T09:58:53.338+02:00))&$top=200",
 
             // 52N-STA specific functions. used for filtering on nested parameters
             "$filter=contains(parameters, name eq 'photo_url_3', value ne '')",
             "$filter=contains(parameters, name eq 'photo_url_3', startswith(value, 'test'))"
+
     };
 }
