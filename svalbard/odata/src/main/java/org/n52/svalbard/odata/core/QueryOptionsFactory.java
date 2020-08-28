@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.svalbard.odata.core;
 
 import org.antlr.v4.runtime.BaseErrorListener;
@@ -34,8 +35,12 @@ import java.util.Set;
  */
 @SuppressWarnings("unchecked")
 public class QueryOptionsFactory {
+
     public STAQueryOptionsLexer createLexer(String query) {
-        return new STAQueryOptionsLexer(CharStreams.fromString(query.trim()));
+        STAQueryOptionsLexer staQueryOptionsLexer = new STAQueryOptionsLexer(CharStreams.fromString(query.trim()));
+        staQueryOptionsLexer.removeErrorListeners();
+        staQueryOptionsLexer.addErrorListener(new CustomErrorListener(staQueryOptionsLexer.getVocabulary()));
+        return staQueryOptionsLexer;
     }
 
     public STAQueryOptionsGrammar createGrammar(String query) {
@@ -44,11 +49,11 @@ public class QueryOptionsFactory {
 
     private STAQueryOptionsGrammar createGrammar(STAQueryOptionsLexer lexer) {
         STAQueryOptionsGrammar parser = new STAQueryOptionsGrammar(new CommonTokenStream(lexer));
+        parser.removeErrorListeners();
         parser.addErrorListener(new CustomErrorListener(lexer.getVocabulary()));
         return parser;
     }
 
-    //TODO: make nicer
     public QueryOptions createQueryOptions(String query) {
         return createGrammar(query).queryOptions().<QueryOptions>accept(new STAQueryOptionVisitor());
     }
@@ -71,9 +76,13 @@ public class QueryOptionsFactory {
         @Override
         public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine,
                                 String msg, RecognitionException e) {
-
-            String message = String.format("failed to parse due to %s with offending token: %s", msg,
-                                           vocabulary.getDisplayName(e.getOffendingToken().getType()));
+            String message;
+            if (e.getOffendingToken() != null) {
+                message = String.format("Failed to parse QueryOptions due to %s with offending token: %s", msg,
+                                        vocabulary.getDisplayName(e.getOffendingToken().getType()));
+            } else {
+                message = String.format("Failed to parse QueryOptions due to error: %s", msg);
+            }
             throw new IllegalStateException(message, e);
         }
     }

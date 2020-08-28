@@ -715,6 +715,14 @@ public class STAQueryOptionVisitor extends STAQueryOptionsGrammarBaseVisitor {
                                   new StringValueExpr(ctx.escapedString().getText()));
     }
 
+    @Override public Object visitContainsMethodCallExpr(STAQueryOptionsGrammar.ContainsMethodCallExprContext ctx) {
+        return new MethodCallExpr(ctx.Contains_LLC().getText(),
+                                  visitMemberExpr(ctx.memberExpr()),
+                                  new BooleanBinaryExpr(FilterConstants.BinaryLogicOperator.And,
+                                                        visitBoolExpr(ctx.boolExpr(0)),
+                                                        visitBoolExpr(ctx.boolExpr(1))));
+    }
+
     @Override public TextExpr visitTextMethodCallExpr(STAQueryOptionsGrammar.TextMethodCallExprContext ctx) {
         // textMethodCallExpr
         //   :

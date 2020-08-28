@@ -34,7 +34,7 @@ public class OrderByQueryOptionTest extends QueryOptionTests {
         // May no be empty
         init(ODataConstants.QueryOptions.ORDERBY + EQ + "");
         Assertions.assertThrows(
-                NullPointerException.class,
+                Exception.class,
                 () -> parser.queryOptions().accept(new STAQueryOptionVisitor())
         );
 

@@ -293,7 +293,7 @@ FILTER_SP
    ;
 
 FILTER_SEMI
-   : SEMI -> type (SEMI) , popMode
+   : SEMI -> popMode, popMode, type (SEMI)
    ;
 
 FILTER_COMMA
@@ -359,6 +359,10 @@ Trim_LLC
 Concat_LLC
    : 'concat'
    ;
+
+Contains_LLC
+  : 'contains'
+  ;
    // Date Functions
    
 Year_LLC
