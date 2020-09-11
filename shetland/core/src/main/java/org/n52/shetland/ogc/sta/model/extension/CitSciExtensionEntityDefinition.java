@@ -28,12 +28,10 @@ import java.util.Set;
 public class CitSciExtensionEntityDefinition extends STAEntityDefinition {
 
     public static String[] ALLCOLLECTIONS = new String[] {
-            CSOBSERVATIONS,
             OBSERVATION_GROUPS,
             OBSERVATION_RELATIONS,
             PARTIES,
             PROJECTS,
-            CSDATASTREAMS,
             LICENSES,
     };
 
@@ -58,10 +56,6 @@ public class CitSciExtensionEntityDefinition extends STAEntityDefinition {
         coreMap.put(OBSERVATION_RELATION, orED);
         coreMap.put(OBSERVATION_RELATIONS, orED);
 
-        CSObservationEntityDefinition csoED = new CSObservationEntityDefinition();
-        coreMap.put(CSOBSERVATION, csoED);
-        coreMap.put(CSOBSERVATIONS, csoED);
-
         ProjectEntityDefinition proED = new ProjectEntityDefinition();
         coreMap.put(PROJECT, proED);
         coreMap.put(PROJECTS, proED);
@@ -73,10 +67,6 @@ public class CitSciExtensionEntityDefinition extends STAEntityDefinition {
         LicenseEntityDefinition lED = new LicenseEntityDefinition();
         coreMap.put(LICENSE, lED);
         coreMap.put(LICENSES, lED);
-
-        CSDatastreamEntityDefinition csdED = new CSDatastreamEntityDefinition();
-        coreMap.put(CSDATASTREAM, csdED);
-        coreMap.put(CSDATASTREAMS, csdED);
 
         return coreMap;
     }

@@ -34,7 +34,7 @@ public class ObservationRelationEntityDefinition extends STAEntityDefinition {
 
     private static final String[] NAV_PROPS_MANDATORY = new String[] {
             OBSERVATION_GROUP,
-            CSOBSERVATION
+            OBSERVATION
     };
 
     private static final String[] NAV_PROPS_OPTIONAL = new String[] { };

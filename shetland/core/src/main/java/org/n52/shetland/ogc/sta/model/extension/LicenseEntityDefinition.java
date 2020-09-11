@@ -35,7 +35,7 @@ public class LicenseEntityDefinition extends STAEntityDefinition {
     private static final String[] NAV_PROPS_MANDATORY = new String[] {};
 
     private static final String[] NAV_PROPS_OPTIONAL = new String[] {
-            CSDATASTREAMS
+            DATASTREAMS
     };
 
     private static final String[] ENTITY_PROPS_MANDATORY = new String[] {

@@ -20,6 +20,13 @@ package org.n52.shetland.ogc.sta;
 public interface StaConstants {
 
     /**
+     * Profiles/Extensions
+     */
+    String VANILLA = "vanilla";
+    String CITSCIEXTENSION = "citSciExtension";
+    String MULTIDATASTREAM = "multiDatastreamExtension";
+
+    /**
      * Core Entities + Collections
      */
     String THING = "Thing";
@@ -65,14 +72,6 @@ public interface StaConstants {
     String OBSERVATION_RELATION = "ObservationRelation";
 
     String OBSERVATION_RELATIONS = "ObservationRelations";
-
-    String CSOBSERVATION = "CSObservation";
-
-    String CSOBSERVATIONS = "CSObservations";
-
-    String CSDATASTREAM = "CSDatastream";
-
-    String CSDATASTREAMS = "CSDatastreams";
 
     String PARTY = "Party";
 
