@@ -16,9 +16,7 @@
  */
 package org.n52.svalbard.encode;
 
-import java.util.Collections;
-import java.util.Set;
-
+import com.google.common.collect.ImmutableSet;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.janmayen.http.MediaType;
 import org.n52.janmayen.http.MediaTypes;
@@ -27,15 +25,19 @@ import org.n52.shetland.ogc.ows.exception.ExceptionCode;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionCode;
 import org.n52.shetland.ogc.ows.service.OwsOperationKey;
 import org.n52.shetland.ogc.ows.service.OwsServiceCommunicationObject;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
+import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.shetland.ogc.sos.SosSoapConstants;
 import org.n52.shetland.ogc.sos.exception.SosExceptionCode;
 import org.n52.shetland.ogc.swes.exception.SwesExceptionCode;
 import org.n52.shetland.w3c.soap.AbstractSoap;
+import org.n52.shetland.w3c.soap.SoapRequest;
 import org.n52.shetland.w3c.soap.SoapResponse;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.NoEncoderForKeyException;
 
-import com.google.common.collect.ImmutableSet;
+import java.util.Collections;
+import java.util.Set;
 
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
@@ -52,7 +54,8 @@ public abstract class AbstractSoapEncoder<T, S> extends AbstractXmlEncoder<T, S>
     private final Set<EncoderKey> encoderKey;
 
     public AbstractSoapEncoder(String namespace) {
-        this.encoderKey = ImmutableSet.<EncoderKey> of(new XmlEncoderKey(namespace, SoapResponse.class));
+        this.encoderKey = ImmutableSet.<EncoderKey> of(new XmlEncoderKey(namespace, SoapResponse.class),
+                                                       new XmlEncoderKey(namespace, SoapRequest.class));
     }
 
     @Override
@@ -74,7 +77,7 @@ public abstract class AbstractSoapEncoder<T, S> extends AbstractXmlEncoder<T, S>
     /**
      * Get the content for the SOAPBody as {@link XmlObject}
      *
-     * @param response
+     * @param soap
      *            SOAP response
      *
      * @return SOAPBody content as {@link XmlObject}
@@ -83,14 +86,23 @@ public abstract class AbstractSoapEncoder<T, S> extends AbstractXmlEncoder<T, S>
      *             If no encoder is available, the object to encode is not
      *             supported or an error occurs during the encoding
      */
-    protected XmlObject getBodyContent(AbstractSoap<?> response) throws EncodingException {
-        OperationResponseEncoderKey key = new OperationResponseEncoderKey(
-                new OwsOperationKey(response.getBodyContent()), MediaTypes.APPLICATION_XML);
-        Encoder<Object, OwsServiceCommunicationObject> encoder = getEncoder(key);
+    protected XmlObject getBodyContent(AbstractSoap<?> soap) throws EncodingException {
+        OwsServiceCommunicationObject bodyContent = soap.getBodyContent();
+        OwsOperationKey operationKey = new OwsOperationKey(bodyContent);
+        MediaType mediaType = MediaTypes.APPLICATION_XML;
+        OperationEncoderKey key;
+        if (bodyContent instanceof OwsServiceRequest) {
+            key = new OperationRequestEncoderKey(operationKey, mediaType);
+        } else if (bodyContent instanceof OwsServiceResponse) {
+            key = new OperationResponseEncoderKey(operationKey, mediaType);
+        } else {
+            throw new EncodingException("unsupported SOAP type, neither request nor response " + soap);
+        }
+        Encoder<XmlObject, OwsServiceCommunicationObject> encoder = getEncoder(key);
         if (encoder == null) {
             throw new NoEncoderForKeyException(key);
         }
-        return (XmlObject) encoder.encode(response.getBodyContent());
+        return encoder.encode(bodyContent);
     }
 
     /**
