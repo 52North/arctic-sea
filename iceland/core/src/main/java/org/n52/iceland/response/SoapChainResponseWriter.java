@@ -21,9 +21,6 @@ import java.io.OutputStream;
 import java.util.Collections;
 import java.util.Set;
 
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPMessage;
-
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.n52.iceland.coding.encode.AbstractResponseWriter;
@@ -39,7 +36,6 @@ import org.n52.svalbard.encode.StreamingEncoder;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.NoEncoderForKeyException;
 import org.n52.svalbard.util.CodingHelper;
-
 
 /**
  * Streaming SOAP response writer implementation.
@@ -93,15 +89,9 @@ public class SoapChainResponseWriter extends AbstractResponseWriter<SoapChain> {
             ((StreamingEncoder<?, ? super SoapResponse>) encoder)
                     .encode(chain.getSoapResponse(), out);
         } else {
-            try {
-                Object object = encoder.encode(chain.getSoapResponse());
-                if (object instanceof SOAPMessage) {
-                    ((SOAPMessage) object).writeTo(out);
-                } else if (object instanceof XmlObject) {
-                    ((XmlObject) object).save(out, this.xmlOptions.get());
-                }
-            } catch (SOAPException ex) {
-                throw new IOException(ex);
+            Object object = encoder.encode(chain.getSoapResponse());
+            if (object instanceof XmlObject) {
+                ((XmlObject) object).save(out, this.xmlOptions.get());
             }
         }
     }

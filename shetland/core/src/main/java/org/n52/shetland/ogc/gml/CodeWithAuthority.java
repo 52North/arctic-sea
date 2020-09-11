@@ -22,7 +22,6 @@ import com.google.common.base.Objects;
  * Class represents a GML conform CodeWithAuthority element
  *
  * @since 1.0.0
- *
  */
 public class CodeWithAuthority implements Comparable<CodeWithAuthority> {
 
@@ -39,20 +38,17 @@ public class CodeWithAuthority implements Comparable<CodeWithAuthority> {
     /**
      * constructor
      *
-     * @param value
-     *            Value/identifier
+     * @param value Value/identifier
      */
     public CodeWithAuthority(String value) {
-       setValue(value);
+        setValue(value);
     }
 
     /**
      * constructor
      *
-     * @param value
-     *            Value/identifier
-     * @param codeSpace
-     *            Code space
+     * @param value     Value/identifier
+     * @param codeSpace Code space
      */
     public CodeWithAuthority(String value, String codeSpace) {
         setValue(value);
@@ -83,8 +79,7 @@ public class CodeWithAuthority implements Comparable<CodeWithAuthority> {
     /**
      * Set value and return this CodeWithAuthority object
      *
-     * @param value
-     *            Value to set
+     * @param value Value to set
      * @return This CodeWithAuthority object
      */
     public CodeWithAuthority setValue(String value) {
@@ -95,8 +90,7 @@ public class CodeWithAuthority implements Comparable<CodeWithAuthority> {
     /**
      * Set code space and return this CodeWithAuthority object
      *
-     * @param codeSpace
-     *            Code space to set
+     * @param codeSpace Code space to set
      * @return This CodeWithAuthority object
      */
     public CodeWithAuthority setCodeSpace(String codeSpace) {

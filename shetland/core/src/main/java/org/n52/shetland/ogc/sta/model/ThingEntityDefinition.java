@@ -28,27 +28,19 @@ public class ThingEntityDefinition extends STAEntityDefinition {
 
     public static final String ENTITY_SET_NAME = THINGS;
 
-    private static final String[] NAV_PROPS_OPTIONAL = new String[] {
-            DATASTREAMS,
-            LOCATIONS,
-            HISTORICAL_LOCATIONS
-    };
+    private static final String[] NAV_PROPS_OPTIONAL = new String[]{DATASTREAMS,
+                                                                    LOCATIONS,
+                                                                    HISTORICAL_LOCATIONS};
 
-    private static final String[] NAV_PROPS_MANDATORY = new String[] {
-            DATASTREAMS,
-            LOCATIONS,
-            HISTORICAL_LOCATIONS
-    };
+    private static final String[] NAV_PROPS_MANDATORY = new String[]{DATASTREAMS,
+                                                                     LOCATIONS,
+                                                                     HISTORICAL_LOCATIONS};
 
-    private static final String[] ENTITY_PROPS_OPTIONAL = new String[] {
-            PROP_PROPERTIES
-    };
+    private static final String[] ENTITY_PROPS_OPTIONAL = new String[]{PROP_PROPERTIES};
 
-    private static final String[] ENTITY_PROPS_MANDATORY = new String[] {
-            PROP_ID,
-            PROP_NAME,
-            PROP_DESCRIPTION
-    };
+    private static final String[] ENTITY_PROPS_MANDATORY = new String[]{PROP_ID,
+                                                                        PROP_NAME,
+                                                                        PROP_DESCRIPTION};
 
     public static final Set<String> NAVIGATION_PROPERTIES_OPTIONAL =
             Collections.unmodifiableSet(new HashSet<>(Arrays.asList(NAV_PROPS_OPTIONAL)));

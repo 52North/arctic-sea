@@ -16,7 +16,7 @@
  */
 package org.n52.shetland.ogc.wps.description.impl;
 
-import com.google.common.base.Strings;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import org.n52.janmayen.stream.MoreCollectors;
 import org.n52.shetland.ogc.ows.OwsCode;
@@ -164,7 +164,8 @@ public class ProcessDescriptionImpl extends AbstractDescription implements Proce
 
         @Override
         public B withVersion(String version) {
-            this.version = Objects.requireNonNull(Strings.emptyToNull(version));
+            Preconditions.checkArgument(!Objects.requireNonNull(version).isEmpty());
+            this.version = version;
             return self();
         }
 

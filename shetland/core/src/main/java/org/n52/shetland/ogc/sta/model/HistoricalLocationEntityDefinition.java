@@ -28,19 +28,13 @@ public class HistoricalLocationEntityDefinition extends STAEntityDefinition {
 
     public static final String ENTITY_SET_NAME = HISTORICAL_LOCATIONS;
 
-    private static final String[] NAV_PROPS_MANDATORY = new String[] {
-            THING,
-            LOCATIONS
-    };
+    private static final String[] NAV_PROPS_MANDATORY = new String[]{THING, LOCATIONS};
 
-    private static final String[] NAV_PROPS_OPTIONAL = new String[] {};
+    private static final String[] NAV_PROPS_OPTIONAL = new String[]{};
 
-    private static final String[] ENTITY_PROPS_MANDATORY = new String[] {
-            PROP_ID,
-            PROP_TIME
-    };
+    private static final String[] ENTITY_PROPS_MANDATORY = new String[]{PROP_ID, PROP_TIME};
 
-    private static final String[] ENTITY_PROPS_OPTIONAL = new String[] {};
+    private static final String[] ENTITY_PROPS_OPTIONAL = new String[]{};
 
     public static final Set<String> NAVIGATION_PROPERTIES_OPTIONAL =
             Collections.unmodifiableSet(new HashSet<>(Arrays.asList(NAV_PROPS_OPTIONAL)));

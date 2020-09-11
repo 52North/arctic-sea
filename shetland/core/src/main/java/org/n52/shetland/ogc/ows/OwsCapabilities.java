@@ -16,16 +16,16 @@
  */
 package org.n52.shetland.ogc.ows;
 
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
+import org.n52.shetland.util.CollectionHelper;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.SortedSet;
 import java.util.TreeSet;
-
-import org.n52.shetland.util.CollectionHelper;
-
-import com.google.common.base.Strings;
 
 /**
  * TODO JavaDoc
@@ -51,14 +51,15 @@ public class OwsCapabilities {
                            Collection<String> languages,
                            Collection<OwsCapabilitiesExtension> extensions) {
         this.service = Optional.ofNullable(Strings.emptyToNull(service));
-        this.version = Objects.requireNonNull(Strings.emptyToNull(version));
+        Preconditions.checkArgument(!Objects.requireNonNull(version).isEmpty());
+        this.version = version;
         this.updateSequence = Optional.ofNullable(Strings.emptyToNull(updateSequence));
         this.serviceIdentification = Optional.ofNullable(serviceIdentification);
         this.serviceProvider = Optional.ofNullable(serviceProvider);
         this.operationsMetadata = Optional.ofNullable(operationsMetadata);
-        this.languages = Optional.ofNullable(languages).map(TreeSet<String>::new);
+        this.languages = Optional.ofNullable(languages).map(TreeSet::new);
         this.extensions =
-                Optional.ofNullable(extensions).map(TreeSet<OwsCapabilitiesExtension>::new).orElseGet(TreeSet::new);
+                Optional.ofNullable(extensions).map(TreeSet::new).orElseGet(TreeSet::new);
     }
 
     public OwsCapabilities(OwsCapabilities other) {
@@ -77,7 +78,8 @@ public class OwsCapabilities {
     }
 
     public void setVersion(String version) {
-        this.version = Objects.requireNonNull(Strings.emptyToNull(version));
+        Preconditions.checkArgument(!Objects.requireNonNull(version).isEmpty());
+        this.version = version;
     }
 
     public Optional<String> getService() {

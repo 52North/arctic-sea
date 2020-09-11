@@ -322,7 +322,7 @@ public class ObservationDecoder
         for (JsonNode field : node) {
             dataRecord.addField(decodeJsonToObject(field, SweField.class));
         }
-        return new ComplexValue();
+        return new ComplexValue(dataRecord);
     }
 
 }

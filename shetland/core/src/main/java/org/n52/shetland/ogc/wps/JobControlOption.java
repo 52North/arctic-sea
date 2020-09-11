@@ -17,6 +17,7 @@
 package org.n52.shetland.ogc.wps;
 
 import com.google.common.base.Strings;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -41,6 +42,7 @@ public class JobControlOption implements Comparable<JobControlOption> {
 
     private final String value;
 
+    @SuppressFBWarnings("NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
     public JobControlOption(String value) {
         this.value = Objects.requireNonNull(Strings.emptyToNull(value));
     }

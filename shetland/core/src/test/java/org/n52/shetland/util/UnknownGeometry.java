@@ -389,13 +389,19 @@ public class UnknownGeometry extends Geometry {
         return geom.compareTo(o, comp);
     }
 
-    @Override
     protected int getSortIndex() {
         return 0;
     }
 
-    @Override
     protected Geometry copyInternal() {
         return new UnknownGeometry(geom.copy());
+    }
+
+    protected Geometry reverseInternal() {
+        return null;
+    }
+
+    protected int getTypeCode() {
+        return 0;
     }
 }

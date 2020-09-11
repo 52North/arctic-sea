@@ -28,6 +28,7 @@ import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.isotc211.x2005.gmd.EXExtentType;
+import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.LineString;
 import org.locationtech.jts.geom.MultiLineString;
@@ -712,7 +713,8 @@ public class GmlEncoderv321
             LinearRingType xbLrt = LinearRingType.Factory.newInstance();
 
             // Exterior ring
-            LineString ring = pol.getExteriorRing();
+//            LineString ring = pol.getExteriorRing();
+            Coordinate[] ring = JTSHelper.getExteriorRingCoordinatesFromPolygon(pol);
             DirectPositionListType xbPosList = xbLrt.addNewPosList();
 
             xbPosList.setSrsName(srsName);
@@ -724,6 +726,7 @@ public class GmlEncoderv321
             if (cursor.toChild(GmlConstants.QN_ABSTRACT_RING_32)) {
                 cursor.setName(GmlConstants.QN_LINEAR_RING_32);
             }
+            cursor.dispose();
 
             // Interior ring
             int numberOfInteriorRings = pol.getNumInteriorRing();
@@ -733,11 +736,9 @@ public class GmlEncoderv321
 
                 xbLrt = LinearRingType.Factory.newInstance();
 
-                ring = pol.getInteriorRingN(ringNumber);
-
                 xbPosList = xbLrt.addNewPosList();
                 xbPosList.setSrsName(srsName);
-                xbPosList.setStringValue(JTSHelper.getCoordinatesString(ring));
+                xbPosList.setStringValue(JTSHelper.getCoordinatesString(pol.getInteriorRingN(ringNumber)));
                 xbArt.set(xbLrt);
 
                 // Rename element name for output
@@ -745,6 +746,7 @@ public class GmlEncoderv321
                 if (cursor.toChild(GmlConstants.QN_ABSTRACT_RING_32)) {
                     cursor.setName(GmlConstants.QN_LINEAR_RING_32);
                 }
+                cursor.dispose();
             }
         }
     }

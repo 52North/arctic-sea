@@ -99,6 +99,9 @@ public class GetCapabilitiesResponseEncoder extends AbstractSosResponseEncoder<G
         } else {
             xbCaps.setVersion(response.getVersion());
         }
+        if (response.getCapabilities().getUpdateSequence().isPresent()) {
+            xbCaps.setUpdateSequence(response.getCapabilities().getUpdateSequence().get());
+        }
         encodeServiceIdentification(response.getCapabilities(), xbCaps);
         encodeServiceProvider(response.getCapabilities(), xbCaps);
         encodeOperationsMetadata(response.getCapabilities(), xbCaps);

@@ -25,7 +25,6 @@ import java.util.Set;
 import java.util.function.Supplier;
 
 import javax.xml.namespace.QName;
-import javax.xml.soap.SOAPConstants;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.xmlbeans.XmlObject;
@@ -42,7 +41,6 @@ import org.n52.shetland.w3c.soap.AbstractSoap;
 import org.n52.shetland.w3c.soap.SoapConstants;
 import org.n52.shetland.w3c.soap.SoapFault;
 import org.n52.shetland.w3c.soap.SoapHeader;
-import org.n52.shetland.w3c.soap.SoapHelper;
 import org.n52.shetland.w3c.soap.SoapRequest;
 import org.n52.shetland.w3c.soap.SoapResponse;
 import org.n52.shetland.w3c.wsa.WsaActionHeader;
@@ -98,13 +96,13 @@ public class Soap12Encoder extends AbstractSoapEncoder<XmlObject, Object>
     @Override
     public XmlObject encode(final Object element, EncodingContext additionalValues) throws EncodingException {
         if (element instanceof SoapResponse) {
-            return createSOAP12Envelope((SoapResponse) element, additionalValues);
+            return createEnvelope((SoapResponse) element, additionalValues);
         } else if (element instanceof SoapRequest) {
-            return createSOAP12Envelope((SoapRequest) element, additionalValues);
+            return createEnvelope((SoapRequest) element, additionalValues);
         } else if (element instanceof SoapFault) {
-            return createSOAP12Fault((SoapFault) element);
+            return createFault((SoapFault) element);
         } else if (element instanceof OwsExceptionReport) {
-            return createSOAP12FaultFromExceptionResponse((OwsExceptionReport) element);
+            return createFaultFromExceptionResponse((OwsExceptionReport) element);
         } else {
             throw new UnsupportedEncoderInputException(this, element);
         }
@@ -130,14 +128,14 @@ public class Soap12Encoder extends AbstractSoapEncoder<XmlObject, Object>
         }
     }
 
-    private XmlObject createSOAP12Envelope(AbstractSoap<?> soap, EncodingContext additionalValues)
+    private XmlObject createEnvelope(AbstractSoap<?> soap, EncodingContext additionalValues)
             throws EncodingException {
         String action = null;
         final EnvelopeDocument envelopeDoc = EnvelopeDocument.Factory.newInstance();
         final Envelope envelope = envelopeDoc.addNewEnvelope();
         final Body body = envelope.addNewBody();
         if (soap.getSoapFault() != null) {
-            body.set(createSOAP12Fault(soap.getSoapFault()));
+            body.set(createFault(soap.getSoapFault()));
         } else {
             if (soap instanceof SoapResponse && ((SoapResponse) soap).hasException()) {
                 SoapResponse response = (SoapResponse) soap;
@@ -145,7 +143,7 @@ public class Soap12Encoder extends AbstractSoapEncoder<XmlObject, Object>
                     final CodedException firstException = response.getException().getExceptions().get(0);
                     action = getExceptionActionURI(firstException.getCode());
                 }
-                body.set(createSOAP12FaultFromExceptionResponse(response.getException()));
+                body.set(createFaultFromExceptionResponse(response.getException()));
                 N52XmlHelper.setSchemaLocationsToDocument(
                         envelopeDoc,
                         Sets.newHashSet(N52XmlHelper.getSchemaLocationForSOAP12(),
@@ -181,7 +179,7 @@ public class Soap12Encoder extends AbstractSoapEncoder<XmlObject, Object>
         }
 
         if (soap.getHeader() != null) {
-            createSOAP12Header(envelope, soap.getHeader(), action);
+            createHeader(envelope, soap.getHeader(), action);
         } else {
             envelope.addNewHeader();
         }
@@ -191,7 +189,7 @@ public class Soap12Encoder extends AbstractSoapEncoder<XmlObject, Object>
         return envelopeDoc;
     }
 
-    private void createSOAP12Header(Envelope envelope, List<SoapHeader> headers, String action)
+    private void createHeader(Envelope envelope, List<SoapHeader> headers, String action)
             throws EncodingException {
         Node headerDomNode = envelope.addNewHeader().getDomNode();
         for (SoapHeader header : headers) {
@@ -207,7 +205,7 @@ public class Soap12Encoder extends AbstractSoapEncoder<XmlObject, Object>
         }
     }
 
-    private XmlObject createSOAP12Fault(final SoapFault soapFault) {
+    private XmlObject createFault(final SoapFault soapFault) {
         final FaultDocument faultDoc = FaultDocument.Factory.newInstance();
         final Fault fault = faultDoc.addNewFault();
         fault.addNewCode().setValue(soapFault.getFaultCode());
@@ -225,12 +223,12 @@ public class Soap12Encoder extends AbstractSoapEncoder<XmlObject, Object>
     // see
     // http://www.angelikalanger.com/GenericsFAQ/FAQSections/ProgrammingIdioms.html#FAQ300
     // for more details
-    private XmlObject createSOAP12FaultFromExceptionResponse(final OwsExceptionReport owsExceptionReport)
+    private XmlObject createFaultFromExceptionResponse(final OwsExceptionReport owsExceptionReport)
             throws EncodingException {
         final FaultDocument faultDoc = FaultDocument.Factory.newInstance();
         final Fault fault = faultDoc.addNewFault();
         final Faultcode code = fault.addNewCode();
-        code.setValue(SOAPConstants.SOAP_SENDER_FAULT);
+        code.setValue(SoapConstants.SENDER_FAULT);
 
         // we encode only the first exception because of OGC#09-001 Section
         // 19.2.3 SOAP 1.2 Fault Binding
@@ -246,7 +244,7 @@ public class Soap12Encoder extends AbstractSoapEncoder<XmlObject, Object>
             subcode.setValue(qName);
             final Reasontext addNewText = fault.addNewReason().addNewText();
             addNewText.setLang(Locale.ENGLISH.getLanguage());
-            addNewText.setStringValue(SoapHelper.getSoapFaultReasonText(firstException.getCode()));
+            addNewText.setStringValue(getSoapFaultReasonText(firstException.getCode()));
 
             fault.addNewDetail().set(encodeObjectToXml(OWSConstants.NS_OWS, firstException,
                     EncodingContext.of(XmlBeansEncodingFlags.ENCODE_OWS_EXCEPTION_ONLY)));

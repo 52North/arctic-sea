@@ -269,4 +269,6 @@ public interface Datasource extends Serializable {
 
     void checkPostCreation(Properties properties);
 
+    Set<String> getSpringProfiles();
+
 }
