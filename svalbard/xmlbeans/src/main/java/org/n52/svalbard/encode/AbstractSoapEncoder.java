@@ -54,7 +54,8 @@ public abstract class AbstractSoapEncoder<T, S> extends AbstractXmlEncoder<T, S>
     private final Set<EncoderKey> encoderKey;
 
     public AbstractSoapEncoder(String namespace) {
-        this.encoderKey = ImmutableSet.<EncoderKey> of(new XmlEncoderKey(namespace, SoapResponse.class));
+        this.encoderKey = ImmutableSet.<EncoderKey> of(new XmlEncoderKey(namespace, SoapResponse.class),
+                                                       new XmlEncoderKey(namespace, SoapRequest.class));
     }
 
     @Override
