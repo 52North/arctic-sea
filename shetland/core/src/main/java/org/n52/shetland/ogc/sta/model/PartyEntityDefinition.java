@@ -14,9 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.ogc.sta.model.extension;
 
-import org.n52.shetland.ogc.sta.model.STAEntityDefinition;
+package org.n52.shetland.ogc.sta.model;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -26,24 +25,25 @@ import java.util.Set;
 /**
  * @author <a href="mailto:j.speckamp@52north.org">Jan Speckamp</a>
  */
-public class ObservationGroupEntityDefinition extends STAEntityDefinition {
+public class PartyEntityDefinition extends STAEntityDefinition {
 
-    public static final String ENTITY_NAME = OBSERVATION_GROUP;
+    public static final String ENTITY_NAME = PARTY;
 
-    public static final String ENTITY_SET_NAME = OBSERVATION_GROUPS;
+    public static final String ENTITY_SET_NAME = PARTIES;
 
-    private static final String[] NAV_PROPS_MANDATORY = new String[] {
-            OBSERVATION_RELATIONS
+    private static final String[] NAV_PROPS_MANDATORY = new String[] {};
+
+    private static final String[] NAV_PROPS_OPTIONAL = new String[] {
+            DATASTREAMS
     };
-
-    private static final String[] NAV_PROPS_OPTIONAL = new String[] { };
 
     private static final String[] ENTITY_PROPS_MANDATORY = new String[] {
-            PROP_NAME,
-            PROP_DESCRIPTION
+            PROP_ROLE
     };
 
-    private static final String[] ENTITY_PROPS_OPTIONAL = new String[] {};
+    private static final String[] ENTITY_PROPS_OPTIONAL = new String[] {
+            PROP_NICKNAME
+    };
 
     public static final Set<String> NAVIGATION_PROPERTIES_OPTIONAL =
             Collections.unmodifiableSet(new HashSet<>(Arrays.asList(NAV_PROPS_OPTIONAL)));
@@ -65,7 +65,7 @@ public class ObservationGroupEntityDefinition extends STAEntityDefinition {
             Collections.unmodifiableSet(STAEntityDefinition.combineSets(ENTITY_PROPERTIES_OPTIONAL,
                                                                         ENTITY_PROPERTIES_MANDATORY));
 
-    public ObservationGroupEntityDefinition() {
+    public PartyEntityDefinition() {
         super(NAVIGATION_PROPERTIES_OPTIONAL,
               NAVIGATION_PROPERTIES_MANDATORY,
               ENTITY_PROPERTIES_OPTIONAL,

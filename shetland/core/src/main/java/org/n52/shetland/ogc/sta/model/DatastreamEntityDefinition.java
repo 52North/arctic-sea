@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.shetland.ogc.sta.model;
 
 import java.util.Arrays;
@@ -28,21 +29,30 @@ public class DatastreamEntityDefinition extends STAEntityDefinition {
 
     public static final String ENTITY_SET_NAME = DATASTREAMS;
 
-    private static final String[] NAV_PROPS_MANDATORY = new String[]{SENSOR,
-                                                                     THING,
-                                                                     OBSERVED_PROPERTY};
+    private static final String[] NAV_PROPS_MANDATORY = new String[] {
+            SENSOR,
+            THING,
+            OBSERVED_PROPERTY,
+            LICENSE,
+            PARTY,
+            PROJECT
+    };
 
-    private static final String[] NAV_PROPS_OPTIONAL = new String[]{OBSERVATIONS};
+    private static final String[] NAV_PROPS_OPTIONAL = new String[] {OBSERVATIONS};
 
-    private static final String[] ENTITY_PROPS_MANDATORY = new String[]{PROP_ID,
-                                                                        PROP_NAME,
-                                                                        PROP_DESCRIPTION,
-                                                                        PROP_OBSERVATION_TYPE,
-                                                                        PROP_UOM};
+    private static final String[] ENTITY_PROPS_MANDATORY = new String[] {
+            PROP_ID,
+            PROP_NAME,
+            PROP_DESCRIPTION,
+            PROP_OBSERVATION_TYPE,
+            PROP_UOM
+    };
 
-    private static final String[] ENTITY_PROPS_OPTIONAL = new String[]{PROP_OBSERVED_AREA,
-                                                                       PROP_PHENOMENON_TIME,
-                                                                       PROP_RESULT_TIME};
+    private static final String[] ENTITY_PROPS_OPTIONAL = new String[] {
+            PROP_OBSERVED_AREA,
+            PROP_PHENOMENON_TIME,
+            PROP_RESULT_TIME
+    };
 
     public static final Set<String> NAVIGATION_PROPERTIES_OPTIONAL =
             Collections.unmodifiableSet(new HashSet<>(Arrays.asList(NAV_PROPS_OPTIONAL)));

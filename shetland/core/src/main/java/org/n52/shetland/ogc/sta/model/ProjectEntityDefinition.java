@@ -14,9 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.ogc.sta.model.extension;
 
-import org.n52.shetland.ogc.sta.model.STAEntityDefinition;
+package org.n52.shetland.ogc.sta.model;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -26,11 +25,11 @@ import java.util.Set;
 /**
  * @author <a href="mailto:j.speckamp@52north.org">Jan Speckamp</a>
  */
-public class PartyEntityDefinition extends STAEntityDefinition {
+public class ProjectEntityDefinition extends STAEntityDefinition {
 
-    public static final String ENTITY_NAME = PARTY;
+    public static final String ENTITY_NAME = PROJECT;
 
-    public static final String ENTITY_SET_NAME = PARTIES;
+    public static final String ENTITY_SET_NAME = PROJECTS;
 
     private static final String[] NAV_PROPS_MANDATORY = new String[] {};
 
@@ -39,7 +38,6 @@ public class PartyEntityDefinition extends STAEntityDefinition {
     };
 
     private static final String[] ENTITY_PROPS_MANDATORY = new String[] {
-            PROP_NAME,
             PROP_DESCRIPTION,
             PROP_RUNTIME
     };
@@ -68,7 +66,7 @@ public class PartyEntityDefinition extends STAEntityDefinition {
             Collections.unmodifiableSet(STAEntityDefinition.combineSets(ENTITY_PROPERTIES_OPTIONAL,
                                                                         ENTITY_PROPERTIES_MANDATORY));
 
-    public PartyEntityDefinition() {
+    public ProjectEntityDefinition() {
         super(NAVIGATION_PROPERTIES_OPTIONAL,
               NAVIGATION_PROPERTIES_MANDATORY,
               ENTITY_PROPERTIES_OPTIONAL,

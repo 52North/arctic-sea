@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.shetland.ogc.sta.model;
 
 import java.util.Arrays;
@@ -28,19 +29,27 @@ public class ObservationEntityDefinition extends STAEntityDefinition {
 
     public static final String ENTITY_SET_NAME = OBSERVATIONS;
 
-    private static final String[] NAV_PROPS_MANDATORY = new String[]{DATASTREAM,
-                                                                     FEATURE_OF_INTEREST};
+    private static final String[] NAV_PROPS_MANDATORY = new String[] {
+            DATASTREAM,
+            FEATURE_OF_INTEREST
+    };
 
-    private static final String[] NAV_PROPS_OPTIONAL = new String[]{};
+    private static final String[] NAV_PROPS_OPTIONAL = new String[] {
+            OBSERVATION_RELATIONS
+    };
 
-    private static final String[] ENTITY_PROPS_MANDATORY = new String[]{PROP_ID,
-                                                                        PROP_PHENOMENON_TIME,
-                                                                        PROP_RESULT,
-                                                                        PROP_RESULT_TIME};
+    private static final String[] ENTITY_PROPS_MANDATORY = new String[] {
+            PROP_ID,
+            PROP_PHENOMENON_TIME,
+            PROP_RESULT,
+            PROP_RESULT_TIME
+    };
 
-    private static final String[] ENTITY_PROPS_OPTIONAL = new String[]{PROP_RESULT_QUALITY,
-                                                                       PROP_VALID_TIME,
-                                                                       PROP_PARAMETERS};
+    private static final String[] ENTITY_PROPS_OPTIONAL = new String[] {
+            PROP_RESULT_QUALITY,
+            PROP_VALID_TIME,
+            PROP_PARAMETERS
+    };
 
     public static final Set<String> NAVIGATION_PROPERTIES_OPTIONAL =
             Collections.unmodifiableSet(new HashSet<>(Arrays.asList(NAV_PROPS_OPTIONAL)));
