@@ -140,7 +140,7 @@
 
     <properties>
         <timestamp>${maven.build.timestamp}</timestamp>
-        <version.spring>5.2.8.RELEASE</version.spring>
+        <version.spring>5.2.9.RELEASE</version.spring>
         <version.slf4j>1.7.30</version.slf4j>
         <version.xmlbeans>3.1.0</version.xmlbeans>
         <version.exificient>1.0.4</version.exificient>
