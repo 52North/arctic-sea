@@ -36,8 +36,6 @@ public class ObservationGroupEntityDefinition extends STAEntityDefinition {
     };
 
     private static final String[] NAV_PROPS_OPTIONAL = new String[] {
-            PARENT,
-            CHILDREN
     };
 
     private static final String[] ENTITY_PROPS_MANDATORY = new String[] {
