@@ -125,6 +125,8 @@ public interface StaConstants {
     String PROP_RUNTIME = "runtime";
     String PROP_URL = "url";
     String PROP_LOGO = "logo";
-    String PROP_CREATED = "created";
+    String PROP_CLASSIFICATION = "classification";
+    String PROP_TERMS_OF_USE = "termsOfUse";
+    String PROP_PRIVACY_POLICY = "privacyPolicy";
 
 }

@@ -39,7 +39,10 @@ public class ProjectEntityDefinition extends STAEntityDefinition {
 
     private static final String[] ENTITY_PROPS_MANDATORY = new String[] {
             PROP_DESCRIPTION,
-            PROP_RUNTIME
+            PROP_RUNTIME,
+            PROP_CLASSIFICATION,
+            PROP_TERMS_OF_USE,
+            PROP_PRIVACY_POLICY
     };
 
     private static final String[] ENTITY_PROPS_OPTIONAL = new String[] {
