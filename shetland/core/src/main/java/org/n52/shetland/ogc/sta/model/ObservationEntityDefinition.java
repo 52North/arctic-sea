@@ -48,7 +48,8 @@ public class ObservationEntityDefinition extends STAEntityDefinition {
     private static final String[] ENTITY_PROPS_OPTIONAL = new String[] {
             PROP_RESULT_QUALITY,
             PROP_VALID_TIME,
-            PROP_PARAMETERS
+            PROP_PARAMETERS,
+            PROP_PROPERTIES
     };
 
     public static final Set<String> NAVIGATION_PROPERTIES_OPTIONAL =

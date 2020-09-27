@@ -39,7 +39,7 @@ public class LocationEntityDefinition extends STAEntityDefinition {
                                                                         PROP_ENCODINGTYPE,
                                                                         PROP_LOCATION};
 
-    private static final String[] ENTITY_PROPS_OPTIONAL = new String[]{};
+    private static final String[] ENTITY_PROPS_OPTIONAL = new String[]{PROP_PROPERTIES};
 
     public static final Set<String> NAVIGATION_PROPERTIES_OPTIONAL =
             Collections.unmodifiableSet(new HashSet<>(Arrays.asList(NAV_PROPS_OPTIONAL)));

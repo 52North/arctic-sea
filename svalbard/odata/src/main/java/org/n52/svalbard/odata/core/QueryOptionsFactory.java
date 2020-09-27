@@ -67,6 +67,7 @@ public class QueryOptionsFactory {
     }
 
     private static final class CustomErrorListener extends BaseErrorListener {
+
         private final Vocabulary vocabulary;
 
         private CustomErrorListener(Vocabulary vocabulary) {
@@ -77,9 +78,9 @@ public class QueryOptionsFactory {
         public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine,
                                 String msg, RecognitionException e) {
             String message;
-            if(e.getOffendingToken() != null) {
+            if (e.getOffendingToken() != null) {
                 message = String.format("Failed to parse QueryOptions due to %s with offending token: %s", msg,
-                                               vocabulary.getDisplayName(e.getOffendingToken().getType()));
+                                        vocabulary.getDisplayName(e.getOffendingToken().getType()));
             } else {
                 message = String.format("Failed to parse QueryOptions due to error: %s", msg);
             }

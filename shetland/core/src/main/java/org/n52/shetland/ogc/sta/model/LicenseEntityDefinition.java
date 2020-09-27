@@ -43,7 +43,8 @@ public class LicenseEntityDefinition extends STAEntityDefinition {
     };
 
     private static final String[] ENTITY_PROPS_OPTIONAL = new String[] {
-            PROP_LOGO
+            PROP_LOGO,
+            PROP_PROPERTIES
     };
 
     public static final Set<String> NAVIGATION_PROPERTIES_OPTIONAL =

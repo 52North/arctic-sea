@@ -51,7 +51,8 @@ public class DatastreamEntityDefinition extends STAEntityDefinition {
     private static final String[] ENTITY_PROPS_OPTIONAL = new String[] {
             PROP_OBSERVED_AREA,
             PROP_PHENOMENON_TIME,
-            PROP_RESULT_TIME
+            PROP_RESULT_TIME,
+            PROP_PROPERTIES
     };
 
     public static final Set<String> NAVIGATION_PROPERTIES_OPTIONAL =

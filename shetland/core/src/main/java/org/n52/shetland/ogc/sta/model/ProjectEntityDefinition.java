@@ -43,7 +43,8 @@ public class ProjectEntityDefinition extends STAEntityDefinition {
     };
 
     private static final String[] ENTITY_PROPS_OPTIONAL = new String[] {
-            PROP_URL
+            PROP_URL,
+            PROP_PROPERTIES
     };
 
     public static final Set<String> NAVIGATION_PROPERTIES_OPTIONAL =
