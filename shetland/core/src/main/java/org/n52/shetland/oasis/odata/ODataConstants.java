@@ -79,7 +79,7 @@ public interface ODataConstants {
         String MINUTE = "minute";
         String MONTH = "month";
         String NOW = "now";
-        String SECOND = "secopnd";
+        String SECOND = "second";
         String TIME = "time";
         String TOTALOFFSETMINUTES = "totaloffsetminutes";
         String TOTALSECONDS = "totalseconds";
