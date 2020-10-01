@@ -63,6 +63,7 @@ import org.n52.shetland.ogc.om.values.SweDataArrayValue;
 import org.n52.shetland.ogc.om.values.TLVTValue;
 import org.n52.shetland.ogc.om.values.TVPValue;
 import org.n52.shetland.ogc.om.values.TextValue;
+import org.n52.shetland.ogc.om.values.TimeValue;
 import org.n52.shetland.ogc.om.values.TimeRangeValue;
 import org.n52.shetland.ogc.om.values.UnknownValue;
 import org.n52.shetland.ogc.om.values.XmlValue;
@@ -572,6 +573,11 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
         @Override
         public XmlObject visit(ProfileValue value) throws EncodingException {
             return encodeGWML(value, EncodingContext.of(XmlBeansEncodingFlags.FOR_OBSERVATION));
+        }
+
+        @Override
+        public XmlObject visit(TimeValue value) throws EncodingException {
+            return null;
         }
 
         @Override
