@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copied from https://ears.bmdc.be/ears3-0.0.1-SNAPSHOT/sml?deviceUrn=SDN:L22::TOOL0653 -->
+<PhysicalComponent
+        xmlns:swe="http://www.opengis.net/swe/2.0"
+        xmlns:gco="http://www.isotc211.org/2005/gco"
+        xmlns:sml="http://www.opengis.net/sensorml/2.0"
+        xmlns:gml="http://www.opengis.net/gml/3.2"
+        xmlns:gmd="http://www.isotc211.org/2005/gmd"
+        xmlns="http://www.opengis.net/sensorml/2.0"
+        gml:id="testdfdf--/Id">
+    <gml:identifier codeSpace="uniqueID">http://vocab.nerc.ac.uk/collection/L22/current/TOOL0653</gml:identifier>
+    <gml:boundedBy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+    <sml:classification>
+        <sml:ClassifierList>
+            <sml:classifier>
+                <sml:Term definition="http://vocab.nerc.ac.uk/collection/W06/current/CLSS0002" id="sediment_grabs">
+                    <sml:label>Instrument type</sml:label>
+                    <sml:value>http://vocab.nerc.ac.uk/collection/L05/current/50</sml:value>
+                </sml:Term>
+            </sml:classifier>
+        </sml:ClassifierList>
+    </sml:classification>
+    <sml:history>
+        <sml:EventList>
+            <sml:event>
+                <sml:Event>
+                    <swe:identifier>testIdentifier</swe:identifier>
+                    <swe:label>testLabel</swe:label>
+                    <swe:description>testDescription</swe:description>
+                    <sml:identification>
+                        <sml:IdentifierList>
+                            <sml:identifier>
+                                <sml:Term definition="http://vocab.nerc.ac.uk/collection/W07/current/IDEN0007">
+                                    <sml:label>UUID</sml:label>
+                                    <sml:value>e3c8df0d-02e9-446d-a59b-224a14b89f9a</sml:value>
+                                </sml:Term>
+                            </sml:identifier>
+                        </sml:IdentifierList>
+                    </sml:identification>
+                    <sml:classification>
+                        <sml:ClassifierList>
+                            <sml:classifier>
+                                <sml:Term definition="http://vocab.nerc.ac.uk/collection/W11/current/OOO1">
+                                    <sml:label>Event process</sml:label>
+                                    <sml:value>http://ontologies.ef-ears.eu/ears2/1#pro_1</sml:value>
+                                </sml:Term>
+                            </sml:classifier>
+                            <sml:classifier>
+                                <sml:Term definition="http://vocab.nerc.ac.uk/collection/W11/current/OOO2">
+                                    <sml:label>Event action</sml:label>
+                                    <sml:value>http://ontologies.ef-ears.eu/ears2/1#act_2</sml:value>
+                                </sml:Term>
+                            </sml:classifier>
+                            <sml:classifier>
+                                <sml:Term definition="http://vocab.nerc.ac.uk/collection/W11/current/OOO3">
+                                    <sml:label>Event subject</sml:label>
+                                    <sml:value>http://vocab.nerc.ac.uk/collection/C77/current/G71</sml:value>
+                                </sml:Term>
+                            </sml:classifier>
+                        </sml:ClassifierList>
+                    </sml:classification>
+                    <sml:contacts>
+                        <sml:ContactList>
+                            <sml:contact>
+                                <gmd:CI_ResponsibleParty>
+                                    <gmd:individualName>
+                                        <gco:CharacterString>John Doe</gco:CharacterString>
+                                    </gmd:individualName>
+                                    <gmd:role>
+                                        <gmd:CI_RoleCode codeList="researcher" codeListValue="researcher">researcher</gmd:CI_RoleCode>
+                                    </gmd:role>
+                                </gmd:CI_ResponsibleParty>
+                            </sml:contact>
+                        </sml:ContactList>
+                    </sml:contacts>
+                    <sml:time>
+                        <gml:TimeInstant gml:id="e3c8df0d-02e9-446d-a59b-224a14b89f9b">
+                            <gml:timePosition>2019-05-06T18:44:18Z</gml:timePosition>
+                        </gml:TimeInstant>
+                    </sml:time>
+                    <sml:property>
+                        <swe:DataRecord>
+                            <swe:field name="fish_count">
+                                <swe:Count definition="http://ontologies.orr.org/fish_count">
+                                    <swe:label>fish_count</swe:label>
+                                    <swe:value>89</swe:value>
+                                </swe:Count>
+                            </swe:field>
+                            <swe:field name="depth_m">
+                                <swe:Quantity definition="http://ontologies.ef-ears.eu/ears2/1/11BE#pry_21">
+                                    <swe:label>depth_m</swe:label>
+                                    <swe:uom code="m"/>
+                                    <swe:value>3.0</swe:value>
+                                </swe:Quantity>
+                            </swe:field>
+                            <swe:field name="label">
+                                <swe:Text definition="http://ontologies.ef-ears.eu/ears2/1#pry_4">
+                                    <swe:label>label</swe:label>
+                                    <swe:value>W04</swe:value>
+                                </swe:Text>
+                            </swe:field>
+                            <swe:field name="sampleId">
+                                <swe:Text definition="http://ontologies.ef-ears.eu/ears2/1#pry_16">
+                                    <swe:label>sampleId</swe:label>
+                                    <swe:value>20190506_12</swe:value>
+                                </swe:Text>
+                            </swe:field>
+                        </swe:DataRecord>
+                    </sml:property>
+                </sml:Event>
+            </sml:event>
+        </sml:EventList>
+    </sml:history>
+</PhysicalComponent>

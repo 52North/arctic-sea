@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.shetland.ogc.sensorML.v20;
 
 import org.n52.shetland.ogc.sensorML.HasProcessMethod;
@@ -25,7 +26,6 @@ import org.n52.shetland.util.IdGenerator;
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
- *
  */
 public class PhysicalComponent
         extends AbstractPhysicalProcess

@@ -251,9 +251,11 @@ public class SensorMLDecoderV101 extends AbstractSensorMLDecoder {
         if (xbAbstractProcess.getDocumentationArray() != null) {
             abstractProcess.setDocumentation(parseDocumentation(xbAbstractProcess.getDocumentationArray()));
         }
+        /*
         if (xbAbstractProcess.getHistoryArray() != null) {
             abstractProcess.setHistory(parseHistory(xbAbstractProcess.getHistoryArray()));
         }
+        */
         if (xbAbstractProcess.getKeywordsArray() != null) {
             abstractProcess.setKeywords(parseKeywords(xbAbstractProcess.getKeywordsArray()));
         }
@@ -729,11 +731,6 @@ public class SensorMLDecoderV101 extends AbstractSensorMLDecoder {
             }
         }
         return Lists.newArrayList(keywords);
-    }
-
-    private String parseHistory(final History[] historyArray) {
-        // TODO Auto-generated method stub
-        return "";
     }
 
     /**
