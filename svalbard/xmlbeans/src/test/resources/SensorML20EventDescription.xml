@@ -7,7 +7,7 @@
         xmlns:gml="http://www.opengis.net/gml/3.2"
         xmlns:gmd="http://www.isotc211.org/2005/gmd"
         xmlns="http://www.opengis.net/sensorml/2.0"
-        gml:id="testdfdf--/Id">
+        gml:id="e3c8df0d-02e9-446d-a59b-224a14b89fdd">
     <gml:identifier codeSpace="uniqueID">http://vocab.nerc.ac.uk/collection/L22/current/TOOL0653</gml:identifier>
     <gml:boundedBy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
     <sml:classification>
