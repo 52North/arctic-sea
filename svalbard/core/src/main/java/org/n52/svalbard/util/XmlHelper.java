@@ -16,6 +16,36 @@
  */
 package org.n52.svalbard.util;
 
+import com.google.common.base.Joiner;
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+import org.apache.xmlbeans.SchemaType;
+import org.apache.xmlbeans.XmlCursor;
+import org.apache.xmlbeans.XmlError;
+import org.apache.xmlbeans.XmlException;
+import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
+import org.apache.xmlbeans.XmlValidationError;
+import org.n52.janmayen.exception.CompositeException;
+import org.n52.shetland.ogc.gml.GmlConstants;
+import org.n52.shetland.ogc.ows.OWSConstants.RequestParams;
+import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.ogc.sos.Sos2Constants;
+import org.n52.shetland.ogc.swes.SwesConstants;
+import org.n52.shetland.util.CollectionHelper;
+import org.n52.shetland.w3c.W3CConstants;
+import org.n52.svalbard.decode.exception.DecodingException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Attr;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import javax.xml.namespace.QName;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -30,39 +60,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Function;
-
-import javax.xml.namespace.QName;
-
-import org.apache.xmlbeans.SchemaType;
-import org.apache.xmlbeans.XmlCursor;
-import org.apache.xmlbeans.XmlError;
-import org.apache.xmlbeans.XmlException;
-import org.apache.xmlbeans.XmlObject;
-import org.apache.xmlbeans.XmlOptions;
-import org.apache.xmlbeans.XmlValidationError;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.Attr;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
-import org.n52.janmayen.exception.CompositeException;
-import org.n52.shetland.ogc.gml.GmlConstants;
-import org.n52.shetland.ogc.ows.OWSConstants.RequestParams;
-import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
-import org.n52.shetland.ogc.sos.Sos2Constants;
-import org.n52.shetland.ogc.swes.SwesConstants;
-import org.n52.shetland.util.CollectionHelper;
-import org.n52.shetland.w3c.W3CConstants;
-import org.n52.svalbard.decode.exception.DecodingException;
-
-import com.google.common.base.Joiner;
-import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 /**
  * XML utility class TODO add javadoc to public methods.
@@ -187,7 +184,7 @@ public final class XmlHelper {
         // Create an XmlOptions instance and set the error listener.
         LinkedList<XmlError> validationErrors = new LinkedList<>();
         XmlOptions validationOptions = new XmlOptions().setErrorListener(validationErrors)
-                .setLoadLineNumbers(XmlOptions.LOAD_LINE_NUMBERS_END_ELEMENT);
+                .setLoadLineNumbers().setLoadLineNumbersEndElement();
 
         // Create Exception with error message if the xml document is invalid
         if (!doc.validate(validationOptions)) {
@@ -698,9 +695,9 @@ public final class XmlHelper {
 
     }
 
-    public static Map<?, ?> getNamespaces(XmlObject xmlObject) {
+    public static Map<String, String> getNamespaces(XmlObject xmlObject) {
         XmlCursor cursor = xmlObject.newCursor();
-        Map<?, ?> nsMap = Maps.newHashMap();
+        Map<String, String> nsMap = Maps.newHashMap();
         cursor.getAllNamespaces(nsMap);
         cursor.dispose();
         return nsMap;

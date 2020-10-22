@@ -69,8 +69,9 @@ public abstract class STAEntityDefinition implements StaConstants {
         return entityPropsMandatory;
     }
 
+    @SafeVarargs
     static Set<String> combineSets(Set<String>... sets) {
-        HashSet<String> result = new HashSet<>();
+        Set<String> result = new HashSet<>();
         for (Set<String> set : sets) {
             result.addAll(set);
         }

@@ -16,10 +16,8 @@
  */
 package org.n52.svalbard.decode;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
+import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
@@ -44,8 +42,9 @@ import org.w3.x2003.x05.soapEnvelope.Header;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.google.common.base.Joiner;
-import com.google.common.collect.Lists;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * class encapsulates decoding methods for SOAP elements.
@@ -147,7 +146,7 @@ public class Soap12Decoder extends AbstractSoapDecoder {
                         // fix problem with invalid prefix in xsi:type value for
                         // om:result, e.g. OM_SWEArrayObservation or
                         // gml:ReferenceType
-                        Map<?, ?> namespaces = XmlHelper.getNamespaces(doc.getEnvelope());
+                        Map<String, String> namespaces = XmlHelper.getNamespaces(doc.getEnvelope());
                         fixNamespaceForXsiType(content, namespaces);
                         XmlHelper.fixNamespaceForXsiType(content, SweConstants.QN_DATA_ARRAY_PROPERTY_TYPE_SWE_200);
                         return decodeXmlElement(content);

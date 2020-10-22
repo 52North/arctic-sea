@@ -203,7 +203,7 @@ public abstract class AbstractOmEncoderv20
             throw new EncodingException("Error while writing element to stream!", ioe);
         } finally {
             if (ctx.has(StreamingEncoderFlags.EMBEDDED)) {
-                getXmlOptions().remove(XmlOptions.SAVE_NO_XML_DECL);
+                getXmlOptions().setSaveNoXmlDecl(false);
             }
         }
     }

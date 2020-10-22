@@ -81,10 +81,7 @@ public class SweVector extends SweAbstractDataComponent {
             return false;
         }
         final SweVector other = (SweVector) obj;
-        if (!Objects.equal(coordinates, other.coordinates)) {
-            return false;
-        }
-        return true;
+        return Objects.equal(coordinates, other.coordinates);
     }
 
     @Override

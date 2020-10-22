@@ -16,14 +16,8 @@
  */
 package org.n52.svalbard.decode;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import javax.inject.Inject;
-
+import com.google.common.base.Joiner;
+import com.google.common.base.Strings;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.janmayen.exception.CompositeException;
@@ -39,8 +33,12 @@ import org.n52.svalbard.util.XmlHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Joiner;
-import com.google.common.base.Strings;
+import javax.inject.Inject;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
@@ -104,7 +102,7 @@ public abstract class AbstractSoapDecoder extends AbstractXmlDecoder<XmlObject, 
         return de.getMessage();
     }
 
-    protected void fixNamespaceForXsiType(XmlObject content, Map<?, ?> namespaces) {
+    protected void fixNamespaceForXsiType(XmlObject content, Map<String, String> namespaces) {
         final XmlCursor cursor = content.newCursor();
         while (cursor.hasNextToken()) {
             if (cursor.toNextToken().isStart()) {
@@ -119,10 +117,11 @@ public abstract class AbstractSoapDecoder extends AbstractXmlDecoder<XmlObject, 
                             namespace = schemaRepository.getNamespaceFor(prefix);
                         }
                         if (!Strings.isNullOrEmpty(namespace)) {
-                            cursor.setAttributeText(W3CConstants.QN_XSI_TYPE,
-                                    Joiner.on(":").join(
-                                            XmlHelper.getPrefixForNamespace(content, (String) namespaces.get(prefix)),
-                                            localName));
+                            cursor.setAttributeText(
+                                    W3CConstants.QN_XSI_TYPE,
+                                    Joiner.on(":").join(XmlHelper.getPrefixForNamespace(content,
+                                                                                        namespaces.get(prefix)),
+                                                        localName));
                         }
                     }
 
