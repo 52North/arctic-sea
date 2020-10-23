@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.n52.svalbard.decode;
 
 import com.google.common.base.Joiner;
@@ -442,7 +441,7 @@ public class SensorMLDecoderV20
             if (CollectionHelper.isNotNullOrEmpty(e.getIdentificationArray())) {
                 SmlIdentifierList identification = new SmlIdentifierList();
                 identification.setIdentification(parseIdentifications(e.getIdentificationArray()));
-                smlEvent.setIdentification(identification);
+                smlEvent.setIdentification(identification.getIdentification());
             }
             // Parse classification
             if (CollectionHelper.isNotNullOrEmpty(e.getClassificationArray())) {

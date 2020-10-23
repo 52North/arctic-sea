@@ -14,13 +14,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.ogc.sensorML.elements;
+package org.n52.svalbard.encode.json.sensorML.v20;
+
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 
 /**
- * Models an sml:property
- *
  * @author <a href="mailto:j.speckamp@52north.org">Jan Speckamp</a>
  */
-public class SmlProperty extends AbstractDataComponentContainer<SmlProperty> {
+public interface SensorML20JsonEncoder {
 
+    JsonNodeFactory jsonFactory = JsonNodeFactory.withExactBigDecimals(false);
+
+    String TYPE = "type";
+    String ID = "id";
+    String IDENTIFIER = "identifier";
+    String DESCRIPTION = "description";
+    String TERM = "Term";
+    String DEFINITION = "definition";
+    String LABEL = "label";
+    String VALUE = "value";
+    String NAME = "name";
+    String CODESPACE = "codeSpace";
+    String CLASSIFICATION = "classification";
+    String IDENTIFICATION = "identification";
+    String HISTORY = "history";
+    String PROPERTY = "property";
+    String TIME = "time";
 }

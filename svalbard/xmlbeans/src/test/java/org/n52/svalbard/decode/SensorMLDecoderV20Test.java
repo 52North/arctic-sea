@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.n52.svalbard.decode;
 
 import net.opengis.sensorml.x20.DataInterfaceType;
@@ -112,7 +111,7 @@ public class SensorMLDecoderV20Test {
 
                 // Check counts before checking individual elements
                 assertThat("sml:Event->identification" + INCORRECT_COUNT,
-                           smlEvent.getIdentification().getIdentification().size() == 1);
+                           smlEvent.getIdentification().size() == 1);
                 assertThat("sml:Event->classification" + INCORRECT_COUNT,
                            smlEvent.getClassification().getClassification().size() == 3);
                 assertThat("sml:Event->contacts" + INCORRECT_COUNT,
@@ -123,7 +122,7 @@ public class SensorMLDecoderV20Test {
                                .getAbstractDataComponent()).getFields().size() == 4);
 
                 // Check individual elements
-                smlEvent.getIdentification().getIdentification().forEach(this::checkSmlIdentifier);
+                smlEvent.getIdentification().forEach(this::checkSmlIdentifier);
                 smlEvent.getClassification().getClassification().forEach(this::checkClassification);
                 smlEvent.getContacts().getMembers().forEach(this::checkContacts);
                 smlEvent.getProperty().forEach(this::checkProperty);
