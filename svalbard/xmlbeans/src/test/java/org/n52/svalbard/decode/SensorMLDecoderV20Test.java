@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.svalbard.decode;
 
 import net.opengis.sensorml.x20.DataInterfaceType;
@@ -40,7 +41,6 @@ import org.n52.shetland.ogc.sensorML.v20.AggregateProcess;
 import org.n52.shetland.ogc.sensorML.v20.PhysicalComponent;
 import org.n52.shetland.ogc.sensorML.v20.SmlDataInterface;
 import org.n52.shetland.ogc.swe.SweDataRecord;
-import org.n52.shetland.ogc.swe.SweField;
 import org.n52.svalbard.decode.exception.DecodingException;
 
 import java.io.IOException;
@@ -117,9 +117,7 @@ public class SensorMLDecoderV20Test {
                 assertThat("sml:Event->contacts" + INCORRECT_COUNT,
                            smlEvent.getContacts().getMembers().size() == 1);
                 assertThat("sml:Event->property" + INCORRECT_COUNT,
-                           ((SweDataRecord) smlEvent.getProperty()
-                               .get(0)
-                               .getAbstractDataComponent()).getFields().size() == 4);
+                           smlEvent.getProperty().size() == 4);
 
                 // Check individual elements
                 smlEvent.getIdentification().forEach(this::checkSmlIdentifier);
@@ -133,11 +131,8 @@ public class SensorMLDecoderV20Test {
     }
 
     private void checkProperty(SmlProperty smlProperty) {
-        assertThat(smlProperty.getAbstractDataComponent(), is(instanceOf(SweDataRecord.class)));
-        for (SweField field : ((SweDataRecord) smlProperty.getAbstractDataComponent()).getFields()) {
-            assertThat("swe:field->name" + NOT_SET, field.isSetName());
-            assertThat("swe:field->label" + NOT_SET, field.isSetLabel());
-        }
+        assertThat("swe:field->definition" + NOT_SET, smlProperty.getAbstractDataComponent().isSetDefinition());
+        assertThat("swe:field->label" + NOT_SET, smlProperty.getAbstractDataComponent().isSetLabel());
     }
 
     /**

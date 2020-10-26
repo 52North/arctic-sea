@@ -25,7 +25,7 @@
         xmlns:gml="http://www.opengis.net/gml/3.2"
         xmlns:gmd="http://www.isotc211.org/2005/gmd"
         xmlns="http://www.opengis.net/sensorml/2.0"
-        gml:id="e3c8df0d-02e9-446d-a59b-224a14b89fdd">
+        gml:id="e3c8de9-446d-a59b-224a14b89fdd">
     <gml:identifier codeSpace="uniqueID">http://vocab.nerc.ac.uk/collection/L22/current/TOOL0653</gml:identifier>
     <gml:boundedBy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
     <sml:classification>
@@ -97,33 +97,29 @@
                         </gml:TimeInstant>
                     </sml:time>
                     <sml:property>
-                        <swe:DataRecord>
-                            <swe:field name="fish_count">
-                                <swe:Count definition="http://ontologies.orr.org/fish_count">
-                                    <swe:label>fish_count</swe:label>
-                                    <swe:value>89</swe:value>
-                                </swe:Count>
-                            </swe:field>
-                            <swe:field name="depth_m">
-                                <swe:Quantity definition="http://ontologies.ef-ears.eu/ears2/1/11BE#pry_21">
-                                    <swe:label>depth_m</swe:label>
-                                    <swe:uom code="m"/>
-                                    <swe:value>3.0</swe:value>
-                                </swe:Quantity>
-                            </swe:field>
-                            <swe:field name="label">
-                                <swe:Text definition="http://ontologies.ef-ears.eu/ears2/1#pry_4">
-                                    <swe:label>label</swe:label>
-                                    <swe:value>W04</swe:value>
-                                </swe:Text>
-                            </swe:field>
-                            <swe:field name="sampleId">
-                                <swe:Text definition="http://ontologies.ef-ears.eu/ears2/1#pry_16">
-                                    <swe:label>sampleId</swe:label>
-                                    <swe:value>20190506_12</swe:value>
-                                </swe:Text>
-                            </swe:field>
-                        </swe:DataRecord>
+                        <swe:Count definition="http://ontologies.orr.org/fish_count">
+                            <swe:label>fish_count</swe:label>
+                            <swe:value>89</swe:value>
+                        </swe:Count>
+                    </sml:property>
+                    <sml:property>
+                        <swe:Quantity definition="http://ontologies.ef-ears.eu/ears2/1/11BE#pry_21">
+                            <swe:label>depth_m</swe:label>
+                            <swe:uom code="m"/>
+                            <swe:value>3.0</swe:value>
+                        </swe:Quantity>
+                    </sml:property>
+                    <sml:property>
+                        <swe:Text definition="http://ontologies.ef-ears.eu/ears2/1#pry_4">
+                            <swe:label>label</swe:label>
+                            <swe:value>W04</swe:value>
+                        </swe:Text>
+                    </sml:property>
+                    <sml:property>
+                        <swe:Text definition="http://ontologies.ef-ears.eu/ears2/1#pry_16">
+                            <swe:label>sampleId</swe:label>
+                            <swe:value>20190506_12</swe:value>
+                        </swe:Text>
                     </sml:property>
                 </sml:Event>
             </sml:event>
