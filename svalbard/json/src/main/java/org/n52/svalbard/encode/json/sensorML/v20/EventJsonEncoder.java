@@ -53,10 +53,10 @@ public class EventJsonEncoder extends JSONEncoder<SmlEvent> implements SensorML2
             json.put(DEFINITION, event.getDefinition());
         }
         if (event.getClassification() != null) {
-            json.put(CLASSIFICATION, encodeObjectToJson(event.getClassification().getClassification()));
+            json.put(CLASSIFICATION, encodeListObjectToJson(event.getClassification().getClassification()));
         }
         if (event.getIdentification() != null) {
-            json.put(IDENTIFICATION, encodeObjectToJson(event.getIdentification()));
+            json.put(IDENTIFICATION, encodeListObjectToJson(event.getIdentification()));
         }
         if (event.isSetTime()) {
             if (event.getTime() instanceof TimeInstant) {

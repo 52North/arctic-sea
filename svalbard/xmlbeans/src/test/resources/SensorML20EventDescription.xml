@@ -72,7 +72,7 @@
                             </sml:classifier>
                             <sml:classifier>
                                 <sml:Term definition="http://vocab.nerc.ac.uk/collection/W11/current/OOO3"
-                                          id="In-situ seafloor measurement/sampling">
+                                          id="In-situ_seafloor_measurement_sampling">
                                     <sml:label>Event subject</sml:label>
                                     <sml:value>http://vocab.nerc.ac.uk/collection/C77/current/G71</sml:value>
                                 </sml:Term>
@@ -87,8 +87,7 @@
                                         <gco:CharacterString>John Doe</gco:CharacterString>
                                     </gmd:individualName>
                                     <gmd:role>
-                                        <gmd:CI_RoleCode codeList="researcher" codeListValue="researcher">researcher
-                                        </gmd:CI_RoleCode>
+                                        <gmd:CI_RoleCode codeList="researcher" codeListValue="researcher">researcher</gmd:CI_RoleCode>
                                     </gmd:role>
                                 </gmd:CI_ResponsibleParty>
                             </sml:contact>

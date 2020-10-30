@@ -16,10 +16,14 @@
  */
 package org.n52.svalbard.encode.json;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.n52.shetland.ogc.sensorML.elements.SmlIdentifier;
 import org.n52.svalbard.encode.exception.EncodingException;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+
+import java.util.List;
 
 /**
  * TODO JavaDoc

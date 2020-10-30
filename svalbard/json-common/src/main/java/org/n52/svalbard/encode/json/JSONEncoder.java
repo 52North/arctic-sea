@@ -94,11 +94,6 @@ public abstract class JSONEncoder<T> implements Encoder<JsonNode, T> {
     }
 
     @Override
-    public MediaType getContentType() {
-        return MediaTypes.APPLICATION_JSON;
-    }
-
-    @Override
     public JsonNode encode(T objectToEncode)
         throws EncodingException {
         if (objectToEncode == null) {
@@ -112,6 +107,11 @@ public abstract class JSONEncoder<T> implements Encoder<JsonNode, T> {
         return encode(objectToEncode);
     }
 
+    @Override
+    public MediaType getContentType() {
+        return MediaTypes.APPLICATION_JSON;
+    }
+
     protected <T> void encode(ArrayNode json, T obj, Function<T, JsonNode> encoder) {
         json.add(encoder.apply(obj));
     }
@@ -123,23 +123,30 @@ public abstract class JSONEncoder<T> implements Encoder<JsonNode, T> {
     public abstract JsonNode encodeJSON(T t)
         throws EncodingException;
 
+    /**
+     * Encodes a List of Objects to JSON. Uses ListEncoderKey if the List has elements and default JSONEncoderKey if
+     * not. Needed in SensorML20 Encoding as List-encoding is dependent on type of the list.
+     *
+     * @param o List to be encoded
+     * @return encoded String
+     * @throws EncodingException if encoding failed
+     */
+    protected JsonNode encodeListObjectToJson(List<?> o) throws EncodingException {
+        EncoderKey key;
+        if (o.size() > 0) {
+            key = new ListEncoderKey(((List) o).get(0).getClass());
+        } else {
+            key = new JSONEncoderKey(o.getClass());
+        }
+        Encoder<JsonNode, Object> encoder = this.encoderRepository.getEncoder(key);
+        return Optional.ofNullable(encoder).orElseThrow(() -> new NoEncoderForKeyException(key)).encode(o);
+    }
+
     protected JsonNode encodeObjectToJson(Object o) throws EncodingException {
         if (o == null) {
             return nodeFactory().nullNode();
         }
-        EncoderKey key;
-        // Check if we handle a list of items
-        if (o instanceof List<?>) {
-            // Get embedded type if available
-            if (((List) o).size() > 0) {
-                key = new ListEncoderKey(((List) o).get(0).getClass());
-            } else {
-                // We cannot decode empty lists
-                throw new NoEncoderForKeyException(o);
-            }
-        } else {
-            key = new JSONEncoderKey(o.getClass());
-        }
+        EncoderKey key = new JSONEncoderKey(o.getClass());
         Encoder<JsonNode, Object> encoder = this.encoderRepository.getEncoder(key);
         return Optional.ofNullable(encoder).orElseThrow(() -> new NoEncoderForKeyException(key)).encode(o);
     }
