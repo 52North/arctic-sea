@@ -128,5 +128,6 @@ public interface StaConstants {
     String PROP_CLASSIFICATION = "classification";
     String PROP_TERMS_OF_USE = "termsOfUse";
     String PROP_PRIVACY_POLICY = "privacyPolicy";
+    String PROP_AUTH_ID = "authId";
 
 }
