@@ -193,7 +193,7 @@ public class GeoJSONEncoder
         ArrayNode list = jsonFactory.arrayNode();
         Coordinate[] coordinates = JTSHelper.getExteriorRingCoordinatesFromPolygon(geometry);
         list.add(encodeCoordinates(new CoordinateArraySequence(coordinates)));
-//        list.add(encodeCoordinates(geometry.getExteriorRing()));
+        // list.add(encodeCoordinates(geometry.getExteriorRing()));
         for (int i = 0; i < geometry.getNumInteriorRing(); ++i) {
             list.add(encodeCoordinates(geometry.getInteriorRingN(i)));
         }

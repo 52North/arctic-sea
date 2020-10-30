@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.svalbard.encode.json.sensorML.v20;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -38,7 +39,7 @@ public class TermJsonEncoder extends JSONEncoder<Term> implements SensorML20Json
     }
 
     @Override public JsonNode encodeJSON(Term identifier) throws EncodingException {
-        ObjectNode json = jsonFactory.objectNode();
+        ObjectNode json = JSON_FACTORY.objectNode();
         json.put(TYPE, TERM);
         if (identifier.isSetDefinition()) {
             json.put(DEFINITION, identifier.getDefinition());

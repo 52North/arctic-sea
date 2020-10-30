@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.svalbard.encode.json.sensorML.v20;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -32,10 +33,15 @@ import org.n52.svalbard.encode.json.JSONEncoder;
  */
 public class PropertyJsonEncoder extends JSONEncoder<SmlProperty> implements SensorML20JsonEncoder {
 
+    public PropertyJsonEncoder() {
+        super(SmlProperty.class);
+    }
+
     @Override public JsonNode encodeJSON(SmlProperty property) throws EncodingException {
-        ObjectNode json = jsonFactory.objectNode();
+        ObjectNode json = JSON_FACTORY.objectNode();
         if (property.isSetAbstractDataComponent()) {
             SweAbstractDataComponent component = property.getAbstractDataComponent();
+            json.put(TYPE, component.getDataComponentType().name());
             if (component.isSetDefinition()) {
                 json.put(DEFINITION, component.getDefinition());
             }

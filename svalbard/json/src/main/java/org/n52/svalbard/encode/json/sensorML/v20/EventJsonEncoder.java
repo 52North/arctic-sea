@@ -14,10 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.svalbard.encode.json.sensorML.v20;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.n52.shetland.ogc.gml.time.TimeInstant;
+import org.n52.shetland.ogc.gml.time.TimePeriod;
 import org.n52.shetland.ogc.sensorML.elements.SmlEvent;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.json.JSONEncoder;
@@ -35,7 +38,7 @@ public class EventJsonEncoder extends JSONEncoder<SmlEvent> implements SensorML2
     }
 
     @Override public JsonNode encodeJSON(SmlEvent event) throws EncodingException {
-        ObjectNode json = jsonFactory.objectNode();
+        ObjectNode json = JSON_FACTORY.objectNode();
         json.put(TYPE, TERM);
         if (event.isSetDescription()) {
             json.put(DESCRIPTION, event.getDescription());
@@ -56,7 +59,19 @@ public class EventJsonEncoder extends JSONEncoder<SmlEvent> implements SensorML2
             json.put(IDENTIFICATION, encodeObjectToJson(event.getIdentification()));
         }
         if (event.isSetTime()) {
-            json.put(TIME, event.getTime().toString());
+            if (event.getTime() instanceof TimeInstant) {
+                json.put(TIME, ((TimeInstant) event.getTime()).getValue().toString());
+            } else if (event.getTime() instanceof TimePeriod) {
+                json.put(TIME,
+                         ((TimePeriod) event.getTime()).getStart().toString()
+                             + "/"
+                             + ((TimePeriod) event.getTime()).getEnd().toString());
+            } else {
+                throw new EncodingException("Could not parse time. Unknown type: " + event.getTime().toString());
+            }
+        }
+        if (event.hasProperties()) {
+            json.put(PROPERTY, encodeObjectsToJson(event.getProperty()));
         }
 
         return json;

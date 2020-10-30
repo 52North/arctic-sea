@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.shetland.ogc.sensorML.elements;
 
 import org.n52.shetland.ogc.gml.time.Time;
@@ -96,6 +97,10 @@ public class SmlEvent extends AbstractSWEIdentifiable {
         this.documentation = documentation;
     }
 
+    public boolean hasProperties() {
+        return property != null && !property.isEmpty();
+    }
+
     public List<SmlProperty> getProperty() {
         return property;
     }
@@ -107,7 +112,7 @@ public class SmlEvent extends AbstractSWEIdentifiable {
     public boolean isSetTime() {
         return time != null;
     }
-    
+
     public Time getTime() {
         return time;
     }

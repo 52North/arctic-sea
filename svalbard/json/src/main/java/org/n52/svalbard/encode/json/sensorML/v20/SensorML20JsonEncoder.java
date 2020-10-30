@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.svalbard.encode.json.sensorML.v20;
 
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
@@ -23,7 +24,7 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
  */
 public interface SensorML20JsonEncoder {
 
-    JsonNodeFactory jsonFactory = JsonNodeFactory.withExactBigDecimals(false);
+    JsonNodeFactory JSON_FACTORY = JsonNodeFactory.withExactBigDecimals(false);
 
     String TYPE = "type";
     String ID = "id";
@@ -35,9 +36,23 @@ public interface SensorML20JsonEncoder {
     String VALUE = "value";
     String NAME = "name";
     String CODESPACE = "codeSpace";
-    String CLASSIFICATION = "classification";
-    String IDENTIFICATION = "identification";
-    String HISTORY = "history";
     String PROPERTY = "property";
     String TIME = "time";
+
+    // DescribedObject
+    String KEYWORDS = "keywords";
+    String CLASSIFICATION = "classification";
+    String IDENTIFICATION = "identification";
+    String CHARACTERISTICS = "characteristics";
+    String CAPABILITIES = "capabilities";
+    String CONTACTS = "contacts";
+    String DOCUMENTATION = "documentation";
+    String HISTORY = "history";
+
+    // AbstractPhysicalProcess
+    String ATTACHED_TO = "attachedTo";
+    String LOCAL_REFERENCE_FRAME = "localReferenceFrame";
+    String LOCAL_TIME_FRAME = "localTimeFrame";
+    // PhysicalComponent
+    String METHOD = "method";
 }

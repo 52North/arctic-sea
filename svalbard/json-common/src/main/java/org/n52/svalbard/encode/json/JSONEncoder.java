@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.svalbard.encode.json;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -93,6 +94,11 @@ public abstract class JSONEncoder<T> implements Encoder<JsonNode, T> {
     }
 
     @Override
+    public MediaType getContentType() {
+        return MediaTypes.APPLICATION_JSON;
+    }
+
+    @Override
     public JsonNode encode(T objectToEncode)
         throws EncodingException {
         if (objectToEncode == null) {
@@ -104,11 +110,6 @@ public abstract class JSONEncoder<T> implements Encoder<JsonNode, T> {
     @Override
     public JsonNode encode(T objectToEncode, EncodingContext v) throws EncodingException {
         return encode(objectToEncode);
-    }
-
-    @Override
-    public MediaType getContentType() {
-        return MediaTypes.APPLICATION_JSON;
     }
 
     protected <T> void encode(ArrayNode json, T obj, Function<T, JsonNode> encoder) {

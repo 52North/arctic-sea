@@ -94,7 +94,6 @@ import net.opengis.sensorML.x101.ContactInfoDocument.ContactInfo.Address;
 import net.opengis.sensorML.x101.ContactInfoDocument.ContactInfo.Phone;
 import net.opengis.sensorML.x101.ContactListDocument.ContactList;
 import net.opengis.sensorML.x101.DocumentationDocument.Documentation;
-import net.opengis.sensorML.x101.HistoryDocument.History;
 import net.opengis.sensorML.x101.IdentificationDocument.Identification;
 import net.opengis.sensorML.x101.IdentificationDocument.Identification.IdentifierList.Identifier;
 import net.opengis.sensorML.x101.InputsDocument.Inputs;
