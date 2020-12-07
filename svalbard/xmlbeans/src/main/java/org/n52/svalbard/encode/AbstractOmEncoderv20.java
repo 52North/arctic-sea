@@ -64,6 +64,7 @@ import org.n52.shetland.ogc.om.values.TLVTValue;
 import org.n52.shetland.ogc.om.values.TVPValue;
 import org.n52.shetland.ogc.om.values.TextValue;
 import org.n52.shetland.ogc.om.values.TimeValue;
+import org.n52.shetland.ogc.om.values.TrajectoryValue;
 import org.n52.shetland.ogc.om.values.TimeRangeValue;
 import org.n52.shetland.ogc.om.values.UnknownValue;
 import org.n52.shetland.ogc.om.values.Value;
@@ -780,6 +781,11 @@ public abstract class AbstractOmEncoderv20
         @Override
         public XmlObject visit(ProfileValue value)
                 throws EncodingException {
+            return defaultValue(value);
+        }
+
+        @Override
+        public XmlObject visit(TrajectoryValue value) throws EncodingException {
             return defaultValue(value);
         }
 

@@ -34,6 +34,7 @@ import org.n52.shetland.ogc.om.values.NilTemplateValue;
 import org.n52.shetland.ogc.om.values.ProfileValue;
 import org.n52.shetland.ogc.om.values.SweDataArrayValue;
 import org.n52.shetland.ogc.om.values.TVPValue;
+import org.n52.shetland.ogc.om.values.TrajectoryValue;
 import org.n52.shetland.ogc.swe.SweDataArray;
 import org.n52.shetland.util.CollectionHelper;
 
@@ -409,6 +410,11 @@ public class OmObservation
             if (getValue().getValue() instanceof ProfileValue && observationValue.getValue() instanceof ProfileValue) {
                 ((ProfileValue) getValue().getValue())
                         .addValues(((ProfileValue) observationValue.getValue()).getValue());
+                return true;
+            } else if (getValue().getValue() instanceof TrajectoryValue
+                    && observationValue.getValue() instanceof TrajectoryValue) {
+                ((TrajectoryValue) getValue().getValue())
+                        .addValues(((TrajectoryValue) observationValue.getValue()).getValue());
                 return true;
             } else if (getValue().getValue() instanceof SweDataArrayValue
                     && observationValue.getValue() instanceof SweDataArrayValue

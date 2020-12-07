@@ -253,6 +253,9 @@ public interface OmConstants {
     String OBS_TYPE_PROFILE_OBSERVATION =
             "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_ProfileObservation";
 
+    String OBS_TYPE_TRAJECTORY_OBSERVATION =
+            "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_TrajectoryObservation";
+
     String OBS_TYPE_UNKNOWN = OGCConstants.UNKNOWN;
 
     String OBS_TYPE_SWE_ARRAY_OBSERVATION =
@@ -325,6 +328,7 @@ public interface OmConstants {
     ObservationType OBS_TYPE_TRUTH_OBSERVATION_TYPE = new ObservationType(OBS_TYPE_TRUTH_OBSERVATION);
     ObservationType OBS_TYPE_MEASUREMENT_TYPE = new ObservationType(OBS_TYPE_MEASUREMENT);
     ObservationType OBS_TYPE_REFERENCE_OBSERVATION_TYPE = new ObservationType(OBS_TYPE_REFERENCE_OBSERVATION);
+    ObservationType OBS_TYPE_TRAJECTORY_OBSERVATION_TYPE = new ObservationType(OBS_TYPE_TRAJECTORY_OBSERVATION);
 
     Set<String> OBSERVATION_TYPES =
             ImmutableSet.of(OBS_TYPE_MEASUREMENT,
@@ -336,5 +340,6 @@ public interface OmConstants {
                     OBS_TYPE_TRUTH_OBSERVATION,
                     OBS_TYPE_SWE_ARRAY_OBSERVATION,
                     OBS_TYPE_PROFILE_OBSERVATION,
+                    OBS_TYPE_TRAJECTORY_OBSERVATION,
                     OBS_TYPE_REFERENCE_OBSERVATION);
 }

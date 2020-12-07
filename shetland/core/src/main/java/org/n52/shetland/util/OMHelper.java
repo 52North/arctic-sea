@@ -48,6 +48,7 @@ import org.n52.shetland.ogc.om.values.TVPValue;
 import org.n52.shetland.ogc.om.values.TextValue;
 import org.n52.shetland.ogc.om.values.TimeRangeValue;
 import org.n52.shetland.ogc.om.values.TimeValue;
+import org.n52.shetland.ogc.om.values.TrajectoryValue;
 import org.n52.shetland.ogc.om.values.UnknownValue;
 import org.n52.shetland.ogc.om.values.Value;
 import org.n52.shetland.ogc.om.values.XmlValue;
@@ -280,6 +281,11 @@ public final class OMHelper {
 
         @Override
         public String visit(ProfileValue value) {
+            return defaultValue();
+        }
+
+        @Override
+        public String visit(TrajectoryValue value) throws RuntimeException {
             return defaultValue();
         }
 

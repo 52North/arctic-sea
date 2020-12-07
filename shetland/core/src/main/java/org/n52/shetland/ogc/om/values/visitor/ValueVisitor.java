@@ -36,6 +36,7 @@ import org.n52.shetland.ogc.om.values.TVPValue;
 import org.n52.shetland.ogc.om.values.TextValue;
 import org.n52.shetland.ogc.om.values.TimeRangeValue;
 import org.n52.shetland.ogc.om.values.TimeValue;
+import org.n52.shetland.ogc.om.values.TrajectoryValue;
 import org.n52.shetland.ogc.om.values.UnknownValue;
 import org.n52.shetland.ogc.om.values.XmlValue;
 
@@ -99,6 +100,9 @@ public interface ValueVisitor<T, X extends Exception> {
             throws X;
 
     T visit(ProfileValue value)
+            throws X;
+
+    T visit(TrajectoryValue value)
             throws X;
 
     T visit(UnknownValue value)
