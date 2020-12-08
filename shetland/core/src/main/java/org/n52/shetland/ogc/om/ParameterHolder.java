@@ -40,13 +40,17 @@ public class ParameterHolder {
 
     @SuppressWarnings("unchecked")
     public <T> Optional<Value<T>> getParameter(String name) {
-        if (name == null || !name.isEmpty()) {
+        if (name == null || name.isEmpty()) {
             return Optional.empty();
         }
         return this.parameter.stream()
                 .filter(nv -> nv.getName().getHref().equals(name))
                 .map(nv -> (Value<T>) nv.getValue())
                 .findAny();
+    }
+
+    public boolean hasParameter(String name) {
+        return getParameter(name).isPresent();
     }
 
     public ParameterHolder setParameter(Collection<NamedValue<?>> parameter) {

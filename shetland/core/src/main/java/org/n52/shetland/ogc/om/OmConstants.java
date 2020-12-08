@@ -212,6 +212,8 @@ public interface OmConstants {
 
     String PARAMETER_NAME_TO_ELEVATION = "toElevation";
 
+    String PARAMETER_NAME_CATEGORY = "category";
+
     String PARAMETER = EN_PARAMETER;
 
     String OM_PARAMETER = "om:" + PARAMETER;

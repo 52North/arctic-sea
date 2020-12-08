@@ -16,14 +16,19 @@
  */
 package org.n52.shetland.ogc.om;
 
+import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.n52.janmayen.Copyable;
 import org.n52.shetland.ogc.gml.AbstractFeature;
+import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.om.series.DefaultPointMetadata;
 import org.n52.shetland.ogc.om.series.Metadata;
+import org.n52.shetland.ogc.om.values.TextValue;
+import org.n52.shetland.ogc.om.values.Value;
 import org.n52.shetland.w3c.Nillable;
 
 import com.google.common.base.Objects;
@@ -63,6 +68,11 @@ public class OmObservationConstellation
     private DefaultPointMetadata defaultPointMetadata;
 
     private Metadata metadata;
+
+    /**
+     * O&M parameter.
+     */
+    private final ParameterHolder parameterHolder = new ParameterHolder();
 
     /**
      * default constructor
@@ -425,6 +435,65 @@ public class OmObservationConstellation
 
     public void setMetadata(Metadata metadata) {
         this.metadata = metadata;
+    }
+
+    public void setParameter(Collection<NamedValue<?>> parameter) {
+        this.parameterHolder.addParameter(parameter);
+    }
+
+    /**
+     * Check whether category parameter is set
+     *
+     * @return <code>true</code>, if category parameter is set
+     */
+    public boolean isSetCategoryParameter() {
+        return parameterHolder.hasParameter(OmConstants.PARAMETER_NAME_CATEGORY);
+    }
+
+    /**
+     * Remove category parameter
+     */
+    public void removeCategoryParameter() {
+        if (isSetCategoryParameter()) {
+            parameterHolder.removeParameter(getCategoryParameter());
+        }
+    }
+
+    /**
+     * Add category to observation
+     *
+     * @param category
+     *            The category to set
+     * @return this
+     */
+    public OmObservationConstellation addCategoryParameter(String category) {
+        return addCategoryParameter(new TextValue(category));
+    }
+
+    public OmObservationConstellation addCategoryParameter(TextValue category) {
+        return addCategoryParameter(new NamedValue<String>(new ReferenceType(OmConstants.PARAMETER_NAME_CATEGORY),
+                category));
+    }
+
+    public OmObservationConstellation addCategoryParameter(NamedValue<String> categoryParameter) {
+        parameterHolder.addParameter(categoryParameter);
+        return this;
+    }
+
+    /**
+     * Get category parameter
+     *
+     * @return category parameter
+     */
+    public NamedValue<String> getCategoryParameter() {
+        if (parameterHolder.isSetParameter()) {
+            for (NamedValue<?> namedValue : parameterHolder.getParameter()) {
+                if (namedValue.getName().getHref().equalsIgnoreCase(OmConstants.PARAMETER_NAME_CATEGORY)) {
+                    return (NamedValue<String>) namedValue;
+                }
+            }
+        }
+        return null;
     }
 
     @Override
