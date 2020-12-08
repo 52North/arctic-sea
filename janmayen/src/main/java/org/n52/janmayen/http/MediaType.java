@@ -169,9 +169,9 @@ public class MediaType implements Comparable<MediaType>, Similar<MediaType> {
 
     public float getQuality() {
         if (hasParameter(QUALITY_PARAMETER)) {
-            return Float.valueOf(getParameter(QUALITY_PARAMETER).iterator().next());
+            return Float.parseFloat(getParameter(QUALITY_PARAMETER).iterator().next());
         } else {
-            return 1;
+            return 1.0f;
         }
     }
 
