@@ -16,7 +16,6 @@
  */
 package org.n52.shetland.ogc.om;
 
-import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -28,7 +27,6 @@ import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.om.series.DefaultPointMetadata;
 import org.n52.shetland.ogc.om.series.Metadata;
 import org.n52.shetland.ogc.om.values.TextValue;
-import org.n52.shetland.ogc.om.values.Value;
 import org.n52.shetland.w3c.Nillable;
 
 import com.google.common.base.Objects;

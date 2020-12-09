@@ -164,7 +164,8 @@ public class OmObservation
      * @return the observationConstellation
      */
     public OmObservationConstellation getObservationConstellation() {
-        if (isSetCategoryParameter() && observationConstellation != null && !observationConstellation.isSetCategoryParameter()) {
+        if (isSetCategoryParameter() && observationConstellation != null
+                && !observationConstellation.isSetCategoryParameter()) {
             observationConstellation.addCategoryParameter(getCategoryParameter());
         }
         return observationConstellation;
