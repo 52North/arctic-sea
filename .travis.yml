@@ -2,24 +2,11 @@ language: java
 dist: xenial
 jdk:
 - openjdk8
-- openjdk10
 - openjdk11
 matrix:
   include:
     # https://www.deps.co/guides/travis-ci-latest-java/#certificate-issues
-    - jdk: openjdk9
-      before_install:
-        - rm "${JAVA_HOME}/lib/security/cacerts"
-        - ln -s /etc/ssl/certs/java/cacerts "${JAVA_HOME}/lib/security/cacerts"
-    - jdk: openjdk12
-      before_install:
-        - rm "${JAVA_HOME}/lib/security/cacerts"
-        - ln -s /etc/ssl/certs/java/cacerts "${JAVA_HOME}/lib/security/cacerts"
-    - jdk: openjdk13
-      before_install:
-        - rm "${JAVA_HOME}/lib/security/cacerts"
-        - ln -s /etc/ssl/certs/java/cacerts "${JAVA_HOME}/lib/security/cacerts"
-    - jdk: openjdk14
+    - jdk: openjdk15
       before_install:
         - rm "${JAVA_HOME}/lib/security/cacerts"
         - ln -s /etc/ssl/certs/java/cacerts "${JAVA_HOME}/lib/security/cacerts"
