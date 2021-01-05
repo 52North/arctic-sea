@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2020 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.n52.svalbard.odata.core;
 
 import org.antlr.v4.runtime.BaseErrorListener;
