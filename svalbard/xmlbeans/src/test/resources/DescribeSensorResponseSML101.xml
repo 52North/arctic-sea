@@ -1,0 +1,2590 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<swes:DescribeSensorResponse xmlns:swes="http://www.opengis.net/swes/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sml="http://www.opengis.net/sensorML/1.0.1" xmlns:gml="http://www.opengis.net/gml" xmlns:swe="http://www.opengis.net/swe/1.0.1" xmlns:xlink="http://www.w3.org/1999/xlink" xsi:schemaLocation="http://www.opengis.net/gml http://schemas.opengis.net/gml/3.1.1/base/gml.xsd http://www.opengis.net/swe/1.0.1 http://schemas.opengis.net/sweCommon/1.0.1/swe.xsd http://www.opengis.net/swes/2.0 http://schemas.opengis.net/swes/2.0/swesDescribeSensor.xsd http://www.opengis.net/sensorML/1.0.1 http://schemas.opengis.net/sensorML/1.0.1/sensorML.xsd">
+  <swes:procedureDescriptionFormat>http://www.opengis.net/sensorML/1.0.1</swes:procedureDescriptionFormat>
+  <swes:description>
+    <swes:SensorDescription>
+      <swes:data>
+        <sml:SensorML version="1.0.1">
+          <sml:member>
+            <sml:System>
+              <gml:description>Vaisala WXT 520 Kombi-Meteosensor, K&amp;Z CMP3 Pyranometer und Ecotech Kippwaage an Ecotech Envilog Maxi Datenlogger. Standort etwa 52.07982°N, 11.28261°E, WGS84 Dezimalgrad, aus Karte entnommen. UTM-Koordinaten (Transformiert): UTM 32, 656413 re, 5772375 ho. Akutelle Konfiguration ohne Kippwaage seit 27.05.2013 08:30 UTC.</gml:description>
+              <sml:identification>
+                <sml:IdentifierList>
+                  <sml:identifier name="URN">
+                    <sml:Term definition="urn:ogc:def:identifier:OGC:uniqueID">
+                      <sml:value>urn:ogc:object:feature:Sensor:UFZ:1</sml:value>
+                    </sml:Term>
+                  </sml:identifier>
+                  <sml:identifier name="longName">
+                    <sml:Term definition="urn:ogc:def:identifier:OGC:longName">
+                      <sml:value>Weather Station Sauerbach</sml:value>
+                    </sml:Term>
+                  </sml:identifier>
+                </sml:IdentifierList>
+              </sml:identification>
+              <sml:characteristics>
+                <swe:SimpleDataRecord>
+                  <swe:field name="field_1">
+                    <swe:Text definition="urn:ogc:def:characteristic:OGC:loggerTypeName">
+                      <swe:value>ECOTECH</swe:value>
+                    </swe:Text>
+                  </swe:field>
+                </swe:SimpleDataRecord>
+              </sml:characteristics>
+              <sml:capabilities name="loggerCapabilities">
+                <swe:SimpleDataRecord>
+                  <swe:field name="field_1">
+                    <swe:Boolean definition="urn:ogc:def:capabilitiy:OGC:allowDuplicateObservations">
+                      <swe:value>true</swe:value>
+                    </swe:Boolean>
+                  </swe:field>
+                  <swe:field name="field_2">
+                    <swe:Time definition="urn:ogc:def:capabilitiy:OGC:lastContact">
+                      <swe:uom xlink:href="http://www.opengis.net/def/uom/ISO-8601/0/Gregorian"/>
+                      <swe:value xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:dateTime">2021-01-11T13:16:49Z</swe:value>
+                    </swe:Time>
+                  </swe:field>
+                </swe:SimpleDataRecord>
+              </sml:capabilities>
+              <sml:capabilities name="offerings">
+                <swe:SimpleDataRecord>
+                  <swe:field name="field_1">
+                    <swe:Text definition="urn:ogc:def:identifier:OGC:offeringID">
+                      <gml:description>offeringID</gml:description>
+                      <swe:value>urn:ogc:object:feature:offering:UFZ:1</swe:value>
+                    </swe:Text>
+                  </swe:field>
+                </swe:SimpleDataRecord>
+              </sml:capabilities>
+              <sml:capabilities name="featuresOfInterest">
+                <swe:SimpleDataRecord>
+                  <swe:field name="featureOfInterestID">
+                    <swe:Text definition="http://www.opengis.net/def/featureOfInterest/identifier">
+                      <swe:value>ufz_3</swe:value>
+                    </swe:Text>
+                  </swe:field>
+                </swe:SimpleDataRecord>
+              </sml:capabilities>
+              <sml:contact>
+                <sml:ContactList>
+                  <sml:member>
+                    <sml:Person>
+                      <sml:surname>Steffen Zacharias</sml:surname>
+                      <sml:name>Steffen Zacharias</sml:name>
+                      <sml:userID>unknown</sml:userID>
+                      <sml:affiliation>unknown</sml:affiliation>
+                      <sml:phoneNumber>unknown</sml:phoneNumber>
+                      <sml:email>steffen.zacharias@ufz.de</sml:email>
+                    </sml:Person>
+                  </sml:member>
+                </sml:ContactList>
+              </sml:contact>
+              <sml:position name="sensorPosition">
+                <swe:Position fixed="true" referenceFrame="urn:ogc:def:crs:EPSG::4326">
+                  <swe:location>
+                    <swe:Vector>
+                      <swe:coordinate name="northing">
+                        <swe:Quantity axisID="y">
+                          <swe:uom code="degree"/>
+                          <swe:value>52.066861</swe:value>
+                        </swe:Quantity>
+                      </swe:coordinate>
+                      <swe:coordinate name="easting">
+                        <swe:Quantity axisID="x">
+                          <swe:uom code="degree"/>
+                          <swe:value>11.266645</swe:value>
+                        </swe:Quantity>
+                      </swe:coordinate>
+                      <swe:coordinate name="altitude">
+                        <swe:Quantity>
+                          <swe:uom code="m"/>
+                          <swe:value>114.0</swe:value>
+                        </swe:Quantity>
+                      </swe:coordinate>
+                    </swe:Vector>
+                  </swe:location>
+                </swe:Position>
+              </sml:position>
+              <sml:inputs>
+                <sml:InputList>
+                  <sml:input name="input_1">
+                    <swe:ObservableProperty definition="AIR_HUMIDITY_[PERCENT]"/>
+                  </sml:input>
+                  <sml:input name="input_2">
+                    <swe:ObservableProperty definition="AIR_PRESSURE_[HECTOPASCAL]"/>
+                  </sml:input>
+                  <sml:input name="input_3">
+                    <swe:ObservableProperty definition="AIR_TEMPERATURE_[DEGREE_CELSIUS]"/>
+                  </sml:input>
+                  <sml:input name="input_4">
+                    <swe:ObservableProperty definition="LOGGER_TEMPERATURE_[DEGREE_CELSIUS]"/>
+                  </sml:input>
+                  <sml:input name="input_5">
+                    <swe:ObservableProperty definition="LOGGER_VOLTAGE_[VOLT]"/>
+                  </sml:input>
+                  <sml:input name="input_6">
+                    <swe:ObservableProperty definition="NUMBER_[]"/>
+                  </sml:input>
+                  <sml:input name="input_7">
+                    <swe:ObservableProperty definition="PRECIPITATION_HEIGHT_LIQUID_[MILLIMETER]"/>
+                  </sml:input>
+                  <sml:input name="input_8">
+                    <swe:ObservableProperty definition="PRECIPITATION_HEIGHT_TOTAL_[MILLIMETER]"/>
+                  </sml:input>
+                  <sml:input name="input_9">
+                    <swe:ObservableProperty definition="RADIATION_GLOBAL_[WATTS_PER_SQUARE_METER]"/>
+                  </sml:input>
+                  <sml:input name="input_10">
+                    <swe:ObservableProperty definition="WIND_DIRECTION_[DEGREE]"/>
+                  </sml:input>
+                  <sml:input name="input_11">
+                    <swe:ObservableProperty definition="WIND_SPEED_[METERS_PER_SECOND]"/>
+                  </sml:input>
+                </sml:InputList>
+              </sml:inputs>
+              <sml:outputs>
+                <sml:OutputList>
+                  <sml:output name="output_1">
+                    <swe:Quantity definition="urn:ogc:def:phenomenon:OGC:1.0.30:AIR_HUMIDITY_[PERCENT]">
+                      <gml:description>Relative humidity measured by a meteo sensor. Some devices (e.g. Neutron detectors) also measure relative humidity (e.g. in the logger box). Please enter those "operating parameters" under Technical Parameters\Devices. Default min/max values according to WMO quality control Guidelines.</gml:description>
+                      <gml:name codeSpace="">Relative Humidity</gml:name>
+                      <swe:uom code="%"/>
+                    </swe:Quantity>
+                  </sml:output>
+                  <sml:output name="output_2">
+                    <swe:Quantity definition="urn:ogc:def:phenomenon:OGC:1.0.30:AIR_PRESSURE_[HECTOPASCAL]">
+                      <gml:description>Please note in the sensor description what kind of air pressure is meant: 1. Absolute air pressure [abs] =locally measured 2. Relative air pressure [rel] = reduced to sea level. Default min/max values according to WMO quality control Guidelines.</gml:description>
+                      <gml:name codeSpace="">Atmospheric Pressure</gml:name>
+                      <swe:uom code="hPa"/>
+                    </swe:Quantity>
+                  </sml:output>
+                  <sml:output name="output_3">
+                    <swe:Quantity definition="urn:ogc:def:phenomenon:OGC:1.0.30:AIR_TEMPERATURE_[DEGREE_CELSIUS]">
+                      <gml:description>Please note if the sensor is not protected from direct sunlight by a sensor housing. Some data loggers or various other devices (e.g. Neutron detectors) also measure air temperature. Default min/max values according to WMO quality control Guidelines.</gml:description>
+                      <gml:name codeSpace="">Air Temperature</gml:name>
+                      <swe:uom code="°C"/>
+                    </swe:Quantity>
+                  </sml:output>
+                  <sml:output name="output_4">
+                    <swe:Quantity definition="urn:ogc:def:phenomenon:OGC:1.0.30:LOGGER_TEMPERATURE_[DEGREE_CELSIUS]">
+                      <gml:description>"Operating parameter" of a data logger.</gml:description>
+                      <gml:name codeSpace="">Temperature Data Logger</gml:name>
+                      <swe:uom code="°C"/>
+                    </swe:Quantity>
+                  </sml:output>
+                  <sml:output name="output_5">
+                    <swe:Quantity definition="urn:ogc:def:phenomenon:OGC:1.0.30:LOGGER_VOLTAGE_[VOLT]">
+                      <gml:description>"Operating parameter" of a data logger.</gml:description>
+                      <gml:name codeSpace="">Voltage Logger</gml:name>
+                      <swe:uom code="V"/>
+                    </swe:Quantity>
+                  </sml:output>
+                  <sml:output name="output_6">
+                    <swe:Quantity definition="urn:ogc:def:phenomenon:OGC:1.0.30:NUMBER_[]">
+                      <gml:description>consecutive number of all measurements of one day</gml:description>
+                      <gml:name codeSpace="">Value / Number</gml:name>
+                    </swe:Quantity>
+                  </sml:output>
+                  <sml:output name="output_7">
+                    <swe:Quantity definition="urn:ogc:def:phenomenon:OGC:1.0.30:PRECIPITATION_HEIGHT_LIQUID_[MILLIMETER]">
+                      <gml:description>Precipitation Height,  Liquid=Rain Amount. Sensor e.g. accoustic rain sensor (e.g. at Vaisala WXT520).</gml:description>
+                      <gml:name codeSpace="">Precipitation Height, Liquid</gml:name>
+                      <swe:uom code="mm"/>
+                    </swe:Quantity>
+                  </sml:output>
+                  <sml:output name="output_8">
+                    <swe:Quantity definition="urn:ogc:def:phenomenon:OGC:1.0.30:PRECIPITATION_HEIGHT_TOTAL_[MILLIMETER]">
+                      <gml:description>Precipitation Height, Total=Sum of Rain, Snow, Hail, etc. . Sensor e.g. tipping bucket or various rain gauges. Please note if the device is heated. Values are quasi real-time with heating. Without heating, values are not real time.</gml:description>
+                      <gml:name codeSpace="">Precipitation Height, Total</gml:name>
+                      <swe:uom code="mm"/>
+                    </swe:Quantity>
+                  </sml:output>
+                  <sml:output name="output_9">
+                    <swe:Quantity definition="urn:ogc:def:phenomenon:OGC:1.0.30:RADIATION_GLOBAL_[WATTS_PER_SQUARE_METER]">
+                      <gml:description>Short wave upward facing radiation, e.g. Pyranometer. Default min/max values according to WMO quality control Guidelines.</gml:description>
+                      <gml:name codeSpace="">Global Radiation</gml:name>
+                      <swe:uom code="W/m²"/>
+                    </swe:Quantity>
+                  </sml:output>
+                  <sml:output name="output_10">
+                    <swe:Quantity definition="urn:ogc:def:phenomenon:OGC:1.0.30:WIND_DIRECTION_[DEGREE]">
+                      <gml:description>Wind direction 0…360°, where 0° is north. Please note a different reference direction in the sensor description. Default min/max values according to WMO quality control Guidelines.</gml:description>
+                      <gml:name codeSpace="">Wind Direction</gml:name>
+                      <swe:uom code="°"/>
+                    </swe:Quantity>
+                  </sml:output>
+                  <sml:output name="output_11">
+                    <swe:Quantity definition="urn:ogc:def:phenomenon:OGC:1.0.30:WIND_SPEED_[METERS_PER_SECOND]">
+                      <gml:name codeSpace="">Wind Speed</gml:name>
+                      <swe:uom code="m/s"/>
+                    </swe:Quantity>
+                  </sml:output>
+                </sml:OutputList>
+              </sml:outputs>
+              <sml:components>
+                <sml:ComponentList>
+                  <sml:component name="urn:ogc:object:feature:Sensor:UFZ:1:20686">
+                    <sml:System>
+                      <sml:identification>
+                        <sml:IdentifierList>
+                          <sml:identifier name="URN">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:uniqueID">
+                              <sml:value>urn:ogc:object:feature:Sensor:UFZ:1</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                          <sml:identifier name="longName">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:longName">
+                              <sml:value>NumberingValue/Number0mSingleValue (No)</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                        </sml:IdentifierList>
+                      </sml:identification>
+                      <sml:capabilities name="featuresOfInterest">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="featureOfInterestID">
+                            <swe:Text definition="http://www.opengis.net/def/featureOfInterest/identifier">
+                              <swe:value>ufz_3</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:capabilities name="parentProcedures">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="parentProcedureID">
+                            <swe:Text definition="http://www.opengis.net/def/procedure/identifier">
+                              <swe:value>urn:ogc:object:feature:Sensor:UFZ:1</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:contact>
+                        <sml:ContactList>
+                          <sml:member>
+                            <sml:Person>
+                              <sml:surname>Steffen Zacharias</sml:surname>
+                              <sml:name>Steffen Zacharias</sml:name>
+                              <sml:userID>unknown</sml:userID>
+                              <sml:affiliation>unknown</sml:affiliation>
+                              <sml:phoneNumber>unknown</sml:phoneNumber>
+                              <sml:email>steffen.zacharias@ufz.de</sml:email>
+                            </sml:Person>
+                          </sml:member>
+                        </sml:ContactList>
+                      </sml:contact>
+                      <sml:position name="sensorPosition">
+                        <swe:Position fixed="true" referenceFrame="urn:ogc:def:crs:EPSG::4326">
+                          <swe:location>
+                            <swe:Vector>
+                              <swe:coordinate name="northing">
+                                <swe:Quantity axisID="y">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>52.066861</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="easting">
+                                <swe:Quantity axisID="x">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>11.266645</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="altitude">
+                                <swe:Quantity>
+                                  <swe:uom code="m"/>
+                                  <swe:value>114.0</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                            </swe:Vector>
+                          </swe:location>
+                        </swe:Position>
+                      </sml:position>
+                      <sml:inputs>
+                        <sml:InputList>
+                          <sml:input name="input_1">
+                            <swe:ObservableProperty definition="NUMBER_[]"/>
+                          </sml:input>
+                        </sml:InputList>
+                      </sml:inputs>
+                      <sml:outputs>
+                        <sml:OutputList>
+                          <sml:output name="output_1">
+                            <swe:Quantity definition="urn:ogc:def:phenomenon:OGC:1.0.30:NUMBER_[]">
+                              <gml:description>consecutive number of all measurements of one day</gml:description>
+                              <gml:name codeSpace="">Value / Number</gml:name>
+                            </swe:Quantity>
+                          </sml:output>
+                        </sml:OutputList>
+                      </sml:outputs>
+                    </sml:System>
+                  </sml:component>
+                  <sml:component name="urn:ogc:object:feature:Sensor:UFZ:1:20688">
+                    <sml:System>
+                      <sml:identification>
+                        <sml:IdentifierList>
+                          <sml:identifier name="URN">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:uniqueID">
+                              <sml:value>urn:ogc:object:feature:Sensor:UFZ:1</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                          <sml:identifier name="longName">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:longName">
+                              <sml:value>WeatherWindDirection2mSingleValue (Windrichtung) [°]</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                        </sml:IdentifierList>
+                      </sml:identification>
+                      <sml:capabilities name="sensorCapabilities">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="field_1">
+                            <swe:Quantity definition="urn:ogc:def:capability:OGC:min">
+                              <gml:description>SENSOR-MIN</gml:description>
+                              <swe:value>0.0</swe:value>
+                            </swe:Quantity>
+                          </swe:field>
+                          <swe:field name="field_2">
+                            <swe:Quantity definition="urn:ogc:def:capability:OGC:max">
+                              <gml:description>SENSOR-MAX</gml:description>
+                              <swe:value>0.0</swe:value>
+                            </swe:Quantity>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:capabilities name="offerings">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="field_1">
+                            <swe:Text definition="urn:ogc:def:identifier:OGC:offeringID">
+                              <gml:description>offeringID</gml:description>
+                              <swe:value>urn:ogc:object:feature:offering:UFZ:1</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:capabilities name="featuresOfInterest">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="featureOfInterestID">
+                            <swe:Text definition="http://www.opengis.net/def/featureOfInterest/identifier">
+                              <swe:value>ufz_3</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:capabilities name="parentProcedures">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="parentProcedureID">
+                            <swe:Text definition="http://www.opengis.net/def/procedure/identifier">
+                              <swe:value>urn:ogc:object:feature:Sensor:UFZ:1</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:contact>
+                        <sml:ContactList>
+                          <sml:member>
+                            <sml:Person>
+                              <sml:surname>Steffen Zacharias</sml:surname>
+                              <sml:name>Steffen Zacharias</sml:name>
+                              <sml:userID>unknown</sml:userID>
+                              <sml:affiliation>unknown</sml:affiliation>
+                              <sml:phoneNumber>unknown</sml:phoneNumber>
+                              <sml:email>steffen.zacharias@ufz.de</sml:email>
+                            </sml:Person>
+                          </sml:member>
+                        </sml:ContactList>
+                      </sml:contact>
+                      <sml:position name="sensorPosition">
+                        <swe:Position fixed="true" referenceFrame="urn:ogc:def:crs:EPSG::4326">
+                          <swe:location>
+                            <swe:Vector>
+                              <swe:coordinate name="northing">
+                                <swe:Quantity axisID="y">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>52.066861</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="easting">
+                                <swe:Quantity axisID="x">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>11.266645</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="altitude">
+                                <swe:Quantity>
+                                  <swe:uom code="m"/>
+                                  <swe:value>114.0</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                            </swe:Vector>
+                          </swe:location>
+                        </swe:Position>
+                      </sml:position>
+                      <sml:inputs>
+                        <sml:InputList>
+                          <sml:input name="input_1">
+                            <swe:ObservableProperty definition="WIND_DIRECTION_[DEGREE]"/>
+                          </sml:input>
+                        </sml:InputList>
+                      </sml:inputs>
+                      <sml:outputs>
+                        <sml:OutputList>
+                          <sml:output name="output_1">
+                            <swe:Quantity definition="urn:ogc:def:phenomenon:OGC:1.0.30:WIND_DIRECTION_[DEGREE]">
+                              <gml:description>Wind direction 0…360°, where 0° is north. Please note a different reference direction in the sensor description. Default min/max values according to WMO quality control Guidelines.</gml:description>
+                              <gml:name codeSpace="">Wind Direction</gml:name>
+                              <swe:uom code="°"/>
+                            </swe:Quantity>
+                          </sml:output>
+                        </sml:OutputList>
+                      </sml:outputs>
+                    </sml:System>
+                  </sml:component>
+                  <sml:component name="urn:ogc:object:feature:Sensor:UFZ:1:20689">
+                    <sml:System>
+                      <sml:identification>
+                        <sml:IdentifierList>
+                          <sml:identifier name="URN">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:uniqueID">
+                              <sml:value>urn:ogc:object:feature:Sensor:UFZ:1</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                          <sml:identifier name="longName">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:longName">
+                              <sml:value>WeatherWindSpeed2mAvg (Windgeschwindigkeit) [m/s]</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                        </sml:IdentifierList>
+                      </sml:identification>
+                      <sml:capabilities name="sensorCapabilities">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="field_1">
+                            <swe:Quantity definition="urn:ogc:def:capability:OGC:min">
+                              <gml:description>SENSOR-MIN</gml:description>
+                              <swe:value>0.0</swe:value>
+                            </swe:Quantity>
+                          </swe:field>
+                          <swe:field name="field_2">
+                            <swe:Quantity definition="urn:ogc:def:capability:OGC:max">
+                              <gml:description>SENSOR-MAX</gml:description>
+                              <swe:value>0.0</swe:value>
+                            </swe:Quantity>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:capabilities name="offerings">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="field_1">
+                            <swe:Text definition="urn:ogc:def:identifier:OGC:offeringID">
+                              <gml:description>offeringID</gml:description>
+                              <swe:value>urn:ogc:object:feature:offering:UFZ:1</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:capabilities name="featuresOfInterest">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="featureOfInterestID">
+                            <swe:Text definition="http://www.opengis.net/def/featureOfInterest/identifier">
+                              <swe:value>ufz_3</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:capabilities name="parentProcedures">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="parentProcedureID">
+                            <swe:Text definition="http://www.opengis.net/def/procedure/identifier">
+                              <swe:value>urn:ogc:object:feature:Sensor:UFZ:1</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:contact>
+                        <sml:ContactList>
+                          <sml:member>
+                            <sml:Person>
+                              <sml:surname>Steffen Zacharias</sml:surname>
+                              <sml:name>Steffen Zacharias</sml:name>
+                              <sml:userID>unknown</sml:userID>
+                              <sml:affiliation>unknown</sml:affiliation>
+                              <sml:phoneNumber>unknown</sml:phoneNumber>
+                              <sml:email>steffen.zacharias@ufz.de</sml:email>
+                            </sml:Person>
+                          </sml:member>
+                        </sml:ContactList>
+                      </sml:contact>
+                      <sml:position name="sensorPosition">
+                        <swe:Position fixed="true" referenceFrame="urn:ogc:def:crs:EPSG::4326">
+                          <swe:location>
+                            <swe:Vector>
+                              <swe:coordinate name="northing">
+                                <swe:Quantity axisID="y">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>52.066861</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="easting">
+                                <swe:Quantity axisID="x">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>11.266645</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="altitude">
+                                <swe:Quantity>
+                                  <swe:uom code="m"/>
+                                  <swe:value>114.0</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                            </swe:Vector>
+                          </swe:location>
+                        </swe:Position>
+                      </sml:position>
+                      <sml:inputs>
+                        <sml:InputList>
+                          <sml:input name="input_1">
+                            <swe:ObservableProperty definition="WIND_SPEED_[METERS_PER_SECOND]"/>
+                          </sml:input>
+                        </sml:InputList>
+                      </sml:inputs>
+                      <sml:outputs>
+                        <sml:OutputList>
+                          <sml:output name="output_1">
+                            <swe:Quantity definition="urn:ogc:def:phenomenon:OGC:1.0.30:WIND_SPEED_[METERS_PER_SECOND]">
+                              <gml:name codeSpace="">Wind Speed</gml:name>
+                              <swe:uom code="m/s"/>
+                            </swe:Quantity>
+                          </sml:output>
+                        </sml:OutputList>
+                      </sml:outputs>
+                    </sml:System>
+                  </sml:component>
+                  <sml:component name="urn:ogc:object:feature:Sensor:UFZ:1:20690">
+                    <sml:System>
+                      <sml:identification>
+                        <sml:IdentifierList>
+                          <sml:identifier name="URN">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:uniqueID">
+                              <sml:value>urn:ogc:object:feature:Sensor:UFZ:1</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                          <sml:identifier name="longName">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:longName">
+                              <sml:value>WeatherAirTemperature2mSingleValue (Lufttemperatur) [°C]</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                        </sml:IdentifierList>
+                      </sml:identification>
+                      <sml:capabilities name="sensorCapabilities">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="field_1">
+                            <swe:Quantity definition="urn:ogc:def:capability:OGC:max">
+                              <gml:description>SENSOR-MAX</gml:description>
+                              <swe:value>-80.0</swe:value>
+                            </swe:Quantity>
+                          </swe:field>
+                          <swe:field name="field_2">
+                            <swe:Quantity definition="urn:ogc:def:capability:OGC:min">
+                              <gml:description>SENSOR-MIN</gml:description>
+                              <swe:value>-80.0</swe:value>
+                            </swe:Quantity>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:capabilities name="offerings">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="field_1">
+                            <swe:Text definition="urn:ogc:def:identifier:OGC:offeringID">
+                              <gml:description>offeringID</gml:description>
+                              <swe:value>urn:ogc:object:feature:offering:UFZ:1</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:capabilities name="featuresOfInterest">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="featureOfInterestID">
+                            <swe:Text definition="http://www.opengis.net/def/featureOfInterest/identifier">
+                              <swe:value>ufz_3</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:capabilities name="parentProcedures">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="parentProcedureID">
+                            <swe:Text definition="http://www.opengis.net/def/procedure/identifier">
+                              <swe:value>urn:ogc:object:feature:Sensor:UFZ:1</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:contact>
+                        <sml:ContactList>
+                          <sml:member>
+                            <sml:Person>
+                              <sml:surname>Steffen Zacharias</sml:surname>
+                              <sml:name>Steffen Zacharias</sml:name>
+                              <sml:userID>unknown</sml:userID>
+                              <sml:affiliation>unknown</sml:affiliation>
+                              <sml:phoneNumber>unknown</sml:phoneNumber>
+                              <sml:email>steffen.zacharias@ufz.de</sml:email>
+                            </sml:Person>
+                          </sml:member>
+                        </sml:ContactList>
+                      </sml:contact>
+                      <sml:position name="sensorPosition">
+                        <swe:Position fixed="true" referenceFrame="urn:ogc:def:crs:EPSG::4326">
+                          <swe:location>
+                            <swe:Vector>
+                              <swe:coordinate name="northing">
+                                <swe:Quantity axisID="y">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>52.066861</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="easting">
+                                <swe:Quantity axisID="x">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>11.266645</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="altitude">
+                                <swe:Quantity>
+                                  <swe:uom code="m"/>
+                                  <swe:value>114.0</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                            </swe:Vector>
+                          </swe:location>
+                        </swe:Position>
+                      </sml:position>
+                      <sml:inputs>
+                        <sml:InputList>
+                          <sml:input name="input_1">
+                            <swe:ObservableProperty definition="AIR_TEMPERATURE_[DEGREE_CELSIUS]"/>
+                          </sml:input>
+                        </sml:InputList>
+                      </sml:inputs>
+                      <sml:outputs>
+                        <sml:OutputList>
+                          <sml:output name="output_1">
+                            <swe:Quantity definition="urn:ogc:def:phenomenon:OGC:1.0.30:AIR_TEMPERATURE_[DEGREE_CELSIUS]">
+                              <gml:description>Please note if the sensor is not protected from direct sunlight by a sensor housing. Some data loggers or various other devices (e.g. Neutron detectors) also measure air temperature. Default min/max values according to WMO quality control Guidelines.</gml:description>
+                              <gml:name codeSpace="">Air Temperature</gml:name>
+                              <swe:uom code="°C"/>
+                            </swe:Quantity>
+                          </sml:output>
+                        </sml:OutputList>
+                      </sml:outputs>
+                    </sml:System>
+                  </sml:component>
+                  <sml:component name="urn:ogc:object:feature:Sensor:UFZ:1:20691">
+                    <sml:System>
+                      <sml:identification>
+                        <sml:IdentifierList>
+                          <sml:identifier name="URN">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:uniqueID">
+                              <sml:value>urn:ogc:object:feature:Sensor:UFZ:1</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                          <sml:identifier name="longName">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:longName">
+                              <sml:value>WeatherRelativeHumidity2mSingleValue (Luftfeuchte) [%]</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                        </sml:IdentifierList>
+                      </sml:identification>
+                      <sml:capabilities name="sensorCapabilities">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="field_1">
+                            <swe:Quantity definition="urn:ogc:def:capability:OGC:min">
+                              <gml:description>SENSOR-MIN</gml:description>
+                              <swe:value>0.0</swe:value>
+                            </swe:Quantity>
+                          </swe:field>
+                          <swe:field name="field_2">
+                            <swe:Quantity definition="urn:ogc:def:capability:OGC:max">
+                              <gml:description>SENSOR-MAX</gml:description>
+                              <swe:value>0.0</swe:value>
+                            </swe:Quantity>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:capabilities name="offerings">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="field_1">
+                            <swe:Text definition="urn:ogc:def:identifier:OGC:offeringID">
+                              <gml:description>offeringID</gml:description>
+                              <swe:value>urn:ogc:object:feature:offering:UFZ:1</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:capabilities name="featuresOfInterest">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="featureOfInterestID">
+                            <swe:Text definition="http://www.opengis.net/def/featureOfInterest/identifier">
+                              <swe:value>ufz_3</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:capabilities name="parentProcedures">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="parentProcedureID">
+                            <swe:Text definition="http://www.opengis.net/def/procedure/identifier">
+                              <swe:value>urn:ogc:object:feature:Sensor:UFZ:1</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:contact>
+                        <sml:ContactList>
+                          <sml:member>
+                            <sml:Person>
+                              <sml:surname>Steffen Zacharias</sml:surname>
+                              <sml:name>Steffen Zacharias</sml:name>
+                              <sml:userID>unknown</sml:userID>
+                              <sml:affiliation>unknown</sml:affiliation>
+                              <sml:phoneNumber>unknown</sml:phoneNumber>
+                              <sml:email>steffen.zacharias@ufz.de</sml:email>
+                            </sml:Person>
+                          </sml:member>
+                        </sml:ContactList>
+                      </sml:contact>
+                      <sml:position name="sensorPosition">
+                        <swe:Position fixed="true" referenceFrame="urn:ogc:def:crs:EPSG::4326">
+                          <swe:location>
+                            <swe:Vector>
+                              <swe:coordinate name="northing">
+                                <swe:Quantity axisID="y">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>52.066861</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="easting">
+                                <swe:Quantity axisID="x">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>11.266645</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="altitude">
+                                <swe:Quantity>
+                                  <swe:uom code="m"/>
+                                  <swe:value>114.0</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                            </swe:Vector>
+                          </swe:location>
+                        </swe:Position>
+                      </sml:position>
+                      <sml:inputs>
+                        <sml:InputList>
+                          <sml:input name="input_1">
+                            <swe:ObservableProperty definition="AIR_HUMIDITY_[PERCENT]"/>
+                          </sml:input>
+                        </sml:InputList>
+                      </sml:inputs>
+                      <sml:outputs>
+                        <sml:OutputList>
+                          <sml:output name="output_1">
+                            <swe:Quantity definition="urn:ogc:def:phenomenon:OGC:1.0.30:AIR_HUMIDITY_[PERCENT]">
+                              <gml:description>Relative humidity measured by a meteo sensor. Some devices (e.g. Neutron detectors) also measure relative humidity (e.g. in the logger box). Please enter those "operating parameters" under Technical Parameters\Devices. Default min/max values according to WMO quality control Guidelines.</gml:description>
+                              <gml:name codeSpace="">Relative Humidity</gml:name>
+                              <swe:uom code="%"/>
+                            </swe:Quantity>
+                          </sml:output>
+                        </sml:OutputList>
+                      </sml:outputs>
+                    </sml:System>
+                  </sml:component>
+                  <sml:component name="urn:ogc:object:feature:Sensor:UFZ:1:20692">
+                    <sml:System>
+                      <sml:identification>
+                        <sml:IdentifierList>
+                          <sml:identifier name="URN">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:uniqueID">
+                              <sml:value>urn:ogc:object:feature:Sensor:UFZ:1</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                          <sml:identifier name="longName">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:longName">
+                              <sml:value>WeatherAirPressure2mSingleValue (Luftdruck) [hPa]</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                        </sml:IdentifierList>
+                      </sml:identification>
+                      <sml:capabilities name="sensorCapabilities">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="field_1">
+                            <swe:Quantity definition="urn:ogc:def:capability:OGC:max">
+                              <gml:description>SENSOR-MAX</gml:description>
+                              <swe:value>500.0</swe:value>
+                            </swe:Quantity>
+                          </swe:field>
+                          <swe:field name="field_2">
+                            <swe:Quantity definition="urn:ogc:def:capability:OGC:min">
+                              <gml:description>SENSOR-MIN</gml:description>
+                              <swe:value>500.0</swe:value>
+                            </swe:Quantity>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:capabilities name="offerings">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="field_1">
+                            <swe:Text definition="urn:ogc:def:identifier:OGC:offeringID">
+                              <gml:description>offeringID</gml:description>
+                              <swe:value>urn:ogc:object:feature:offering:UFZ:1</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:capabilities name="featuresOfInterest">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="featureOfInterestID">
+                            <swe:Text definition="http://www.opengis.net/def/featureOfInterest/identifier">
+                              <swe:value>ufz_3</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:capabilities name="parentProcedures">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="parentProcedureID">
+                            <swe:Text definition="http://www.opengis.net/def/procedure/identifier">
+                              <swe:value>urn:ogc:object:feature:Sensor:UFZ:1</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:contact>
+                        <sml:ContactList>
+                          <sml:member>
+                            <sml:Person>
+                              <sml:surname>Steffen Zacharias</sml:surname>
+                              <sml:name>Steffen Zacharias</sml:name>
+                              <sml:userID>unknown</sml:userID>
+                              <sml:affiliation>unknown</sml:affiliation>
+                              <sml:phoneNumber>unknown</sml:phoneNumber>
+                              <sml:email>steffen.zacharias@ufz.de</sml:email>
+                            </sml:Person>
+                          </sml:member>
+                        </sml:ContactList>
+                      </sml:contact>
+                      <sml:position name="sensorPosition">
+                        <swe:Position fixed="true" referenceFrame="urn:ogc:def:crs:EPSG::4326">
+                          <swe:location>
+                            <swe:Vector>
+                              <swe:coordinate name="northing">
+                                <swe:Quantity axisID="y">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>52.066861</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="easting">
+                                <swe:Quantity axisID="x">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>11.266645</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="altitude">
+                                <swe:Quantity>
+                                  <swe:uom code="m"/>
+                                  <swe:value>114.0</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                            </swe:Vector>
+                          </swe:location>
+                        </swe:Position>
+                      </sml:position>
+                      <sml:inputs>
+                        <sml:InputList>
+                          <sml:input name="input_1">
+                            <swe:ObservableProperty definition="AIR_PRESSURE_[HECTOPASCAL]"/>
+                          </sml:input>
+                        </sml:InputList>
+                      </sml:inputs>
+                      <sml:outputs>
+                        <sml:OutputList>
+                          <sml:output name="output_1">
+                            <swe:Quantity definition="urn:ogc:def:phenomenon:OGC:1.0.30:AIR_PRESSURE_[HECTOPASCAL]">
+                              <gml:description>Please note in the sensor description what kind of air pressure is meant: 1. Absolute air pressure [abs] =locally measured 2. Relative air pressure [rel] = reduced to sea level. Default min/max values according to WMO quality control Guidelines.</gml:description>
+                              <gml:name codeSpace="">Atmospheric Pressure</gml:name>
+                              <swe:uom code="hPa"/>
+                            </swe:Quantity>
+                          </sml:output>
+                        </sml:OutputList>
+                      </sml:outputs>
+                    </sml:System>
+                  </sml:component>
+                  <sml:component name="urn:ogc:object:feature:Sensor:UFZ:1:20693">
+                    <sml:System>
+                      <sml:identification>
+                        <sml:IdentifierList>
+                          <sml:identifier name="URN">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:uniqueID">
+                              <sml:value>urn:ogc:object:feature:Sensor:UFZ:1</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                          <sml:identifier name="longName">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:longName">
+                              <sml:value>WeatherPrecipitationHeightLiquid2mSingleValue (Niederschlag) [mm]</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                        </sml:IdentifierList>
+                      </sml:identification>
+                      <sml:capabilities name="featuresOfInterest">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="featureOfInterestID">
+                            <swe:Text definition="http://www.opengis.net/def/featureOfInterest/identifier">
+                              <swe:value>ufz_3</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:capabilities name="parentProcedures">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="parentProcedureID">
+                            <swe:Text definition="http://www.opengis.net/def/procedure/identifier">
+                              <swe:value>urn:ogc:object:feature:Sensor:UFZ:1</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:contact>
+                        <sml:ContactList>
+                          <sml:member>
+                            <sml:Person>
+                              <sml:surname>Steffen Zacharias</sml:surname>
+                              <sml:name>Steffen Zacharias</sml:name>
+                              <sml:userID>unknown</sml:userID>
+                              <sml:affiliation>unknown</sml:affiliation>
+                              <sml:phoneNumber>unknown</sml:phoneNumber>
+                              <sml:email>steffen.zacharias@ufz.de</sml:email>
+                            </sml:Person>
+                          </sml:member>
+                        </sml:ContactList>
+                      </sml:contact>
+                      <sml:position name="sensorPosition">
+                        <swe:Position fixed="true" referenceFrame="urn:ogc:def:crs:EPSG::4326">
+                          <swe:location>
+                            <swe:Vector>
+                              <swe:coordinate name="northing">
+                                <swe:Quantity axisID="y">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>52.066861</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="easting">
+                                <swe:Quantity axisID="x">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>11.266645</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="altitude">
+                                <swe:Quantity>
+                                  <swe:uom code="m"/>
+                                  <swe:value>114.0</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                            </swe:Vector>
+                          </swe:location>
+                        </swe:Position>
+                      </sml:position>
+                      <sml:inputs>
+                        <sml:InputList>
+                          <sml:input name="input_1">
+                            <swe:ObservableProperty definition="PRECIPITATION_HEIGHT_LIQUID_[MILLIMETER]"/>
+                          </sml:input>
+                        </sml:InputList>
+                      </sml:inputs>
+                      <sml:outputs>
+                        <sml:OutputList>
+                          <sml:output name="output_1">
+                            <swe:Quantity definition="urn:ogc:def:phenomenon:OGC:1.0.30:PRECIPITATION_HEIGHT_LIQUID_[MILLIMETER]">
+                              <gml:description>Precipitation Height,  Liquid=Rain Amount. Sensor e.g. accoustic rain sensor (e.g. at Vaisala WXT520).</gml:description>
+                              <gml:name codeSpace="">Precipitation Height, Liquid</gml:name>
+                              <swe:uom code="mm"/>
+                            </swe:Quantity>
+                          </sml:output>
+                        </sml:OutputList>
+                      </sml:outputs>
+                    </sml:System>
+                  </sml:component>
+                  <sml:component name="urn:ogc:object:feature:Sensor:UFZ:1:20694">
+                    <sml:System>
+                      <sml:identification>
+                        <sml:IdentifierList>
+                          <sml:identifier name="URN">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:uniqueID">
+                              <sml:value>urn:ogc:object:feature:Sensor:UFZ:1</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                          <sml:identifier name="longName">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:longName">
+                              <sml:value>WeatherGlobalRadiationIn2mSingleValue (Globalstrahlung) [W/m²]</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                        </sml:IdentifierList>
+                      </sml:identification>
+                      <sml:capabilities name="featuresOfInterest">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="featureOfInterestID">
+                            <swe:Text definition="http://www.opengis.net/def/featureOfInterest/identifier">
+                              <swe:value>ufz_3</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:capabilities name="parentProcedures">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="parentProcedureID">
+                            <swe:Text definition="http://www.opengis.net/def/procedure/identifier">
+                              <swe:value>urn:ogc:object:feature:Sensor:UFZ:1</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:contact>
+                        <sml:ContactList>
+                          <sml:member>
+                            <sml:Person>
+                              <sml:surname>Steffen Zacharias</sml:surname>
+                              <sml:name>Steffen Zacharias</sml:name>
+                              <sml:userID>unknown</sml:userID>
+                              <sml:affiliation>unknown</sml:affiliation>
+                              <sml:phoneNumber>unknown</sml:phoneNumber>
+                              <sml:email>steffen.zacharias@ufz.de</sml:email>
+                            </sml:Person>
+                          </sml:member>
+                        </sml:ContactList>
+                      </sml:contact>
+                      <sml:position name="sensorPosition">
+                        <swe:Position fixed="true" referenceFrame="urn:ogc:def:crs:EPSG::4326">
+                          <swe:location>
+                            <swe:Vector>
+                              <swe:coordinate name="northing">
+                                <swe:Quantity axisID="y">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>52.066861</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="easting">
+                                <swe:Quantity axisID="x">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>11.266645</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="altitude">
+                                <swe:Quantity>
+                                  <swe:uom code="m"/>
+                                  <swe:value>114.0</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                            </swe:Vector>
+                          </swe:location>
+                        </swe:Position>
+                      </sml:position>
+                      <sml:inputs>
+                        <sml:InputList>
+                          <sml:input name="input_1">
+                            <swe:ObservableProperty definition="RADIATION_GLOBAL_[WATTS_PER_SQUARE_METER]"/>
+                          </sml:input>
+                        </sml:InputList>
+                      </sml:inputs>
+                      <sml:outputs>
+                        <sml:OutputList>
+                          <sml:output name="output_1">
+                            <swe:Quantity definition="urn:ogc:def:phenomenon:OGC:1.0.30:RADIATION_GLOBAL_[WATTS_PER_SQUARE_METER]">
+                              <gml:description>Short wave upward facing radiation, e.g. Pyranometer. Default min/max values according to WMO quality control Guidelines.</gml:description>
+                              <gml:name codeSpace="">Global Radiation</gml:name>
+                              <swe:uom code="W/m²"/>
+                            </swe:Quantity>
+                          </sml:output>
+                        </sml:OutputList>
+                      </sml:outputs>
+                    </sml:System>
+                  </sml:component>
+                  <sml:component name="urn:ogc:object:feature:Sensor:UFZ:1:1320">
+                    <sml:System>
+                      <sml:identification>
+                        <sml:IdentifierList>
+                          <sml:identifier name="URN">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:uniqueID">
+                              <sml:value>urn:ogc:object:feature:Sensor:UFZ:1</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                          <sml:identifier name="longName">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:longName">
+                              <sml:value>DevicesVoltageLogger1mSingleValue (Batteriespannung) [V]</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                        </sml:IdentifierList>
+                      </sml:identification>
+                      <sml:capabilities name="featuresOfInterest">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="featureOfInterestID">
+                            <swe:Text definition="http://www.opengis.net/def/featureOfInterest/identifier">
+                              <swe:value>ufz_3</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:capabilities name="parentProcedures">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="parentProcedureID">
+                            <swe:Text definition="http://www.opengis.net/def/procedure/identifier">
+                              <swe:value>urn:ogc:object:feature:Sensor:UFZ:1</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:contact>
+                        <sml:ContactList>
+                          <sml:member>
+                            <sml:Person>
+                              <sml:surname>Steffen Zacharias</sml:surname>
+                              <sml:name>Steffen Zacharias</sml:name>
+                              <sml:userID>unknown</sml:userID>
+                              <sml:affiliation>unknown</sml:affiliation>
+                              <sml:phoneNumber>unknown</sml:phoneNumber>
+                              <sml:email>steffen.zacharias@ufz.de</sml:email>
+                            </sml:Person>
+                          </sml:member>
+                        </sml:ContactList>
+                      </sml:contact>
+                      <sml:position name="sensorPosition">
+                        <swe:Position fixed="true" referenceFrame="urn:ogc:def:crs:EPSG::4326">
+                          <swe:location>
+                            <swe:Vector>
+                              <swe:coordinate name="northing">
+                                <swe:Quantity axisID="y">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>52.066861</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="easting">
+                                <swe:Quantity axisID="x">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>11.266645</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="altitude">
+                                <swe:Quantity>
+                                  <swe:uom code="m"/>
+                                  <swe:value>114.0</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                            </swe:Vector>
+                          </swe:location>
+                        </swe:Position>
+                      </sml:position>
+                      <sml:inputs>
+                        <sml:InputList>
+                          <sml:input name="input_1">
+                            <swe:ObservableProperty definition="LOGGER_VOLTAGE_[VOLT]"/>
+                          </sml:input>
+                        </sml:InputList>
+                      </sml:inputs>
+                      <sml:outputs>
+                        <sml:OutputList>
+                          <sml:output name="output_1">
+                            <swe:Quantity definition="urn:ogc:def:phenomenon:OGC:1.0.30:LOGGER_VOLTAGE_[VOLT]">
+                              <gml:description>"Operating parameter" of a data logger.</gml:description>
+                              <gml:name codeSpace="">Voltage Logger</gml:name>
+                              <swe:uom code="V"/>
+                            </swe:Quantity>
+                          </sml:output>
+                        </sml:OutputList>
+                      </sml:outputs>
+                    </sml:System>
+                  </sml:component>
+                  <sml:component name="urn:ogc:object:feature:Sensor:UFZ:1:1321">
+                    <sml:System>
+                      <sml:identification>
+                        <sml:IdentifierList>
+                          <sml:identifier name="URN">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:uniqueID">
+                              <sml:value>urn:ogc:object:feature:Sensor:UFZ:1</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                          <sml:identifier name="longName">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:longName">
+                              <sml:value>DevicesTemperatureDataLogger1mSingleValue (Loggertemperatur) [°C]</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                        </sml:IdentifierList>
+                      </sml:identification>
+                      <sml:capabilities name="featuresOfInterest">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="featureOfInterestID">
+                            <swe:Text definition="http://www.opengis.net/def/featureOfInterest/identifier">
+                              <swe:value>ufz_3</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:capabilities name="parentProcedures">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="parentProcedureID">
+                            <swe:Text definition="http://www.opengis.net/def/procedure/identifier">
+                              <swe:value>urn:ogc:object:feature:Sensor:UFZ:1</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:contact>
+                        <sml:ContactList>
+                          <sml:member>
+                            <sml:Person>
+                              <sml:surname>Steffen Zacharias</sml:surname>
+                              <sml:name>Steffen Zacharias</sml:name>
+                              <sml:userID>unknown</sml:userID>
+                              <sml:affiliation>unknown</sml:affiliation>
+                              <sml:phoneNumber>unknown</sml:phoneNumber>
+                              <sml:email>steffen.zacharias@ufz.de</sml:email>
+                            </sml:Person>
+                          </sml:member>
+                        </sml:ContactList>
+                      </sml:contact>
+                      <sml:position name="sensorPosition">
+                        <swe:Position fixed="true" referenceFrame="urn:ogc:def:crs:EPSG::4326">
+                          <swe:location>
+                            <swe:Vector>
+                              <swe:coordinate name="northing">
+                                <swe:Quantity axisID="y">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>52.066861</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="easting">
+                                <swe:Quantity axisID="x">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>11.266645</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="altitude">
+                                <swe:Quantity>
+                                  <swe:uom code="m"/>
+                                  <swe:value>114.0</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                            </swe:Vector>
+                          </swe:location>
+                        </swe:Position>
+                      </sml:position>
+                      <sml:inputs>
+                        <sml:InputList>
+                          <sml:input name="input_1">
+                            <swe:ObservableProperty definition="LOGGER_TEMPERATURE_[DEGREE_CELSIUS]"/>
+                          </sml:input>
+                        </sml:InputList>
+                      </sml:inputs>
+                      <sml:outputs>
+                        <sml:OutputList>
+                          <sml:output name="output_1">
+                            <swe:Quantity definition="urn:ogc:def:phenomenon:OGC:1.0.30:LOGGER_TEMPERATURE_[DEGREE_CELSIUS]">
+                              <gml:description>"Operating parameter" of a data logger.</gml:description>
+                              <gml:name codeSpace="">Temperature Data Logger</gml:name>
+                              <swe:uom code="°C"/>
+                            </swe:Quantity>
+                          </sml:output>
+                        </sml:OutputList>
+                      </sml:outputs>
+                    </sml:System>
+                  </sml:component>
+                  <sml:component name="urn:ogc:object:feature:Sensor:UFZ:1:1262">
+                    <sml:System>
+                      <sml:identification>
+                        <sml:IdentifierList>
+                          <sml:identifier name="URN">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:uniqueID">
+                              <sml:value>urn:ogc:object:feature:Sensor:UFZ:1</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                          <sml:identifier name="longName">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:longName">
+                              <sml:value>WeatherPrecipitationHeightTotal1mSingleValue (Niederschlagkippwaage) [mm]</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                        </sml:IdentifierList>
+                      </sml:identification>
+                      <sml:capabilities name="featuresOfInterest">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="featureOfInterestID">
+                            <swe:Text definition="http://www.opengis.net/def/featureOfInterest/identifier">
+                              <swe:value>ufz_3</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:capabilities name="parentProcedures">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="parentProcedureID">
+                            <swe:Text definition="http://www.opengis.net/def/procedure/identifier">
+                              <swe:value>urn:ogc:object:feature:Sensor:UFZ:1</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:contact>
+                        <sml:ContactList>
+                          <sml:member>
+                            <sml:Person>
+                              <sml:surname>Steffen Zacharias</sml:surname>
+                              <sml:name>Steffen Zacharias</sml:name>
+                              <sml:userID>unknown</sml:userID>
+                              <sml:affiliation>unknown</sml:affiliation>
+                              <sml:phoneNumber>unknown</sml:phoneNumber>
+                              <sml:email>steffen.zacharias@ufz.de</sml:email>
+                            </sml:Person>
+                          </sml:member>
+                        </sml:ContactList>
+                      </sml:contact>
+                      <sml:position name="sensorPosition">
+                        <swe:Position fixed="true" referenceFrame="urn:ogc:def:crs:EPSG::4326">
+                          <swe:location>
+                            <swe:Vector>
+                              <swe:coordinate name="northing">
+                                <swe:Quantity axisID="y">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>52.066861</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="easting">
+                                <swe:Quantity axisID="x">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>11.266645</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="altitude">
+                                <swe:Quantity>
+                                  <swe:uom code="m"/>
+                                  <swe:value>114.0</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                            </swe:Vector>
+                          </swe:location>
+                        </swe:Position>
+                      </sml:position>
+                      <sml:inputs>
+                        <sml:InputList>
+                          <sml:input name="input_1">
+                            <swe:ObservableProperty definition="PRECIPITATION_HEIGHT_TOTAL_[MILLIMETER]"/>
+                          </sml:input>
+                        </sml:InputList>
+                      </sml:inputs>
+                      <sml:outputs>
+                        <sml:OutputList>
+                          <sml:output name="output_1">
+                            <swe:Quantity definition="urn:ogc:def:phenomenon:OGC:1.0.30:PRECIPITATION_HEIGHT_TOTAL_[MILLIMETER]">
+                              <gml:description>Precipitation Height, Total=Sum of Rain, Snow, Hail, etc. . Sensor e.g. tipping bucket or various rain gauges. Please note if the device is heated. Values are quasi real-time with heating. Without heating, values are not real time.</gml:description>
+                              <gml:name codeSpace="">Precipitation Height, Total</gml:name>
+                              <swe:uom code="mm"/>
+                            </swe:Quantity>
+                          </sml:output>
+                        </sml:OutputList>
+                      </sml:outputs>
+                    </sml:System>
+                  </sml:component>
+                  <sml:component name="urn:ogc:object:feature:Sensor:UFZ:1:1263">
+                    <sml:System>
+                      <sml:identification>
+                        <sml:IdentifierList>
+                          <sml:identifier name="URN">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:uniqueID">
+                              <sml:value>urn:ogc:object:feature:Sensor:UFZ:1</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                          <sml:identifier name="longName">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:longName">
+                              <sml:value>WeatherWindDirection2mSingleValue (Windrichtung) [°]</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                        </sml:IdentifierList>
+                      </sml:identification>
+                      <sml:capabilities name="featuresOfInterest">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="featureOfInterestID">
+                            <swe:Text definition="http://www.opengis.net/def/featureOfInterest/identifier">
+                              <swe:value>ufz_3</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:capabilities name="parentProcedures">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="parentProcedureID">
+                            <swe:Text definition="http://www.opengis.net/def/procedure/identifier">
+                              <swe:value>urn:ogc:object:feature:Sensor:UFZ:1</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:contact>
+                        <sml:ContactList>
+                          <sml:member>
+                            <sml:Person>
+                              <sml:surname>Steffen Zacharias</sml:surname>
+                              <sml:name>Steffen Zacharias</sml:name>
+                              <sml:userID>unknown</sml:userID>
+                              <sml:affiliation>unknown</sml:affiliation>
+                              <sml:phoneNumber>unknown</sml:phoneNumber>
+                              <sml:email>steffen.zacharias@ufz.de</sml:email>
+                            </sml:Person>
+                          </sml:member>
+                        </sml:ContactList>
+                      </sml:contact>
+                      <sml:position name="sensorPosition">
+                        <swe:Position fixed="true" referenceFrame="urn:ogc:def:crs:EPSG::4326">
+                          <swe:location>
+                            <swe:Vector>
+                              <swe:coordinate name="northing">
+                                <swe:Quantity axisID="y">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>52.066861</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="easting">
+                                <swe:Quantity axisID="x">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>11.266645</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="altitude">
+                                <swe:Quantity>
+                                  <swe:uom code="m"/>
+                                  <swe:value>114.0</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                            </swe:Vector>
+                          </swe:location>
+                        </swe:Position>
+                      </sml:position>
+                      <sml:inputs>
+                        <sml:InputList>
+                          <sml:input name="input_1">
+                            <swe:ObservableProperty definition="WIND_DIRECTION_[DEGREE]"/>
+                          </sml:input>
+                        </sml:InputList>
+                      </sml:inputs>
+                      <sml:outputs>
+                        <sml:OutputList>
+                          <sml:output name="output_1">
+                            <swe:Quantity definition="urn:ogc:def:phenomenon:OGC:1.0.30:WIND_DIRECTION_[DEGREE]">
+                              <gml:description>Wind direction 0…360°, where 0° is north. Please note a different reference direction in the sensor description. Default min/max values according to WMO quality control Guidelines.</gml:description>
+                              <gml:name codeSpace="">Wind Direction</gml:name>
+                              <swe:uom code="°"/>
+                            </swe:Quantity>
+                          </sml:output>
+                        </sml:OutputList>
+                      </sml:outputs>
+                    </sml:System>
+                  </sml:component>
+                  <sml:component name="urn:ogc:object:feature:Sensor:UFZ:1:1264">
+                    <sml:System>
+                      <sml:identification>
+                        <sml:IdentifierList>
+                          <sml:identifier name="URN">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:uniqueID">
+                              <sml:value>urn:ogc:object:feature:Sensor:UFZ:1</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                          <sml:identifier name="longName">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:longName">
+                              <sml:value>WeatherWindSpeed2mAvg (Windgeschwindigkeit) [m/s]</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                        </sml:IdentifierList>
+                      </sml:identification>
+                      <sml:capabilities name="featuresOfInterest">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="featureOfInterestID">
+                            <swe:Text definition="http://www.opengis.net/def/featureOfInterest/identifier">
+                              <swe:value>ufz_3</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:capabilities name="parentProcedures">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="parentProcedureID">
+                            <swe:Text definition="http://www.opengis.net/def/procedure/identifier">
+                              <swe:value>urn:ogc:object:feature:Sensor:UFZ:1</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:contact>
+                        <sml:ContactList>
+                          <sml:member>
+                            <sml:Person>
+                              <sml:surname>Steffen Zacharias</sml:surname>
+                              <sml:name>Steffen Zacharias</sml:name>
+                              <sml:userID>unknown</sml:userID>
+                              <sml:affiliation>unknown</sml:affiliation>
+                              <sml:phoneNumber>unknown</sml:phoneNumber>
+                              <sml:email>steffen.zacharias@ufz.de</sml:email>
+                            </sml:Person>
+                          </sml:member>
+                        </sml:ContactList>
+                      </sml:contact>
+                      <sml:position name="sensorPosition">
+                        <swe:Position fixed="true" referenceFrame="urn:ogc:def:crs:EPSG::4326">
+                          <swe:location>
+                            <swe:Vector>
+                              <swe:coordinate name="northing">
+                                <swe:Quantity axisID="y">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>52.066861</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="easting">
+                                <swe:Quantity axisID="x">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>11.266645</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="altitude">
+                                <swe:Quantity>
+                                  <swe:uom code="m"/>
+                                  <swe:value>114.0</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                            </swe:Vector>
+                          </swe:location>
+                        </swe:Position>
+                      </sml:position>
+                      <sml:inputs>
+                        <sml:InputList>
+                          <sml:input name="input_1">
+                            <swe:ObservableProperty definition="WIND_SPEED_[METERS_PER_SECOND]"/>
+                          </sml:input>
+                        </sml:InputList>
+                      </sml:inputs>
+                      <sml:outputs>
+                        <sml:OutputList>
+                          <sml:output name="output_1">
+                            <swe:Quantity definition="urn:ogc:def:phenomenon:OGC:1.0.30:WIND_SPEED_[METERS_PER_SECOND]">
+                              <gml:name codeSpace="">Wind Speed</gml:name>
+                              <swe:uom code="m/s"/>
+                            </swe:Quantity>
+                          </sml:output>
+                        </sml:OutputList>
+                      </sml:outputs>
+                    </sml:System>
+                  </sml:component>
+                  <sml:component name="urn:ogc:object:feature:Sensor:UFZ:1:1265">
+                    <sml:System>
+                      <sml:identification>
+                        <sml:IdentifierList>
+                          <sml:identifier name="URN">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:uniqueID">
+                              <sml:value>urn:ogc:object:feature:Sensor:UFZ:1</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                          <sml:identifier name="longName">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:longName">
+                              <sml:value>WeatherAirTemperature2mSingleValue (Lufttemperatur) [°C]</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                        </sml:IdentifierList>
+                      </sml:identification>
+                      <sml:capabilities name="featuresOfInterest">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="featureOfInterestID">
+                            <swe:Text definition="http://www.opengis.net/def/featureOfInterest/identifier">
+                              <swe:value>ufz_3</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:capabilities name="parentProcedures">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="parentProcedureID">
+                            <swe:Text definition="http://www.opengis.net/def/procedure/identifier">
+                              <swe:value>urn:ogc:object:feature:Sensor:UFZ:1</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:contact>
+                        <sml:ContactList>
+                          <sml:member>
+                            <sml:Person>
+                              <sml:surname>Steffen Zacharias</sml:surname>
+                              <sml:name>Steffen Zacharias</sml:name>
+                              <sml:userID>unknown</sml:userID>
+                              <sml:affiliation>unknown</sml:affiliation>
+                              <sml:phoneNumber>unknown</sml:phoneNumber>
+                              <sml:email>steffen.zacharias@ufz.de</sml:email>
+                            </sml:Person>
+                          </sml:member>
+                        </sml:ContactList>
+                      </sml:contact>
+                      <sml:position name="sensorPosition">
+                        <swe:Position fixed="true" referenceFrame="urn:ogc:def:crs:EPSG::4326">
+                          <swe:location>
+                            <swe:Vector>
+                              <swe:coordinate name="northing">
+                                <swe:Quantity axisID="y">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>52.066861</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="easting">
+                                <swe:Quantity axisID="x">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>11.266645</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="altitude">
+                                <swe:Quantity>
+                                  <swe:uom code="m"/>
+                                  <swe:value>114.0</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                            </swe:Vector>
+                          </swe:location>
+                        </swe:Position>
+                      </sml:position>
+                      <sml:inputs>
+                        <sml:InputList>
+                          <sml:input name="input_1">
+                            <swe:ObservableProperty definition="AIR_TEMPERATURE_[DEGREE_CELSIUS]"/>
+                          </sml:input>
+                        </sml:InputList>
+                      </sml:inputs>
+                      <sml:outputs>
+                        <sml:OutputList>
+                          <sml:output name="output_1">
+                            <swe:Quantity definition="urn:ogc:def:phenomenon:OGC:1.0.30:AIR_TEMPERATURE_[DEGREE_CELSIUS]">
+                              <gml:description>Please note if the sensor is not protected from direct sunlight by a sensor housing. Some data loggers or various other devices (e.g. Neutron detectors) also measure air temperature. Default min/max values according to WMO quality control Guidelines.</gml:description>
+                              <gml:name codeSpace="">Air Temperature</gml:name>
+                              <swe:uom code="°C"/>
+                            </swe:Quantity>
+                          </sml:output>
+                        </sml:OutputList>
+                      </sml:outputs>
+                    </sml:System>
+                  </sml:component>
+                  <sml:component name="urn:ogc:object:feature:Sensor:UFZ:1:1267">
+                    <sml:System>
+                      <sml:identification>
+                        <sml:IdentifierList>
+                          <sml:identifier name="URN">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:uniqueID">
+                              <sml:value>urn:ogc:object:feature:Sensor:UFZ:1</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                          <sml:identifier name="longName">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:longName">
+                              <sml:value>WeatherAirPressure2mSingleValue (Luftdruck) [hPa]</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                        </sml:IdentifierList>
+                      </sml:identification>
+                      <sml:capabilities name="featuresOfInterest">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="featureOfInterestID">
+                            <swe:Text definition="http://www.opengis.net/def/featureOfInterest/identifier">
+                              <swe:value>ufz_3</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:capabilities name="parentProcedures">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="parentProcedureID">
+                            <swe:Text definition="http://www.opengis.net/def/procedure/identifier">
+                              <swe:value>urn:ogc:object:feature:Sensor:UFZ:1</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:contact>
+                        <sml:ContactList>
+                          <sml:member>
+                            <sml:Person>
+                              <sml:surname>Steffen Zacharias</sml:surname>
+                              <sml:name>Steffen Zacharias</sml:name>
+                              <sml:userID>unknown</sml:userID>
+                              <sml:affiliation>unknown</sml:affiliation>
+                              <sml:phoneNumber>unknown</sml:phoneNumber>
+                              <sml:email>steffen.zacharias@ufz.de</sml:email>
+                            </sml:Person>
+                          </sml:member>
+                        </sml:ContactList>
+                      </sml:contact>
+                      <sml:position name="sensorPosition">
+                        <swe:Position fixed="true" referenceFrame="urn:ogc:def:crs:EPSG::4326">
+                          <swe:location>
+                            <swe:Vector>
+                              <swe:coordinate name="northing">
+                                <swe:Quantity axisID="y">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>52.066861</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="easting">
+                                <swe:Quantity axisID="x">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>11.266645</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="altitude">
+                                <swe:Quantity>
+                                  <swe:uom code="m"/>
+                                  <swe:value>114.0</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                            </swe:Vector>
+                          </swe:location>
+                        </swe:Position>
+                      </sml:position>
+                      <sml:inputs>
+                        <sml:InputList>
+                          <sml:input name="input_1">
+                            <swe:ObservableProperty definition="AIR_PRESSURE_[HECTOPASCAL]"/>
+                          </sml:input>
+                        </sml:InputList>
+                      </sml:inputs>
+                      <sml:outputs>
+                        <sml:OutputList>
+                          <sml:output name="output_1">
+                            <swe:Quantity definition="urn:ogc:def:phenomenon:OGC:1.0.30:AIR_PRESSURE_[HECTOPASCAL]">
+                              <gml:description>Please note in the sensor description what kind of air pressure is meant: 1. Absolute air pressure [abs] =locally measured 2. Relative air pressure [rel] = reduced to sea level. Default min/max values according to WMO quality control Guidelines.</gml:description>
+                              <gml:name codeSpace="">Atmospheric Pressure</gml:name>
+                              <swe:uom code="hPa"/>
+                            </swe:Quantity>
+                          </sml:output>
+                        </sml:OutputList>
+                      </sml:outputs>
+                    </sml:System>
+                  </sml:component>
+                  <sml:component name="urn:ogc:object:feature:Sensor:UFZ:1:1268">
+                    <sml:System>
+                      <sml:identification>
+                        <sml:IdentifierList>
+                          <sml:identifier name="URN">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:uniqueID">
+                              <sml:value>urn:ogc:object:feature:Sensor:UFZ:1</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                          <sml:identifier name="longName">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:longName">
+                              <sml:value>WeatherPrecipitationHeightLiquid2mSingleValue (Niederschlag) [mm]</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                        </sml:IdentifierList>
+                      </sml:identification>
+                      <sml:capabilities name="featuresOfInterest">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="featureOfInterestID">
+                            <swe:Text definition="http://www.opengis.net/def/featureOfInterest/identifier">
+                              <swe:value>ufz_3</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:capabilities name="parentProcedures">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="parentProcedureID">
+                            <swe:Text definition="http://www.opengis.net/def/procedure/identifier">
+                              <swe:value>urn:ogc:object:feature:Sensor:UFZ:1</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:contact>
+                        <sml:ContactList>
+                          <sml:member>
+                            <sml:Person>
+                              <sml:surname>Steffen Zacharias</sml:surname>
+                              <sml:name>Steffen Zacharias</sml:name>
+                              <sml:userID>unknown</sml:userID>
+                              <sml:affiliation>unknown</sml:affiliation>
+                              <sml:phoneNumber>unknown</sml:phoneNumber>
+                              <sml:email>steffen.zacharias@ufz.de</sml:email>
+                            </sml:Person>
+                          </sml:member>
+                        </sml:ContactList>
+                      </sml:contact>
+                      <sml:position name="sensorPosition">
+                        <swe:Position fixed="true" referenceFrame="urn:ogc:def:crs:EPSG::4326">
+                          <swe:location>
+                            <swe:Vector>
+                              <swe:coordinate name="northing">
+                                <swe:Quantity axisID="y">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>52.066861</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="easting">
+                                <swe:Quantity axisID="x">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>11.266645</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="altitude">
+                                <swe:Quantity>
+                                  <swe:uom code="m"/>
+                                  <swe:value>114.0</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                            </swe:Vector>
+                          </swe:location>
+                        </swe:Position>
+                      </sml:position>
+                      <sml:inputs>
+                        <sml:InputList>
+                          <sml:input name="input_1">
+                            <swe:ObservableProperty definition="PRECIPITATION_HEIGHT_LIQUID_[MILLIMETER]"/>
+                          </sml:input>
+                        </sml:InputList>
+                      </sml:inputs>
+                      <sml:outputs>
+                        <sml:OutputList>
+                          <sml:output name="output_1">
+                            <swe:Quantity definition="urn:ogc:def:phenomenon:OGC:1.0.30:PRECIPITATION_HEIGHT_LIQUID_[MILLIMETER]">
+                              <gml:description>Precipitation Height,  Liquid=Rain Amount. Sensor e.g. accoustic rain sensor (e.g. at Vaisala WXT520).</gml:description>
+                              <gml:name codeSpace="">Precipitation Height, Liquid</gml:name>
+                              <swe:uom code="mm"/>
+                            </swe:Quantity>
+                          </sml:output>
+                        </sml:OutputList>
+                      </sml:outputs>
+                    </sml:System>
+                  </sml:component>
+                  <sml:component name="urn:ogc:object:feature:Sensor:UFZ:1:1269">
+                    <sml:System>
+                      <sml:identification>
+                        <sml:IdentifierList>
+                          <sml:identifier name="URN">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:uniqueID">
+                              <sml:value>urn:ogc:object:feature:Sensor:UFZ:1</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                          <sml:identifier name="longName">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:longName">
+                              <sml:value>WeatherGlobalRadiationIn2mSingleValue (Globalstrahlung) [W/m²]</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                        </sml:IdentifierList>
+                      </sml:identification>
+                      <sml:capabilities name="featuresOfInterest">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="featureOfInterestID">
+                            <swe:Text definition="http://www.opengis.net/def/featureOfInterest/identifier">
+                              <swe:value>ufz_3</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:capabilities name="parentProcedures">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="parentProcedureID">
+                            <swe:Text definition="http://www.opengis.net/def/procedure/identifier">
+                              <swe:value>urn:ogc:object:feature:Sensor:UFZ:1</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:contact>
+                        <sml:ContactList>
+                          <sml:member>
+                            <sml:Person>
+                              <sml:surname>Steffen Zacharias</sml:surname>
+                              <sml:name>Steffen Zacharias</sml:name>
+                              <sml:userID>unknown</sml:userID>
+                              <sml:affiliation>unknown</sml:affiliation>
+                              <sml:phoneNumber>unknown</sml:phoneNumber>
+                              <sml:email>steffen.zacharias@ufz.de</sml:email>
+                            </sml:Person>
+                          </sml:member>
+                        </sml:ContactList>
+                      </sml:contact>
+                      <sml:position name="sensorPosition">
+                        <swe:Position fixed="true" referenceFrame="urn:ogc:def:crs:EPSG::4326">
+                          <swe:location>
+                            <swe:Vector>
+                              <swe:coordinate name="northing">
+                                <swe:Quantity axisID="y">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>52.066861</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="easting">
+                                <swe:Quantity axisID="x">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>11.266645</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="altitude">
+                                <swe:Quantity>
+                                  <swe:uom code="m"/>
+                                  <swe:value>114.0</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                            </swe:Vector>
+                          </swe:location>
+                        </swe:Position>
+                      </sml:position>
+                      <sml:inputs>
+                        <sml:InputList>
+                          <sml:input name="input_1">
+                            <swe:ObservableProperty definition="RADIATION_GLOBAL_[WATTS_PER_SQUARE_METER]"/>
+                          </sml:input>
+                        </sml:InputList>
+                      </sml:inputs>
+                      <sml:outputs>
+                        <sml:OutputList>
+                          <sml:output name="output_1">
+                            <swe:Quantity definition="urn:ogc:def:phenomenon:OGC:1.0.30:RADIATION_GLOBAL_[WATTS_PER_SQUARE_METER]">
+                              <gml:description>Short wave upward facing radiation, e.g. Pyranometer. Default min/max values according to WMO quality control Guidelines.</gml:description>
+                              <gml:name codeSpace="">Global Radiation</gml:name>
+                              <swe:uom code="W/m²"/>
+                            </swe:Quantity>
+                          </sml:output>
+                        </sml:OutputList>
+                      </sml:outputs>
+                    </sml:System>
+                  </sml:component>
+                  <sml:component name="urn:ogc:object:feature:Sensor:UFZ:1:1322">
+                    <sml:System>
+                      <sml:identification>
+                        <sml:IdentifierList>
+                          <sml:identifier name="URN">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:uniqueID">
+                              <sml:value>urn:ogc:object:feature:Sensor:UFZ:1</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                          <sml:identifier name="longName">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:longName">
+                              <sml:value>NumberingValue/Number0mSingleValue (No)</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                        </sml:IdentifierList>
+                      </sml:identification>
+                      <sml:capabilities name="featuresOfInterest">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="featureOfInterestID">
+                            <swe:Text definition="http://www.opengis.net/def/featureOfInterest/identifier">
+                              <swe:value>ufz_3</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:capabilities name="parentProcedures">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="parentProcedureID">
+                            <swe:Text definition="http://www.opengis.net/def/procedure/identifier">
+                              <swe:value>urn:ogc:object:feature:Sensor:UFZ:1</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:contact>
+                        <sml:ContactList>
+                          <sml:member>
+                            <sml:Person>
+                              <sml:surname>Steffen Zacharias</sml:surname>
+                              <sml:name>Steffen Zacharias</sml:name>
+                              <sml:userID>unknown</sml:userID>
+                              <sml:affiliation>unknown</sml:affiliation>
+                              <sml:phoneNumber>unknown</sml:phoneNumber>
+                              <sml:email>steffen.zacharias@ufz.de</sml:email>
+                            </sml:Person>
+                          </sml:member>
+                        </sml:ContactList>
+                      </sml:contact>
+                      <sml:position name="sensorPosition">
+                        <swe:Position fixed="true" referenceFrame="urn:ogc:def:crs:EPSG::4326">
+                          <swe:location>
+                            <swe:Vector>
+                              <swe:coordinate name="northing">
+                                <swe:Quantity axisID="y">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>52.066861</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="easting">
+                                <swe:Quantity axisID="x">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>11.266645</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="altitude">
+                                <swe:Quantity>
+                                  <swe:uom code="m"/>
+                                  <swe:value>114.0</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                            </swe:Vector>
+                          </swe:location>
+                        </swe:Position>
+                      </sml:position>
+                      <sml:inputs>
+                        <sml:InputList>
+                          <sml:input name="input_1">
+                            <swe:ObservableProperty definition="NUMBER_[]"/>
+                          </sml:input>
+                        </sml:InputList>
+                      </sml:inputs>
+                      <sml:outputs>
+                        <sml:OutputList>
+                          <sml:output name="output_1">
+                            <swe:Quantity definition="urn:ogc:def:phenomenon:OGC:1.0.30:NUMBER_[]">
+                              <gml:description>consecutive number of all measurements of one day</gml:description>
+                              <gml:name codeSpace="">Value / Number</gml:name>
+                            </swe:Quantity>
+                          </sml:output>
+                        </sml:OutputList>
+                      </sml:outputs>
+                    </sml:System>
+                  </sml:component>
+                  <sml:component name="urn:ogc:object:feature:Sensor:UFZ:1:1323">
+                    <sml:System>
+                      <sml:identification>
+                        <sml:IdentifierList>
+                          <sml:identifier name="URN">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:uniqueID">
+                              <sml:value>urn:ogc:object:feature:Sensor:UFZ:1</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                          <sml:identifier name="longName">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:longName">
+                              <sml:value>WeatherRelativeHumidity2mSingleValue (Luftfeuchte) [%]</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                        </sml:IdentifierList>
+                      </sml:identification>
+                      <sml:capabilities name="featuresOfInterest">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="featureOfInterestID">
+                            <swe:Text definition="http://www.opengis.net/def/featureOfInterest/identifier">
+                              <swe:value>ufz_3</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:capabilities name="parentProcedures">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="parentProcedureID">
+                            <swe:Text definition="http://www.opengis.net/def/procedure/identifier">
+                              <swe:value>urn:ogc:object:feature:Sensor:UFZ:1</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:contact>
+                        <sml:ContactList>
+                          <sml:member>
+                            <sml:Person>
+                              <sml:surname>Steffen Zacharias</sml:surname>
+                              <sml:name>Steffen Zacharias</sml:name>
+                              <sml:userID>unknown</sml:userID>
+                              <sml:affiliation>unknown</sml:affiliation>
+                              <sml:phoneNumber>unknown</sml:phoneNumber>
+                              <sml:email>steffen.zacharias@ufz.de</sml:email>
+                            </sml:Person>
+                          </sml:member>
+                        </sml:ContactList>
+                      </sml:contact>
+                      <sml:position name="sensorPosition">
+                        <swe:Position fixed="true" referenceFrame="urn:ogc:def:crs:EPSG::4326">
+                          <swe:location>
+                            <swe:Vector>
+                              <swe:coordinate name="northing">
+                                <swe:Quantity axisID="y">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>52.066861</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="easting">
+                                <swe:Quantity axisID="x">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>11.266645</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="altitude">
+                                <swe:Quantity>
+                                  <swe:uom code="m"/>
+                                  <swe:value>114.0</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                            </swe:Vector>
+                          </swe:location>
+                        </swe:Position>
+                      </sml:position>
+                      <sml:inputs>
+                        <sml:InputList>
+                          <sml:input name="input_1">
+                            <swe:ObservableProperty definition="AIR_HUMIDITY_[PERCENT]"/>
+                          </sml:input>
+                        </sml:InputList>
+                      </sml:inputs>
+                      <sml:outputs>
+                        <sml:OutputList>
+                          <sml:output name="output_1">
+                            <swe:Quantity definition="urn:ogc:def:phenomenon:OGC:1.0.30:AIR_HUMIDITY_[PERCENT]">
+                              <gml:description>Relative humidity measured by a meteo sensor. Some devices (e.g. Neutron detectors) also measure relative humidity (e.g. in the logger box). Please enter those "operating parameters" under Technical Parameters\Devices. Default min/max values according to WMO quality control Guidelines.</gml:description>
+                              <gml:name codeSpace="">Relative Humidity</gml:name>
+                              <swe:uom code="%"/>
+                            </swe:Quantity>
+                          </sml:output>
+                        </sml:OutputList>
+                      </sml:outputs>
+                    </sml:System>
+                  </sml:component>
+                  <sml:component name="urn:ogc:object:feature:Sensor:UFZ:1:1324">
+                    <sml:System>
+                      <sml:identification>
+                        <sml:IdentifierList>
+                          <sml:identifier name="URN">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:uniqueID">
+                              <sml:value>urn:ogc:object:feature:Sensor:UFZ:1</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                          <sml:identifier name="longName">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:longName">
+                              <sml:value>DevicesVoltageLogger1mSingleValue (Batteriespannung) [V]</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                        </sml:IdentifierList>
+                      </sml:identification>
+                      <sml:capabilities name="featuresOfInterest">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="featureOfInterestID">
+                            <swe:Text definition="http://www.opengis.net/def/featureOfInterest/identifier">
+                              <swe:value>ufz_3</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:capabilities name="parentProcedures">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="parentProcedureID">
+                            <swe:Text definition="http://www.opengis.net/def/procedure/identifier">
+                              <swe:value>urn:ogc:object:feature:Sensor:UFZ:1</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:contact>
+                        <sml:ContactList>
+                          <sml:member>
+                            <sml:Person>
+                              <sml:surname>Steffen Zacharias</sml:surname>
+                              <sml:name>Steffen Zacharias</sml:name>
+                              <sml:userID>unknown</sml:userID>
+                              <sml:affiliation>unknown</sml:affiliation>
+                              <sml:phoneNumber>unknown</sml:phoneNumber>
+                              <sml:email>steffen.zacharias@ufz.de</sml:email>
+                            </sml:Person>
+                          </sml:member>
+                        </sml:ContactList>
+                      </sml:contact>
+                      <sml:position name="sensorPosition">
+                        <swe:Position fixed="true" referenceFrame="urn:ogc:def:crs:EPSG::4326">
+                          <swe:location>
+                            <swe:Vector>
+                              <swe:coordinate name="northing">
+                                <swe:Quantity axisID="y">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>52.066861</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="easting">
+                                <swe:Quantity axisID="x">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>11.266645</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="altitude">
+                                <swe:Quantity>
+                                  <swe:uom code="m"/>
+                                  <swe:value>114.0</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                            </swe:Vector>
+                          </swe:location>
+                        </swe:Position>
+                      </sml:position>
+                      <sml:inputs>
+                        <sml:InputList>
+                          <sml:input name="input_1">
+                            <swe:ObservableProperty definition="LOGGER_VOLTAGE_[VOLT]"/>
+                          </sml:input>
+                        </sml:InputList>
+                      </sml:inputs>
+                      <sml:outputs>
+                        <sml:OutputList>
+                          <sml:output name="output_1">
+                            <swe:Quantity definition="urn:ogc:def:phenomenon:OGC:1.0.30:LOGGER_VOLTAGE_[VOLT]">
+                              <gml:description>"Operating parameter" of a data logger.</gml:description>
+                              <gml:name codeSpace="">Voltage Logger</gml:name>
+                              <swe:uom code="V"/>
+                            </swe:Quantity>
+                          </sml:output>
+                        </sml:OutputList>
+                      </sml:outputs>
+                    </sml:System>
+                  </sml:component>
+                  <sml:component name="urn:ogc:object:feature:Sensor:UFZ:1:1325">
+                    <sml:System>
+                      <sml:identification>
+                        <sml:IdentifierList>
+                          <sml:identifier name="URN">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:uniqueID">
+                              <sml:value>urn:ogc:object:feature:Sensor:UFZ:1</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                          <sml:identifier name="longName">
+                            <sml:Term definition="urn:ogc:def:identifier:OGC:longName">
+                              <sml:value>DevicesTemperatureDataLogger1mSingleValue (Loggertemperatur) [°C]</sml:value>
+                            </sml:Term>
+                          </sml:identifier>
+                        </sml:IdentifierList>
+                      </sml:identification>
+                      <sml:capabilities name="featuresOfInterest">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="featureOfInterestID">
+                            <swe:Text definition="http://www.opengis.net/def/featureOfInterest/identifier">
+                              <swe:value>ufz_3</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:capabilities name="parentProcedures">
+                        <swe:SimpleDataRecord>
+                          <swe:field name="parentProcedureID">
+                            <swe:Text definition="http://www.opengis.net/def/procedure/identifier">
+                              <swe:value>urn:ogc:object:feature:Sensor:UFZ:1</swe:value>
+                            </swe:Text>
+                          </swe:field>
+                        </swe:SimpleDataRecord>
+                      </sml:capabilities>
+                      <sml:contact>
+                        <sml:ContactList>
+                          <sml:member>
+                            <sml:Person>
+                              <sml:surname>Steffen Zacharias</sml:surname>
+                              <sml:name>Steffen Zacharias</sml:name>
+                              <sml:userID>unknown</sml:userID>
+                              <sml:affiliation>unknown</sml:affiliation>
+                              <sml:phoneNumber>unknown</sml:phoneNumber>
+                              <sml:email>steffen.zacharias@ufz.de</sml:email>
+                            </sml:Person>
+                          </sml:member>
+                        </sml:ContactList>
+                      </sml:contact>
+                      <sml:position name="sensorPosition">
+                        <swe:Position fixed="true" referenceFrame="urn:ogc:def:crs:EPSG::4326">
+                          <swe:location>
+                            <swe:Vector>
+                              <swe:coordinate name="northing">
+                                <swe:Quantity axisID="y">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>52.066861</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="easting">
+                                <swe:Quantity axisID="x">
+                                  <swe:uom code="degree"/>
+                                  <swe:value>11.266645</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                              <swe:coordinate name="altitude">
+                                <swe:Quantity>
+                                  <swe:uom code="m"/>
+                                  <swe:value>114.0</swe:value>
+                                </swe:Quantity>
+                              </swe:coordinate>
+                            </swe:Vector>
+                          </swe:location>
+                        </swe:Position>
+                      </sml:position>
+                      <sml:inputs>
+                        <sml:InputList>
+                          <sml:input name="input_1">
+                            <swe:ObservableProperty definition="LOGGER_TEMPERATURE_[DEGREE_CELSIUS]"/>
+                          </sml:input>
+                        </sml:InputList>
+                      </sml:inputs>
+                      <sml:outputs>
+                        <sml:OutputList>
+                          <sml:output name="output_1">
+                            <swe:Quantity definition="urn:ogc:def:phenomenon:OGC:1.0.30:LOGGER_TEMPERATURE_[DEGREE_CELSIUS]">
+                              <gml:description>"Operating parameter" of a data logger.</gml:description>
+                              <gml:name codeSpace="">Temperature Data Logger</gml:name>
+                              <swe:uom code="°C"/>
+                            </swe:Quantity>
+                          </sml:output>
+                        </sml:OutputList>
+                      </sml:outputs>
+                    </sml:System>
+                  </sml:component>
+                </sml:ComponentList>
+              </sml:components>
+              <sml:connections>
+                <sml:ConnectionList>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_20686/inputs/NUMBER___"/>
+                      <sml:destination ref="this/inputs/NUMBER___"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_20686/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_NUMBER___"/>
+                      <sml:destination ref="this/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_NUMBER___"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_20688/inputs/WIND_DIRECTION__DEGREE_"/>
+                      <sml:destination ref="this/inputs/WIND_DIRECTION__DEGREE_"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_20688/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_WIND_DIRECTION__DEGREE_"/>
+                      <sml:destination ref="this/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_WIND_DIRECTION__DEGREE_"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_20689/inputs/WIND_SPEED__METERS_PER_SECOND_"/>
+                      <sml:destination ref="this/inputs/WIND_SPEED__METERS_PER_SECOND_"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_20689/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_WIND_SPEED__METERS_PER_SECOND_"/>
+                      <sml:destination ref="this/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_WIND_SPEED__METERS_PER_SECOND_"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_20690/inputs/AIR_TEMPERATURE__DEGREE_CELSIUS_"/>
+                      <sml:destination ref="this/inputs/AIR_TEMPERATURE__DEGREE_CELSIUS_"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_20690/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_AIR_TEMPERATURE__DEGREE_CELSIUS_"/>
+                      <sml:destination ref="this/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_AIR_TEMPERATURE__DEGREE_CELSIUS_"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_20691/inputs/AIR_HUMIDITY__PERCENT_"/>
+                      <sml:destination ref="this/inputs/AIR_HUMIDITY__PERCENT_"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_20691/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_AIR_HUMIDITY__PERCENT_"/>
+                      <sml:destination ref="this/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_AIR_HUMIDITY__PERCENT_"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_20692/inputs/AIR_PRESSURE__HECTOPASCAL_"/>
+                      <sml:destination ref="this/inputs/AIR_PRESSURE__HECTOPASCAL_"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_20692/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_AIR_PRESSURE__HECTOPASCAL_"/>
+                      <sml:destination ref="this/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_AIR_PRESSURE__HECTOPASCAL_"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_20693/inputs/PRECIPITATION_HEIGHT_LIQUID__MILLIMETER_"/>
+                      <sml:destination ref="this/inputs/PRECIPITATION_HEIGHT_LIQUID__MILLIMETER_"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_20693/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_PRECIPITATION_HEIGHT_LIQUID__MILLIMETER_"/>
+                      <sml:destination ref="this/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_PRECIPITATION_HEIGHT_LIQUID__MILLIMETER_"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_20694/inputs/RADIATION_GLOBAL__WATTS_PER_SQUARE_METER_"/>
+                      <sml:destination ref="this/inputs/RADIATION_GLOBAL__WATTS_PER_SQUARE_METER_"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_20694/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_RADIATION_GLOBAL__WATTS_PER_SQUARE_METER_"/>
+                      <sml:destination ref="this/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_RADIATION_GLOBAL__WATTS_PER_SQUARE_METER_"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_1320/inputs/LOGGER_VOLTAGE__VOLT_"/>
+                      <sml:destination ref="this/inputs/LOGGER_VOLTAGE__VOLT_"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_1320/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_LOGGER_VOLTAGE__VOLT_"/>
+                      <sml:destination ref="this/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_LOGGER_VOLTAGE__VOLT_"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_1321/inputs/LOGGER_TEMPERATURE__DEGREE_CELSIUS_"/>
+                      <sml:destination ref="this/inputs/LOGGER_TEMPERATURE__DEGREE_CELSIUS_"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_1321/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_LOGGER_TEMPERATURE__DEGREE_CELSIUS_"/>
+                      <sml:destination ref="this/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_LOGGER_TEMPERATURE__DEGREE_CELSIUS_"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_1262/inputs/PRECIPITATION_HEIGHT_TOTAL__MILLIMETER_"/>
+                      <sml:destination ref="this/inputs/PRECIPITATION_HEIGHT_TOTAL__MILLIMETER_"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_1262/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_PRECIPITATION_HEIGHT_TOTAL__MILLIMETER_"/>
+                      <sml:destination ref="this/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_PRECIPITATION_HEIGHT_TOTAL__MILLIMETER_"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_1263/inputs/WIND_DIRECTION__DEGREE_"/>
+                      <sml:destination ref="this/inputs/WIND_DIRECTION__DEGREE_"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_1263/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_WIND_DIRECTION__DEGREE_"/>
+                      <sml:destination ref="this/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_WIND_DIRECTION__DEGREE_"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_1264/inputs/WIND_SPEED__METERS_PER_SECOND_"/>
+                      <sml:destination ref="this/inputs/WIND_SPEED__METERS_PER_SECOND_"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_1264/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_WIND_SPEED__METERS_PER_SECOND_"/>
+                      <sml:destination ref="this/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_WIND_SPEED__METERS_PER_SECOND_"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_1265/inputs/AIR_TEMPERATURE__DEGREE_CELSIUS_"/>
+                      <sml:destination ref="this/inputs/AIR_TEMPERATURE__DEGREE_CELSIUS_"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_1265/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_AIR_TEMPERATURE__DEGREE_CELSIUS_"/>
+                      <sml:destination ref="this/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_AIR_TEMPERATURE__DEGREE_CELSIUS_"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_1267/inputs/AIR_PRESSURE__HECTOPASCAL_"/>
+                      <sml:destination ref="this/inputs/AIR_PRESSURE__HECTOPASCAL_"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_1267/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_AIR_PRESSURE__HECTOPASCAL_"/>
+                      <sml:destination ref="this/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_AIR_PRESSURE__HECTOPASCAL_"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_1268/inputs/PRECIPITATION_HEIGHT_LIQUID__MILLIMETER_"/>
+                      <sml:destination ref="this/inputs/PRECIPITATION_HEIGHT_LIQUID__MILLIMETER_"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_1268/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_PRECIPITATION_HEIGHT_LIQUID__MILLIMETER_"/>
+                      <sml:destination ref="this/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_PRECIPITATION_HEIGHT_LIQUID__MILLIMETER_"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_1269/inputs/RADIATION_GLOBAL__WATTS_PER_SQUARE_METER_"/>
+                      <sml:destination ref="this/inputs/RADIATION_GLOBAL__WATTS_PER_SQUARE_METER_"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_1269/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_RADIATION_GLOBAL__WATTS_PER_SQUARE_METER_"/>
+                      <sml:destination ref="this/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_RADIATION_GLOBAL__WATTS_PER_SQUARE_METER_"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_1322/inputs/NUMBER___"/>
+                      <sml:destination ref="this/inputs/NUMBER___"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_1322/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_NUMBER___"/>
+                      <sml:destination ref="this/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_NUMBER___"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_1323/inputs/AIR_HUMIDITY__PERCENT_"/>
+                      <sml:destination ref="this/inputs/AIR_HUMIDITY__PERCENT_"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_1323/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_AIR_HUMIDITY__PERCENT_"/>
+                      <sml:destination ref="this/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_AIR_HUMIDITY__PERCENT_"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_1324/inputs/LOGGER_VOLTAGE__VOLT_"/>
+                      <sml:destination ref="this/inputs/LOGGER_VOLTAGE__VOLT_"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_1324/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_LOGGER_VOLTAGE__VOLT_"/>
+                      <sml:destination ref="this/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_LOGGER_VOLTAGE__VOLT_"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_1325/inputs/LOGGER_TEMPERATURE__DEGREE_CELSIUS_"/>
+                      <sml:destination ref="this/inputs/LOGGER_TEMPERATURE__DEGREE_CELSIUS_"/>
+                    </sml:Link>
+                  </sml:connection>
+                  <sml:connection>
+                    <sml:Link>
+                      <sml:source ref="urn_ogc_object_feature_Sensor_UFZ_1_1325/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_LOGGER_TEMPERATURE__DEGREE_CELSIUS_"/>
+                      <sml:destination ref="this/outputs/urn_ogc_def_phenomenon_OGC_1.0.30_LOGGER_TEMPERATURE__DEGREE_CELSIUS_"/>
+                    </sml:Link>
+                  </sml:connection>
+                </sml:ConnectionList>
+              </sml:connections>
+            </sml:System>
+          </sml:member>
+        </sml:SensorML>
+      </swes:data>
+    </swes:SensorDescription>
+  </swes:description>
+</swes:DescribeSensorResponse>
