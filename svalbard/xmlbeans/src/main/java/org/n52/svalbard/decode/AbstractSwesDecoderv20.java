@@ -57,7 +57,7 @@ public abstract class AbstractSwesDecoderv20<S>
         }
         return null;
     }
-    
+
     /**
      * Check if the namespace of the procedure description element is equal to
      * the procedure description format of the request.
