@@ -61,8 +61,6 @@ This project includes:
   Apache Thrift under The Apache Software License, Version 2.0
   c3p0 under GNU Lesser General Public License, Version 2.1 or Eclipse Public License, Version 1.0
   Checker Qual under The MIT License
-  com.sun.xml.bind:jaxb-core under CDDL 1.1 or GPL2 w/ CPE
-  com.sun.xml.bind:jaxb-impl under CDDL 1.1 or GPL2 w/ CPE
   Commons Lang under The Apache Software License, Version 2.0
   compiler under Apache License 2.0
   dexx under MIT License
@@ -107,12 +105,12 @@ This project includes:
   Jackson-core under The Apache Software License, Version 2.0
   jackson-databind under The Apache Software License, Version 2.0
   Jackson-dataformat-YAML under The Apache Software License, Version 2.0
-  Java Architecture for XML Binding under CDDL 1.1 or GPL2 w/ CPE
   Java archiving library under Apache 2
   JavaBeans(TM) Activation Framework under COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL) Version 1.0
   JavaMail API jar under CDDL or GPLv2+CE
   javax.annotation API under CDDL + GPLv2 with classpath exception
   javax.inject under The Apache Software License, Version 2.0
+  jaxb-api under CDDL 1.1 or GPL2 w/ CPE
   JCL 1.2 implemented over SLF4J under Apache License, Version 2.0
   Joda-Time under Apache License, Version 2.0
   JOpt Simple under The MIT License
@@ -184,6 +182,8 @@ This project includes:
   OGC WaterML DR schema (spec. v2.0) under The Apache Software License, Version 2.0
   OGC WaterML schema (spec. v2.0) under The Apache Software License, Version 2.0
   OGC XML schemas under The Apache Software License, Version 2.0
+  Old JAXB Core under CDDL+GPL License
+  Old JAXB Runtime under CDDL+GPL License
   org.locationtech.jts:jts-core under Eclipse Public License, Version 2.0 or Eclipse Distribution License - v 1.0
   parent-join under The Apache Software License, Version 2.0
   Portele Schape Change schema (spec. v3.0) under The Apache Software License, Version 2.0
