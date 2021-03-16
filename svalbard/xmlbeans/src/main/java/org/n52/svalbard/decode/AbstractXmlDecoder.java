@@ -70,6 +70,9 @@ public abstract class AbstractXmlDecoder<T, S> extends AbstractDelegatingDecoder
             domNode.getFirstChild().getNextSibling() != null) {
             namespaceURI = domNode.getFirstChild().getNextSibling().getNamespaceURI();
         }
+        if (namespaceURI == null && doc.schemaType().isAttributeType()) {
+            namespaceURI = doc.schemaType().getAttributeTypeAttributeName().getNamespaceURI()
+        }
 
         return new XmlNamespaceDecoderKey(namespaceURI, doc.getClass());
     }
