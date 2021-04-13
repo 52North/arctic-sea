@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2020 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -69,6 +69,9 @@ public abstract class AbstractXmlDecoder<T, S> extends AbstractDelegatingDecoder
             domNode.getFirstChild() != null &&
             domNode.getFirstChild().getNextSibling() != null) {
             namespaceURI = domNode.getFirstChild().getNextSibling().getNamespaceURI();
+        }
+        if (namespaceURI == null && doc.schemaType().isAttributeType()) {
+            namespaceURI = doc.schemaType().getAttributeTypeAttributeName().getNamespaceURI();
         }
 
         return new XmlNamespaceDecoderKey(namespaceURI, doc.getClass());

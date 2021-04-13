@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2020 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -169,9 +169,9 @@ public class MediaType implements Comparable<MediaType>, Similar<MediaType> {
 
     public float getQuality() {
         if (hasParameter(QUALITY_PARAMETER)) {
-            return Float.valueOf(getParameter(QUALITY_PARAMETER).iterator().next());
+            return Float.parseFloat(getParameter(QUALITY_PARAMETER).iterator().next());
         } else {
-            return 1;
+            return 1.0f;
         }
     }
 

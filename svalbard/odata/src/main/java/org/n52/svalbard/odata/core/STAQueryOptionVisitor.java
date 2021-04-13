@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2020 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -106,9 +106,12 @@ public class STAQueryOptionVisitor extends STAQueryOptionsGrammarBaseVisitor {
         return new SkipTopFilter(FilterConstants.SkipTopOperator.Top, Long.parseLong(ctx.decimalLiteral().getText()));
     }
 
-    //TODO: check if we would like to also allow $count=false in the url
     @Override public CountFilter visitCount(STAQueryOptionsGrammar.CountContext ctx) {
-        return new CountFilter(true);
+        if (ctx.False_LLC() != null) {
+            return new CountFilter(false);
+        } else {
+            return new CountFilter(true);
+        }
     }
 
     @Override public SelectFilter visitSelect(STAQueryOptionsGrammar.SelectContext ctx) {

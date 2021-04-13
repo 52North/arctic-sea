@@ -1,6 +1,6 @@
 <!--
 
-    Copyright 2015-2020 52°North Initiative for Geospatial Open Source
+    Copyright 2015-2021 52°North Initiative for Geospatial Open Source
     Software GmbH
 
     Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,6 +34,7 @@
     <bean class="org.n52.svalbard.decode.DeleteObservationV20Decoder"/>
     <bean class="org.n52.svalbard.decode.DeleteResultTemplateDecoder"/>
     <bean class="org.n52.svalbard.decode.DeleteResultTemplateStringDecoder"/>
+    <bean class="org.n52.svalbard.decode.DescribeSensorResponseSwesDocumentDecoder"/>
     <bean class="org.n52.svalbard.decode.DocumentCitationTypeDecoder"/>
     <bean class="org.n52.svalbard.decode.FesDecoderv20"/>
     <bean class="org.n52.svalbard.decode.GetDataAvailabilityResponseDecoder"/>

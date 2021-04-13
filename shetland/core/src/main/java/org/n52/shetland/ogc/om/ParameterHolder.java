@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2020 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -40,13 +40,17 @@ public class ParameterHolder {
 
     @SuppressWarnings("unchecked")
     public <T> Optional<Value<T>> getParameter(String name) {
-        if (name == null || !name.isEmpty()) {
+        if (name == null || name.isEmpty()) {
             return Optional.empty();
         }
         return this.parameter.stream()
                 .filter(nv -> nv.getName().getHref().equals(name))
                 .map(nv -> (Value<T>) nv.getValue())
                 .findAny();
+    }
+
+    public boolean hasParameter(String name) {
+        return getParameter(name).isPresent();
     }
 
     public ParameterHolder setParameter(Collection<NamedValue<?>> parameter) {

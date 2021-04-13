@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2020 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,17 +23,13 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
-import org.locationtech.jts.geom.Geometry;
 import org.n52.shetland.ogc.gml.ReferenceType;
-import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.om.NamedValue;
 import org.n52.shetland.ogc.om.values.visitor.ProfileLevelVisitor;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 import org.n52.shetland.ogc.swe.SweDataRecord;
 import org.n52.shetland.ogc.swe.SweField;
-
-import com.google.common.collect.Lists;
 
 /**
  * Represents the level of a profile
@@ -42,14 +38,11 @@ import com.google.common.collect.Lists;
  * @since 1.0.0
  *
  */
-public class ProfileLevel
+public class ProfileLevel extends AbstractPofileTrajectoryElement<ProfileLevel>
         implements Comparable<ProfileLevel> {
 
     private QuantityValue levelStart;
     private QuantityValue levelEnd;
-    private List<Value<?>> value = Lists.newArrayList();
-    private Geometry location;
-    private Time phenomenonTime;
 
     /**
      * constructor
@@ -69,10 +62,9 @@ public class ProfileLevel
      *            the values
      */
     public ProfileLevel(QuantityValue levelStart, QuantityValue levelEnd, List<Value<?>> value) {
-        super();
+        super(value);
         this.levelStart = levelStart;
         this.levelEnd = levelEnd;
-        this.value = value;
     }
 
     /**
@@ -117,84 +109,6 @@ public class ProfileLevel
         return getLevelEnd() != null;
     }
 
-    /**
-     * @return the value
-     */
-    public List<Value<?>> getValue() {
-        return value;
-    }
-
-    /**
-     * @param value
-     *            the value to set
-     * @return {@code this}
-     */
-    public ProfileLevel setValue(List<Value<?>> value) {
-        this.value.clear();
-        this.value.addAll(value);
-        return this;
-    }
-
-    /**
-     * @param value
-     *            the value to set
-     * @return {@code this}
-     */
-    public ProfileLevel addValue(Value<?> value) {
-        this.value.add(value);
-        return this;
-    }
-
-    public boolean isSetValue() {
-        return getValue() != null;
-    }
-
-    /**
-     * @return the simpleValue
-     */
-    public Value<?> getSimpleValue() {
-        return value.iterator().next();
-    }
-
-    /**
-     * @return the location
-     */
-    public Geometry getLocation() {
-        return location;
-    }
-
-    /**
-     * @param location
-     *            the location to set
-     * @return {@code this}
-     */
-    public ProfileLevel setLocation(Geometry location) {
-        this.location = location;
-        return this;
-    }
-
-    public boolean isSetLocation() {
-        return getLocation() != null;
-    }
-
-    /**
-     * @return the phenomenonTime
-     */
-    public Time getPhenomenonTime() {
-        return phenomenonTime;
-    }
-
-    /**
-     * @param phenomenonTime
-     *            the phenomenonTime to set
-     */
-    public void setPhenomenonTime(Time phenomenonTime) {
-        this.phenomenonTime = phenomenonTime;
-    }
-
-    public boolean isSetPhenomenonTime() {
-        return getPhenomenonTime() != null;
-    }
 
     @Override
     public int compareTo(ProfileLevel o) {
