@@ -107,17 +107,17 @@ public abstract class JSONEncoder<T> implements Encoder<JsonNode, T> {
         return encode(objectToEncode);
     }
 
-    @Override
-    public MediaType getContentType() {
-        return MediaTypes.APPLICATION_JSON;
-    }
-
     protected <T> void encode(ArrayNode json, T obj, Function<T, JsonNode> encoder) {
         json.add(encoder.apply(obj));
     }
 
     protected <T> void encode(ObjectNode json, String name, T obj, Function<T, JsonNode> encoder) {
         json.set(name, encoder.apply(obj));
+    }
+
+    @Override
+    public MediaType getContentType() {
+        return MediaTypes.APPLICATION_JSON;
     }
 
     public abstract JsonNode encodeJSON(T t)
