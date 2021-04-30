@@ -1,0 +1,21 @@
+version: 2
+updates:
+- package-ecosystem: maven
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: xml-apis:xml-apis
+    versions:
+    - ">= 2.a, < 3"
+  - dependency-name: org.elasticsearch.client:elasticsearch-rest-high-level-client
+    versions:
+    - 7.11.0
+  - dependency-name: org.elasticsearch.client:elasticsearch-rest-client
+    versions:
+    - 7.11.0
+  - dependency-name: org.elasticsearch:elasticsearch
+    versions:
+    - 7.11.0
