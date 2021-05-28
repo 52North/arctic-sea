@@ -218,7 +218,7 @@ A link to the contributors license agreement and further explanations are availa
 
 ## References
 
-The development of the 52°North Faroe implementation was supported by several organizations and projects. Among other we would like to thank the following organizations and project
+The development of the 52°North Arctic Sea implementation was supported by several organizations and projects. Among other we would like to thank the following organizations and project
 
 | Project/Logo    | Description    |
 | :-------------: | :------------- |
