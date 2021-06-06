@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2020 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.n52.shetland.ogc.sta.model;
 
 import java.util.Arrays;
@@ -34,7 +33,8 @@ public class LicenseEntityDefinition extends STAEntityDefinition {
     private static final String[] NAV_PROPS_MANDATORY = new String[] {};
 
     private static final String[] NAV_PROPS_OPTIONAL = new String[] {
-            DATASTREAMS
+            OBSERVATIONS,
+            OBSERVATION_GROUPS
     };
 
     private static final String[] ENTITY_PROPS_MANDATORY = new String[] {

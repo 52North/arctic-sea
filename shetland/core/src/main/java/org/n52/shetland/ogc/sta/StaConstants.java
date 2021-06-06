@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2020 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.n52.shetland.ogc.sta;
 
 public interface StaConstants {
@@ -23,8 +22,9 @@ public interface StaConstants {
      * Profiles/Extensions
      */
     String VANILLA = "vanilla";
-    String CITSCIEXTENSION = "citSciExtension";
-    String MULTIDATASTREAM = "multiDatastreamExtension";
+    String CITSCIEXTENSION = "citSci";
+    String MULTIDATASTREAM = "multiDatastream";
+    String UFZAGGREGATA = "ufzaggregata";
 
     /**
      * Core Entities + Collections
@@ -96,6 +96,14 @@ public interface StaConstants {
     String AT_IOT_SELFLINK = AT + IOT_SELFLINK;
 
     /**
+     * Navigation links
+     */
+    String NAV_SUBJECT = "Subject";
+    String NAV_SUBJECTS = "Subjects";
+    String NAV_OBJECT = "Object";
+    String NAV_OBJECTS = "Objects";
+
+    /**
      * Properties
      */
     String PROP_ID = "id";
@@ -128,6 +136,5 @@ public interface StaConstants {
     String PROP_CLASSIFICATION = "classification";
     String PROP_TERMS_OF_USE = "termsOfUse";
     String PROP_PRIVACY_POLICY = "privacyPolicy";
-    String PROP_AUTH_ID = "authId";
 
 }
