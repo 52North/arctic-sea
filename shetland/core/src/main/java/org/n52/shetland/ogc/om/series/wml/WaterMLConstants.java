@@ -114,6 +114,10 @@ public interface WaterMLConstants extends SeriesConstants {
 
     QName QN_CUMULATIVE = new QName(NS_WML_20, EN_CUMULATIVE, NS_WML_20_PREFIX);
 
+    QName QN_CENSORED_REASON = new QName(NS_WML_20, EN_CENSORED_REASON, NS_WML_20_PREFIX);
+
+    QName QN_QUALIFIER = new QName(NS_WML_20, EN_QUALIFIER, NS_WML_20_PREFIX);
+
     QName UOM = new QName(NS_WML_20, EN_UOM, NS_WML_20_PREFIX);
 
     /**

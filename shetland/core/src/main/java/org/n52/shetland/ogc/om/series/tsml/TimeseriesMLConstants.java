@@ -107,6 +107,10 @@ public interface TimeseriesMLConstants extends SeriesConstants {
 
     QName QN_CUMULATIVE = new QName(NS_TSML_10, EN_CUMULATIVE, NS_TSML_10_PREFIX);
 
+    QName QN_CENSORED_REASON = new QName(NS_TSML_10, EN_CENSORED_REASON, NS_TSML_10);
+
+    QName QN_QUALIFIER = new QName(NS_TSML_10, EN_QUALIFIER, NS_TSML_10);
+
     QName UOM = new QName(NS_TSML_10, EN_UOM, NS_TSML_10_PREFIX);
 
     /**

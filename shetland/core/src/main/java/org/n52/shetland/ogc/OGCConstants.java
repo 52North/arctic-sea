@@ -65,4 +65,8 @@ public interface OGCConstants {
     String URN_DEF_CRS_EPSG = "urn:ogc:def:crs:EPSG::";
 
     String URL_DEF_CRS_EPSG = "http://www.opengis.net/def/crs/EPSG/0/";
+
+    String BELOW_DETECTION_RANGE = "http://www.opengis.net/def/nil/OGC/0/BelowDetectionRange";
+
+    String ABOVE_DETECTION_RANGE = "http://www.opengis.net/def/nil/OGC/0/AboveDetectionRange";
 }
