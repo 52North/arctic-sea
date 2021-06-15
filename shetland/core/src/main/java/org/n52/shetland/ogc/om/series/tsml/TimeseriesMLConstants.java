@@ -20,12 +20,13 @@ import javax.xml.namespace.QName;
 import org.n52.janmayen.http.MediaType;
 import org.n52.shetland.ogc.om.series.AbstractInterpolationType;
 import org.n52.shetland.ogc.om.series.MeasurementTimeseriesMetadata;
+import org.n52.shetland.ogc.om.series.SeriesConstants;
 import org.n52.shetland.w3c.SchemaLocation;
 
 /**
  * @see <a href="http://www.opengeospatial.org/standards/tsml">OGC TSML</a>
  */
-public interface TimeseriesMLConstants {
+public interface TimeseriesMLConstants extends SeriesConstants {
     String NS_TSML_10 = "http://www.opengis.net/tsml/1.0";
 
     String NS_TSML_DR_10 = "http://www.opengis.net/tsml-dr/1.0";
@@ -56,12 +57,6 @@ public interface TimeseriesMLConstants {
     String OBSERVATION_TYPE_CATEGORICAL_TDR =
             "http://www.opengis.net/def/observationType/timeseriesML/1.0/CategoricalTimeseriesDomainRangeObservation";
 
-    String TEXT = "text";
-
-    String XML = "xml";
-
-    String SUBTYPE = "subtype";
-
     MediaType TSML_CONTENT_TYPE = new MediaType(TEXT, XML, SUBTYPE, "timeseriesml/1.0");
 
     String SCHEMA_LOCATION_URL_TSML_10 = "http://schemas.opengis.net/tsml/1.0/timeseriesML.xsd";
@@ -79,38 +74,6 @@ public interface TimeseriesMLConstants {
     SchemaLocation TSML_10_TS_SCHEMA_LOCATION = new SchemaLocation(NS_TSML_10, SCHEMA_LOCATION_URL_TSML_10_TS);
 
     SchemaLocation TSML_10_MF_SCHEMA_LOCATION = new SchemaLocation(NS_TSML_10, SCHEMA_LOCATION_URL_TSML_10_MF);
-
-    String EN_POINT = "point";
-
-    String EN_MEASUREMENT_TVP = "MeasurementTVP";
-
-    String EN_TIME = "time";
-
-    String EN_VALUE = "value";
-
-    String EN_METADATA = "metadata";
-
-    String EN_TVP_MEASUREMENT_METADATA = "TVPMeasurementMetadata";
-
-    String EN_NIL_REASON = "nilReason";
-
-    String EN_MEASUREMENT_TIMESERIES = "MeasurementTimeseries";
-
-    String EN_TIMESERIES_METADATA = "TimeseriesMetadata";
-
-    String EN_MEASUREMENT_TIMESERIES_METADATA = "MeasurementTimeseriesMetadata";
-
-    String EN_TEMPORAL_EXTENT = "temporalExtent";
-
-    String EN_DEFAULT_POINT_METADATA = "defaultPointMetadata";
-
-    String EN_DEFAULT_TVP_MEASUREMENT_METADATA = "DefaultTVPMeasurementMetadata";
-
-    String EN_INTERPOLATION_TYPE = "interpolationType";
-
-    String EN_CUMULATIVE = "cumulative";
-
-    String EN_UOM = "uom";
 
     QName QN_POINT = new QName(NS_TSML_10, EN_POINT, NS_TSML_10_PREFIX);
 
