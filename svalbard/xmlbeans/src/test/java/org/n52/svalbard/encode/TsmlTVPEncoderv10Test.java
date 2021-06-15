@@ -194,7 +194,6 @@ public class TsmlTVPEncoderv10Test {
    @Test
     public void shouldEncodeOMObservation() throws EncodingException, XmlException, DecodingException {
         XmlObject encodedElement = encoder.encode(createObservation(), EncodingContext.of(XmlBeansEncodingFlags.DOCUMENT));
-
         MatcherAssert.assertThat(XmlHelper.validateDocument(encodedElement), Is.is(true));
     }
 
