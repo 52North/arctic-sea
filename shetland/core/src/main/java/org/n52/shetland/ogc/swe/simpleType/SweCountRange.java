@@ -103,9 +103,7 @@ public class SweCountRange extends SweAbstractSimpleType<RangeValue<Integer>> {
     public SweCountRange copy() {
         SweCountRange copy = new SweCountRange();
         copyValueTo(copy);
-        if (isSetQuality()) {
-            copy.setQuality(cloneQuality());
-        }
+        copyQuality(copy);
         if (isSetValue()) {
             copy.setValue(getValue().copy());
         }

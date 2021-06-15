@@ -135,9 +135,7 @@ public class SweCategory extends SweAbstractUomType<String> implements SweQualit
     public SweCategory copy() {
         SweCategory copy = new SweCategory();
         copyValueTo(copy);
-        if (isSetQuality()) {
-            copy.setQuality(cloneQuality());
-        }
+        copyQuality(copy);
         if (isSetValue()) {
             copy.setValue(getValue());
         }
