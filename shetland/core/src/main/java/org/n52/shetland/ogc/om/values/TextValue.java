@@ -37,6 +37,13 @@ public class TextValue
 
     /**
      * constructor
+     */
+    public TextValue() {
+        super();
+    }
+
+    /**
+     * constructor
      *
      * @param value
      *            Measurement value

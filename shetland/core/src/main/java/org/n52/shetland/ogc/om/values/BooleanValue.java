@@ -35,6 +35,14 @@ public class BooleanValue extends SweBoolean implements Value<Boolean> {
     /**
      * constructor
      *
+     */
+    public BooleanValue() {
+        super();
+    }
+
+    /**
+     * constructor
+     *
      * @param value
      *              Measurement value
      */

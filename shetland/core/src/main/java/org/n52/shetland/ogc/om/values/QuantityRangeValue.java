@@ -28,6 +28,13 @@ public class QuantityRangeValue extends SweQuantityRange
 
     /**
      * Creates a new {@code QuantityRangeValue}.
+     */
+    public QuantityRangeValue() {
+        super();
+    }
+
+    /**
+     * Creates a new {@code QuantityRangeValue}.
      *
      * @param rangeStart the start of the range
      * @param rangeEnd   the end of the range

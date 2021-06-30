@@ -36,6 +36,9 @@ public class GeometryValue
      */
     private UoM unit;
 
+    public GeometryValue() {
+    }
+
     public GeometryValue(AbstractGeometry abstractGeometry) {
         setDescription(abstractGeometry.getDescription());
         setGeometry(abstractGeometry.getGeometry());

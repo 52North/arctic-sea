@@ -35,6 +35,13 @@ public class CountValue
 
     /**
      * constructor
+     */
+    public CountValue() {
+        super();
+    }
+
+    /**
+     * constructor
      *
      * @param value
      *            Measurement value

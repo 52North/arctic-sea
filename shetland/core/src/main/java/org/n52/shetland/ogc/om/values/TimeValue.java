@@ -24,6 +24,12 @@ public class TimeValue extends SweTime implements Value<DateTime> {
 
     /**
      * constructor
+     */
+    public TimeValue() {
+    }
+
+    /**
+     * constructor
      *
      * @param value
      *            Measurement value

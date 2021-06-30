@@ -31,6 +31,13 @@ public class CategoryValue
 
     /**
      * constructor
+     */
+    public CategoryValue() {
+        super();
+    }
+
+    /**
+     * constructor
      *
      * @param value
      *            Measurement value
