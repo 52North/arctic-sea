@@ -163,9 +163,7 @@ public class SweQuantityRange extends SweAbstractUomType<RangeValue<BigDecimal>>
     public SweQuantityRange copy() {
         SweQuantityRange copy = new SweQuantityRange();
         copyValueTo(copy);
-        if (isSetQuality()) {
-            copy.setQuality(cloneQuality());
-        }
+        copyQuality(copy);
         if (isSetAxisID()) {
             copy.setAxisID(getAxisID());
         }

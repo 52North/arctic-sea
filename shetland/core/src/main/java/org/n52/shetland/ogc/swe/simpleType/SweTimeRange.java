@@ -127,9 +127,7 @@ public class SweTimeRange
     public SweTimeRange copy() {
         SweTimeRange copy = new SweTimeRange();
         copyValueTo(copy);
-        if (isSetQuality()) {
-            copy.setQuality(cloneQuality());
-        }
+        copyQuality(copy);
         if (isSetValue()) {
             copy.setValue(getValue().copy());
         }

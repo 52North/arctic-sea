@@ -15,13 +15,10 @@
  */
 package org.n52.shetland.ogc.swe.simpleType;
 
-import java.util.Collection;
 import java.util.Objects;
 
 import org.n52.shetland.ogc.ows.extension.Value;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
-
-import com.google.common.collect.Lists;
 
 /**
  * Interface for the SOS internal representation of SWE simpleTypes
@@ -35,8 +32,7 @@ public abstract class SweAbstractSimpleType<T>
         extends SweAbstractDataComponent
         implements Value<T, SweAbstractSimpleType<T>> {
 
-    // TODO quality needs to be a collection
-    private Collection<SweQuality> quality;
+    private SweQualityHolder quality;
 
     public abstract void setStringValue(String s);
 
@@ -45,7 +41,7 @@ public abstract class SweAbstractSimpleType<T>
      *
      * @return Quality information
      */
-    public Collection<SweQuality> getQuality() {
+    public SweQualityHolder getQuality() {
         return quality;
     }
 
@@ -56,7 +52,7 @@ public abstract class SweAbstractSimpleType<T>
      *
      * @return This SweAbstractSimpleType
      */
-    public SweAbstractSimpleType<T> setQuality(Collection<SweQuality> quality) {
+    public SweAbstractSimpleType<T> setQuality(SweQualityHolder quality) {
         this.quality = quality;
         return this;
     }
@@ -66,7 +62,13 @@ public abstract class SweAbstractSimpleType<T>
      * <tt>false</tt> else.
      */
     public boolean isSetQuality() {
-        return quality != null && !quality.isEmpty();
+        return getQuality() != null && !getQuality().isEmpty();
+    }
+
+    public void copyQuality(SweAbstractSimpleType<T> copy) {
+        if (isSetQuality()) {
+            copy.setQuality(getQuality().copy());
+        }
     }
 
     @Override
@@ -79,13 +81,6 @@ public abstract class SweAbstractSimpleType<T>
         return String.format("%s [value=%s; quality=%s; simpleType=%s]",
                              this.getClass().getSimpleName(), getValue(),
                              getQuality(), getDataComponentType());
-    }
-
-    protected Collection<SweQuality> cloneQuality() {
-        if (isSetQuality()) {
-            return Lists.newArrayList(getQuality());
-        }
-        return null;
     }
 
     @Override

@@ -103,9 +103,7 @@ public class SweCategoryRange extends SweAbstractUomType<RangeValue<String>> imp
     public SweCategoryRange copy() {
         SweCategoryRange copy = new SweCategoryRange();
         copyValueTo(copy);
-        if (isSetQuality()) {
-            copy.setQuality(cloneQuality());
-        }
+        copyQuality(copy);
         if (isSetValue()) {
             copy.setValue(getValue().copy());
         }

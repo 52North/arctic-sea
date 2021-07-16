@@ -16,13 +16,12 @@
 package org.n52.shetland.ogc.swe.simpleType;
 
 import java.math.BigDecimal;
-import java.util.Collection;
 
 import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
-import org.n52.shetland.w3c.xlink.Referenceable;
 import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
 import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
+import org.n52.shetland.w3c.xlink.Referenceable;
 
 /**
  * SOS internal representation of SWE simpleType quantity
@@ -201,11 +200,6 @@ public class SweQuantity extends SweAbstractUomType<BigDecimal> implements SweQu
     @Override
     public SweQuantity setUom(String uom) {
         return (SweQuantity) super.setUom(uom);
-    }
-
-    @Override
-    public SweQuantity setQuality(Collection<SweQuality> quality) {
-        return (SweQuantity) super.setQuality(quality);
     }
 
     @Override

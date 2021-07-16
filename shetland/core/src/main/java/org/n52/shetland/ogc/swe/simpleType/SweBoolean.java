@@ -74,9 +74,7 @@ public class SweBoolean extends SweAbstractSimpleType<Boolean> {
     public SweBoolean copy() {
         SweBoolean copy = new SweBoolean();
         copyValueTo(copy);
-        if (isSetQuality()) {
-            copy.setQuality(cloneQuality());
-        }
+        copyQuality(copy);
         if (isSetValue()) {
             copy.setValue(getValue());
         }

@@ -21,13 +21,14 @@ import org.n52.janmayen.http.MediaType;
 import org.n52.shetland.ogc.OGCConstants;
 import org.n52.shetland.ogc.om.series.AbstractInterpolationType;
 import org.n52.shetland.ogc.om.series.MeasurementTimeseriesMetadata;
+import org.n52.shetland.ogc.om.series.SeriesConstants;
 import org.n52.shetland.w3c.SchemaLocation;
 
 /**
  * @since 1.0.0
  * @see <a href="http://www.opengeospatial.org/standards/waterml">http://www.opengeospatial.org/standards/waterml</a>
  */
-public interface WaterMLConstants {
+public interface WaterMLConstants extends SeriesConstants {
     String NS_WML_20 = "http://www.opengis.net/waterml/2.0";
 
     String NS_WML_20_DR = "http://www.opengis.net/waterml-dr/2.0";
@@ -60,12 +61,6 @@ public interface WaterMLConstants {
     String OBSERVATION_TYPE_CATEGORICAL_TDR =
             "http://www.opengis.net/def/observationType/waterml/2.0/categoricalDRTimeseriesObservation";
 
-    String TEXT = "text";
-
-    String XML = "xml";
-
-    String SUBTYPE = "subtype";
-
     MediaType WML_CONTENT_TYPE = new MediaType(TEXT, XML, SUBTYPE, "waterml/2.0");
 
     MediaType WML_DR_CONTENT_TYPE = new MediaType(TEXT, XML, SUBTYPE, "waterml-dr/2.0");
@@ -86,38 +81,6 @@ public interface WaterMLConstants {
     SchemaLocation WML_20_DR_SCHEMA_LOCATION = new SchemaLocation(NS_WML_20_DR, SCHEMA_LOCATION_URL_WML_20_DR);
 
     SchemaLocation WML_20_MP_SCHEMA_LOCATION = new SchemaLocation(NS_WML_20, SCHEMA_LOCATION_URL_WML_20_MP);
-
-    String EN_POINT = "point";
-
-    String EN_MEASUREMENT_TVP = "MeasurementTVP";
-
-    String EN_TIME = "time";
-
-    String EN_VALUE = "value";
-
-    String EN_METADATA = "metadata";
-
-    String EN_TVP_MEASUREMENT_METADATA = "TVPMeasurementMetadata";
-
-    String EN_NIL_REASON = "nilReason";
-
-    String EN_MEASUREMENT_TIMESERIES = "MeasurementTimeseries";
-
-    String EN_TIMESERIES_METADATA = "TimeseriesMetadata";
-
-    String EN_MEASUREMENT_TIMESERIES_METADATA = "MeasurementTimeseriesMetadata";
-
-    String EN_TEMPORAL_EXTENT = "temporalExtent";
-
-    String EN_DEFAULT_POINT_METADATA = "defaultPointMetadata";
-
-    String EN_DEFAULT_TVP_MEASUREMENT_METADATA = "DefaultTVPMeasurementMetadata";
-
-    String EN_INTERPOLATION_TYPE = "interpolationType";
-
-    String EN_CUMULATIVE = "cumulative";
-
-    String EN_UOM = "uom";
 
     QName QN_POINT = new QName(NS_WML_20, EN_POINT, NS_WML_20_PREFIX);
 
@@ -150,6 +113,10 @@ public interface WaterMLConstants {
     QName QN_INTERPOLATION_TYPE = new QName(NS_WML_20, EN_INTERPOLATION_TYPE, NS_WML_20_PREFIX);
 
     QName QN_CUMULATIVE = new QName(NS_WML_20, EN_CUMULATIVE, NS_WML_20_PREFIX);
+
+    QName QN_CENSORED_REASON = new QName(NS_WML_20, EN_CENSORED_REASON, NS_WML_20_PREFIX);
+
+    QName QN_QUALIFIER = new QName(NS_WML_20, EN_QUALIFIER, NS_WML_20_PREFIX);
 
     QName UOM = new QName(NS_WML_20, EN_UOM, NS_WML_20_PREFIX);
 

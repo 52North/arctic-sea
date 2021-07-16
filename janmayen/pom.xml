@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.n52.arctic-sea</groupId>
         <artifactId>arctic-sea</artifactId>
-        <version>8.3.0-SNAPSHOT</version>
+        <version>9.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>janmayen</artifactId>

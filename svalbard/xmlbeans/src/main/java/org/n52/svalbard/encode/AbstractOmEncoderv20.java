@@ -685,8 +685,8 @@ public abstract class AbstractOmEncoderv20
         }
 
         @Override
-        public XmlObject visit(ComplexValue value) {
-            return defaultValue(value);
+        public XmlObject visit(ComplexValue value) throws EncodingException {
+            return encodeSweCommon(value.getValue(), createHelperValues(value));
         }
 
         @Override
