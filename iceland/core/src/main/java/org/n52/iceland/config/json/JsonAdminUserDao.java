@@ -97,8 +97,13 @@ public class JsonAdminUserDao extends AbstractJsonDao implements AdminUserDao {
 
     @Override
     public void deleteAll() {
-        this.configuration().delete();
+        configuration().writeLock().lock();
+        try {
+            getConfiguration().remove(JsonConstants.USERS);
+            configuration().scheduleWrite();
+        } finally {
+            configuration().writeLock().unlock();
+        }
     }
-
 
 }
