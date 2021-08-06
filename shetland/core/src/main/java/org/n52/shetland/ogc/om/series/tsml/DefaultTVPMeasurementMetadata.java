@@ -28,14 +28,10 @@ import org.n52.shetland.ogc.om.series.tsml.TimeseriesMLConstants.InterpolationTy
  * @since 1.0.0
  * @see <a href="http://www.opengeospatial.org/standards/tsml">OGC TSML</a>
  */
-public class DefaultTVPMeasurementMetadata implements AbstractDefaultTVPMeasurementMetadata {
+public class DefaultTVPMeasurementMetadata
+        extends AbstractDefaultTVPMeasurementMetadata<DefaultTVPMeasurementMetadata> {
 
     private InterpolationType interpolationtype;
-
-    @Override
-    public boolean isSetInterpolationType() {
-        return interpolationtype != null;
-    }
 
     @Override
     public InterpolationType getInterpolationtype() {
@@ -47,6 +43,4 @@ public class DefaultTVPMeasurementMetadata implements AbstractDefaultTVPMeasurem
         this.interpolationtype = (InterpolationType) interpolationtype;
         return this;
     }
-
-
 }

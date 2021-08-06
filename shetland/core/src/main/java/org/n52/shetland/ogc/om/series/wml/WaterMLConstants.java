@@ -118,6 +118,8 @@ public interface WaterMLConstants extends SeriesConstants {
 
     QName QN_QUALIFIER = new QName(NS_WML_20, EN_QUALIFIER, NS_WML_20_PREFIX);
 
+    QName QN_AGGREGATION_DURATION = new QName(NS_WML_20, EN_AGGREGATION_DURATION, NS_WML_20_PREFIX);
+
     QName UOM = new QName(NS_WML_20, EN_UOM, NS_WML_20_PREFIX);
 
     /**
@@ -142,79 +144,85 @@ public interface WaterMLConstants extends SeriesConstants {
          * Continuous/Instantaneous
          * http://www.opengis.net/def/waterml/2.0/interpolationType/Continuous
          */
-        Continuous,
+        Continuous("Continuous"),
         /**
          * http://www.opengis.net/def/waterml/2.0/interpolationType/
          * Discontinuous
          */
-        Discontinuous,
+        Discontinuous("Discontinuous"),
         /**
          * Instantaneous total
          * http://www.opengis.net/def/waterml/2.0/interpolationType/InstantTotal
          */
-        InstantTotal,
+        InstantTotal("Instantaneous Total"),
         /**
          * Average in preceding interval
          * http://www.opengis.net/def/waterml/2.0/interpolationType/AveragePrec
          */
-        AveragePrec,
+        AveragePrec("Average in Preceding Interval"),
         /**
          * Maximum in preceding interval
          * http://www.opengis.net/def/waterml/2.0/interpolationType/MaxPrec
          */
-        MaxPrec,
+        MaxPrec("Maximum in Preceding Interval"),
         /**
          * Minimum in preceding interval
          * http://www.opengis.net/def/waterml/2.0/interpolationType/MinPrec
          */
-        MinPrec,
+        MinPrec("Minimum in Preceding Interval"),
         /**
          * Preceding total
          * http://www.opengis.net/def/waterml/2.0/interpolationType/TotalPrec
          */
-        TotalPrec,
+        TotalPrec("Preceding Total"),
         /**
          * Average in succeeding interval
          * http://www.opengis.net/def/waterml/2.0/interpolationType/AverageSucc
          */
-        AverageSucc,
+        AverageSucc("Average in Succeeding Interval"),
         /**
          * Succeeding total
          * http://www.opengis.net/def/waterml/2.0/interpolationType/TotalSucc
          */
-        TotalSucc,
+        TotalSucc("Succeeding Total"),
         /**
          * Minimum in succeeding interval
          * http://www.opengis.net/def/waterml/2.0/interpolationType/MinSucc
          */
-        MinSucc,
+        MinSucc("Minimum in Succeeding Interval"),
         /**
          * Maximum in succeeding interval
          * http://www.opengis.net/def/waterml/2.0/interpolationType/MaxSucc
          */
-        MaxSucc,
+        MaxSucc("Maximum in Succeeding Interval"),
         /**
          * Constant in preceding interval
          * http://www.opengis.net/def/waterml/2.0/interpolationType/ConstPrec
          */
-        ConstPrec,
+        ConstPrec("Constant in Preceding Interval"),
         /**
          * Constant in succeeding interval
          * http://www.opengis.net/def/waterml/2.0/interpolationType/ConstSucc
          */
-        ConstSucc,
+        ConstSucc("Constant in Succeeding Interval"),
         /**
          * Statistical
          * http://www.opengis.net/def/waterml/2.0/interpolationType/Statistical
          */
-        Statistical;
+        Statistical("Statistical");
+
+        private String title;
+
+        InterpolationType(String title) {
+            this.title = title;
+        }
 
         public String getIdentifier() {
             return INTERPOLATION_TYPE + "/" + this.toString();
         }
 
         public String getTitle() {
-            return this.toString();
+            return title;
         }
 
         public static InterpolationType from(String v) {

@@ -58,4 +58,7 @@ public interface SeriesConstants {
     String EN_CENSORED_REASON = "censoredReason";
 
     String EN_QUALIFIER = "qualifier";
+
+    String EN_AGGREGATION_DURATION = "aggregationDuration";
+
 }
