@@ -325,7 +325,9 @@ public class GmlEncoderv321
                     return featurePropertyType;
                 } else {
                     String namespace = ctx.getString(XmlEncoderFlags.ENCODE_NAMESPACE)
-                            .orElseGet(() -> OMHelper.getNamespaceForFeatureType(samplingFeature.getFeatureType()));
+                            .orElseGet(() -> samplingFeature.isSetDefaultElementEncoding()
+                                    ? samplingFeature.getDefaultElementEncoding()
+                                    : OMHelper.getNamespaceForFeatureType(samplingFeature.getFeatureType()));
                     XmlObject encodedXmlObject = encodeObjectToXml(namespace, samplingFeature);
 
                     if (encodedXmlObject != null) {
