@@ -114,7 +114,6 @@ This project includes:
   JCL 1.2 implemented over SLF4J under Apache License, Version 2.0
   Joda-Time under Apache License, Version 2.0
   JOpt Simple under The MIT License
-  JSON-P Default Provider under Eclipse Public License 2.0 or GNU General Public License, version 2 with the GNU Classpath Exception
   JSONLD Java :: Core under Revised BSD License
   lang-mustache under Elastic License 2.0 or Server Side Public License, v 1
   libphonenumber under The Apache Software License, Version 2.0
@@ -206,7 +205,6 @@ This project includes:
   Spring Expression Language (SpEL) under Apache License, Version 2.0
   Spring Web under Apache License, Version 2.0
   T-Digest under The Apache Software License, Version 2.0
-  Titanium JSON-LD 1.1 under Apache License, Version 2.0
   W3C SOAP specification recommondation (v1.1) under The Apache Software License, Version 2.0
   W3C SOAP specification recommondation (v1.2 part 1) under The Apache Software License, Version 2.0
   W3C WS-Addressing specification schemas (v1.0) under The Apache Software License, Version 2.0
