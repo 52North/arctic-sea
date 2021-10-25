@@ -1063,6 +1063,10 @@
                         <groupId>org.apache.commons</groupId>
                         <artifactId>commons-lang3</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>org.jetbrains.kotlin</groupId>
+                        <artifactId>kotlin-stdlib</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
             <dependency>
@@ -1070,6 +1074,12 @@
                 <artifactId>commons-lang3</artifactId>
                 <version>3.12.0</version>
                 <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-stdlib</artifactId>
+                <version>1.4.10</version>
+                <scope>runtime</scope>
             </dependency>
             <dependency>
                 <groupId>com.neovisionaries</groupId>
