@@ -208,7 +208,7 @@ public class AbstractProcess extends AbstractSensorML {
         copyOf.setInputs(getInputs());
         copyOf.setOutputs(getOutputs());
         copyOf.setParameters(getParameters());
+        copyOf.setValidTime(getValidTime());
     }
-
 
 }
