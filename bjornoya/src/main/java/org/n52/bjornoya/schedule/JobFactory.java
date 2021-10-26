@@ -40,6 +40,8 @@ public class JobFactory implements Constructable {
 
     public static final String FULL_HARVEST_UPDATE = "harvest.full";
     public static final String TEMPORAL_HARVEST_UPDATE = "harvest.temporal";
+    private static final String FULL_HARVEST_UPDATE_VALUE = "${" + FULL_HARVEST_UPDATE + "}";
+    private static final String TEMPORAL_HARVEST_UPDATE_VALUE = "${" + TEMPORAL_HARVEST_UPDATE + "}";
     private static final Logger LOGGER = LoggerFactory.getLogger(JobFactory.class);
     private String cronFullExpression = "0 0 03 * * ?";
     private String cronTemporalExpression = "0 0/5 * * * ?";
@@ -49,7 +51,7 @@ public class JobFactory implements Constructable {
     private boolean initialized;
 
     @Inject
-    public void setDataSourceHarvesterScheduler(Scheduler scheduler) {
+    public void setScheduler(Scheduler scheduler) {
         this.scheduler = scheduler;
     }
 
@@ -77,7 +79,7 @@ public class JobFactory implements Constructable {
      *            the updateDefinition to set
      */
     @Setting(FULL_HARVEST_UPDATE)
-    @Value(FULL_HARVEST_UPDATE)
+    @Value(FULL_HARVEST_UPDATE_VALUE)
     public void setFullCronExpression(String cronExpression) {
         Validation.notNullOrEmpty("Cron expression for full update!", cronExpression);
         validate(cronExpression);
@@ -102,7 +104,7 @@ public class JobFactory implements Constructable {
      *            the updateDefinition to set
      */
     @Setting(TEMPORAL_HARVEST_UPDATE)
-    @Value(TEMPORAL_HARVEST_UPDATE)
+    @Value(TEMPORAL_HARVEST_UPDATE_VALUE)
     public void setTemporalCronExpression(String cronExpression) {
         Validation.notNullOrEmpty("Cron expression for temporal update!", cronExpression);
         validate(cronExpression);
