@@ -13,35 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.binding;
+package org.n52.iceland.service;
 
-import java.util.Set;
+import java.util.Properties;
 
-import org.n52.janmayen.http.MediaType;
-import org.n52.janmayen.http.MediaTypes;
-
-import com.google.common.collect.Sets;
+import org.n52.faroe.ConfigurationError;
 
 /**
- * @since 1.0.0
+ * @since 9.2.0
  *
  */
-public class TestBinding extends SimpleBinding {
-    private static final String URL_PATTERN = "/service/test";
+public interface DatasourceSettingsHandler {
 
-    @Override
-    protected boolean isUseHttpResponseCodes() {
-        return false;
-    }
+    Properties getAll() throws ConfigurationError;
 
-    @Override
-    protected MediaType getDefaultContentType() {
-        return MediaTypes.APPLICATION_XML;
-    }
-
-    @Override
-    public Set<BindingKey> getKeys() {
-        return Sets.<BindingKey>newHashSet(new PathBindingKey(URL_PATTERN));
-    }
-
+    void saveAll(Properties properties) throws ConfigurationError;
 }

@@ -25,7 +25,7 @@ import org.n52.iceland.util.ServletContextPropertyFileHandler;
  * @since 1.0.0
  *
  */
-public class DatabaseSettingsHandler extends DelegatingPropertyFileHandler {
+public class DatabaseSettingsHandler extends DelegatingPropertyFileHandler implements DatasourceSettingsHandler {
 
     public static final String INIT_PARAM_DATA_SOURCE_CONFIG_LOCATION
             = "datasourceConfigLocation";
