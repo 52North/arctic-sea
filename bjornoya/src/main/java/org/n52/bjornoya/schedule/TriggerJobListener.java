@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 
 public class TriggerJobListener implements JobListener, TriggerListener {
     private static final Logger LOGGER = LoggerFactory.getLogger(TriggerJobListener.class);
+
     private Set<String> fullHarvestingJobs = new LinkedHashSet<>();
 
     @Override
@@ -51,7 +52,7 @@ public class TriggerJobListener implements JobListener, TriggerListener {
     @Override
     public void jobWasExecuted(JobExecutionContext context, JobExecutionException jobException) {
         if (checkForFullHarvesterJob(context)) {
-           fullHarvestingJobs.remove(getGroup(context));
+            fullHarvestingJobs.remove(getGroup(context));
         }
     }
 
@@ -77,11 +78,15 @@ public class TriggerJobListener implements JobListener, TriggerListener {
     }
 
     private String getGroup(JobExecutionContext context) {
-        return context.getJobDetail().getKey().getGroup();
+        return context.getJobDetail()
+                .getKey()
+                .getGroup();
     }
 
     private String getJobName(JobExecutionContext context) {
-        return context.getJobDetail().getKey().getName();
+        return context.getJobDetail()
+                .getKey()
+                .getName();
     }
 
     private boolean checkForFullHarvesterJob(JobExecutionContext context) {

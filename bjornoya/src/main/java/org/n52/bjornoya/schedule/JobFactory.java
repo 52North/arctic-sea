@@ -40,8 +40,10 @@ public class JobFactory implements Constructable {
 
     public static final String FULL_HARVEST_UPDATE = "harvest.full";
     public static final String TEMPORAL_HARVEST_UPDATE = "harvest.temporal";
-    private static final String FULL_HARVEST_UPDATE_VALUE = "${" + FULL_HARVEST_UPDATE + "}";
-    private static final String TEMPORAL_HARVEST_UPDATE_VALUE = "${" + TEMPORAL_HARVEST_UPDATE + "}";
+    private static final String DOLLAR_BRACE = "${";
+    private static final String BRACE = "}";
+    private static final String FULL_HARVEST_UPDATE_VALUE = DOLLAR_BRACE + FULL_HARVEST_UPDATE + BRACE;
+    private static final String TEMPORAL_HARVEST_UPDATE_VALUE = DOLLAR_BRACE + TEMPORAL_HARVEST_UPDATE + BRACE;
     private static final Logger LOGGER = LoggerFactory.getLogger(JobFactory.class);
     private String cronFullExpression = "0 0 03 * * ?";
     private String cronTemporalExpression = "0 0/5 * * * ?";
