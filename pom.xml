@@ -156,7 +156,7 @@
         <version.hamcrest>2.2</version.hamcrest>
         <version.httpcore>4.4.14</version.httpcore>
         <version.elastic>7.15.2</version.elastic>
-        <version.antlr4>4.9.2</version.antlr4>
+        <version.antlr4>4.9.3</version.antlr4>
         <version.maven-javadoc-plugin>3.3.1</version.maven-javadoc-plugin>
     </properties>
 
