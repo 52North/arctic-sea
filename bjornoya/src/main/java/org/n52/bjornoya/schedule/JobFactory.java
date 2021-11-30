@@ -42,11 +42,16 @@ public class JobFactory implements Constructable {
     public static final String TEMPORAL_HARVEST_UPDATE = "harvest.temporal";
     private static final String DOLLAR_BRACE = "${";
     private static final String BRACE = "}";
-    private static final String FULL_HARVEST_UPDATE_VALUE = DOLLAR_BRACE + FULL_HARVEST_UPDATE + BRACE;
-    private static final String TEMPORAL_HARVEST_UPDATE_VALUE = DOLLAR_BRACE + TEMPORAL_HARVEST_UPDATE + BRACE;
+    private static final String COLON = ":";
+    private static final String DEFAULT_FULL = "0 0 03 * * ?";
+    private static final String DEFAULT_TEMPORAL = "0 0/5 * * * ?";
+    private static final String FULL_HARVEST_UPDATE_VALUE =
+            DOLLAR_BRACE + FULL_HARVEST_UPDATE + COLON + DEFAULT_FULL + BRACE;
+    private static final String TEMPORAL_HARVEST_UPDATE_VALUE =
+            DOLLAR_BRACE + TEMPORAL_HARVEST_UPDATE + COLON + DEFAULT_TEMPORAL + BRACE;
     private static final Logger LOGGER = LoggerFactory.getLogger(JobFactory.class);
-    private String cronFullExpression = "0 0 03 * * ?";
-    private String cronTemporalExpression = "0 0/5 * * * ?";
+    private String cronFullExpression = DEFAULT_FULL;
+    private String cronTemporalExpression = DEFAULT_TEMPORAL;
     private Scheduler scheduler;
     private Set<String> jobs = new HashSet<>();
     private List<ScheduledJob> scheduledJobs = new ArrayList<>();
