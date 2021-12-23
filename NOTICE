@@ -63,10 +63,10 @@ This project includes:
   Commons Lang under The Apache Software License, Version 2.0
   compiler under Apache License 2.0
   dexx under MIT License
-  Elastic JNA Distribution under Apache License, Version 2.0
   elasticsearch-cli under Elastic License 2.0 or Server Side Public License, v 1
   elasticsearch-core under Elastic License 2.0 or Server Side Public License, v 1
   elasticsearch-geo under Elastic License 2.0 or Server Side Public License, v 1
+  elasticsearch-lz4 under Elastic License 2.0 or Server Side Public License, v 1
   elasticsearch-plugin-classloader under Elastic License 2.0 or Server Side Public License, v 1
   elasticsearch-secure-sm under Elastic License 2.0 or Server Side Public License, v 1
   elasticsearch-x-content under Elastic License 2.0 or Server Side Public License, v 1
@@ -106,6 +106,7 @@ This project includes:
   jackson-databind under The Apache Software License, Version 2.0
   Jackson-dataformat-YAML under The Apache Software License, Version 2.0
   Java archiving library under Apache 2
+  Java Native Access under LGPL-2.1-or-later or Apache-2.0
   JavaBeans(TM) Activation Framework under COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL) Version 1.0
   JavaMail API jar under CDDL or GPLv2+CE
   javax.annotation API under CDDL + GPLv2 with classpath exception
@@ -128,7 +129,6 @@ This project includes:
   Lucene QueryParsers under Apache License, Version 2.0
   Lucene Sandbox under Apache License, Version 2.0
   Lucene Spatial 3D under Apache License, Version 2.0
-  Lucene Spatial Extras under Apache License, Version 2.0
   Lucene Suggest under Apache License, Version 2.0
   LZ4 and xxHash under The Apache Software License, Version 2.0
   mapper-extras under Elastic License 2.0 or Server Side Public License, v 1
