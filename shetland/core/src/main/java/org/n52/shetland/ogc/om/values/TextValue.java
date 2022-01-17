@@ -52,6 +52,13 @@ public class TextValue
         super();
         super.setValue(value);
     }
+    
+    public TextValue(SweText value) {
+        super();
+        super.setValue(value.getValue());
+        value.copyValueTo(this);
+        this.setConstraint(value.getConstraint());
+    }
 
     @Override
     public TextValue setValue(String value) {
