@@ -18,6 +18,7 @@ package org.n52.faroe.json;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toSet;
 
+import java.util.Comparator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
@@ -46,6 +47,8 @@ import com.fasterxml.jackson.databind.node.TextNode;
 
 public class JsonSettingsEncoder {
     private final JsonNodeFactory nodeFactory = Json.nodeFactory();
+    private final Comparator<Entry<SettingDefinition<?>, SettingValue<?>>> comparator =
+            new SettingDefinitionComparator();
 
     public Map<SettingDefinitionGroup, Set<SettingDefinition<?>>> sortByGroup(Set<SettingDefinition<?>> defs) {
         return defs.stream().collect(groupingBy(SettingDefinition::getGroup, toSet()));
@@ -161,11 +164,21 @@ public class JsonSettingsEncoder {
 
     public JsonNode encodeValues(Map<SettingDefinition<?>, SettingValue<?>> settings) {
         return settings.entrySet().stream()
-                .sorted(Entry.comparingByKey())
+                .sorted(comparator)
                 .collect(nodeFactory::objectNode, this::encodeValue, ObjectNode::setAll);
     }
 
     private TextNode textNode(Object value) {
         return nodeFactory.textNode(String.valueOf(value));
+    }
+
+    private static class SettingDefinitionComparator implements Comparator<Entry<SettingDefinition<?>, SettingValue<?>>> {
+
+        @Override
+        public int compare(Entry<SettingDefinition<?>, SettingValue<?>> o1,
+                Entry<SettingDefinition<?>, SettingValue<?>> o2) {
+            return o1.getKey().getKey().compareTo(o2.getKey().getKey());
+        }
+
     }
 }
