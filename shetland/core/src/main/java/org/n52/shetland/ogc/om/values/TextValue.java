@@ -52,7 +52,7 @@ public class TextValue
         super();
         super.setValue(value);
     }
-    
+
     public TextValue(SweText value) {
         super();
         super.setValue(value.getValue());

@@ -18,6 +18,7 @@ package org.n52.faroe.json;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toSet;
 
+import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -67,10 +68,8 @@ public class JsonSettingsEncoder {
     }
 
     public ObjectNode encode(Set<SettingDefinition<?>> settings) {
-        return settings.stream().sorted()
-                .collect(nodeFactory::objectNode,
-                    (j, def) -> j.set(def.getKey(), encode(def)),
-                    ObjectNode::setAll);
+        return settings.stream().sorted().collect(nodeFactory::objectNode,
+                (j, def) -> j.set(def.getKey(), encode(def)), ObjectNode::setAll);
     }
 
     public ObjectNode encode(SettingDefinition<?> def) {
@@ -104,7 +103,6 @@ public class JsonSettingsEncoder {
     protected String getType(SettingDefinition<?> def) {
         return def.getType().toString();
     }
-
 
     public JsonNode encodeDefaultValue(SettingDefinition<?> def) {
         if (def == null) {
@@ -156,23 +154,24 @@ public class JsonSettingsEncoder {
 
     private void encodeValue(ObjectNode o, Entry<SettingDefinition<?>, SettingValue<?>> e) {
         SettingDefinition<?> def = e.getKey();
-        Object value = Optional.ofNullable(e.getValue())
-                .map(v -> (Object) v.getValue())
-                .orElseGet(def::getDefaultValue);
+        Object value =
+                Optional.ofNullable(e.getValue()).map(v -> (Object) v.getValue()).orElseGet(def::getDefaultValue);
         o.set(def.getKey(), encodeValue(def.getType(), value));
     }
 
     public JsonNode encodeValues(Map<SettingDefinition<?>, SettingValue<?>> settings) {
-        return settings.entrySet().stream()
-                .sorted(comparator)
-                .collect(nodeFactory::objectNode, this::encodeValue, ObjectNode::setAll);
+        return settings.entrySet().stream().sorted(comparator).collect(nodeFactory::objectNode, this::encodeValue,
+                ObjectNode::setAll);
     }
 
     private TextNode textNode(Object value) {
         return nodeFactory.textNode(String.valueOf(value));
     }
 
-    private static class SettingDefinitionComparator implements Comparator<Entry<SettingDefinition<?>, SettingValue<?>>> {
+    private static class SettingDefinitionComparator
+            implements Comparator<Entry<SettingDefinition<?>, SettingValue<?>>>, Serializable {
+
+        private static final long serialVersionUID = 1688892939717761041L;
 
         @Override
         public int compare(Entry<SettingDefinition<?>, SettingValue<?>> o1,
