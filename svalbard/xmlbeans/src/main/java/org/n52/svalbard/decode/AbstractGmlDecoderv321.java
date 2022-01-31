@@ -282,7 +282,7 @@ public abstract class AbstractGmlDecoderv321<T, S>
             return namedValue;
         } else if (value instanceof SweText) {
             NamedValue<String> namedValue = new NamedValue<>();
-            namedValue.setValue(new TextValue(((SweText) value).getValue()));
+            namedValue.setValue(new TextValue((SweText) value));
             return namedValue;
         } else if (value instanceof String) {
             NamedValue<String> namedValue = new NamedValue<>();
