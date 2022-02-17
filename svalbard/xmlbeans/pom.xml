@@ -310,9 +310,14 @@
             <artifactId>xmlbeans-xpath</artifactId>
             <scope>runtime</scope>
         </dependency>
-        <dependency>
+         <dependency>
             <groupId>stax</groupId>
             <artifactId>stax-api</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>xml-apis</groupId>
+            <artifactId>xml-apis</artifactId>
         </dependency>
         <dependency>
             <groupId>net.sf.saxon</groupId>
