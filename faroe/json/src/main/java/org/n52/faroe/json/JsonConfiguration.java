@@ -61,7 +61,7 @@ public class JsonConfiguration implements Destroyable,
     private static final String WEB_INF_PATH = "WEB-INF";
     private String fileName = DEFAULT_FILE_NAME;
     private int writeTimeout = DEFAULT_WRITE_TIMEOUT;
-    private boolean readonly = false;
+    private boolean readonly;
     private final ReadWriteLock lock = new ReentrantReadWriteLock();
     private final JsonNodeFactory nodeFactory = Json.nodeFactory();
     private ObjectNode configuration;
@@ -171,13 +171,13 @@ public class JsonConfiguration implements Destroyable,
     public void setWriteTimeout(int writeTimeout) {
         this.writeTimeout = writeTimeout;
     }
-    
+
     /**
      * Sets the flag to persist or not persist the settings, e.g. settings defined externally
      *
      * @param readonly the flag to persist settings or not
      */
-    public void setReadonly(boolean readonly) {
+    public synchronized void setReadonly(boolean readonly) {
         this.readonly = readonly;
     }
 
