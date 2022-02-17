@@ -212,6 +212,7 @@ This project includes:
   Xerces2-j under The Apache Software License, Version 2.0
   XML Commons External Components XML APIs under The Apache Software License, Version 2.0 or The SAX License or The W3C License
   XML Pull Parsing API under Public Domain
+  XML Resolver under Apache License version 2.0
   XmlBeans under The Apache Software License, Version 2.0
   XmlBeansXPath under The Apache Software License, Version 2.0
   XMLUnit for Java under BSD License
