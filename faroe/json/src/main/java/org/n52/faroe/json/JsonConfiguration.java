@@ -43,6 +43,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Class to encapsulate writes and reads to a JSON file.
  *
@@ -150,6 +152,7 @@ public class JsonConfiguration implements Destroyable,
      * @return the node (never {@code null})
      */
     @Override
+    @SuppressFBWarnings({"EI_EXPOSE_REP"})
     public ObjectNode get() {
         return this.configuration;
     }
@@ -159,6 +162,7 @@ public class JsonConfiguration implements Destroyable,
      *
      * @param configuration the configuration
      */
+    @SuppressFBWarnings({"EI_EXPOSE_REP2"})
     public void set(ObjectNode configuration) {
         this.configuration = configuration;
     }

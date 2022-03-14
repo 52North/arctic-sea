@@ -39,6 +39,8 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import org.n52.faroe.annotation.Configurable;
 import org.n52.faroe.annotation.Setting;
 import org.n52.janmayen.event.EventBus;
@@ -80,6 +82,7 @@ public class SettingsServiceImpl implements SettingsService {
     }
 
     @Inject
+    @SuppressFBWarnings({"EI_EXPOSE_REP2"})
     public void setSettingsManagerDao(SettingsDao settingsManagerDao) {
         this.settingsManagerDao = settingsManagerDao;
     }
