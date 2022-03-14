@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2021 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -244,6 +244,7 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
         start(WaterMLConstants.QN_DEFAULT_TVP_MEASUREMENT_METADATA);
         writeUOM(unit);
         writeInterpolationType(value);
+        writeAggregationDuration(value);
         end(WaterMLConstants.QN_DEFAULT_TVP_MEASUREMENT_METADATA);
         end(WaterMLConstants.QN_DEFAULT_POINT_METADATA);
     }
@@ -287,6 +288,19 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
         } else {
             addXlinkHrefAttr("http://www.opengis.net/def/timeseriesType/WaterML/2.0/continuous");
             addXlinkTitleAttr("Instantaneous");
+        }
+    }
+
+    private void writeAggregationDuration(ObservationValue<?> value) throws XMLStreamException {
+        if (value != null && value.isSetMetadata() && value.getDefaultPointMetadata()
+                .isSetDefaultTVPMeasurementMetadata() && value.getDefaultPointMetadata()
+                        .getDefaultTVPMeasurementMetadata()
+                        .isSetAggregationDuration()) {
+            start(WaterMLConstants.QN_AGGREGATION_DURATION);
+            chars(value.getDefaultPointMetadata()
+                    .getDefaultTVPMeasurementMetadata()
+                    .getAggregationDuration());
+            end(WaterMLConstants.QN_AGGREGATION_DURATION);
         }
     }
 

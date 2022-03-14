@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2021 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,6 @@ import org.n52.shetland.ogc.sos.SosProcedureDescription;
 import org.n52.shetland.ogc.sos.SosProcedureDescriptionUnknownType;
 import org.n52.shetland.ogc.sos.response.DescribeSensorResponse;
 import org.n52.svalbard.coding.json.JSONConstants;
-import org.n52.svalbard.encode.EncoderRepository;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.util.CodingHelper;
 
@@ -43,19 +42,13 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  *
  * @since 1.0.0
  */
-public class DescribeSensorResponseEncoder
-        extends AbstractSosResponseEncoder<DescribeSensorResponse> {
+public class DescribeSensorResponseEncoder extends AbstractSosResponseEncoder<DescribeSensorResponse> {
 
-    private EncoderRepository encoderRepository;
+
     private Supplier<XmlOptions> xmlOptions;
 
     public DescribeSensorResponseEncoder() {
         super(DescribeSensorResponse.class, SosConstants.Operations.DescribeSensor);
-    }
-
-    @Inject
-    public void setEncoderRepository(EncoderRepository encoderRepository) {
-        this.encoderRepository = encoderRepository;
     }
 
     @Inject
@@ -64,25 +57,27 @@ public class DescribeSensorResponseEncoder
     }
 
     @Override
-    protected void encodeResponse(ObjectNode json, DescribeSensorResponse t)
-            throws EncodingException {
+    protected void encodeResponse(ObjectNode json, DescribeSensorResponse t) throws EncodingException {
         json.put(JSONConstants.PROCEDURE_DESCRIPTION_FORMAT, t.getOutputFormat());
         json.set(JSONConstants.PROCEDURE_DESCRIPTION,
                 encodeDescriptions(t.getProcedureDescriptions(), t.getOutputFormat()));
 
     }
 
-    private String toString(AbstractFeature desc, String format)
-            throws EncodingException {
+    private String toString(AbstractFeature desc, String format) throws EncodingException {
         if (desc instanceof SosProcedureDescriptionUnknownType && desc.isSetXml()) {
             return desc.getXml();
+        } else if (desc instanceof SosProcedureDescription) {
+            SosProcedureDescription<?> spd = (SosProcedureDescription<?>) desc;
+            return ((XmlObject) getEncoderRepository()
+                    .getEncoder(CodingHelper.getEncoderKey(format, spd.getProcedureDescription()))
+                    .encode(spd.getProcedureDescription())).xmlText(xmlOptions.get());
         }
-        return ((XmlObject) encoderRepository.getEncoder(CodingHelper.getEncoderKey(format, desc)).encode(desc))
-                .xmlText(xmlOptions.get());
+        return ((XmlObject) getEncoderRepository().getEncoder(CodingHelper.getEncoderKey(format, desc))
+                .encode(desc)).xmlText(xmlOptions.get());
     }
 
-    private JsonNode encodeDescription(SosProcedureDescription<?> desc, String format)
-            throws EncodingException {
+    private JsonNode encodeDescription(SosProcedureDescription<?> desc, String format) throws EncodingException {
         String xml = toString(desc, format);
         if (desc.isSetValidTime()) {
             ObjectNode j = nodeFactory().objectNode();

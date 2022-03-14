@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2021 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -107,9 +107,11 @@ public interface TimeseriesMLConstants extends SeriesConstants {
 
     QName QN_CUMULATIVE = new QName(NS_TSML_10, EN_CUMULATIVE, NS_TSML_10_PREFIX);
 
-    QName QN_CENSORED_REASON = new QName(NS_TSML_10, EN_CENSORED_REASON, NS_TSML_10);
+    QName QN_CENSORED_REASON = new QName(NS_TSML_10, EN_CENSORED_REASON, NS_TSML_10_PREFIX);
 
-    QName QN_QUALIFIER = new QName(NS_TSML_10, EN_QUALIFIER, NS_TSML_10);
+    QName QN_QUALIFIER = new QName(NS_TSML_10, EN_QUALIFIER, NS_TSML_10_PREFIX);
+
+    QName QN_AGGREGATION_DURATION = new QName(NS_TSML_10, EN_AGGREGATION_DURATION, NS_TSML_10_PREFIX);
 
     QName UOM = new QName(NS_TSML_10, EN_UOM, NS_TSML_10_PREFIX);
 
@@ -129,74 +131,80 @@ public interface TimeseriesMLConstants extends SeriesConstants {
          * Continuous
          * http://www.opengis.net/def/timeseries/InterpolationCode/Continuous
          */
-        Continuous,
+        Continuous("Continuous"),
         /**
          * Discontinuous
          * http://www.opengis.net/def/timeseries/InterpolationCode/Discontinuous
          */
-        Discontinuous,
+        Discontinuous("Discontinuous"),
         /**
          * Instantaneous total
          * http://www.opengis.net/def/timeseries/InterpolationCode/InstantTotal
          */
-        InstantTotal,
+        InstantTotal("Instant Total"),
         /**
          * Average in preceding interval
          * http://www.opengis.net/def/timeseries/InterpolationCode/AveragePrec
          */
-        AveragePrec,
+        AveragePrec("Average Preceding"),
         /**
          * Maximum in preceding interval
          * http://www.opengis.net/def/timeseries/InterpolationCode/MaxPrec
          */
-        MaxPrec,
+        MaxPrec("Maximum Preceding"),
         /**
          * Minimum in preceding interval
          * http://www.opengis.net/def/timeseries/InterpolationCode/MinPrec
          */
-        MinPrec,
+        MinPrec("Minimum Preceding"),
         /**
          * Preceding total
          * http://www.opengis.net/def/timeseries/InterpolationCode/PrecTotal
          */
-        TotalPrec,
+        TotalPrec("Preceding Total"),
         /**
          * Average in succeeding interval
          * http://www.opengis.net/def/timeseries/InterpolationCode/AverageSucc
          */
-        AverageSucc,
+        AverageSucc("Average Succeeding"),
         /**
          * Succeeding total
          * http://www.opengis.net/def/timeseries/InterpolationCode/TotalSucc
          */
-        TotalSucc,
+        TotalSucc("Total Succeeding"),
         /**
          * Minimum in succeeding interval
          * http://www.opengis.net/def/timeseries/InterpolationCode/MinSucc
          */
-        MinSucc,
+        MinSucc("Minimum Succeeding"),
         /**
          * Maximum in succeeding interval
          * http://www.opengis.net/def/timeseries/InterpolationCode/MaxSucc
          */
-        MaxSucc,
+        MaxSucc("Maximum Succeeding"),
         /**
          * Constant in preceding interval
          * http://www.opengis.net/def/timeseries/InterpolationCode/ConstPrec
          */
-        ConstPrec,
+        ConstPrec("Constant Preceding"),
         /**
          * Constant in succeeding interval
          * http://www.opengis.net/def/timeseries/InterpolationCode/ConstSucc
          */
-        ConstSucc;
+        ConstSucc("Constant Succeeding");
+
+        private String title;
+
+        InterpolationType(String title) {
+            this.title = title;
+        }
 
         public String getIdentifier() {
             return INTERPOLATION_TYPE + "/" + this.toString();
         }
 
         public String getTitle() {
-            return this.toString();
+            return title;
         }
 
         public static InterpolationType from(String v) {

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2021 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,14 +22,33 @@ package org.n52.shetland.ogc.om.series;
  * See <code>/req/xsd-measurement-timeseries-tvp/</code>.
  *
  * @see <a href="http://www.opengeospatial.org/standards/tsml">OGC TSML</a>
- * @see <a href="http://www.opengeospatial.org/standards/waterml">OGC WaterML</a>
+ * @see <a href="http://www.opengeospatial.org/standards/waterml">OGC
+ *      WaterML</a>
  */
-public interface AbstractDefaultTVPMeasurementMetadata {
+public abstract class AbstractDefaultTVPMeasurementMetadata<T extends AbstractDefaultTVPMeasurementMetadata<?>> {
 
-    boolean isSetInterpolationType();
+    private String aggregationDuration;
 
-    AbstractInterpolationType getInterpolationtype();
+    public String getAggregationDuration() {
+        return aggregationDuration;
+    }
 
-    AbstractDefaultTVPMeasurementMetadata setInterpolationtype(AbstractInterpolationType interpolationtype);
+    public T setAggregationDuration(String aggregationDuration) {
+        this.aggregationDuration = aggregationDuration;
+        return (T) this;
+    }
+
+    public boolean isSetAggregationDuration() {
+        return getAggregationDuration() != null && !getAggregationDuration().isEmpty();
+    }
+
+    public boolean isSetInterpolationType() {
+        return getInterpolationtype() != null;
+    }
+
+    public abstract AbstractInterpolationType getInterpolationtype();
+
+    public abstract T setInterpolationtype(
+            AbstractInterpolationType interpolationtype);
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2021 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ import java.util.function.Supplier;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.apache.xmlbeans.GDurationBuilder;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.n52.shetland.ogc.SupportedType;
@@ -295,6 +296,19 @@ public class TsmlTVPEncoderv10 extends AbstractTsmlEncoderv10 implements WmlTmlH
                 .getInterpolationType()
                 .setTitle(interpolationType.getTitle());
 
+        // set aggregationDuration
+        if (sosObservation.getObservationConstellation()
+                .getDefaultPointMetadata()
+                .getDefaultTVPMeasurementMetadata()
+                .isSetAggregationDuration()) {
+            GDurationBuilder gDurationBuilder = new GDurationBuilder(sosObservation.getObservationConstellation()
+                    .getDefaultPointMetadata()
+                    .getDefaultTVPMeasurementMetadata()
+                    .getAggregationDuration());
+            xbDefMeasureMetaComponent.getPointMetadata()
+                    .setAggregationDuration(gDurationBuilder.toGDuration());
+
+        }
         String unit = addValues(measurementTimeseries, sosObservation.getValue());
         // set uom
         if (unit != null && !unit.isEmpty()) {

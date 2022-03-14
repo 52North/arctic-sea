@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2021 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,6 +51,13 @@ public class TextValue
     public TextValue(String value) {
         super();
         super.setValue(value);
+    }
+
+    public TextValue(SweText value) {
+        super();
+        super.setValue(value.getValue());
+        value.copyValueTo(this);
+        this.setConstraint(value.getConstraint());
     }
 
     @Override

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2021 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -58,14 +58,14 @@ public class SweEnvelopeTest {
         assertThat(sweEnvelope.getReferenceFrame(), is(Integer.toString(srid)));
         // x1
         final List<? extends SweCoordinate<?>> lcCoordinates = sweEnvelope.getLowerCorner().getCoordinates();
-        assertThat(((BigDecimal) lcCoordinates.get(0).getValue().getValue()), is(bx1));
+        assertThat(lcCoordinates.get(0).getValue().getValue(), is(bx1));
         // y1
-        assertThat(((BigDecimal) lcCoordinates.get(1).getValue().getValue()), is(by1));
+        assertThat(lcCoordinates.get(1).getValue().getValue(), is(by1));
         // x2
         final List<? extends SweCoordinate<?>> ucCoordinates = sweEnvelope.getUpperCorner().getCoordinates();
-        assertThat(((BigDecimal) ucCoordinates.get(0).getValue().getValue()), is(bx2));
+        assertThat(ucCoordinates.get(0).getValue().getValue(), is(bx2));
         // y2
-        assertThat(((BigDecimal) ucCoordinates.get(1).getValue().getValue()), is(by2));
+        assertThat(ucCoordinates.get(1).getValue().getValue(), is(by2));
         // uom
         assertThat(((SweQuantity) lcCoordinates.get(0).getValue()).getUom(), is(uom));
         assertThat(((SweQuantity) lcCoordinates.get(1).getValue()).getUom(), is(uom));

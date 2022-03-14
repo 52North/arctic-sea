@@ -15,6 +15,7 @@ limitations under the License.
 This project includes:
 
   52°North Arctic Sea under The Apache Software License, Version 2.0
+  52°North Bjornoya under The Apache Software License, Version 2.0
   52°North Faroe under The Apache Software License, Version 2.0
   52°North Faroe Annotations under The Apache Software License, Version 2.0
   52°North Faroe JSON Backend under The Apache Software License, Version 2.0
@@ -38,14 +39,13 @@ This project includes:
   52°North Svalbard Parent under The Apache Software License, Version 2.0
   52°North Svalbard XML Stream under The Apache Software License, Version 2.0
   52°North Svalbard XmlBeans under The Apache Software License, Version 2.0
-  aggs-matrix-stats under Server Side Public License, v 1 or Elastic License 2.0
+  aggs-matrix-stats under Elastic License 2.0 or Server Side Public License, v 1
   ANTLR 4 Runtime under The BSD License
   Apache Commons CLI under Apache License, Version 2.0
   Apache Commons Codec under Apache License, Version 2.0
   Apache Commons Compress under Apache License, Version 2.0
   Apache Commons CSV under Apache License, Version 2.0
   Apache Commons IO under Apache License, Version 2.0
-  Apache Commons Lang under Apache License, Version 2.0
   Apache HttpAsyncClient under Apache License, Version 2.0
   Apache HttpClient under Apache License, Version 2.0
   Apache HttpClient Cache under Apache License, Version 2.0
@@ -63,13 +63,13 @@ This project includes:
   Commons Lang under The Apache Software License, Version 2.0
   compiler under Apache License 2.0
   dexx under MIT License
-  Elastic JNA Distribution under Apache License, Version 2.0
-  elasticsearch-cli under Server Side Public License, v 1 or Elastic License 2.0
-  elasticsearch-core under Server Side Public License, v 1 or Elastic License 2.0
-  elasticsearch-geo under Server Side Public License, v 1 or Elastic License 2.0
-  elasticsearch-plugin-classloader under Server Side Public License, v 1 or Elastic License 2.0
-  elasticsearch-secure-sm under Server Side Public License, v 1 or Elastic License 2.0
-  elasticsearch-x-content under Server Side Public License, v 1 or Elastic License 2.0
+  elasticsearch-cli under Elastic License 2.0 or Server Side Public License, v 1
+  elasticsearch-core under Elastic License 2.0 or Server Side Public License, v 1
+  elasticsearch-geo under Elastic License 2.0 or Server Side Public License, v 1
+  elasticsearch-lz4 under Elastic License 2.0 or Server Side Public License, v 1
+  elasticsearch-plugin-classloader under Elastic License 2.0 or Server Side Public License, v 1
+  elasticsearch-secure-sm under Elastic License 2.0 or Server Side Public License, v 1
+  elasticsearch-x-content under Elastic License 2.0 or Server Side Public License, v 1
   embedded-elasticsearch under The Apache Software License, Version 2.0
   error-prone annotations under Apache 2.0
   EXIficient under MIT License
@@ -106,6 +106,7 @@ This project includes:
   jackson-databind under The Apache Software License, Version 2.0
   Jackson-dataformat-YAML under The Apache Software License, Version 2.0
   Java archiving library under Apache 2
+  Java Native Access under LGPL-2.1-or-later or Apache-2.0
   JavaBeans(TM) Activation Framework under COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL) Version 1.0
   JavaMail API jar under CDDL or GPLv2+CE
   javax.annotation API under CDDL + GPLv2 with classpath exception
@@ -115,7 +116,7 @@ This project includes:
   Joda-Time under Apache License, Version 2.0
   JOpt Simple under The MIT License
   JSONLD Java :: Core under Revised BSD License
-  lang-mustache under Server Side Public License, v 1 or Elastic License 2.0
+  lang-mustache under Elastic License 2.0 or Server Side Public License, v 1
   libphonenumber under The Apache Software License, Version 2.0
   Lucene Common Analyzers under Apache License, Version 2.0
   Lucene Core under Apache License, Version 2.0
@@ -128,9 +129,9 @@ This project includes:
   Lucene QueryParsers under Apache License, Version 2.0
   Lucene Sandbox under Apache License, Version 2.0
   Lucene Spatial 3D under Apache License, Version 2.0
-  Lucene Spatial Extras under Apache License, Version 2.0
   Lucene Suggest under Apache License, Version 2.0
-  mapper-extras under Server Side Public License, v 1 or Elastic License 2.0
+  LZ4 and xxHash under The Apache Software License, Version 2.0
+  mapper-extras under Elastic License 2.0 or Server Side Public License, v 1
   MaxMind DB Reader under Apache License 2.0
   MaxMind GeoIP2 API under Apache License, Version 2.0
   mchange-commons-java under GNU Lesser General Public License, Version 2.1 or Eclipse Public License, Version 1.0
@@ -185,19 +186,22 @@ This project includes:
   Old JAXB Core under CDDL+GPL License
   Old JAXB Runtime under CDDL+GPL License
   org.locationtech.jts:jts-core under Eclipse Public License, Version 2.0 or Eclipse Distribution License - v 1.0
-  parent-join under Server Side Public License, v 1 or Elastic License 2.0
+  parent-join under Elastic License 2.0 or Server Side Public License, v 1
   Portele Schape Change schema (spec. v3.0) under The Apache Software License, Version 2.0
   quartz under The Apache Software License, Version 2.0
-  rank-eval under Server Side Public License, v 1 or Elastic License 2.0
+  rank-eval under Elastic License 2.0 or Server Side Public License, v 1
   rest under The Apache Software License, Version 2.0
   rest-high-level under Elastic License 2.0
   Saxon-HE under Mozilla Public License Version 2.0
-  server under Server Side Public License, v 1 or Elastic License 2.0
+  server under Elastic License 2.0 or Server Side Public License, v 1
   SLF4J API Module under MIT License
   SnakeYAML under Apache License, Version 2.0
   Spring AOP under Apache License, Version 2.0
   Spring Beans under Apache License, Version 2.0
+  Spring Commons Logging Bridge under Apache License, Version 2.0
   Spring Context under Apache License, Version 2.0
+  Spring Context Support under Apache License, Version 2.0
+  Spring Core under Apache License, Version 2.0
   Spring Expression Language (SpEL) under Apache License, Version 2.0
   Spring Web under Apache License, Version 2.0
   T-Digest under The Apache Software License, Version 2.0
@@ -208,6 +212,7 @@ This project includes:
   Xerces2-j under The Apache Software License, Version 2.0
   XML Commons External Components XML APIs under The Apache Software License, Version 2.0 or The SAX License or The W3C License
   XML Pull Parsing API under Public Domain
+  XML Resolver under Apache License version 2.0
   XmlBeans under The Apache Software License, Version 2.0
   XmlBeansXPath under The Apache Software License, Version 2.0
   XMLUnit for Java under BSD License

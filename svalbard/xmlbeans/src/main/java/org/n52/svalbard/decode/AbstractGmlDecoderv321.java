@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2021 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -282,7 +282,7 @@ public abstract class AbstractGmlDecoderv321<T, S>
             return namedValue;
         } else if (value instanceof SweText) {
             NamedValue<String> namedValue = new NamedValue<>();
-            namedValue.setValue(new TextValue(((SweText) value).getValue()));
+            namedValue.setValue(new TextValue((SweText) value));
             return namedValue;
         } else if (value instanceof String) {
             NamedValue<String> namedValue = new NamedValue<>();

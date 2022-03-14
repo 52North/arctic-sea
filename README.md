@@ -28,7 +28,9 @@ Shetland consists of classes for OGC models like [SensorML](http://www.opengeosp
 
 #### Jan Mayen [![Maven Central](https://img.shields.io/maven-central/v/org.n52.arctic-sea/janmayen.svg)](https://search.maven.org/search?q=g:org.n52.arctic-sea%20and%20a:janmayen*%20and%20p:jar)
 
-Jan Mayen contains various utility classes shared across Arctic Sea.
+#### Bjørnøya (Bjornoya) [![Maven Central](https://img.shields.io/maven-central/v/org.n52.arctic-sea/bjornoya.svg)](https://search.maven.org/search?q=g:org.n52.arctic-sea%20and%20a:bjornoya*%20and%20p:jar)
+
+Bjørnøya contains various classes for scheduling [![Quartz](http://www.quartz-scheduler.org/)] shared across Arctic Sea.
 
 ### Key Technologies
 

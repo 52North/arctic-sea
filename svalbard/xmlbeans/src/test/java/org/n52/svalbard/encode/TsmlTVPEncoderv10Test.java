@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2021 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -74,10 +74,13 @@ public class TsmlTVPEncoderv10Test {
     private ObservationValue<MultiValue<List<TimeValuePair>>> mv;
 
     private static final String PROCEDURE = "proceduretest";
+
     private static final String OFFERING = "offeringtest";
+
     private static final String CODE_SPACE = "codespacetest";
 
     private static final String TOKEN_SEPERATOR = "##";
+
     private static final String TUPLE_SEPERATOR = "@@";
 
     @BeforeEach
@@ -101,18 +104,13 @@ public class TsmlTVPEncoderv10Test {
         sweEncoderv20.setXmlOptions(XmlOptions::new);
 
         EncoderRepository encoderRepository = new EncoderRepository();
-        encoderRepository.setEncoders(Arrays.asList(
-                encoder,
-                gmlEncoderv321,
-                sensorMLEncoderv20,
-                sweCommonEncoderv20,
-                samsEncoderv20,
-                sweEncoderv20));
+        encoderRepository.setEncoders(Arrays.asList(encoder, gmlEncoderv321, sensorMLEncoderv20, sweCommonEncoderv20,
+                samsEncoderv20, sweEncoderv20));
         encoderRepository.init();
 
-
-        encoderRepository.getEncoders().stream()
-            .forEach(e -> ((AbstractDelegatingEncoder<?,?>)e).setEncoderRepository(encoderRepository));
+        encoderRepository.getEncoders()
+                .stream()
+                .forEach(e -> ((AbstractDelegatingEncoder<?, ?>) e).setEncoderRepository(encoderRepository));
 
         MultiValue<List<TimeValuePair>> value = new TVPValue();
         String unit = "test-unit";
@@ -120,8 +118,8 @@ public class TsmlTVPEncoderv10Test {
 
         TimeValuePair tvp1 =
                 new TimeValuePair(new TimeInstant(new Date(UTC_TIMESTAMP)), new QuantityValue(52.1234567890));
-        TimeValuePair tvp2 =
-                new TimeValuePair(new TimeInstant(new Date(UTC_TIMESTAMP + 10000000)), new QuantityValue(25.0987654321));
+        TimeValuePair tvp2 = new TimeValuePair(new TimeInstant(new Date(UTC_TIMESTAMP + 10000000)),
+                new QuantityValue(25.0987654321));
         List<TimeValuePair> valueList = CollectionHelper.list(tvp1, tvp2);
         value.setValue(valueList);
 
@@ -134,14 +132,15 @@ public class TsmlTVPEncoderv10Test {
         XmlObject encodedElement = encoder.encode(mv);
 
         MatcherAssert.assertThat(encodedElement, CoreMatchers.instanceOf(TimeseriesTVPDocument.class));
-        final TimeseriesTVPDocument timeseriesDocument =
-                (TimeseriesTVPDocument) encodedElement;
-        MatcherAssert.assertThat(timeseriesDocument.getTimeseriesTVP().isSetMetadata(), Is.is(true));
-        MatcherAssert.assertThat(timeseriesDocument.getTimeseriesTVP().getMetadata().getTimeseriesMetadata(),
-                CoreMatchers.instanceOf(TimeseriesMetadataType.class));
-        final TimeseriesMetadataType measurementTimeseriesMetadataType =
-                timeseriesDocument.getTimeseriesTVP().getMetadata()
-                        .getTimeseriesMetadata();
+        final TimeseriesTVPDocument timeseriesDocument = (TimeseriesTVPDocument) encodedElement;
+        MatcherAssert.assertThat(timeseriesDocument.getTimeseriesTVP()
+                .isSetMetadata(), Is.is(true));
+        MatcherAssert.assertThat(timeseriesDocument.getTimeseriesTVP()
+                .getMetadata()
+                .getTimeseriesMetadata(), CoreMatchers.instanceOf(TimeseriesMetadataType.class));
+        final TimeseriesMetadataType measurementTimeseriesMetadataType = timeseriesDocument.getTimeseriesTVP()
+                .getMetadata()
+                .getTimeseriesMetadata();
         MatcherAssert.assertThat(measurementTimeseriesMetadataType.isSetCumulative(), Is.is(true));
         MatcherAssert.assertThat(measurementTimeseriesMetadataType.getCumulative(), Is.is(false));
     }
@@ -153,7 +152,9 @@ public class TsmlTVPEncoderv10Test {
         XmlObject encodedElement = encoder.encode(mv);
 
         MatcherAssert.assertThat(((TimeseriesTVPDocument) encodedElement).getTimeseriesTVP()
-                .getMetadata().getTimeseriesMetadata().getCumulative(), Is.is(true));
+                .getMetadata()
+                .getTimeseriesMetadata()
+                .getCumulative(), Is.is(true));
     }
 
     @Test
@@ -166,14 +167,16 @@ public class TsmlTVPEncoderv10Test {
         XmlObject encodedElement = encoder.encode(mv);
 
         TimeseriesTVPType.DefaultPointMetadata defaultPointMetadata =
-                ((TimeseriesTVPDocument) encodedElement).getTimeseriesTVP().getDefaultPointMetadata();
+                ((TimeseriesTVPDocument) encodedElement).getTimeseriesTVP()
+                        .getDefaultPointMetadata();
         PointMetadataDocument tvpMeasurementMetadataDocument =
                 PointMetadataDocument.Factory.parse(defaultPointMetadata.xmlText());
-        ReferenceType interpolationType =
-                tvpMeasurementMetadataDocument.getPointMetadata().getInterpolationType();
+        ReferenceType interpolationType = tvpMeasurementMetadataDocument.getPointMetadata()
+                .getInterpolationType();
         MatcherAssert.assertThat(interpolationType.getHref(),
-                Is.is("http://www.opengis.net/def/timeseries/InterpolationCode/MinPrec"));
-        MatcherAssert.assertThat(interpolationType.getTitle(), Is.is("MinPrec"));
+                Is.is(TimeseriesMLConstants.InterpolationType.MinPrec.getIdentifier()));
+        MatcherAssert.assertThat(interpolationType.getTitle(),
+                Is.is(TimeseriesMLConstants.InterpolationType.MinPrec.getTitle()));
     }
 
     @Test
@@ -181,19 +184,22 @@ public class TsmlTVPEncoderv10Test {
         XmlObject encodedElement = encoder.encode(mv);
 
         TimeseriesTVPType.DefaultPointMetadata defaultPointMetadata =
-                ((TimeseriesTVPDocument) encodedElement).getTimeseriesTVP().getDefaultPointMetadata();
+                ((TimeseriesTVPDocument) encodedElement).getTimeseriesTVP()
+                        .getDefaultPointMetadata();
         PointMetadataDocument tvpMeasurementMetadataDocument =
                 PointMetadataDocument.Factory.parse(defaultPointMetadata.xmlText());
-        ReferenceType interpolationType =
-                tvpMeasurementMetadataDocument.getPointMetadata().getInterpolationType();
+        ReferenceType interpolationType = tvpMeasurementMetadataDocument.getPointMetadata()
+                .getInterpolationType();
         MatcherAssert.assertThat(interpolationType.getHref(),
-                Is.is("http://www.opengis.net/def/timeseries/InterpolationCode/Continuous"));
-        MatcherAssert.assertThat(interpolationType.getTitle(), Is.is("Continuous"));
+                Is.is(TimeseriesMLConstants.InterpolationType.Continuous.getIdentifier()));
+        MatcherAssert.assertThat(interpolationType.getTitle(),
+                Is.is(TimeseriesMLConstants.InterpolationType.Continuous.getTitle()));
     }
 
-   @Test
+    @Test
     public void shouldEncodeOMObservation() throws EncodingException, XmlException, DecodingException {
-        XmlObject encodedElement = encoder.encode(createObservation(), EncodingContext.of(XmlBeansEncodingFlags.DOCUMENT));
+        XmlObject encodedElement =
+                encoder.encode(createObservation(), EncodingContext.of(XmlBeansEncodingFlags.DOCUMENT));
         MatcherAssert.assertThat(XmlHelper.validateDocument(encodedElement), Is.is(true));
     }
 
@@ -204,7 +210,8 @@ public class TsmlTVPEncoderv10Test {
         TimePeriod validTime = new TimePeriod(now.minusMinutes(5), now.plusMinutes(5));
         OmObservation observation = new OmObservation();
         OmObservationConstellation observationConstellation = new OmObservationConstellation();
-        observationConstellation.setFeatureOfInterest(new SamplingFeature(new CodeWithAuthority("feature", CODE_SPACE)));
+        observationConstellation
+                .setFeatureOfInterest(new SamplingFeature(new CodeWithAuthority("feature", CODE_SPACE)));
         observationConstellation.setObservableProperty(new OmObservableProperty("omobservableProperty"));
         observationConstellation.setDefaultPointMetadata(new DefaultPointMetadata()
                 .setDefaultTVPMeasurementMetadata(new DefaultTVPMeasurementMetadata().setInterpolationtype(type)));

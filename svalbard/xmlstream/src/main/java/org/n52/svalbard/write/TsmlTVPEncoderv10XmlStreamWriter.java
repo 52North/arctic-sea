@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2021 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,7 +38,6 @@ import org.n52.shetland.ogc.om.TimeValuePair;
 import org.n52.shetland.ogc.om.series.MeasurementTimeseriesMetadata;
 import org.n52.shetland.ogc.om.series.tsml.TimeseriesMLConstants;
 import org.n52.shetland.ogc.om.series.tsml.TimeseriesMLConstants.InterpolationType;
-import org.n52.shetland.ogc.om.series.wml.WaterMLConstants;
 import org.n52.shetland.ogc.om.values.CountValue;
 import org.n52.shetland.ogc.om.values.ProfileValue;
 import org.n52.shetland.ogc.om.values.QuantityValue;
@@ -245,6 +244,7 @@ public class TsmlTVPEncoderv10XmlStreamWriter extends AbstractOmV20XmlStreamWrit
         start(TimeseriesMLConstants.QN_DEFAULT_TVP_MEASUREMENT_METADATA);
         writeUOM(unit);
         writeInterpolationType(value);
+        writeAggregationDuration(value);
         end(TimeseriesMLConstants.QN_DEFAULT_TVP_MEASUREMENT_METADATA);
         end(TimeseriesMLConstants.QN_DEFAULT_POINT_METADATA);
     }
@@ -286,8 +286,21 @@ public class TsmlTVPEncoderv10XmlStreamWriter extends AbstractOmV20XmlStreamWrit
             addXlinkHrefAttr(interpolationtype.getIdentifier());
             addXlinkTitleAttr(interpolationtype.getTitle());
         } else {
-            addXlinkHrefAttr("http://www.opengis.net/def/timeseriesType/WaterML/2.0/continuous");
+            addXlinkHrefAttr("http://www.opengis.net/def/timeseries/InterpolationCode/continuous");
             addXlinkTitleAttr("Instantaneous");
+        }
+    }
+
+    private void writeAggregationDuration(ObservationValue<?> value) throws XMLStreamException {
+        if (value != null && value.isSetMetadata() && value.getDefaultPointMetadata()
+                .isSetDefaultTVPMeasurementMetadata() && value.getDefaultPointMetadata()
+                        .getDefaultTVPMeasurementMetadata()
+                        .isSetAggregationDuration()) {
+            start(TimeseriesMLConstants.QN_AGGREGATION_DURATION);
+            chars(value.getDefaultPointMetadata()
+                    .getDefaultTVPMeasurementMetadata()
+                    .getAggregationDuration());
+            end(TimeseriesMLConstants.QN_AGGREGATION_DURATION);
         }
     }
 
@@ -418,7 +431,7 @@ public class TsmlTVPEncoderv10XmlStreamWriter extends AbstractOmV20XmlStreamWrit
     }
 
     private void writeEmptyValue() throws XMLStreamException {
-        empty(WaterMLConstants.QN_VALUE);
+        empty(TimeseriesMLConstants.QN_VALUE);
         attr(W3CConstants.QN_XSI_NIL, "true");
     }
 
