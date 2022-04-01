@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2022 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,10 +34,9 @@ public class ObservationEntityDefinition extends STAEntityDefinition {
     };
 
     private static final String[] NAV_PROPS_OPTIONAL = new String[] {
-            "Subjects",
-            "Objects",
-            "ObservationGroups",
-            "License"
+            SUBJECTS,
+            OBJECTS,
+            GROUPS
     };
 
     private static final String[] ENTITY_PROPS_MANDATORY = new String[] {

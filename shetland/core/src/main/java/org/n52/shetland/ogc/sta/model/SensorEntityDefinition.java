@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2022 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.shetland.ogc.sta.model;
 
 import java.util.Arrays;
@@ -28,37 +29,39 @@ public class SensorEntityDefinition extends STAEntityDefinition {
 
     public static final String ENTITY_SET_NAME = SENSORS;
 
-    private static final String[] NAV_PROPS_MANDATORY = new String[]{};
+    private static final String[] NAV_PROPS_MANDATORY = new String[] {};
 
-    private static final String[] NAV_PROPS_OPTIONAL = new String[]{DATASTREAMS};
+    private static final String[] NAV_PROPS_OPTIONAL = new String[] {DATASTREAMS};
 
-    private static final String[] ENTITY_PROPS_MANDATORY = new String[]{PROP_ID,
-                                                                        PROP_NAME,
-                                                                        PROP_DESCRIPTION,
-                                                                        PROP_ENCODINGTYPE,
-                                                                        PROP_METADATA};
+    private static final String[] ENTITY_PROPS_MANDATORY = new String[] {
+        PROP_ID,
+        PROP_NAME,
+        PROP_DESCRIPTION,
+        PROP_ENCODINGTYPE,
+        PROP_METADATA
+    };
 
-    private static final String[] ENTITY_PROPS_OPTIONAL = new String[]{PROP_PROPERTIES};
+    private static final String[] ENTITY_PROPS_OPTIONAL = new String[] {PROP_PROPERTIES};
 
     public static final Set<String> NAVIGATION_PROPERTIES_OPTIONAL =
-            Collections.unmodifiableSet(new HashSet<>(Arrays.asList(NAV_PROPS_OPTIONAL)));
+        Collections.unmodifiableSet(new HashSet<>(Arrays.asList(NAV_PROPS_OPTIONAL)));
 
     public static final Set<String> NAVIGATION_PROPERTIES_MANDATORY =
-            Collections.unmodifiableSet(new HashSet<>(Arrays.asList(NAV_PROPS_MANDATORY)));
+        Collections.unmodifiableSet(new HashSet<>(Arrays.asList(NAV_PROPS_MANDATORY)));
 
     public static final Set<String> NAVIGATION_PROPERTIES =
-            Collections.unmodifiableSet(STAEntityDefinition.combineSets(NAVIGATION_PROPERTIES_OPTIONAL,
-                                                                        NAVIGATION_PROPERTIES_MANDATORY));
+        Collections.unmodifiableSet(STAEntityDefinition.combineSets(NAVIGATION_PROPERTIES_OPTIONAL,
+                                                                    NAVIGATION_PROPERTIES_MANDATORY));
 
     public static final Set<String> ENTITY_PROPERTIES_OPTIONAL =
-            Collections.unmodifiableSet(new HashSet<>(Arrays.asList(ENTITY_PROPS_OPTIONAL)));
+        Collections.unmodifiableSet(new HashSet<>(Arrays.asList(ENTITY_PROPS_OPTIONAL)));
 
     public static final Set<String> ENTITY_PROPERTIES_MANDATORY =
-            Collections.unmodifiableSet(new HashSet<>(Arrays.asList(ENTITY_PROPS_MANDATORY)));
+        Collections.unmodifiableSet(new HashSet<>(Arrays.asList(ENTITY_PROPS_MANDATORY)));
 
     public static final Set<String> ENTITY_PROPERTIES =
-            Collections.unmodifiableSet(STAEntityDefinition.combineSets(ENTITY_PROPERTIES_OPTIONAL,
-                                                                        ENTITY_PROPERTIES_MANDATORY));
+        Collections.unmodifiableSet(STAEntityDefinition.combineSets(ENTITY_PROPERTIES_OPTIONAL,
+                                                                    ENTITY_PROPERTIES_MANDATORY));
 
     public SensorEntityDefinition() {
         super(NAVIGATION_PROPERTIES_OPTIONAL,

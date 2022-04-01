@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2022 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.shetland.ogc.sta.model;
 
 import org.n52.shetland.ogc.sta.StaConstants;
@@ -27,22 +28,22 @@ import java.util.Set;
 public abstract class STAEntityDefinition implements StaConstants {
 
     public static String[] CORECOLLECTIONS = new String[] {
-            DATASTREAMS,
-            OBSERVATIONS,
-            THINGS,
-            LOCATIONS,
-            HISTORICAL_LOCATIONS,
-            SENSORS,
-            OBSERVED_PROPERTIES,
-            FEATURES_OF_INTEREST
+        DATASTREAMS,
+        OBSERVATIONS,
+        THINGS,
+        LOCATIONS,
+        HISTORICAL_LOCATIONS,
+        SENSORS,
+        OBSERVED_PROPERTIES,
+        FEATURES_OF_INTEREST
     };
 
     public static String[] CITSCICOLLECTIONS = new String[] {
-            LICENSES,
-            PARTIES,
-            PROJECTS,
-            OBSERVATION_GROUPS,
-            OBSERVATION_RELATIONS
+        LICENSES,
+        PARTIES,
+        PROJECTS,
+        GROUPS,
+        RELATIONS
     };
 
     // Map from EntityName to Definition
@@ -114,16 +115,16 @@ public abstract class STAEntityDefinition implements StaConstants {
         map.put(THING, tED);
         map.put(THINGS, tED);
 
-        ObservationGroupEntityDefinition ogED = new ObservationGroupEntityDefinition();
-        ObservationRelationEntityDefinition orED = new ObservationRelationEntityDefinition();
+        GroupEntityDefinition ogED = new GroupEntityDefinition();
+        RelationEntityDefinition orED = new RelationEntityDefinition();
         PartyEntityDefinition parED = new PartyEntityDefinition();
         LicenseEntityDefinition licED = new LicenseEntityDefinition();
         ProjectEntityDefinition proED = new ProjectEntityDefinition();
 
-        map.put(OBSERVATION_GROUP, ogED);
-        map.put(OBSERVATION_GROUPS, ogED);
-        map.put(OBSERVATION_RELATION, orED);
-        map.put(OBSERVATION_RELATIONS, orED);
+        map.put(GROUP, ogED);
+        map.put(GROUPS, ogED);
+        map.put(RELATION, orED);
+        map.put(RELATIONS, orED);
         map.put(PROJECT, proED);
         map.put(PROJECTS, proED);
         map.put(PARTY, parED);

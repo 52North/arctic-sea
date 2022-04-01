@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2022 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.shetland.ogc.sta;
 
 public interface StaConstants {
@@ -22,7 +23,7 @@ public interface StaConstants {
      * Profiles/Extensions
      */
     String VANILLA = "vanilla";
-    String CITSCIEXTENSION = "citSci";
+    String STAPLUS = "staplus";
     String MULTIDATASTREAM = "multiDatastream";
     String UFZAGGREGATA = "ufzaggregata";
 
@@ -65,43 +66,29 @@ public interface StaConstants {
      * CitSci Extension Entities + Collections
      */
 
-    String OBSERVATION_GROUP = "ObservationGroup";
-
-    String OBSERVATION_GROUPS = "ObservationGroups";
-
-    String OBSERVATION_RELATION = "ObservationRelation";
-
-    String OBSERVATION_RELATIONS = "ObservationRelations";
-
+    String GROUP = "Group";
+    String GROUPS = "Groups";
+    String RELATION = "Relation";
+    String RELATIONS = "Relations";
     String PARTY = "Party";
-
     String PARTIES = "Parties";
-
     String LICENSE = "License";
-
     String LICENSES = "Licenses";
-
     String PROJECT = "Project";
-
     String PROJECTS = "Projects";
+    String SUBJECT = "Subject";
+    String SUBJECTS = "Subjects";
+    String OBJECT = "Object";
+    String OBJECTS = "Objects";
+
+    String PARENT = "parent";
+    String CHILDREN = "children";
 
     String AT = "@";
-
     String IOT_ID = "iot.id";
-
     String IOT_SELFLINK = "iot.selfLink";
-
     String AT_IOT_ID = AT + IOT_ID;
-
     String AT_IOT_SELFLINK = AT + IOT_SELFLINK;
-
-    /**
-     * Navigation links
-     */
-    String NAV_SUBJECT = "Subject";
-    String NAV_SUBJECTS = "Subjects";
-    String NAV_OBJECT = "Object";
-    String NAV_OBJECTS = "Objects";
 
     /**
      * Properties
@@ -128,7 +115,7 @@ public interface StaConstants {
     String PROP_METADATA = "metadata";
     String PROP_SYMBOL = "symbol";
     String PROP_TYPE = "type";
-    String PROP_NICKNAME = "nickname";
+    String PROP_DISPLAY_NAME = "displayName";
     String PROP_ROLE = "role";
     String PROP_RUNTIME = "runtime";
     String PROP_URL = "url";
@@ -136,5 +123,11 @@ public interface StaConstants {
     String PROP_CLASSIFICATION = "classification";
     String PROP_TERMS_OF_USE = "termsOfUse";
     String PROP_PRIVACY_POLICY = "privacyPolicy";
-
+    String PROP_PURPOSE = "purpose";
+    String PROP_START_TIME = "startTime";
+    String PROP_END_TIME = "endTime";
+    String PROP_CREATION_TIME = "creationTime";
+    String PROP_EXTERNAL_OBJECT = "externalObject";
+    String PROP_AUTH_ID = "authId";
+    String PROP_PERSONAL_DATA = "personalData";
 }
