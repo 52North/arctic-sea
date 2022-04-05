@@ -23,10 +23,12 @@ import java.util.Optional;
  */
 public interface TextExpr extends Expr {
 
+    @Override
     default boolean isTextValue() {
         return true;
     }
 
+    @Override
     default Optional<TextExpr> asTextValue() {
         return Optional.empty();
     }

@@ -35,7 +35,7 @@ public abstract class UnaryExpr<T> implements Expr {
      * Create a new {@code UnaryExpr}.
      *
      * @param operator the operator
-     * @param operand  the operand
+     * @param operand the operand
      */
     public UnaryExpr(T operator, Expr operand) {
         this.operator = Objects.requireNonNull(operator);
@@ -70,17 +70,20 @@ public abstract class UnaryExpr<T> implements Expr {
         return String.format(TO_STRING_TEMPLATE, operator.toString(), this.operand);
     }
 
-    @Override public String toODataString() {
+    @Override
+    public String toODataString() {
         return String.format(TO_STRING_TEMPLATE,
                              operator.toString().toLowerCase(),
                              this.operand.toODataString());
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
         return Objects.hash(this.operator, this.operand);
     }
 
-    @Override public boolean equals(Object o) {
+    @Override
+    public boolean equals(Object o) {
         if (o == this) {
             return true;
         }

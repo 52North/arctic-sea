@@ -95,7 +95,6 @@ public interface SettingsService {
      *
      * @return the value of the setting
      */
-    @SuppressWarnings(value = "unchecked")
     <T> SettingValue<T> getSetting(SettingDefinition<T> key);
 
     /**
@@ -106,7 +105,6 @@ public interface SettingsService {
      *
      * @return the value of the setting
      */
-    @SuppressWarnings(value = "unchecked")
     <T> SettingValue<T> getSetting(String key);
 
     /**
