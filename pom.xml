@@ -145,7 +145,7 @@
         <version.exificient>1.0.4</version.exificient>
         <version.jaxb>2.3.0</version.jaxb>
         <version.n52CommonXML>2.7.0</version.n52CommonXML>
-        <version.olingo>4.8.0</version.olingo>
+        <version.olingo>4.9.0</version.olingo>
         <version.findbugs>3.0.2</version.findbugs>
         <version.spotbugs>4.6.0</version.spotbugs>
         <version.javax-annotation-api>1.3.2</version.javax-annotation-api>
