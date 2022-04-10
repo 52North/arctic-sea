@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2022 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,10 +22,12 @@ import java.util.Optional;
  */
 public interface TextExpr extends Expr {
 
+    @Override
     default boolean isTextValue() {
         return true;
     }
 
+    @Override
     default Optional<TextExpr> asTextValue() {
         return Optional.empty();
     }

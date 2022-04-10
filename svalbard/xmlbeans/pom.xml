@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright 2015-2022 52°North Initiative for Geospatial Open Source
-    Software GmbH
+    Copyright 2015-2022 52°North Spatial Information Research GmbH
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -253,7 +252,7 @@
             <groupId>org.n52.sensorweb</groupId>
             <artifactId>52n-xml-sossf-v10</artifactId>
         </dependency>
-         <dependency>
+        <dependency>
             <groupId>org.n52.sensorweb</groupId>
             <artifactId>52n-xml-ifoi-v10</artifactId>
         </dependency>
@@ -281,7 +280,7 @@
             <groupId>org.n52.sensorweb</groupId>
             <artifactId>52n-xml-inspire-ompr-v30</artifactId>
         </dependency>
-       <dependency>
+        <dependency>
             <groupId>org.n52.sensorweb</groupId>
             <artifactId>52n-xml-inspire-base2-v20</artifactId>
         </dependency>

@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2022 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +29,6 @@ import org.junit.jupiter.api.Test;
 import org.n52.shetland.inspire.GeographicalName;
 import org.n52.shetland.inspire.Spelling;
 import org.n52.shetland.ogc.gml.CodeType;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.w3c.Nillable;
 import org.n52.svalbard.decode.exception.DecodingException;
 

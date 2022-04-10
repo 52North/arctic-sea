@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2022 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +17,7 @@ package org.n52.svalbard.odata.core;
 
 import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CodePointCharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
@@ -25,6 +25,7 @@ import org.antlr.v4.runtime.Vocabulary;
 import org.n52.shetland.oasis.odata.query.option.QueryOptions;
 import org.n52.shetland.ogc.filter.FilterClause;
 import org.n52.svalbard.odata.grammar.STAQueryOptionsGrammar;
+import org.n52.svalbard.odata.grammar.STAQueryOptionsGrammar.QueryOptionsContext;
 import org.n52.svalbard.odata.grammar.STAQueryOptionsLexer;
 
 import java.util.Set;
@@ -35,26 +36,10 @@ import java.util.Set;
 @SuppressWarnings("unchecked")
 public class QueryOptionsFactory {
 
-    public STAQueryOptionsLexer createLexer(String query) {
-        STAQueryOptionsLexer staQueryOptionsLexer = new STAQueryOptionsLexer(CharStreams.fromString(query.trim()));
-        staQueryOptionsLexer.removeErrorListeners();
-        staQueryOptionsLexer.addErrorListener(new CustomErrorListener(staQueryOptionsLexer.getVocabulary()));
-        return staQueryOptionsLexer;
-    }
-
-    public STAQueryOptionsGrammar createGrammar(String query) {
-        return createGrammar(createLexer(query));
-    }
-
-    private STAQueryOptionsGrammar createGrammar(STAQueryOptionsLexer lexer) {
-        STAQueryOptionsGrammar parser = new STAQueryOptionsGrammar(new CommonTokenStream(lexer));
-        parser.removeErrorListeners();
-        parser.addErrorListener(new CustomErrorListener(lexer.getVocabulary()));
-        return parser;
-    }
-
     public QueryOptions createQueryOptions(String query) {
-        return createGrammar(query).queryOptions().<QueryOptions>accept(new STAQueryOptionVisitor());
+        STAQueryOptionsGrammar grammar = createGrammar(query);
+        QueryOptionsContext context = grammar.queryOptions();
+        return context.<QueryOptions>accept(new STAQueryOptionVisitor());
     }
 
     public QueryOptions createQueryOptions(Set<FilterClause> filters) {
@@ -63,6 +48,30 @@ public class QueryOptionsFactory {
 
     public QueryOptions createDummy() {
         return new QueryOptions("", null);
+    }
+
+    STAQueryOptionsGrammar createGrammar(String query) {
+        return createGrammar(createLexer(query));
+    }
+
+    private STAQueryOptionsLexer createLexer(String query) {
+        CodePointCharStream charStream = CharStreams.fromString(query.trim());
+        STAQueryOptionsLexer staQueryOptionsLexer = new STAQueryOptionsLexer(charStream);
+        replaceErrorListener(staQueryOptionsLexer);
+        return staQueryOptionsLexer;
+    }
+
+    private STAQueryOptionsGrammar createGrammar(STAQueryOptionsLexer lexer) {
+        CommonTokenStream tokenStream = new CommonTokenStream(lexer);
+        STAQueryOptionsGrammar parser = new STAQueryOptionsGrammar(tokenStream);
+        replaceErrorListener(parser);
+        return parser;
+    }
+
+    private void replaceErrorListener(Recognizer<?, ?> recognizer) {
+        recognizer.removeErrorListeners();
+        Vocabulary vocabulary = recognizer.getVocabulary();
+        recognizer.addErrorListener(new CustomErrorListener(vocabulary));
     }
 
     private static final class CustomErrorListener extends BaseErrorListener {
@@ -74,16 +83,23 @@ public class QueryOptionsFactory {
         }
 
         @Override
-        public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine,
-                                String msg, RecognitionException e) {
-            String message;
-            if (e != null && e.getOffendingToken() != null) {
-                message = String.format("Failed to parse QueryOptions due to %s with offending token: %s", msg,
-                                        vocabulary.getDisplayName(e.getOffendingToken().getType()));
+        public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line,
+                int charPositionInLine, String msg, RecognitionException e) {
+            String message = null;
+            if (hasOffendingToken(e)) {
+                int tokenType = e.getOffendingToken().getType();
+                String tokenName = vocabulary.getDisplayName(tokenType);
+                message = String.format(
+                        "Failed to parse QueryOptions due to %s with offending token: %s", msg,
+                        tokenName);
             } else {
                 message = String.format("Failed to parse QueryOptions due to error: %s", msg);
             }
             throw new IllegalStateException(message, e);
+        }
+
+        private boolean hasOffendingToken(RecognitionException e) {
+            return e != null && e.getOffendingToken() != null;
         }
     }
 }
