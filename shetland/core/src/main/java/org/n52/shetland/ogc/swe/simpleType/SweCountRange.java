@@ -18,6 +18,9 @@ package org.n52.shetland.ogc.swe.simpleType;
 import org.n52.shetland.ogc.swe.RangeValue;
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
 import org.n52.shetland.w3c.xlink.Referenceable;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
 import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
 
@@ -31,11 +34,13 @@ public class SweCountRange extends SweAbstractSimpleType<RangeValue<Integer>> {
     private Referenceable<SweAllowedValues> constraint;
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public RangeValue<Integer> getValue() {
         return value;
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweCountRange setValue(final RangeValue<Integer> value) {
         this.value = value;
         return this;

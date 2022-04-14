@@ -17,6 +17,7 @@ package org.n52.shetland.ogc.sta.model;
 
 import org.n52.shetland.ogc.sta.StaConstants;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -53,19 +54,19 @@ public abstract class STAEntityDefinition implements StaConstants {
     }
 
     public Set<String> getNavPropsOptional() {
-        return navPropsOptional;
+        return Collections.unmodifiableSet(navPropsOptional);
     }
 
     public Set<String> getNavPropsMandatory() {
-        return navPropsMandatory;
+        return Collections.unmodifiableSet(navPropsMandatory);
     }
 
     public Set<String> getEntityPropsOptional() {
-        return entityPropsOptional;
+        return Collections.unmodifiableSet(entityPropsOptional);
     }
 
     public Set<String> getEntityPropsMandatory() {
-        return entityPropsMandatory;
+        return Collections.unmodifiableSet(entityPropsMandatory);
     }
 
     static Set<String> combineSets(Set<String>... sets) {

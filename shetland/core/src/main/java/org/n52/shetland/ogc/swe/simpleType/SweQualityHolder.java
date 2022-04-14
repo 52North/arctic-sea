@@ -16,6 +16,7 @@
 package org.n52.shetland.ogc.swe.simpleType;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -30,7 +31,7 @@ public class SweQualityHolder {
     private Map<String, ReferenceType> references = new LinkedHashMap<>();
 
     public List<SweQuality> getQuality() {
-        return quality;
+        return Collections.unmodifiableList(quality);
     }
 
     public SweQualityHolder addQuality(SweQuality quality) {
@@ -66,7 +67,7 @@ public class SweQualityHolder {
     }
 
     public Map<String, ReferenceType> getReferences() {
-        return references;
+        return Collections.unmodifiableMap(references);
     }
 
     public boolean isSetReferences() {

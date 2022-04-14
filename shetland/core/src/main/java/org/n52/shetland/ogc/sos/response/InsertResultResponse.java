@@ -15,6 +15,7 @@
  */
 package org.n52.shetland.ogc.sos.response;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.n52.shetland.ogc.om.OmObservation;
@@ -43,7 +44,7 @@ public class InsertResultResponse extends OwsServiceResponse {
     }
 
     public List<OmObservation> getObservations() {
-        return observations;
+        return Collections.unmodifiableList(observations);
     }
 
     public void setObservation(OmObservation observation) {

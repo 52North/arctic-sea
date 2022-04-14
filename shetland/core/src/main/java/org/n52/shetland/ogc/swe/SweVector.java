@@ -18,23 +18,28 @@ package org.n52.shetland.ogc.swe;
 import static java.util.stream.Collectors.toList;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
 
 import com.google.common.base.Objects;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * @since 1.0.0
  *
  */
 public class SweVector extends SweAbstractDataComponent {
-    private List<? extends SweCoordinate<? extends Number>> coordinates;
+    private List<? extends SweCoordinate<? extends Number>> coordinates = new LinkedList<>();
 
     private String referenceFrame;
 
     private String localFrame;
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweVector(List<? extends SweCoordinate<? extends Number>> coordinates) {
         this.coordinates = coordinates;
     }
@@ -49,9 +54,10 @@ public class SweVector extends SweAbstractDataComponent {
     }
 
     public List<? extends SweCoordinate<? extends Number>> getCoordinates() {
-        return coordinates;
+        return Collections.unmodifiableList(coordinates);
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweVector setCoordinates(final List<? extends SweCoordinate<? extends Number>> coordinates) {
         this.coordinates = coordinates;
         return this;

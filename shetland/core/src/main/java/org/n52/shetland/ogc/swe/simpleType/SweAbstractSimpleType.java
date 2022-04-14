@@ -20,6 +20,8 @@ import java.util.Objects;
 import org.n52.shetland.ogc.ows.extension.Value;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Interface for the SOS internal representation of SWE simpleTypes
  *
@@ -41,6 +43,7 @@ public abstract class SweAbstractSimpleType<T>
      *
      * @return Quality information
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SweQualityHolder getQuality() {
         return quality;
     }
@@ -52,6 +55,7 @@ public abstract class SweAbstractSimpleType<T>
      *
      * @return This SweAbstractSimpleType
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweAbstractSimpleType<T> setQuality(SweQualityHolder quality) {
         this.quality = quality;
         return this;

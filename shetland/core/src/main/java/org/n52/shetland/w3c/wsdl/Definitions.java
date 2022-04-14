@@ -16,6 +16,7 @@
 package org.n52.shetland.w3c.wsdl;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeSet;
@@ -73,7 +74,7 @@ public class Definitions extends AbstractDocumentedWsdl {
     }
 
     public Map<String, String> getNamespaces() {
-        return namespaces;
+        return Collections.unmodifiableMap(namespaces);
     }
 
     public boolean isSetNamespaces() {
@@ -102,7 +103,7 @@ public class Definitions extends AbstractDocumentedWsdl {
     }
 
     public Collection<Message> getMessages() {
-        return messages;
+        return Collections.unmodifiableCollection(messages);
     }
 
     public boolean isSetMessages() {
@@ -131,7 +132,7 @@ public class Definitions extends AbstractDocumentedWsdl {
     }
 
     public Collection<Service> getServices() {
-        return services;
+        return Collections.unmodifiableCollection(services);
     }
 
     public boolean isSetServices() {
@@ -160,7 +161,7 @@ public class Definitions extends AbstractDocumentedWsdl {
     }
 
     public Collection<Import> getImports() {
-        return imports;
+        return Collections.unmodifiableCollection(imports);
     }
 
     public boolean isSetImports() {
@@ -189,7 +190,7 @@ public class Definitions extends AbstractDocumentedWsdl {
     }
 
     public Collection<PortType> getPortTypes() {
-        return portTypes;
+        return Collections.unmodifiableCollection(portTypes);
     }
 
     public boolean isSetPortTypes() {
@@ -218,7 +219,7 @@ public class Definitions extends AbstractDocumentedWsdl {
     }
 
     public Collection<Types> getTypes() {
-        return types;
+        return Collections.unmodifiableCollection(types);
     }
 
     public boolean isSetTypes() {
@@ -247,7 +248,7 @@ public class Definitions extends AbstractDocumentedWsdl {
     }
 
     public Collection<Binding> getBindings() {
-        return bindings;
+        return Collections.unmodifiableCollection(bindings);
     }
 
     public boolean isSetBindings() {

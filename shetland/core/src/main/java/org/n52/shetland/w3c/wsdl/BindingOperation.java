@@ -23,6 +23,8 @@ import javax.xml.namespace.QName;
 
 import org.n52.shetland.w3c.wsdl.WSDLConstants.WSDLQNames;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class BindingOperation extends AbstractWsdl {
 
     private BindingInput input;
@@ -41,6 +43,7 @@ public class BindingOperation extends AbstractWsdl {
     /**
      * @return the input
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public BindingInput getInput() {
         return input;
     }
@@ -48,6 +51,7 @@ public class BindingOperation extends AbstractWsdl {
     /**
      * @param input the input to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setInput(BindingInput input) {
         this.input = input;
     }
@@ -59,6 +63,7 @@ public class BindingOperation extends AbstractWsdl {
     /**
      * @return the output
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public BindingOutput getOutput() {
         return output;
     }
@@ -66,6 +71,7 @@ public class BindingOperation extends AbstractWsdl {
     /**
      * @param output the output to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setOutput(BindingOutput output) {
         this.output = output;
     }

@@ -18,6 +18,8 @@ package org.n52.shetland.w3c.soap;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Representation of a SOAP response
  *
@@ -35,10 +37,12 @@ public class SoapResponse extends AbstractSoap<OwsServiceResponse> {
         super(soapNamespace, soapVersion);
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setException(OwsExceptionReport owse) {
         this.exception = owse;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public OwsExceptionReport getException() {
         return exception;
     }

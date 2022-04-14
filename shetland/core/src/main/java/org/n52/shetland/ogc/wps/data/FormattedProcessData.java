@@ -18,6 +18,8 @@ package org.n52.shetland.ogc.wps.data;
 import org.n52.shetland.ogc.ows.OwsCode;
 import org.n52.shetland.ogc.wps.Format;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.util.Objects;
 
 /**
@@ -42,10 +44,12 @@ public abstract class FormattedProcessData extends ProcessData {
         this(null, null);
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Format getFormat() {
         return format;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setFormat(Format format) {
         this.format = Objects.requireNonNull(format);
     }

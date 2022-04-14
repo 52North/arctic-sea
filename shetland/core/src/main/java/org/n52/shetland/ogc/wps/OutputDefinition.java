@@ -28,6 +28,8 @@ import org.n52.shetland.ogc.ows.OwsCode;
 
 import com.google.common.base.MoreObjects;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * TODO JavaDoc
  *
@@ -88,10 +90,12 @@ public class OutputDefinition {
         this.id = identifier;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Format getFormat() {
         return format;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setFormat(Format format) {
         this.format = format;
     }

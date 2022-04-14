@@ -18,6 +18,8 @@ package org.n52.shetland.ogc.swe;
 import org.n52.shetland.ogc.gml.CodeType;
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * SOS internal representation of SWE field
  *
@@ -36,6 +38,7 @@ public class SweField extends SweAbstractDataComponent {
         setName(name);
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweField(final CodeType name) {
         super();
         setName(name);
@@ -49,6 +52,7 @@ public class SweField extends SweAbstractDataComponent {
      * @param element
      *            Field element
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweField(final String name, final SweAbstractDataComponent element) {
         super();
         setName(name);
@@ -64,6 +68,7 @@ public class SweField extends SweAbstractDataComponent {
     /**
      * @return the element
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SweAbstractDataComponent getElement() {
         return element;
     }
@@ -73,6 +78,7 @@ public class SweField extends SweAbstractDataComponent {
      *            the element to set
      * @return This SweField
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweField setElement(final SweAbstractDataComponent element) {
         this.element = element;
         return this;

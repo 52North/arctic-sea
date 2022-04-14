@@ -21,6 +21,9 @@ import org.n52.shetland.ogc.swe.RangeValue;
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
 import org.n52.shetland.util.DateTimeHelper;
 import org.n52.shetland.w3c.xlink.Referenceable;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
 import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
 
@@ -39,21 +42,25 @@ public class SweTimeRange
     public SweTimeRange() {
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweTimeRange(RangeValue<DateTime> value) {
         this.value = value;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweTimeRange(RangeValue<DateTime> value, String uom) {
         this.value = value;
         setUom(uom);
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweTimeRange(RangeValue<DateTime> value, UoM uom) {
         this.value = value;
         setUom(uom);
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public RangeValue<DateTime> getValue() {
         return value;
     }
@@ -78,6 +85,7 @@ public class SweTimeRange
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweTimeRange setValue(final RangeValue<DateTime> value) {
         this.value = value;
         return this;

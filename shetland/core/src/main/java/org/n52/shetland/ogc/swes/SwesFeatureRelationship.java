@@ -17,6 +17,8 @@ package org.n52.shetland.ogc.swes;
 
 import org.n52.shetland.ogc.gml.AbstractFeature;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * @since 1.0.0
  *
@@ -26,6 +28,7 @@ public class SwesFeatureRelationship {
 
     private AbstractFeature feature;
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SwesFeatureRelationship(String role, AbstractFeature feature) {
         this.role = role;
         this.feature = feature;
@@ -43,10 +46,12 @@ public class SwesFeatureRelationship {
         this.role = role;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public AbstractFeature getFeature() {
         return feature;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setFeature(AbstractFeature feature) {
         this.feature = feature;
     }

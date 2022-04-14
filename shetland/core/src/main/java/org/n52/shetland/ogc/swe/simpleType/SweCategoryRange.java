@@ -18,6 +18,9 @@ package org.n52.shetland.ogc.swe.simpleType;
 import org.n52.shetland.ogc.swe.RangeValue;
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
 import org.n52.shetland.w3c.xlink.Referenceable;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
 import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
 
@@ -30,6 +33,7 @@ public class SweCategoryRange extends SweAbstractUomType<RangeValue<String>> imp
     private Referenceable<SweAllowedTokens> constraint;
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public RangeValue<String> getValue() {
         return value;
     }
@@ -53,6 +57,7 @@ public class SweCategoryRange extends SweAbstractUomType<RangeValue<String>> imp
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweAbstractSimpleType<RangeValue<String>> setValue(RangeValue<String> value) {
         this.value = value;
         return this;

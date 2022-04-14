@@ -15,6 +15,7 @@
  */
 package org.n52.shetland.ogc.sos.ro;
 
+import java.util.Collections;
 import java.util.Set;
 
 import org.n52.shetland.ogc.gml.ReferenceType;
@@ -83,7 +84,7 @@ public class RelatedOfferings implements Extension<Set<OfferingContext>> {
 
     @Override
     public Set<OfferingContext> getValue() {
-        return offeringRelations;
+        return Collections.unmodifiableSet(offeringRelations);
     }
 
     @Override

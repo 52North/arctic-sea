@@ -21,6 +21,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * TODO JavaDoc
  *
@@ -40,11 +42,13 @@ public class SoapChain {
 
     private SoapResponse soapResponse = new SoapResponse();
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SoapChain(HttpServletRequest httpRequest, HttpServletResponse httpResponse) {
         this.httpRequest = httpRequest;
         this.httpResponse = httpResponse;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public OwsServiceRequest getBodyRequest() {
         return bodyRequest;
     }
@@ -53,10 +57,12 @@ public class SoapChain {
         return getBodyRequest() != null;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setBodyRequest(OwsServiceRequest bodyRequest) {
         this.bodyRequest = bodyRequest;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public OwsServiceResponse getBodyResponse() {
         return bodyResponse;
     }
@@ -65,6 +71,7 @@ public class SoapChain {
         return getBodyResponse() != null;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setBodyResponse(OwsServiceResponse bodyResponse) {
         this.bodyResponse = bodyResponse;
         if (hasSoapResponse()) {
@@ -72,6 +79,7 @@ public class SoapChain {
         }
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SoapRequest getSoapRequest() {
         return soapRequest;
     }
@@ -80,10 +88,12 @@ public class SoapChain {
         return getSoapRequest() != null;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setSoapRequest(SoapRequest soapRequest) {
         this.soapRequest = soapRequest;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SoapResponse getSoapResponse() {
         return soapResponse;
     }
@@ -92,6 +102,7 @@ public class SoapChain {
         return getSoapResponse() != null;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setSoapResponse(SoapResponse soapResponse) {
         this.soapResponse = soapResponse;
         if (hasBodyResponse() && !soapResponse.isSetBodyContent()) {
@@ -107,6 +118,7 @@ public class SoapChain {
         return getHttpRequest() != null;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public HttpServletResponse getHttpResponse() {
         return httpResponse;
     }

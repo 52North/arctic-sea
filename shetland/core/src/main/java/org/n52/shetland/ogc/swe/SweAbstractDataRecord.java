@@ -31,7 +31,7 @@ import com.google.common.collect.Sets;
  * @since 1.0.0
  */
 public abstract class SweAbstractDataRecord extends SweAbstractDataComponent implements DataRecord {
-    private List<SweField> fields;
+    private List<SweField> fields = new LinkedList<SweField>();
 
     /**
      *
@@ -42,21 +42,23 @@ public abstract class SweAbstractDataRecord extends SweAbstractDataComponent imp
 
     @Override
     public List<SweField> getFields() {
-        return fields;
+        return Collections.unmodifiableList(fields);
     }
 
     @Override
     public SweAbstractDataRecord setFields(final List<SweField> fields) {
-        this.fields = fields;
+        this.fields.clear();
+        if (fields != null) {
+            this.fields.addAll(fields);
+        }
         return this;
     }
 
     @Override
     public SweAbstractDataRecord addField(final SweField field) {
-        if (fields == null) {
-            fields = new LinkedList<>();
+        if (field != null) {
+            fields.add(field);
         }
-        fields.add(field);
         return this;
     }
 

@@ -21,6 +21,8 @@ import org.n52.janmayen.Comparables;
 
 import com.google.common.collect.ComparisonChain;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class Schema extends ExtensibilityElement {
 
     private String elementFormDefault;
@@ -31,6 +33,7 @@ public class Schema extends ExtensibilityElement {
         this("qualified", targetNamespace, include);
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public Schema(String elementFormDefault, String targetNamespace, Include include) {
         super(WSDLConstants.QN_XSD_SCHEMA);
         this.elementFormDefault = elementFormDefault;
@@ -46,6 +49,7 @@ public class Schema extends ExtensibilityElement {
         return targetNamespace;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Include getInclude() {
         return include;
     }

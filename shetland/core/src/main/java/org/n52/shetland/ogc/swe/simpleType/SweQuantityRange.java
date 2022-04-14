@@ -23,6 +23,8 @@ import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
 import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
 import org.n52.shetland.w3c.xlink.Referenceable;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * SOS internal representation of SWE simpleType quantity
  *
@@ -63,11 +65,13 @@ public class SweQuantityRange extends SweAbstractUomType<RangeValue<BigDecimal>>
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public RangeValue<BigDecimal> getValue() {
         return value;
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweQuantityRange setValue(RangeValue<BigDecimal> value) {
         this.value = value;
         return this;

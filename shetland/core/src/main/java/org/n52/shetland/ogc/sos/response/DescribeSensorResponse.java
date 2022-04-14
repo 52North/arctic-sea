@@ -15,6 +15,8 @@
  */
 package org.n52.shetland.ogc.sos.response;
 
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
@@ -30,7 +32,7 @@ public class DescribeSensorResponse extends OwsServiceResponse {
 
     private String outputFormat;
 
-    private List<SosProcedureDescription<?>> procedureDescriptions;
+    private List<SosProcedureDescription<?>> procedureDescriptions = new LinkedList<>();
 
     public DescribeSensorResponse() {
         super(null, null, SosConstants.Operations.DescribeSensor.name());
@@ -57,7 +59,7 @@ public class DescribeSensorResponse extends OwsServiceResponse {
             this.procedureDescriptions = CollectionHelper
                     .conjunctCollections(getProcedureDescriptions(), procedureDescriptions);
         } else {
-            this.procedureDescriptions = procedureDescriptions;
+            this.procedureDescriptions.addAll(procedureDescriptions);
         }
     }
 
@@ -66,7 +68,7 @@ public class DescribeSensorResponse extends OwsServiceResponse {
     }
 
     public List<SosProcedureDescription<?>> getProcedureDescriptions() {
-        return this.procedureDescriptions;
+        return Collections.unmodifiableList(procedureDescriptions);
     }
 
     public void addSensorDescription(SosProcedureDescription<?> procedureDescription) {

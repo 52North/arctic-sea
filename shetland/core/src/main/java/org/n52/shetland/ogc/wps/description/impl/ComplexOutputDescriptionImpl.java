@@ -17,6 +17,9 @@ package org.n52.shetland.ogc.wps.description.impl;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import org.n52.shetland.ogc.wps.Format;
 import org.n52.shetland.ogc.wps.description.ComplexOutputDescription;
 import org.n52.shetland.ogc.wps.description.ProcessDescriptionBuilderFactory;
@@ -52,6 +55,7 @@ public class ComplexOutputDescriptionImpl extends AbstractProcessOutputDescripti
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Format getDefaultFormat() {
         return this.defaultFormat;
     }
@@ -95,6 +99,7 @@ public class ComplexOutputDescriptionImpl extends AbstractProcessOutputDescripti
         }
 
         @Override
+        @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
         public B withDefaultFormat(Format format) {
             this.defaultFormat = Objects.requireNonNull(format);
             this.supportedFormats.add(format);
@@ -113,6 +118,7 @@ public class ComplexOutputDescriptionImpl extends AbstractProcessOutputDescripti
             return supportedFormats.build();
         }
 
+        @SuppressFBWarnings({ "EI_EXPOSE_REP" })
         public Format getDefaultFormat() {
             return defaultFormat;
         }

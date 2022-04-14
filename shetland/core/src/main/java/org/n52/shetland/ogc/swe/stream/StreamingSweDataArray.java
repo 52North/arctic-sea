@@ -23,6 +23,8 @@ import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
 import org.n52.shetland.ogc.swe.encoding.SweAbstractEncoding;
 import org.n52.shetland.ogc.swe.simpleType.SweCount;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class StreamingSweDataArray extends SweAbstractDataComponent {
 
     /**
@@ -47,6 +49,7 @@ public class StreamingSweDataArray extends SweAbstractDataComponent {
     /**
      * @return the values
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public StreamingValue<?> getValues() {
         return values;
     }
@@ -58,6 +61,7 @@ public class StreamingSweDataArray extends SweAbstractDataComponent {
      *
      * @return This SweDataArray
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public StreamingSweDataArray setValues(final StreamingValue<?> values) {
         this.values = values;
         return this;
@@ -66,6 +70,7 @@ public class StreamingSweDataArray extends SweAbstractDataComponent {
     /**
      * @return the elementType
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SweAbstractDataComponent getElementType() {
         return elementType;
     }
@@ -76,6 +81,7 @@ public class StreamingSweDataArray extends SweAbstractDataComponent {
      *
      * @return This SweDataArray
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public StreamingSweDataArray setElementType(
             final SweAbstractDataComponent elementType) {
         this.elementType = elementType;
@@ -86,10 +92,12 @@ public class StreamingSweDataArray extends SweAbstractDataComponent {
         return new SweCount();
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SweAbstractEncoding getEncoding() {
         return encoding;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public StreamingSweDataArray setEncoding(final SweAbstractEncoding encoding) {
         this.encoding = encoding;
         return this;
@@ -110,6 +118,7 @@ public class StreamingSweDataArray extends SweAbstractDataComponent {
         return encoding != null;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public StreamingSweDataArray setElementCount(final SweCount elementCount) {
         this.elementCount = elementCount;
         return this;

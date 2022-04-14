@@ -15,6 +15,8 @@
  */
 package org.n52.shetland.ogc.swe.simpleType;
 
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.n52.shetland.ogc.swes.AbstractSWES;
@@ -25,14 +27,14 @@ import com.google.common.base.Strings;
 public class SweAllowedTokens
         extends AbstractSWES {
 
-    private List<String> value;
+    private List<String> value = new LinkedList<>();
     private String pattern;
 
     /**
      * @return the value
      */
     public List<String> getValue() {
-        return value;
+        return Collections.unmodifiableList(value);
     }
 
     /**
@@ -40,7 +42,10 @@ public class SweAllowedTokens
      *            the value to set
      */
     public void setValue(List<String> value) {
-        this.value = value;
+        this.value.clear();
+        if (value != null) {
+            this.value.addAll(value);
+        }
     }
 
     public boolean isSetValue() {
