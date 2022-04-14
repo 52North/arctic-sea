@@ -59,6 +59,8 @@ import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.ows.service.OwsOperationKey;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * TODO JavaDoc
  *
@@ -72,10 +74,12 @@ public abstract class AbstractOperationHandler implements OperationHandler {
     private boolean showAllLanguages;
 
     @Inject
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setBindingRepository(BindingRepository bindingRepository) {
         this.bindingRepository = Objects.requireNonNull(bindingRepository);
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public BindingRepository getBindingRepository() {
         return bindingRepository;
     }

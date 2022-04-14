@@ -20,6 +20,8 @@ import org.n52.janmayen.event.Event;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Abstract event that should be fired if a successful request changed the
  * contents of this service, e.g in the implemented {@link RequestOperator}
@@ -37,11 +39,13 @@ public abstract class ModificationResponseEvent<I extends OwsServiceRequest, O e
         implements Event {
     private final I request;
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public ModificationResponseEvent(I request, O response) {
         super(response);
         this.request = request;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public I getRequest() {
         return request;
     }

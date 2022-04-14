@@ -15,6 +15,7 @@
  */
 package org.n52.iceland.statistics.generator.formats;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +34,7 @@ public class MdFormat {
     private static final String NO_DESCRIPTION = "No available description";
     private static final String TAB = "\t";
     private static final String DESCRIPTION_PLACEHOLDER = "<desc>";
-    private Map<Operation, Map<InformationOrigin, List<AbstractEsParameter>>> parameters;
+    private Map<Operation, Map<InformationOrigin, List<AbstractEsParameter>>> parameters = new LinkedHashMap<>();
     private StringBuilder output;
 
     private String formatLine(AbstractEsParameter parameter, int indent) {
@@ -102,11 +103,14 @@ public class MdFormat {
     }
 
     public Map<Operation, Map<InformationOrigin, List<AbstractEsParameter>>> getParameters() {
-        return parameters;
+        return new LinkedHashMap<>(parameters);
     }
 
     public void setParameters(Map<Operation, Map<InformationOrigin, List<AbstractEsParameter>>> parameters) {
-        this.parameters = parameters;
+        this.parameters.clear();
+        if (parameters != null) {
+            this.parameters.putAll(parameters);
+        }
     }
 
 }

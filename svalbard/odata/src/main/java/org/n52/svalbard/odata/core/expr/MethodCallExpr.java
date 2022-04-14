@@ -19,6 +19,8 @@ import org.n52.svalbard.odata.core.expr.arithmetic.ArithmeticExpr;
 import org.n52.svalbard.odata.core.expr.bool.BooleanExpr;
 import org.n52.svalbard.odata.core.expr.temporal.TemporalExpr;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -43,6 +45,7 @@ public class MethodCallExpr implements BooleanExpr, ArithmeticExpr, TemporalExpr
      * @param name       the method name
      * @param parameters the parameters
      */
+    @SuppressFBWarnings({"EI_EXPOSE_REP2"})
     public MethodCallExpr(String name, List<Expr> parameters) {
         this.name = Objects.requireNonNull(name);
         this.parameters = Objects.requireNonNull(parameters);

@@ -21,6 +21,8 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.vocabulary.VCARD4;
 import org.n52.shetland.rdf.ResourceCreator;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class VCardOrganization implements ResourceCreator, Vcard4RdfPrefix {
 
     private FN fn;
@@ -29,26 +31,32 @@ public class VCardOrganization implements ResourceCreator, Vcard4RdfPrefix {
 
     private HasEmail hasEmail;
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public FN getFn() {
         return fn;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setFn(FN fn) {
         this.fn = fn;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Email getEmail() {
         return email;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setEmail(Email email) {
         this.email = email;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public HasEmail getHasEmail() {
         return hasEmail;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setHasEmail(HasEmail hasEmail) {
         this.hasEmail = hasEmail;
     }

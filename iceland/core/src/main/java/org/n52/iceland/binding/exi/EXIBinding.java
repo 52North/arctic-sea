@@ -61,6 +61,8 @@ import com.siemens.ct.exi.core.EXIFactory;
 import com.siemens.ct.exi.core.exceptions.EXIException;
 import com.siemens.ct.exi.main.api.sax.EXISource;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 
 /**
  * Binding implementation for EXI - Efficient XML Interchange See See
@@ -77,6 +79,7 @@ public class EXIBinding extends SimpleBinding {
     private final EXIUtils exiUtils;
 
     @Inject
+    @SuppressFBWarnings({"EI_EXPOSE_REP2"})
     public EXIBinding(EXIUtils exiUtils) {
         this.exiUtils = exiUtils;
     }

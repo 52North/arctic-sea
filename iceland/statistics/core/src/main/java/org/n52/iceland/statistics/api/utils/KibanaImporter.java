@@ -33,6 +33,8 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class KibanaImporter {
 
     public static final String INDEX_NEEDLE = "##!NO_SPOON!##";
@@ -45,6 +47,7 @@ public class KibanaImporter {
 
     private final String statisticsIndexName;
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public KibanaImporter(RestHighLevelClient client, String kibanaIndexName, String statisticsIndexName) {
         Objects.requireNonNull(client);
         Objects.requireNonNull(kibanaIndexName);

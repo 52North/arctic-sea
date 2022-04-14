@@ -16,6 +16,7 @@
 package org.n52.iceland.statistics.impl.handlers;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
@@ -36,8 +37,7 @@ public class CountingOutputStreamEventHandler extends AbstractElasticSearchDataH
         data.put(ObjectEsParameterFactory.DISPLAY_BYTES.getName(),
                  FileUtils.byteCountToDisplaySize(event.getBytesWritten()));
         put(ServiceEventDataMapping.ORE_BYTES_WRITTEN, data);
-
-        return dataMap;
+        return new LinkedHashMap<>(dataMap);
     }
 
 }

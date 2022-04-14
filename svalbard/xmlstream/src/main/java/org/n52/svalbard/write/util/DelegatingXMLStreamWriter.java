@@ -19,6 +19,8 @@ import javax.xml.namespace.NamespaceContext;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * TODO JavaDoc
  *
@@ -28,6 +30,7 @@ public abstract class DelegatingXMLStreamWriter implements XMLStreamWriter {
 
     private final XMLStreamWriter delegate;
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public DelegatingXMLStreamWriter(XMLStreamWriter delegate) {
         this.delegate = delegate;
     }
@@ -88,8 +91,8 @@ public abstract class DelegatingXMLStreamWriter implements XMLStreamWriter {
     }
 
     @Override
-    public void writeAttribute(String prefix, String namespaceURI, String localName, String value) throws
-            XMLStreamException {
+    public void writeAttribute(String prefix, String namespaceURI, String localName, String value)
+            throws XMLStreamException {
         this.delegate.writeAttribute(prefix, namespaceURI, localName, value);
     }
 

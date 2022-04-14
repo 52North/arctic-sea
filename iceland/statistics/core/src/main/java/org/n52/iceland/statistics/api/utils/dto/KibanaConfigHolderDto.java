@@ -18,6 +18,8 @@ package org.n52.iceland.statistics.api.utils.dto;
 import java.util.LinkedList;
 import java.util.List;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class KibanaConfigHolderDto {
     private List<KibanaConfigEntryDto> entries = new LinkedList<>();
 
@@ -26,9 +28,10 @@ public class KibanaConfigHolderDto {
     }
 
     public List<KibanaConfigEntryDto> getEntries() {
-        return entries;
+        return new LinkedList<>(entries);
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setEntries(List<KibanaConfigEntryDto> entries) {
         this.entries = entries;
     }

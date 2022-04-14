@@ -20,6 +20,8 @@ import javax.inject.Inject;
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import org.n52.faroe.ConfigurationError;
 import org.n52.faroe.SettingsService;
 import org.n52.faroe.annotation.Configurable;
@@ -51,6 +53,7 @@ public class ConfiguringBeanPostProcessor implements BeanPostProcessor {
      * @param settingsService the settings service
      */
     @Inject
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setSettingsService(SettingsService settingsService) {
         this.settingsService = settingsService;
     }

@@ -18,6 +18,7 @@ package org.n52.bjornoya.schedule;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -34,6 +35,8 @@ import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 @Configurable
 public class JobFactory implements Constructable {
@@ -58,6 +61,7 @@ public class JobFactory implements Constructable {
     private boolean initialized;
 
     @Inject
+    @SuppressFBWarnings("EI_EXPOSE_REP2")
     public void setScheduler(Scheduler scheduler) {
         this.scheduler = scheduler;
     }
@@ -71,7 +75,7 @@ public class JobFactory implements Constructable {
     }
 
     public List<ScheduledJob> getScheduledJobs() {
-        return scheduledJobs;
+        return new LinkedList<>(scheduledJobs);
     }
 
     /**
@@ -129,7 +133,7 @@ public class JobFactory implements Constructable {
     }
 
     private void reschedule(boolean update) {
-        if ((!initialized && !update) || (initialized && update)) {
+        if (!initialized && !update || initialized && update) {
             for (ScheduledJob job : getScheduledJobs()) {
                 if (jobs.contains(job.getJobName())) {
                     boolean updateJob = false;
@@ -159,9 +163,8 @@ public class JobFactory implements Constructable {
     }
 
     private boolean checkCronExpression(ScheduledJob job, String cronExpression) {
-        if (job.getCronExpression() == null || (job.getCronExpression() != null && !job.getCronExpression()
-                .isEmpty() && !job.getCronExpression()
-                        .equals(cronExpression))) {
+        if (job.getCronExpression() == null || job.getCronExpression() != null && !job.getCronExpression().isEmpty()
+                && !job.getCronExpression().equals(cronExpression)) {
             job.setCronExpression(cronExpression);
             return true;
         }
@@ -174,7 +177,7 @@ public class JobFactory implements Constructable {
         } catch (ParseException e) {
             throw new ConfigurationError(String.format(
                     "%s is invalid! Please check http://www.quartz-scheduler.org/documentation/quartz-2.3.0/tutorials"
-                    + "/tutorial-lesson-06.html",
+                            + "/tutorial-lesson-06.html",
                     cronExpression));
         }
     }

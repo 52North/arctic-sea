@@ -25,7 +25,7 @@ public class RDF implements ModelAdder {
     private List<RDFElement> elements = new LinkedList<RDFElement>();
 
     public List<RDFElement> getElements() {
-        return elements;
+        return new LinkedList<>(elements);
     }
 
     public RDF setElements(List<RDFElement> elements) {

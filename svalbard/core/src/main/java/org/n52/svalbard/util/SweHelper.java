@@ -17,6 +17,7 @@ package org.n52.svalbard.util;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -506,7 +507,7 @@ public final class SweHelper {
      * @return the northingNames
      */
     public Set<String> getNorthingNames() {
-        return northingNames;
+        return new LinkedHashSet<>(northingNames);
     }
 
     /**
@@ -535,7 +536,7 @@ public final class SweHelper {
      * @return the eastingNames
      */
     public Set<String> getEastingNames() {
-        return eastingNames;
+        return new LinkedHashSet<>(eastingNames);
     }
 
     /**
@@ -564,7 +565,7 @@ public final class SweHelper {
      * @return the altitudeNames
      */
     public Set<String> getAltitudeNames() {
-        return altitudeNames;
+        return new LinkedHashSet<>(altitudeNames);
     }
 
     /**

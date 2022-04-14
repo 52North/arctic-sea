@@ -30,6 +30,8 @@ import org.n52.shetland.w3c.SchemaLocation;
 
 import com.google.common.collect.Maps;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * TODO JavaDoc
  *
@@ -42,6 +44,7 @@ public class SchemaRepository implements Constructable {
     private EncoderRepository encoderRepository;
 
     @Inject
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setEncoderRepository(EncoderRepository encoderRepository) {
         this.encoderRepository = encoderRepository;
     }

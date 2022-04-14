@@ -18,6 +18,8 @@ package org.n52.iceland.cache;
 import org.n52.iceland.util.action.Action;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  *
@@ -31,6 +33,7 @@ public abstract class ContentCacheUpdate implements Action {
     /**
      * @return the cause of failure or {@code null}
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public OwsExceptionReport getFailureCause() {
         return this.exceptionReport;
     }
@@ -58,6 +61,7 @@ public abstract class ContentCacheUpdate implements Action {
     /**
      * @return the writable cache of this action
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public WritableContentCache getCache() {
         return cache;
     }
@@ -68,6 +72,7 @@ public abstract class ContentCacheUpdate implements Action {
      *
      * @return this
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public ContentCacheUpdate setCache(WritableContentCache cache) {
         this.cache = cache;
         return this;

@@ -28,6 +28,8 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import org.n52.iceland.cache.ContentCachePersistenceStrategy;
 import org.n52.iceland.cache.ContentCacheUpdate;
 import org.n52.iceland.cache.WritableContentCache;
@@ -56,6 +58,7 @@ public class ContentCacheControllerImpl extends AbstractSchedulingContentCacheCo
     }
 
     @Inject
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setPersistenceStrategy(ContentCachePersistenceStrategy persistenceStrategy) {
         this.persistenceStrategy = persistenceStrategy;
     }
@@ -87,6 +90,7 @@ public class ContentCacheControllerImpl extends AbstractSchedulingContentCacheCo
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public WritableContentCache getCache() {
         return this.cache;
     }
@@ -215,6 +219,7 @@ public class ContentCacheControllerImpl extends AbstractSchedulingContentCacheCo
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public ContentCachePersistenceStrategy getContentCachePersistenceStrategy() {
         return this.persistenceStrategy;
     }

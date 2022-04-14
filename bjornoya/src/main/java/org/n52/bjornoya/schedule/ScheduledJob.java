@@ -24,6 +24,8 @@ import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public abstract class ScheduledJob extends QuartzJobBean {
     private boolean enabled = true;
 
@@ -123,10 +125,12 @@ public abstract class ScheduledJob extends QuartzJobBean {
         this.modified = modified;
     }
 
+    @SuppressFBWarnings("EI_EXPOSE_REP")
     public DateTime getStartUpDelay() {
         return startUpDelay;
     }
 
+    @SuppressFBWarnings("EI_EXPOSE_REP2")
     public void setStartUpDelay(DateTime startUpDelay) {
         this.startUpDelay = startUpDelay;
     }

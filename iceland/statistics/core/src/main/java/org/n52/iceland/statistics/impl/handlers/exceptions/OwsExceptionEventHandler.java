@@ -16,6 +16,7 @@
 package org.n52.iceland.statistics.impl.handlers.exceptions;
 
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.n52.iceland.statistics.api.AbstractElasticSearchDataHolder;
@@ -37,7 +38,7 @@ public class OwsExceptionEventHandler extends AbstractElasticSearchDataHolder
             put(ServiceEventDataMapping.EX_VERSION, exception.getVersion());
             put(ServiceEventDataMapping.OWSEX_NAMESPACE, exception.getNamespace());
             put(ServiceEventDataMapping.EX_MESSAGE, exception.getMessage());
-            return dataMap;
+            return new LinkedHashMap<>(dataMap);
         } else {
             return Collections.emptyMap();
         }

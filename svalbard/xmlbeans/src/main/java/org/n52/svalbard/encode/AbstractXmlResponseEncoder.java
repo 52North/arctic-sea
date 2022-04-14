@@ -28,6 +28,8 @@ import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.N52XmlHelper;
 import org.n52.svalbard.util.XmlHelper;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import javax.inject.Inject;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -89,10 +91,12 @@ public abstract class AbstractXmlResponseEncoder<T> extends AbstractXmlEncoder<X
     }
 
     @Inject
+    @SuppressFBWarnings({"EI_EXPOSE_REP2"})
     public void setSchemaRepository(SchemaRepository schemaRepository) {
         this.schemaRepository = schemaRepository;
     }
 
+    @SuppressFBWarnings({"EI_EXPOSE_REP"})
     public SchemaRepository getSchemaRepository() {
         return schemaRepository;
     }

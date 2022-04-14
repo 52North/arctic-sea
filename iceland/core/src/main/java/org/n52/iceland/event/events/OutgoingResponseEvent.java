@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.common.base.MoreObjects;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Event is thrown if a {@link HttpServletResponse} was sent back.
  *
@@ -34,6 +36,7 @@ public class OutgoingResponseEvent extends AbstractFlowEvent {
     private final long requestNumber;
     private final long elapsedTime;
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public OutgoingResponseEvent(HttpServletRequest request, HttpServletResponse response, long requestNumber,
                                  long elapsedTime) {
         super(Thread.currentThread().getId());
@@ -47,6 +50,7 @@ public class OutgoingResponseEvent extends AbstractFlowEvent {
         return request;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public HttpServletResponse getResponse() {
         return response;
     }

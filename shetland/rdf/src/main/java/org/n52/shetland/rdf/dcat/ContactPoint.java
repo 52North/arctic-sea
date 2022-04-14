@@ -46,7 +46,7 @@ public class ContactPoint extends AbstractResource implements DcatRdfPrefix {
     }
 
     public List<VCardOrganization> getOrganizations() {
-        return organizations;
+        return new LinkedList<>(organizations);
     }
 
     private ContactPoint setOrganizations(Collection<VCardOrganization> organizations) {

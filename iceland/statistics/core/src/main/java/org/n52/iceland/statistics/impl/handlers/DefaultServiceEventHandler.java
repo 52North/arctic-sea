@@ -15,6 +15,7 @@
  */
 package org.n52.iceland.statistics.impl.handlers;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.n52.iceland.statistics.api.AbstractElasticSearchDataHolder;
@@ -28,7 +29,7 @@ public class DefaultServiceEventHandler extends AbstractElasticSearchDataHolder
     @Override
     public Map<String, Object> resolveAsMap(Event event) {
         put(ServiceEventDataMapping.UNHANDLED_SERVICEEVENT_TYPE.getName(), event.getClass());
-        return dataMap;
+        return new LinkedHashMap<>(dataMap);
     }
 
 }

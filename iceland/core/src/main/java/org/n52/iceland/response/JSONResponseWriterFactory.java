@@ -25,6 +25,8 @@ import org.n52.svalbard.encode.EncoderRepository;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * {@link ResponseWriterFactory} implementation for {@link JsonNode} and
  * {@link JSONResponseWriter}
@@ -40,6 +42,7 @@ public class JSONResponseWriterFactory
     private EncoderRepository encoderRepository;
 
     @Inject
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setEncoderRepository(EncoderRepository encoderRepository) {
         this.encoderRepository = encoderRepository;
     }

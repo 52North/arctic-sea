@@ -19,11 +19,14 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class AdminUserServiceImpl implements AdminUserService {
 
     private AdminUserDao adminUserDao;
 
     @Inject
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setAdminUserDao(AdminUserDao adminUserDao) {
         this.adminUserDao = adminUserDao;
     }

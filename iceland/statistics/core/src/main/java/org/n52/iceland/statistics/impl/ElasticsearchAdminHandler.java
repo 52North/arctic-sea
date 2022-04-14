@@ -64,6 +64,8 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class ElasticsearchAdminHandler implements IAdminDataHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(ElasticsearchAdminHandler.class);
@@ -359,6 +361,7 @@ public class ElasticsearchAdminHandler implements IAdminDataHandler {
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public ElasticsearchSettings getElasticsearchSettings() {
         return settings;
     }

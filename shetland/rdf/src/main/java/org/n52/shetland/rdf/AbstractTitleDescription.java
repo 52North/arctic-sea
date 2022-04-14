@@ -31,7 +31,7 @@ public abstract class AbstractTitleDescription<T extends AbstractTitleDescriptio
     private List<Description> desctiptions = new LinkedList<Description>();
 
     public List<Title> getTitles() {
-        return titles;
+        return new LinkedList<>(titles);
     }
 
     @SuppressWarnings("unchecked")
@@ -52,7 +52,7 @@ public abstract class AbstractTitleDescription<T extends AbstractTitleDescriptio
     }
 
     public List<Description> getDesctiptions() {
-        return desctiptions;
+        return new LinkedList<>(desctiptions);
     }
 
     @SuppressWarnings("unchecked")

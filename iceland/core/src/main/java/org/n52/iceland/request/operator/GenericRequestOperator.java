@@ -43,6 +43,8 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.MoreObjects;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class GenericRequestOperator<Q extends OwsServiceRequest, A extends OwsServiceResponse>
         implements RequestOperator {
 
@@ -75,10 +77,12 @@ public class GenericRequestOperator<Q extends OwsServiceRequest, A extends OwsSe
     }
 
     @Inject
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setOperationHandlerRepository(OperationHandlerRepository repo) {
         this.operationHandlerRepository = repo;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public OperationHandlerRepository getOperationHandlerRepository() {
         return operationHandlerRepository;
     }

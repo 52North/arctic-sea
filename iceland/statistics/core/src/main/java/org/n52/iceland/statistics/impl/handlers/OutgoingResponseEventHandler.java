@@ -15,6 +15,7 @@
  */
 package org.n52.iceland.statistics.impl.handlers;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.n52.iceland.event.events.OutgoingResponseEvent;
@@ -29,8 +30,7 @@ public class OutgoingResponseEventHandler extends AbstractElasticSearchDataHolde
     public Map<String, Object> resolveAsMap(OutgoingResponseEvent event) {
         put(ServiceEventDataMapping.ORE_EXEC_TIME.getName(), event.getElapsedTime());
         put(ServiceEventDataMapping.ORE_COUNT.getName(), event.getRequestNumber());
-
-        return dataMap;
+        return new LinkedHashMap<>(dataMap);
     }
 
 }

@@ -42,6 +42,8 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * TODO JavaDoc
  *
@@ -60,6 +62,7 @@ public class GetResultTemplateResponseEncoder
     }
 
     @Inject
+    @SuppressFBWarnings({"EI_EXPOSE_REP2"})
     public void setDecoderRepository(DecoderRepository decoderRepository) {
         this.decoderRepository = decoderRepository;
     }

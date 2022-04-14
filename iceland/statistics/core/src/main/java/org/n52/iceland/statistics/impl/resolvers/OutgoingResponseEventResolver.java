@@ -15,6 +15,7 @@
  */
 package org.n52.iceland.statistics.impl.resolvers;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.n52.iceland.event.events.OutgoingResponseEvent;
@@ -25,7 +26,7 @@ import org.n52.iceland.statistics.api.utils.EventHandlerFinder;
 public class OutgoingResponseEventResolver implements StatisticsServiceEventResolver<OutgoingResponseEvent> {
 
     private OutgoingResponseEvent event;
-    private Map<String, StatisticsServiceEventHandler<?>> handlers;
+    private Map<String, StatisticsServiceEventHandler<?>> handlers = new LinkedHashMap<>();
 
     @Override
     public Map<String, Object> resolve() {
@@ -47,7 +48,10 @@ public class OutgoingResponseEventResolver implements StatisticsServiceEventReso
 
     @Override
     public void setHandlers(Map<String, StatisticsServiceEventHandler<?>> handlers) {
-        this.handlers = handlers;
+        this.handlers.clear();
+        if (handlers != null) {
+            this.handlers.putAll(handlers);
+        }
     }
 
     @Override

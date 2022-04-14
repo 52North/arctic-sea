@@ -16,6 +16,7 @@
 package org.n52.iceland.statistics.api.parameters;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
@@ -34,7 +35,7 @@ public class ObjectEsParameter extends AbstractEsParameter {
 
     @Override
     public List<AbstractEsParameter> getAllChildren() {
-        return children;
+        return new LinkedList<>(children);
     }
 
     public ObjectEsParameter addChild(AbstractEsParameter child) {

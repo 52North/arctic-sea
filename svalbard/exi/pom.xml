@@ -58,6 +58,7 @@
         <dependency>
             <groupId>com.siemens.ct.exi</groupId>
             <artifactId>exificient</artifactId>
+            <scope>test</scope>
             <exclusions>
                 <exclusion>
                     <groupId>javax.xml.bind</groupId>
@@ -91,6 +92,7 @@
         <dependency>
             <groupId>xml-apis</groupId>
             <artifactId>xml-apis</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.xmlbeans</groupId>
