@@ -77,7 +77,7 @@ public class JTSHelper {
      */
     public static Geometry createGeometryFromWKT(String wkt, int srid) throws ParseException {
         WKTReader wktReader = getWKTReaderForSRID(srid);
-        LOGGER.debug("FOI Geometry: {}", wkt);
+        LOGGER.trace("FOI Geometry: {}", wkt);
         return wktReader.read(wkt);
     }
 
