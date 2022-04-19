@@ -40,7 +40,6 @@ public abstract class AbstractSwesDecoderv20<S>
         if (CollectionHelper.isNotNullOrEmpty(extensionArray)) {
             final Extensions extensions = new Extensions();
             for (XmlObject xbExtension : extensionArray) {
-
                 Object obj = decodeXmlElement(xbExtension);
                 if (obj instanceof Extension<?>) {
                     extensions.addExtension((Extension<?>) obj);
@@ -49,6 +48,7 @@ public abstract class AbstractSwesDecoderv20<S>
                             new SwesExtension<SweAbstractDataComponent>();
                     swesExtension.setIdentifier(((SweAbstractDataComponent) obj).getIdentifier());
                     swesExtension.setDefinition(((SweAbstractDataComponent) obj).getDefinition());
+                    swesExtension.setValue((SweAbstractDataComponent) obj);
                     extensions.addExtension(swesExtension);
                 }
             }

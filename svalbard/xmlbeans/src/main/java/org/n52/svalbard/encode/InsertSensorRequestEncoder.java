@@ -48,6 +48,7 @@ public class InsertSensorRequestEncoder extends AbstractSwesRequestEncoder<Inser
         addProcedureDescription(request, insertSensor);
         addObservableProperties(request, insertSensor);
         addMetadata(request, insertSensor);
+        addExtension(request, insertSensor);
         return doc;
     }
 
