@@ -22,10 +22,8 @@ import java.util.Set;
 
 import org.n52.janmayen.Copyable;
 import org.n52.shetland.ogc.gml.AbstractFeature;
-import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.om.series.DefaultPointMetadata;
 import org.n52.shetland.ogc.om.series.Metadata;
-import org.n52.shetland.ogc.om.values.TextValue;
 import org.n52.shetland.w3c.Nillable;
 
 import com.google.common.base.Objects;
@@ -33,9 +31,8 @@ import com.google.common.base.Objects;
 /**
  * @since 1.0.0
  */
-public class OmObservationConstellation
-        extends AbstractFeature
-        implements Copyable<OmObservationConstellation> {
+public class OmObservationConstellation extends AbstractFeature
+        implements ObservationParameterHelper<OmObservationConstellation>, Copyable<OmObservationConstellation> {
 
     /**
      * Identifier of the procedure by which the observation is made
@@ -88,8 +85,8 @@ public class OmObservationConstellation
      * @param featureOfInterest
      *            featureOfInterest to which this observation belongs
      */
-    public OmObservationConstellation(
-            AbstractFeature procedure, AbstractPhenomenon observableProperty, AbstractFeature featureOfInterest) {
+    public OmObservationConstellation(AbstractFeature procedure, AbstractPhenomenon observableProperty,
+            AbstractFeature featureOfInterest) {
         this(procedure, observableProperty, null, featureOfInterest, null);
     }
 
@@ -105,9 +102,8 @@ public class OmObservationConstellation
      * @param observationType
      *            the observation type
      */
-    public OmObservationConstellation(
-            AbstractFeature procedure, AbstractPhenomenon observableProperty, AbstractFeature featureOfInterest,
-            String observationType) {
+    public OmObservationConstellation(AbstractFeature procedure, AbstractPhenomenon observableProperty,
+            AbstractFeature featureOfInterest, String observationType) {
         this(procedure, observableProperty, null, featureOfInterest, observationType);
     }
 
@@ -125,9 +121,8 @@ public class OmObservationConstellation
      * @param observationType
      *            the observation type
      */
-    public OmObservationConstellation(
-            AbstractFeature procedure, AbstractPhenomenon observableProperty, Set<String> offerings,
-            AbstractFeature featureOfInterest, String observationType) {
+    public OmObservationConstellation(AbstractFeature procedure, AbstractPhenomenon observableProperty,
+            Set<String> offerings, AbstractFeature featureOfInterest, String observationType) {
         super("");
         this.procedure = Nillable.of(procedure);
         this.observableProperty = observableProperty;
@@ -148,9 +143,8 @@ public class OmObservationConstellation
      * @param offerings
      *            offering to which this observation belongs
      */
-    public OmObservationConstellation(
-            AbstractFeature procedure, AbstractPhenomenon observableProperty, AbstractFeature featureOfInterest,
-            Set<String> offerings) {
+    public OmObservationConstellation(AbstractFeature procedure, AbstractPhenomenon observableProperty,
+            AbstractFeature featureOfInterest, Set<String> offerings) {
         this(procedure, observableProperty, featureOfInterest);
         this.offerings = offerings;
     }
@@ -339,6 +333,11 @@ public class OmObservationConstellation
     }
 
     @Override
+    public ParameterHolder getParameterHolder() {
+        return parameterHolder;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (o instanceof OmObservationConstellation) {
             return hashCode() == o.hashCode();
@@ -391,6 +390,7 @@ public class OmObservationConstellation
         copy.setIdentifier(this.getIdentifier());
         copy.setName(this.getName());
         copy.setDescription(this.getDescription());
+        copy.setParameter(getParameterHolder().getParameter());
         return copy;
     }
 
@@ -435,62 +435,7 @@ public class OmObservationConstellation
     }
 
     public void setParameter(Collection<NamedValue<?>> parameter) {
-        this.parameterHolder.addParameter(parameter);
-    }
-
-    /**
-     * Check whether category parameter is set
-     *
-     * @return <code>true</code>, if category parameter is set
-     */
-    public boolean isSetCategoryParameter() {
-        return parameterHolder.hasParameter(OmConstants.PARAMETER_NAME_CATEGORY);
-    }
-
-    /**
-     * Remove category parameter
-     */
-    public void removeCategoryParameter() {
-        if (isSetCategoryParameter()) {
-            parameterHolder.removeParameter(getCategoryParameter());
-        }
-    }
-
-    /**
-     * Add category to observation
-     *
-     * @param category
-     *            The category to set
-     * @return this
-     */
-    public OmObservationConstellation addCategoryParameter(String category) {
-        return addCategoryParameter(new TextValue(category));
-    }
-
-    public OmObservationConstellation addCategoryParameter(TextValue category) {
-        return addCategoryParameter(new NamedValue<String>(new ReferenceType(OmConstants.PARAMETER_NAME_CATEGORY),
-                category));
-    }
-
-    public OmObservationConstellation addCategoryParameter(NamedValue<String> categoryParameter) {
-        parameterHolder.addParameter(categoryParameter);
-        return this;
-    }
-
-    /**
-     * Get category parameter
-     *
-     * @return category parameter
-     */
-    public NamedValue<String> getCategoryParameter() {
-        if (parameterHolder.isSetParameter()) {
-            for (NamedValue<?> namedValue : parameterHolder.getParameter()) {
-                if (namedValue.getName().getHref().equalsIgnoreCase(OmConstants.PARAMETER_NAME_CATEGORY)) {
-                    return (NamedValue<String>) namedValue;
-                }
-            }
-        }
-        return null;
+        this.getParameterHolder().addParameter(parameter);
     }
 
     @Override

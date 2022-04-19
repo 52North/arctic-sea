@@ -25,7 +25,6 @@ import java.util.Set;
 import org.locationtech.jts.geom.Geometry;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
-import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.gml.time.IndeterminateValue;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
@@ -35,7 +34,6 @@ import org.n52.shetland.ogc.om.values.NilTemplateValue;
 import org.n52.shetland.ogc.om.values.ProfileValue;
 import org.n52.shetland.ogc.om.values.SweDataArrayValue;
 import org.n52.shetland.ogc.om.values.TVPValue;
-import org.n52.shetland.ogc.om.values.TextValue;
 import org.n52.shetland.ogc.om.values.TrajectoryValue;
 import org.n52.shetland.ogc.swe.SweDataArray;
 import org.n52.shetland.util.CollectionHelper;
@@ -48,12 +46,11 @@ import com.google.common.collect.Sets;
  *
  * @since 1.0.0
  */
-public class OmObservation
-        extends AbstractFeature {
+public class OmObservation extends AbstractFeature implements ObservationParameterHelper<OmObservation> {
 
     /**
-     * ID of this observation; in the standard 52n SOS PostgreSQL database, this
-     * is implemented through a sequence type.
+     * ID of this observation; in the standard 52n SOS PostgreSQL database, this is implemented through a
+     * sequence type.
      */
     private String observationID;
 
@@ -68,8 +65,7 @@ public class OmObservation
     private TimePeriod validTime;
 
     /**
-     * constellation of procedure, obervedProperty, offering and
-     * observationType.
+     * constellation of procedure, obervedProperty, offering and observationType.
      */
     private OmObservationConstellation observationConstellation;
 
@@ -89,8 +85,7 @@ public class OmObservation
     private ObservationValue<?> value;
 
     /**
-     * token separator for the value tuples contained in the result element of
-     * the generic observation.
+     * token separator for the value tuples contained in the result element of the generic observation.
      */
     private String tokenSeparator;
 
@@ -166,6 +161,10 @@ public class OmObservation
         if (isSetCategoryParameter() && observationConstellation != null
                 && !observationConstellation.isSetCategoryParameter()) {
             observationConstellation.addCategoryParameter(getCategoryParameter());
+        }
+        if (isSetPlatformParameter() && observationConstellation != null
+                && !observationConstellation.isSetPlatformParameter()) {
+            observationConstellation.addPlatformParameter(getPlatformParameter());
         }
         return observationConstellation;
     }
@@ -642,16 +641,6 @@ public class OmObservation
     }
 
     /**
-     * Remove parameter from list
-     *
-     * @param parameter
-     *            Parameter to remove
-     */
-    public void removeParameter(NamedValue<?> parameter) {
-        getParameterHolder().removeParameter(parameter);
-    }
-
-    /**
      * Add sampling geometry to observation
      *
      * @param samplingGeometry
@@ -716,61 +705,6 @@ public class OmObservation
         return parameterHolder.getHeightDepthParameter();
     }
 
-    /**
-     * Check whether category parameter is set
-     *
-     * @return <code>true</code>, if category parameter is set
-     */
-    public boolean isSetCategoryParameter() {
-        return parameterHolder.hasParameter(OmConstants.PARAMETER_NAME_CATEGORY);
-    }
-
-    /**
-     * Remove category parameter
-     */
-    public void removeCategoryParameter() {
-        if (isSetCategoryParameter()) {
-            removeParameter(getCategoryParameter());
-        }
-    }
-
-    /**
-     * Add category to observation
-     *
-     * @param category
-     *            The category to set
-     * @return this
-     */
-    public OmObservation addCategoryParameter(String category) {
-        return addCategoryParameter(new TextValue(category));
-    }
-
-    public OmObservation addCategoryParameter(TextValue category) {
-        return addCategoryParameter(new NamedValue<String>(new ReferenceType(OmConstants.PARAMETER_NAME_CATEGORY),
-                category));
-    }
-
-    public OmObservation addCategoryParameter(NamedValue<String> categoryParameter) {
-        parameterHolder.addParameter(categoryParameter);
-        return this;
-    }
-
-    /**
-     * Get category parameter
-     *
-     * @return category parameter
-     */
-    public NamedValue<String> getCategoryParameter() {
-        if (parameterHolder.isSetParameter()) {
-            for (NamedValue<?> namedValue : parameterHolder.getParameter()) {
-                if (namedValue.getName().getHref().equalsIgnoreCase(OmConstants.PARAMETER_NAME_CATEGORY)) {
-                    return (NamedValue<String>) namedValue;
-                }
-            }
-        }
-        return null;
-    }
-
     public OmObservation cloneTemplate() {
         return cloneTemplate(new OmObservation());
     }
@@ -821,6 +755,7 @@ public class OmObservation
         copyOf.setResultQuality(getResultQuality());
         copyOf.setRelatedObservations(getRelatedObservations());
         copyOf.setAdditionalMergeIndicator(getAdditionalMergeIndicator());
+        copyOf.setParameter(getParameterHolder().getParameter());
         return copyOf;
     }
 
