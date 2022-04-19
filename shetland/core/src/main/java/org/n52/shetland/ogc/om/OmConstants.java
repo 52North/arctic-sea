@@ -213,6 +213,8 @@ public interface OmConstants {
 
     String PARAMETER_NAME_CATEGORY = "category";
 
+    String PARAMETER_NAME_PLATFORM = "platform";
+
     String PARAMETER = EN_PARAMETER;
 
     String OM_PARAMETER = "om:" + PARAMETER;
