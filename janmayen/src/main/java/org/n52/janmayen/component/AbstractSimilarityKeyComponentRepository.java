@@ -19,11 +19,11 @@ import static java.util.stream.Collectors.toSet;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
 import org.slf4j.Logger;
@@ -55,8 +55,8 @@ public abstract class AbstractSimilarityKeyComponentRepository<
         extends AbstractComponentRepository<K, C, F> {
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractSimilarityKeyComponentRepository.class);
-    private final Set<Producer<C>> components = Sets.newHashSet();
-    private final Map<K, Set<Producer<C>>> componentsByKey = new HashMap<>();
+    private final Set<Producer<C>> components = Sets.newConcurrentHashSet();
+    private final Map<K, Set<Producer<C>>> componentsByKey = new ConcurrentHashMap<>();
 
     public Set<Producer<C>> getComponentProviders() {
         return Collections.unmodifiableSet(this.components);
