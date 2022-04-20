@@ -17,6 +17,7 @@ package org.n52.shetland.ogc.gml;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -46,8 +47,8 @@ public abstract class AbstractGML {
     private CodeWithAuthority humanReadableIdentifier;
 
     /**
-     * Original Feature identifier, set if
-     * {@link AbstractGML#setHumanReadableIdentifierAsIdentifier()} is called.
+     * Original Feature identifier, set if {@link AbstractGML#setHumanReadableIdentifierAsIdentifier()} is
+     * called.
      */
     private CodeWithAuthority originalIdentifier;
 
@@ -160,8 +161,7 @@ public abstract class AbstractGML {
     }
 
     /**
-     * @return {@code true}, if identifier is set and value is not an empty
-     *         string, else {@code false}
+     * @return {@code true}, if identifier is set and value is not an empty string, else {@code false}
      */
     public boolean isSetIdentifier() {
         return getIdentifierCodeWithAuthority() != null && getIdentifierCodeWithAuthority().isSetValue();
@@ -177,8 +177,7 @@ public abstract class AbstractGML {
     }
 
     /**
-     * Get {@link CodeWithAuthority} human readable identifier of this abstract
-     * feature
+     * Get {@link CodeWithAuthority} human readable identifier of this abstract feature
      *
      * @return Returns the human readable identifier of this abstract feature .
      */
@@ -213,8 +212,7 @@ public abstract class AbstractGML {
     }
 
     /**
-     * @return <tt>true</tt>, if human readable identifier is set and value is
-     *         not an empty string,<br>
+     * @return <tt>true</tt>, if human readable identifier is set and value is not an empty string,<br>
      *         else <tt>false</tt>
      */
     public boolean isSetHumanReadableIdentifier() {
@@ -223,8 +221,7 @@ public abstract class AbstractGML {
     }
 
     /**
-     * Set the human readable identifier as identifier and saves the identifier
-     * as original identifier
+     * Set the human readable identifier as identifier and saves the identifier as original identifier
      *
      * @return this
      */
@@ -257,8 +254,7 @@ public abstract class AbstractGML {
     }
 
     /**
-     * Get {@link CodeWithAuthority} original identifier of this abstract
-     * feature
+     * Get {@link CodeWithAuthority} original identifier of this abstract feature
      *
      * @return Returns the original identifier of this abstract feature .
      */
@@ -283,9 +279,11 @@ public abstract class AbstractGML {
      *
      * @return {@code this}
      */
-    public AbstractGML setName(final List<CodeType> name) {
+    public AbstractGML setName(final Collection<CodeType> name) {
         this.names.clear();
-        this.names = name;
+        if (name != null) {
+            this.names.addAll(name);
+        }
         return this;
     }
 
@@ -299,7 +297,9 @@ public abstract class AbstractGML {
      */
     public AbstractGML setName(CodeType name) {
         this.names.clear();
-        this.names.add(name);
+        if (name != null) {
+            this.names.add(name);
+        }
         return this;
     }
 
@@ -327,7 +327,9 @@ public abstract class AbstractGML {
      * @return {@code this}
      */
     public AbstractGML addName(final String name) {
-        addName(new CodeType(name));
+        if (!Strings.isNullOrEmpty(name)) {
+            addName(new CodeType(name));
+        }
         return this;
     }
 
@@ -345,7 +347,9 @@ public abstract class AbstractGML {
      *             if the code space is not a valid URI
      */
     public AbstractGML addName(final String name, final URI codespace) throws URISyntaxException {
-        addName(new CodeType(name, codespace));
+        if (!Strings.isNullOrEmpty(name)) {
+            addName(new CodeType(name, codespace));
+        }
         return this;
     }
 
@@ -430,8 +434,7 @@ public abstract class AbstractGML {
     }
 
     /**
-     * Check whether feature is still contained in XML document by sign
-     * {@code #}.
+     * Check whether feature is still contained in XML document by sign {@code #}.
      *
      * @return <code>true</code> if feature is still contained in XML document
      */
@@ -443,45 +446,55 @@ public abstract class AbstractGML {
      * @return the metaDataProperty
      */
     public List<AbstractMetaData> getMetaDataProperty() {
-        return metaDataProperty;
+        return Collections.unmodifiableList(metaDataProperty);
     }
 
     /**
      * @param metaDataProperty
      *            the metaDataProperty to set
+     * @return
      */
-    public void setMetaDataProperty(List<AbstractMetaData> metaDataProperty) {
+    public AbstractGML setMetaDataProperty(List<AbstractMetaData> metaDataProperty) {
         this.metaDataProperty.clear();
-        this.metaDataProperty.addAll(metaDataProperty);
+        if (metaDataProperty != null) {
+            this.metaDataProperty.addAll(metaDataProperty);
+        }
+        return this;
     }
 
     /**
      * @param metaDataProperty
      *            the metaDataProperty to add
+     * @return
      */
-    public void addMetaDataProperty(List<AbstractMetaData> metaDataProperty) {
-        this.metaDataProperty.addAll(metaDataProperty);
+    public AbstractGML addMetaDataProperty(List<AbstractMetaData> metaDataProperty) {
+        if (metaDataProperty != null) {
+            this.metaDataProperty.addAll(metaDataProperty);
+        }
+        return this;
     }
 
     /**
      * @param metaDataProperty
      *            the metaDataProperty to add
+     * @return
      */
-    public void addMetaDataProperty(AbstractMetaData metaDataProperty) {
-        this.metaDataProperty.add(metaDataProperty);
+    public AbstractGML addMetaDataProperty(AbstractMetaData metaDataProperty) {
+        if (metaDataProperty != null) {
+            this.metaDataProperty.add(metaDataProperty);
+        }
+        return this;
     }
 
     /**
-     * @return <code>true</code>, if metaData property is set, else
-     *         <code>false</code>
+     * @return <code>true</code>, if metaData property is set, else <code>false</code>
      */
     public boolean isSetMetaDataProperty() {
         return CollectionHelper.isNotEmpty(getMetaDataProperty());
     }
 
     /**
-     * Copies values of this {@link AbstractGML} to the committed
-     * {@link AbstractGML}
+     * Copies values of this {@link AbstractGML} to the committed {@link AbstractGML}
      *
      * @param copyOf
      *            {@link AbstractGML} to set values

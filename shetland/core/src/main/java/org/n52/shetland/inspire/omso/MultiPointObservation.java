@@ -84,7 +84,7 @@ public class MultiPointObservation
     }
 
     @Override
-    public void setValue(ObservationValue<?> value) {
+    public MultiPointObservation setValue(ObservationValue<?> value) {
         if (value.getValue() instanceof MultiPointCoverage) {
             super.setValue(value);
         } else {
@@ -93,6 +93,7 @@ public class MultiPointObservation
             multiPointCoverage.addValue(new PointValuePair(getPoint(), value.getValue()));
             super.setValue(new SingleObservationValue<>(value.getPhenomenonTime(), multiPointCoverage));
         }
+        return this;
     }
 
     protected boolean mergeValues(ObservationValue<?> observationValue) {

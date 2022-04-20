@@ -16,10 +16,13 @@
 package org.n52.shetland.ogc.sensorML;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.n52.shetland.ogc.sensorML.elements.SmlComponent;
 import org.n52.shetland.ogc.sensorML.elements.SmlConnection;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 public class ProcessChain extends AbstractProcess implements HasComponents<ProcessChain>, HasConnections<ProcessChain> {
 
@@ -28,7 +31,7 @@ public class ProcessChain extends AbstractProcess implements HasComponents<Proce
 
     @Override
     public List<SmlComponent> getComponents() {
-        return components;
+        return Collections.unmodifiableList(components);
     }
 
     @Override
@@ -47,10 +50,12 @@ public class ProcessChain extends AbstractProcess implements HasComponents<Proce
         return this;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SmlConnection getConnections() {
         return connections;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public ProcessChain setConnections(SmlConnection connections) {
         this.connections = connections;
         return this;

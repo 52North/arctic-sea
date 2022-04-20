@@ -127,7 +127,7 @@ public abstract class SweAbstractDataRecord extends SweAbstractDataComponent imp
         final int prime = 42;
         int hash = 7;
         hash = prime * hash + super.hashCode();
-        hash = prime * hash + (getFields() != null ? getFields().hashCode() : 0);
+        hash = prime * hash + getFields().hashCode();
         return hash;
     }
 

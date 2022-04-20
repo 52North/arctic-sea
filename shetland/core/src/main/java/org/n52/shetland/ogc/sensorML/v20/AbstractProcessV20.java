@@ -19,6 +19,8 @@ import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.sensorML.AbstractProcess;
 import org.n52.shetland.ogc.sensorML.SensorML20Constants;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Class that represents SensorML 2.0 AbstractProcess
  *
@@ -35,11 +37,13 @@ public class AbstractProcessV20 extends AbstractProcess {
 
     private ReferenceType typeOf;
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public AbstractProcessV20 setSmlFeatureOfInterest(SmlFeatureOfInterest featureOfInterest) {
         this.featureOfInterest = featureOfInterest;
         return this;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SmlFeatureOfInterest getSmlFeatureOfInterest() {
         return featureOfInterest;
     }

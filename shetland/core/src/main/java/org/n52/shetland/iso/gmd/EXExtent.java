@@ -16,6 +16,7 @@
 package org.n52.shetland.iso.gmd;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.n52.shetland.util.CollectionHelper;
@@ -113,7 +114,7 @@ public class EXExtent
     // }
 
     public List<Referenceable<EXVerticalExtent>> getExVerticalExtent() {
-        return exVerticalExtent;
+        return Collections.unmodifiableList(exVerticalExtent);
     }
 
     public EXExtent setVerticalExtent(List<Referenceable<EXVerticalExtent>> exVerticalExtent) {

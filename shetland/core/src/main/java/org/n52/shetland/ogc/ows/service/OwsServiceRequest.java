@@ -30,6 +30,8 @@ import org.n52.shetland.ogc.swe.simpleType.SweText;
 
 import com.google.common.base.Strings;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Abstract super class for all service request classes
  *
@@ -75,10 +77,12 @@ public abstract class OwsServiceRequest
         }
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public OwsServiceRequestContext getRequestContext() {
         return requestContext;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public OwsServiceRequest setRequestContext(OwsServiceRequestContext requestContext) {
         this.requestContext = requestContext;
         return this;
@@ -89,11 +93,13 @@ public abstract class OwsServiceRequest
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Extensions getExtensions() {
         return this.extensions;
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public OwsServiceRequest setExtensions(Extensions extensions) {
         this.extensions = Optional.ofNullable(extensions).orElseGet(Extensions::new);
         return this;

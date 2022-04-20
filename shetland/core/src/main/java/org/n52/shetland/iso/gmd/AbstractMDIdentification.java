@@ -15,6 +15,8 @@
  */
 package org.n52.shetland.iso.gmd;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public abstract class AbstractMDIdentification
         extends AbstractObject {
 
@@ -27,6 +29,7 @@ public abstract class AbstractMDIdentification
      */
     private String abstrakt;
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public AbstractMDIdentification(GmdCitation citation, String abstrakt) {
         this.citation = citation;
         this.abstrakt = abstrakt;
@@ -35,6 +38,7 @@ public abstract class AbstractMDIdentification
     /**
      * @return the citation
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public GmdCitation getCitation() {
         return citation;
     }

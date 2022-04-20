@@ -55,7 +55,7 @@ public abstract class CodedException extends OwsExceptionReport {
 
     @Override
     public final List<CodedException> getExceptions() {
-        return this.exceptions;
+        return Collections.unmodifiableList(exceptions);
     }
 
     public final CodedException at(final String locator) {

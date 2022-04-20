@@ -15,6 +15,7 @@
  */
 package org.n52.shetland.ogc.sensorML.elements;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 
@@ -28,13 +29,16 @@ import org.n52.shetland.ogc.swe.simpleType.SweAbstractSimpleType;
 
 import com.google.common.collect.Sets;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Abstract container class for SensorML data components.
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  *
- * @param <T> Implemented class
+ * @param <T>
+ *            Implemented class
  */
 public class AbstractSmlDataComponentContainer<T> extends AbstractReferenceType {
 
@@ -53,8 +57,12 @@ public class AbstractSmlDataComponentContainer<T> extends AbstractReferenceType 
         this.dataRecord = dataRecord;
     }
 
-    public AbstractSmlDataComponentContainer(Set<SweAbstractDataComponent> abstractDataComponents) {
-        this.abstractDataComponents = abstractDataComponents;
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public AbstractSmlDataComponentContainer(Collection<SweAbstractDataComponent> abstractDataComponents) {
+        this.abstractDataComponents.clear();
+        if (CollectionHelper.isNotEmpty(abstractDataComponents)) {
+            this.abstractDataComponents.addAll(abstractDataComponents);
+        }
     }
 
     public String getName() {
@@ -81,9 +89,11 @@ public class AbstractSmlDataComponentContainer<T> extends AbstractReferenceType 
     /**
      * @param typeDefinition
      *            the typeDefinition to set
+     * @return
      */
-    public void setTypeDefinition(String typeDefinition) {
+    public T setTypeDefinition(String typeDefinition) {
         this.typeDefinition = typeDefinition;
+        return (T) this;
     }
 
     public boolean isSetTypeDefinition() {
@@ -136,24 +146,33 @@ public class AbstractSmlDataComponentContainer<T> extends AbstractReferenceType 
             }
             return components;
         }
-        return abstractDataComponents;
+        return Collections.unmodifiableSet(abstractDataComponents);
     }
 
     @SuppressWarnings("unchecked")
-    public T setAbstractDataComponents(Set<SweAbstractDataComponent> abstractDataComponents) {
-        this.abstractDataComponents = abstractDataComponents;
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public T setAbstractDataComponents(Collection<SweAbstractDataComponent> abstractDataComponents) {
+        this.abstractDataComponents.clear();
+        if (CollectionHelper.isNotEmpty(abstractDataComponents)) {
+            this.abstractDataComponents.addAll(abstractDataComponents);
+        }
         return (T) this;
     }
 
     @SuppressWarnings("unchecked")
-    public T addAbstractDataComponents(Set<SweAbstractDataComponent> abstractDataComponents) {
-        this.abstractDataComponents.addAll(abstractDataComponents);
+    public T addAbstractDataComponents(Collection<SweAbstractDataComponent> abstractDataComponents) {
+        this.abstractDataComponents.clear();
+        if (CollectionHelper.isNotEmpty(abstractDataComponents)) {
+            this.abstractDataComponents.addAll(abstractDataComponents);
+        }
         return (T) this;
     }
 
     @SuppressWarnings("unchecked")
     public T addAbstractDataComponents(SweAbstractDataComponent abstractDataComponent) {
-        this.abstractDataComponents.add(abstractDataComponent);
+        if (abstractDataComponent != null) {
+            this.abstractDataComponents.add(abstractDataComponent);
+        }
         return (T) this;
     }
 

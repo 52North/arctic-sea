@@ -18,6 +18,8 @@ package org.n52.shetland.ogc.ows.service;
 import org.n52.shetland.ogc.ows.OWSConstants;
 import org.n52.shetland.ogc.ows.OwsCapabilities;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Implementation of {@link OwsServiceResponse} for OWS GetCapabilities
  * operation
@@ -41,6 +43,7 @@ public class GetCapabilitiesResponse extends OwsServiceResponse {
         super(service, version, operationName);
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public OwsCapabilities getCapabilities() {
         return capabilities;
     }
@@ -54,6 +57,7 @@ public class GetCapabilitiesResponse extends OwsServiceResponse {
      *
      * @return this
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public GetCapabilitiesResponse setCapabilities(OwsCapabilities capabilities) {
         this.capabilities = capabilities;
         capabilities.getService().ifPresent(this::setService);

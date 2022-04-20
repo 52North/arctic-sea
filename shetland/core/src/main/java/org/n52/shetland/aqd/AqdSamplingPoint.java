@@ -18,6 +18,8 @@ package org.n52.shetland.aqd;
 import org.n52.shetland.aqd.AqdConstants.AssessmentType;
 import org.n52.shetland.inspire.ef.EfEnvironmentalMonitoringFacility;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Class represents an AQD_SamplingPoint
  *
@@ -54,6 +56,7 @@ public class AqdSamplingPoint extends EfEnvironmentalMonitoringFacility {
     /**
      * @return the station
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public AqdStation getStation() {
         return station;
     }
@@ -61,6 +64,7 @@ public class AqdSamplingPoint extends EfEnvironmentalMonitoringFacility {
     /**
      * @param station the station to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setStation(AqdStation station) {
         this.station = station;
     }
@@ -75,6 +79,7 @@ public class AqdSamplingPoint extends EfEnvironmentalMonitoringFacility {
     /**
      * @return the network
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public AqdNetwork getNetwork() {
         return network;
     }
@@ -82,6 +87,7 @@ public class AqdSamplingPoint extends EfEnvironmentalMonitoringFacility {
     /**
      * @param network the network to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setNetwork(AqdNetwork network) {
         this.network = network;
     }

@@ -15,16 +15,19 @@
  */
 package org.n52.shetland.ogc.sensorML;
 
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.n52.shetland.util.CollectionHelper;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Implementation for sml:ResponsibleParty
  *
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
- *         J&uuml;rrens</a>
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  *
  * @since 1.0.0
  */
@@ -36,11 +39,11 @@ public class SmlResponsibleParty extends SmlContact {
 
     private String positionName;
 
-    private List<String> phoneVoice;
+    private List<String> phoneVoice = new LinkedList<>();
 
-    private List<String> phoneFax;
+    private List<String> phoneFax = new LinkedList<>();
 
-    private List<String> deliveryPoints;
+    private List<String> deliveryPoints = new LinkedList<>();
 
     private String city;
 
@@ -52,7 +55,7 @@ public class SmlResponsibleParty extends SmlContact {
 
     private String email;
 
-    private List<String> onlineResources;
+    private List<String> onlineResources = new LinkedList<>();
 
     private String hoursOfService;
 
@@ -61,23 +64,24 @@ public class SmlResponsibleParty extends SmlContact {
     public SmlResponsibleParty() {
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SmlResponsibleParty(final String individualName, final String organizationName, final String positionName,
-            final List<String> phoneVoice, final List<String> phoneFax, final List<String> deliveryPoint,
-            final String city, final String administrativeArea, final String postalCode, final String country,
-            final String email, final List<String> onlineResource, final String hoursOfService,
-            final String contactInstructions) {
+            final Collection<String> phoneVoice, final Collection<String> phoneFax,
+            final Collection<String> deliveryPoint, final String city, final String administrativeArea,
+            final String postalCode, final String country, final String email, final Collection<String> onlineResource,
+            final String hoursOfService, final String contactInstructions) {
         this.individualName = individualName;
         this.organizationName = organizationName;
         this.positionName = positionName;
-        this.phoneVoice = phoneVoice;
-        this.phoneFax = phoneFax;
-        this.deliveryPoints = deliveryPoint;
+        setPhoneVoice(phoneVoice);
+        setPhoneFax(phoneFax);
+        setDeliveryPoint(deliveryPoint);
         this.city = city;
         this.administrativeArea = administrativeArea;
         this.postalCode = postalCode;
         this.country = country;
         this.email = email;
-        this.onlineResources = onlineResource;
+        setOnlineResource(onlineResource);
         this.hoursOfService = hoursOfService;
         this.contactInstructions = contactInstructions;
     }
@@ -126,23 +130,22 @@ public class SmlResponsibleParty extends SmlContact {
     }
 
     public List<String> getPhoneVoice() {
-        return phoneVoice;
+        return Collections.unmodifiableList(phoneVoice);
     }
 
-    public SmlResponsibleParty setPhoneVoice(final List<String> phoneVoice) {
-        if (isSetPhoneVoice()) {
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public SmlResponsibleParty setPhoneVoice(final Collection<String> phoneVoice) {
+        this.phoneVoice.clear();
+        if (CollectionHelper.isNotEmpty(phoneVoice)) {
             this.phoneVoice.addAll(phoneVoice);
-        } else {
-            this.phoneVoice = phoneVoice;
         }
         return this;
     }
 
     public SmlResponsibleParty addPhoneVoice(final String phoneVoice) {
-        if (!isSetPhoneVoice()) {
-            this.phoneVoice = new ArrayList<String>();
+        if (phoneVoice != null) {
+            this.phoneVoice.add(phoneVoice);
         }
-        this.phoneVoice.add(phoneVoice);
         return this;
     }
 
@@ -151,22 +154,21 @@ public class SmlResponsibleParty extends SmlContact {
     }
 
     public List<String> getPhoneFax() {
-        return phoneFax;
+        return Collections.unmodifiableList(phoneFax);
     }
 
     public SmlResponsibleParty addPhoneFax(final String phoneFax) {
-        if (!isSetPhoneFax()) {
-            this.phoneFax = new ArrayList<String>();
+        if (phoneFax != null) {
+            this.phoneFax.add(phoneFax);
         }
-        this.phoneFax.add(phoneFax);
         return this;
     }
 
-    public SmlResponsibleParty setPhoneFax(final List<String> phoneFax) {
-        if (isSetPhoneFax()) {
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public SmlResponsibleParty setPhoneFax(final Collection<String> phoneFax) {
+        this.phoneFax.clear();
+        if (CollectionHelper.isNotEmpty(phoneFax)) {
             this.phoneFax.addAll(phoneFax);
-        } else {
-            this.phoneFax = phoneFax;
         }
         return this;
     }
@@ -176,23 +178,22 @@ public class SmlResponsibleParty extends SmlContact {
     }
 
     public List<String> getDeliveryPoint() {
-        return deliveryPoints;
+        return Collections.unmodifiableList(deliveryPoints);
     }
 
-    public SmlResponsibleParty setDeliveryPoint(final List<String> deliveryPoints) {
-        if (isSetDeliveryPoint()) {
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public SmlResponsibleParty setDeliveryPoint(final Collection<String> deliveryPoints) {
+        this.deliveryPoints.clear();
+        if (CollectionHelper.isNotEmpty(deliveryPoints)) {
             this.deliveryPoints.addAll(deliveryPoints);
-        } else {
-            this.deliveryPoints = deliveryPoints;
         }
         return this;
     }
 
     public SmlResponsibleParty addDeliveryPoint(final String deliveryPoint) {
-        if (!isSetDeliveryPoint()) {
-            deliveryPoints = new ArrayList<String>();
+        if (deliveryPoint != null) {
+            deliveryPoints.add(deliveryPoint);
         }
-        deliveryPoints.add(deliveryPoint);
         return this;
     }
 
@@ -266,23 +267,22 @@ public class SmlResponsibleParty extends SmlContact {
     }
 
     public List<String> getOnlineResources() {
-        return onlineResources;
+        return Collections.unmodifiableList(onlineResources);
     }
 
-    public SmlResponsibleParty setOnlineResource(final List<String> onlineResources) {
-        if (isSetOnlineResources()) {
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public SmlResponsibleParty setOnlineResource(final Collection<String> onlineResources) {
+        this.onlineResources.clear();
+        if (CollectionHelper.isNotEmpty(onlineResources)) {
             this.onlineResources.addAll(onlineResources);
-        } else {
-            this.onlineResources = onlineResources;
         }
         return this;
     }
 
     public SmlResponsibleParty addOnlineResource(final String onlineResource) {
-        if (!isSetOnlineResources()) {
-            onlineResources = new ArrayList<String>();
+        if (onlineResource != null) {
+            onlineResources.add(onlineResource);
         }
-        onlineResources.add(onlineResource);
         return this;
     }
 

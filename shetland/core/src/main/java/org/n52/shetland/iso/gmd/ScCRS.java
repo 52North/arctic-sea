@@ -17,6 +17,8 @@ package org.n52.shetland.iso.gmd;
 
 import org.n52.shetland.ogc.gml.AbstractCRS;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class ScCRS {
 
     private AbstractCRS abstractCrs;
@@ -24,6 +26,7 @@ public class ScCRS {
     /**
      * @return the abstractCrs
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public AbstractCRS getAbstractCrs() {
         return abstractCrs;
     }
@@ -32,6 +35,7 @@ public class ScCRS {
      * @param abstractCrs the abstractCrs to set
      * @return this {@link ScCRS}
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public ScCRS setAbstractCrs(AbstractCRS abstractCrs) {
         this.abstractCrs = abstractCrs;
         return this;

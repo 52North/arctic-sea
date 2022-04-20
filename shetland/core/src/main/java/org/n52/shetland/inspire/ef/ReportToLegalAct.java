@@ -20,6 +20,8 @@ import java.net.URI;
 import org.n52.shetland.inspire.base2.LegislationCitation;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class ReportToLegalAct {
 
     /**
@@ -55,6 +57,7 @@ public class ReportToLegalAct {
     /**
      * @return the legalAct
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public LegislationCitation getLegalAct() {
         return legalAct;
     }
@@ -62,6 +65,7 @@ public class ReportToLegalAct {
     /**
      * @param legalAct the legalAct to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setLegalAct(LegislationCitation legalAct) {
         this.legalAct = legalAct;
     }
@@ -69,6 +73,7 @@ public class ReportToLegalAct {
     /**
      * @return the reportDate
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public TimeInstant getReportDate() {
         return reportDate;
     }
@@ -76,6 +81,7 @@ public class ReportToLegalAct {
     /**
      * @param reportDate the reportDate to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setReportDate(TimeInstant reportDate) {
         this.reportDate = reportDate;
     }

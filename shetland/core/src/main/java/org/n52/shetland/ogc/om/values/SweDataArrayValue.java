@@ -37,6 +37,8 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Sets;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Multi value representing a SweDataArray for observations
  *
@@ -57,17 +59,20 @@ public class SweDataArrayValue
         this(null);
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweDataArrayValue(SweDataArray value) {
         this.value = value;
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweDataArrayValue setValue(final SweDataArray value) {
         this.value = value;
         return this;
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SweDataArray getValue() {
         return value;
     }

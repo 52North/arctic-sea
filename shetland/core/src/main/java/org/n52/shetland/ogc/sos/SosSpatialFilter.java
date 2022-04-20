@@ -18,6 +18,8 @@ package org.n52.shetland.ogc.sos;
 import org.n52.shetland.ogc.filter.SpatialFilter;
 import org.n52.shetland.ogc.ows.extension.Extension;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  *
  * @author Carsten Hollmann
@@ -78,11 +80,13 @@ public class SosSpatialFilter implements Extension<SpatialFilter> {
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SpatialFilter getValue() {
         return filter;
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SosSpatialFilter setValue(SpatialFilter value) {
         this.filter = value;
         return this;

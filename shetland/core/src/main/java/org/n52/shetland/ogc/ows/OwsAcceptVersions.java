@@ -16,10 +16,10 @@
 package org.n52.shetland.ogc.ows;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-
 
 /**
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
@@ -38,30 +38,37 @@ public class OwsAcceptVersions {
     }
 
     /**
-     * @param acceptVersions the acceptVersions to set
+     * @param acceptVersions
+     *            the acceptVersions to set
      * @return this
      */
-    public OwsAcceptVersions setAcceptVersions(List<String> acceptVersions) {
+    public OwsAcceptVersions setAcceptVersions(Collection<String> acceptVersions) {
         this.acceptVersions.clear();
-        this.acceptVersions = Objects.requireNonNull(acceptVersions);
+        this.acceptVersions.addAll(Objects.requireNonNull(acceptVersions));
         return this;
     }
 
     /**
-     * @param acceptVersions the acceptVersions to add
+     * @param acceptVersions
+     *            the acceptVersions to add
      * @return this
      */
-    public OwsAcceptVersions addAcceptVersions(List<String> acceptVersions) {
-        this.acceptVersions.addAll(acceptVersions);
+    public OwsAcceptVersions addAcceptVersions(Collection<String> acceptVersions) {
+        if (acceptVersions != null) {
+            this.acceptVersions.addAll(acceptVersions);
+        }
         return this;
     }
 
     /**
-     * @param acceptVersion the acceptVersion to add
+     * @param acceptVersion
+     *            the acceptVersion to add
      * @return this
      */
     public OwsAcceptVersions addAcceptVersions(String acceptVersion) {
-        this.acceptVersions.add(acceptVersion);
+        if (acceptVersion != null) {
+            this.acceptVersions.add(acceptVersion);
+        }
         return this;
     }
 

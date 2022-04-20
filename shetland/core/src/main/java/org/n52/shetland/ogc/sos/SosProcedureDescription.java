@@ -16,6 +16,7 @@
 package org.n52.shetland.ogc.sos;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -29,6 +30,8 @@ import org.n52.shetland.ogc.sensorML.AbstractSensorML;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * @since 1.0.0
@@ -52,19 +55,23 @@ public class SosProcedureDescription<T extends AbstractFeature> extends Abstract
     private boolean aggregation;
     private boolean reference;
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SosProcedureDescription(T procedureDescription) {
         super(procedureDescription.getIdentifier());
         this.procedureDescription = procedureDescription;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public T getProcedureDescription() {
         return procedureDescription;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Time getValidTime() {
         return validTime;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SosProcedureDescription<T> setValidTime(Time validTime) {
         this.validTime = validTime;
         return this;
@@ -84,11 +91,13 @@ public class SosProcedureDescription<T extends AbstractFeature> extends Abstract
     }
 
     public Set<SosOffering> getOfferings() {
-        return offerings;
+        return Collections.unmodifiableSet(offerings);
     }
 
     public SosProcedureDescription<T> addOfferings(Collection<SosOffering> offerings) {
-        this.offerings.addAll(offerings);
+        if (offerings != null) {
+            this.offerings.addAll(offerings);
+        }
         return this;
     }
 
@@ -124,12 +133,14 @@ public class SosProcedureDescription<T extends AbstractFeature> extends Abstract
     }
 
     public Set<AbstractSensorML> getChildProcedures() {
-        return childProcedures;
+        return Collections.unmodifiableSet(childProcedures);
     }
 
     public SosProcedureDescription<T> setChildProcedures(Collection<AbstractSensorML> childProcedures) {
         this.childProcedures.clear();
-        addChildProcedures(childProcedures);
+        if (childProcedures != null) {
+            addChildProcedures(childProcedures);
+        }
         return this;
     }
 
@@ -145,12 +156,14 @@ public class SosProcedureDescription<T extends AbstractFeature> extends Abstract
     }
 
     public Map<String, AbstractFeature> getFeaturesOfInterestMap() {
-        return featuresOfInterestMap;
+        return Collections.unmodifiableMap(featuresOfInterestMap);
     }
 
     public SosProcedureDescription<T> setFeaturesOfInterestMap(Map<String, AbstractFeature> featuresOfInterestMap) {
         this.featuresOfInterestMap.clear();
-        addFeaturesOfInterestMap(featuresOfInterestMap);
+        if (featuresOfInterestMap != null) {
+            addFeaturesOfInterestMap(featuresOfInterestMap);
+        }
         return this;
     }
 
@@ -165,12 +178,16 @@ public class SosProcedureDescription<T extends AbstractFeature> extends Abstract
     }
 
     public SosProcedureDescription<T> addFeatureOfInterest(AbstractFeature featureOfInterest) {
+        if (featureOfInterest != null) {
         this.featuresOfInterestMap.put(featureOfInterest.getIdentifier(), featureOfInterest);
+        }
         return this;
     }
 
     public SosProcedureDescription<T> addFeatureOfInterest(String featureOfInterest) {
+        if (featureOfInterest != null) {
         this.featuresOfInterest.add(featureOfInterest);
+        }
         return this;
     }
 
@@ -189,7 +206,7 @@ public class SosProcedureDescription<T extends AbstractFeature> extends Abstract
     }
 
     public Set<String> getFeaturesOfInterest() {
-        return featuresOfInterest;
+        return Collections.unmodifiableSet(featuresOfInterest);
     }
 
     public boolean isSetFeatures() {
@@ -213,7 +230,7 @@ public class SosProcedureDescription<T extends AbstractFeature> extends Abstract
     }
 
     public Map<String, AbstractPhenomenon> getPhenomenon() {
-        return phenomenonMap;
+        return Collections.unmodifiableMap(phenomenonMap);
     }
 
     public boolean isSetPhenomenon() {

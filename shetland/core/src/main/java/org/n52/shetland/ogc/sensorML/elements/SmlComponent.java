@@ -18,6 +18,8 @@ package org.n52.shetland.ogc.sensorML.elements;
 import org.n52.shetland.ogc.gml.AbstractReferenceType;
 import org.n52.shetland.ogc.sensorML.AbstractSensorML;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * SOS internal representation of SensorML component
  *
@@ -59,10 +61,12 @@ public class SmlComponent extends AbstractReferenceType {
         this.name = name;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setProcess(AbstractSensorML process) {
         this.process = process;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public AbstractSensorML getProcess() {
         return process;
     }

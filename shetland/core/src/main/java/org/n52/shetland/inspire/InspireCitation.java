@@ -16,6 +16,7 @@
 package org.n52.shetland.inspire;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -123,7 +124,7 @@ public class InspireCitation implements InspireExtendedCapabilitiesResourceLocat
      * @return the URLs
      */
     public Set<String> getUrls() {
-        return urls;
+        return Collections.unmodifiableSet(urls);
     }
 
     /**
@@ -134,9 +135,9 @@ public class InspireCitation implements InspireExtendedCapabilitiesResourceLocat
      * @return this
      */
     public InspireCitation setUrls(Collection<String> urls) {
+        this.urls.clear();
         if (CollectionHelper.isNotEmpty(urls)) {
-            getUrls().clear();
-            getUrls().addAll(urls);
+            this.urls.addAll(urls);
         }
         return this;
     }
@@ -149,7 +150,9 @@ public class InspireCitation implements InspireExtendedCapabilitiesResourceLocat
      * @return this
      */
     public InspireCitation addUrl(String url) {
-        getUrls().add(url);
+        if (!Strings.isNullOrEmpty(url)) {
+            this.urls.add(url);
+        }
         return this;
     }
 
@@ -164,22 +167,24 @@ public class InspireCitation implements InspireExtendedCapabilitiesResourceLocat
 
     @Override
     public List<InspireResourceLocator> getResourceLocator() {
-        return resourceLocator;
+        return Collections.unmodifiableList(resourceLocator);
     }
 
     @Override
     public InspireExtendedCapabilitiesResourceLocator setResourceLocator(
             Collection<InspireResourceLocator> resourceLocator) {
-        getResourceLocator().clear();
+        this.resourceLocator.clear();
         if (CollectionHelper.isNotEmpty(resourceLocator)) {
-            getResourceLocator().addAll(resourceLocator);
+            this.resourceLocator.addAll(resourceLocator);
         }
         return this;
     }
 
     @Override
     public InspireExtendedCapabilitiesResourceLocator addResourceLocator(InspireResourceLocator resourceLocator) {
-        getResourceLocator().add(resourceLocator);
+        if (resourceLocator != null) {
+            this.resourceLocator.add(resourceLocator);
+        }
         return this;
     }
 
@@ -190,8 +195,9 @@ public class InspireCitation implements InspireExtendedCapabilitiesResourceLocat
 
     @Override
     public String toString() {
-        return String.format("%s %n[%n title=%s,%n dateOf=%s,%n urls=%s,%n resourceLocator=%s%n]", this.getClass()
-                .getSimpleName(), getTitle(), getDateOf(), CollectionHelper.collectionToString(getUrls()),
+        return String.format("%s %n[%n title=%s,%n dateOf=%s,%n urls=%s,%n resourceLocator=%s%n]",
+                this.getClass().getSimpleName(), getTitle(), getDateOf(),
+                CollectionHelper.collectionToString(getUrls()),
                 CollectionHelper.collectionToString(getResourceLocator()));
     }
 }

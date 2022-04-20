@@ -33,6 +33,8 @@ import org.n52.shetland.ogc.swes.AbstractSWES;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.util.ReferencedEnvelope;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Class which represents a ObservationOffering. Used in the SosCapabilities.
  *
@@ -128,6 +130,7 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     /**
      * @return Offering identifier
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SosOffering getOffering() {
         return offering;
     }
@@ -142,6 +145,7 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     /**
      * @param offering Offering identifier
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setOffering(SosOffering offering) {
         this.offering = offering;
         if (!isSetIdentifier() && offering.isSetIdentifier()) {
@@ -206,6 +210,7 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
      * @param phenomenonTime
      *                       the phenomenon time
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setPhenomenonTime(Time phenomenonTime) {
         this.phenomenonTime = phenomenonTime;
     }
@@ -213,6 +218,7 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     /**
      * @return the phenomenon time
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Time getPhenomenonTime() {
         return phenomenonTime;
     }
@@ -220,6 +226,7 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     /**
      * @param resultTime the result time
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setResultTime(Time resultTime) {
         this.resultTime = resultTime;
     }
@@ -227,6 +234,7 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     /**
      * @return the result time
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Time getResultTime() {
         return resultTime;
     }

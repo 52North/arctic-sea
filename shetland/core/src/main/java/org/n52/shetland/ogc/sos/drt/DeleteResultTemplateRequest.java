@@ -17,6 +17,7 @@ package org.n52.shetland.ogc.sos.drt;
 
 import java.util.AbstractMap;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
@@ -28,8 +29,8 @@ import com.google.common.collect.Lists;
 public class DeleteResultTemplateRequest extends OwsServiceRequest {
 
     private static String OPERATION_NAME = "DeleteResultTemplate";
-    private List<String> resultTemplates;
-    private List<AbstractMap.SimpleEntry<String, String>> observedPropertyOfferingPairs;
+    private List<String> resultTemplates = new LinkedList<>();
+    private List<AbstractMap.SimpleEntry<String, String>> observedPropertyOfferingPairs = new LinkedList<>();
 
     public DeleteResultTemplateRequest() {
         super(null, null, OPERATION_NAME);
@@ -49,9 +50,6 @@ public class DeleteResultTemplateRequest extends OwsServiceRequest {
     }
 
     public DeleteResultTemplateRequest addResultTemplate(String resultTemplateId) {
-        if (!isSetResultTemplates()) {
-            resultTemplates = Lists.newArrayList();
-        }
         if (!Strings.isNullOrEmpty(resultTemplateId)) {
             resultTemplates.add(resultTemplateId);
         }
@@ -63,11 +61,7 @@ public class DeleteResultTemplateRequest extends OwsServiceRequest {
     }
 
     public List<String> getResultTemplates() {
-        if (isSetResultTemplates()) {
-            return resultTemplates;
-        } else {
-            return Collections.emptyList();
-        }
+        return Collections.unmodifiableList(resultTemplates);
     }
 
     public DeleteResultTemplateRequest setObservableProperty(String observedProperty) {
@@ -79,9 +73,6 @@ public class DeleteResultTemplateRequest extends OwsServiceRequest {
     }
 
     public DeleteResultTemplateRequest addObservedPropertyOfferingPair(String observedProperty, String offering) {
-        if (!isSetObservedPropertyOfferingPairs()) {
-            observedPropertyOfferingPairs = Lists.newArrayList();
-        }
         observedPropertyOfferingPairs.add(new AbstractMap.SimpleEntry<>(observedProperty, offering));
         return this;
     }
@@ -91,11 +82,7 @@ public class DeleteResultTemplateRequest extends OwsServiceRequest {
     }
 
     public List<AbstractMap.SimpleEntry<String, String>> getObservedPropertyOfferingPairs() {
-        if (isSetObservedPropertyOfferingPairs()) {
-            return observedPropertyOfferingPairs;
-        } else {
-            return Collections.emptyList();
-        }
+        return Collections.unmodifiableList(observedPropertyOfferingPairs);
     }
 
 }

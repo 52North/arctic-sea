@@ -15,7 +15,8 @@
  */
 package org.n52.shetland.ogc.sensorML.v20;
 
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.n52.shetland.ogc.sensorML.HasComponents;
@@ -23,6 +24,8 @@ import org.n52.shetland.ogc.sensorML.HasConnections;
 import org.n52.shetland.ogc.sensorML.elements.SmlComponent;
 import org.n52.shetland.ogc.sensorML.elements.SmlConnection;
 import org.n52.shetland.util.IdGenerator;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Class that represents SensorML 2.0 PhysicalSystem
@@ -37,7 +40,7 @@ public class PhysicalSystem
 
     public static final String ID_PREFIX = "ps_";
 
-    private final List<SmlComponent> components = new ArrayList<>(0);
+    private final List<SmlComponent> components = new LinkedList<>();
 
     private SmlConnection connections;
 
@@ -47,7 +50,7 @@ public class PhysicalSystem
 
     @Override
     public List<SmlComponent> getComponents() {
-        return components;
+        return Collections.unmodifiableList(components);
     }
 
     @Override
@@ -71,10 +74,12 @@ public class PhysicalSystem
         return true;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SmlConnection getConnections() {
         return connections;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public PhysicalSystem setConnections(SmlConnection connections) {
         this.connections = connections;
         return this;

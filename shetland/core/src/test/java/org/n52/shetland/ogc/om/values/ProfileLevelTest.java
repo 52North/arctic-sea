@@ -17,6 +17,9 @@ package org.n52.shetland.ogc.om.values;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+
+import java.util.LinkedList;
+
 import static org.hamcrest.Matchers.equalTo;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -52,7 +55,9 @@ public class ProfileLevelTest {
 
     @Test
     public void test_field_name() {
-        level.getValue().remove(1);
+        LinkedList<Value<?>> levels = new LinkedList<>(level.getValue());
+        levels.remove(1);
+        level.setValue(levels);
         SweDataRecord dataRecord = level.valueAsDataRecord();
         assertThat(dataRecord.getFields().size(), is(1));
         assertThat(dataRecord.getFields().get(0).getName().getValue(), equalTo("label"));

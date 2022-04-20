@@ -16,8 +16,8 @@
 package org.n52.shetland.inspire.dls;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import org.n52.shetland.inspire.InspireConformity;
 import org.n52.shetland.inspire.InspireKeyword;
@@ -45,16 +45,16 @@ import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.collect.Lists;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
- * Service internal object to represent the full INSPIRE DLS
- * ExtendedCapabilities
+ * Service internal object to represent the full INSPIRE DLS ExtendedCapabilities
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  *
  */
-public class FullInspireExtendedCapabilities
-        extends InspireExtendedCapabilitiesDLS
+public class FullInspireExtendedCapabilities extends InspireExtendedCapabilitiesDLS
         implements InspireExtendedCapabilitiesResourceLocator, InspireExtendedCapabilitiesMetadataURL,
         InspireExtendedCapabilitiesResourceType,
         InspireExtendedCapabilitiesTemporalReference<FullInspireExtendedCapabilities>,
@@ -104,9 +104,9 @@ public class FullInspireExtendedCapabilities
      * @param spatialDataSetIdentifier
      *            Spatial dataset identifier to set
      */
-    public FullInspireExtendedCapabilities(
-            InspireResourceLocator resourceLocator, InspireSupportedLanguages supportedLanguages,
-            InspireLanguageISO6392B responseLanguage, InspireUniqueResourceIdentifier spatialDataSetIdentifier) {
+    public FullInspireExtendedCapabilities(InspireResourceLocator resourceLocator,
+            InspireSupportedLanguages supportedLanguages, InspireLanguageISO6392B responseLanguage,
+            InspireUniqueResourceIdentifier spatialDataSetIdentifier) {
         super(supportedLanguages, responseLanguage, spatialDataSetIdentifier);
         addResourceLocator(resourceLocator);
     }
@@ -123,9 +123,9 @@ public class FullInspireExtendedCapabilities
      * @param spatialDataSetIdentifier
      *            Spatial dataset identifier to set
      */
-    public FullInspireExtendedCapabilities(
-            List<InspireResourceLocator> resourceLocators, InspireSupportedLanguages supportedLanguages,
-            InspireLanguageISO6392B responseLanguage, InspireUniqueResourceIdentifier spatialDataSetIdentifier) {
+    public FullInspireExtendedCapabilities(Collection<InspireResourceLocator> resourceLocators,
+            InspireSupportedLanguages supportedLanguages, InspireLanguageISO6392B responseLanguage,
+            InspireUniqueResourceIdentifier spatialDataSetIdentifier) {
         super(supportedLanguages, responseLanguage, spatialDataSetIdentifier);
         setResourceLocator(resourceLocators);
     }
@@ -142,9 +142,9 @@ public class FullInspireExtendedCapabilities
      * @param spatialDataSetIdentifiers
      *            Spatial dataset identifiers to set
      */
-    public FullInspireExtendedCapabilities(
-            InspireResourceLocator resourceLocator, InspireSupportedLanguages supportedLanguages,
-            InspireLanguageISO6392B responseLanguage, Set<InspireUniqueResourceIdentifier> spatialDataSetIdentifiers) {
+    public FullInspireExtendedCapabilities(InspireResourceLocator resourceLocator,
+            InspireSupportedLanguages supportedLanguages, InspireLanguageISO6392B responseLanguage,
+            Collection<InspireUniqueResourceIdentifier> spatialDataSetIdentifiers) {
         super(supportedLanguages, responseLanguage, spatialDataSetIdentifiers);
         addResourceLocator(resourceLocator);
     }
@@ -161,23 +161,24 @@ public class FullInspireExtendedCapabilities
      * @param spatialDataSetIdentifiers
      *            Spatial dataset identifiers to set
      */
-    public FullInspireExtendedCapabilities(
-            List<InspireResourceLocator> resourceLocators, InspireSupportedLanguages supportedLanguages,
-            InspireLanguageISO6392B responseLanguage, Set<InspireUniqueResourceIdentifier> spatialDataSetIdentifiers) {
+    public FullInspireExtendedCapabilities(Collection<InspireResourceLocator> resourceLocators,
+            InspireSupportedLanguages supportedLanguages, InspireLanguageISO6392B responseLanguage,
+            Collection<InspireUniqueResourceIdentifier> spatialDataSetIdentifiers) {
         super(supportedLanguages, responseLanguage, spatialDataSetIdentifiers);
         setResourceLocator(resourceLocators);
     }
 
     @Override
     public List<InspireResourceLocator> getResourceLocator() {
-        return resourceLocator;
+        return Collections.unmodifiableList(resourceLocator);
     }
 
     @Override
     public InspireExtendedCapabilitiesResourceLocator setResourceLocator(
             Collection<InspireResourceLocator> resourceLocator) {
+        this.resourceLocator.clear();
         if (CollectionHelper.isNotEmpty(resourceLocator)) {
-            getResourceLocator().clear();
+
             this.resourceLocator.addAll(resourceLocator);
         }
         return this;
@@ -185,7 +186,9 @@ public class FullInspireExtendedCapabilities
 
     @Override
     public InspireExtendedCapabilitiesResourceLocator addResourceLocator(InspireResourceLocator resourceLocator) {
-        getResourceLocator().add(resourceLocator);
+        if (resourceLocator != null) {
+            this.resourceLocator.add(resourceLocator);
+        }
         return this;
     }
 
@@ -195,6 +198,7 @@ public class FullInspireExtendedCapabilities
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public InspireResourceLocator getMetadataUrl() {
         return metadataUrl;
     }
@@ -206,6 +210,7 @@ public class FullInspireExtendedCapabilities
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public boolean isSetMetadataUrl() {
         return getMetadataUrl() != null;
     }
@@ -245,22 +250,24 @@ public class FullInspireExtendedCapabilities
 
     @Override
     public List<InspireTemporalReference> getTemporalReferences() {
-        return temporalReferences;
+        return Collections.unmodifiableList(temporalReferences);
     }
 
     @Override
     public FullInspireExtendedCapabilities setTemporalReferences(
             Collection<InspireTemporalReference> temporalReferences) {
+        this.temporalReferences.clear();
         if (CollectionHelper.isNotEmpty(temporalReferences)) {
-            getTemporalReferences().clear();
-            getTemporalReferences().addAll(temporalReferences);
+            this.temporalReferences.addAll(temporalReferences);
         }
         return this;
     }
 
     @Override
     public FullInspireExtendedCapabilities addTemporalReference(InspireTemporalReference temporalReference) {
-        getTemporalReferences().add(temporalReference);
+        if (temporalReference != null) {
+            this.temporalReferences.add(temporalReference);
+        }
         return this;
     }
 
@@ -271,21 +278,21 @@ public class FullInspireExtendedCapabilities
 
     @Override
     public List<InspireConformity> getConformity() {
-        return conformities;
+        return Collections.unmodifiableList(conformities);
     }
 
     @Override
     public FullInspireExtendedCapabilities setConformity(Collection<InspireConformity> conformities) {
+        this.conformities.clear();
         if (CollectionHelper.isNotEmpty(conformities)) {
-            getConformity().clear();
-            getConformity().addAll(conformities);
+            this.conformities.addAll(conformities);
         }
         return this;
     }
 
     @Override
     public FullInspireExtendedCapabilities addConformity(InspireConformity conformity) {
-        getConformity().add(conformity);
+        this.conformities.add(conformity);
         return this;
     }
 
@@ -296,15 +303,15 @@ public class FullInspireExtendedCapabilities
 
     @Override
     public List<InspireMetadataPointOfContact> getMetadataPointOfContacts() {
-        return metadataPointOfContacts;
+        return Collections.unmodifiableList(metadataPointOfContacts);
     }
 
     @Override
     public FullInspireExtendedCapabilities setMetadataPointOfContacts(
             Collection<InspireMetadataPointOfContact> metadataPointOfContacts) {
+        this.metadataPointOfContacts.clear();
         if (CollectionHelper.isNotEmpty(metadataPointOfContacts)) {
-            getMetadataPointOfContacts().clear();
-            getMetadataPointOfContacts().addAll(metadataPointOfContacts);
+            this.metadataPointOfContacts.addAll(metadataPointOfContacts);
         }
         return this;
     }
@@ -312,20 +319,24 @@ public class FullInspireExtendedCapabilities
     @Override
     public FullInspireExtendedCapabilities addMetadataPointOfContact(
             InspireMetadataPointOfContact metadataPointOfContact) {
-        getMetadataPointOfContacts().add(metadataPointOfContact);
+        if (metadataPointOfContact != null) {
+            this.metadataPointOfContacts.add(metadataPointOfContact);
+        }
         return this;
     }
 
     @Override
     public boolean isSetMetadataPointOfContact() {
-        return CollectionHelper.isNotEmpty(getMetadataPointOfContacts());
+        return CollectionHelper.isNotEmpty(this.metadataPointOfContacts);
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public TimeInstant getMetadataDate() {
         return metadataDate;
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public FullInspireExtendedCapabilities setMetadataDate(TimeInstant metadataDate) {
         this.metadataDate = metadataDate;
         return this;
@@ -355,22 +366,24 @@ public class FullInspireExtendedCapabilities
 
     @Override
     public List<InspireMandatoryKeyword> getMandatoryKeywords() {
-        return mandatoryKeywords;
+        return Collections.unmodifiableList(mandatoryKeywords);
     }
 
     @Override
     public FullInspireExtendedCapabilities setMandatoryKeywords(
             Collection<InspireMandatoryKeyword> mandatoryKeywords) {
+        this.mandatoryKeywords.clear();
         if (CollectionHelper.isNotEmpty(mandatoryKeywords)) {
-            getMandatoryKeywords().clear();
-            getMandatoryKeywords().addAll(mandatoryKeywords);
+            this.mandatoryKeywords.addAll(mandatoryKeywords);
         }
         return this;
     }
 
     @Override
     public FullInspireExtendedCapabilities addMandatoryKeyword(InspireMandatoryKeyword mandatoryKeyword) {
-        getMandatoryKeywords().add(mandatoryKeyword);
+        if (mandatoryKeyword != null) {
+            this.mandatoryKeywords.add(mandatoryKeyword);
+        }
         return this;
     }
 
@@ -381,21 +394,24 @@ public class FullInspireExtendedCapabilities
 
     @Override
     public List<InspireKeyword> getKeywords() {
-        return keywords;
+        return Collections.unmodifiableList(keywords);
     }
 
     @Override
     public FullInspireExtendedCapabilities setKeywords(Collection<InspireKeyword> keywords) {
+        this.keywords.clear();
         if (CollectionHelper.isNotEmpty(keywords)) {
-            getKeywords().clear();
-            getKeywords().addAll(keywords);
+
+            this.keywords.addAll(keywords);
         }
         return this;
     }
 
     @Override
     public FullInspireExtendedCapabilities addKeyword(InspireKeyword keyword) {
-        keywords.add(keyword);
+        if (keyword != null) {
+            keywords.add(keyword);
+        }
         return this;
     }
 

@@ -23,6 +23,8 @@ import org.n52.shetland.util.IdGenerator;
 
 import com.google.common.base.Strings;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Class that represents a CV_DiscretePointCoverage
  *
@@ -89,12 +91,14 @@ public class CvDiscretePointCoverage
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public CvDiscretePointCoverage setValue(PointValuePair value) {
         this.value = value;
         return this;
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public PointValuePair getValue() {
         return value;
     }

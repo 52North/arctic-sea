@@ -17,6 +17,8 @@ package org.n52.shetland.ogc.gml;
 
 import org.n52.shetland.iso.gmd.EXExtent;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Internal representation of the OGC GML DomainOfValidity.
  *
@@ -32,6 +34,7 @@ public class DomainOfValidity {
     /**
      * @return the exExtent
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public EXExtent getExExtent() {
         return exExtent;
     }
@@ -39,6 +42,7 @@ public class DomainOfValidity {
     /**
      * @param exExtent the exExtent to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public DomainOfValidity setExExtent(EXExtent exExtent) {
         this.exExtent = exExtent;
         return this;

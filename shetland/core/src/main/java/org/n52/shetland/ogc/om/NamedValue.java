@@ -20,6 +20,8 @@ import java.util.Objects;
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.om.values.Value;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Class representing a O&amp;M conform NamedValue
  *
@@ -40,6 +42,7 @@ public class NamedValue<T> implements Comparable<NamedValue<T>> {
      */
     private Value<T> value;
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public NamedValue(ReferenceType name, Value<T> value) {
         this.name = name;
         this.value = value;
@@ -77,6 +80,7 @@ public class NamedValue<T> implements Comparable<NamedValue<T>> {
      *
      * @return Value
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Value<T> getValue() {
         return value;
     }
@@ -87,6 +91,7 @@ public class NamedValue<T> implements Comparable<NamedValue<T>> {
      * @param value
      *            Value to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setValue(Value<T> value) {
         this.value = value;
     }

@@ -18,6 +18,8 @@ package org.n52.shetland.ogc.filter;
 import org.n52.shetland.ogc.filter.FilterConstants.TimeOperator;
 import org.n52.shetland.ogc.gml.time.Time;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Temporal filter class
  *
@@ -45,6 +47,7 @@ public class TemporalFilter
      * @param valueReference
      *            value reference
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public TemporalFilter(TimeOperator operator, Time time, String valueReference) {
         super(valueReference);
         this.operator = operator;
@@ -81,6 +84,7 @@ public class TemporalFilter
      *
      * @return filter time
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Time getTime() {
         return time;
     }
@@ -92,6 +96,7 @@ public class TemporalFilter
      *            filter time
      * @return This filter
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public TemporalFilter setTime(Time time) {
         this.time = time;
         return this;

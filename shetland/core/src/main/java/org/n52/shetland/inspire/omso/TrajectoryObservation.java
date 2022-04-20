@@ -86,7 +86,7 @@ public class TrajectoryObservation
 
     @SuppressWarnings("rawtypes")
     @Override
-    public void setValue(ObservationValue<?> value) {
+    public TrajectoryObservation setValue(ObservationValue<?> value) {
         if (value instanceof StreamingValue || value.getValue() instanceof TLVTValue) {
             super.setValue(value);
         } else {
@@ -118,15 +118,17 @@ public class TrajectoryObservation
             }
             super.setValue(multiValue);
         }
+        return this;
     }
 
     @Override
-    public void mergeWithObservation(OmObservation observation) {
+    public TrajectoryObservation mergeWithObservation(OmObservation observation) {
         if (observation instanceof TrajectoryObservation) {
             mergeValues(observation.getValue());
         } else {
             super.mergeWithObservation(observation);
         }
+        return this;
     }
 
     protected boolean mergeValues(ObservationValue<?> observationValue) {

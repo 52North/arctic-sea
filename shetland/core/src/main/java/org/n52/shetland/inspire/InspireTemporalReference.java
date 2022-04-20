@@ -16,12 +16,15 @@
 package org.n52.shetland.inspire;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.collect.Lists;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Service internal representation of INSPIRE temporal reference
@@ -42,9 +45,8 @@ public class InspireTemporalReference {
     private List<InspireDateOfPublication> datesOfPublication = Lists.newArrayList();
 
     /*
-     * TemporalExtent 0..*, IndividualDate == {@link
-     * org.n52.sos.ogc.gml.time.TimeInstant} or IntervalOfDates == {@link
-     * org.n52.sos.ogc.gml.time.TimePeriod}
+     * TemporalExtent 0..*, IndividualDate == {@link org.n52.sos.ogc.gml.time.TimeInstant} or IntervalOfDates
+     * == {@link org.n52.sos.ogc.gml.time.TimePeriod}
      */
     private List<Time> temporalExtents = Lists.newArrayList();
 
@@ -53,6 +55,7 @@ public class InspireTemporalReference {
      *
      * @return the dateOfCreation
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public InspireDateOfCreation getDateOfCreation() {
         return dateOfCreation;
     }
@@ -63,6 +66,7 @@ public class InspireTemporalReference {
      * @param dateOfCreation
      *            the dateOfCreation to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setDateOfCreation(InspireDateOfCreation dateOfCreation) {
         this.dateOfCreation = dateOfCreation;
     }
@@ -81,6 +85,7 @@ public class InspireTemporalReference {
      *
      * @return the dateOfLastRevision
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public InspireDateOfLastRevision getDateOfLastRevision() {
         return dateOfLastRevision;
     }
@@ -91,6 +96,7 @@ public class InspireTemporalReference {
      * @param dateOfLastRevision
      *            the dateOfLastRevision to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setDateOfLastRevision(InspireDateOfLastRevision dateOfLastRevision) {
         this.dateOfLastRevision = dateOfLastRevision;
     }
@@ -110,7 +116,7 @@ public class InspireTemporalReference {
      * @return the datesOfPublication
      */
     public List<InspireDateOfPublication> getDatesOfPublication() {
-        return datesOfPublication;
+        return Collections.unmodifiableList(datesOfPublication);
     }
 
     /**
@@ -120,9 +126,9 @@ public class InspireTemporalReference {
      *            the datesOfPublication to set
      */
     public void setDatesOfPublication(Collection<InspireDateOfPublication> datesOfPublication) {
-        getDatesOfPublication().clear();
+        this.datesOfPublication.clear();
         if (CollectionHelper.isNotEmpty(datesOfPublication)) {
-            getDatesOfPublication().addAll(datesOfPublication);
+            this.datesOfPublication.addAll(datesOfPublication);
         }
     }
 
@@ -134,7 +140,9 @@ public class InspireTemporalReference {
      * @return this
      */
     public InspireTemporalReference addDateOfPublication(InspireDateOfPublication dateOfPublication) {
-        getDatesOfPublication().add(dateOfPublication);
+        if (dateOfPublication != null) {
+            this.datesOfPublication.add(dateOfPublication);
+        }
         return this;
     }
 
@@ -153,7 +161,7 @@ public class InspireTemporalReference {
      * @return the temporalExtents
      */
     public List<Time> getTemporalExtents() {
-        return temporalExtents;
+        return Collections.unmodifiableList(temporalExtents);
     }
 
     /**
@@ -163,9 +171,9 @@ public class InspireTemporalReference {
      *            the temporalExtents to set
      */
     public void setTemporalExtents(Collection<Time> temporalExtents) {
-        getTemporalExtents().clear();
+        this.temporalExtents.clear();
         if (CollectionHelper.isNotEmpty(temporalExtents)) {
-            getTemporalExtents().addAll(temporalExtents);
+            this.temporalExtents.addAll(temporalExtents);
         }
     }
 
@@ -177,7 +185,9 @@ public class InspireTemporalReference {
      * @return this
      */
     public InspireTemporalReference addTemporalExtent(Time temporalExtent) {
-        getTemporalExtents().add(temporalExtent);
+        if (temporalExtent != null) {
+            this.temporalExtents.add(temporalExtent);
+        }
         return this;
     }
 
@@ -194,7 +204,7 @@ public class InspireTemporalReference {
     public String toString() {
         return String.format(
                 "%s %n[%n dateOfCreation=%s,%n dateOfLastRevision=%s,"
-                + "%n dateOfPublication=%s,%n temporalReferences=%s%n]",
+                        + "%n dateOfPublication=%s,%n temporalReferences=%s%n]",
                 this.getClass().getSimpleName(), getDateOfCreation(), getDateOfLastRevision(),
                 CollectionHelper.collectionToString(getDatesOfPublication()),
                 CollectionHelper.collectionToString(getTemporalExtents()));

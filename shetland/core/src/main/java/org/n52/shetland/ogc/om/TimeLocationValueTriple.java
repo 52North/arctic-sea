@@ -23,6 +23,8 @@ import org.apache.commons.lang.builder.CompareToBuilder;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.om.values.Value;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import org.locationtech.jts.geom.Geometry;
 
 /**
@@ -39,6 +41,7 @@ public class TimeLocationValueTriple extends TimeValuePair {
      */
     private Geometry location;
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public TimeLocationValueTriple(Time time, Value<?> value, Geometry location) {
         super(time, value);
         this.location = location;
@@ -47,6 +50,7 @@ public class TimeLocationValueTriple extends TimeValuePair {
     /**
      * @return the location
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Geometry getLocation() {
         return location;
     }
@@ -55,6 +59,7 @@ public class TimeLocationValueTriple extends TimeValuePair {
      * @param location
      *            the location to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setLocation(Geometry location) {
         this.location = location;
     }

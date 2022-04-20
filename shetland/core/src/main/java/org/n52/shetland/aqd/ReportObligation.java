@@ -24,6 +24,8 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * TODO JavaDoc
  *
@@ -35,10 +37,12 @@ public class ReportObligation {
     private Referenceable<Time> reportingPeriod
             = Referenceable.of(Nillable.<Time>missing());
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public EReportingChange getChange() {
         return change;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public ReportObligation setChange(EReportingChange change) {
         this.change = Preconditions.checkNotNull(change);
         return this;
@@ -48,10 +52,12 @@ public class ReportObligation {
         return getChange() != null;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Identifier getInspireID() {
         return inspireID;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public ReportObligation setInspireID(Identifier inspireID) {
         this.inspireID = Preconditions.checkNotNull(inspireID);
         return this;

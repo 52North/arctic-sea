@@ -15,6 +15,8 @@
  */
 package org.n52.shetland.ogc.sos.request;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -33,6 +35,8 @@ import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.base.Strings;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * SOS InsertObservation request
  *
@@ -45,11 +49,11 @@ public class InsertObservationRequest
      * Assigned sensor id
      */
     private String assignedSensorId;
-    private List<String> offerings;
+    private List<String> offerings = new LinkedList<>();
     /**
      * SOS observation collection with observations to insert
      */
-    private List<OmObservation> observations;
+    private List<OmObservation> observations = new LinkedList<>();
     private ReferenceChecker referenceChecker = new ReferenceChecker();
 
     public InsertObservationRequest() {
@@ -94,7 +98,7 @@ public class InsertObservationRequest
      * @return observations to insert
      */
     public List<OmObservation> getObservations() {
-        return observations;
+        return Collections.unmodifiableList(observations);
     }
 
     /**
@@ -109,9 +113,6 @@ public class InsertObservationRequest
     }
 
     public InsertObservationRequest addObservation(OmObservation observation) {
-        if (observations == null) {
-            observations = new LinkedList<OmObservation>();
-        }
         observations.add(referenceChecker.checkObservationForReferences(observation));
         return this;
     }
@@ -120,13 +121,17 @@ public class InsertObservationRequest
         return CollectionHelper.isNotEmpty(getObservations());
     }
 
-    public InsertObservationRequest setOfferings(List<String> offerings) {
-        this.offerings = offerings;
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public InsertObservationRequest setOfferings(Collection<String> offerings) {
+        this.offerings.clear();
+        if (offerings != null) {
+            this.offerings.addAll(offerings);
+        }
         return this;
     }
 
     public List<String> getOfferings() {
-        return offerings;
+        return Collections.unmodifiableList(offerings);
     }
 
     public boolean isSetOfferings() {

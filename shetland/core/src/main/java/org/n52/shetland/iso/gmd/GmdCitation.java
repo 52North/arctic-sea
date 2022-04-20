@@ -15,6 +15,8 @@
  */
 package org.n52.shetland.iso.gmd;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * TODO JavaDoc
  *
@@ -41,6 +43,7 @@ public class GmdCitation
         return date;
     }
 
+    @SuppressFBWarnings({ "MS_EXPOSE_REP" })
     public static GmdCitation airQualityDirectiveEC502008() {
         return EC_50_2008;
     }

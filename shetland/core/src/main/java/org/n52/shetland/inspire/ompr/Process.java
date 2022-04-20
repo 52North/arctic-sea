@@ -15,6 +15,8 @@
  */
 package org.n52.shetland.inspire.ompr;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.n52.shetland.inspire.base.Identifier;
@@ -93,13 +95,13 @@ public class Process extends AbstractFeature {
      * @return the documentation
      */
     public List<DocumentCitation> getDocumentation() {
-        return documentation;
+        return Collections.unmodifiableList(documentation);
     }
 
     /**
      * @param documentation the documentation to set
      */
-    public Process setDocumentation(List<DocumentCitation> documentation) {
+    public Process setDocumentation(Collection<DocumentCitation> documentation) {
         this.documentation.clear();
         if (documentation != null) {
             this.documentation.addAll(documentation);
@@ -125,13 +127,13 @@ public class Process extends AbstractFeature {
      * @return the processParameter
      */
     public List<ProcessParameter> getProcessParameter() {
-        return processParameter;
+        return Collections.unmodifiableList(processParameter);
     }
 
     /**
      * @param processParameter the processParameter to set
      */
-    public Process setProcessParameter(List<ProcessParameter> processParameter) {
+    public Process setProcessParameter(Collection<ProcessParameter> processParameter) {
         this.processParameter.clear();
         if (processParameter != null) {
             this.processParameter.addAll(processParameter);
@@ -157,13 +159,13 @@ public class Process extends AbstractFeature {
      * @return the responsibleParty
      */
     public List<RelatedParty> getResponsibleParty() {
-        return responsibleParty;
+        return Collections.unmodifiableList(responsibleParty);
     }
 
     /**
      * @param responsibleParty the responsibleParty to set
      */
-    public Process setResponsibleParty(List<RelatedParty> responsibleParty) {
+    public Process setResponsibleParty(Collection<RelatedParty> responsibleParty) {
         this.responsibleParty.clear();
         if (responsibleParty != null) {
             this.responsibleParty.addAll(responsibleParty);

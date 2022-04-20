@@ -26,6 +26,8 @@ import org.n52.shetland.ogc.sos.SosResultStructure;
 import org.n52.shetland.ogc.sos.SosResultTemplate;
 import org.n52.shetland.util.IdGenerator;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * @since 1.0.0
  */
@@ -66,10 +68,12 @@ public class InsertResultTemplateRequest
 
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public OmObservationConstellation getObservationTemplate() {
         return observationTemplate;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setObservationTemplate(OmObservationConstellation observationConstellation) {
         this.observationTemplate = observationConstellation;
     }

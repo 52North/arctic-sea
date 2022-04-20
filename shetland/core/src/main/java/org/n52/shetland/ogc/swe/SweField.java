@@ -59,6 +59,7 @@ public class SweField extends SweAbstractDataComponent {
         this.element = element;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweField(final CodeType name, final SweAbstractDataComponent element) {
         super();
         setName(name);

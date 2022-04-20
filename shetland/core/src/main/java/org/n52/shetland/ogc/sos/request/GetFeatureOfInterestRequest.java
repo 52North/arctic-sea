@@ -15,8 +15,10 @@
  */
 package org.n52.shetland.ogc.sos.request;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +27,8 @@ import org.n52.shetland.ogc.filter.TemporalFilter;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.util.CollectionHelper;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Sos GetFeatureOfInterst request
@@ -36,29 +40,29 @@ public class GetFeatureOfInterestRequest extends OwsServiceRequest {
     /**
      * FOI identifiers list
      */
-    private List<String> featureIdentifiers = new ArrayList<>();
+    private List<String> featureIdentifiers = new LinkedList<>();
 
     /**
      * FOI observedProperties list
      */
-    private List<String> observedProperties;
+    private List<String> observedProperties = new LinkedList<>();
 
     /**
      * FOI procedures list
      */
-    private List<String> procedures;
+    private List<String> procedures = new LinkedList<>();
 
     /**
      * FOI spatial filters list
      */
-    private List<SpatialFilter> spatialFilters;
+    private List<SpatialFilter> spatialFilters = new LinkedList<>();
 
     /**
      * FOI temporal filters list
      */
-    private List<TemporalFilter> temporalFilters;
+    private List<TemporalFilter> temporalFilters = new LinkedList<>();
 
-    private Map<String, String> namespaces;
+    private Map<String, String> namespaces = new LinkedHashMap<>();
 
     public GetFeatureOfInterestRequest() {
         super(null, null, SosConstants.Operations.GetFeatureOfInterest.name());
@@ -78,7 +82,7 @@ public class GetFeatureOfInterestRequest extends OwsServiceRequest {
      * @return temporal filters
      */
     public List<TemporalFilter> getTemporalFilters() {
-        return temporalFilters;
+        return Collections.unmodifiableList(temporalFilters);
     }
 
     /**
@@ -87,8 +91,13 @@ public class GetFeatureOfInterestRequest extends OwsServiceRequest {
      * @param temporalFilters
      *                        temporal filters
      */
-    public void setTemporalFilters(List<TemporalFilter> temporalFilters) {
-        this.temporalFilters = temporalFilters;
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public GetFeatureOfInterestRequest setTemporalFilters(List<TemporalFilter> temporalFilters) {
+        this.temporalFilters.clear();
+        if (temporalFilters != null) {
+            this.temporalFilters.addAll(temporalFilters);
+        }
+        return this;
     }
 
     /**
@@ -97,7 +106,7 @@ public class GetFeatureOfInterestRequest extends OwsServiceRequest {
      * @return FOI identifiers
      */
     public List<String> getFeatureIdentifiers() {
-        return featureIdentifiers;
+        return Collections.unmodifiableList(featureIdentifiers);
     }
 
     /**
@@ -106,11 +115,12 @@ public class GetFeatureOfInterestRequest extends OwsServiceRequest {
      * @param featureIDs
      *                   FOI identifiers
      */
-    public void setFeatureIdentifiers(Collection<String> featureIDs) {
+    public GetFeatureOfInterestRequest setFeatureIdentifiers(Collection<String> featureIDs) {
         this.featureIdentifiers.clear();
         if (featureIDs != null) {
             this.featureIdentifiers.addAll(featureIDs);
         }
+        return this;
     }
 
     /**
@@ -119,7 +129,7 @@ public class GetFeatureOfInterestRequest extends OwsServiceRequest {
      * @return FOI observedProperties
      */
     public List<String> getObservedProperties() {
-        return observedProperties;
+        return Collections.unmodifiableList(observedProperties);
     }
 
     /**
@@ -128,8 +138,13 @@ public class GetFeatureOfInterestRequest extends OwsServiceRequest {
      * @param observedProperties
      *                           FOI observedProperties
      */
-    public void setObservedProperties(List<String> observedProperties) {
-        this.observedProperties = observedProperties;
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public GetFeatureOfInterestRequest setObservedProperties(List<String> observedProperties) {
+        this.observedProperties.clear();
+        if (observedProperties != null) {
+            this.observedProperties.addAll(observedProperties);
+        }
+        return this;
     }
 
     /**
@@ -138,7 +153,7 @@ public class GetFeatureOfInterestRequest extends OwsServiceRequest {
      * @return FOI procedures
      */
     public List<String> getProcedures() {
-        return procedures;
+        return Collections.unmodifiableList(procedures);
     }
 
     /**
@@ -147,8 +162,13 @@ public class GetFeatureOfInterestRequest extends OwsServiceRequest {
      * @param procedures
      *                   FOI procedures
      */
-    public void setProcedures(List<String> procedures) {
-        this.procedures = procedures;
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public GetFeatureOfInterestRequest setProcedures(List<String> procedures) {
+        this.procedures.clear();
+        if (procedures != null) {
+            this.procedures.addAll(procedures);
+        }
+        return this;
     }
 
     /**
@@ -157,7 +177,7 @@ public class GetFeatureOfInterestRequest extends OwsServiceRequest {
      * @return spatial filters
      */
     public List<SpatialFilter> getSpatialFilters() {
-        return spatialFilters;
+        return Collections.unmodifiableList(spatialFilters);
     }
 
     /**
@@ -166,16 +186,26 @@ public class GetFeatureOfInterestRequest extends OwsServiceRequest {
      * @param spatialFilters
      *                       spatial filters
      */
-    public void setSpatialFilters(List<SpatialFilter> spatialFilters) {
-        this.spatialFilters = spatialFilters;
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public GetFeatureOfInterestRequest setSpatialFilters(List<SpatialFilter> spatialFilters) {
+        this.spatialFilters.clear();
+        if (spatialFilters != null) {
+            this.spatialFilters.addAll(spatialFilters);
+        }
+        return this;
     }
 
-    public void setNamespaces(Map<String, String> namespaces) {
-        this.namespaces = namespaces;
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public GetFeatureOfInterestRequest setNamespaces(Map<String, String> namespaces) {
+        this.namespaces.clear();
+        if (namespaces != null) {
+            this.namespaces.putAll(namespaces);
+        }
+        return this;
     }
 
     public Map<String, String> getNamespaces() {
-        return namespaces;
+        return Collections.unmodifiableMap(namespaces);
     }
 
     public boolean isSetFeatureOfInterestIdentifiers() {

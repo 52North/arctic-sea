@@ -21,6 +21,8 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Instant;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Class represents a GML conform timeInstant element
  *
@@ -121,6 +123,7 @@ public class TimeInstant
      *
      * @return Returns the value.
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public DateTime getValue() {
         return value;
     }
@@ -131,6 +134,7 @@ public class TimeInstant
      * @param value
      *            The value to set.
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setValue(final DateTime value) {
         this.value = value;
     }

@@ -15,6 +15,8 @@
  */
 package org.n52.shetland.inspire;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Abstract service internal representation of INSPIRE keywords
  *
@@ -47,6 +49,7 @@ public abstract class AbstractInspireKeyword<T> {
      *
      * @return the originatingControlledVocabulary
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public InspireOriginatingControlledVocabulary getOriginatingControlledVocabulary() {
         return originatingControlledVocabulary;
     }

@@ -118,7 +118,7 @@ public class ComplexInputDescriptionImpl extends AbstractProcessInputDescription
             return supportedFormats.build();
         }
 
-        @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+        @SuppressFBWarnings({ "EI_EXPOSE_REP" })
         public Format getDefaultFormat() {
             return defaultFormat;
         }

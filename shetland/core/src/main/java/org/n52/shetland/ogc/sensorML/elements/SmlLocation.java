@@ -17,6 +17,8 @@ package org.n52.shetland.ogc.sensorML.elements;
 
 import org.locationtech.jts.geom.Point;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * SOS internal representation of SensorML location
  *
@@ -33,7 +35,7 @@ public class SmlLocation {
      *
      * @param point
      *            Point
-     */
+     */@SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SmlLocation(final Point point) {
         super();
         this.point = point;
@@ -42,6 +44,7 @@ public class SmlLocation {
     /**
      * @return the point
      */
+     @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Point getPoint() {
         return point;
     }
@@ -56,8 +59,11 @@ public class SmlLocation {
     /**
      * @param point
      *            Point
+     * @return
      */
-    public void setPoint(final Point point) {
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public SmlLocation setPoint(final Point point) {
         this.point = point;
+        return this;
     }
 }

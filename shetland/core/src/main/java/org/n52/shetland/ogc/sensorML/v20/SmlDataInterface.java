@@ -17,6 +17,9 @@ package org.n52.shetland.ogc.sensorML.v20;
 
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
 import org.n52.shetland.ogc.swe.SweDataRecord;
 import org.n52.shetland.ogc.swe.SweDataStream;
@@ -39,10 +42,12 @@ public class SmlDataInterface extends SweAbstractDataComponent {
         return null;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SweDataStream getData() {
         return sweDataStream;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setData(SweDataStream sweDataStream) {
         this.sweDataStream = sweDataStream;
     }
@@ -51,10 +56,11 @@ public class SmlDataInterface extends SweAbstractDataComponent {
         return inputParameters != null;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SweDataRecord getInterfaceParameters() {
         return inputParameters;
     }
-
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setInputParameters(SweDataRecord inputParameters) {
         this.inputParameters = inputParameters;
     }

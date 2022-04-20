@@ -23,6 +23,8 @@ import org.n52.shetland.ogc.swe.SweAbstractDataRecord;
 
 import com.google.common.base.MoreObjects;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class ComplexValue
         implements Value<SweAbstractDataRecord> {
     private SweAbstractDataRecord value;
@@ -32,17 +34,20 @@ public class ComplexValue
         this(null);
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public ComplexValue(SweAbstractDataRecord value) {
         this.value = value;
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public ComplexValue setValue(SweAbstractDataRecord value) {
         this.value = value;
         return this;
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SweAbstractDataRecord getValue() {
         return this.value;
     }

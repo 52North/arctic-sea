@@ -98,6 +98,7 @@ public abstract class StreamingValue<S> extends AbstractStreaming {
      * @param observationTemplate
      *            Observation template to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setObservationTemplate(OmObservation observationTemplate) {
         this.observationTemplate = observationTemplate;
     }
@@ -105,17 +106,20 @@ public abstract class StreamingValue<S> extends AbstractStreaming {
     /**
      * @return the observationTemplate
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public OmObservation getObservationTemplate() {
         return observationTemplate;
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Time getPhenomenonTime() {
         isSetPhenomenonTime();
         return phenomenonTime;
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setPhenomenonTime(Time phenomenonTime) {
         this.phenomenonTime = phenomenonTime;
     }
@@ -195,10 +199,12 @@ public abstract class StreamingValue<S> extends AbstractStreaming {
         return unit != null;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public TimeInstant getResultTime() {
         return resultTime;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     protected void setResultTime(TimeInstant resultTime) {
         this.resultTime = resultTime;
     }
@@ -207,10 +213,12 @@ public abstract class StreamingValue<S> extends AbstractStreaming {
         return getResultTime() != null;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Time getValidTime() {
         return validTime;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     protected void setValidTime(Time validTime) {
         this.validTime = validTime;
     }

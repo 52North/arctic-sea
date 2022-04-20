@@ -16,6 +16,7 @@
 package org.n52.shetland.ogc.sensorML.v20;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -53,44 +54,50 @@ public class SmlFeatureOfInterest extends SweAbstractDataComponent {
     }
 
     public SmlFeatureOfInterest addFeaturesOfInterest(Map<String, AbstractFeature> featuresOfInterestMap) {
-        getFeaturesOfInterestMap().putAll(featuresOfInterestMap);
+        if (featuresOfInterestMap != null) {
+            this.featuresOfInterestMap.putAll(featuresOfInterestMap);
+        }
         return this;
     }
 
     public SmlFeatureOfInterest addFeatureOfInterest(String featureIdentifier) {
-        getFeaturesOfInterestMap().put(featureIdentifier,
-                new SamplingFeature(new CodeWithAuthority(featureIdentifier)));
+        if (featureIdentifier != null && !featureIdentifier.isEmpty()) {
+            this.featuresOfInterestMap.put(featureIdentifier,
+                    new SamplingFeature(new CodeWithAuthority(featureIdentifier)));
+        }
         return this;
     }
 
     public SmlFeatureOfInterest addFeatureOfInterest(AbstractFeature feature) {
-        getFeaturesOfInterestMap().put(feature.getIdentifier(), feature);
+        if (feature != null) {
+            this.featuresOfInterestMap.put(feature.getIdentifier(), feature);
+        }
         return this;
     }
 
     public Set<String> getFeaturesOfInterest() {
-        return getFeaturesOfInterestMap().keySet();
+        return featuresOfInterestMap.keySet();
     }
 
     public boolean isSetFeaturesOfInterest() {
         return CollectionHelper.isNotEmpty(getFeaturesOfInterest())
-                || CollectionHelper.isNotEmpty(getFeaturesOfInterestMap());
+                || CollectionHelper.isNotEmpty(featuresOfInterestMap);
     }
 
     public Map<String, AbstractFeature> getFeaturesOfInterestMap() {
-        return featuresOfInterestMap;
+        return Collections.unmodifiableMap(featuresOfInterestMap);
     }
 
     public boolean isSetFeaturesOfInterestMap() {
-        return CollectionHelper.isNotEmpty(getFeaturesOfInterestMap());
+        return CollectionHelper.isNotEmpty(featuresOfInterestMap);
     }
 
     public boolean hasAbstractFeatureFor(String identifier) {
-        return isSetFeaturesOfInterestMap() && getFeaturesOfInterestMap().containsKey(identifier);
+        return isSetFeaturesOfInterestMap() && featuresOfInterestMap.containsKey(identifier);
     }
 
     public AbstractFeature getAbstractFeatureFor(String identifier) {
-        return getFeaturesOfInterestMap().get(identifier);
+        return featuresOfInterestMap.get(identifier);
     }
 
     public boolean isSetFeatures() {
@@ -112,7 +119,7 @@ public class SmlFeatureOfInterest extends SweAbstractDataComponent {
         SmlFeatureOfInterest clone = new SmlFeatureOfInterest();
         copyValueTo(clone);
         if (isSetFeaturesOfInterestMap()) {
-            clone.addFeaturesOfInterest(new HashMap<>(getFeaturesOfInterestMap()));
+            clone.addFeaturesOfInterest(new HashMap<>(featuresOfInterestMap));
         }
         return clone;
     }

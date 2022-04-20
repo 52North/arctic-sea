@@ -18,6 +18,8 @@ package org.n52.shetland.ogc.sos.delobs;
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.sos.response.AbstractOperationResponse;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class DeleteObservationResponse extends AbstractOperationResponse {
     private OmObservation deletedObservation;
     private String observationIdentifier;
@@ -34,10 +36,12 @@ public class DeleteObservationResponse extends AbstractOperationResponse {
         return observationIdentifier;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setDeletedObservation(OmObservation deletedObservation) {
         this.deletedObservation = deletedObservation;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public OmObservation getDeletedObservation() {
         return deletedObservation;
     }

@@ -18,6 +18,8 @@ package org.n52.shetland.ogc.sensorML.elements;
 import org.n52.shetland.ogc.gml.AbstractReferenceType;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Abstract container class for {@link SweAbstractDataComponent}s
  *
@@ -58,6 +60,7 @@ public class AbstractDataComponentContainer<T> extends AbstractReferenceType {
      * @param abstractDataComponent
      *            data component
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public AbstractDataComponentContainer(String name, SweAbstractDataComponent abstractDataComponent) {
         this.name = name;
         this.abstractDataComponent = abstractDataComponent;
@@ -80,6 +83,7 @@ public class AbstractDataComponentContainer<T> extends AbstractReferenceType {
     /**
      * @return the abstractDataComponent
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SweAbstractDataComponent getAbstractDataComponent() {
         return abstractDataComponent;
     }
@@ -88,6 +92,7 @@ public class AbstractDataComponentContainer<T> extends AbstractReferenceType {
      * @param abstractDataComponent
      *            the abstractDataComponent to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setAbstractDataComponent(SweAbstractDataComponent abstractDataComponent) {
         this.abstractDataComponent = abstractDataComponent;
     }

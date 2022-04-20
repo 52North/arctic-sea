@@ -16,6 +16,7 @@
 package org.n52.shetland.ogc.sos.gda;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -66,100 +67,133 @@ public class GetDataAvailabilityRequest extends OwsServiceRequest
      * @return the requested {@code procedures}.
      */
     public List<String> getProcedures() {
-        return procedures;
+        return Collections.unmodifiableList(procedures);
     }
 
     /**
      * @return the requested {@code observedProperties}.
      */
     public List<String> getObservedProperties() {
-        return observedProperties;
+        return Collections.unmodifiableList(observedProperties);
     }
 
     /**
      * @return the requested {@code featuresOfInterest}.
      */
     public List<String> getFeaturesOfInterest() {
-        return featuresOfInterest;
+        return Collections.unmodifiableList(featuresOfInterest);
     }
 
     /**
      * @return the requested {@code offerings}.
      */
     public List<String> getOfferings() {
-        return offerings;
+        return Collections.unmodifiableList(offerings);
     }
 
     /**
      * Add a {@code procedure} to the request.
      *
-     * @param procedure the {@code procedure}
+     * @param procedure
+     *            the {@code procedure}
      */
     public void addProcedure(String procedure) {
-        this.procedures.add(procedure);
+        if (procedure != null) {
+            this.procedures.add(procedure);
+        }
     }
 
     /**
      * Add a {@code observedProperty} to the request.
      *
-     * @param observedProperty the {@code observedProperty}
+     * @param observedProperty
+     *            the {@code observedProperty}
+     * @return
      */
-    public void addObservedProperty(String observedProperty) {
-        this.observedProperties.add(observedProperty);
+    public GetDataAvailabilityRequest addObservedProperty(String observedProperty) {
+        if (observedProperty != null) {
+            this.observedProperties.add(observedProperty);
+        }
+        return this;
     }
 
     /**
      * Add a {@code featureOfInterest} to the request.
      *
-     * @param featureOfInterest the {@code featureOfInterest}
+     * @param featureOfInterest
+     *            the {@code featureOfInterest}
+     * @return
      */
-    public void addFeatureOfInterest(String featureOfInterest) {
-        this.featuresOfInterest.add(featureOfInterest);
+    public GetDataAvailabilityRequest addFeatureOfInterest(String featureOfInterest) {
+        if (featuresOfInterest != null) {
+            this.featuresOfInterest.add(featureOfInterest);
+        }
+        return this;
     }
 
-    public void setFeatureOfInterest(Collection<String> featuresOfInterest) {
+    public GetDataAvailabilityRequest setFeatureOfInterest(Collection<String> featuresOfInterest) {
         this.featuresOfInterest.clear();
-        this.featuresOfInterest.addAll(featuresOfInterest);
+        if (featuresOfInterest != null) {
+            this.featuresOfInterest.addAll(featuresOfInterest);
+        }
+        return this;
     }
 
     /**
      * Add a {@code offering} to the request.
      *
-     * @param offering the {@code offering}
+     * @param offering
+     *            the {@code offering}
+     * @return
      */
-    public void addOffering(String offering) {
-        this.offerings.add(offering);
+    public GetDataAvailabilityRequest addOffering(String offering) {
+        if (offering != null) {
+            this.offerings.add(offering);
+        }
+        return this;
     }
 
-    public void setOfferings(Collection<String> offerings) {
+    public GetDataAvailabilityRequest setOfferings(Collection<String> offerings) {
         this.offerings.clear();
-        this.offerings.addAll(offerings);
+        if (offerings != null) {
+            this.offerings.addAll(offerings);
+        }
+        return this;
     }
 
     public boolean isSetProcedures() {
         return CollectionHelper.isNotEmpty(getProcedures());
     }
 
-    public void setProcedure(List<String> procedures) {
+    public GetDataAvailabilityRequest setProcedure(Collection<String> procedures) {
         this.procedures.clear();
-        this.procedures.addAll(procedures);
+        if (procedures != null) {
+            this.procedures.addAll(procedures);
+        }
+        return this;
     }
 
     public boolean isSetProcedure() {
         return CollectionHelper.isNotEmpty(getProcedures());
     }
 
-    public void setProcedures(List<String> procedures) {
-        this.procedures = procedures;
+    public GetDataAvailabilityRequest setProcedures(Collection<String> procedures) {
+        if (procedures != null) {
+            this.procedures.addAll(procedures);
+        }
+        return this;
     }
 
     public boolean isSetObservedProperties() {
         return CollectionHelper.isNotEmpty(getObservedProperties());
     }
 
-    public void setObservedProperty(List<String> observedProperties) {
+    public GetDataAvailabilityRequest setObservedProperty(Collection<String> observedProperties) {
         this.observedProperties.clear();
-        this.observedProperties.addAll(observedProperties);
+        if (observedProperties != null) {
+            this.observedProperties.addAll(observedProperties);
+        }
+        return this;
     }
 
     public boolean isSetFeaturesOfInterest() {
@@ -190,9 +224,9 @@ public class GetDataAvailabilityRequest extends OwsServiceRequest
     }
 
     public boolean hasResultFilter() {
-        return hasExtension(ResultFilterConstants.RESULT_FILTER) &&
-               getExtension(ResultFilterConstants.RESULT_FILTER).isPresent() &&
-               getExtension(ResultFilterConstants.RESULT_FILTER).get() instanceof ResultFilter;
+        return hasExtension(ResultFilterConstants.RESULT_FILTER)
+                && getExtension(ResultFilterConstants.RESULT_FILTER).isPresent()
+                && getExtension(ResultFilterConstants.RESULT_FILTER).get() instanceof ResultFilter;
     }
 
     public Filter<?> getResultFilter() {
@@ -208,9 +242,9 @@ public class GetDataAvailabilityRequest extends OwsServiceRequest
     }
 
     public boolean hasSpatialFilter() {
-        return hasExtension(SosSpatialFilterConstants.SPATIAL_FILTER) &&
-               getExtension(SosSpatialFilterConstants.SPATIAL_FILTER).isPresent() &&
-               getExtension(SosSpatialFilterConstants.SPATIAL_FILTER).get() instanceof SosSpatialFilter;
+        return hasExtension(SosSpatialFilterConstants.SPATIAL_FILTER)
+                && getExtension(SosSpatialFilterConstants.SPATIAL_FILTER).isPresent()
+                && getExtension(SosSpatialFilterConstants.SPATIAL_FILTER).get() instanceof SosSpatialFilter;
     }
 
     @Override

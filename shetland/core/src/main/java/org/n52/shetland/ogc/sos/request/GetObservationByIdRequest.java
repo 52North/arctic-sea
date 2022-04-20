@@ -15,9 +15,14 @@
  */
 package org.n52.shetland.ogc.sos.request;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.n52.shetland.ogc.sos.SosConstants;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * SOS GetObservationById request
@@ -29,7 +34,7 @@ public class GetObservationByIdRequest extends AbstractObservationRequest {
     /**
      * Observation identifier
      */
-    private List<String> observationIdentifier;
+    private List<String> observationIdentifier = new LinkedList<>();
 
     public GetObservationByIdRequest() {
         super(null, null, SosConstants.Operations.GetObservationById.name());
@@ -49,7 +54,7 @@ public class GetObservationByIdRequest extends AbstractObservationRequest {
      * @return observation identifier
      */
     public List<String> getObservationIdentifier() {
-        return observationIdentifier;
+        return Collections.unmodifiableList(observationIdentifier);
     }
 
     public boolean isSetObservationIdentifier() {
@@ -61,9 +66,15 @@ public class GetObservationByIdRequest extends AbstractObservationRequest {
      *
      * @param observationIdentifier
      *                              observation identifier
+     * @return
      */
-    public void setObservationIdentifier(List<String> observationIdentifier) {
-        this.observationIdentifier = observationIdentifier;
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public GetObservationByIdRequest setObservationIdentifier(Collection<String> observationIdentifier) {
+        this.observationIdentifier.clear();
+        if (observationIdentifier != null) {
+            this.observationIdentifier.addAll(observationIdentifier);
+        }
+        return this;
     }
 
 }

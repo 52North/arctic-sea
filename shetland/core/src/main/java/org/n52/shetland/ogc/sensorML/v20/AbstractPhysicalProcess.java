@@ -19,6 +19,8 @@ import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.sensorML.HasPosition;
 import org.n52.shetland.ogc.sensorML.elements.SmlPosition;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Class that represents SensorML 2.0 PhysicalProcess.
  *
@@ -93,6 +95,7 @@ public class AbstractPhysicalProcess
     /**
      * @return the position
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SmlPosition getPosition() {
         return position;
     }
@@ -101,6 +104,7 @@ public class AbstractPhysicalProcess
      * @param position
      *            the position to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public AbstractPhysicalProcess setPosition(SmlPosition position) {
         this.position = position;
         return this;

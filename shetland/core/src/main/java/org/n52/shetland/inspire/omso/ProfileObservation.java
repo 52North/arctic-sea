@@ -68,7 +68,7 @@ public class ProfileObservation
     }
 
     @Override
-    public void setValue(ObservationValue<?> value) {
+    public ProfileObservation setValue(ObservationValue<?> value) {
         if (value instanceof StreamingValue<?>) {
             super.setValue(value);
         } else if (value.getValue() instanceof RectifiedGridCoverage
@@ -112,6 +112,7 @@ public class ProfileObservation
             rectifiedGridCoverage.addValue(heightDepth, value.getValue());
             super.setValue(new SingleObservationValue<>(value.getPhenomenonTime(), rectifiedGridCoverage));
         }
+        return this;
     }
 
     private void setFeatureGeometry(List<Coordinate> coordinates, int srid) {

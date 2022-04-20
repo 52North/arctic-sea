@@ -16,14 +16,19 @@
 package org.n52.shetland.ogc.filter;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
 
 import org.n52.shetland.ogc.filter.FilterConstants.Id;
-
+import org.n52.shetland.util.CollectionHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,7 +45,7 @@ public class IdFilter
 
     private Id operator;
 
-    private Set<String> ids;
+    private Set<String> ids = new LinkedHashSet<>();
 
     public IdFilter() {
         this(Sets.<String> newHashSet());
@@ -50,8 +55,11 @@ public class IdFilter
         this(Sets.newHashSet(id));
     }
 
-    public IdFilter(Set<String> ids) {
-        this.ids = ids;
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public IdFilter(Collection<String> ids) {
+        if (ids != null) {
+            this.ids.addAll(ids);
+        }
     }
 
     @Override
@@ -60,11 +68,13 @@ public class IdFilter
     }
 
     public Collection<String> getIds() {
-        return ids;
+        return Collections.unmodifiableCollection(ids);
     }
 
     public Filter<Id> addId(String id) {
-        this.ids.add(id);
+        if (!Strings.isNullOrEmpty(id)) {
+            this.ids.add(id);
+        }
         return this;
     }
 

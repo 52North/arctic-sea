@@ -22,6 +22,8 @@ import org.apache.commons.lang.builder.CompareToBuilder;
 
 import org.n52.shetland.ogc.om.values.Value;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import org.locationtech.jts.geom.Point;
 
 public class PointValuePair implements Comparable<PointValuePair> {
@@ -43,6 +45,7 @@ public class PointValuePair implements Comparable<PointValuePair> {
      * @param value
      *            Point value pair value
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public PointValuePair(Point point, Value<?> value) {
         this.point = point;
         this.value = value;
@@ -53,6 +56,7 @@ public class PointValuePair implements Comparable<PointValuePair> {
      *
      * @return Point value pair point
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Point getPoint() {
         return point;
     }
@@ -62,6 +66,7 @@ public class PointValuePair implements Comparable<PointValuePair> {
      *
      * @return Point value pair value
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Value<?> getValue() {
         return value;
     }
@@ -72,6 +77,7 @@ public class PointValuePair implements Comparable<PointValuePair> {
      * @param point
      *            Point value pair point to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setPoint(Point point) {
         this.point = point;
     }
@@ -82,6 +88,7 @@ public class PointValuePair implements Comparable<PointValuePair> {
      * @param value
      *            Point value pair value to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setValue(Value<?> value) {
         this.value = value;
     }

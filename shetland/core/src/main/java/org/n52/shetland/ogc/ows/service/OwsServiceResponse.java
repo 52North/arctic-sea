@@ -21,6 +21,8 @@ import org.n52.janmayen.http.MediaType;
 import org.n52.shetland.ogc.ows.HasExtension;
 import org.n52.shetland.ogc.ows.extension.Extensions;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * abstract super class for all service request classes
  *
@@ -45,6 +47,7 @@ public abstract class OwsServiceResponse
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Extensions getExtensions() {
         return this.extensions;
     }
