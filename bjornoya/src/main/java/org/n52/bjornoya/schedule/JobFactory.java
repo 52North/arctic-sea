@@ -79,15 +79,15 @@ public class JobFactory implements Constructable {
     }
 
     /**
-     * @return the updateDefinition
+     * @return the cronFullExpression
      */
     public String getFullCronExpression() {
         return cronFullExpression;
     }
 
     /**
-     * @param updateDefinition
-     *            the updateDefinition to set
+     * @param cronFullExpression
+     *            the cronFullExpression to set
      */
     @Setting(FULL_HARVEST_UPDATE)
     @Value(FULL_HARVEST_UPDATE_VALUE)
@@ -104,15 +104,15 @@ public class JobFactory implements Constructable {
     }
 
     /**
-     * @return the updateDefinition
+     * @return the cronTemporalExpression
      */
     public String getTemporalCronExpression() {
         return cronTemporalExpression;
     }
 
     /**
-     * @param updateDefinition
-     *            the updateDefinition to set
+     * @param cronTemporalExpression
+     *            the cronTemporalExpression to set
      */
     @Setting(TEMPORAL_HARVEST_UPDATE)
     @Value(TEMPORAL_HARVEST_UPDATE_VALUE)
