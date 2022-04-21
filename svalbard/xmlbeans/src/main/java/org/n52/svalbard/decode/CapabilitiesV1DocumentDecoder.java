@@ -15,11 +15,9 @@
  */
 package org.n52.svalbard.decode;
 
-import com.google.common.base.Joiner;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.Collections;
 import java.util.Set;
-import net.opengis.sos.x10.CapabilitiesDocument;
+
 import org.n52.shetland.ogc.ows.OwsCapabilities;
 import org.n52.shetland.ogc.ows.service.GetCapabilitiesResponse;
 import org.n52.shetland.ogc.sos.Sos1Constants;
@@ -28,6 +26,11 @@ import org.n52.svalbard.decode.exception.UnsupportedDecoderInputException;
 import org.n52.svalbard.util.CodingHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Joiner;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import net.opengis.sos.x10.CapabilitiesDocument;
 
 /**
  * @author <a href="mailto:j.schulte@52north.org">Jan Schulte</a>

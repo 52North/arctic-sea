@@ -15,7 +15,9 @@
  */
 package org.n52.svalbard.encode;
 
-import com.google.common.collect.ImmutableSet;
+import java.util.Collections;
+import java.util.Set;
+
 import org.apache.xmlbeans.XmlObject;
 import org.n52.janmayen.http.MediaType;
 import org.n52.janmayen.http.MediaTypes;
@@ -35,8 +37,7 @@ import org.n52.shetland.w3c.soap.SoapResponse;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.NoEncoderForKeyException;
 
-import java.util.Collections;
-import java.util.Set;
+import com.google.common.collect.ImmutableSet;
 
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>

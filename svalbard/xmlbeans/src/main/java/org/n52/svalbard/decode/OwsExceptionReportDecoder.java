@@ -22,10 +22,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import net.opengis.ows.x11.ExceptionReportDocument;
-import net.opengis.ows.x11.ExceptionReportDocument.ExceptionReport;
-import net.opengis.ows.x11.ExceptionType;
-
 import org.n52.janmayen.stream.Streams;
 import org.n52.shetland.ogc.ows.OWSConstants;
 import org.n52.shetland.ogc.ows.exception.CodedException;
@@ -33,6 +29,10 @@ import org.n52.shetland.ogc.ows.exception.CompositeOwsException;
 import org.n52.shetland.ogc.ows.exception.ExceptionCode;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.svalbard.decode.exception.DecodingException;
+
+import net.opengis.ows.x11.ExceptionReportDocument;
+import net.opengis.ows.x11.ExceptionReportDocument.ExceptionReport;
+import net.opengis.ows.x11.ExceptionType;
 
 /**
  * Decoder for OWS v1.1.0 Exception Reports.

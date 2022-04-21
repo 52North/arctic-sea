@@ -18,13 +18,7 @@ package org.n52.svalbard.decode;
 import java.util.Collections;
 import java.util.Set;
 
-import net.opengis.sosgda.x10.GetDataAvailabilityDocument;
-import net.opengis.sosgda.x10.GetDataAvailabilityType;
-
 import org.apache.xmlbeans.XmlObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityConstants;
@@ -34,8 +28,13 @@ import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.exception.UnsupportedDecoderXmlInputException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.XmlHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
+
+import net.opengis.sosgda.x10.GetDataAvailabilityDocument;
+import net.opengis.sosgda.x10.GetDataAvailabilityType;
 
 /**
  * {@code Decoder} to handle {@link GetDataAvailabilityRequest}s.

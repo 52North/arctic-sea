@@ -15,6 +15,18 @@
  */
 package org.n52.svalbard.encode;
 
+import static java.util.stream.Collectors.toMap;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Stream;
+
+import javax.inject.Inject;
+
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.n52.faroe.annotation.Configurable;
@@ -27,17 +39,6 @@ import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.N52XmlHelper;
 import org.n52.svalbard.util.XmlHelper;
-
-import javax.inject.Inject;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.function.Function;
-import java.util.stream.Stream;
-
-import static java.util.stream.Collectors.toMap;
 
 /**
  * @param <T> the response type

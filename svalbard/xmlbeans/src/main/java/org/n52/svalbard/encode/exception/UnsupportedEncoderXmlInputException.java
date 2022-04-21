@@ -16,9 +16,7 @@
 package org.n52.svalbard.encode.exception;
 
 import org.apache.xmlbeans.XmlObject;
-
 import org.n52.svalbard.encode.Encoder;
-
 import org.w3c.dom.Node;
 
 public class UnsupportedEncoderXmlInputException extends UnsupportedEncoderInputException {

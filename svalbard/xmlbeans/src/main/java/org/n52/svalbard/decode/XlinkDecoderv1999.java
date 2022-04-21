@@ -19,13 +19,11 @@ import java.util.Collections;
 import java.util.Set;
 
 import org.apache.xmlbeans.XmlObject;
-
 import org.n52.shetland.w3c.W3CConstants;
 import org.n52.shetland.w3c.xlink.W3CHrefAttribute;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.exception.UnsupportedDecoderXmlInputException;
 import org.n52.svalbard.util.CodingHelper;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3.x1999.xlink.HrefAttribute;

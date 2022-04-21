@@ -19,10 +19,10 @@ import java.util.Collections;
 import java.util.Set;
 
 import org.n52.shetland.inspire.ompr.InspireOMPRConstants;
+import org.n52.shetland.inspire.ompr.Process;
 import org.n52.shetland.ogc.SupportedType;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
 import org.n52.shetland.ogc.sos.ProcedureDescriptionFormat;
-import org.n52.shetland.inspire.ompr.Process;
 
 import com.google.common.collect.Sets;
 

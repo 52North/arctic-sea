@@ -19,7 +19,6 @@ import org.apache.xmlbeans.XmlAnyURI;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlString;
 import org.apache.xmlbeans.impl.values.XmlAnyTypeImpl;
-
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityRequest;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 import org.n52.svalbard.decode.exception.DecodingException;

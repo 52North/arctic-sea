@@ -26,16 +26,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import net.opengis.gml.ReferenceType;
-import net.opengis.sos.x10.CapabilitiesDocument.Capabilities;
-import net.opengis.sos.x10.ContentsDocument;
-import net.opengis.sos.x10.FilterCapabilitiesDocument;
-import net.opengis.sos.x10.ObservationOfferingType;
-import net.opengis.swe.x101.PhenomenonPropertyType;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.n52.shetland.ogc.filter.FilterCapabilities;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.ows.OwsCapabilities;
@@ -47,10 +37,18 @@ import org.n52.shetland.util.ReferencedEnvelope;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.exception.UnsupportedDecoderInputException;
 import org.n52.svalbard.util.CodingHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import net.opengis.gml.ReferenceType;
+import net.opengis.sos.x10.CapabilitiesDocument.Capabilities;
+import net.opengis.sos.x10.ContentsDocument;
+import net.opengis.sos.x10.FilterCapabilitiesDocument;
+import net.opengis.sos.x10.ObservationOfferingType;
+import net.opengis.swe.x101.PhenomenonPropertyType;
 
 /**
  * @author <a href="mailto:j.schulte@52north.org">Jan Schulte</a>
