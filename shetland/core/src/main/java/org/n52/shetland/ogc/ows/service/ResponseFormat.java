@@ -37,7 +37,7 @@ public interface ResponseFormat {
      * Set response format
      *
      * @param responseFormat
-     *                       response format
+     *            response format
      */
     void setResponseFormat(String responseFormat);
 

@@ -49,21 +49,16 @@ public class CodeType extends AbstractCodeType implements Copyable<CodeType> {
         return new CodeType(getValue(), getCodeSpace());
     }
 
-
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("value", getValue())
-                .add("codeSpace", getCodeSpace())
-                .toString();
+        return MoreObjects.toStringHelper(this).add("value", getValue()).add("codeSpace", getCodeSpace()).toString();
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof CodeType) {
             CodeType that = (CodeType) obj;
-            return Objects.equal(getValue(), that.getValue()) &&
-                   Objects.equal(getCodeSpace(), that.getCodeSpace());
+            return Objects.equal(getValue(), that.getValue()) && Objects.equal(getCodeSpace(), that.getCodeSpace());
         }
         return false;
     }

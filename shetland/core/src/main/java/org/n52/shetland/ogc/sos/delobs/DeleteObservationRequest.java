@@ -176,7 +176,7 @@ public class DeleteObservationRequest extends OwsServiceRequest implements Respo
     /**
      * @param offerings
      *            the offerings to set
-     * @return
+     * @return this
      */
     public DeleteObservationRequest setOfferings(Collection<String> offerings) {
         this.offerings.clear();

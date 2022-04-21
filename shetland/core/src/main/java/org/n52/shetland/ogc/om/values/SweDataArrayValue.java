@@ -45,8 +45,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @since 1.0.0
  *
  */
-public class SweDataArrayValue
-        implements MultiValue<SweDataArray> {
+public class SweDataArrayValue implements MultiValue<SweDataArray> {
     private static final Logger LOGGER = LoggerFactory.getLogger(SweDataArrayValue.class);
 
     /**
@@ -102,8 +101,7 @@ public class SweDataArrayValue
     }
 
     /**
-     * Adds the given block - a {@link List}&lt;{@link String}&gt; - add the end of
-     * the current list of blocks
+     * Adds the given block - a {@link List}&lt;{@link String}&gt; - add the end of the current list of blocks
      *
      * @param blockOfTokensToAddAtTheEnd
      *
@@ -184,7 +182,9 @@ public class SweDataArrayValue
     }
 
     @Override
-    public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
+    public <
+            X,
+            E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
         return visitor.visit(this);
     }
 

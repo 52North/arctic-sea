@@ -15,7 +15,6 @@
  */
 package org.n52.shetland.ogc.sos.request;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -69,7 +68,7 @@ public class UpdateSensorRequest extends OwsServiceRequest {
 
     /**
      * @param procedureIdentifier
-     *                            the procedureIdentifier to set
+     *            the procedureIdentifier to set
      */
     public void setProcedureIdentifier(String procedureIdentifier) {
         this.procedureIdentifier = procedureIdentifier;

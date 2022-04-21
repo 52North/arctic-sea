@@ -25,7 +25,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  *
  * @since 1.0.0
  */
-//FIXME this is not a AbstractDataComponent according to the SWE standard
+// FIXME this is not a AbstractDataComponent according to the SWE standard
 public class SweField extends SweAbstractDataComponent {
 
     /**
@@ -124,12 +124,15 @@ public class SweField extends SweAbstractDataComponent {
     }
 
     @Override
-    public <T, X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
+    public <
+            T,
+            X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
         return visitor.visit(this);
     }
 
     @Override
-    public <X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
+    public <
+            X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
         visitor.visit(this);
     }
 

@@ -42,8 +42,7 @@ import org.n52.shetland.util.JTSHelper;
  * @since
  *
  */
-public class MultiPointObservation
-        extends AbstractInspireObservation {
+public class MultiPointObservation extends AbstractInspireObservation {
 
     /**
      * consturctor
@@ -57,7 +56,8 @@ public class MultiPointObservation
      *
      * @param observation
      *            {@link OmObservation} to convert
-     * @throws CodedException If an error occurs
+     * @throws CodedException
+     *             If an error occurs
      */
     public MultiPointObservation(OmObservation observation) throws CodedException {
         super(observation);

@@ -60,7 +60,8 @@ public class AbstractProcessV20 extends AbstractProcess {
     }
 
     /**
-     * @param configuration the configuration to set
+     * @param configuration
+     *            the configuration to set
      */
     public void setConfiguration(AbstractSettings configuration) {
         this.configuration = configuration;
@@ -74,7 +75,8 @@ public class AbstractProcessV20 extends AbstractProcess {
     }
 
     /**
-     * @param modes the modes to set
+     * @param modes
+     *            the modes to set
      */
     public void setModes(AbstractModes modes) {
         this.modes = modes;
@@ -88,7 +90,8 @@ public class AbstractProcessV20 extends AbstractProcess {
     }
 
     /**
-     * @param definition the definition to set
+     * @param definition
+     *            the definition to set
      */
     public void setDefinition(String definition) {
         this.definition = definition;
@@ -102,7 +105,8 @@ public class AbstractProcessV20 extends AbstractProcess {
     }
 
     /**
-     * @param typeOf the typeOf to set
+     * @param typeOf
+     *            the typeOf to set
      */
     public void setTypeOf(ReferenceType typeOf) {
         this.typeOf = typeOf;

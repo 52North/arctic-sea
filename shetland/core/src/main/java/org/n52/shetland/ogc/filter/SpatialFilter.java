@@ -16,7 +16,6 @@
 package org.n52.shetland.ogc.filter;
 
 import org.locationtech.jts.geom.Geometry;
-
 import org.n52.shetland.ogc.filter.FilterConstants.SpatialOperator;
 import org.n52.shetland.util.EnvelopeOrGeometry;
 import org.n52.shetland.util.ReferencedEnvelope;
@@ -44,9 +43,12 @@ public class SpatialFilter extends Filter<SpatialOperator> {
     /**
      * constructor
      *
-     * @param operator       Spatial operator
-     * @param geometry       Filter geometry
-     * @param valueReference Filter valueReference
+     * @param operator
+     *            Spatial operator
+     * @param geometry
+     *            Filter geometry
+     * @param valueReference
+     *            Filter valueReference
      */
     public SpatialFilter(SpatialOperator operator, Geometry geometry, String valueReference) {
         super(valueReference);
@@ -57,9 +59,12 @@ public class SpatialFilter extends Filter<SpatialOperator> {
     /**
      * constructor
      *
-     * @param operator       Spatial operator
-     * @param geometry       Filter geometry
-     * @param valueReference Filter valueReference
+     * @param operator
+     *            Spatial operator
+     * @param geometry
+     *            Filter geometry
+     * @param valueReference
+     *            Filter valueReference
      */
     public SpatialFilter(SpatialOperator operator, ReferencedEnvelope geometry, String valueReference) {
         super(valueReference);
@@ -134,7 +139,8 @@ public class SpatialFilter extends Filter<SpatialOperator> {
     /**
      * Set filter geometry
      *
-     * @param geometry filter geometry
+     * @param geometry
+     *            filter geometry
      *
      * @return This filter
      */
@@ -146,7 +152,8 @@ public class SpatialFilter extends Filter<SpatialOperator> {
     /**
      * Set filter geometry
      *
-     * @param geometry filter geometry
+     * @param geometry
+     *            filter geometry
      *
      * @return This filter
      */
@@ -157,7 +164,8 @@ public class SpatialFilter extends Filter<SpatialOperator> {
 
     /**
      * @return the distance
-     */    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
+     */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public FesMeasureType getDistance() {
         return distance;
     }
@@ -169,7 +177,7 @@ public class SpatialFilter extends Filter<SpatialOperator> {
      *            the distance to set
      * @return This filter
      */
-     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SpatialFilter setDistance(FesMeasureType distance) {
         this.distance = distance;
         return this;

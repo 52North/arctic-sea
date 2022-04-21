@@ -77,8 +77,8 @@ public class SoapFault extends ExtensibilityElement {
             return false;
         }
         final SoapFault other = (SoapFault) obj;
-        return (getUse() != null && other.getUse() != null && getUse().equals(other.getUse()))
-                &&  (getName() != null && other.getName() != null && getName().equals(other.getName()));
+        return getUse() != null && other.getUse() != null && getUse().equals(other.getUse()) && getName() != null
+                && other.getName() != null && getName().equals(other.getName());
     }
 
     @Override
@@ -90,13 +90,10 @@ public class SoapFault extends ExtensibilityElement {
     public int compareTo(ExtensibilityElement o) {
         Objects.requireNonNull(o);
         if (o instanceof SoapFault) {
-            return ComparisonChain.start()
-                    .compare(this.getUse(), ((SoapFault) o).getUse())
-                    .compare(this.getName(), ((SoapFault) o).getName())
-                    .result();
+            return ComparisonChain.start().compare(this.getUse(), ((SoapFault) o).getUse())
+                    .compare(this.getName(), ((SoapFault) o).getName()).result();
         }
-        return Comparables.compare(getQName().getNamespaceURI(), o.getQName()
-                .getNamespaceURI());
+        return Comparables.compare(getQName().getNamespaceURI(), o.getQName().getNamespaceURI());
     }
 
 }

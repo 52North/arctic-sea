@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.locationtech.jts.geom.Geometry;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.gml.time.Time;
@@ -30,8 +31,6 @@ import org.n52.shetland.w3c.xlink.Referenceable;
 import com.google.common.collect.Lists;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
-import org.locationtech.jts.geom.Geometry;
 
 public class SfSpecimen extends SamplingFeature {
 
@@ -176,7 +175,7 @@ public class SfSpecimen extends SamplingFeature {
     /**
      * @param processingDetails
      *            the processingDetails to set
-     * @return
+     * @return this
      */
     public SfSpecimen setProcessingDetails(Collection<PreparationStep> processingDetails) {
         this.processingDetails.clear();
@@ -256,7 +255,7 @@ public class SfSpecimen extends SamplingFeature {
     /**
      * @param specimenType
      *            the specimenType to set
-     * @return
+     * @return this
      */
     public SfSpecimen setSpecimenType(ReferenceType specimenType) {
         this.specimenType = specimenType;
@@ -268,7 +267,8 @@ public class SfSpecimen extends SamplingFeature {
     }
 
     @Override
-    public <X> X accept(FeatureOfInterestVisitor<X> visitor) throws OwsExceptionReport {
+    public <
+            X> X accept(FeatureOfInterestVisitor<X> visitor) throws OwsExceptionReport {
         return visitor.visit(this);
     }
 }

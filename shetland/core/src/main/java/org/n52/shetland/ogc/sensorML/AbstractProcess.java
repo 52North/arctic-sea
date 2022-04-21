@@ -58,8 +58,7 @@ public class AbstractProcess extends AbstractSensorML {
 
     public AbstractProcess addDescription(final String description) {
         if (isSetDescription()) {
-            setDescription(new StringBuilder(getDescription()).append(", ")
-                    .append(description).toString());
+            setDescription(new StringBuilder(getDescription()).append(", ").append(description).toString());
         } else {
             setDescription(description);
         }

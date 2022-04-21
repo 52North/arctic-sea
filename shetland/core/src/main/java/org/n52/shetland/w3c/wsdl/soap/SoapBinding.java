@@ -76,9 +76,9 @@ public class SoapBinding extends ExtensibilityElement {
             return false;
         }
         final SoapBinding other = (SoapBinding) obj;
-        return (getStyle() != null && other.getStyle() != null && getStyle().equals(other.getStyle()))
-                && (getTransport() != null && other.getTransport() != null
-                        && getTransport().equals(other.getTransport()));
+        return getStyle() != null && other.getStyle() != null && getStyle().equals(other.getStyle())
+                && getTransport() != null && other.getTransport() != null
+                && getTransport().equals(other.getTransport());
     }
 
     @Override
@@ -90,13 +90,10 @@ public class SoapBinding extends ExtensibilityElement {
     public int compareTo(ExtensibilityElement o) {
         Objects.requireNonNull(o);
         if (o instanceof SoapBinding) {
-            return ComparisonChain.start()
-                    .compare(this.getStyle(), ((SoapBinding) o).getStyle())
-                    .compare(this.getTransport(), ((SoapBinding) o).getTransport())
-                    .result();
+            return ComparisonChain.start().compare(this.getStyle(), ((SoapBinding) o).getStyle())
+                    .compare(this.getTransport(), ((SoapBinding) o).getTransport()).result();
         }
-        return Comparables.compare(getQName().getNamespaceURI(), o.getQName()
-                .getNamespaceURI());
+        return Comparables.compare(getQName().getNamespaceURI(), o.getQName().getNamespaceURI());
     }
 
 }

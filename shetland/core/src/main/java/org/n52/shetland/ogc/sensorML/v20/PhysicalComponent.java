@@ -28,9 +28,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @since 1.0.0
  *
  */
-public class PhysicalComponent
-        extends AbstractPhysicalProcess
-        implements HasProcessMethod {
+public class PhysicalComponent extends AbstractPhysicalProcess implements HasProcessMethod {
 
     public static final String ID_PREFIX = "pc_";
     private ProcessMethod method;

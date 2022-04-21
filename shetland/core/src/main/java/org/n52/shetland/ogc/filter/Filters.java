@@ -35,8 +35,10 @@ public final class Filters {
     /**
      * Creates a new {@code PropertyIsGreaterThanOrEqualTo} filter.
      *
-     * @param property the property
-     * @param value    the value
+     * @param property
+     *            the property
+     * @param value
+     *            the value
      *
      * @return the filter
      */
@@ -47,8 +49,10 @@ public final class Filters {
     /**
      * Creates a new {@code PropertyIsLessThanOrEqualTo} filter.
      *
-     * @param property the property
-     * @param value    the value
+     * @param property
+     *            the property
+     * @param value
+     *            the value
      *
      * @return the filter
      */
@@ -59,8 +63,10 @@ public final class Filters {
     /**
      * Creates a new {@code PropertyIsEqualTo} filter.
      *
-     * @param property the property
-     * @param value    the value
+     * @param property
+     *            the property
+     * @param value
+     *            the value
      *
      * @return the filter
      */
@@ -71,8 +77,10 @@ public final class Filters {
     /**
      * Creates a new {@code PropertyIsGreaterThan} filter.
      *
-     * @param property the property
-     * @param value    the value
+     * @param property
+     *            the property
+     * @param value
+     *            the value
      *
      * @return the filter
      */
@@ -83,8 +91,10 @@ public final class Filters {
     /**
      * Creates a new {@code PropertyIsLessThan} filter.
      *
-     * @param property the property
-     * @param value    the value
+     * @param property
+     *            the property
+     * @param value
+     *            the value
      *
      * @return the filter
      */
@@ -95,8 +105,10 @@ public final class Filters {
     /**
      * Creates a new {@code PropertyIsLike} filter.
      *
-     * @param property the property
-     * @param value    the value
+     * @param property
+     *            the property
+     * @param value
+     *            the value
      *
      * @return the filter
      */
@@ -107,7 +119,8 @@ public final class Filters {
     /**
      * Creates a new {@code PropertyIsNil} filter.
      *
-     * @param property the property
+     * @param property
+     *            the property
      *
      * @return the filter
      */
@@ -118,7 +131,8 @@ public final class Filters {
     /**
      * Creates a new {@code PropertyIsNull} filter.
      *
-     * @param property the property
+     * @param property
+     *            the property
      *
      * @return the filter
      */
@@ -129,8 +143,10 @@ public final class Filters {
     /**
      * Creates a new {@code PropertyIsNotEqualTo} filter.
      *
-     * @param property the property
-     * @param value    the value
+     * @param property
+     *            the property
+     * @param value
+     *            the value
      *
      * @return the filter
      */
@@ -141,9 +157,12 @@ public final class Filters {
     /**
      * Creates a new {@code PropertyIsBetween} filter.
      *
-     * @param property the property
-     * @param lower    the lower boundary
-     * @param upper    the upper boundary
+     * @param property
+     *            the property
+     * @param lower
+     *            the lower boundary
+     * @param upper
+     *            the upper boundary
      *
      * @return the filter
      */
@@ -159,8 +178,10 @@ public final class Filters {
     /**
      * Creates a new {@code BinaryLogicFilter}.
      *
-     * @param left  the left operand
-     * @param right the right operand
+     * @param left
+     *            the left operand
+     * @param right
+     *            the right operand
      *
      * @return the filter
      */
@@ -171,8 +192,10 @@ public final class Filters {
     /**
      * Creates a new {@code BinaryLogicFilter}.
      *
-     * @param left  the left operand
-     * @param right the right operand
+     * @param left
+     *            the left operand
+     * @param right
+     *            the right operand
      *
      * @return the filter
      */
@@ -183,7 +206,8 @@ public final class Filters {
     /**
      * Creates a new {@code BinaryLogicFilter}.
      *
-     * @param filter the negated filter
+     * @param filter
+     *            the negated filter
      *
      * @return the filter
      */

@@ -15,9 +15,9 @@
  */
 package org.n52.shetland.filter;
 
-import org.n52.shetland.ogc.filter.FilterClause;
-
 import java.util.Objects;
+
+import org.n52.shetland.ogc.filter.FilterClause;
 
 public class CountFilter implements FilterClause {
 
@@ -35,11 +35,13 @@ public class CountFilter implements FilterClause {
         return value;
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
         return Objects.hash(value);
     }
 
-    @Override public boolean equals(Object o) {
+    @Override
+    public boolean equals(Object o) {
         if (o == this) {
             return true;
         }
@@ -51,7 +53,8 @@ public class CountFilter implements FilterClause {
         return this.value.equals(((CountFilter) o).getValue());
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
         return "$count=" + getValue().toString();
     }
 }

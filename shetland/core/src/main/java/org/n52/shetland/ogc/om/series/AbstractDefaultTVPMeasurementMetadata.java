@@ -22,10 +22,10 @@ package org.n52.shetland.ogc.om.series;
  * See <code>/req/xsd-measurement-timeseries-tvp/</code>.
  *
  * @see <a href="http://www.opengeospatial.org/standards/tsml">OGC TSML</a>
- * @see <a href="http://www.opengeospatial.org/standards/waterml">OGC
- *      WaterML</a>
+ * @see <a href="http://www.opengeospatial.org/standards/waterml">OGC WaterML</a>
  */
-public abstract class AbstractDefaultTVPMeasurementMetadata<T extends AbstractDefaultTVPMeasurementMetadata<?>> {
+public abstract class AbstractDefaultTVPMeasurementMetadata<
+        T extends AbstractDefaultTVPMeasurementMetadata<?>> {
 
     private String aggregationDuration;
 
@@ -48,7 +48,6 @@ public abstract class AbstractDefaultTVPMeasurementMetadata<T extends AbstractDe
 
     public abstract AbstractInterpolationType getInterpolationtype();
 
-    public abstract T setInterpolationtype(
-            AbstractInterpolationType interpolationtype);
+    public abstract T setInterpolationtype(AbstractInterpolationType interpolationtype);
 
 }

@@ -18,13 +18,6 @@ package org.n52.svalbard.decode;
 import java.util.Collections;
 import java.util.Set;
 
-import net.opengis.gml.x32.FeaturePropertyType;
-import net.opengis.sos.x20.GetFeatureOfInterestResponseDocument;
-import net.opengis.sos.x20.GetFeatureOfInterestResponseType;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.om.features.FeatureCollection;
 import org.n52.shetland.ogc.sos.Sos2Constants;
@@ -33,10 +26,15 @@ import org.n52.shetland.util.CollectionHelper;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.exception.UnsupportedDecoderInputException;
 import org.n52.svalbard.util.CodingHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import net.opengis.gml.x32.FeaturePropertyType;
+import net.opengis.sos.x20.GetFeatureOfInterestResponseDocument;
+import net.opengis.sos.x20.GetFeatureOfInterestResponseType;
 
 /**
  * XML {@link Decoder} for {@link GetFeatureOfInterestResponse}

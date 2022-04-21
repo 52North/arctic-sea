@@ -17,12 +17,11 @@ package org.n52.shetland.ogc.swe.simpleType;
 
 import org.n52.shetland.ogc.swe.RangeValue;
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
+import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
+import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
 import org.n52.shetland.w3c.xlink.Referenceable;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
-import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
-import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
 
 public class SweCategoryRange extends SweAbstractUomType<RangeValue<String>> implements SweQuality {
 
@@ -71,14 +70,16 @@ public class SweCategoryRange extends SweAbstractUomType<RangeValue<String>> imp
     }
 
     /**
-     * @param constraint the constraint to set
+     * @param constraint
+     *            the constraint to set
      */
     public void setConstraint(SweAllowedTokens constraint) {
         this.constraint = Referenceable.of(constraint);
     }
 
     /**
-     * @param constraint the constraint to set
+     * @param constraint
+     *            the constraint to set
      */
     public void setConstraint(Referenceable<SweAllowedTokens> constraint) {
         this.constraint = constraint;
@@ -93,14 +94,16 @@ public class SweCategoryRange extends SweAbstractUomType<RangeValue<String>> imp
         return SweDataComponentType.CategoryRange;
     }
 
-
     @Override
-    public <T, X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
+    public <
+            T,
+            X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
         return visitor.visit(this);
     }
 
     @Override
-    public <X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
+    public <
+            X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
         visitor.visit(this);
     }
 

@@ -90,7 +90,7 @@ public class SmlCapabilities extends AbstractSmlDataComponentContainer<SmlCapabi
     /**
      * @param capabilities
      *            the capabilities to set
-     * @return
+     * @return this
      */
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SmlCapabilities setCapabilities(List<SmlCapability> capabilities) {

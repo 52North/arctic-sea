@@ -22,8 +22,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 /**
  * Implementation for sam:SamplingFeatureComplex
  *
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
- *         J&uuml;rrens</a>
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  *
  * @since 1.0.0
  */
@@ -47,12 +46,12 @@ public class SamplingFeatureComplex {
      * @param relatedSamplingFeature
      *            Related sampling feature
      * @exception IllegalArgumentException
-     *                If {@link #relatedSamplingFeatureRole} is null or empty
-     *                and {@link #relatedSamplingFeature} is null or empty
+     *                If {@link #relatedSamplingFeatureRole} is null or empty and
+     *                {@link #relatedSamplingFeature} is null or empty
      */
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
-    public SamplingFeatureComplex(
-            final String relatedSamplingFeatureRole, final SamplingFeature relatedSamplingFeature) {
+    public SamplingFeatureComplex(final String relatedSamplingFeatureRole,
+            final SamplingFeature relatedSamplingFeature) {
         if (Strings.isNullOrEmpty(relatedSamplingFeatureRole)) {
             throw new IllegalArgumentException("relatedSamplingFeatureRole is required.");
         }

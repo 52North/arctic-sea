@@ -38,8 +38,7 @@ import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.collect.Lists;
 
-public class ProfileObservation
-        extends AbstractInspireObservation {
+public class ProfileObservation extends AbstractInspireObservation {
 
     /**
      * constructor

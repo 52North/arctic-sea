@@ -19,7 +19,6 @@ import java.util.List;
 
 import org.n52.shetland.w3c.xlink.Referenceable;
 
-
 /**
  * Internal representation of the OGC GML VerticalCS.
  *

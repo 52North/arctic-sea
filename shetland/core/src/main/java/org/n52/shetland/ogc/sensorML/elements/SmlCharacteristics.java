@@ -19,9 +19,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.ogc.swe.DataRecord;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
+import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.collect.Lists;
 
@@ -72,7 +72,7 @@ public class SmlCharacteristics extends AbstractSmlDataComponentContainer<SmlCha
     /**
      * @param characteristics
      *            the characteristics to set
-     * @return
+     * @return this
      */
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SmlCharacteristics setCharacteristic(Collection<SmlCharacteristic> characteristics) {
@@ -89,7 +89,7 @@ public class SmlCharacteristics extends AbstractSmlDataComponentContainer<SmlCha
     /**
      * @param characteristics
      *            the characteristics to add
-     * @return
+     * @return this
      */
     public SmlCharacteristics addCharacteristic(Collection<SmlCharacteristic> characteristics) {
         if (CollectionHelper.isNotEmpty(characteristics)) {
@@ -104,7 +104,7 @@ public class SmlCharacteristics extends AbstractSmlDataComponentContainer<SmlCha
     /**
      * @param characteristic
      *            the characteristic to add
-     * @return
+     * @return this
      */
     public SmlCharacteristics addCharacteristic(SmlCharacteristic characteristic) {
         if (characteristic != null) {

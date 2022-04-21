@@ -52,7 +52,7 @@ public class InsertSensorRequest extends OwsServiceRequest {
      */
     private SosProcedureDescription<?> procedureDescription;
     private String assignedProcedureIdentifier;
-    private List<SosOffering> assignedOfferings  = new LinkedList<>();
+    private List<SosOffering> assignedOfferings = new LinkedList<>();
 
     /**
      * metadata parameter
@@ -101,7 +101,7 @@ public class InsertSensorRequest extends OwsServiceRequest {
      * Set the observableProperty contained in request.
      *
      * @param observableProperty
-     *                           the observableProperty to set
+     *            the observableProperty to set
      */
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public InsertSensorRequest setObservableProperty(Collection<String> observableProperty) {
@@ -130,7 +130,7 @@ public class InsertSensorRequest extends OwsServiceRequest {
      * Set the sensor description contained in request.
      *
      * @param procedureDescription
-     *                             the procedureDescription to set
+     *            the procedureDescription to set
      */
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public InsertSensorRequest setProcedureDescription(SosProcedureDescription<?> procedureDescription) {
@@ -155,7 +155,7 @@ public class InsertSensorRequest extends OwsServiceRequest {
      * Set the metadata contained in request.
      *
      * @param metadata
-     *                 the metadata to set
+     *            the metadata to set
      */
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public InsertSensorRequest setMetadata(SosInsertionMetadata metadata) {

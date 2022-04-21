@@ -554,10 +554,8 @@ public enum InspireLanguageISO6392B {
      * Get {@link InspireLanguageISO6392B} for {@link InspireLanguageISO6392B}
      *
      * @param v
-     *            {@link InspireEuLanguageISO6392B} to get
-     *            {@link InspireLanguageISO6392B} for
-     * @return {@link InspireLanguageISO6392B} of
-     *         {@link InspireEuLanguageISO6392B}
+     *            {@link InspireEuLanguageISO6392B} to get {@link InspireLanguageISO6392B} for
+     * @return {@link InspireLanguageISO6392B} of {@link InspireEuLanguageISO6392B}
      * @throws IllegalArgumentException
      *             if the {@link InspireEuLanguageISO6392B} is invalid
      */

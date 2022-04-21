@@ -39,8 +39,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @since 1.0.0
  *
  */
-public class ProfileLevel extends AbstractPofileTrajectoryElement<ProfileLevel>
-        implements Comparable<ProfileLevel> {
+public class ProfileLevel extends AbstractPofileTrajectoryElement<ProfileLevel> implements Comparable<ProfileLevel> {
 
     private QuantityValue levelStart;
     private QuantityValue levelEnd;
@@ -114,7 +113,6 @@ public class ProfileLevel extends AbstractPofileTrajectoryElement<ProfileLevel>
     public boolean isSetLevelEnd() {
         return getLevelEnd() != null;
     }
-
 
     @Override
     public int compareTo(ProfileLevel o) {
@@ -214,7 +212,8 @@ public class ProfileLevel extends AbstractPofileTrajectoryElement<ProfileLevel>
         return parameter;
     }
 
-    public <X> Collection<X> accept(ProfileLevelVisitor<X> visitor) throws OwsExceptionReport {
+    public <
+            X> Collection<X> accept(ProfileLevelVisitor<X> visitor) throws OwsExceptionReport {
         return visitor.visit(this);
     }
 }

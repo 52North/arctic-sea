@@ -31,8 +31,8 @@ import org.n52.shetland.ogc.swe.simpleType.SweTime;
 import org.n52.shetland.ogc.swe.simpleType.SweTimeRange;
 import org.n52.shetland.ogc.swe.stream.StreamingSweDataArray;
 
-
-public class AbstractVoidSweDataComponentVisitor<X extends Throwable> extends VoidSweDataComponentVisitor<X> {
+public class AbstractVoidSweDataComponentVisitor<
+        X extends Throwable> extends VoidSweDataComponentVisitor<X> {
 
     @Override
     protected void _visit(SmlDataInterface component) throws X {

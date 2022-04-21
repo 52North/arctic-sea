@@ -220,14 +220,14 @@ public interface SweConstants {
         private static final Set<String> Y_NAMES = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
         private static final Set<String> Z_NAMES = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
 
-
         static {
             Collections.addAll(X_NAMES, EASTING, WESTING, LONGITUDE);
             Collections.addAll(Y_NAMES, NORTHING, SOUTHING, LATITUDE);
             Collections.addAll(Z_NAMES, ALTITUDE, HEIGHT, DEPTH);
         }
 
-        private SweCoordinateNames() {}
+        private SweCoordinateNames() {
+        }
 
         public static boolean isX(String name) {
             return X_NAMES.contains(name);

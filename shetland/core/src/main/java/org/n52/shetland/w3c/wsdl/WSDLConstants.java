@@ -234,7 +234,7 @@ public interface WSDLConstants {
 
         QName QN_WSDL_FAULT = new QName(NS_WSDL, EN_WSDL_FAULT, NS_WSDL_PREFIX);
 
-        QName QN_WSDL_SERVICE =  new QName(NS_WSDL, EN_WSDL_SERVICE, NS_WSDL_PREFIX);
+        QName QN_WSDL_SERVICE = new QName(NS_WSDL, EN_WSDL_SERVICE, NS_WSDL_PREFIX);
 
     }
 

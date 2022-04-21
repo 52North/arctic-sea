@@ -32,8 +32,9 @@ import org.n52.shetland.ogc.swe.simpleType.SweText;
 import org.n52.shetland.ogc.swe.simpleType.SweTime;
 import org.n52.shetland.ogc.swe.simpleType.SweTimeRange;
 
-public abstract class AbstractThrowingSweDataComponentVisitor<T, X extends Throwable>
-        implements SweDataComponentVisitor<T, X> {
+public abstract class AbstractThrowingSweDataComponentVisitor<
+        T,
+        X extends Throwable> implements SweDataComponentVisitor<T, X> {
 
     private final Supplier<X> exceptionSupplier;
 

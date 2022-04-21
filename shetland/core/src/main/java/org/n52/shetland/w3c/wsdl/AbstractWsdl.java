@@ -61,7 +61,8 @@ public abstract class AbstractWsdl implements Comparable<AbstractWsdl> {
     }
 
     /**
-     * @param name the name to set
+     * @param name
+     *            the name to set
      */
     public void setName(String name) {
         this.name = name;
@@ -79,7 +80,8 @@ public abstract class AbstractWsdl implements Comparable<AbstractWsdl> {
     }
 
     /**
-     * @param qName the qName to set
+     * @param qName
+     *            the qName to set
      */
     public void setQName(QName qName) {
         this.qName = qName;

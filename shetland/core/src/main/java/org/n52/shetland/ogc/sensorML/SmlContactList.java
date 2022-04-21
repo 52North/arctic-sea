@@ -53,7 +53,7 @@ public class SmlContactList extends SmlContact {
 
     public SmlContactList addMember(SmlContact member) {
         if (member != null) {
-        this.members.add(member);
+            this.members.add(member);
         }
         return this;
     }

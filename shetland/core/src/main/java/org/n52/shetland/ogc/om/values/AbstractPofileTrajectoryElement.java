@@ -21,11 +21,13 @@ import java.util.List;
 
 import org.locationtech.jts.geom.Geometry;
 import org.n52.shetland.ogc.gml.time.Time;
+
 import com.google.common.collect.Lists;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-public abstract class AbstractPofileTrajectoryElement<T> {
+public abstract class AbstractPofileTrajectoryElement<
+        T> {
 
     private List<Value<?>> value = Lists.newArrayList();
     private Geometry location;

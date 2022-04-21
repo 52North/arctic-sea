@@ -98,7 +98,7 @@ public class MultiPointCoverage implements DiscreteCoverage<List<PointValuePair>
      *
      * @param value
      *            Time value pair value to add
-     * @return
+     * @return this
      */
     public MultiPointCoverage addValue(PointValuePair value) {
         if (value != null) {
@@ -112,7 +112,7 @@ public class MultiPointCoverage implements DiscreteCoverage<List<PointValuePair>
      *
      * @param values
      *            Time value pair values to add
-     * @return
+     * @return this
      */
     public MultiPointCoverage addValues(Collection<PointValuePair> values) {
         if (value != null) {
@@ -198,7 +198,9 @@ public class MultiPointCoverage implements DiscreteCoverage<List<PointValuePair>
     }
 
     @Override
-    public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
+    public <
+            X,
+            E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
         return visitor.visit(this);
     }
 

@@ -21,8 +21,7 @@ import org.n52.shetland.ogc.ows.OwsCapabilities;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
- * Implementation of {@link OwsServiceResponse} for OWS GetCapabilities
- * operation
+ * Implementation of {@link OwsServiceResponse} for OWS GetCapabilities operation
  *
  * @since 1.0.0
  *
@@ -49,11 +48,11 @@ public class GetCapabilitiesResponse extends OwsServiceResponse {
     }
 
     /**
-     * Set {@link OwsCapabilities}. Adds service and version from
-     * {@link OwsCapabilities} to {@link GetCapabilitiesResponse} is missing.
+     * Set {@link OwsCapabilities}. Adds service and version from {@link OwsCapabilities} to
+     * {@link GetCapabilitiesResponse} is missing.
      *
      * @param capabilities
-     *                     {@link OwsCapabilities} to set
+     *            {@link OwsCapabilities} to set
      *
      * @return this
      */

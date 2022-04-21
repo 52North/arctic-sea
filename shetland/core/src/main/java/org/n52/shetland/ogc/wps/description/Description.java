@@ -15,16 +15,17 @@
  */
 package org.n52.shetland.ogc.wps.description;
 
-import com.google.common.base.Strings;
+import java.net.URI;
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.Set;
+
 import org.n52.shetland.ogc.ows.OwsCode;
 import org.n52.shetland.ogc.ows.OwsKeyword;
 import org.n52.shetland.ogc.ows.OwsLanguageString;
 import org.n52.shetland.ogc.ows.OwsMetadata;
 
-import java.net.URI;
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.Set;
+import com.google.common.base.Strings;
 
 /**
  * TODO JavaDoc
@@ -43,15 +44,14 @@ public interface Description {
 
     Set<OwsMetadata> getMetadata();
 
-    interface Builder<T extends Description, B extends Builder<T, B>>
-            extends org.n52.janmayen.Builder<T, B> {
+    interface Builder<
+            T extends Description,
+            B extends Builder<T, B>> extends org.n52.janmayen.Builder<T, B> {
 
         default B withDescription(Description description) {
-            return withIdentifier(description.getId())
-                           .withTitle(description.getTitle())
-                           .withAbstract(description.getAbstract().orElse(null))
-                           .withKeywords(description.getKeywords())
-                           .withMetadata(description.getMetadata());
+            return withIdentifier(description.getId()).withTitle(description.getTitle())
+                    .withAbstract(description.getAbstract().orElse(null)).withKeywords(description.getKeywords())
+                    .withMetadata(description.getMetadata());
         }
 
         B withAbstract(OwsLanguageString abstrakt);

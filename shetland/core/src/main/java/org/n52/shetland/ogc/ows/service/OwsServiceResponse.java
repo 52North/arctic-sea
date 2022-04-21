@@ -28,8 +28,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  *
  * @since 1.0.0
  */
-public abstract class OwsServiceResponse
-        extends OwsServiceCommunicationObject
+public abstract class OwsServiceResponse extends OwsServiceCommunicationObject
         implements HasExtension<OwsServiceResponse>, AutoCloseable {
 
     private MediaType contentType;

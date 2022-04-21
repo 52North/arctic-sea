@@ -43,11 +43,13 @@ public class SelectFilter implements FilterClause {
         return Collections.unmodifiableSet(items);
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
         return Objects.hash(items);
     }
 
-    @Override public boolean equals(Object o) {
+    @Override
+    public boolean equals(Object o) {
         if (o == this) {
             return true;
         }
@@ -59,7 +61,8 @@ public class SelectFilter implements FilterClause {
         return Objects.equals(this.getItems(), ((SelectFilter) o).getItems());
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
         return "$select=" + String.join(",", this.items);
     }
 }

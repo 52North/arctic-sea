@@ -28,8 +28,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  *            Value type
  * @since 1.0.0
  */
-public class SweCoordinate<T extends Number>
-        implements Copyable<SweCoordinate<T>> {
+public class SweCoordinate<
+        T extends Number> implements Copyable<SweCoordinate<T>> {
 
     /**
      * Coordinate name
@@ -37,8 +37,7 @@ public class SweCoordinate<T extends Number>
     private String name;
 
     /**
-     * Coordinate value TODO is this assignment to generic? maybe, we switch to
-     * {@link SweAbstractUomType}?
+     * Coordinate value TODO is this assignment to generic? maybe, we switch to {@link SweAbstractUomType}?
      */
     private SweAbstractSimpleType<T> value;
 

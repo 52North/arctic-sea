@@ -27,8 +27,8 @@ import org.n52.shetland.ogc.filter.FilterConstants.TimeOperator;
  * @param <T>
  *            operator type, e.g. {@link TimeOperator},{@link SpatialOperator}
  */
-public abstract class Filter<T>
-        implements AbstractSelectionClause {
+public abstract class Filter<
+        T> implements AbstractSelectionClause {
 
     /**
      * Value reference.

@@ -15,7 +15,6 @@
  */
 package org.n52.shetland.aqd;
 
-
 import org.n52.janmayen.function.Functions;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.ows.extension.Extensions;
@@ -35,11 +34,8 @@ public final class ReportObligations {
     }
 
     public static ReportObligationType getFlow(Extensions extensions) throws OwsExceptionReport {
-        return extensions.getExtension(AqdConstants.EXTENSION_FLOW)
-                .map(x -> x.getValue())
-                .flatMap(Functions.castIfInstanceOf(SweText.class))
-                .map(SweText::getValue)
-                .map(ReportObligationType::from)
-                .orElse(ReportObligationType.E2A);
+        return extensions.getExtension(AqdConstants.EXTENSION_FLOW).map(x -> x.getValue())
+                .flatMap(Functions.castIfInstanceOf(SweText.class)).map(SweText::getValue)
+                .map(ReportObligationType::from).orElse(ReportObligationType.E2A);
     }
 }

@@ -21,7 +21,8 @@ import java.util.function.Function;
 
 import org.n52.shetland.w3c.Nillable;
 
-public abstract class Referenceable<T> {
+public abstract class Referenceable<
+        T> {
 
     public abstract Reference getReference();
 
@@ -33,7 +34,8 @@ public abstract class Referenceable<T> {
 
     public abstract boolean isAbsent();
 
-    public abstract <X> Referenceable<X> map(Function<T, X> fun);
+    public abstract <
+            X> Referenceable<X> map(Function<T, X> fun);
 
     @Override
     public abstract int hashCode();
@@ -41,23 +43,28 @@ public abstract class Referenceable<T> {
     @Override
     public abstract boolean equals(Object obj);
 
-    public static <T> Referenceable<T> of(URI reference) {
+    public static <
+            T> Referenceable<T> of(URI reference) {
         return new Ref(new Reference().setHref(reference)).cast();
     }
 
-    public static <T> Referenceable<T> of(Reference reference) {
+    public static <
+            T> Referenceable<T> of(Reference reference) {
         return new Ref(reference).cast();
     }
 
-    public static <T> Referenceable<T> of(T obj) {
+    public static <
+            T> Referenceable<T> of(T obj) {
         return of(Nillable.of(obj));
     }
 
-    public static <T> Referenceable<T> of(Nillable<T> obj) {
+    public static <
+            T> Referenceable<T> of(Nillable<T> obj) {
         return new Instance<>(obj);
     }
 
-    private static class Instance<T> extends Referenceable<T> {
+    private static class Instance<
+            T> extends Referenceable<T> {
         private final Nillable<T> obj;
 
         Instance(Nillable<T> obj) {
@@ -91,8 +98,7 @@ public abstract class Referenceable<T> {
 
         @Override
         public boolean equals(Object obj) {
-            return obj instanceof Instance && Objects
-                   .equals(this.getInstance(), ((Instance) obj).getInstance());
+            return obj instanceof Instance && Objects.equals(this.getInstance(), ((Instance) obj).getInstance());
         }
 
         @Override
@@ -106,7 +112,8 @@ public abstract class Referenceable<T> {
         }
 
         @Override
-        public <X> Referenceable<X> map(Function<T, X> fun) {
+        public <
+                X> Referenceable<X> map(Function<T, X> fun) {
             return Referenceable.of(getInstance().map(fun));
         }
     }
@@ -145,8 +152,7 @@ public abstract class Referenceable<T> {
 
         @Override
         public boolean equals(Object obj) {
-            return obj instanceof Ref && Objects
-                   .equals(getReference(), ((Ref) obj).getReference());
+            return obj instanceof Ref && Objects.equals(getReference(), ((Ref) obj).getReference());
         }
 
         @Override
@@ -160,12 +166,14 @@ public abstract class Referenceable<T> {
         }
 
         @SuppressWarnings("unchecked")
-        <T> Referenceable<T> cast() {
+        <
+                T> Referenceable<T> cast() {
             return (Referenceable<T>) this;
         }
 
         @Override
-        public <X> Referenceable<X> map(Function<Object, X> fun) {
+        public <
+                X> Referenceable<X> map(Function<Object, X> fun) {
             return cast();
         }
     }

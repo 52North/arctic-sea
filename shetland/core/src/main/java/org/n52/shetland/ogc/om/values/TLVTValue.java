@@ -64,7 +64,7 @@ public class TLVTValue implements MultiValue<List<TimeLocationValueTriple>> {
      *
      * @param value
      *            Time value pair value to add
-     * @return
+     * @return this
      */
     public TLVTValue addValue(TimeLocationValueTriple value) {
         if (value != null) {
@@ -78,7 +78,7 @@ public class TLVTValue implements MultiValue<List<TimeLocationValueTriple>> {
      *
      * @param values
      *            Time value pair values to add
-     * @return
+     * @return this
      */
     public TLVTValue addValues(List<TimeLocationValueTriple> values) {
         if (values != null) {
@@ -128,7 +128,9 @@ public class TLVTValue implements MultiValue<List<TimeLocationValueTriple>> {
     }
 
     @Override
-    public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
+    public <
+            X,
+            E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
         return visitor.visit(this);
     }
 }

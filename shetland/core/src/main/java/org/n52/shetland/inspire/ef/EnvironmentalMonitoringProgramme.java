@@ -50,7 +50,7 @@ public class EnvironmentalMonitoringProgramme extends AbstractMonitoringObject {
     /**
      * @param triggers
      *            the triggers to set
-     * @return
+     * @return this
      */
     public EnvironmentalMonitoringProgramme setTriggers(Collection<EnvironmentalMonitoringActivity> triggers) {
         this.triggers.clear();

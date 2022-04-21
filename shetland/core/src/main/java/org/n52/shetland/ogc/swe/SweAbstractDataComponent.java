@@ -230,13 +230,15 @@ public abstract class SweAbstractDataComponent
 
     public abstract SweDataComponentType getDataComponentType();
 
-    public abstract <T, X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X;
+    public abstract <
+            T,
+            X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X;
 
-    public abstract <X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X;
+    public abstract <
+            X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X;
 
     /**
-     * Copies all values from this {@link SweAbstractDataComponent} to the
-     * passed
+     * Copies all values from this {@link SweAbstractDataComponent} to the passed
      *
      * @param copy
      *            {@link SweAbstractDataComponent} to copy values to

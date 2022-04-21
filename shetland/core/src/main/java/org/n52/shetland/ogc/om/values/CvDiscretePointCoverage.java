@@ -32,8 +32,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @since 1.0.0
  *
  */
-public class CvDiscretePointCoverage
-        implements Value<PointValuePair> {
+public class CvDiscretePointCoverage implements Value<PointValuePair> {
 
     private static final String GML_ID_PREFIX = "dpc_";
     private final String gmlId;
@@ -133,7 +132,9 @@ public class CvDiscretePointCoverage
     }
 
     @Override
-    public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
+    public <
+            X,
+            E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
         return visitor.visit(this);
     }
 

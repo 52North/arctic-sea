@@ -35,5 +35,8 @@ public interface DataDescription extends Description {
         return false;
     }
 
-    interface Builder<T extends DataDescription, B extends Builder<T, B>> extends Description.Builder<T, B> {}
+    interface Builder<
+            T extends DataDescription,
+            B extends Builder<T, B>> extends Description.Builder<T, B> {
+    }
 }

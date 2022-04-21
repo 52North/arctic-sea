@@ -23,8 +23,7 @@ import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
  * @since 1.0.0
  *
  */
-public class SweSimpleDataRecord
-        extends SweAbstractDataRecord {
+public class SweSimpleDataRecord extends SweAbstractDataRecord {
 
     @Override
     public SweDataComponentType getDataComponentType() {
@@ -53,12 +52,15 @@ public class SweSimpleDataRecord
     }
 
     @Override
-    public <T, X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
+    public <
+            T,
+            X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
         return visitor.visit(this);
     }
 
     @Override
-    public <X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
+    public <
+            X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
         visitor.visit(this);
     }
 

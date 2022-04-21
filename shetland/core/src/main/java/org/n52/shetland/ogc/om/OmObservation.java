@@ -199,7 +199,7 @@ public class OmObservation extends AbstractFeature implements ObservationParamet
      *
      * @param observationID
      *            the observationID to set
-     * @return
+     * @return this
      */
     public OmObservation setObservationID(final String observationID) {
         this.observationID = observationID;
@@ -234,7 +234,7 @@ public class OmObservation extends AbstractFeature implements ObservationParamet
      *
      * @param resultTime
      *            the resultTime to set
-     * @return
+     * @return this
      */
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public OmObservation setResultTime(final TimeInstant resultTime) {
@@ -257,7 +257,7 @@ public class OmObservation extends AbstractFeature implements ObservationParamet
      *
      * @param validTime
      *            the validTime to set
-     * @return
+     * @return this
      */
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public OmObservation setValidTime(final TimePeriod validTime) {
@@ -279,7 +279,7 @@ public class OmObservation extends AbstractFeature implements ObservationParamet
      *
      * @param resultType
      *            the resultType to set
-     * @return
+     * @return this
      */
     public OmObservation setResultType(final String resultType) {
         this.resultType = resultType;
@@ -300,7 +300,7 @@ public class OmObservation extends AbstractFeature implements ObservationParamet
      *
      * @param tokenSeparator
      *            the tokenSeparator to set
-     * @return
+     * @return this
      */
     public OmObservation setTokenSeparator(final String tokenSeparator) {
         this.tokenSeparator = tokenSeparator;
@@ -321,7 +321,7 @@ public class OmObservation extends AbstractFeature implements ObservationParamet
      *
      * @param noDataValue
      *            the noDataValue to set
-     * @return
+     * @return this
      */
     public OmObservation setNoDataValue(final String noDataValue) {
         this.noDataValue = noDataValue;
@@ -342,7 +342,7 @@ public class OmObservation extends AbstractFeature implements ObservationParamet
      *
      * @param tupleSeparator
      *            the tupleSeparator to set
-     * @return
+     * @return this
      */
     public OmObservation setTupleSeparator(final String tupleSeparator) {
         this.tupleSeparator = tupleSeparator;
@@ -363,7 +363,7 @@ public class OmObservation extends AbstractFeature implements ObservationParamet
      *
      * @param decimalSeparator
      *            the decimalSeparator to set
-     * @return
+     * @return this
      */
     public OmObservation setDecimalSeparator(final String decimalSeparator) {
         this.decimalSeparator = decimalSeparator;
@@ -385,7 +385,7 @@ public class OmObservation extends AbstractFeature implements ObservationParamet
      *
      * @param value
      *            the values to set
-     * @return
+     * @return this
      */
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public OmObservation setValue(final ObservationValue<?> value) {
@@ -402,7 +402,7 @@ public class OmObservation extends AbstractFeature implements ObservationParamet
      *
      * @param sosObservation
      *            Observation to merge
-     * @return
+     * @return this
      */
     public OmObservation mergeWithObservation(final OmObservation sosObservation) {
         mergeValues(sosObservation.getValue());
@@ -415,7 +415,7 @@ public class OmObservation extends AbstractFeature implements ObservationParamet
      *
      * @param observationValue
      *            Observation to merge
-     * @return
+     * @return this
      */
     public OmObservation mergeWithObservation(ObservationValue<?> observationValue) {
         mergeValues(observationValue);
@@ -486,7 +486,7 @@ public class OmObservation extends AbstractFeature implements ObservationParamet
      *            Observation to merge
      * @param merged
      *            the observation to merge into
-     * @return
+     * @return this
      */
     private OmObservation mergeResultTimes(OmObservation merged, OmObservation sosObservation) {
         if (merged.isSetResultTime() && sosObservation.isSetResultTime()) {
@@ -504,7 +504,7 @@ public class OmObservation extends AbstractFeature implements ObservationParamet
      *
      * @param sosObservation
      *            Observation to merge
-     * @return
+     * @return this
      */
     private OmObservation mergeResultTimes(final OmObservation sosObservation) {
         if (isSetResultTime() && sosObservation.isSetResultTime()) {
@@ -633,7 +633,7 @@ public class OmObservation extends AbstractFeature implements ObservationParamet
      *
      * @param parameter
      *            the parameter to set
-     * @return
+     * @return this
      */
     public OmObservation setParameter(Collection<NamedValue<?>> parameter) {
         this.parameterHolder.addParameter(parameter);
@@ -645,7 +645,7 @@ public class OmObservation extends AbstractFeature implements ObservationParamet
      *
      * @param namedValue
      *            the namedValue to add to parameter
-     * @return
+     * @return this
      */
     public OmObservation addParameter(NamedValue<?> namedValue) {
         parameterHolder.addParameter(namedValue);
@@ -869,7 +869,7 @@ public class OmObservation extends AbstractFeature implements ObservationParamet
      *
      * @param relatedObservations
      *            the relatedObservations to set
-     * @return
+     * @return this
      */
     public OmObservation setRelatedObservations(Collection<OmObservationContext> relatedObservations) {
         this.relatedObservations.clear();
@@ -884,7 +884,7 @@ public class OmObservation extends AbstractFeature implements ObservationParamet
      *
      * @param relatedObservations
      *            the relatedObservations to set
-     * @return
+     * @return this
      */
     public OmObservation addRelatedObservations(Collection<OmObservationContext> relatedObservations) {
         if (relatedObservations != null) {
@@ -898,7 +898,7 @@ public class OmObservation extends AbstractFeature implements ObservationParamet
      *
      * @param relatedObservation
      *            the relatedObservation to add
-     * @return
+     * @return this
      */
     public OmObservation addRelatedObservation(OmObservationContext relatedObservation) {
         if (relatedObservation != null) {
@@ -991,9 +991,9 @@ public class OmObservation extends AbstractFeature implements ObservationParamet
 
     private boolean checkSamplingGeometry(ObservationMergeIndicator indicator, OmObservation observation) {
         return !indicator.isSamplingGeometry()
-                || (isSetSpatialFilteringProfileParameter() && observation.isSetSpatialFilteringProfileParameter()
+                || isSetSpatialFilteringProfileParameter() && observation.isSetSpatialFilteringProfileParameter()
                         && getSpatialFilteringProfileParameter().getValue().getValue()
-                                .equals(observation.getSpatialFilteringProfileParameter().getValue().getValue()));
+                                .equals(observation.getSpatialFilteringProfileParameter().getValue().getValue());
     }
 
     private boolean checkMergeIndicator(OmObservation observation) {

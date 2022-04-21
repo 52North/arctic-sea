@@ -89,7 +89,7 @@ public class GetFeatureOfInterestRequest extends OwsServiceRequest {
      * Set temporal filters
      *
      * @param temporalFilters
-     *                        temporal filters
+     *            temporal filters
      */
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public GetFeatureOfInterestRequest setTemporalFilters(List<TemporalFilter> temporalFilters) {
@@ -113,7 +113,7 @@ public class GetFeatureOfInterestRequest extends OwsServiceRequest {
      * Set FOI identifiers
      *
      * @param featureIDs
-     *                   FOI identifiers
+     *            FOI identifiers
      */
     public GetFeatureOfInterestRequest setFeatureIdentifiers(Collection<String> featureIDs) {
         this.featureIdentifiers.clear();
@@ -136,7 +136,7 @@ public class GetFeatureOfInterestRequest extends OwsServiceRequest {
      * Set FOI observedProperties
      *
      * @param observedProperties
-     *                           FOI observedProperties
+     *            FOI observedProperties
      */
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public GetFeatureOfInterestRequest setObservedProperties(List<String> observedProperties) {
@@ -160,7 +160,7 @@ public class GetFeatureOfInterestRequest extends OwsServiceRequest {
      * Set FOI procedures
      *
      * @param procedures
-     *                   FOI procedures
+     *            FOI procedures
      */
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public GetFeatureOfInterestRequest setProcedures(List<String> procedures) {
@@ -184,7 +184,7 @@ public class GetFeatureOfInterestRequest extends OwsServiceRequest {
      * Set spatial filters
      *
      * @param spatialFilters
-     *                       spatial filters
+     *            spatial filters
      */
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public GetFeatureOfInterestRequest setSpatialFilters(List<SpatialFilter> spatialFilters) {
@@ -237,8 +237,8 @@ public class GetFeatureOfInterestRequest extends OwsServiceRequest {
     }
 
     public boolean hasNoParameter() {
-        return !isSetObservableProperties() && !isSetProcedures() && !isSetTemporalFilters() &&
-               !isSetFeatureOfInterestIdentifiers() && !isSetSpatialFilters();
+        return !isSetObservableProperties() && !isSetProcedures() && !isSetTemporalFilters()
+                && !isSetFeatureOfInterestIdentifiers() && !isSetSpatialFilters();
     }
 
     public boolean hasParameter() {

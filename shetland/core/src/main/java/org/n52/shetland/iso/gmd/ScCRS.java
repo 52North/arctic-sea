@@ -32,7 +32,8 @@ public class ScCRS {
     }
 
     /**
-     * @param abstractCrs the abstractCrs to set
+     * @param abstractCrs
+     *            the abstractCrs to set
      * @return this {@link ScCRS}
      */
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })

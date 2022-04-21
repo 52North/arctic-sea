@@ -15,12 +15,13 @@
  */
 package org.n52.shetland.ogc.wps.data;
 
-import com.google.common.base.MoreObjects;
-import org.n52.shetland.util.HTTP;
-
 import java.io.IOException;
 import java.net.URI;
 import java.util.Objects;
+
+import org.n52.shetland.util.HTTP;
+
+import com.google.common.base.MoreObjects;
 
 /**
  * TODO JavaDoc
@@ -78,8 +79,6 @@ public class ReferencedBody extends Body {
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this)
-                          .add("href", getHref())
-                          .toString();
+        return MoreObjects.toStringHelper(this).add("href", getHref()).toString();
     }
 }

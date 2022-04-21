@@ -17,7 +17,8 @@ package org.n52.shetland.ogc;
 
 import com.google.common.base.Strings;
 
-public interface HasDefaultEncoding<T extends HasDefaultEncoding<T>> {
+public interface HasDefaultEncoding<
+        T extends HasDefaultEncoding<T>> {
 
     T setDefaultElementEncoding(String defaultEncoding);
 

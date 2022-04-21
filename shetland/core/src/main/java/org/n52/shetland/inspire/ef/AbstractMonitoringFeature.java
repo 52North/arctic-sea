@@ -62,7 +62,7 @@ public abstract class AbstractMonitoringFeature extends AbstractMonitoringObject
     /**
      * @param reportedTo
      *            the reportedTo to set
-     * @return
+     * @return this
      */
     public AbstractMonitoringFeature setReportedTo(Collection<ReportToLegalAct> reportedTo) {
         this.reportedTo.clear();
@@ -86,7 +86,7 @@ public abstract class AbstractMonitoringFeature extends AbstractMonitoringObject
     /**
      * @param hasObservationa
      *            the hasObservation to set
-     * @return
+     * @return this
      */
     public AbstractMonitoringFeature setHasObservation(Collection<Referenceable<OmObservation>> hasObservation) {
         this.hasObservation.clear();
@@ -126,7 +126,7 @@ public abstract class AbstractMonitoringFeature extends AbstractMonitoringObject
     /**
      * @param involvedIn
      *            the involvedIn to set
-     * @return
+     * @return this
      */
     public AbstractMonitoringFeature setInvolvedIn(
             Collection<Referenceable<EnvironmentalMonitoringActivity>> involvedIn) {

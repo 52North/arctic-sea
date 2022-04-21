@@ -29,10 +29,7 @@ import com.google.common.collect.Lists;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-public class SweDataStream
-        implements
-        HasDefaultEncoding<SweDataStream>,
-        Copyable<SweDataStream> {
+public class SweDataStream implements HasDefaultEncoding<SweDataStream>, Copyable<SweDataStream> {
 
     /**
      * optional: swe:description[0..1]
@@ -177,8 +174,7 @@ public class SweDataStream
     }
 
     /**
-     * Adds the given block - a {@link List}&lt;{@link String}&gt; - add the end of
-     * the current list of blocks
+     * Adds the given block - a {@link List}&lt;{@link String}&gt; - add the end of the current list of blocks
      *
      * @param blockOfTokensToAddAtTheEnd
      *            the blocks of tokens to add

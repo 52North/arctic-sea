@@ -68,18 +68,14 @@ public class InMemoryValueProcessData extends ValueProcessData {
             return false;
         }
         final InMemoryValueProcessData other = (InMemoryValueProcessData) obj;
-        return Objects.equals(getId(), other.getId()) &&
-               Objects.equals(getFormat(), other.getFormat()) &&
-               Arrays.equals(this.bytes, other.bytes);
+        return Objects.equals(getId(), other.getId()) && Objects.equals(getFormat(), other.getFormat())
+                && Arrays.equals(this.bytes, other.bytes);
     }
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this).omitNullValues()
-                .add("id", getId())
-                .add("format", getFormat())
-                .add("value", this.bytes)
-                .toString();
+        return MoreObjects.toStringHelper(this).omitNullValues().add("id", getId()).add("format", getFormat())
+                .add("value", this.bytes).toString();
     }
 
 }

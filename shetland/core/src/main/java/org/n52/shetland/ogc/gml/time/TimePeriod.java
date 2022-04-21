@@ -25,7 +25,6 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.joda.time.Period;
 import org.joda.time.format.ISOPeriodFormat;
-
 import org.n52.shetland.util.CollectionHelper;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -35,8 +34,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  *
  * @since 1.0.0
  */
-public class TimePeriod
-        extends Time {
+public class TimePeriod extends Time {
     /**
      * serial number
      */
@@ -70,7 +68,8 @@ public class TimePeriod
     /**
      * Creates a new {@code TimePeriod} from an {@code Interval}.
      *
-     * @param interval the interval
+     * @param interval
+     *            the interval
      */
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public TimePeriod(Interval interval) {
@@ -144,13 +143,11 @@ public class TimePeriod
      * @param id
      *            the optional GML id
      * @throws ParseException
-     *             if parsing the time strings of start or end into
-     *             java.util.Date failed
+     *             if parsing the time strings of start or end into java.util.Date failed
      */
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
-    public TimePeriod(
-            DateTime start, IndeterminateValue startIndet, DateTime end, IndeterminateValue endIndet, String duration,
-            String id) throws ParseException {
+    public TimePeriod(DateTime start, IndeterminateValue startIndet, DateTime end, IndeterminateValue endIndet,
+            String duration, String id) throws ParseException {
         super(id);
         this.start = start;
         this.startIndet = startIndet;
@@ -180,8 +177,7 @@ public class TimePeriod
     }
 
     /**
-     * Constructor using Java {@link Date}s, setting unknown indeterminate
-     * values if null
+     * Constructor using Java {@link Date}s, setting unknown indeterminate values if null
      *
      * @param start
      *            start Date
@@ -203,8 +199,7 @@ public class TimePeriod
     }
 
     /**
-     * Constructor using Java {@link Object}s, setting unknown indeterminate
-     * values if null
+     * Constructor using Java {@link Object}s, setting unknown indeterminate values if null
      *
      * @param start
      *            start {@link Object}
@@ -445,8 +440,7 @@ public class TimePeriod
     }
 
     /**
-     * Extend TimePeriod to contain DateTime. Used by other extendToContain
-     * methods.
+     * Extend TimePeriod to contain DateTime. Used by other extendToContain methods.
      *
      * @param time
      *            the time to contain
@@ -463,8 +457,8 @@ public class TimePeriod
     }
 
     /**
-     * Is this TimePeriod contained by another TimePeriod? Equal start/end times
-     * are considered to be containing, as are equal indeterminate times.
+     * Is this TimePeriod contained by another TimePeriod? Equal start/end times are considered to be
+     * containing, as are equal indeterminate times.
      *
      * @param otherTimePeriod
      *            Potentially containing TimePeriod

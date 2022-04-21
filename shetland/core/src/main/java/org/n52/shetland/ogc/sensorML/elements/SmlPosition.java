@@ -18,6 +18,7 @@ package org.n52.shetland.ogc.sensorML.elements;
 import static java.util.stream.Collectors.toList;
 
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.n52.shetland.ogc.gml.CodeType;
@@ -48,7 +49,7 @@ public class SmlPosition extends SweAbstractDataComponent {
 
     private String referenceFrame;
 
-    private List<? extends SweCoordinate<? extends Number>> position;
+    private List<? extends SweCoordinate<? extends Number>> position = new LinkedList<>();
 
     private SweVector vector;
 
@@ -245,12 +246,15 @@ public class SmlPosition extends SweAbstractDataComponent {
     }
 
     @Override
-    public <T, X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
+    public <
+            T,
+            X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
         return visitor.visit(this);
     }
 
     @Override
-    public <X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
+    public <
+            X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
         visitor.visit(this);
     }
 

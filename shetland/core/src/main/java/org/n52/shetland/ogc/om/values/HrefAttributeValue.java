@@ -19,8 +19,7 @@ import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
 import org.n52.shetland.w3c.xlink.W3CHrefAttribute;
 
-public class HrefAttributeValue
-        implements Value<W3CHrefAttribute> {
+public class HrefAttributeValue implements Value<W3CHrefAttribute> {
 
     private W3CHrefAttribute value;
 
@@ -82,7 +81,9 @@ public class HrefAttributeValue
     }
 
     @Override
-    public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
+    public <
+            X,
+            E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
         return visitor.visit(this);
     }
 }

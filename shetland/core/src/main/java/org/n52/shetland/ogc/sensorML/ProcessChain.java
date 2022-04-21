@@ -24,7 +24,8 @@ import org.n52.shetland.ogc.sensorML.elements.SmlConnection;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-public class ProcessChain extends AbstractProcess implements HasComponents<ProcessChain>, HasConnections<ProcessChain> {
+public class ProcessChain extends AbstractProcess
+        implements HasComponents<ProcessChain>, HasConnections<ProcessChain> {
 
     private final List<SmlComponent> components = new ArrayList<>(0);
     private SmlConnection connections;

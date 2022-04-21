@@ -40,7 +40,8 @@ public class DomainOfValidity {
     }
 
     /**
-     * @param exExtent the exExtent to set
+     * @param exExtent
+     *            the exExtent to set
      */
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public DomainOfValidity setExExtent(EXExtent exExtent) {

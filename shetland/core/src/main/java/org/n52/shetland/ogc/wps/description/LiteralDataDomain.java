@@ -15,13 +15,14 @@
  */
 package org.n52.shetland.ogc.wps.description;
 
-import com.google.common.base.Strings;
+import java.net.URI;
+import java.util.Optional;
+
 import org.n52.shetland.ogc.ows.OwsDomainMetadata;
 import org.n52.shetland.ogc.ows.OwsPossibleValues;
 import org.n52.shetland.ogc.ows.OwsValue;
 
-import java.net.URI;
-import java.util.Optional;
+import com.google.common.base.Strings;
 
 /**
  * TODO JavaDoc
@@ -39,7 +40,9 @@ public interface LiteralDataDomain {
 
     Builder<?, ?> newBuilder();
 
-    interface Builder<T extends LiteralDataDomain, B extends Builder<T, B>> extends org.n52.janmayen.Builder<T, B> {
+    interface Builder<
+            T extends LiteralDataDomain,
+            B extends Builder<T, B>> extends org.n52.janmayen.Builder<T, B> {
         B withDefaultValue(OwsValue value);
 
         default B withDefaultValue(String value) {
@@ -49,25 +52,21 @@ public interface LiteralDataDomain {
         B withDataType(OwsDomainMetadata dataType);
 
         default B withDataType(URI reference, String value) {
-            return withDataType(Strings.emptyToNull(value) == null
-                                ? null : new OwsDomainMetadata(reference, value));
+            return withDataType(Strings.emptyToNull(value) == null ? null : new OwsDomainMetadata(reference, value));
         }
 
         default B withDataType(String value) {
-            return withDataType(Strings.emptyToNull(value) == null
-                                ? null : new OwsDomainMetadata(value));
+            return withDataType(Strings.emptyToNull(value) == null ? null : new OwsDomainMetadata(value));
         }
 
         B withUOM(OwsDomainMetadata uom);
 
         default B withUOM(URI reference, String value) {
-            return withUOM(Strings.emptyToNull(value) == null
-                           ? null : new OwsDomainMetadata(reference, value));
+            return withUOM(Strings.emptyToNull(value) == null ? null : new OwsDomainMetadata(reference, value));
         }
 
         default B withUOM(String value) {
-            return withUOM(Strings.emptyToNull(value) == null
-                           ? null : new OwsDomainMetadata(value));
+            return withUOM(Strings.emptyToNull(value) == null ? null : new OwsDomainMetadata(value));
         }
 
         B withValueDescription(OwsPossibleValues allowedValues);

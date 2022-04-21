@@ -16,14 +16,13 @@
 package org.n52.shetland.ogc.sos.request;
 
 /**
- * Interface to merge {@link SpatialFeatureQueryRequest} and
- * {@link FeatureOfInterestIdentifierRequest} interfaces to be used by
- * {@link GetObservationRequest} and {@link GetResultRequest}
+ * Interface to merge {@link SpatialFeatureQueryRequest} and {@link FeatureOfInterestIdentifierRequest}
+ * interfaces to be used by {@link GetObservationRequest} and {@link GetResultRequest}
  *
  * @since 1.0.0
  *
  */
-public interface SpatialFeatureQueryRequest extends SpatialFilteringProfileRequest,
-                                                    FeatureOfInterestIdentifierRequest {
+public interface SpatialFeatureQueryRequest
+        extends SpatialFilteringProfileRequest, FeatureOfInterestIdentifierRequest {
 
 }

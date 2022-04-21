@@ -71,9 +71,8 @@ public class ObservingCapability extends Reference {
     }
 
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
-    public ObservingCapability(
-            Time observingTime, ReferenceType processType, ReferenceType resultNature, AbstractFeature procedure,
-            ReferenceType observedProperty) {
+    public ObservingCapability(Time observingTime, ReferenceType processType, ReferenceType resultNature,
+            AbstractFeature procedure, ReferenceType observedProperty) {
         this.observingTime = observingTime;
         this.processType = processType;
         this.resultNature = resultNature;
@@ -196,8 +195,7 @@ public class ObservingCapability extends Reference {
     public boolean equals(Object obj) {
         if (obj instanceof ObservingCapability) {
             ObservingCapability that = (ObservingCapability) obj;
-            return super.equals(obj)
-                    && Objects.equals(getObservingTime(), that.getObservingTime())
+            return super.equals(obj) && Objects.equals(getObservingTime(), that.getObservingTime())
                     && Objects.equals(getProcessType(), that.getProcessType())
                     && Objects.equals(getResultNature(), that.getResultNature())
                     && Objects.equals(getOnlineResource(), that.getOnlineResource())

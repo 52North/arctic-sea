@@ -20,8 +20,7 @@ package org.n52.shetland.ogc.ows;
  *
  * @author Christian Autermann
  */
-public final class OwsNoValues
-        implements OwsPossibleValues {
+public final class OwsNoValues implements OwsPossibleValues {
 
     private static final OwsNoValues INSTANCE = new OwsNoValues();
 

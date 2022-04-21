@@ -47,7 +47,8 @@ public class AqdSamplingPoint extends EfEnvironmentalMonitoringFacility {
     }
 
     /**
-     * @param assessmentType the assessmentType to set
+     * @param assessmentType
+     *            the assessmentType to set
      */
     public void setAssessmentType(AssessmentType assessmentType) {
         this.assessmentType = assessmentType;
@@ -62,7 +63,8 @@ public class AqdSamplingPoint extends EfEnvironmentalMonitoringFacility {
     }
 
     /**
-     * @param station the station to set
+     * @param station
+     *            the station to set
      */
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setStation(AqdStation station) {
@@ -85,7 +87,8 @@ public class AqdSamplingPoint extends EfEnvironmentalMonitoringFacility {
     }
 
     /**
-     * @param network the network to set
+     * @param network
+     *            the network to set
      */
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setNetwork(AqdNetwork network) {

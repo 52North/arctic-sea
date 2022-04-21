@@ -24,13 +24,12 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.n52.janmayen.http.HTTPHeaders;
 import org.n52.janmayen.http.MediaType;
 import org.n52.janmayen.net.IPAddress;
 import org.n52.janmayen.net.ProxyChain;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
@@ -38,8 +37,8 @@ import com.google.common.base.Strings;
 import com.google.common.net.InetAddresses;
 
 /**
- * Holds information about a user's request that can be evaluated during request
- * processing (e.g. security info)
+ * Holds information about a user's request that can be evaluated during request processing (e.g. security
+ * info)
  *
  * @author <a href="mailto:shane@axiomalaska.com">Shane StClair</a>
  *

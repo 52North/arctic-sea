@@ -15,14 +15,15 @@
  */
 package org.n52.shetland.ogc.wps.description.impl;
 
-import com.google.common.collect.ImmutableSet;
+import java.util.Collections;
+import java.util.Objects;
+import java.util.Set;
+
 import org.n52.shetland.ogc.wps.description.LiteralDataDomain;
 import org.n52.shetland.ogc.wps.description.LiteralInputDescription;
 import org.n52.shetland.ogc.wps.description.ProcessDescriptionBuilderFactory;
 
-import java.util.Collections;
-import java.util.Objects;
-import java.util.Set;
+import com.google.common.collect.ImmutableSet;
 
 /**
  * TODO JavaDoc
@@ -36,10 +37,10 @@ public class LiteralInputDescriptionImpl extends AbstractProcessInputDescription
 
     protected LiteralInputDescriptionImpl(AbstractBuilder<?, ?> builder) {
         super(builder);
-        this.defaultLiteralDataDomain = Objects.requireNonNull(builder.getDefaultLiteralDataDomain(),
-                                                               "defaultLiteralDataDomain");
-        this.supportedLiteralDataDomains = Objects.requireNonNull(builder.getSupportedLiteralDataDomains(),
-                                                                  "supportedLiteralDataDomains");
+        this.defaultLiteralDataDomain =
+                Objects.requireNonNull(builder.getDefaultLiteralDataDomain(), "defaultLiteralDataDomain");
+        this.supportedLiteralDataDomains =
+                Objects.requireNonNull(builder.getSupportedLiteralDataDomains(), "supportedLiteralDataDomains");
     }
 
     @Override
@@ -57,8 +58,9 @@ public class LiteralInputDescriptionImpl extends AbstractProcessInputDescription
         return getFactory().literalInput(this);
     }
 
-    public abstract static class AbstractBuilder<T extends LiteralInputDescription, B extends AbstractBuilder<T, B>>
-            extends AbstractProcessInputDescription.AbstractBuilder<T, B>
+    public abstract static class AbstractBuilder<
+            T extends LiteralInputDescription,
+            B extends AbstractBuilder<T, B>> extends AbstractProcessInputDescription.AbstractBuilder<T, B>
             implements LiteralInputDescription.Builder<T, B> {
 
         private LiteralDataDomain defaultLiteralDataDomain;
@@ -69,7 +71,7 @@ public class LiteralInputDescriptionImpl extends AbstractProcessInputDescription
         }
 
         protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
-                                  LiteralInputDescription entity) {
+                LiteralInputDescription entity) {
             super(factory, entity);
             this.defaultLiteralDataDomain = entity.getDefaultLiteralDataDomain();
             this.supportedLiteralDataDomains.addAll(entity.getSupportedLiteralDataDomains());
@@ -105,7 +107,7 @@ public class LiteralInputDescriptionImpl extends AbstractProcessInputDescription
         }
 
         protected Builder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
-                          LiteralInputDescription entity) {
+                LiteralInputDescription entity) {
             super(factory, entity);
         }
 

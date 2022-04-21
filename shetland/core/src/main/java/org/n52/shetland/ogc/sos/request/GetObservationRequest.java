@@ -56,9 +56,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  *
  * @since 1.0.0
  */
-public class GetObservationRequest
-        extends AbstractObservationRequest
-        implements SpatialFeatureQueryRequest {
+public class GetObservationRequest extends AbstractObservationRequest implements SpatialFeatureQueryRequest {
 
     /**
      * Request as String.
@@ -265,7 +263,6 @@ public class GetObservationRequest
         return resultFilter;
     }
 
-
     public GetObservationRequest setResultFilter(ComparisonFilter filter) {
         this.resultFilter = filter;
         addExtension(new ResultFilter(filter));
@@ -441,9 +438,9 @@ public class GetObservationRequest
     public boolean hasSpatialFilteringProfileSpatialFilter() {
         return isSetSpatialFilter() && (getSpatialFilter().getValueReference()
                 .equals(Sos2Constants.VALUE_REFERENCE_SPATIAL_FILTERING_PROFILE)
-                || (hasExtension(SosSpatialFilterConstants.SPATIAL_FILTER)
+                || hasExtension(SosSpatialFilterConstants.SPATIAL_FILTER)
                         && ((SosSpatialFilter) getExtension(SosSpatialFilterConstants.SPATIAL_FILTER).get()).getValue()
-                                .getValueReference().equals(Sos2Constants.VALUE_REFERENCE_SPATIAL_FILTERING_PROFILE)));
+                                .getValueReference().equals(Sos2Constants.VALUE_REFERENCE_SPATIAL_FILTERING_PROFILE));
     }
 
     public boolean isSetRequestString() {
@@ -466,8 +463,7 @@ public class GetObservationRequest
     /**
      * Check if the {@link Extensions} contains {@link Filter}
      *
-     * @return <code>true</code>, if the {@link Extensions} contains
-     *         {@link Filter}
+     * @return <code>true</code>, if the {@link Extensions} contains {@link Filter}
      */
     public boolean isSetFesFilterExtension() {
         return getExtensions().stream().anyMatch(this::isFesFilterExtension);
@@ -484,10 +480,8 @@ public class GetObservationRequest
     }
 
     private boolean isFesFilterExtension(Extension<?> extension) {
-        return !((extension instanceof ResultFilter)
-                || (extension instanceof SpatialFilter)
-                || (extension instanceof SosSpatialFilter))
-                && extension.getValue() instanceof Filter<?>;
+        return !(extension instanceof ResultFilter || extension instanceof SpatialFilter
+                || extension instanceof SosSpatialFilter) && extension.getValue() instanceof Filter<?>;
     }
 
     private boolean isFirstLatest(IndeterminateValue v) {

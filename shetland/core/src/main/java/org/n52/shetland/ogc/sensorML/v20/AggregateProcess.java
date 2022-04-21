@@ -34,8 +34,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @since 1.0.0
  *
  */
-public class AggregateProcess
-        extends DescribedObject
+public class AggregateProcess extends DescribedObject
         implements HasComponents<AggregateProcess>, HasConnections<AggregateProcess> {
 
     public static final String ID_PREFIX = "ap_";

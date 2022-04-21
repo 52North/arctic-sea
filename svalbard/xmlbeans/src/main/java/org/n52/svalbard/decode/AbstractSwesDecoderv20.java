@@ -15,8 +15,6 @@
  */
 package org.n52.svalbard.decode;
 
-import net.opengis.swes.x20.ExtensibleRequestType;
-
 import org.apache.xmlbeans.XmlObject;
 import org.n52.shetland.ogc.ows.extension.Extension;
 import org.n52.shetland.ogc.ows.extension.Extensions;
@@ -26,6 +24,8 @@ import org.n52.shetland.util.CollectionHelper;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import net.opengis.swes.x20.ExtensibleRequestType;
 
 public abstract class AbstractSwesDecoderv20<S>
         extends AbstractXmlDecoder<XmlObject, S> {

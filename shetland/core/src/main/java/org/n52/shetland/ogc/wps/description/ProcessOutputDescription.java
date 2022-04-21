@@ -38,7 +38,8 @@ public interface ProcessOutputDescription extends DataDescription {
         throw new UnsupportedOperationException();
     }
 
-    <T> T visit(ReturningVisitor<T> visitor);
+    <
+            T> T visit(ReturningVisitor<T> visitor);
 
     default void visit(Visitor visitor) {
         visit(new ReturningVisitor<Void>() {
@@ -68,9 +69,12 @@ public interface ProcessOutputDescription extends DataDescription {
         });
     }
 
-    <T, X extends Exception> T visit(ThrowingReturningVisitor<T, X> visitor) throws X;
+    <
+            T,
+            X extends Exception> T visit(ThrowingReturningVisitor<T, X> visitor) throws X;
 
-    default <X extends Exception> void visit(ThrowingVisitor<X> visitor) throws X {
+    default <
+            X extends Exception> void visit(ThrowingVisitor<X> visitor) throws X {
         visit(new ThrowingReturningVisitor<Void, X>() {
             @Override
             public Void visit(BoundingBoxOutputDescription output) throws X {
@@ -108,7 +112,9 @@ public interface ProcessOutputDescription extends DataDescription {
         void visit(GroupOutputDescription output);
     }
 
-    interface ThrowingReturningVisitor<T, X extends Exception> {
+    interface ThrowingReturningVisitor<
+            T,
+            X extends Exception> {
         T visit(BoundingBoxOutputDescription output) throws X;
 
         T visit(ComplexOutputDescription output) throws X;
@@ -118,7 +124,8 @@ public interface ProcessOutputDescription extends DataDescription {
         T visit(GroupOutputDescription output) throws X;
     }
 
-    interface ReturningVisitor<T> {
+    interface ReturningVisitor<
+            T> {
         T visit(BoundingBoxOutputDescription output);
 
         T visit(ComplexOutputDescription output);
@@ -129,7 +136,8 @@ public interface ProcessOutputDescription extends DataDescription {
 
     }
 
-    interface ThrowingVisitor<X extends Exception> {
+    interface ThrowingVisitor<
+            X extends Exception> {
         void visit(BoundingBoxOutputDescription output) throws X;
 
         void visit(ComplexOutputDescription output) throws X;
@@ -139,8 +147,9 @@ public interface ProcessOutputDescription extends DataDescription {
         void visit(GroupOutputDescription output) throws X;
     }
 
-    interface Builder<T extends ProcessOutputDescription, B extends Builder<T, B>>
-            extends DataDescription.Builder<T, B> {
+    interface Builder<
+            T extends ProcessOutputDescription,
+            B extends Builder<T, B>> extends DataDescription.Builder<T, B> {
 
     }
 

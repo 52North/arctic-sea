@@ -29,9 +29,7 @@ import com.google.common.base.Strings;
  *
  * @since 1.0.0
  */
-public abstract class AbstractObservationResponse
-        extends OwsServiceResponse
-        implements ResponseFormat {
+public abstract class AbstractObservationResponse extends OwsServiceResponse implements ResponseFormat {
     private ObservationStream observationCollection = ObservationStream.empty();
     private String responseFormat;
     private String resultModel;

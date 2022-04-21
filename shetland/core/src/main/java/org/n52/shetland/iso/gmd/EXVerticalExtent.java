@@ -25,8 +25,7 @@ import org.n52.shetland.w3c.xlink.Referenceable;
  * @since 1.0.0
  *
  */
-public class EXVerticalExtent
-        extends AbstractObject {
+public class EXVerticalExtent extends AbstractObject {
 
     /* 1..1 */
     private Nillable<Double> minimumValue;

@@ -108,7 +108,7 @@ public class GetDataAvailabilityRequest extends OwsServiceRequest
      *
      * @param observedProperty
      *            the {@code observedProperty}
-     * @return
+     * @return this
      */
     public GetDataAvailabilityRequest addObservedProperty(String observedProperty) {
         if (observedProperty != null) {
@@ -122,7 +122,7 @@ public class GetDataAvailabilityRequest extends OwsServiceRequest
      *
      * @param featureOfInterest
      *            the {@code featureOfInterest}
-     * @return
+     * @return this
      */
     public GetDataAvailabilityRequest addFeatureOfInterest(String featureOfInterest) {
         if (featuresOfInterest != null) {
@@ -144,7 +144,7 @@ public class GetDataAvailabilityRequest extends OwsServiceRequest
      *
      * @param offering
      *            the {@code offering}
-     * @return
+     * @return this
      */
     public GetDataAvailabilityRequest addOffering(String offering) {
         if (offering != null) {

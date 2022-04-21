@@ -28,9 +28,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @since 1.0.0
  *
  */
-public class AbstractPhysicalProcess
-        extends DescribedObject
-        implements HasPosition<AbstractPhysicalProcess> {
+public class AbstractPhysicalProcess extends DescribedObject implements HasPosition<AbstractPhysicalProcess> {
 
     private ReferenceType attachedTo;
     private SpatialFrame localReferenceFrame;
@@ -48,8 +46,8 @@ public class AbstractPhysicalProcess
     }
 
     /**
-     * Set the attachedTo reference. It is automatically added to
-     * parentProcedure list. If title is set, the title is used, else the href.
+     * Set the attachedTo reference. It is automatically added to parentProcedure list. If title is set, the
+     * title is used, else the href.
      *
      * @param attachedTo
      *            the attachedTo to set

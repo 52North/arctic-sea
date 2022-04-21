@@ -15,7 +15,8 @@
  */
 package org.n52.shetland.ogc.gml;
 
-public interface UomIdentifier<T> {
+public interface UomIdentifier<
+        T> {
 
     T getValue();
 }

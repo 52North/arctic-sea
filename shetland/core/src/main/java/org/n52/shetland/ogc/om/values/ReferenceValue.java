@@ -19,8 +19,7 @@ import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
 
-public class ReferenceValue
-        implements Value<ReferenceType> {
+public class ReferenceValue implements Value<ReferenceType> {
 
     private ReferenceType value;
 
@@ -82,7 +81,9 @@ public class ReferenceValue
     }
 
     @Override
-    public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
+    public <
+            X,
+            E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
         return visitor.visit(this);
     }
 

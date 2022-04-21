@@ -50,7 +50,8 @@ public abstract class Param extends AbstractWsdl {
     }
 
     /**
-     * @param message the message to set
+     * @param message
+     *            the message to set
      */
     public void setMessage(QName message) {
         this.message = message;
@@ -68,7 +69,8 @@ public abstract class Param extends AbstractWsdl {
     }
 
     /**
-     * @param action the action to set
+     * @param action
+     *            the action to set
      */
     public void setAction(URI action) {
         this.action = action;

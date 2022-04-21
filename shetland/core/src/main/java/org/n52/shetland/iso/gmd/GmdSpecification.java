@@ -24,12 +24,10 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  */
 public class GmdSpecification extends AbtractGmd {
 
-    private static final GmdSpecification DATA_CAPTURE_SPECIFICATION
-            = new GmdSpecification("Data Capture", GmdCitation
-                                   .airQualityDirectiveEC502008());
-    private static final GmdSpecification TIME_COVERAGE_SPECIFICATION
-            = new GmdSpecification("Time Coverage", GmdCitation
-                                   .airQualityDirectiveEC502008());
+    private static final GmdSpecification DATA_CAPTURE_SPECIFICATION =
+            new GmdSpecification("Data Capture", GmdCitation.airQualityDirectiveEC502008());
+    private static final GmdSpecification TIME_COVERAGE_SPECIFICATION =
+            new GmdSpecification("Time Coverage", GmdCitation.airQualityDirectiveEC502008());
     private final String explanation;
     private final GmdCitation citation;
 

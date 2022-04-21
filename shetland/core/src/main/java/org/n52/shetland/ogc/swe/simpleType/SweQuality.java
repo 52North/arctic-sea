@@ -20,4 +20,5 @@ package org.n52.shetland.ogc.swe.simpleType;
  *
  * @since 1.0.0
  */
-public interface SweQuality {}
+public interface SweQuality {
+}

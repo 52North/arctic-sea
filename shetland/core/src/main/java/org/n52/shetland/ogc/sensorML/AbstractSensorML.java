@@ -399,7 +399,7 @@ public abstract class AbstractSensorML extends AbstractFeature implements Phenom
 
     public boolean isSetMobile() {
         return getSweBooleanFromCapabilitiesFor(
-                Sets.newHashSet(SensorMLConstants.STATIONARY, SensorMLConstants.MOBILE)) == null ? false : true;
+                Sets.newHashSet(SensorMLConstants.STATIONARY, SensorMLConstants.MOBILE)) != null;
     }
 
     public boolean getMobile() {
@@ -415,8 +415,7 @@ public abstract class AbstractSensorML extends AbstractFeature implements Phenom
 
     public boolean isSetInsitu() {
         return getSweBooleanFromCapabilitiesFor(
-                Sets.newHashSet(Sets.newHashSet(SensorMLConstants.INSITU, SensorMLConstants.REMOTE))) == null ? false
-                        : true;
+                Sets.newHashSet(Sets.newHashSet(SensorMLConstants.INSITU, SensorMLConstants.REMOTE))) != null;
     }
 
     public boolean getInsitu() {

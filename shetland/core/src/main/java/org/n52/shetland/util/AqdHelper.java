@@ -36,7 +36,8 @@ public class AqdHelper {
     }
 
     /**
-     * @param validityFlags the validityFlags to set
+     * @param validityFlags
+     *            the validityFlags to set
      */
     @Setting(value = EReportingSetting.EREPORTING_VALIDITY_FLAGS, required = false)
     public void setValidityFlags(String validityFlags) {
@@ -58,7 +59,8 @@ public class AqdHelper {
     }
 
     /**
-     * @param verificationFlags the verificationFlags to set
+     * @param verificationFlags
+     *            the verificationFlags to set
      */
     @Setting(value = EReportingSetting.EREPORTING_VERIFICATION_FLAGS, required = false)
     public void setVerificationFlags(String verificationFlags) {

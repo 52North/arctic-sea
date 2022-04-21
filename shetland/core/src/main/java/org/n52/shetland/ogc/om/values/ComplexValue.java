@@ -25,8 +25,7 @@ import com.google.common.base.MoreObjects;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-public class ComplexValue
-        implements Value<SweAbstractDataRecord> {
+public class ComplexValue implements Value<SweAbstractDataRecord> {
     private SweAbstractDataRecord value;
     private UoM unit;
 
@@ -83,10 +82,7 @@ public class ComplexValue
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("value", this.value)
-                .add("unit", this.unit)
-                .toString();
+        return MoreObjects.toStringHelper(this).add("value", this.value).add("unit", this.unit).toString();
     }
 
     @Override
@@ -106,12 +102,13 @@ public class ComplexValue
             return false;
         }
         final ComplexValue other = (ComplexValue) obj;
-        return Objects.equals(this.value, other.value) &&
-               Objects.equals(this.unit, other.unit);
+        return Objects.equals(this.value, other.value) && Objects.equals(this.unit, other.unit);
     }
 
     @Override
-    public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
+    public <
+            X,
+            E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
         return visitor.visit(this);
     }
 

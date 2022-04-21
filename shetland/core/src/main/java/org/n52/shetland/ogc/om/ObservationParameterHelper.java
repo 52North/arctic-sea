@@ -19,7 +19,8 @@ import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.om.values.TextValue;
 
-public interface ObservationParameterHelper<T extends AbstractFeature> {
+public interface ObservationParameterHelper<
+        T extends AbstractFeature> {
 
     ParameterHolder getParameterHolder();
 
@@ -53,8 +54,8 @@ public interface ObservationParameterHelper<T extends AbstractFeature> {
     }
 
     default T addCategoryParameter(TextValue category) {
-        return addCategoryParameter(new NamedValue<String>(new ReferenceType(OmConstants.PARAMETER_NAME_CATEGORY),
-                category));
+        return addCategoryParameter(
+                new NamedValue<String>(new ReferenceType(OmConstants.PARAMETER_NAME_CATEGORY), category));
     }
 
     default T addCategoryParameter(NamedValue<String> categoryParameter) {
@@ -108,8 +109,8 @@ public interface ObservationParameterHelper<T extends AbstractFeature> {
     }
 
     default T addPlatformParameter(TextValue platform) {
-        return addPlatformParameter(new NamedValue<String>(new ReferenceType(OmConstants.PARAMETER_NAME_PLATFORM),
-                platform));
+        return addPlatformParameter(
+                new NamedValue<String>(new ReferenceType(OmConstants.PARAMETER_NAME_PLATFORM), platform));
     }
 
     default T addPlatformParameter(NamedValue<String> platformParameter) {

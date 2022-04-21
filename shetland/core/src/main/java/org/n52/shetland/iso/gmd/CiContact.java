@@ -48,7 +48,8 @@ public class CiContact extends AbstractObject {
     }
 
     /**
-     * @param phone the phone to set
+     * @param phone
+     *            the phone to set
      */
     public void setPhone(Referenceable<CiTelephone> phone) {
         this.phone = phone;
@@ -59,9 +60,7 @@ public class CiContact extends AbstractObject {
     }
 
     private boolean isSetPhoneInstance() {
-        return getPhone() != null
-                && getPhone().isInstance()
-                && getPhone().getInstance().isPresent();
+        return getPhone() != null && getPhone().isInstance() && getPhone().getInstance().isPresent();
     }
 
     private CiTelephone getPhoneInstance() {
@@ -69,8 +68,7 @@ public class CiContact extends AbstractObject {
     }
 
     public boolean isSetPhoneVoice() {
-        return isSetPhoneInstance()
-                && getPhoneInstance().isSetVoice();
+        return isSetPhoneInstance() && getPhoneInstance().isSetVoice();
     }
 
     public List<String> getPhoneVoice() {
@@ -99,8 +97,7 @@ public class CiContact extends AbstractObject {
     }
 
     public boolean isSetPhoneFax() {
-        return isSetPhoneInstance()
-                && getPhoneInstance().isSetFacsimile();
+        return isSetPhoneInstance() && getPhoneInstance().isSetFacsimile();
     }
 
     public List<String> getPhoneFax() {
@@ -136,7 +133,8 @@ public class CiContact extends AbstractObject {
     }
 
     /**
-     * @param address the address to set
+     * @param address
+     *            the address to set
      */
     public void setAddress(Referenceable<CiAddress> address) {
         this.address = address;
@@ -147,9 +145,7 @@ public class CiContact extends AbstractObject {
     }
 
     private boolean isSetAddressInstance() {
-        return getAddress() != null
-                && getAddress().isInstance()
-                && getAddress().getInstance().isPresent();
+        return getAddress() != null && getAddress().isInstance() && getAddress().getInstance().isPresent();
     }
 
     private CiAddress getAddressInstance() {
@@ -157,8 +153,7 @@ public class CiContact extends AbstractObject {
     }
 
     public boolean isSetDeliveryPoint() {
-        return isSetAddressInstance()
-                && getAddressInstance().hasDeliveryPoints();
+        return isSetAddressInstance() && getAddressInstance().hasDeliveryPoints();
     }
 
     public List<String> getDeliveryPoint() {
@@ -288,20 +283,22 @@ public class CiContact extends AbstractObject {
 
     public boolean isSetOnlineResource() {
         return onlineResource != null
-                && ((onlineResource.isReference() && onlineResource.getReference().getHref().isPresent())
+                && (onlineResource.isReference() && onlineResource.getReference().getHref().isPresent()
                         || onlineResource.isInstance());
     }
 
-    public Referenceable<CiOnlineResource>  getOnlineResourceReferenceable() {
+    public Referenceable<CiOnlineResource> getOnlineResourceReferenceable() {
         return onlineResource;
     }
 
     public String getOnlineResource() {
-        if (onlineResource.isReference() && onlineResource.getReference().getHref().isPresent()) {
-            return onlineResource.getReference().getHref().get().toString();
-        } else if (onlineResource.isInstance() && onlineResource.getInstance().isPresent()
-                && onlineResource.getInstance().get().getLinkage().isPresent()) {
-            return onlineResource.getInstance().get().getLinkage().get().toString();
+        if (onlineResource != null) {
+            if (onlineResource.isReference() && onlineResource.getReference().getHref().isPresent()) {
+                return onlineResource.getReference().getHref().get().toString();
+            } else if (onlineResource.isInstance() && onlineResource.getInstance().isPresent()
+                    && onlineResource.getInstance().get().getLinkage().isPresent()) {
+                return onlineResource.getInstance().get().getLinkage().get().toString();
+            }
         }
         return null;
     }

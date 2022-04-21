@@ -17,8 +17,7 @@ package org.n52.shetland.iso.gmd;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-public abstract class AbstractMDIdentification
-        extends AbstractObject {
+public abstract class AbstractMDIdentification extends AbstractObject {
 
     /**
      * 1..1

@@ -25,8 +25,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @since 1.0.0
  *
  */
-public class GetFeatureOfInterestResponse
-        extends OwsServiceResponse {
+public class GetFeatureOfInterestResponse extends OwsServiceResponse {
 
     private AbstractFeature abstractFeature;
 
@@ -52,8 +51,8 @@ public class GetFeatureOfInterestResponse
     }
 
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
-    public GetFeatureOfInterestResponse(
-            String service, String version, String operationName, AbstractFeature abstractFeature) {
+    public GetFeatureOfInterestResponse(String service, String version, String operationName,
+            AbstractFeature abstractFeature) {
         super(service, version, operationName);
         this.abstractFeature = abstractFeature;
     }

@@ -15,12 +15,12 @@
  */
 package org.n52.shetland.ogc.wps.ap;
 
-import org.n52.shetland.ogc.wps.ProcessOffering;
-
 import java.net.URI;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+
+import org.n52.shetland.ogc.wps.ProcessOffering;
 
 public class ApplicationPackage {
     private ProcessOffering processDescription;

@@ -36,9 +36,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @since 1.0.0
  *
  */
-public class GetResultRequest
-        extends OwsServiceRequest
-        implements SpatialFeatureQueryRequest {
+public class GetResultRequest extends OwsServiceRequest implements SpatialFeatureQueryRequest {
 
     /**
      * Identifier for the observation template
@@ -83,7 +81,7 @@ public class GetResultRequest
      *
      * @param observationTemplateIdentifier
      *            observation template identifier
-     * @return
+     * @return this
      */
     public GetResultRequest setObservationTemplateIdentifier(String observationTemplateIdentifier) {
         this.observationTemplateIdentifier = observationTemplateIdentifier;
@@ -135,7 +133,7 @@ public class GetResultRequest
      *
      * @param featureIdentifiers
      *            FOI identifiers
-     * @return
+     * @return this
      */
     @Override
     public void setFeatureIdentifiers(List<String> featureIdentifiers) {

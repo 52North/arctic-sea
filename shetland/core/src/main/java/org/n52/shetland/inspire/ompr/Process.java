@@ -65,7 +65,8 @@ public class Process extends AbstractFeature {
     }
 
     /**
-     * @param name the name to set
+     * @param name
+     *            the name to set
      */
     public Process setName(String name) {
         super.setName(new CodeType(name));
@@ -80,7 +81,8 @@ public class Process extends AbstractFeature {
     }
 
     /**
-     * @param type the type to set
+     * @param type
+     *            the type to set
      */
     public Process setType(String type) {
         this.type = type;
@@ -99,7 +101,8 @@ public class Process extends AbstractFeature {
     }
 
     /**
-     * @param documentation the documentation to set
+     * @param documentation
+     *            the documentation to set
      */
     public Process setDocumentation(Collection<DocumentCitation> documentation) {
         this.documentation.clear();
@@ -110,7 +113,8 @@ public class Process extends AbstractFeature {
     }
 
     /**
-     * @param documentation the documentation to add
+     * @param documentation
+     *            the documentation to add
      */
     public Process addDocumentation(DocumentCitation documentation) {
         if (documentation != null) {
@@ -131,7 +135,8 @@ public class Process extends AbstractFeature {
     }
 
     /**
-     * @param processParameter the processParameter to set
+     * @param processParameter
+     *            the processParameter to set
      */
     public Process setProcessParameter(Collection<ProcessParameter> processParameter) {
         this.processParameter.clear();
@@ -142,7 +147,8 @@ public class Process extends AbstractFeature {
     }
 
     /**
-     * @param processParameter the processParameter to add
+     * @param processParameter
+     *            the processParameter to add
      */
     public Process addProcessParameter(ProcessParameter processParameter) {
         if (processParameter != null) {
@@ -163,7 +169,8 @@ public class Process extends AbstractFeature {
     }
 
     /**
-     * @param responsibleParty the responsibleParty to set
+     * @param responsibleParty
+     *            the responsibleParty to set
      */
     public Process setResponsibleParty(Collection<RelatedParty> responsibleParty) {
         this.responsibleParty.clear();
@@ -174,7 +181,8 @@ public class Process extends AbstractFeature {
     }
 
     /**
-     * @param responsibleParty the responsibleParty to add
+     * @param responsibleParty
+     *            the responsibleParty to add
      */
     public Process addResponsibleParty(RelatedParty responsibleParty) {
         if (responsibleParty != null) {
@@ -182,7 +190,6 @@ public class Process extends AbstractFeature {
         }
         return this;
     }
-
 
     public boolean isSetResponsibleParty() {
         return CollectionHelper.isNotEmpty(getResponsibleParty());

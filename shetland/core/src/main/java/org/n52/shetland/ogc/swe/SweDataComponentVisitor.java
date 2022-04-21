@@ -36,7 +36,9 @@ import org.n52.shetland.ogc.swe.stream.StreamingSweDataArray;
  *
  * @author Christian Autermann
  */
-public interface SweDataComponentVisitor<T, X extends Throwable> {
+public interface SweDataComponentVisitor<
+        T,
+        X extends Throwable> {
     T visit(SweField component) throws X;
 
     T visit(SweDataRecord component) throws X;

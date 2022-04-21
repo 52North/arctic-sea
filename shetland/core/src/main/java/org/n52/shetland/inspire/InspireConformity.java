@@ -99,7 +99,9 @@ public class InspireConformity {
      *
      */
     public enum InspireDegreeOfConformity {
-        conformant, notConformant, notEvaluated;
+        conformant,
+        notConformant,
+        notEvaluated;
     }
 
 }

@@ -31,8 +31,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  *
  * @since 1.0.0
  */
-public class SosRegisterSensorRequest
-        extends OwsServiceRequest {
+public class SosRegisterSensorRequest extends OwsServiceRequest {
 
     /**
      * SOS Sensor system
@@ -65,8 +64,7 @@ public class SosRegisterSensorRequest
      *            FeatureOfInterest
      */
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
-    public SosRegisterSensorRequest(
-            Collection<AbstractPhenomenon> observableProperties, String sensorDescription,
+    public SosRegisterSensorRequest(Collection<AbstractPhenomenon> observableProperties, String sensorDescription,
             Collection<AbstractFeature> featuresOfInterest) {
         super(null, null, Sos1Constants.Operations.RegisterSensor.name());
         // this.system = system;

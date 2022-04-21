@@ -18,8 +18,9 @@ package org.n52.shetland.inspire.ef;
 import org.n52.shetland.ogc.gml.AbstractGML;
 import org.n52.shetland.ogc.gml.time.Time;
 
-public class Hierarchy
-        extends AbstractGML {
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+public class Hierarchy extends AbstractGML {
 
     /**
      * 0..1
@@ -39,6 +40,7 @@ public class Hierarchy
     /**
      * @return the linkingTime
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Time getLinkingTime() {
         return linkingTime;
     }
@@ -47,6 +49,7 @@ public class Hierarchy
      * @param linkingTime
      *            the linkingTime to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setLinkingTime(Time linkingTime) {
         this.linkingTime = linkingTime;
     }
@@ -54,6 +57,7 @@ public class Hierarchy
     /**
      * @return the broader
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public AbstractMonitoringObject getBroader() {
         return broader;
     }
@@ -62,6 +66,7 @@ public class Hierarchy
      * @param broader
      *            the broader to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setBroader(AbstractMonitoringObject broader) {
         this.broader = broader;
     }
@@ -69,6 +74,7 @@ public class Hierarchy
     /**
      * @return the narrower
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public AbstractMonitoringObject getNarrower() {
         return narrower;
     }
@@ -77,6 +83,7 @@ public class Hierarchy
      * @param narrower
      *            the narrower to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setNarrower(AbstractMonitoringObject narrower) {
         this.narrower = narrower;
     }

@@ -40,7 +40,8 @@ public class OmObservationConstellation extends AbstractFeature
     /**
      * Identifier of the procedure by which the observation is made
      */
-    private Nillable<AbstractFeature> procedure = Nillable.<AbstractFeature> nil();
+    private Nillable<AbstractFeature> procedure = Nillable.<
+            AbstractFeature> nil();
 
     /**
      * Identifier of the observableProperty to which the observation accords to
@@ -55,7 +56,8 @@ public class OmObservationConstellation extends AbstractFeature
     /**
      * Identifier of the featureOfInterest to which this observation belongs
      */
-    private Nillable<AbstractFeature> featureOfInterest = Nillable.<AbstractFeature> nil();
+    private Nillable<AbstractFeature> featureOfInterest = Nillable.<
+            AbstractFeature> nil();
 
     /**
      * type of the observation
@@ -188,7 +190,8 @@ public class OmObservationConstellation extends AbstractFeature
      */
     public OmObservationConstellation setProcedure(AbstractFeature procedure) {
         if (procedure == null) {
-            return setProcedure(Nillable.<AbstractFeature> nil());
+            return setProcedure(Nillable.<
+                    AbstractFeature> nil());
         }
         return setProcedure(Nillable.of(procedure));
     }
@@ -292,7 +295,8 @@ public class OmObservationConstellation extends AbstractFeature
      */
     public OmObservationConstellation setFeatureOfInterest(AbstractFeature featureOfInterest) {
         if (featureOfInterest == null) {
-            return setFeatureOfInterest(Nillable.<AbstractFeature> nil());
+            return setFeatureOfInterest(Nillable.<
+                    AbstractFeature> nil());
         }
         return setFeatureOfInterest(Nillable.of(featureOfInterest));
     }

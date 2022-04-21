@@ -17,17 +17,15 @@ package org.n52.shetland.ogc.sensorML.v20;
 
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
-
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
 import org.n52.shetland.ogc.swe.SweDataRecord;
 import org.n52.shetland.ogc.swe.SweDataStream;
 import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
- *         J&uuml;rrens</a>
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  *
  * @since 1.0.0
  */
@@ -60,18 +58,22 @@ public class SmlDataInterface extends SweAbstractDataComponent {
     public SweDataRecord getInterfaceParameters() {
         return inputParameters;
     }
+
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setInputParameters(SweDataRecord inputParameters) {
         this.inputParameters = inputParameters;
     }
 
     @Override
-    public <T, X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
+    public <
+            T,
+            X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
         return visitor.visit(this);
     }
 
     @Override
-    public <X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
+    public <
+            X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
         visitor.visit(this);
     }
 

@@ -24,8 +24,7 @@ import com.google.common.base.Strings;
  * @since 1.0.0
  *
  */
-public class InsertResultRequest
-        extends OwsServiceRequest {
+public class InsertResultRequest extends OwsServiceRequest {
 
     private String templateIdentifier;
     private String resultValues;

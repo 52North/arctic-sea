@@ -17,7 +17,6 @@ package org.n52.shetland.w3c;
 
 import javax.xml.namespace.QName;
 
-
 /**
  * Constants class for W3C
  *

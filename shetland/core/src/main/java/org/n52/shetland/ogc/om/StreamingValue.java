@@ -15,7 +15,9 @@
  */
 package org.n52.shetland.ogc.om;
 
+import java.util.List;
 
+import org.locationtech.jts.geom.Geometry;
 import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
@@ -28,10 +30,6 @@ import org.n52.shetland.ogc.sos.response.AbstractStreaming;
 import org.n52.shetland.util.GeometryTransformer;
 import org.n52.shetland.util.JavaHelper;
 
-import java.util.List;
-
-import org.locationtech.jts.geom.Geometry;
-
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
@@ -43,7 +41,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @param <S>
  *            Entity type
  */
-public abstract class StreamingValue<S> extends AbstractStreaming {
+public abstract class StreamingValue<
+        S> extends AbstractStreaming {
     private Time phenomenonTime;
     private TimeInstant resultTime;
     private Time validTime;
@@ -167,7 +166,9 @@ public abstract class StreamingValue<S> extends AbstractStreaming {
             }
 
             @Override
-            public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
+            public <
+                    X,
+                    E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
                 throw new UnsupportedOperationException();
             }
         };

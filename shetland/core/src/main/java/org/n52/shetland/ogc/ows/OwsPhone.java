@@ -84,10 +84,9 @@ public class OwsPhone {
         return "OwsPhone{" + "voice=" + voice + ", facsimile=" + facsimile + '}';
     }
 
-    private static <T> Set<T> toSet(T t) {
+    private static <
+            T> Set<T> toSet(T t) {
         return Optional.ofNullable(t).map(Collections::singleton).orElseGet(Collections::emptySet);
     }
-
-
 
 }

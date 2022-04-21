@@ -33,18 +33,23 @@ public interface BoundingBoxOutputDescription extends BoundingBoxDescription, Pr
     }
 
     @Override
-    default <T> T visit(ReturningVisitor<T> visitor) {
+    default <
+            T> T visit(ReturningVisitor<T> visitor) {
         return visitor.visit(this);
     }
 
     @Override
-    default <T, X extends Exception> T visit(ThrowingReturningVisitor<T, X> visitor) throws X {
+    default <
+            T,
+            X extends Exception> T visit(ThrowingReturningVisitor<T, X> visitor) throws X {
         return visitor.visit(this);
     }
 
     Builder<?, ?> newBuilder();
 
-    interface Builder<T extends BoundingBoxOutputDescription, B extends Builder<T, B>>
+    interface Builder<
+            T extends BoundingBoxOutputDescription,
+            B extends Builder<T, B>>
             extends ProcessOutputDescription.Builder<T, B>, BoundingBoxDescription.Builder<T, B> {
     }
 

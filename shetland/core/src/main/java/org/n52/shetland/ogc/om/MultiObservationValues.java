@@ -28,7 +28,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @param <T>
  *            value type
  */
-public class MultiObservationValues<T> extends AbstractObservationValue<MultiValue<T>> {
+public class MultiObservationValues<
+        T> extends AbstractObservationValue<MultiValue<T>> {
     /**
      * Mesurement values
      */

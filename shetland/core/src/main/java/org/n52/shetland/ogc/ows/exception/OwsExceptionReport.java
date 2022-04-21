@@ -22,14 +22,12 @@ import org.n52.janmayen.http.HTTPStatus;
 import org.n52.shetland.ogc.ows.OWSConstants;
 
 /**
- * Implementation of the OWS service exception. The exception codes are defined
- * according the <a
- * href="http://portal.opengeospatial.org/files/?artifact_id=20040">OGC Web
- * Service Common Specification 1.1.0</a>
+ * Implementation of the OWS service exception. The exception codes are defined according the
+ * <a href="http://portal.opengeospatial.org/files/?artifact_id=20040">OGC Web Service Common Specification
+ * 1.1.0</a>
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
- *         J&uuml;rrens</a>
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  *
  * @since 1.0.0
  */
@@ -107,8 +105,8 @@ public abstract class OwsExceptionReport extends Exception {
     }
 
     /**
-     * @return <tt>true</tt>, if a HTTP response code for this
-     *         {@code OwsExceptionReport} or any sub exception is available
+     * @return <tt>true</tt>, if a HTTP response code for this {@code OwsExceptionReport} or any sub exception
+     *         is available
      */
     public final boolean hasStatus() {
         return getStatus() != null;

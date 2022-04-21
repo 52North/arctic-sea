@@ -23,7 +23,8 @@ import org.n52.shetland.ogc.ows.service.OwsServiceCommunicationObject;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-public abstract class AbstractSoap<T extends OwsServiceCommunicationObject> {
+public abstract class AbstractSoap<
+        T extends OwsServiceCommunicationObject> {
     private String soapNamespace;
     private String soapVersion;
     private String soapAction;

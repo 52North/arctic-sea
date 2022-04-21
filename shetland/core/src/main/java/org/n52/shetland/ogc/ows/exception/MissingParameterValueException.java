@@ -18,13 +18,13 @@ package org.n52.shetland.ogc.ows.exception;
 import org.n52.janmayen.http.HTTPStatus;
 
 /**
- * Implementation of {@link CodedOwsException} to be used if <p> <i>Operation
- * request does not include a parameter value, and this server did not declare a
- * default value for that parameter.</i>
+ * Implementation of {@link CodedOwsException} to be used if
+ * <p>
+ * <i>Operation request does not include a parameter value, and this server did not declare a default value
+ * for that parameter.</i>
  *
- * @see <a href="http://portal.opengeospatial.org/files/?artifact_id=20040">OGC
- *      Web Service Common Specification 1.1.0, Table 25 — Standard exception codes and
- *      meanings</a>
+ * @see <a href="http://portal.opengeospatial.org/files/?artifact_id=20040">OGC Web Service Common
+ *      Specification 1.1.0, Table 25 — Standard exception codes and meanings</a>
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  *
  * @since 1.0.0

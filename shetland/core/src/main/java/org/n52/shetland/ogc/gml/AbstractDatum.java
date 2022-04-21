@@ -69,7 +69,8 @@ public abstract class AbstractDatum extends IdentifiedObject {
         if (domainOfValidity != null) {
             this.domainOfValidity = Referenceable.of(domainOfValidity);
         } else {
-            this.domainOfValidity = Referenceable.of(Nillable.<DomainOfValidity> missing());
+            this.domainOfValidity = Referenceable.of(Nillable.<
+                    DomainOfValidity> missing());
         }
         return this;
     }

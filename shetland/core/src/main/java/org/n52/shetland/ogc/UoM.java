@@ -37,7 +37,8 @@ public class UoM {
     }
 
     /**
-     * @param uom the uom to set
+     * @param uom
+     *            the uom to set
      *
      * @return {@code this}
      */
@@ -54,7 +55,8 @@ public class UoM {
     }
 
     /**
-     * @param name the name to set
+     * @param name
+     *            the name to set
      *
      * @return {@code this}
      */
@@ -75,7 +77,8 @@ public class UoM {
     }
 
     /**
-     * @param link the link to set
+     * @param link
+     *            the link to set
      *
      * @return {@code this}
      */
@@ -89,7 +92,7 @@ public class UoM {
     }
 
     public boolean isEmpty() {
-        return getUom() == null || (getUom() != null && getUom().isEmpty());
+        return getUom() == null || getUom() != null && getUom().isEmpty();
     }
 
     @Override

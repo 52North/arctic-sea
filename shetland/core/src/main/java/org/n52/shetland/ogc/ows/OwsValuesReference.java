@@ -25,8 +25,7 @@ import com.google.common.base.Strings;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
- * Reference to externally specified list of all the valid values and/or ranges
- * of values for this quantity.
+ * Reference to externally specified list of all the valid values and/or ranges of values for this quantity.
  *
  * @author Christian Autermann
  */
@@ -60,8 +59,8 @@ public class OwsValuesReference implements OwsPossibleValues {
     }
 
     /**
-     * Human-readable name of the list of values provided by the referenced
-     * document. Can be empty string when this list has no name.
+     * Human-readable name of the list of values provided by the referenced document. Can be empty string when
+     * this list has no name.
      *
      * @return the value
      */
@@ -89,14 +88,12 @@ public class OwsValuesReference implements OwsPossibleValues {
             return false;
         }
         final OwsValuesReference other = (OwsValuesReference) obj;
-        return Objects.equals(this.value, other.value) &&
-               Objects.equals(this.reference, other.reference);
+        return Objects.equals(this.value, other.value) && Objects.equals(this.reference, other.reference);
     }
 
     @Override
     public String toString() {
-        return "OwsValuesReference{" + "reference=" + reference + ", value=" +
-               value + '}';
+        return "OwsValuesReference{" + "reference=" + reference + ", value=" + value + '}';
     }
 
 }

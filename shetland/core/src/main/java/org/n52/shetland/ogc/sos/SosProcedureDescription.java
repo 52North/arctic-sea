@@ -37,7 +37,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @since 1.0.0
  *
  */
-public class SosProcedureDescription<T extends AbstractFeature> extends AbstractFeature {
+public class SosProcedureDescription<
+        T extends AbstractFeature> extends AbstractFeature {
 
     private final T procedureDescription;
     private Time validTime;
@@ -179,14 +180,14 @@ public class SosProcedureDescription<T extends AbstractFeature> extends Abstract
 
     public SosProcedureDescription<T> addFeatureOfInterest(AbstractFeature featureOfInterest) {
         if (featureOfInterest != null) {
-        this.featuresOfInterestMap.put(featureOfInterest.getIdentifier(), featureOfInterest);
+            this.featuresOfInterestMap.put(featureOfInterest.getIdentifier(), featureOfInterest);
         }
         return this;
     }
 
     public SosProcedureDescription<T> addFeatureOfInterest(String featureOfInterest) {
         if (featureOfInterest != null) {
-        this.featuresOfInterest.add(featureOfInterest);
+            this.featuresOfInterest.add(featureOfInterest);
         }
         return this;
     }
@@ -336,7 +337,7 @@ public class SosProcedureDescription<T extends AbstractFeature> extends Abstract
 
     @Override
     public boolean isSetDefaultElementEncoding() {
-        return super.isSetDefaultElementEncoding() || (getProcedureDescription() != null
-                && !Strings.isNullOrEmpty(getProcedureDescription().getDefaultElementEncoding()));
+        return super.isSetDefaultElementEncoding() || getProcedureDescription() != null
+                && !Strings.isNullOrEmpty(getProcedureDescription().getDefaultElementEncoding());
     }
 }

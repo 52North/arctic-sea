@@ -15,13 +15,13 @@
  */
 package org.n52.shetland.ogc.wps;
 
+import java.math.BigInteger;
+import java.util.Optional;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.math.BigInteger;
-import java.util.Optional;
 
 /**
  * TODO JavaDoc
@@ -37,7 +37,7 @@ public class InputOccurence {
 
     @JsonCreator
     public InputOccurence(@JsonProperty(value = MIN_OCCURS, required = true) BigInteger min,
-                          @JsonProperty(MAX_OCCURS) BigInteger max) {
+            @JsonProperty(MAX_OCCURS) BigInteger max) {
         this.min = min == null ? BigInteger.ONE : min;
 
         if (max == null) {
@@ -80,8 +80,7 @@ public class InputOccurence {
     }
 
     public boolean isInBounds(BigInteger occurence) {
-        return this.min.compareTo(occurence) <= 0 &&
-               (this.max == null || this.max.compareTo(occurence) >= 0);
+        return this.min.compareTo(occurence) <= 0 && (this.max == null || this.max.compareTo(occurence) >= 0);
     }
 
     @Override

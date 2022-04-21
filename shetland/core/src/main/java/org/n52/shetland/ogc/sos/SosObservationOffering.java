@@ -136,14 +136,16 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     }
 
     /**
-     * @param offering Offering identifier
+     * @param offering
+     *            Offering identifier
      */
     public void setOffering(String offering) {
         setOffering(new SosOffering(offering, ""));
     }
 
     /**
-     * @param offering Offering identifier
+     * @param offering
+     *            Offering identifier
      */
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setOffering(SosOffering offering) {
@@ -167,7 +169,8 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     }
 
     /**
-     * @param observableProperties observableProperties to se
+     * @param observableProperties
+     *            observableProperties to se
      */
     public void setObservableProperties(Collection<String> observableProperties) {
         set(this.observableProperties, observableProperties);
@@ -185,22 +188,23 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     }
 
     /**
-     * @param compositePhenomena compositePhenomena to set
+     * @param compositePhenomena
+     *            compositePhenomena to set
      */
     public void setCompositePhenomena(Collection<String> compositePhenomena) {
         set(this.compositePhenomena, compositePhenomena);
     }
 
     /**
-     * @return Sorted map containing the observableProperties and related
-     *         composite phenomena
+     * @return Sorted map containing the observableProperties and related composite phenomena
      */
     public SortedMap<String, SortedSet<String>> getPhens4CompPhens() {
         return Collections.unmodifiableSortedMap(phens4CompPhens);
     }
 
     /**
-     * @param phens4CompPhens phens4CompPhens to set
+     * @param phens4CompPhens
+     *            phens4CompPhens to set
      */
     public void setPhens4CompPhens(Map<String, ? extends Collection<String>> phens4CompPhens) {
         set(this.phens4CompPhens, phens4CompPhens);
@@ -208,7 +212,7 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
 
     /**
      * @param phenomenonTime
-     *                       the phenomenon time
+     *            the phenomenon time
      */
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setPhenomenonTime(Time phenomenonTime) {
@@ -224,7 +228,8 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     }
 
     /**
-     * @param resultTime the result time
+     * @param resultTime
+     *            the result time
      */
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setResultTime(Time resultTime) {
@@ -240,7 +245,8 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     }
 
     /**
-     * @param featureOfInterest the fature of interest
+     * @param featureOfInterest
+     *            the fature of interest
      */
     public void setFeatureOfInterest(Collection<String> featureOfInterest) {
         set(this.featureOfInterest, featureOfInterest);
@@ -254,7 +260,8 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     }
 
     /**
-     * @param relatedFeatures the related features
+     * @param relatedFeatures
+     *            the related features
      */
     public void setRelatedFeatures(Map<String, Set<String>> relatedFeatures) {
         set(this.relatedFeatures, relatedFeatures);
@@ -270,8 +277,10 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     /**
      * Add a related feature to this offering
      *
-     * @param identifier Related feature identifier
-     * @param role       Related feature role
+     * @param identifier
+     *            Related feature identifier
+     * @param role
+     *            Related feature role
      */
     public void addRelatedFeature(String identifier, String role) {
         addToMap(this.relatedFeatures, identifier, role);
@@ -280,8 +289,10 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     /**
      * Add a related feature to this offering
      *
-     * @param identifier Related feature identifier
-     * @param roles      Related feature roles
+     * @param identifier
+     *            Related feature identifier
+     * @param roles
+     *            Related feature roles
      */
     public void addRelatedFeature(String identifier, Set<String> roles) {
         addToMap(this.relatedFeatures, identifier, roles);
@@ -295,7 +306,8 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     }
 
     /**
-     * @param procedures procedures to set
+     * @param procedures
+     *            procedures to set
      */
     public void setProcedures(Collection<String> procedures) {
         set(this.procedures, procedures);
@@ -309,7 +321,8 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     }
 
     /**
-     * @param resultModels resultModels to set
+     * @param resultModels
+     *            resultModels to set
      */
     public void setResultModels(Collection<QName> resultModels) {
         set(this.resultModels, resultModels);
@@ -323,7 +336,8 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     }
 
     /**
-     * @param observationTypes the observationTypes to set
+     * @param observationTypes
+     *            the observationTypes to set
      */
     public void setObservationTypes(Collection<String> observationTypes) {
         set(this.observationTypes, observationTypes);
@@ -337,7 +351,8 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     }
 
     /**
-     * @param observationResultTypes the observationResultTypes to set
+     * @param observationResultTypes
+     *            the observationResultTypes to set
      */
     public void setObservationResultTypes(Map<String, Collection<String>> observationResultTypes) {
         set(this.observationResultTypes, observationResultTypes);
@@ -351,7 +366,8 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     }
 
     /**
-     * @param responseFormats responseFormats to set
+     * @param responseFormats
+     *            responseFormats to set
      */
     public void setResponseFormats(Collection<String> responseFormats) {
         set(this.responseFormats, responseFormats);
@@ -365,7 +381,8 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     }
 
     /**
-     * @param responseModes the response modes
+     * @param responseModes
+     *            the response modes
      */
     public void setResponseModes(Collection<String> responseModes) {
         set(this.responseModes, responseModes);
@@ -413,23 +430,11 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     }
 
     public boolean isEmpty() {
-        return !isSetOffering() &&
-               !isSetObservedArea() &&
-               !isSetObservableProperties() &&
-               !isSetCompositePhenomena() &&
-               !isSetPhens4CompPhens() &&
-               !isSetPhenomenonTime() &&
-               !isSetResultTime() &&
-               !isSetFeatureOfInterest() &&
-               !isSetRelatedFeature() &&
-               !isSetProcedures() &&
-               !isSetresultModels() &&
-               !isSetObservationTypes() &&
-               !isSetFeatureOfInterestTypes() &&
-               !isSetObservationResultTypes() &&
-               !isSetResponseFormats() &&
-               !isSetResponseModes() &&
-               !isSetProcedureDescriptionFormats();
+        return !isSetOffering() && !isSetObservedArea() && !isSetObservableProperties() && !isSetCompositePhenomena()
+                && !isSetPhens4CompPhens() && !isSetPhenomenonTime() && !isSetResultTime() && !isSetFeatureOfInterest()
+                && !isSetRelatedFeature() && !isSetProcedures() && !isSetresultModels() && !isSetObservationTypes()
+                && !isSetFeatureOfInterestTypes() && !isSetObservationResultTypes() && !isSetResponseFormats()
+                && !isSetResponseModes() && !isSetProcedureDescriptionFormats();
     }
 
     public boolean isValidObservationOffering() {
@@ -512,11 +517,15 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     /**
      * clear and add collection to sorted set.
      *
-     * @param <T>  the element type
-     * @param set  the set
-     * @param coll the collection
+     * @param <T>
+     *            the element type
+     * @param set
+     *            the set
+     * @param coll
+     *            the collection
      */
-    private static <T> void set(SortedSet<T> set, Collection<? extends T> coll) {
+    private static <
+            T> void set(SortedSet<T> set, Collection<? extends T> coll) {
         if (set != null) {
             set.clear();
             add(set, coll);
@@ -526,17 +535,24 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     /**
      * Add map to sorted map.
      *
-     * @param <K>       the key type
-     * @param <V>       the value type
-     * @param sortedMap the target map
-     * @param map       the source map
+     * @param <K>
+     *            the key type
+     * @param <V>
+     *            the value type
+     * @param sortedMap
+     *            the target map
+     * @param map
+     *            the source map
      */
-    private static <K, V extends Comparable<? super V>> void set(
-            SortedMap<K, SortedSet<V>> sortedMap, Map<K, ? extends Collection<V>> map) {
+    private static <
+            K,
+            V extends Comparable<? super V>> void set(SortedMap<K, SortedSet<V>> sortedMap,
+                    Map<K, ? extends Collection<V>> map) {
         if (sortedMap != null) {
             sortedMap.clear();
             if (map != null) {
-                map.forEach((key, value) -> sortedMap.put(key, value != null ? new TreeSet<>(value) : new TreeSet<>()));
+                map.forEach(
+                        (key, value) -> sortedMap.put(key, value != null ? new TreeSet<>(value) : new TreeSet<>()));
             }
         }
     }
@@ -544,11 +560,15 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     /**
      * add collection to sorted set.
      *
-     * @param <T>  the element type
-     * @param set  the set
-     * @param coll the collection
+     * @param <T>
+     *            the element type
+     * @param set
+     *            the set
+     * @param coll
+     *            the collection
      */
-    private static <T> void add(SortedSet<T> set, Collection<? extends T> coll) {
+    private static <
+            T> void add(SortedSet<T> set, Collection<? extends T> coll) {
         if (set != null && coll != null) {
             set.addAll(coll);
         }
@@ -557,13 +577,20 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     /**
      * Add key and value to map.
      *
-     * @param <K>   the key type
-     * @param <V>   the value type
-     * @param map   the map
-     * @param key   the key
-     * @param value the value
+     * @param <K>
+     *            the key type
+     * @param <V>
+     *            the value type
+     * @param map
+     *            the map
+     * @param key
+     *            the key
+     * @param value
+     *            the value
      */
-    private static <K, V> void addToMap(SortedMap<K, SortedSet<V>> map, K key, V value) {
+    private static <
+            K,
+            V> void addToMap(SortedMap<K, SortedSet<V>> map, K key, V value) {
         if (map != null && key != null && value != null) {
             map.computeIfAbsent(key, Functions.forSupplier(TreeSet::new)).add(value);
         }
@@ -572,13 +599,20 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     /**
      * Add key and values to map.
      *
-     * @param <K>   the key type
-     * @param <V>   the value type
-     * @param map   the map
-     * @param key   the key
-     * @param value the values
+     * @param <K>
+     *            the key type
+     * @param <V>
+     *            the value type
+     * @param map
+     *            the map
+     * @param key
+     *            the key
+     * @param value
+     *            the values
      */
-    private static <K, V> void addToMap(SortedMap<K, SortedSet<V>> map, K key, Collection<V> value) {
+    private static <
+            K,
+            V> void addToMap(SortedMap<K, SortedSet<V>> map, K key, Collection<V> value) {
         if (map != null && key != null && value != null) {
             map.computeIfAbsent(key, Functions.forSupplier(TreeSet::new)).addAll(value);
         }

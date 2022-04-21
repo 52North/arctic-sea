@@ -22,7 +22,6 @@ import java.util.Set;
 import org.n52.shetland.w3c.soap.SoapConstants;
 import org.n52.shetland.w3c.soap.SoapRequest;
 import org.n52.svalbard.decode.exception.DecodingException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -26,8 +26,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @since 1.0.0
  *
  */
-public class TemporalFilter
-        extends Filter<TimeOperator> {
+public class TemporalFilter extends Filter<TimeOperator> {
 
     private TimeOperator operator;
 

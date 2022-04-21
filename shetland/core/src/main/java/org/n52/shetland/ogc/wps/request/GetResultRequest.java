@@ -15,7 +15,6 @@
  */
 package org.n52.shetland.ogc.wps.request;
 
-
 import org.n52.shetland.ogc.wps.WPSConstants;
 
 /**

@@ -34,7 +34,7 @@ public interface InsertFeatureOfInterestConstants {
 
     String CONFORMANCE_CLASS = "http://www.opengis.net/spec/SOS/2.0/conf/foi";
 
-    public interface InsertFeatureOfInterestParams {
+    interface InsertFeatureOfInterestParams {
 
     }
 

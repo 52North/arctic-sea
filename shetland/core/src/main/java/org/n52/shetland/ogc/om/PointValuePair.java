@@ -15,16 +15,13 @@
  */
 package org.n52.shetland.ogc.om;
 
-
 import java.util.Objects;
 
 import org.apache.commons.lang.builder.CompareToBuilder;
-
+import org.locationtech.jts.geom.Point;
 import org.n52.shetland.ogc.om.values.Value;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
-import org.locationtech.jts.geom.Point;
 
 public class PointValuePair implements Comparable<PointValuePair> {
     /**

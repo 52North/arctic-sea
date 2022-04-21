@@ -36,7 +36,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @param <T>
  *            value type
  */
-public class SingleObservationValue<T> extends AbstractObservationValue<Value<T>> {
+public class SingleObservationValue<
+        T> extends AbstractObservationValue<Value<T>> {
 
     /**
      * Phenomenon time

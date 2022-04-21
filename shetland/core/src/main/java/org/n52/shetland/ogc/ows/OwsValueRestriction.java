@@ -24,8 +24,7 @@ import org.n52.janmayen.Comparables;
  *
  * @author Christian Autermann
  */
-public interface OwsValueRestriction
-        extends Comparable<OwsValueRestriction> {
+public interface OwsValueRestriction extends Comparable<OwsValueRestriction> {
     Comparator<OwsValueRestriction> COMPARATOR = Comparator.nullsLast((o1, o2) -> {
         if (o1.isRange()) {
             if (o2.isRange()) {

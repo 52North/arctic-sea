@@ -25,8 +25,7 @@ import org.n52.shetland.ogc.swe.simpleType.SweAbstractSimpleType;
 import com.google.common.collect.Sets;
 
 /**
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
- *         J&uuml;rrens</a>
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  *
  * @since 1.0.0
  */
@@ -96,8 +95,7 @@ public abstract class SweAbstractDataRecord extends SweAbstractDataComponent imp
     }
 
     boolean isFieldName(final String fieldNameOrElementDefinition, final SweField sweField) {
-        return sweField.isSetName()
-                && sweField.getName().getValue().equalsIgnoreCase(fieldNameOrElementDefinition);
+        return sweField.isSetName() && sweField.getName().getValue().equalsIgnoreCase(fieldNameOrElementDefinition);
     }
 
     boolean isElementDefinition(final String fieldNameOrElementDefinition, final SweField sweField) {
@@ -113,7 +111,7 @@ public abstract class SweAbstractDataRecord extends SweAbstractDataComponent imp
         if (getClass() != obj.getClass()) {
             return false;
         }
-        if (obj instanceof SweAbstractDataRecord)  {
+        if (obj instanceof SweAbstractDataRecord) {
             final SweAbstractDataRecord other = (SweAbstractDataRecord) obj;
             if (getFields() != other.getFields() && (getFields() == null || !getFields().equals(other.getFields()))) {
                 return false;
@@ -152,6 +150,5 @@ public abstract class SweAbstractDataRecord extends SweAbstractDataComponent imp
 
     @Override
     public abstract SweAbstractDataRecord copy();
-
 
 }

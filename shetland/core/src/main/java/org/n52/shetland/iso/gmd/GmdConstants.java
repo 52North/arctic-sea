@@ -30,11 +30,11 @@ public interface GmdConstants {
 
     SchemaLocation GMD_SCHEMA_LOCATION = new SchemaLocation(NS_GMD, SCHEMA_LOCATION_URL_GMD);
 
-    QName QN_GMD_CONFORMANCE_RESULT = new QName(GmdConstants.NS_GMD, "DQ_ConformanceResult",
-            GmdConstants.NS_GMD_PREFIX);
+    QName QN_GMD_CONFORMANCE_RESULT =
+            new QName(GmdConstants.NS_GMD, "DQ_ConformanceResult", GmdConstants.NS_GMD_PREFIX);
 
-    QName QN_GMD_QUANTITATIVE_RESULT = new QName(GmdConstants.NS_GMD, "DQ_QuantitativeResult",
-            GmdConstants.NS_GMD_PREFIX);
+    QName QN_GMD_QUANTITATIVE_RESULT =
+            new QName(GmdConstants.NS_GMD, "DQ_QuantitativeResult", GmdConstants.NS_GMD_PREFIX);
 
     QName QN_GML_BASE_UNIT = new QName(GmlConstants.NS_GML_32, "BaseUnit", GmlConstants.NS_GML_PREFIX);
 }

@@ -15,7 +15,6 @@
  */
 package org.n52.shetland.ogc.om;
 
-
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
 
@@ -68,8 +67,7 @@ public abstract class AbstractPhenomenon extends AbstractFeature implements Comp
 
     @Override
     public int compareTo(final AbstractPhenomenon o) {
-        return getIdentifierCodeWithAuthority().compareTo(o
-                .getIdentifierCodeWithAuthority());
+        return getIdentifierCodeWithAuthority().compareTo(o.getIdentifierCodeWithAuthority());
     }
 
     public abstract boolean isComposite();
@@ -84,13 +82,9 @@ public abstract class AbstractPhenomenon extends AbstractFeature implements Comp
         return (OmCompositePhenomenon) this;
     }
 
-
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .omitNullValues()
-                .add("identifier", getIdentifier())
-                .add("description", getDescription())
-                .toString();
+        return MoreObjects.toStringHelper(this).omitNullValues().add("identifier", getIdentifier())
+                .add("description", getDescription()).toString();
     }
 }

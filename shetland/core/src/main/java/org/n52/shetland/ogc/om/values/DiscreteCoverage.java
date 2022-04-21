@@ -26,8 +26,8 @@ import java.util.Collection;
  * @param <T>
  *            Value tpe
  */
-public interface DiscreteCoverage<T>
-        extends Value<T> {
+public interface DiscreteCoverage<
+        T> extends Value<T> {
 
     String getGmlId();
 
@@ -39,7 +39,8 @@ public interface DiscreteCoverage<T>
     String getRangeParameters();
 
     /**
-     * @param rangeParameters the rangeParameters to set
+     * @param rangeParameters
+     *            the rangeParameters to set
      */
     void setRangeParameters(String rangeParameters);
 

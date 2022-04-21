@@ -15,8 +15,8 @@
  */
 package org.n52.shetland.ogc.ows.extension;
 
-public abstract class AbstractExtension<T>
-        implements Extension<T> {
+public abstract class AbstractExtension<
+        T> implements Extension<T> {
 
     private String namespace;
     private String identifier;

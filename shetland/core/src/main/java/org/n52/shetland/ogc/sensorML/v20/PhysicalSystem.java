@@ -34,8 +34,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @since 1.0.0
  *
  */
-public class PhysicalSystem
-        extends AbstractPhysicalProcess
+public class PhysicalSystem extends AbstractPhysicalProcess
         implements HasComponents<PhysicalSystem>, HasConnections<PhysicalSystem> {
 
     public static final String ID_PREFIX = "ps_";

@@ -34,5 +34,4 @@ public class WsaRelatesToHeader extends WsaHeader {
         super(value);
     }
 
-
 }

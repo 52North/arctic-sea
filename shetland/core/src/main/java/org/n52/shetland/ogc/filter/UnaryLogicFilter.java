@@ -23,9 +23,7 @@ import org.n52.shetland.ogc.filter.FilterConstants.UnaryLogicOperator;
  * @since 1.0.0
  *
  */
-public class UnaryLogicFilter
-        extends Filter<UnaryLogicOperator>
-        implements LogicFilter {
+public class UnaryLogicFilter extends Filter<UnaryLogicOperator> implements LogicFilter {
 
     private UnaryLogicOperator operator = UnaryLogicOperator.Not;
 

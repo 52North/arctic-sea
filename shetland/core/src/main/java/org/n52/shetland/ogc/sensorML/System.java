@@ -28,9 +28,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @since 1.0.0
  *
  */
-public class System
-        extends AbstractComponent
-        implements HasComponents<System>, HasConnections<System> {
+public class System extends AbstractComponent implements HasComponents<System>, HasConnections<System> {
 
     // private EngineeringCRS spatialReferenceFrame;
 

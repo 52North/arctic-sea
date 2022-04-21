@@ -69,7 +69,7 @@ public class OmCompositePhenomenon extends AbstractPhenomenon implements Iterabl
      *
      * @param phenomenonComponents
      *            The phenomenonComponents to set.
-     * @return
+     * @return this
      */
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public OmCompositePhenomenon setPhenomenonComponents(Collection<OmObservableProperty> phenomenonComponents) {

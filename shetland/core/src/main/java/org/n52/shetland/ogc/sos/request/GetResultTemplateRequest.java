@@ -24,8 +24,7 @@ import com.google.common.base.Strings;
  * @since 1.0.0
  *
  */
-public class GetResultTemplateRequest
-        extends OwsServiceRequest {
+public class GetResultTemplateRequest extends OwsServiceRequest {
 
     private String offering;
 

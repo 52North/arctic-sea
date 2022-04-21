@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.locationtech.jts.geom.Geometry;
 import org.n52.shetland.ogc.OGCConstants;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
@@ -32,11 +33,8 @@ import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.util.IdGenerator;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
-import org.locationtech.jts.geom.Geometry;
 
 public abstract class AbstractSamplingFeature extends AbstractFeature
         implements FeatureWithGeometry, FeatureWithFeatureType, FeatureWithUrl, FeatureWithEncode {
@@ -154,7 +152,7 @@ public abstract class AbstractSamplingFeature extends AbstractFeature
      *
      * @param sampledFeatures
      *            Sampled fearure list
-     * @return
+     * @return this
      */
     public AbstractSamplingFeature setSampledFeatures(final List<AbstractFeature> sampledFeatures) {
         this.sampledFeatures.clear();
@@ -190,7 +188,7 @@ public abstract class AbstractSamplingFeature extends AbstractFeature
      *
      * @param namedValue
      *            Parameter ro add
-     * @return
+     * @return this
      */
     public AbstractSamplingFeature addParameter(final NamedValue<?> namedValue) {
         if (namedValue != null) {
@@ -204,7 +202,7 @@ public abstract class AbstractSamplingFeature extends AbstractFeature
      *
      * @param parameters
      *            Parameters to add
-     * @return
+     * @return this
      */
     public AbstractSamplingFeature setParameters(final Collection<NamedValue<?>> parameters) {
         this.parameters.clear();
@@ -238,7 +236,7 @@ public abstract class AbstractSamplingFeature extends AbstractFeature
      *
      * @param encode
      *            Encoding indicator
-     * @return
+     * @return this
      */
     public AbstractSamplingFeature setEncode(final boolean encode) {
         this.encode = encode;
@@ -250,7 +248,7 @@ public abstract class AbstractSamplingFeature extends AbstractFeature
      *
      * @param relatedSamplingFeature
      *            Related sampling feature to add
-     * @return
+     * @return this
      */
     public AbstractSamplingFeature addRelatedSamplingFeature(final SamplingFeatureComplex relatedSamplingFeature) {
         if (relatedSamplingFeature != null) {
@@ -264,7 +262,7 @@ public abstract class AbstractSamplingFeature extends AbstractFeature
      *
      * @param relatedSamplingFeatures
      *            Related sampling features to add
-     * @return
+     * @return this
      */
     public AbstractSamplingFeature addAllRelatedSamplingFeatures(
             final Collection<SamplingFeatureComplex> relatedSamplingFeatures) {
@@ -279,7 +277,7 @@ public abstract class AbstractSamplingFeature extends AbstractFeature
      *
      * @param relatedSamplingFeatures
      *            Related sampling features to set
-     * @return
+     * @return this
      */
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public AbstractSamplingFeature setRelatedSamplingFeatures(
@@ -298,7 +296,8 @@ public abstract class AbstractSamplingFeature extends AbstractFeature
      */
     public List<SamplingFeatureComplex> getRelatedSamplingFeatures() {
         return relatedSamplingFeatures != null ? Lists.newArrayList(relatedSamplingFeatures)
-                : Collections.<SamplingFeatureComplex> emptyList();
+                : Collections.<
+                        SamplingFeatureComplex> emptyList();
     }
 
     /**

@@ -19,13 +19,13 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 
-import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.ogc.gml.AbstractReferenceType;
 import org.n52.shetland.ogc.swe.DataRecord;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 import org.n52.shetland.ogc.swe.SweField;
 import org.n52.shetland.ogc.swe.SweSimpleDataRecord;
 import org.n52.shetland.ogc.swe.simpleType.SweAbstractSimpleType;
+import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.collect.Sets;
 
@@ -40,7 +40,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @param <T>
  *            Implemented class
  */
-public class AbstractSmlDataComponentContainer<T> extends AbstractReferenceType {
+public class AbstractSmlDataComponentContainer<
+        T> extends AbstractReferenceType {
 
     private String name;
 
@@ -89,7 +90,7 @@ public class AbstractSmlDataComponentContainer<T> extends AbstractReferenceType 
     /**
      * @param typeDefinition
      *            the typeDefinition to set
-     * @return
+     * @return this
      */
     public T setTypeDefinition(String typeDefinition) {
         this.typeDefinition = typeDefinition;

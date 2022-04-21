@@ -91,12 +91,10 @@ public abstract class OwsServiceCommunicationObject {
     }
 
     /**
-     * Set service and version from another
-     * {@link OwsServiceCommunicationObject}
+     * Set service and version from another {@link OwsServiceCommunicationObject}
      *
      * @param object
-     *            The {@link OwsServiceCommunicationObject} to get values
-     *            from
+     *            The {@link OwsServiceCommunicationObject} to get values from
      * @return this.
      */
     public OwsServiceCommunicationObject set(OwsServiceCommunicationObject object) {

@@ -29,7 +29,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @param <T>
  *            Implemented class
  */
-public class AbstractDataComponentContainer<T> extends AbstractReferenceType {
+public class AbstractDataComponentContainer<
+        T> extends AbstractReferenceType {
 
     private String name;
 

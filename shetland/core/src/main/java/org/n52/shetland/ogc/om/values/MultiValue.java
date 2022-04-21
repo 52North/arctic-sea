@@ -25,7 +25,8 @@ import org.n52.shetland.ogc.gml.time.Time;
  * @param <T>
  *            type of the multi value
  */
-public interface MultiValue<T> extends Value<T> {
+public interface MultiValue<
+        T> extends Value<T> {
 
     /**
      * Get the phenomenon time for the multiple values

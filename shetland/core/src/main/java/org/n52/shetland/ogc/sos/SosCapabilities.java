@@ -15,7 +15,6 @@
  */
 package org.n52.shetland.ogc.sos;
 
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
@@ -58,19 +57,17 @@ public class SosCapabilities extends OwsCapabilities {
         this(owsCapabilities, null, null);
     }
 
-    public SosCapabilities(
-            OwsCapabilities owsCapabilities, FilterCapabilities filterCapabilities,
+    public SosCapabilities(OwsCapabilities owsCapabilities, FilterCapabilities filterCapabilities,
             Collection<SosObservationOffering> contents) {
         super(owsCapabilities);
         this.filterCapabilities = Optional.ofNullable(filterCapabilities);
         this.contents = Optional.ofNullable(contents).map(CollectionHelper::newSortedSet);
     }
 
-    public SosCapabilities(
-            String service, String version, String updateSequence, OwsServiceIdentification serviceIdentification,
-            OwsServiceProvider serviceProvider, OwsOperationsMetadata operationsMetadata, Set<String> languages,
-            FilterCapabilities filterCapabilities, Collection<SosObservationOffering> contents,
-            Collection<OwsCapabilitiesExtension> extensions) {
+    public SosCapabilities(String service, String version, String updateSequence,
+            OwsServiceIdentification serviceIdentification, OwsServiceProvider serviceProvider,
+            OwsOperationsMetadata operationsMetadata, Set<String> languages, FilterCapabilities filterCapabilities,
+            Collection<SosObservationOffering> contents, Collection<OwsCapabilitiesExtension> extensions) {
         super(SosConstants.SOS, version, updateSequence, serviceIdentification, serviceProvider, operationsMetadata,
                 languages, extensions);
         this.filterCapabilities = Optional.ofNullable(filterCapabilities);

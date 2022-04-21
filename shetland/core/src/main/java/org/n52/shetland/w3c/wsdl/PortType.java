@@ -33,7 +33,7 @@ public class PortType extends AbstractWsdl {
 
     @Override
     public QName getQName() {
-        return  WSDLQNames.QN_WSDL_PORT_TYPE;
+        return WSDLQNames.QN_WSDL_PORT_TYPE;
     }
 
     public PortType addOperation(Operation operation) {
@@ -67,14 +67,8 @@ public class PortType extends AbstractWsdl {
 
     public Operation getOperation(String name, String request, String response) {
         for (Operation operation : operations) {
-            if (operation.getName()
-                    .equals(name)
-                    && operation.getInput()
-                            .getName()
-                            .equals(request)
-                    && operation.getOutput()
-                            .getName()
-                            .equals(response)) {
+            if (operation.getName().equals(name) && operation.getInput().getName().equals(request)
+                    && operation.getOutput().getName().equals(response)) {
                 return operation;
             }
         }

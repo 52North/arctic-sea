@@ -79,14 +79,11 @@ public class Schema extends ExtensibilityElement {
     public int compareTo(ExtensibilityElement o) {
         Objects.requireNonNull(o);
         if (o instanceof Schema) {
-            return ComparisonChain.start()
-                    .compare(this.getTargetNamespace(), ((Schema) o).getTargetNamespace())
+            return ComparisonChain.start().compare(this.getTargetNamespace(), ((Schema) o).getTargetNamespace())
                     .compare(this.getElementFormDefault(), ((Schema) o).getElementFormDefault())
-                    .compare(this.getInclude(), ((Schema) o).getInclude())
-                    .result();
+                    .compare(this.getInclude(), ((Schema) o).getInclude()).result();
         }
-        return Comparables.compare(getQName().getNamespaceURI(), o.getQName()
-                .getNamespaceURI());
+        return Comparables.compare(getQName().getNamespaceURI(), o.getQName().getNamespaceURI());
     }
 
 }

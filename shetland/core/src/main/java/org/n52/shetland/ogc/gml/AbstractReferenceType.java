@@ -20,8 +20,7 @@ import java.util.Objects;
 import org.n52.janmayen.Comparables;
 import org.n52.shetland.w3c.xlink.W3CHrefAttribute;
 
-public class AbstractReferenceType
-        implements Comparable<AbstractReferenceType> {
+public class AbstractReferenceType implements Comparable<AbstractReferenceType> {
 
     /**
      * Href

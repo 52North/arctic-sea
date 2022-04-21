@@ -31,8 +31,7 @@ import com.google.common.base.Strings;
  * @since 1.0.0
  *
  */
-public class EXExtent
-        extends AbstractObject {
+public class EXExtent extends AbstractObject {
 
     private String description;
     // private List<Object> exGeographicalExtent = new ArrayList<>();

@@ -23,7 +23,6 @@ import java.util.Set;
 import javax.inject.Inject;
 
 import org.apache.xmlbeans.XmlObject;
-
 import org.n52.shetland.aqd.AqdConstants;
 import org.n52.shetland.ogc.ows.service.OwsServiceCommunicationObject;
 import org.n52.svalbard.decode.exception.DecodingException;

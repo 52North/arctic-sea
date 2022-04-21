@@ -43,77 +43,58 @@ import org.n52.shetland.ogc.om.values.XmlValue;
  * TODO JavaDoc
  *
  * @author Christian Autermann
- * @param <T> the return type
- * @param <X> the exception type
+ * @param <T>
+ *            the return type
+ * @param <X>
+ *            the exception type
  */
-public interface ValueVisitor<T, X extends Exception> {
-    T visit(BooleanValue value)
-            throws X;
+public interface ValueVisitor<
+        T,
+        X extends Exception> {
+    T visit(BooleanValue value) throws X;
 
-    T visit(CategoryValue value)
-            throws X;
+    T visit(CategoryValue value) throws X;
 
-    T visit(ComplexValue value)
-            throws X;
+    T visit(ComplexValue value) throws X;
 
-    T visit(CountValue value)
-            throws X;
+    T visit(CountValue value) throws X;
 
-    T visit(GeometryValue value)
-            throws X;
+    T visit(GeometryValue value) throws X;
 
-    T visit(HrefAttributeValue value)
-            throws X;
+    T visit(HrefAttributeValue value) throws X;
 
-    T visit(NilTemplateValue value)
-            throws X;
+    T visit(NilTemplateValue value) throws X;
 
-    T visit(QuantityValue value)
-            throws X;
+    T visit(QuantityValue value) throws X;
 
-    T visit(QuantityRangeValue value)
-            throws X;
+    T visit(QuantityRangeValue value) throws X;
 
-    T visit(ReferenceValue value)
-            throws X;
+    T visit(ReferenceValue value) throws X;
 
-    T visit(SweDataArrayValue value)
-            throws X;
+    T visit(SweDataArrayValue value) throws X;
 
-    T visit(TVPValue value)
-            throws X;
+    T visit(TVPValue value) throws X;
 
-    T visit(TLVTValue value)
-            throws X;
+    T visit(TLVTValue value) throws X;
 
-    T visit(TextValue value)
-            throws X;
+    T visit(TextValue value) throws X;
 
-    T visit(CvDiscretePointCoverage value)
-            throws X;
+    T visit(CvDiscretePointCoverage value) throws X;
 
-    T visit(MultiPointCoverage value)
-            throws X;
+    T visit(MultiPointCoverage value) throws X;
 
-    T visit(RectifiedGridCoverage value)
-            throws X;
+    T visit(RectifiedGridCoverage value) throws X;
 
-    T visit(ProfileValue value)
-            throws X;
+    T visit(ProfileValue value) throws X;
 
-    T visit(TrajectoryValue value)
-            throws X;
+    T visit(TrajectoryValue value) throws X;
 
-    T visit(UnknownValue value)
-            throws X;
+    T visit(UnknownValue value) throws X;
 
-    T visit(TimeValue value)
-            throws X;
+    T visit(TimeValue value) throws X;
 
-    T visit(TimeRangeValue value)
-            throws X;
+    T visit(TimeRangeValue value) throws X;
 
-    T visit(XmlValue<?> value)
-            throws X;
+    T visit(XmlValue<?> value) throws X;
 
 }

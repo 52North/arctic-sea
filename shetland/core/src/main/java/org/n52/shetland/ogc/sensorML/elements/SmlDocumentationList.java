@@ -37,7 +37,7 @@ public class SmlDocumentationList extends AbstractSmlDocumentation {
         if (members != null) {
             this.members.addAll(members);
         }
-       return this;
+        return this;
     }
 
     public SmlDocumentationList addMember(SmlDocumentationListMember member) {

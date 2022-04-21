@@ -39,7 +39,8 @@ public class EReportingHeader extends AbstractEReportingHeader {
     private Identifier inspireID;
     private RelatedParty reportingAuthority;
     private EReportingChange change;
-    private Referenceable<Time> reportingPeriod = Referenceable.of(Nillable.<Time> missing());
+    private Referenceable<Time> reportingPeriod = Referenceable.of(Nillable.<
+            Time> missing());
     private final List<Referenceable<AbstractFeature>> delete = new LinkedList<>();
     private final List<Referenceable<AbstractFeature>> content = new LinkedList<>();
 

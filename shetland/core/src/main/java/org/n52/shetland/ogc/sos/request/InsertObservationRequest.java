@@ -42,8 +42,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  *
  * @since 1.0.0
  */
-public class InsertObservationRequest
-        extends OwsServiceRequest {
+public class InsertObservationRequest extends OwsServiceRequest {
 
     /**
      * Assigned sensor id
@@ -143,8 +142,8 @@ public class InsertObservationRequest
     }
 
     /**
-     * Checks if an observation contains referenced elements. Checked elements
-     * are phenomenonTime, resultTime and featureOfInterest.
+     * Checks if an observation contains referenced elements. Checked elements are phenomenonTime, resultTime
+     * and featureOfInterest.
      *
      * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
      * @since 4.3.7

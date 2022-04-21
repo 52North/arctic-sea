@@ -29,8 +29,7 @@ import com.google.common.base.Strings;
  *
  * @since 1.0.0
  */
-public class GetCapabilitiesRequest
-        extends OwsServiceRequest {
+public class GetCapabilitiesRequest extends OwsServiceRequest {
 
     private final List<String> acceptVersions = new LinkedList<>();
     private final List<String> sections = new LinkedList<>();

@@ -23,8 +23,7 @@ import com.google.common.base.Strings;
 /**
  * Implementation for sml:ProcessMethod
  *
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
- *         J&uuml;rrens</a>
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  *
  * @since 1.0.0
  */
@@ -49,8 +48,8 @@ public class ProcessMethod extends AbstractReferenceType {
     }
 
     /**
-     * Text and/or language defining rules for process profile (e.g. inputs,
-     * outputs, parameters, and metadata) (Source: SensorML 1.0.1)
+     * Text and/or language defining rules for process profile (e.g. inputs, outputs, parameters, and
+     * metadata) (Source: SensorML 1.0.1)
      *
      * @return SOS rules definition
      */

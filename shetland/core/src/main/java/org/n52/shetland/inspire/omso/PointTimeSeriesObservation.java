@@ -22,8 +22,7 @@ import org.n52.shetland.ogc.om.features.samplingFeatures.InvalidSridException;
 
 import com.google.common.collect.Sets;
 
-public class PointTimeSeriesObservation
-        extends AbstractInspireObservation {
+public class PointTimeSeriesObservation extends AbstractInspireObservation {
 
     /**
      * constructor
@@ -48,7 +47,8 @@ public class PointTimeSeriesObservation
                 // TODO
             }
         }
-        observation.setParameter(Sets.<NamedValue<?>> newHashSet());
+        observation.setParameter(Sets.<
+                NamedValue<?>> newHashSet());
         getObservationConstellation().setObservationType(InspireOMSOConstants.OBS_TYPE_POINT_TIME_SERIES_OBSERVATION);
     }
 

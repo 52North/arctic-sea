@@ -15,10 +15,10 @@
  */
 package org.n52.shetland.filter;
 
+import java.util.Objects;
+
 import org.n52.shetland.ogc.filter.FilterClause;
 import org.n52.shetland.ogc.filter.FilterConstants.SkipTopOperator;
-
-import java.util.Objects;
 
 public class SkipTopFilter implements FilterClause {
 
@@ -41,11 +41,13 @@ public class SkipTopFilter implements FilterClause {
         return value;
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
         return Objects.hash(operator, value);
     }
 
-    @Override public boolean equals(Object o) {
+    @Override
+    public boolean equals(Object o) {
         if (o == this) {
             return true;
         }
@@ -58,7 +60,8 @@ public class SkipTopFilter implements FilterClause {
                 && Objects.equals(this.value, ((SkipTopFilter) o).getValue());
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
         return ((getOperator().equals(SkipTopOperator.Top)) ? "$top" : "$skip") + "=" + getValue().toString();
     }
 }

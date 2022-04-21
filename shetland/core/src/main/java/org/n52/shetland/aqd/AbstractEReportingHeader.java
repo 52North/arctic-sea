@@ -18,8 +18,7 @@ package org.n52.shetland.aqd;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 
 /**
- * Abstract class for AQD e-Reporting header. Required to use defined method in
- * AQD API module.
+ * Abstract class for AQD e-Reporting header. Required to use defined method in AQD API module.
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0

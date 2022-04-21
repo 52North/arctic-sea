@@ -24,8 +24,7 @@ import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.base.Strings;
 
-public class SweAllowedTokens
-        extends AbstractSWES {
+public class SweAllowedTokens extends AbstractSWES {
 
     private List<String> value = new LinkedList<>();
     private String pattern;

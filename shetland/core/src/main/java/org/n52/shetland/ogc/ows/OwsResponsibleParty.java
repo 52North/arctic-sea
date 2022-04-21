@@ -33,9 +33,8 @@ public class OwsResponsibleParty {
     private final Optional<OwsContact> contactInfo;
     private final Optional<OwsCode> role;
 
-    public OwsResponsibleParty(String individualName, String organisationName,
-                               String positionName, OwsContact contactInfo,
-                               OwsCode role) {
+    public OwsResponsibleParty(String individualName, String organisationName, String positionName,
+            OwsContact contactInfo, OwsCode role) {
         this.individualName = Optional.ofNullable(Strings.emptyToNull(individualName));
         this.organisationName = Optional.ofNullable(Strings.emptyToNull(organisationName));
         this.positionName = Optional.ofNullable(Strings.emptyToNull(positionName));
@@ -106,11 +105,8 @@ public class OwsResponsibleParty {
 
     @Override
     public String toString() {
-        return "OwsResponsibleParty{" + "individualName=" + individualName +
-               ", organisationName=" + organisationName + ", positionName=" +
-               positionName + ", contactInfo=" + contactInfo + ", role=" + role +
-               '}';
+        return "OwsResponsibleParty{" + "individualName=" + individualName + ", organisationName=" + organisationName
+                + ", positionName=" + positionName + ", contactInfo=" + contactInfo + ", role=" + role + '}';
     }
-
 
 }

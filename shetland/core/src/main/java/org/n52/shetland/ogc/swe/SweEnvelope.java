@@ -15,6 +15,8 @@
  */
 package org.n52.shetland.ogc.swe;
 
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Envelope;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.swe.SweConstants.SweCoordinateNames;
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
@@ -28,15 +30,11 @@ import com.google.common.base.Objects;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.Envelope;
-
 /**
  * @since 1.0.0
  *
  */
-public class SweEnvelope
-        extends SweAbstractDataComponent {
+public class SweEnvelope extends SweAbstractDataComponent {
     private String referenceFrame;
     private SweVector upperCorner;
     private SweVector lowerCorner;
@@ -59,8 +57,7 @@ public class SweEnvelope
     }
 
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
-    public SweEnvelope(
-            String referenceFrame, SweVector upperCorner, SweVector lowerCorner, SweTimeRange time,
+    public SweEnvelope(String referenceFrame, SweVector upperCorner, SweVector lowerCorner, SweTimeRange time,
             boolean northingFirst) {
         this.referenceFrame = referenceFrame;
         this.upperCorner = upperCorner;
@@ -208,12 +205,15 @@ public class SweEnvelope
     }
 
     @Override
-    public <T, X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
+    public <
+            T,
+            X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
         return visitor.visit(this);
     }
 
     @Override
-    public <X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
+    public <
+            X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
         visitor.visit(this);
     }
 

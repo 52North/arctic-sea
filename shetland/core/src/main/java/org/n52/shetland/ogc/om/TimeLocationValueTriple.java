@@ -15,17 +15,14 @@
  */
 package org.n52.shetland.ogc.om;
 
-
 import java.util.Objects;
 
 import org.apache.commons.lang.builder.CompareToBuilder;
-
+import org.locationtech.jts.geom.Geometry;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.om.values.Value;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
-import org.locationtech.jts.geom.Geometry;
 
 /**
  * Class that hold the time, the location and the value.

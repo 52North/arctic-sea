@@ -65,7 +65,7 @@ public class TVPValue implements MultiValue<List<TimeValuePair>> {
      *
      * @param value
      *            Time value pair value to add
-     * @return
+     * @return this
      */
     public TVPValue addValue(TimeValuePair value) {
         if (value != null) {
@@ -79,7 +79,7 @@ public class TVPValue implements MultiValue<List<TimeValuePair>> {
      *
      * @param values
      *            Time value pair values to add
-     * @return
+     * @return this
      */
     public TVPValue addValues(Collection<TimeValuePair> values) {
         if (values != null) {
@@ -129,7 +129,9 @@ public class TVPValue implements MultiValue<List<TimeValuePair>> {
     }
 
     @Override
-    public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
+    public <
+            X,
+            E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
         return visitor.visit(this);
     }
 }

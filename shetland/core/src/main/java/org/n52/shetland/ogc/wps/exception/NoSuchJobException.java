@@ -20,12 +20,10 @@ import org.n52.janmayen.http.HTTPStatus;
 /**
  * Implementation of {@link CodedWpsException} to be used if
  * <p>
- * <i>The JobID from the request does not match any of the Jobs running on this
- * server.</i>
+ * <i>The JobID from the request does not match any of the Jobs running on this server.</i>
  *
- * @see <a href="http://docs.opengeospatial.org/is/14-065/14-065.html#65">OGC
- *      WPS 2.0.2 Interface Standard, Table 48 — Additional exception codes for
- *      the GetStatus operation</a>
+ * @see <a href="http://docs.opengeospatial.org/is/14-065/14-065.html#65">OGC WPS 2.0.2 Interface Standard,
+ *      Table 48 — Additional exception codes for the GetStatus operation</a>
  * @author <a href="mailto:b.pross@52north.org">Benjamin Pross</a>
  *
  * @since 5.3.0

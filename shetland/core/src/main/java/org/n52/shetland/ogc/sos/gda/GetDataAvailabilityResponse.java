@@ -90,7 +90,7 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
      *
      * @param dataAvailabilities
      *            the {@code DataAvailabilities}
-     * @return
+     * @return this
      */
     public GetDataAvailabilityResponse setDataAvailabilities(
             Collection<? extends DataAvailability> dataAvailabilities) {
@@ -106,7 +106,7 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
      *
      * @param dataAvailability
      *            the {@code DataAvailability}.
-     * @return
+     * @return this
      */
     public GetDataAvailabilityResponse addDataAvailability(DataAvailability dataAvailability) {
         this.dataAvailabilities.add(dataAvailability);
@@ -326,7 +326,7 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
         /**
          * @param metadata
          *            the metadata to set
-         * @return
+         * @return this
          */
         public DataAvailability setMetadata(Map<String, NamedValue<?>> metadata) {
             this.metadata.clear();
@@ -341,7 +341,7 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
          *            the key of the metadata
          * @param metadata
          *            the metadata to add
-         * @return
+         * @return this
          */
         public DataAvailability addMetadata(String key, NamedValue<?> metadata) {
             this.metadata.put(key, metadata);
@@ -464,7 +464,7 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
         /**
          * @param observationFormatDescriptors
          *            the observationFormatDescriptors to set
-         * @return
+         * @return this
          */
         public FormatDescriptor setObservationFormatDescriptors(
                 Collection<ObservationFormatDescriptor> observationFormatDescriptors) {
@@ -532,7 +532,7 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
         /**
          * @param observationTypes
          *            the observationTypes to set
-         * @return
+         * @return this
          */
         public ObservationFormatDescriptor setObservationTypes(Collection<String> observationTypes) {
             this.observationTypes.clear();

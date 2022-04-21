@@ -15,10 +15,10 @@
  */
 package org.n52.shetland.w3c.xlink;
 
+import java.util.Arrays;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-
-import java.util.Arrays;
 
 /**
  * TODO JavaDoc
@@ -44,9 +44,7 @@ public enum Show {
             return null;
         }
 
-        return Arrays.stream(values())
-                .filter(show -> show.name().equalsIgnoreCase(str))
-                .findAny().orElse(null);
+        return Arrays.stream(values()).filter(show -> show.name().equalsIgnoreCase(str)).findAny().orElse(null);
     }
 
 }

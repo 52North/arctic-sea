@@ -35,7 +35,8 @@ public interface FeatureOfInterestIdentifierRequest {
     /**
      * Set FeatureOfInterest identifiers
      *
-     * @param featureIdentifiers FeatureOfInterest identifiers
+     * @param featureIdentifiers
+     *            FeatureOfInterest identifiers
      */
     void setFeatureIdentifiers(List<String> featureIdentifiers);
 

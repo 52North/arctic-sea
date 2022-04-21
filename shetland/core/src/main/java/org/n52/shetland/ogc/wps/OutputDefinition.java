@@ -42,8 +42,7 @@ public class OutputDefinition {
     private Format format;
     private List<OutputDefinition> outputs;
 
-    public OutputDefinition(OwsCode id, Format format,
-                            List<OutputDefinition> outputs) {
+    public OutputDefinition(OwsCode id, Format format, List<OutputDefinition> outputs) {
         this(id, format, null, outputs);
     }
 
@@ -59,14 +58,12 @@ public class OutputDefinition {
         this(null, null, null, null);
     }
 
-    public OutputDefinition(OwsCode id, Format format,
-                            DataTransmissionMode dataTransmissionMode) {
+    public OutputDefinition(OwsCode id, Format format, DataTransmissionMode dataTransmissionMode) {
         this(id, format, dataTransmissionMode, null);
     }
 
-    public OutputDefinition(OwsCode id, Format format,
-                            DataTransmissionMode dataTransmissionMode,
-                            List<OutputDefinition> outputs) {
+    public OutputDefinition(OwsCode id, Format format, DataTransmissionMode dataTransmissionMode,
+            List<OutputDefinition> outputs) {
         this.dataTransmissionMode = dataTransmissionMode == null ? DataTransmissionMode.VALUE : dataTransmissionMode;
         this.id = id;
         this.format = format == null ? Format.empty() : format;
@@ -77,8 +74,7 @@ public class OutputDefinition {
         return dataTransmissionMode;
     }
 
-    public void setDataTransmissionMode(
-            DataTransmissionMode dataTransmissionMode) {
+    public void setDataTransmissionMode(DataTransmissionMode dataTransmissionMode) {
         this.dataTransmissionMode = dataTransmissionMode;
     }
 
@@ -122,8 +118,7 @@ public class OutputDefinition {
 
     @Override
     public int hashCode() {
-        return Objects
-                .hash(this.dataTransmissionMode, this.id, this.format, this.outputs);
+        return Objects.hash(this.dataTransmissionMode, this.id, this.format, this.outputs);
     }
 
     @Override
@@ -138,20 +133,15 @@ public class OutputDefinition {
             return false;
         }
         final OutputDefinition other = (OutputDefinition) obj;
-        return this.getDataTransmissionMode() == other.getDataTransmissionMode() &&
-               Objects.equals(this.getId(), other.getId()) &&
-               Objects.equals(this.getFormat(), other.getFormat()) &&
-               Objects.equals(this.getOutputs(), other.getOutputs());
+        return this.getDataTransmissionMode() == other.getDataTransmissionMode()
+                && Objects.equals(this.getId(), other.getId()) && Objects.equals(this.getFormat(), other.getFormat())
+                && Objects.equals(this.getOutputs(), other.getOutputs());
     }
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this).omitNullValues()
-                .add("id", this.id)
-                .add("format", this.format)
-                .add("dataTransmissionMode", this.dataTransmissionMode)
-                .add("outputs", this.outputs)
-                .toString();
+        return MoreObjects.toStringHelper(this).omitNullValues().add("id", this.id).add("format", this.format)
+                .add("dataTransmissionMode", this.dataTransmissionMode).add("outputs", this.outputs).toString();
     }
 
 }

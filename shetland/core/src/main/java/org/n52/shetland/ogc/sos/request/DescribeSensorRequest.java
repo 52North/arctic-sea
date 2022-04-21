@@ -57,7 +57,6 @@ public class DescribeSensorRequest extends OwsServiceRequest {
         super(service, version, operationName);
     }
 
-
     /**
      * Get output format
      *
@@ -119,7 +118,8 @@ public class DescribeSensorRequest extends OwsServiceRequest {
      *
      * @param validTime
      *            valid time
-     */@SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+     */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setValidTime(Time validTime) {
         this.validTime = validTime;
     }

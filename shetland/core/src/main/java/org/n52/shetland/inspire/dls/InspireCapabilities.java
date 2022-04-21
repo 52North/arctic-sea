@@ -262,7 +262,8 @@ public interface InspireCapabilities {
      * @since 1.0.0
      *
      */
-    interface InspireExtendedCapabilitiesTemporalReference<T> {
+    interface InspireExtendedCapabilitiesTemporalReference<
+            T> {
         /**
          * Get the temporal references
          *

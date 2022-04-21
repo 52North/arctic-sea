@@ -30,7 +30,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @param <T>
  *            value type
  */
-public class NamedValue<T> implements Comparable<NamedValue<T>> {
+public class NamedValue<
+        T> implements Comparable<NamedValue<T>> {
 
     /**
      * Value name

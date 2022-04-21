@@ -15,13 +15,13 @@
  */
 package org.n52.shetland.ogc.wps;
 
-import com.google.common.base.Preconditions;
-
 import java.util.Objects;
 
+import com.google.common.base.Preconditions;
+
 /**
- * Basic status set to communicate the status of a server-side job to the client. Extensions of this specification may
- * introduce additional states for fine-grained monitoring or domain-specific purposes.
+ * Basic status set to communicate the status of a server-side job to the client. Extensions of this
+ * specification may introduce additional states for fine-grained monitoring or domain-specific purposes.
  *
  * @author Christian Autermann
  */

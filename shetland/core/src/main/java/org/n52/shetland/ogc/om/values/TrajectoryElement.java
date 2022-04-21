@@ -50,8 +50,7 @@ public class TrajectoryElement extends AbstractPofileTrajectoryElement<Trajector
         if (getPhenomenonTime() == null && o.getPhenomenonTime() == null) {
             return 0;
         }
-        return this.getPhenomenonTime()
-                .equals(o.getPhenomenonTime()) ? 0 : 1;
+        return this.getPhenomenonTime().equals(o.getPhenomenonTime()) ? 0 : 1;
     }
 
     @Override
@@ -82,7 +81,8 @@ public class TrajectoryElement extends AbstractPofileTrajectoryElement<Trajector
         return hash;
     }
 
-    public <X> Collection<X> accept(TrajectoryElementVisitor<X> visitor) throws OwsExceptionReport {
+    public <
+            X> Collection<X> accept(TrajectoryElementVisitor<X> visitor) throws OwsExceptionReport {
         return visitor.visit(this);
     }
 
@@ -101,8 +101,7 @@ public class TrajectoryElement extends AbstractPofileTrajectoryElement<Trajector
                 SweAbstractDataComponent adc = (SweAbstractDataComponent) v;
                 String name;
                 if (adc.isSetName()) {
-                    name = adc.getName()
-                            .getValue();
+                    name = adc.getName().getValue();
                 } else if (adc.isSetDefinition()) {
                     name = adc.getDefinition();
                 } else {
@@ -111,18 +110,11 @@ public class TrajectoryElement extends AbstractPofileTrajectoryElement<Trajector
                 dataRecord.addField(new SweField(name, adc));
             }
         }
-        if (counter == 1 && dataRecord.getFields()
-                .size() > 1 && dataRecord.getFields()
-                        .stream()
-                        .map(f -> f.getName()
-                                .getValue())
-                        .collect(Collectors.toSet())
-                        .size() != dataRecord.getFields()
-                                .size()) {
+        if (counter == 1 && dataRecord.getFields().size() > 1
+                && dataRecord.getFields().stream().map(f -> f.getName().getValue()).collect(Collectors.toSet())
+                        .size() != dataRecord.getFields().size()) {
             for (SweField field : dataRecord.getFields()) {
-                field.getName()
-                        .setValue(field.getName()
-                                .getValue() + "_" + counter++);
+                field.getName().setValue(field.getName().getValue() + "_" + counter++);
             }
         }
         return dataRecord;

@@ -204,6 +204,7 @@ public class FullInspireExtendedCapabilities extends InspireExtendedCapabilities
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public FullInspireExtendedCapabilities setMetadataUrl(InspireResourceLocator metadataUrl) {
         this.metadataUrl = metadataUrl;
         return this;

@@ -49,7 +49,8 @@ public class BindingOperation extends AbstractWsdl {
     }
 
     /**
-     * @param input the input to set
+     * @param input
+     *            the input to set
      */
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setInput(BindingInput input) {
@@ -69,7 +70,8 @@ public class BindingOperation extends AbstractWsdl {
     }
 
     /**
-     * @param output the output to set
+     * @param output
+     *            the output to set
      */
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setOutput(BindingOutput output) {

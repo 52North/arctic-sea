@@ -43,7 +43,8 @@ public class SoapOperation extends ExtensibilityElement {
     }
 
     /**
-     * @param style the style to set
+     * @param style
+     *            the style to set
      */
     public void setStyle(String style) {
         this.style = style;
@@ -57,7 +58,8 @@ public class SoapOperation extends ExtensibilityElement {
     }
 
     /**
-     * @param action the action to set
+     * @param action
+     *            the action to set
      */
     public void setAction(URI action) {
         this.action = action;
@@ -75,8 +77,8 @@ public class SoapOperation extends ExtensibilityElement {
             return false;
         }
         final SoapOperation other = (SoapOperation) obj;
-        return (getAction() != null && other.getAction() != null && getAction().equals(other.getAction()))
-                &&  (getStyle() != null && other.getStyle() != null && getStyle().equals(other.getStyle()));
+        return getAction() != null && other.getAction() != null && getAction().equals(other.getAction())
+                && getStyle() != null && other.getStyle() != null && getStyle().equals(other.getStyle());
     }
 
     @Override
@@ -88,13 +90,10 @@ public class SoapOperation extends ExtensibilityElement {
     public int compareTo(ExtensibilityElement o) {
         Objects.requireNonNull(o);
         if (o instanceof SoapOperation) {
-            return ComparisonChain.start()
-                    .compare(this.getAction(), ((SoapOperation) o).getAction())
-                    .compare(this.getStyle(), ((SoapOperation) o).getStyle())
-                    .result();
+            return ComparisonChain.start().compare(this.getAction(), ((SoapOperation) o).getAction())
+                    .compare(this.getStyle(), ((SoapOperation) o).getStyle()).result();
         }
-        return Comparables.compare(getQName().getNamespaceURI(), o.getQName()
-                .getNamespaceURI());
+        return Comparables.compare(getQName().getNamespaceURI(), o.getQName().getNamespaceURI());
     }
 
 }

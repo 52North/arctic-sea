@@ -57,7 +57,7 @@ public class StreamingSweDataArray extends SweAbstractDataComponent {
     /**
      *
      * @param values
-     *               the values to set
+     *            the values to set
      *
      * @return This SweDataArray
      */
@@ -77,13 +77,12 @@ public class StreamingSweDataArray extends SweAbstractDataComponent {
 
     /**
      * @param elementType
-     *                    the elementType to set
+     *            the elementType to set
      *
      * @return This SweDataArray
      */
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
-    public StreamingSweDataArray setElementType(
-            final SweAbstractDataComponent elementType) {
+    public StreamingSweDataArray setElementType(final SweAbstractDataComponent elementType) {
         this.elementType = elementType;
         return this;
     }
@@ -157,12 +156,15 @@ public class StreamingSweDataArray extends SweAbstractDataComponent {
     }
 
     @Override
-    public <T, X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
+    public <
+            T,
+            X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
         return visitor.visit(this);
     }
 
     @Override
-    public <X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
+    public <
+            X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
         visitor.visit(this);
     }
 

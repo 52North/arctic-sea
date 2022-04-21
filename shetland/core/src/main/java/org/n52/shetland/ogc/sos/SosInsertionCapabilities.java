@@ -29,7 +29,8 @@ import org.n52.shetland.util.CollectionHelper;
  * @since 1.0.0
  *
  */
-public class SosInsertionCapabilities implements OwsCapabilitiesExtension, MergableExtension<SosInsertionCapabilities> {
+public class SosInsertionCapabilities
+        implements OwsCapabilitiesExtension, MergableExtension<SosInsertionCapabilities> {
     private static final String SECTION_NAME = Sos2Constants.CapabilitiesSections.InsertionCapabilities.name();
 
     private final SortedSet<String> featureOfInterestTypes = new TreeSet<>();
@@ -136,9 +137,9 @@ public class SosInsertionCapabilities implements OwsCapabilitiesExtension, Merga
             return false;
         }
         final SosInsertionCapabilities other = (SosInsertionCapabilities) obj;
-        return Objects.equals(this.featureOfInterestTypes, other.featureOfInterestTypes) &&
-               Objects.equals(this.observationTypes, other.observationTypes) &&
-               Objects.equals(this.procedureDescriptionFormats, other.procedureDescriptionFormats) &&
-               Objects.equals(this.supportedEncodings, other.supportedEncodings);
+        return Objects.equals(this.featureOfInterestTypes, other.featureOfInterestTypes)
+                && Objects.equals(this.observationTypes, other.observationTypes)
+                && Objects.equals(this.procedureDescriptionFormats, other.procedureDescriptionFormats)
+                && Objects.equals(this.supportedEncodings, other.supportedEncodings);
     }
 }

@@ -34,7 +34,6 @@ public class RelatedOfferings implements Extension<Set<OfferingContext>> {
     private String definition;
     private Set<OfferingContext> offeringRelations = Sets.newHashSet();
 
-
     @Override
     public String getNamespace() {
         return RelatedOfferingConstants.NS_RO;

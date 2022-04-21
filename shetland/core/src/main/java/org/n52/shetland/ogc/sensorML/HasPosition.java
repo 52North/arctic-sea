@@ -17,7 +17,8 @@ package org.n52.shetland.ogc.sensorML;
 
 import org.n52.shetland.ogc.sensorML.elements.SmlPosition;
 
-public interface HasPosition<T> {
+public interface HasPosition<
+        T> {
 
     /**
      * @return the position

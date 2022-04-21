@@ -15,12 +15,6 @@
  */
 package org.n52.shetland.ogc.filter;
 
-import com.google.common.base.MoreObjects;
-import com.google.common.base.Strings;
-import com.google.common.collect.Sets;
-
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -28,9 +22,14 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.n52.shetland.ogc.filter.FilterConstants.Id;
-import org.n52.shetland.util.CollectionHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Strings;
+import com.google.common.collect.Sets;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * ID filter class
@@ -38,8 +37,7 @@ import org.slf4j.LoggerFactory;
  * @since 1.0.0
  *
  */
-public class IdFilter
-        extends Filter<Id> {
+public class IdFilter extends Filter<Id> {
 
     private static final Logger log = LoggerFactory.getLogger(IdFilter.class);
 
@@ -48,7 +46,8 @@ public class IdFilter
     private Set<String> ids = new LinkedHashSet<>();
 
     public IdFilter() {
-        this(Sets.<String> newHashSet());
+        this(Sets.<
+                String> newHashSet());
     }
 
     public IdFilter(String id) {
@@ -86,10 +85,8 @@ public class IdFilter
     @Override
     public Filter<Id> setOperator(Id operator) throws RuntimeException {
         if (Optional.ofNullable(this.operator).isPresent() && !this.operator.equals(operator)) {
-            log.warn(
-                    "Combination of different ID filters not supported, "
-                    + "ignoring new operator '{}' in favour of already set '{}'",
-                    operator, this.operator);
+            log.warn("Combination of different ID filters not supported, "
+                    + "ignoring new operator '{}' in favour of already set '{}'", operator, this.operator);
         }
         this.operator = operator;
         return this;

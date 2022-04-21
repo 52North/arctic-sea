@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.n52</groupId>
         <artifactId>parent</artifactId>
-        <version>23-SNAPSHOT</version>
+        <version>23</version>
     </parent>
 
     <groupId>org.n52.arctic-sea</groupId>

@@ -28,7 +28,8 @@ import org.n52.shetland.ogc.sensorML.elements.SmlComponent;
  * @param <T>
  *            Implemented class
  */
-public interface HasComponents<T> {
+public interface HasComponents<
+        T> {
 
     List<SmlComponent> getComponents();
 

@@ -16,9 +16,8 @@
 package org.n52.svalbard.decode.exception;
 
 import org.apache.xmlbeans.XmlObject;
-import org.w3c.dom.Node;
-
 import org.n52.svalbard.decode.Decoder;
+import org.w3c.dom.Node;
 
 public class UnsupportedDecoderXmlInputException extends UnsupportedDecoderInputException {
     private static final long serialVersionUID = -7244575661954080973L;

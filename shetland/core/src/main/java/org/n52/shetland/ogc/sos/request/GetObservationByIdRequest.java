@@ -65,8 +65,8 @@ public class GetObservationByIdRequest extends AbstractObservationRequest {
      * Set observation identifier
      *
      * @param observationIdentifier
-     *                              observation identifier
-     * @return
+     *            observation identifier
+     * @return this
      */
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public GetObservationByIdRequest setObservationIdentifier(Collection<String> observationIdentifier) {

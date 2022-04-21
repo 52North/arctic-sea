@@ -38,8 +38,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @since 1.0.0
  *
  */
-public abstract class OwsServiceRequest
-        extends OwsServiceCommunicationObject
+public abstract class OwsServiceRequest extends OwsServiceCommunicationObject
         implements HasExtension<OwsServiceRequest> {
 
     private List<OwsServiceKey> serviceOperatorKeyTypes;
@@ -58,8 +57,7 @@ public abstract class OwsServiceRequest
         super(service, version, operationName);
     }
 
-    public List<OwsServiceKey> getServiceOperatorKeys()
-            throws OwsExceptionReport {
+    public List<OwsServiceKey> getServiceOperatorKeys() throws OwsExceptionReport {
         if (serviceOperatorKeyTypes == null) {
             checkServiceAndVersionParameter();
             serviceOperatorKeyTypes = Collections.singletonList(new OwsServiceKey(getService(), getVersion()));
@@ -67,8 +65,7 @@ public abstract class OwsServiceRequest
         return Collections.unmodifiableList(serviceOperatorKeyTypes);
     }
 
-    private void checkServiceAndVersionParameter()
-            throws OwsExceptionReport {
+    private void checkServiceAndVersionParameter() throws OwsExceptionReport {
         if (!isSetService()) {
             throw new MissingServiceParameterException();
         }

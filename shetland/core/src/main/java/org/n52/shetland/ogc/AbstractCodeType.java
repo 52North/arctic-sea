@@ -105,8 +105,7 @@ public abstract class AbstractCodeType {
     public boolean equals(Object obj) {
         if (obj instanceof AbstractCodeType) {
             AbstractCodeType that = (AbstractCodeType) obj;
-            return Objects.equal(getClass(), that.getClass())
-                    && Objects.equal(getValue(), that.getValue())
+            return Objects.equal(getClass(), that.getClass()) && Objects.equal(getValue(), that.getValue())
                     && Objects.equal(getCodeSpace(), that.getCodeSpace());
         }
         return false;

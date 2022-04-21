@@ -21,8 +21,8 @@ package org.n52.shetland.oasis.odata;
 public interface ODataExpr {
 
     /**
-     * Returns a String representation of the Expr that can be used directly in an OData Query String.
-     * This might differ from the default toString() Method
+     * Returns a String representation of the Expr that can be used directly in an OData Query String. This
+     * might differ from the default toString() Method
      *
      * @return String representation of this Expr
      */

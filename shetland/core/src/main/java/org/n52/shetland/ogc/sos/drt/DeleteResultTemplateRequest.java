@@ -24,7 +24,6 @@ import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
 
 public class DeleteResultTemplateRequest extends OwsServiceRequest {
 

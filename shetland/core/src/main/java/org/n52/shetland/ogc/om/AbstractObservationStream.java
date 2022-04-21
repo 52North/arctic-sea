@@ -15,11 +15,9 @@
  */
 package org.n52.shetland.ogc.om;
 
-
 import org.n52.janmayen.AbstractThrowingIterator;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
-public abstract class AbstractObservationStream
-        extends AbstractThrowingIterator<OmObservation, OwsExceptionReport>
+public abstract class AbstractObservationStream extends AbstractThrowingIterator<OmObservation, OwsExceptionReport>
         implements ObservationStream {
 }

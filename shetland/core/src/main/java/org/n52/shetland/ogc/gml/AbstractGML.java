@@ -452,7 +452,7 @@ public abstract class AbstractGML {
     /**
      * @param metaDataProperty
      *            the metaDataProperty to set
-     * @return
+     * @return this
      */
     public AbstractGML setMetaDataProperty(List<AbstractMetaData> metaDataProperty) {
         this.metaDataProperty.clear();
@@ -465,7 +465,7 @@ public abstract class AbstractGML {
     /**
      * @param metaDataProperty
      *            the metaDataProperty to add
-     * @return
+     * @return this
      */
     public AbstractGML addMetaDataProperty(List<AbstractMetaData> metaDataProperty) {
         if (metaDataProperty != null) {
@@ -477,7 +477,7 @@ public abstract class AbstractGML {
     /**
      * @param metaDataProperty
      *            the metaDataProperty to add
-     * @return
+     * @return this
      */
     public AbstractGML addMetaDataProperty(AbstractMetaData metaDataProperty) {
         if (metaDataProperty != null) {

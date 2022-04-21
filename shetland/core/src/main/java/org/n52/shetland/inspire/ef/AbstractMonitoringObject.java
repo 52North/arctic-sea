@@ -32,6 +32,8 @@ import org.n52.shetland.w3c.xlink.Referenceable;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public abstract class AbstractMonitoringObject extends AbstractFeature {
 
     /**
@@ -145,7 +147,7 @@ public abstract class AbstractMonitoringObject extends AbstractFeature {
     /**
      * @param mediaMonitored
      *            the mediaMonitored to add
-     * @return
+     * @return this
      */
     public AbstractMonitoringObject addMediaMonitored(Collection<ReferenceType> mediaMonitored) {
         this.mediaMonitored.clear();
@@ -158,7 +160,7 @@ public abstract class AbstractMonitoringObject extends AbstractFeature {
     /**
      * @param mediaMonitored
      *            the mediaMonitored to add
-     * @return
+     * @return this
      */
     public AbstractMonitoringObject addMediaMonitored(ReferenceType mediaMonitored) {
         if (mediaMonitored != null) {
@@ -177,7 +179,7 @@ public abstract class AbstractMonitoringObject extends AbstractFeature {
     /**
      * @param legalBackground
      *            the legalBackground to set
-     * @return
+     * @return this
      */
     public AbstractMonitoringObject setLegalBackground(
             Collection<Referenceable<LegislationCitation>> legalBackground) {
@@ -195,6 +197,7 @@ public abstract class AbstractMonitoringObject extends AbstractFeature {
     /**
      * @return the responsibleParty
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public RelatedParty getResponsibleParty() {
         return responsibleParty;
     }
@@ -203,6 +206,7 @@ public abstract class AbstractMonitoringObject extends AbstractFeature {
      * @param responsibleParty
      *            the responsibleParty to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setResponsibleParty(RelatedParty responsibleParty) {
         this.responsibleParty = responsibleParty;
     }
@@ -214,6 +218,7 @@ public abstract class AbstractMonitoringObject extends AbstractFeature {
     /**
      * @return the geometry
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public AbstractGeometry getGeometry() {
         return geometry;
     }
@@ -222,6 +227,7 @@ public abstract class AbstractMonitoringObject extends AbstractFeature {
      * @param geometry
      *            the geometry to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setGeometry(AbstractGeometry geometry) {
         this.geometry = geometry;
     }
@@ -248,7 +254,7 @@ public abstract class AbstractMonitoringObject extends AbstractFeature {
     /**
      * @param onlineResource
      *            the onlineResource to set
-     * @return
+     * @return this
      */
     public AbstractMonitoringObject setOnlineResource(Collection<String> onlineResource) {
         this.onlineResource.clear();
@@ -272,7 +278,7 @@ public abstract class AbstractMonitoringObject extends AbstractFeature {
     /**
      * @param purpose
      *            the purpose to set
-     * @return
+     * @return this
      */
     public AbstractMonitoringObject setPurpose(Collection<ReferenceType> purpose) {
         this.purpose.clear();
@@ -296,7 +302,7 @@ public abstract class AbstractMonitoringObject extends AbstractFeature {
     /**
      * @param observingCapability
      *            the observingCapability to set
-     * @return
+     * @return this
      */
     public AbstractMonitoringObject setObservingCapability(
             Collection<Referenceable<ObservingCapability>> observingCapability) {
@@ -310,7 +316,7 @@ public abstract class AbstractMonitoringObject extends AbstractFeature {
     /**
      * @param observingCapability
      *            the observingCapability to add
-     * @return
+     * @return this
      */
     public AbstractMonitoringObject addObservingCapability(Referenceable<ObservingCapability> observingCapability) {
         if (observingCapability != null) {
@@ -364,7 +370,7 @@ public abstract class AbstractMonitoringObject extends AbstractFeature {
     /**
      * @param narrower
      *            the narrower to set
-     * @return
+     * @return this
      */
     public AbstractMonitoringObject setNarrower(Collection<Referenceable<Hierarchy>> narrower) {
         this.narrower.clear();
@@ -388,7 +394,7 @@ public abstract class AbstractMonitoringObject extends AbstractFeature {
     /**
      * @param supersedes
      *            the supersedes to set
-     * @return
+     * @return this
      */
     public AbstractMonitoringObject setSupersedes(Collection<Referenceable<AbstractMonitoringObject>> supersedes) {
         this.supersedes.clear();
@@ -412,7 +418,7 @@ public abstract class AbstractMonitoringObject extends AbstractFeature {
     /**
      * @param supersededBy
      *            the supersededBy to set
-     * @return
+     * @return this
      */
     public AbstractMonitoringObject setSupersededBy(Collection<Referenceable<AbstractMonitoringObject>> supersededBy) {
         this.supersededBy.clear();

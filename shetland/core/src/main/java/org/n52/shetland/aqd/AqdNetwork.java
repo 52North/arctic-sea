@@ -26,5 +26,4 @@ import org.n52.shetland.inspire.ef.EfEnvironmentalMonitoringNetwork;
  */
 public class AqdNetwork extends EfEnvironmentalMonitoringNetwork {
 
-
 }

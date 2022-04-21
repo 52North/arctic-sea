@@ -56,8 +56,8 @@ public class DescribeSensorResponse extends OwsServiceResponse {
 
     public void setSensorDescriptions(List<SosProcedureDescription<?>> procedureDescriptions) {
         if (isSetProcedureDescriptions()) {
-            this.procedureDescriptions = CollectionHelper
-                    .conjunctCollections(getProcedureDescriptions(), procedureDescriptions);
+            this.procedureDescriptions =
+                    CollectionHelper.conjunctCollections(getProcedureDescriptions(), procedureDescriptions);
         } else {
             this.procedureDescriptions.addAll(procedureDescriptions);
         }
