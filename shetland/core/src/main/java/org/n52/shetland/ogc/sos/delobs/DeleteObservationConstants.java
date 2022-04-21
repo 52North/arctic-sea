@@ -21,8 +21,7 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 /**
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
- *         J&uuml;rrens</a>
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  *
  * @since 1.0.0
  */

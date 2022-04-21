@@ -30,15 +30,16 @@ public abstract class AbstractProcessOutputDescription extends AbstractDataDescr
         super(builder);
     }
 
-    protected abstract static class AbstractBuilder<T extends ProcessOutputDescription, B extends AbstractBuilder<T, B>>
-            extends AbstractDataDescription.AbstractBuilder<T, B>
+    protected abstract static class AbstractBuilder<
+            T extends ProcessOutputDescription,
+            B extends AbstractBuilder<T, B>> extends AbstractDataDescription.AbstractBuilder<T, B>
             implements ProcessOutputDescription.Builder<T, B> {
         protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory) {
             super(factory);
         }
 
         protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
-                                  ProcessOutputDescription entity) {
+                ProcessOutputDescription entity) {
             super(factory, entity);
         }
     }

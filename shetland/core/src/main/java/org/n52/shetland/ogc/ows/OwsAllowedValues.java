@@ -65,8 +65,7 @@ public class OwsAllowedValues implements OwsPossibleValues, Iterable<OwsValueRes
     public OwsAllowedValues setRestrictions(Stream<? extends OwsValueRestriction> restrictions) {
         if (restrictions != null) {
             this.restrictions.clear();
-            restrictions.map(Objects::requireNonNull)
-                    .forEach(this.restrictions::add);
+            restrictions.map(Objects::requireNonNull).forEach(this.restrictions::add);
         }
         return this;
     }

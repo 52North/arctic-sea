@@ -15,6 +15,8 @@
  */
 package org.n52.shetland.iso.gmd;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
 
 import org.n52.shetland.util.CollectionHelper;
@@ -31,23 +33,29 @@ public class PT_FreeText extends AbtractGmd {
      * @return the textGroup
      */
     public Set<LocalisedCharacterString> getTextGroup() {
-        return textGroup;
+        return Collections.unmodifiableSet(textGroup);
     }
 
     /**
-     * @param textGroup the textGroup to set
+     * @param textGroup
+     *            the textGroup to set
      */
-    public PT_FreeText setTextGroup(Set<LocalisedCharacterString> textGroup) {
+    public PT_FreeText setTextGroup(Collection<LocalisedCharacterString> textGroup) {
         this.textGroup.clear();
-        this.textGroup.addAll(textGroup);
+        if (textGroup != null) {
+            this.textGroup.addAll(textGroup);
+        }
         return this;
     }
 
     /**
-     * @param textGroup the textGroup to add
+     * @param textGroup
+     *            the textGroup to add
      */
     public PT_FreeText addTextGroup(LocalisedCharacterString textGroup) {
-        this.textGroup.add(textGroup);
+        if (textGroup != null) {
+            this.textGroup.add(textGroup);
+        }
         return this;
     }
 

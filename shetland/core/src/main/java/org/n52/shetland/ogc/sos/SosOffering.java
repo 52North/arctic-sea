@@ -36,13 +36,10 @@ import com.google.common.base.Strings;
  *
  * @since 1.0.0
  */
-public class SosOffering
-        extends AbstractFeature
-        implements Comparable<SosOffering> {
+public class SosOffering extends AbstractFeature implements Comparable<SosOffering> {
     private static final String OFFERING_NAME_PREFIX = "Offering for sensor ";
     /**
-     * flag to identify offering as offering from a parent procedure, default =
-     * false.
+     * flag to identify offering as offering from a parent procedure, default = false.
      */
     private boolean parentOffering;
 
@@ -160,8 +157,7 @@ public class SosOffering
     }
 
     /**
-     * Creates a set of {@literal SosOffering}s from a map containing
-     * identifiers as keys and names as values.
+     * Creates a set of {@literal SosOffering}s from a map containing identifiers as keys and names as values.
      *
      * @param map
      *            the map (may be {@literal null})
@@ -174,8 +170,7 @@ public class SosOffering
     }
 
     /**
-     * Creates a set of {@literal SosOffering}s from a set containing
-     * identifiers as keys and names as values.
+     * Creates a set of {@literal SosOffering}s from a set containing identifiers as keys and names as values.
      *
      * @param set
      *            the set (may be {@literal null})

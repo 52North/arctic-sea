@@ -128,68 +128,55 @@ public interface TimeseriesMLConstants extends SeriesConstants {
     enum InterpolationType implements AbstractInterpolationType {
 
         /**
-         * Continuous
-         * http://www.opengis.net/def/timeseries/InterpolationCode/Continuous
+         * Continuous http://www.opengis.net/def/timeseries/InterpolationCode/Continuous
          */
         Continuous("Continuous"),
         /**
-         * Discontinuous
-         * http://www.opengis.net/def/timeseries/InterpolationCode/Discontinuous
+         * Discontinuous http://www.opengis.net/def/timeseries/InterpolationCode/Discontinuous
          */
         Discontinuous("Discontinuous"),
         /**
-         * Instantaneous total
-         * http://www.opengis.net/def/timeseries/InterpolationCode/InstantTotal
+         * Instantaneous total http://www.opengis.net/def/timeseries/InterpolationCode/InstantTotal
          */
         InstantTotal("Instant Total"),
         /**
-         * Average in preceding interval
-         * http://www.opengis.net/def/timeseries/InterpolationCode/AveragePrec
+         * Average in preceding interval http://www.opengis.net/def/timeseries/InterpolationCode/AveragePrec
          */
         AveragePrec("Average Preceding"),
         /**
-         * Maximum in preceding interval
-         * http://www.opengis.net/def/timeseries/InterpolationCode/MaxPrec
+         * Maximum in preceding interval http://www.opengis.net/def/timeseries/InterpolationCode/MaxPrec
          */
         MaxPrec("Maximum Preceding"),
         /**
-         * Minimum in preceding interval
-         * http://www.opengis.net/def/timeseries/InterpolationCode/MinPrec
+         * Minimum in preceding interval http://www.opengis.net/def/timeseries/InterpolationCode/MinPrec
          */
         MinPrec("Minimum Preceding"),
         /**
-         * Preceding total
-         * http://www.opengis.net/def/timeseries/InterpolationCode/PrecTotal
+         * Preceding total http://www.opengis.net/def/timeseries/InterpolationCode/PrecTotal
          */
         TotalPrec("Preceding Total"),
         /**
-         * Average in succeeding interval
-         * http://www.opengis.net/def/timeseries/InterpolationCode/AverageSucc
+         * Average in succeeding interval http://www.opengis.net/def/timeseries/InterpolationCode/AverageSucc
          */
         AverageSucc("Average Succeeding"),
         /**
-         * Succeeding total
-         * http://www.opengis.net/def/timeseries/InterpolationCode/TotalSucc
+         * Succeeding total http://www.opengis.net/def/timeseries/InterpolationCode/TotalSucc
          */
         TotalSucc("Total Succeeding"),
         /**
-         * Minimum in succeeding interval
-         * http://www.opengis.net/def/timeseries/InterpolationCode/MinSucc
+         * Minimum in succeeding interval http://www.opengis.net/def/timeseries/InterpolationCode/MinSucc
          */
         MinSucc("Minimum Succeeding"),
         /**
-         * Maximum in succeeding interval
-         * http://www.opengis.net/def/timeseries/InterpolationCode/MaxSucc
+         * Maximum in succeeding interval http://www.opengis.net/def/timeseries/InterpolationCode/MaxSucc
          */
         MaxSucc("Maximum Succeeding"),
         /**
-         * Constant in preceding interval
-         * http://www.opengis.net/def/timeseries/InterpolationCode/ConstPrec
+         * Constant in preceding interval http://www.opengis.net/def/timeseries/InterpolationCode/ConstPrec
          */
         ConstPrec("Constant Preceding"),
         /**
-         * Constant in succeeding interval
-         * http://www.opengis.net/def/timeseries/InterpolationCode/ConstSucc
+         * Constant in succeeding interval http://www.opengis.net/def/timeseries/InterpolationCode/ConstSucc
          */
         ConstSucc("Constant Succeeding");
 

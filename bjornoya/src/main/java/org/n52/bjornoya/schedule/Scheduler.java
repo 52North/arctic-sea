@@ -26,6 +26,8 @@ import org.quartz.TriggerBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class Scheduler implements Destroyable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Scheduler.class);
@@ -38,8 +40,7 @@ public class Scheduler implements Destroyable {
 
     public void init() {
         if (!enabled) {
-            LOGGER.debug(
-                    "Job schedular disabled. No jobs will be triggered. "
+            LOGGER.debug("Job schedular disabled. No jobs will be triggered. "
                     + "This is also true for particularly enabled jobs.");
             return;
         }
@@ -69,10 +70,8 @@ public class Scheduler implements Destroyable {
             LOGGER.debug("Schedule job '{}' will be executed at '{}'!", details.getKey(), new DateTime(nextExecution));
             if (taskToSchedule.isTriggerAtStartup() || taskToSchedule instanceof FullHarvesterJob) {
                 LOGGER.debug("Schedule job '{}' to run once at startup.", details.getKey());
-                Trigger onceAtStartup = TriggerBuilder.newTrigger()
-                        .withIdentity(details.getKey() + "_onceAtStartup")
-                        .forJob(details.getKey())
-                        .build();
+                Trigger onceAtStartup = TriggerBuilder.newTrigger().withIdentity(details.getKey() + "_onceAtStartup")
+                        .forJob(details.getKey()).build();
                 Date startupExecution = scheduler.scheduleJob(onceAtStartup);
                 LOGGER.debug("Schedule job '{}' will be executed on startup at '{}'!", details.getKey(),
                         new DateTime(startupExecution));
@@ -107,10 +106,12 @@ public class Scheduler implements Destroyable {
         this.startupDelayInSeconds = startupDelayInSeconds;
     }
 
+    @SuppressFBWarnings("EI_EXPOSE_REP")
     public org.quartz.Scheduler getScheduler() {
         return scheduler;
     }
 
+    @SuppressFBWarnings("EI_EXPOSE_REP2")
     public void setScheduler(org.quartz.Scheduler scheduler) {
         this.scheduler = scheduler;
     }

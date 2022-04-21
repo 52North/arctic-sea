@@ -17,8 +17,9 @@ package org.n52.shetland.inspire.ef;
 
 import org.n52.shetland.ogc.gml.AbstractGML;
 
-public class AnyDomainLink
-        extends AbstractGML {
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+public class AnyDomainLink extends AbstractGML {
 
     /**
      * 1..1
@@ -30,6 +31,7 @@ public class AnyDomainLink
      */
     private EnvironmentalMonitoringFacility relatedTo;
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public AnyDomainLink(String comment, EnvironmentalMonitoringFacility relatedTo) {
         this.comment = comment;
         this.relatedTo = relatedTo;
@@ -45,6 +47,7 @@ public class AnyDomainLink
     /**
      * @return the relatedTo
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public EnvironmentalMonitoringFacility getRelatedTo() {
         return relatedTo;
     }

@@ -18,10 +18,9 @@ package org.n52.shetland.ogc.wps;
 import java.util.Objects;
 
 /**
- * A JobID is a unique identifier for a process execution, i.e.&nbsp;a process
- * instance. Particularly suitable JobIDs are UUIDs or monotonic identifiers
- * such as unique timestamps. If the privacy of a Processing Job is imperative,
- * the JobID should be non-guessable.
+ * A JobID is a unique identifier for a process execution, i.e.&nbsp;a process instance. Particularly suitable
+ * JobIDs are UUIDs or monotonic identifiers such as unique timestamps. If the privacy of a Processing Job is
+ * imperative, the JobID should be non-guessable.
  *
  * @author Christian Autermann
  */

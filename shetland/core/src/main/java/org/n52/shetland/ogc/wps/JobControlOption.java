@@ -15,19 +15,20 @@
  */
 package org.n52.shetland.ogc.wps;
 
-import com.google.common.base.Strings;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import com.google.common.base.Strings;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
- * This attribute type is used to specify process control options. The WPS specification only defines "execute-sync" and
- * "execute-async", each with an associated execution protocol. Extensions may specify additional control options, such
- * as "dimiss" which is defined in the WPS dismiss extension.
+ * This attribute type is used to specify process control options. The WPS specification only defines
+ * "execute-sync" and "execute-async", each with an associated execution protocol. Extensions may specify
+ * additional control options, such as "dimiss" which is defined in the WPS dismiss extension.
  *
  * @author Christian Autermann
  */
@@ -36,8 +37,8 @@ public class JobControlOption implements Comparable<JobControlOption> {
     private static final JobControlOption SYNC_EXECUTE = new JobControlOption("sync-execute");
     private static final JobControlOption ASYNC_EXECUTE = new JobControlOption("async-execute");
     private static final JobControlOption DISMISS = new JobControlOption("dismiss");
-    private static final Comparator<JobControlOption> COMPARATOR
-            = Comparator.nullsLast(Comparator.comparing(JobControlOption::getValue));
+    private static final Comparator<JobControlOption> COMPARATOR =
+            Comparator.nullsLast(Comparator.comparing(JobControlOption::getValue));
 
     private final String value;
 

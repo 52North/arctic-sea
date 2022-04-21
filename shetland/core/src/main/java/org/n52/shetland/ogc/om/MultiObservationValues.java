@@ -18,6 +18,8 @@ package org.n52.shetland.ogc.om;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.om.values.MultiValue;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Class representing a multi value observation value
  *
@@ -26,7 +28,8 @@ import org.n52.shetland.ogc.om.values.MultiValue;
  * @param <T>
  *            value type
  */
-public class MultiObservationValues<T> extends AbstractObservationValue<MultiValue<T>> {
+public class MultiObservationValues<
+        T> extends AbstractObservationValue<MultiValue<T>> {
     /**
      * Mesurement values
      */
@@ -38,6 +41,7 @@ public class MultiObservationValues<T> extends AbstractObservationValue<MultiVal
     private Time phenomenonTime;
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Time getPhenomenonTime() {
         if (phenomenonTime == null && getValue() != null) {
             phenomenonTime = getValue().getPhenomenonTime();
@@ -46,16 +50,19 @@ public class MultiObservationValues<T> extends AbstractObservationValue<MultiVal
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public MultiValue<T> getValue() {
         return values;
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setValue(MultiValue<T> value) {
         this.values = value;
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setPhenomenonTime(Time phenomenonTime) {
         this.phenomenonTime = phenomenonTime;
     }

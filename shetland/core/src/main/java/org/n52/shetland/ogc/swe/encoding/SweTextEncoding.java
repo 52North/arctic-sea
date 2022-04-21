@@ -85,16 +85,16 @@ public class SweTextEncoding extends SweAbstractEncoding {
             return false;
         }
         final SweTextEncoding other = (SweTextEncoding) obj;
-        if ((this.getBlockSeparator() == null) ? (other.getBlockSeparator() != null) : !this.getBlockSeparator()
-                .equals(other.getBlockSeparator())) {
+        if ((this.getBlockSeparator() == null) ? (other.getBlockSeparator() != null)
+                : !this.getBlockSeparator().equals(other.getBlockSeparator())) {
             return false;
         }
-        if ((this.getTokenSeparator() == null) ? (other.getTokenSeparator() != null) : !this.getTokenSeparator()
-                .equals(other.getTokenSeparator())) {
+        if ((this.getTokenSeparator() == null) ? (other.getTokenSeparator() != null)
+                : !this.getTokenSeparator().equals(other.getTokenSeparator())) {
             return false;
         }
-        if ((this.getDecimalSeparator() == null) ? (other.getDecimalSeparator() != null) : !this.getDecimalSeparator()
-                .equals(other.getDecimalSeparator())) {
+        if ((this.getDecimalSeparator() == null) ? (other.getDecimalSeparator() != null)
+                : !this.getDecimalSeparator().equals(other.getDecimalSeparator())) {
             return false;
         }
         if (this.collapseWhiteSpaces != other.collapseWhiteSpaces

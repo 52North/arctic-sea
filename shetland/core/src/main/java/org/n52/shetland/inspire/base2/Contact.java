@@ -195,7 +195,8 @@ public class Contact {
 
     public Contact addTelephoneFacsimile(Nillable<String> telephoneFacsimile) {
         if (this.telephoneFacsimile.isAbsent() || this.telephoneFacsimile.isNil()) {
-            this.telephoneFacsimile = Nillable.of((List<Nillable<String>>) Lists.<Nillable<String>> newArrayList());
+            this.telephoneFacsimile = Nillable.of((List<Nillable<String>>) Lists.<
+                    Nillable<String>> newArrayList());
         }
         if (this.telephoneFacsimile.isPresent()) {
             this.telephoneFacsimile.get().add(telephoneFacsimile);
@@ -237,7 +238,8 @@ public class Contact {
 
     public Contact addTelephoneVoice(Nillable<String> telephoneVoice) {
         if (this.telephoneVoice.isAbsent() || this.telephoneVoice.isNil()) {
-            this.telephoneVoice = Nillable.of((List<Nillable<String>>) Lists.<Nillable<String>> newArrayList());
+            this.telephoneVoice = Nillable.of((List<Nillable<String>>) Lists.<
+                    Nillable<String>> newArrayList());
         }
         if (telephoneVoice.isPresent()) {
             this.telephoneVoice.get().add(telephoneVoice);

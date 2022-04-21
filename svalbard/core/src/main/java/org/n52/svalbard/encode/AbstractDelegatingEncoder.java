@@ -17,6 +17,8 @@ package org.n52.svalbard.encode;
 
 import javax.inject.Inject;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * TODO JavaDoc
  *
@@ -29,11 +31,13 @@ public abstract class AbstractDelegatingEncoder<T, S> implements Encoder<T, S> {
 
     private EncoderRepository encoderRepository;
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public EncoderRepository getEncoderRepository() {
         return encoderRepository;
     }
 
     @Inject
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setEncoderRepository(EncoderRepository encoderRepository) {
         this.encoderRepository = encoderRepository;
     }

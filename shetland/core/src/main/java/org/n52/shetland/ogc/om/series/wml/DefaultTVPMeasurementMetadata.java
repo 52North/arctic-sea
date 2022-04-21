@@ -25,11 +25,9 @@ import org.n52.shetland.ogc.om.series.wml.WaterMLConstants.InterpolationType;
  *
  * See <code>/req/xsd-measurement-timeseries-tvp/interpolation-type</code>.
  *
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
- *         J&uuml;rrens</a>
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  * @since 1.0.0
- * @see <a href="http://www.opengeospatial.org/standards/waterml">OGC
- *      WaterML</a>
+ * @see <a href="http://www.opengeospatial.org/standards/waterml">OGC WaterML</a>
  */
 public class DefaultTVPMeasurementMetadata
         extends AbstractDefaultTVPMeasurementMetadata<DefaultTVPMeasurementMetadata> {

@@ -15,6 +15,7 @@
  */
 package org.n52.svalbard.decode;
 
+import java.util.Collections;
 import java.util.Set;
 
 import org.apache.xmlbeans.XmlException;
@@ -81,7 +82,7 @@ public class DescribeSensorResponseSwesDocumentDecoder extends AbstractSwesDecod
 
     @Override
     public Set<DecoderKey> getKeys() {
-        return DECODER_KEYS;
+        return Collections.unmodifiableSet(DECODER_KEYS);
     }
 
 }

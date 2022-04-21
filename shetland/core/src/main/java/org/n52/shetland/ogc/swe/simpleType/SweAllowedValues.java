@@ -16,6 +16,7 @@
 package org.n52.shetland.ogc.swe.simpleType;
 
 import java.math.BigInteger;
+import java.util.Collections;
 import java.util.List;
 
 import org.n52.shetland.ogc.swe.RangeValue;
@@ -34,7 +35,7 @@ public class SweAllowedValues extends AbstractSWES {
      * @return the value
      */
     public List<Double> getValue() {
-        return value;
+        return Collections.unmodifiableList(value);
     }
 
     /**
@@ -43,7 +44,9 @@ public class SweAllowedValues extends AbstractSWES {
      */
     public void setValue(List<Double> value) {
         this.value.clear();
-        this.value.addAll(value);
+        if (value != null) {
+            this.value.addAll(value);
+        }
     }
 
     public void addValue(Double value) {
@@ -62,7 +65,7 @@ public class SweAllowedValues extends AbstractSWES {
      * @return the interval
      */
     public List<RangeValue<Double>> getInterval() {
-        return interval;
+        return Collections.unmodifiableList(interval);
     }
 
     /**
@@ -71,7 +74,9 @@ public class SweAllowedValues extends AbstractSWES {
      */
     public void setInterval(List<RangeValue<Double>> interval) {
         this.interval.clear();
-        this.interval.addAll(interval);
+        if (interval != null) {
+            this.interval.addAll(interval);
+        }
     }
 
     /**

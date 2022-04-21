@@ -16,6 +16,7 @@
 package org.n52.shetland.ogc.swe;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,6 +28,7 @@ import org.n52.shetland.ogc.swe.simpleType.SweCount;
 
 import com.google.common.collect.Lists;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 public class SweDataArray extends SweAbstractDataComponent {
 
@@ -35,7 +37,7 @@ public class SweDataArray extends SweAbstractDataComponent {
      * Each list entry represents one block, a list of tokens.<br />
      * Atm, this implementation using java.lang.String to represent each token.
      */
-    private List<List<String>> values;
+    private List<List<String>> values = new LinkedList<>();
 
     /**
      * swe:elementType
@@ -53,7 +55,7 @@ public class SweDataArray extends SweAbstractDataComponent {
      * @return the values
      */
     public List<List<String>> getValues() {
-        return values;
+        return Collections.unmodifiableList(values);
     }
 
     /**
@@ -63,7 +65,10 @@ public class SweDataArray extends SweAbstractDataComponent {
      * @return This SweDataArray
      */
     public SweDataArray setValues(final List<List<String>> values) {
-        this.values = values;
+        this.values.clear();
+        if (values != null) {
+            this.values.addAll(values);
+        }
         return this;
     }
 
@@ -84,6 +89,7 @@ public class SweDataArray extends SweAbstractDataComponent {
     /**
      * @return the elementType
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SweAbstractDataComponent getElementType() {
         return elementType;
     }
@@ -93,11 +99,13 @@ public class SweDataArray extends SweAbstractDataComponent {
      *            the elementType to set
      * @return This SweDataArray
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweDataArray setElementType(final SweAbstractDataComponent elementType) {
         this.elementType = elementType;
         return this;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SweCount getElementCount() {
         if (isSetValues()) {
             return new SweCount().setValue(values.size());
@@ -107,10 +115,12 @@ public class SweDataArray extends SweAbstractDataComponent {
         return new SweCount().setValue(0);
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SweAbstractEncoding getEncoding() {
         return encoding;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweDataArray setEncoding(final SweAbstractEncoding encoding) {
         this.encoding = encoding;
         return this;
@@ -131,25 +141,20 @@ public class SweDataArray extends SweAbstractDataComponent {
     }
 
     /**
-     * Adds the given block - a {@link List}&lt;{@link String}&gt; - add the end of
-     * the current list of blocks
+     * Adds the given block - a {@link List}&lt;{@link String}&gt; - add the end of the current list of blocks
      *
-     * @param blockOfTokensToAddAtTheEnd the blocks of tokens to add
+     * @param blockOfTokensToAddAtTheEnd
+     *            the blocks of tokens to add
      * @return <tt>true</tt> (as specified by {@link Collection#add}) <br />
      *         <tt>false</tt> if block could not be added
      */
     public boolean add(final List<String> blockOfTokensToAddAtTheEnd) {
-        if (values == null) {
-            values = new LinkedList<>();
-        }
         return values.add(blockOfTokensToAddAtTheEnd);
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public boolean addAll(List<List<String>> newValues) {
-        if (values == null) {
-            values = newValues;
-        }
-        return values.addAll(newValues);
+        return newValues != null ? values.addAll(newValues) : true;
     }
 
     @Override
@@ -157,7 +162,7 @@ public class SweDataArray extends SweAbstractDataComponent {
         final int prime = 23;
         int hash = 7;
         hash = prime * hash + super.hashCode();
-        hash = prime * hash + (getValues() != null ? getValues().hashCode() : 0);
+        hash = prime * hash + getValues().hashCode();
         hash = prime * hash + (getElementType() != null ? getElementType().hashCode() : 0);
         hash = prime * hash + (getEncoding() != null ? getEncoding().hashCode() : 0);
         return hash;
@@ -194,6 +199,7 @@ public class SweDataArray extends SweAbstractDataComponent {
         return encoding != null;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweDataArray setElementCount(final SweCount elementCount) {
         this.elementCount = elementCount;
         return this;
@@ -213,12 +219,15 @@ public class SweDataArray extends SweAbstractDataComponent {
     }
 
     @Override
-    public <T, X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
+    public <
+            T,
+            X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
         return visitor.visit(this);
     }
 
     @Override
-    public <X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
+    public <
+            X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
         visitor.visit(this);
     }
 

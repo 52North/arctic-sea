@@ -19,6 +19,8 @@ import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.sensorML.HasPosition;
 import org.n52.shetland.ogc.sensorML.elements.SmlPosition;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Class that represents SensorML 2.0 PhysicalProcess.
  *
@@ -26,9 +28,7 @@ import org.n52.shetland.ogc.sensorML.elements.SmlPosition;
  * @since 1.0.0
  *
  */
-public class AbstractPhysicalProcess
-        extends DescribedObject
-        implements HasPosition<AbstractPhysicalProcess> {
+public class AbstractPhysicalProcess extends DescribedObject implements HasPosition<AbstractPhysicalProcess> {
 
     private ReferenceType attachedTo;
     private SpatialFrame localReferenceFrame;
@@ -46,8 +46,8 @@ public class AbstractPhysicalProcess
     }
 
     /**
-     * Set the attachedTo reference. It is automatically added to
-     * parentProcedure list. If title is set, the title is used, else the href.
+     * Set the attachedTo reference. It is automatically added to parentProcedure list. If title is set, the
+     * title is used, else the href.
      *
      * @param attachedTo
      *            the attachedTo to set
@@ -93,6 +93,7 @@ public class AbstractPhysicalProcess
     /**
      * @return the position
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SmlPosition getPosition() {
         return position;
     }
@@ -101,6 +102,7 @@ public class AbstractPhysicalProcess
      * @param position
      *            the position to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public AbstractPhysicalProcess setPosition(SmlPosition position) {
         this.position = position;
         return this;

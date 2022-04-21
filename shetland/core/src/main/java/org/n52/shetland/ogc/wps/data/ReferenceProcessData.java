@@ -15,13 +15,14 @@
  */
 package org.n52.shetland.ogc.wps.data;
 
-import com.google.common.base.MoreObjects;
-import org.n52.shetland.ogc.ows.OwsCode;
-import org.n52.shetland.ogc.wps.Format;
-
 import java.net.URI;
 import java.util.Objects;
 import java.util.Optional;
+
+import org.n52.shetland.ogc.ows.OwsCode;
+import org.n52.shetland.ogc.wps.Format;
+
+import com.google.common.base.MoreObjects;
 
 /**
  * TODO JavaDoc
@@ -80,7 +81,7 @@ public class ReferenceProcessData extends FormattedProcessData {
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this).omitNullValues().add("id", getId()).add("format", getFormat())
-                          .add("uri", getURI()).add("body", getBody().orElse(null)).toString();
+                .add("uri", getURI()).add("body", getBody().orElse(null)).toString();
     }
 
     @Override
@@ -100,8 +101,8 @@ public class ReferenceProcessData extends FormattedProcessData {
             return false;
         }
         final ReferenceProcessData other = (ReferenceProcessData) obj;
-        return Objects.equals(getId(), other.getId()) && Objects.equals(getFormat(), other.getFormat()) &&
-               Objects.equals(getURI(), other.getURI()) && Objects.equals(getBody(), other.getBody());
+        return Objects.equals(getId(), other.getId()) && Objects.equals(getFormat(), other.getFormat())
+                && Objects.equals(getURI(), other.getURI()) && Objects.equals(getBody(), other.getBody());
     }
 
 }

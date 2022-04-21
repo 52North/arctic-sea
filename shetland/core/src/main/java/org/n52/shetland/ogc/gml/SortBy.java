@@ -38,8 +38,7 @@ public class SortBy {
      * @param propertyp
      *            name of property, by which should be sorted
      * @param orderp
-     *            sorting order (currently only ascending ('ASC') or descending
-     *            ('DESC')
+     *            sorting order (currently only ascending ('ASC') or descending ('DESC')
      */
     public SortBy(String propertyp, SortingOrder orderp) {
         this.property = propertyp;

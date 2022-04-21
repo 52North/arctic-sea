@@ -89,6 +89,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import net.opengis.gml.x32.FeaturePropertyType;
 import net.opengis.gml.x32.TimeInstantPropertyType;
 import net.opengis.om.x20.OMObservationType;
@@ -148,6 +149,7 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
     }
 
     @Inject
+    @SuppressFBWarnings({"EI_EXPOSE_REP2"})
     public void setSweHelper(SweHelper sweHelper) {
         this.sweHelper = sweHelper;
     }

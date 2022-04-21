@@ -22,6 +22,8 @@ import org.apache.jena.rdf.model.Property;
 import org.apache.jena.vocabulary.DCAT;
 import org.n52.shetland.rdf.AbstractResource;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class DistributionProperty extends AbstractResource implements DcatRdfPrefix {
 
     private Distribution distribution;
@@ -30,11 +32,13 @@ public class DistributionProperty extends AbstractResource implements DcatRdfPre
         super(value);
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public DistributionProperty(Distribution distribution) {
         super(null);
         this.distribution = distribution;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Distribution getDistribution() {
         return distribution;
     }

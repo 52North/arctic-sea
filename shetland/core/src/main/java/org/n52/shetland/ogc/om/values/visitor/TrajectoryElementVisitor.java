@@ -20,8 +20,8 @@ import java.util.Collection;
 import org.n52.shetland.ogc.om.values.TrajectoryElement;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
-public interface TrajectoryElementVisitor<T> {
+public interface TrajectoryElementVisitor<
+        T> {
 
-    Collection<T> visit(TrajectoryElement value)
-            throws OwsExceptionReport;
+    Collection<T> visit(TrajectoryElement value) throws OwsExceptionReport;
 }

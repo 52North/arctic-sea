@@ -46,7 +46,8 @@ public class InspireKeyword extends AbstractInspireKeyword<String> {
      * @param originatingControlledVocabulary
      *            the originating controlled vocabulary
      */
-    public InspireKeyword(String keywordValue, InspireOriginatingControlledVocabulary originatingControlledVocabulary) {
+    public InspireKeyword(String keywordValue,
+            InspireOriginatingControlledVocabulary originatingControlledVocabulary) {
         super(originatingControlledVocabulary);
         setKeywordValue(keywordValue);
     }

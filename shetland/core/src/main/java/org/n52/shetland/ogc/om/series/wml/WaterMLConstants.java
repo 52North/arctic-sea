@@ -26,7 +26,8 @@ import org.n52.shetland.w3c.SchemaLocation;
 
 /**
  * @since 1.0.0
- * @see <a href="http://www.opengeospatial.org/standards/waterml">http://www.opengeospatial.org/standards/waterml</a>
+ * @see <a href=
+ *      "http://www.opengeospatial.org/standards/waterml">http://www.opengeospatial.org/standards/waterml</a>
  */
 public interface WaterMLConstants extends SeriesConstants {
     String NS_WML_20 = "http://www.opengis.net/waterml/2.0";
@@ -134,80 +135,65 @@ public interface WaterMLConstants extends SeriesConstants {
      *
      * See <code>/req/xsd-measurement-timeseries-tvp/interpolation-type</code>.
      *
-     * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
-     *         J&uuml;rrens</a>
+     * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
      * @since 1.0.0
      */
     enum InterpolationType implements AbstractInterpolationType {
 
         /**
-         * Continuous/Instantaneous
-         * http://www.opengis.net/def/waterml/2.0/interpolationType/Continuous
+         * Continuous/Instantaneous http://www.opengis.net/def/waterml/2.0/interpolationType/Continuous
          */
         Continuous("Continuous"),
         /**
-         * http://www.opengis.net/def/waterml/2.0/interpolationType/
-         * Discontinuous
+         * http://www.opengis.net/def/waterml/2.0/interpolationType/ Discontinuous
          */
         Discontinuous("Discontinuous"),
         /**
-         * Instantaneous total
-         * http://www.opengis.net/def/waterml/2.0/interpolationType/InstantTotal
+         * Instantaneous total http://www.opengis.net/def/waterml/2.0/interpolationType/InstantTotal
          */
         InstantTotal("Instantaneous Total"),
         /**
-         * Average in preceding interval
-         * http://www.opengis.net/def/waterml/2.0/interpolationType/AveragePrec
+         * Average in preceding interval http://www.opengis.net/def/waterml/2.0/interpolationType/AveragePrec
          */
         AveragePrec("Average in Preceding Interval"),
         /**
-         * Maximum in preceding interval
-         * http://www.opengis.net/def/waterml/2.0/interpolationType/MaxPrec
+         * Maximum in preceding interval http://www.opengis.net/def/waterml/2.0/interpolationType/MaxPrec
          */
         MaxPrec("Maximum in Preceding Interval"),
         /**
-         * Minimum in preceding interval
-         * http://www.opengis.net/def/waterml/2.0/interpolationType/MinPrec
+         * Minimum in preceding interval http://www.opengis.net/def/waterml/2.0/interpolationType/MinPrec
          */
         MinPrec("Minimum in Preceding Interval"),
         /**
-         * Preceding total
-         * http://www.opengis.net/def/waterml/2.0/interpolationType/TotalPrec
+         * Preceding total http://www.opengis.net/def/waterml/2.0/interpolationType/TotalPrec
          */
         TotalPrec("Preceding Total"),
         /**
-         * Average in succeeding interval
-         * http://www.opengis.net/def/waterml/2.0/interpolationType/AverageSucc
+         * Average in succeeding interval http://www.opengis.net/def/waterml/2.0/interpolationType/AverageSucc
          */
         AverageSucc("Average in Succeeding Interval"),
         /**
-         * Succeeding total
-         * http://www.opengis.net/def/waterml/2.0/interpolationType/TotalSucc
+         * Succeeding total http://www.opengis.net/def/waterml/2.0/interpolationType/TotalSucc
          */
         TotalSucc("Succeeding Total"),
         /**
-         * Minimum in succeeding interval
-         * http://www.opengis.net/def/waterml/2.0/interpolationType/MinSucc
+         * Minimum in succeeding interval http://www.opengis.net/def/waterml/2.0/interpolationType/MinSucc
          */
         MinSucc("Minimum in Succeeding Interval"),
         /**
-         * Maximum in succeeding interval
-         * http://www.opengis.net/def/waterml/2.0/interpolationType/MaxSucc
+         * Maximum in succeeding interval http://www.opengis.net/def/waterml/2.0/interpolationType/MaxSucc
          */
         MaxSucc("Maximum in Succeeding Interval"),
         /**
-         * Constant in preceding interval
-         * http://www.opengis.net/def/waterml/2.0/interpolationType/ConstPrec
+         * Constant in preceding interval http://www.opengis.net/def/waterml/2.0/interpolationType/ConstPrec
          */
         ConstPrec("Constant in Preceding Interval"),
         /**
-         * Constant in succeeding interval
-         * http://www.opengis.net/def/waterml/2.0/interpolationType/ConstSucc
+         * Constant in succeeding interval http://www.opengis.net/def/waterml/2.0/interpolationType/ConstSucc
          */
         ConstSucc("Constant in Succeeding Interval"),
         /**
-         * Statistical
-         * http://www.opengis.net/def/waterml/2.0/interpolationType/Statistical
+         * Statistical http://www.opengis.net/def/waterml/2.0/interpolationType/Statistical
          */
         Statistical("Statistical");
 

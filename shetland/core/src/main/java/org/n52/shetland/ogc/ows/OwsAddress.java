@@ -24,6 +24,7 @@ import com.google.common.base.Strings;
 
 /**
  * TODO JavaDoc
+ *
  * @author Christian Autermann
  */
 public class OwsAddress {
@@ -35,27 +36,18 @@ public class OwsAddress {
     private final Optional<String> country;
     private final List<String> electronicMailAddress;
 
-    public OwsAddress(List<String> deliveryPoint, String city,
-                      String administrativeArea, String postalCode,
-                      String country, List<String> electronicMailAddress) {
-        this.deliveryPoint
-                = deliveryPoint == null ? Collections.emptyList() : deliveryPoint;
+    public OwsAddress(List<String> deliveryPoint, String city, String administrativeArea, String postalCode,
+            String country, List<String> electronicMailAddress) {
+        this.deliveryPoint = deliveryPoint == null ? Collections.emptyList() : deliveryPoint;
         this.city = Optional.ofNullable(Strings.emptyToNull(city));
-        this.administrativeArea
-                = Optional.ofNullable(Strings.emptyToNull(administrativeArea));
+        this.administrativeArea = Optional.ofNullable(Strings.emptyToNull(administrativeArea));
         this.postalCode = Optional.ofNullable(Strings.emptyToNull(postalCode));
         this.country = Optional.ofNullable(Strings.emptyToNull(country));
-        this.electronicMailAddress
-                = electronicMailAddress == null ? Collections.emptyList()
-                : electronicMailAddress;
+        this.electronicMailAddress = electronicMailAddress == null ? Collections.emptyList() : electronicMailAddress;
     }
 
-    public OwsAddress(String deliveryPoint,
-                      String city,
-                      String administrativeArea,
-                      String postalCode,
-                      String country,
-                      String electronicMailAddress) {
+    public OwsAddress(String deliveryPoint, String city, String administrativeArea, String postalCode, String country,
+            String electronicMailAddress) {
         this(toList(deliveryPoint), city, administrativeArea, postalCode, country, toList(electronicMailAddress));
     }
 
@@ -130,13 +122,13 @@ public class OwsAddress {
 
     @Override
     public String toString() {
-        return "OwsAddress{" + "deliveryPoint=" + deliveryPoint + ", city=" +
-               city + ", administrativeArea=" + administrativeArea +
-               ", postalCode=" + postalCode + ", country=" + country +
-               ", electronicMailAddress=" + electronicMailAddress + '}';
+        return "OwsAddress{" + "deliveryPoint=" + deliveryPoint + ", city=" + city + ", administrativeArea="
+                + administrativeArea + ", postalCode=" + postalCode + ", country=" + country
+                + ", electronicMailAddress=" + electronicMailAddress + '}';
     }
 
-    private static <T> List<T> toList(T t) {
+    private static <
+            T> List<T> toList(T t) {
         return Optional.ofNullable(t).map(Collections::singletonList).orElseGet(Collections::emptyList);
     }
 

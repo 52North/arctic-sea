@@ -17,7 +17,6 @@ package org.n52.shetland.ogc.sensorML.elements;
 
 import java.util.function.Predicate;
 
-
 /**
  * TODO JavaDoc
  *

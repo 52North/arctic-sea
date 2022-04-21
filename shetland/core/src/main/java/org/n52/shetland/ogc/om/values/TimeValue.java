@@ -102,7 +102,9 @@ public class TimeValue extends SweTime implements Value<DateTime> {
     }
 
     @Override
-    public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
+    public <
+            X,
+            E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
         return visitor.visit(this);
     }
 

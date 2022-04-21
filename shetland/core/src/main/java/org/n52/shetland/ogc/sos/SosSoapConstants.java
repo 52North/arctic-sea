@@ -98,7 +98,7 @@ public interface SosSoapConstants {
     String REQ_ACTION_GET_DATA_AVAILABILITY =
             "http://www.opengis.net/def/serviceOperation/sos/daRetrieval/2.0/GetDataAvailability";
 
-    String RESP_ACTION_GET_DATA_AVAILABILITY  =
+    String RESP_ACTION_GET_DATA_AVAILABILITY =
             "http://www.opengis.net/def/serviceOperation/sos/daRetrieval/2.0/GetDataAvailabilityResponse";
 
     // Exceptions

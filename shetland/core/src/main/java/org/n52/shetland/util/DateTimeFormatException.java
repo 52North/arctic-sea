@@ -24,7 +24,6 @@ package org.n52.shetland.util;
 public class DateTimeFormatException extends DateTimeException {
     private static final long serialVersionUID = 4594521785170898431L;
 
-
     public DateTimeFormatException(Object value) {
         this(value, null);
     }

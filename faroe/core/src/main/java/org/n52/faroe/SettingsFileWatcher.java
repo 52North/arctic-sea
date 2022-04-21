@@ -37,6 +37,8 @@ import org.n52.janmayen.lifecycle.Destroyable;
 
 import com.google.common.base.MoreObjects;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * http://andreinc.net/2013/12/06/java-7-nio-2-tutorial-writing-a-simple-filefolder-monitor-using-the-watch-service-api/
  * https://docs.oracle.com/javase/tutorial/essential/io/notification.html
@@ -74,6 +76,7 @@ public class SettingsFileWatcher implements Constructable, Destroyable {
     }
 
     @Inject
+    @SuppressFBWarnings({"EI_EXPOSE_REP2"})
     public void setSettingsService(SettingsService settingsService) {
         this.settingsService = settingsService;
     }

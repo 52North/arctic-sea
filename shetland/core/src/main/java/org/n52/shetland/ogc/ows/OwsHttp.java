@@ -30,8 +30,7 @@ import org.n52.janmayen.Comparables;
  *
  * @author Christian Autermann
  */
-public class OwsHttp
-        implements OwsDCP {
+public class OwsHttp implements OwsDCP {
 
     private final SortedSet<OwsRequestMethod> requestMethods;
 

@@ -15,6 +15,8 @@
  */
 package org.n52.shetland.ogc.om.values;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.TreeMap;
@@ -53,23 +55,29 @@ public class TrajectoryValue extends AbstractFeature implements Value<List<Traje
     @Override
     public TrajectoryValue setValue(List<TrajectoryElement> value) {
         this.values.clear();
-        this.values.addAll(value);
+        if (value != null) {
+            this.values.addAll(value);
+        }
         return null;
     }
 
     public TrajectoryValue addValue(TrajectoryElement value) {
-        this.values.add(value);
+        if (value != null) {
+            this.values.add(value);
+        }
         return this;
     }
 
-    public TrajectoryValue addValues(List<TrajectoryElement> value) {
-        this.values.addAll(value);
+    public TrajectoryValue addValues(Collection<TrajectoryElement> value) {
+        if (value != null) {
+            this.values.addAll(value);
+        }
         return this;
     }
 
     @Override
     public List<TrajectoryElement> getValue() {
-        return values;
+        return Collections.unmodifiableList(values);
     }
 
     @Override
@@ -93,7 +101,9 @@ public class TrajectoryValue extends AbstractFeature implements Value<List<Traje
     }
 
     @Override
-    public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
+    public <
+            X,
+            E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
         return visitor.visit(this);
     }
 
@@ -139,7 +149,7 @@ public class TrajectoryValue extends AbstractFeature implements Value<List<Traje
         return null;
     }
 
-     public SweDataRecord asDataRecord() {
+    public SweDataRecord asDataRecord() {
         SweDataRecord dataRecord = new SweDataRecord();
         if (isSetIdentifier()) {
             dataRecord.setIdentifier(getIdentifier());

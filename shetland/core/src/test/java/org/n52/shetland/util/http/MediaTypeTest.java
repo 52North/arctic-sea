@@ -15,13 +15,11 @@
  */
 package org.n52.shetland.util.http;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-
 import org.n52.janmayen.http.MediaType;
 import org.n52.shetland.ogc.OGCConstants;
 import org.n52.shetland.ogc.sensorML.SensorMLConstants;

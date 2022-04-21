@@ -28,6 +28,8 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * TODO JavaDoc
  *
@@ -54,6 +56,7 @@ public class XmlFactories {
     /**
      * @return the event factory
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public XMLEventFactory eventFactory() {
         return eventFactory;
     }
@@ -61,6 +64,7 @@ public class XmlFactories {
     /**
      * @return the output factory
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public XMLOutputFactory outputFactory() {
         return outputFactory;
     }
@@ -68,6 +72,7 @@ public class XmlFactories {
     /**
      * @return the input factory
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public XMLInputFactory inputFactory() {
         return inputFactory;
     }
@@ -89,6 +94,7 @@ public class XmlFactories {
     /**
      * @return the transformer factory
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public TransformerFactory transformerFactory() {
         return transformerFactory;
     }

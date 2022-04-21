@@ -15,11 +15,10 @@
  */
 package org.n52.shetland.ogc.sensorML;
 
-import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItems;
 
 import org.junit.jupiter.api.Test;
-
 import org.n52.shetland.ogc.sensorML.v20.PhysicalComponent;
 
 import com.google.common.collect.Lists;

@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.locationtech.jts.geom.Geometry;
 import org.n52.shetland.ogc.OGCConstants;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
@@ -32,11 +33,10 @@ import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.util.IdGenerator;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
-import org.locationtech.jts.geom.Geometry;
 
-public abstract class AbstractSamplingFeature
-        extends AbstractFeature
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+public abstract class AbstractSamplingFeature extends AbstractFeature
         implements FeatureWithGeometry, FeatureWithFeatureType, FeatureWithUrl, FeatureWithEncode {
 
     /**
@@ -72,7 +72,7 @@ public abstract class AbstractSamplingFeature
     /**
      * Related sampling features
      */
-    private Collection<SamplingFeatureComplex> relatedSamplingFeatures;
+    private Collection<SamplingFeatureComplex> relatedSamplingFeatures = new LinkedList<>();
 
     /**
      * constructor
@@ -113,11 +113,13 @@ public abstract class AbstractSamplingFeature
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Geometry getGeometry() {
         return geometry;
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setGeometry(final Geometry geometry) throws InvalidSridException {
         if (geometry != null && geometry.getSRID() == 0) {
             throw new InvalidSridException(0);
@@ -150,9 +152,14 @@ public abstract class AbstractSamplingFeature
      *
      * @param sampledFeatures
      *            Sampled fearure list
+     * @return this
      */
-    public void setSampledFeatures(final List<AbstractFeature> sampledFeatures) {
-        this.sampledFeatures.addAll(sampledFeatures);
+    public AbstractSamplingFeature setSampledFeatures(final List<AbstractFeature> sampledFeatures) {
+        this.sampledFeatures.clear();
+        if (sampledFeatures != null) {
+            this.sampledFeatures.addAll(sampledFeatures);
+        }
+        return this;
     }
 
     /**
@@ -181,9 +188,13 @@ public abstract class AbstractSamplingFeature
      *
      * @param namedValue
      *            Parameter ro add
+     * @return this
      */
-    public void addParameter(final NamedValue<?> namedValue) {
-        parameters.add(namedValue);
+    public AbstractSamplingFeature addParameter(final NamedValue<?> namedValue) {
+        if (namedValue != null) {
+            this.parameters.add(namedValue);
+        }
+        return this;
     }
 
     /**
@@ -191,9 +202,14 @@ public abstract class AbstractSamplingFeature
      *
      * @param parameters
      *            Parameters to add
+     * @return this
      */
-    public void setParameters(final Collection<NamedValue<?>> parameters) {
-        this.parameters.addAll(parameters);
+    public AbstractSamplingFeature setParameters(final Collection<NamedValue<?>> parameters) {
+        this.parameters.clear();
+        if (parameters != null) {
+            this.parameters.addAll(parameters);
+        }
+        return this;
     }
 
     /**
@@ -202,7 +218,7 @@ public abstract class AbstractSamplingFeature
      * @return Parameter list
      */
     public List<NamedValue<?>> getParameters() {
-        return parameters;
+        return Collections.unmodifiableList(parameters);
     }
 
     @Override
@@ -220,9 +236,11 @@ public abstract class AbstractSamplingFeature
      *
      * @param encode
      *            Encoding indicator
+     * @return this
      */
-    public void setEncode(final boolean encode) {
+    public AbstractSamplingFeature setEncode(final boolean encode) {
         this.encode = encode;
+        return this;
     }
 
     /**
@@ -230,14 +248,13 @@ public abstract class AbstractSamplingFeature
      *
      * @param relatedSamplingFeature
      *            Related sampling feature to add
+     * @return this
      */
-    public void addRelatedSamplingFeature(final SamplingFeatureComplex relatedSamplingFeature) {
-        if (!isSetRelatedSamplingFeatures()) {
-            relatedSamplingFeatures = Sets.newHashSet();
-        }
+    public AbstractSamplingFeature addRelatedSamplingFeature(final SamplingFeatureComplex relatedSamplingFeature) {
         if (relatedSamplingFeature != null) {
-            relatedSamplingFeatures.add(relatedSamplingFeature);
+            this.relatedSamplingFeatures.add(relatedSamplingFeature);
         }
+        return this;
     }
 
     /**
@@ -245,13 +262,14 @@ public abstract class AbstractSamplingFeature
      *
      * @param relatedSamplingFeatures
      *            Related sampling features to add
+     * @return this
      */
-    public void addAllRelatedSamplingFeatures(final Collection<SamplingFeatureComplex> relatedSamplingFeatures) {
-        if (isSetRelatedSamplingFeatures()) {
+    public AbstractSamplingFeature addAllRelatedSamplingFeatures(
+            final Collection<SamplingFeatureComplex> relatedSamplingFeatures) {
+        if (relatedSamplingFeatures != null) {
             this.relatedSamplingFeatures.addAll(relatedSamplingFeatures);
-        } else {
-            this.relatedSamplingFeatures = relatedSamplingFeatures;
         }
+        return this;
     }
 
     /**
@@ -259,9 +277,16 @@ public abstract class AbstractSamplingFeature
      *
      * @param relatedSamplingFeatures
      *            Related sampling features to set
+     * @return this
      */
-    public void setRelatedSamplingFeatures(final Collection<SamplingFeatureComplex> relatedSamplingFeatures) {
-        this.relatedSamplingFeatures = relatedSamplingFeatures;
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public AbstractSamplingFeature setRelatedSamplingFeatures(
+            final Collection<SamplingFeatureComplex> relatedSamplingFeatures) {
+        this.relatedSamplingFeatures.clear();
+        if (relatedSamplingFeatures != null) {
+            this.relatedSamplingFeatures.addAll(relatedSamplingFeatures);
+        }
+        return this;
     }
 
     /**
@@ -271,7 +296,8 @@ public abstract class AbstractSamplingFeature
      */
     public List<SamplingFeatureComplex> getRelatedSamplingFeatures() {
         return relatedSamplingFeatures != null ? Lists.newArrayList(relatedSamplingFeatures)
-                : Collections.<SamplingFeatureComplex> emptyList();
+                : Collections.<
+                        SamplingFeatureComplex> emptyList();
     }
 
     /**
@@ -285,8 +311,7 @@ public abstract class AbstractSamplingFeature
 
     @Override
     public String toString() {
-        return String.format(
-                "AbstractSamplingFeature [name=%s, description=%s, xmlDescription=%s, geometry=%s, "
+        return String.format("AbstractSamplingFeature [name=%s, description=%s, xmlDescription=%s, geometry=%s, "
                 + "featureType=%s, url=%s, sampledFeatures=%s, parameters=%s, encode=%b, relatedSamplingFeatures=%s]",
                 getName(), getDescription(), getXml(), getGeometry(), getFeatureType(), getUrl(), getSampledFeatures(),
                 getParameters(), isEncode(), getRelatedSamplingFeatures());

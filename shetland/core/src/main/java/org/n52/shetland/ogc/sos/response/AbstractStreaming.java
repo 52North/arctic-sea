@@ -31,8 +31,7 @@ import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.collect.Maps;
 
-public abstract class AbstractStreaming
-        extends AbstractObservationValue<Value<ObservationStream>>
+public abstract class AbstractStreaming extends AbstractObservationValue<Value<ObservationStream>>
         implements ObservationStream {
     private final Map<AdditionalRequestParams, Object> additionalRequestParams = Maps.newHashMap();
 
@@ -43,16 +42,13 @@ public abstract class AbstractStreaming
     private ObservationMergeIndicator mergeIndicator;
 
     @Override
-    public abstract OmObservation next()
-            throws NoSuchElementException, OwsExceptionReport;
+    public abstract OmObservation next() throws NoSuchElementException, OwsExceptionReport;
 
     @Override
-    public abstract boolean hasNext()
-            throws OwsExceptionReport;
+    public abstract boolean hasNext() throws OwsExceptionReport;
 
     /**
-     * Check and modify observation for Spatial Filtering Profile and requested
-     * crs
+     * Check and modify observation for Spatial Filtering Profile and requested crs
      *
      * @param observation
      *            {@link OmObservation} to check
@@ -60,8 +56,7 @@ public abstract class AbstractStreaming
      * @throws OwsExceptionReport
      *             If an error occurs when modifying the {@link OmObservation}
      */
-    protected abstract void checkForModifications(OmObservation observation)
-            throws OwsExceptionReport;
+    protected abstract void checkForModifications(OmObservation observation) throws OwsExceptionReport;
 
     public void add(AdditionalRequestParams parameter, Object object) {
         additionalRequestParams.put(parameter, object);
@@ -116,8 +111,7 @@ public abstract class AbstractStreaming
      * @throws CodedException
      *             If the size limit is exceeded
      */
-    protected void checkMaxNumberOfReturnedValues(int size)
-            throws OwsExceptionReport {
+    protected void checkMaxNumberOfReturnedValues(int size) throws OwsExceptionReport {
         if (getMaxNumberOfValues() > 0) {
             currentNumberOfValues += size;
             if (currentNumberOfValues > getMaxNumberOfValues()) {

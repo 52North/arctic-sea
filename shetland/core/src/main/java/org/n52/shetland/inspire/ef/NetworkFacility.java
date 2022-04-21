@@ -18,8 +18,9 @@ package org.n52.shetland.inspire.ef;
 import org.n52.shetland.ogc.gml.AbstractGML;
 import org.n52.shetland.ogc.gml.time.Time;
 
-public class NetworkFacility
-        extends AbstractGML {
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+public class NetworkFacility extends AbstractGML {
 
     /**
      * 1..1
@@ -36,8 +37,9 @@ public class NetworkFacility
      */
     private EnvironmentalMonitoringFacility contains;
 
-    public NetworkFacility(
-            Time linkingTime, EnvironmentalMonitoringNetwork belongsTo, EnvironmentalMonitoringFacility contains) {
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public NetworkFacility(Time linkingTime, EnvironmentalMonitoringNetwork belongsTo,
+            EnvironmentalMonitoringFacility contains) {
         this.linkingTime = linkingTime;
         this.belongsTo = belongsTo;
         this.contains = contains;
@@ -46,6 +48,7 @@ public class NetworkFacility
     /**
      * @return the linkingTime
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Time getLinkingTime() {
         return linkingTime;
     }
@@ -54,6 +57,7 @@ public class NetworkFacility
      * @param linkingTime
      *            the linkingTime to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setLinkingTime(Time linkingTime) {
         this.linkingTime = linkingTime;
     }
@@ -61,6 +65,7 @@ public class NetworkFacility
     /**
      * @return the belongsTo
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public EnvironmentalMonitoringNetwork getBelongsTo() {
         return belongsTo;
     }
@@ -69,6 +74,7 @@ public class NetworkFacility
      * @param belongsTo
      *            the belongsTo to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setBelongsTo(EnvironmentalMonitoringNetwork belongsTo) {
         this.belongsTo = belongsTo;
     }
@@ -76,6 +82,7 @@ public class NetworkFacility
     /**
      * @return the contains
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public EnvironmentalMonitoringFacility getContains() {
         return contains;
     }
@@ -84,6 +91,7 @@ public class NetworkFacility
      * @param contains
      *            the contains to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setContains(EnvironmentalMonitoringFacility contains) {
         this.contains = contains;
     }

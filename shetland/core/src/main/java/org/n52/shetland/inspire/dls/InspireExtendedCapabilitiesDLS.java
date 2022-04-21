@@ -16,6 +16,7 @@
 package org.n52.shetland.inspire.dls;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
 
 import org.n52.shetland.inspire.InspireConstants;
@@ -28,15 +29,14 @@ import org.n52.shetland.util.CollectionHelper;
 import com.google.common.collect.Sets;
 
 /**
- * Abstract service internal representation of INSPIRE DLS ExtendedCapabilities.
- * Extends the {@link InspireExtendedCapabilities} with the DLS specific data
+ * Abstract service internal representation of INSPIRE DLS ExtendedCapabilities. Extends the
+ * {@link InspireExtendedCapabilities} with the DLS specific data
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  *
  */
-public abstract class InspireExtendedCapabilitiesDLS
-        extends InspireExtendedCapabilities
+public abstract class InspireExtendedCapabilitiesDLS extends InspireExtendedCapabilities
         implements InspireExtendedCapabilitiesSpatialDataSetIdentifier {
 
     /* SpatialDataSetIdentifier 1..* */
@@ -52,9 +52,8 @@ public abstract class InspireExtendedCapabilitiesDLS
      * @param spatialDataSetIdentifier
      *            Spatial dataset identifier to set
      */
-    public InspireExtendedCapabilitiesDLS(
-            InspireSupportedLanguages supportedLanguages, InspireLanguageISO6392B responseLanguage,
-            InspireUniqueResourceIdentifier spatialDataSetIdentifier) {
+    public InspireExtendedCapabilitiesDLS(InspireSupportedLanguages supportedLanguages,
+            InspireLanguageISO6392B responseLanguage, InspireUniqueResourceIdentifier spatialDataSetIdentifier) {
         super(supportedLanguages, responseLanguage);
         addSpatialDataSetIdentifier(spatialDataSetIdentifier);
     }
@@ -69,8 +68,8 @@ public abstract class InspireExtendedCapabilitiesDLS
      * @param spatialDataSetIdentifiers
      *            Spatial dataset identifiers to set
      */
-    public InspireExtendedCapabilitiesDLS(
-            InspireSupportedLanguages supportedLanguages, InspireLanguageISO6392B responseLanguage,
+    public InspireExtendedCapabilitiesDLS(InspireSupportedLanguages supportedLanguages,
+            InspireLanguageISO6392B responseLanguage,
             Collection<InspireUniqueResourceIdentifier> spatialDataSetIdentifiers) {
         super(supportedLanguages, responseLanguage);
         setSpatialDataSetIdentifier(spatialDataSetIdentifiers);
@@ -83,15 +82,16 @@ public abstract class InspireExtendedCapabilitiesDLS
 
     @Override
     public Set<InspireUniqueResourceIdentifier> getSpatialDataSetIdentifier() {
-        return spatialDataSetIdentifier;
+        return Collections.unmodifiableSet(spatialDataSetIdentifier);
     }
 
     @Override
     public InspireExtendedCapabilitiesDLS setSpatialDataSetIdentifier(
             Collection<InspireUniqueResourceIdentifier> spatialDataSetIdentifier) {
+        this.spatialDataSetIdentifier.clear();
         if (CollectionHelper.isNotEmpty(spatialDataSetIdentifier)) {
-            getSpatialDataSetIdentifier().clear();
-            getSpatialDataSetIdentifier().addAll(spatialDataSetIdentifier);
+            this.spatialDataSetIdentifier.clear();
+            this.spatialDataSetIdentifier.addAll(spatialDataSetIdentifier);
         }
         return this;
     }
@@ -99,7 +99,9 @@ public abstract class InspireExtendedCapabilitiesDLS
     @Override
     public InspireExtendedCapabilitiesDLS addSpatialDataSetIdentifier(
             InspireUniqueResourceIdentifier spatialDataSetIdentifier) {
-        getSpatialDataSetIdentifier().add(spatialDataSetIdentifier);
+        if (spatialDataSetIdentifier != null) {
+            this.spatialDataSetIdentifier.add(spatialDataSetIdentifier);
+        }
         return this;
 
     }

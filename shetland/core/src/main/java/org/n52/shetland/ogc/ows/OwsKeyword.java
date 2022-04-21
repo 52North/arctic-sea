@@ -27,12 +27,10 @@ import org.n52.janmayen.Optionals;
  * @author Christian Autermann
  */
 public class OwsKeyword implements Comparable<OwsKeyword> {
-    private static final Comparator<OwsKeyword> COMPARATOR
-            = Comparator.nullsLast(Comparator
-                    .comparing(OwsKeyword::getType, Optionals.nullsLast())
-                    .thenComparing(OwsKeyword::getKeyword, Comparator
-                                   .comparing(OwsLanguageString::getLang, Optionals.nullsLast())
-                                   .thenComparing(OwsLanguageString::getValue)));
+    private static final Comparator<OwsKeyword> COMPARATOR =
+            Comparator.nullsLast(Comparator.comparing(OwsKeyword::getType, Optionals.nullsLast()).thenComparing(
+                    OwsKeyword::getKeyword, Comparator.comparing(OwsLanguageString::getLang, Optionals.nullsLast())
+                            .thenComparing(OwsLanguageString::getValue)));
 
     private final OwsLanguageString keyword;
     private final Optional<OwsCode> type;

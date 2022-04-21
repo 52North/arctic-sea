@@ -31,8 +31,7 @@ import com.google.common.base.MoreObjects;
  *
  * @author Christian Autermann
  */
-public class StringValueProcessData
-        extends ValueProcessData {
+public class StringValueProcessData extends ValueProcessData {
 
     private final String string;
 

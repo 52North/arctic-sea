@@ -34,8 +34,8 @@ public interface UVFConstants {
     MediaType CONTENT_TYPE_UVF_MAC = CONTENT_TYPE_UVF.withParameter(LINE_ENDING, "Mac");
 
     /**
-     * Time format to be used in UVF encoded data: <code>yyMMddHHmm</code>,
-     * e.g. <code>7001011230</code> is 01.01.1970 12:30 UTC
+     * Time format to be used in UVF encoded data: <code>yyMMddHHmm</code>, e.g. <code>7001011230</code> is
+     * 01.01.1970 12:30 UTC
      */
     String TIME_FORMAT = "yyMMddHHmm";
 
@@ -45,8 +45,8 @@ public interface UVFConstants {
     int MAX_IDENTIFIER_LENGTH = 15;
 
     /**
-     * The maximum length of a value string is limited to 10 characters. Hence, the values are shortened,
-     * e.g. <code>52.1234567890</code> will be cut to <code>52.1234567</code>
+     * The maximum length of a value string is limited to 10 characters. Hence, the values are shortened, e.g.
+     * <code>52.1234567890</code> will be cut to <code>52.1234567</code>
      */
     int MAX_VALUE_LENGTH = 10;
 
@@ -64,8 +64,7 @@ public interface UVFConstants {
      * <li>31469</li>
      * </ul>
      */
-    List<String> ALLOWED_CRS = Collections.unmodifiableList(CollectionHelper.list("31466", "31467", "31468",
-            "31469"));
+    List<String> ALLOWED_CRS = Collections.unmodifiableList(CollectionHelper.list("31466", "31467", "31468", "31469"));
 
     int MINIMUM_EPSG_CODE = 31466;
 
@@ -78,11 +77,15 @@ public interface UVFConstants {
     String LINE_ENDING_MAC = "\r";
 
     enum LineEnding {
-        Windows, Unix, Mac;
+        Windows,
+        Unix,
+        Mac;
     }
 
     enum FunktionInterpretation {
-        Linie, Blockanfang, Blockende, Summenlinie;
+        Linie,
+        Blockanfang,
+        Blockende,
+        Summenlinie;
     }
 }
-

@@ -38,8 +38,8 @@ import com.google.common.base.Strings;
 import com.google.common.io.CharStreams;
 
 /**
- * Helper class for String objects. Contains methods to join Strings, convert streams to Strings or to check for null
- * and emptiness.
+ * Helper class for String objects. Contains methods to join Strings, convert streams to Strings or to check
+ * for null and emptiness.
  *
  * @since 1.0.0
  *
@@ -51,10 +51,11 @@ public final class StringHelper {
     }
 
     /**
-     * @param toNormalize the string to normalize
+     * @param toNormalize
+     *            the string to normalize
      *
-     * @return a normalized String for use in a file path, i.e. all [\,/,:,*,?,",&lt;,&gt;,;] characters are replaced by
-     *         '_'.
+     * @return a normalized String for use in a file path, i.e. all [\,/,:,*,?,",&lt;,&gt;,;] characters are
+     *         replaced by '_'.
      */
     public static String normalize(String toNormalize) {
         // toNormalize = toNormalize.replaceAll("ä", "ae");
@@ -113,12 +114,7 @@ public final class StringHelper {
     }
 
     public static Stream<String> splitToStream(String string, String separator) {
-        return Optional.ofNullable(string)
-                .map(s -> s.split(separator))
-                .map(Arrays::stream)
-                .orElseGet(Stream::empty)
-                .map(String::trim)
-                .map(Strings::emptyToNull)
-                .filter(Objects::nonNull);
+        return Optional.ofNullable(string).map(s -> s.split(separator)).map(Arrays::stream).orElseGet(Stream::empty)
+                .map(String::trim).map(Strings::emptyToNull).filter(Objects::nonNull);
     }
 }

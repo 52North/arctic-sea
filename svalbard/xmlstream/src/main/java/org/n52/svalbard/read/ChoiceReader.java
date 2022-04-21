@@ -22,6 +22,8 @@ import javax.xml.stream.XMLStreamException;
 
 import org.n52.svalbard.decode.exception.DecodingException;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * TODO JavaDoc
  *
@@ -32,6 +34,7 @@ public abstract class ChoiceReader<T> extends XmlReader<T> {
     private final Map<QName, ? extends XmlReader<? extends T>> delegates;
     private T t;
 
+    @SuppressFBWarnings({"EI_EXPOSE_REP2"})
     public ChoiceReader(Map<QName, ? extends XmlReader<? extends T>> delegates) {
         this.delegates = delegates;
     }

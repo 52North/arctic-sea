@@ -27,11 +27,12 @@ public abstract class AbstractDataDescription extends AbstractDescription implem
         super(builder);
     }
 
-    public abstract static class AbstractBuilder<T extends DataDescription, B extends AbstractBuilder<T, B>>
-            extends AbstractDescription.AbstractBuilder<T, B>
+    public abstract static class AbstractBuilder<
+            T extends DataDescription,
+            B extends AbstractBuilder<T, B>> extends AbstractDescription.AbstractBuilder<T, B>
             implements DataDescription.Builder<T, B> {
         protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
-                                  DataDescription entity) {
+                DataDescription entity) {
             super(factory, entity);
         }
 

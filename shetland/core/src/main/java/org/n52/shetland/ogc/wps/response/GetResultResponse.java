@@ -21,6 +21,8 @@ import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.shetland.ogc.wps.Result;
 import org.n52.shetland.ogc.wps.WPSConstants;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * @author Christian Autermann
  */
@@ -32,6 +34,7 @@ public class GetResultResponse extends OwsServiceResponse {
         this(null, null, null);
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public GetResultResponse(String service, String version, Result result) {
         super(service, version);
         this.result = result;
@@ -42,10 +45,12 @@ public class GetResultResponse extends OwsServiceResponse {
         return WPSConstants.Operations.GetResult.toString();
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Result getResult() {
         return this.result;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setResult(Result result) {
         this.result = Objects.requireNonNull(result);
     }

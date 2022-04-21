@@ -29,8 +29,7 @@ import org.n52.shetland.ogc.om.features.samplingFeatures.InvalidSridException;
 import org.n52.shetland.ogc.om.values.CvDiscretePointCoverage;
 import org.n52.shetland.ogc.om.values.GeometryValue;
 
-public class PointObservation
-        extends AbstractInspireObservation {
+public class PointObservation extends AbstractInspireObservation {
 
     /**
      * constructor
@@ -67,7 +66,7 @@ public class PointObservation
     }
 
     @Override
-    public void setValue(ObservationValue<?> value) {
+    public PointObservation setValue(ObservationValue<?> value) {
         if (value instanceof StreamingValue<?>) {
             super.setValue(value);
         } else if (value.getValue() instanceof CvDiscretePointCoverage) {
@@ -100,6 +99,7 @@ public class PointObservation
             }
             super.setValue(new SingleObservationValue<>(value.getPhenomenonTime(), cvDiscretePointCoverage));
         }
+        return this;
     }
 
 }

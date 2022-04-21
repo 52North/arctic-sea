@@ -15,7 +15,9 @@
  */
 package org.n52.shetland.ogc.sos.drt;
 
+import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
@@ -24,7 +26,7 @@ import org.n52.shetland.util.CollectionHelper;
 public class DeleteResultTemplateResponse extends OwsServiceResponse {
 
     private static String OPERATION_NAME = "DeleteResultTemplate";
-    private List<String> resultTemplates;
+    private List<String> resultTemplates = new LinkedList<>();
 
     public DeleteResultTemplateResponse() {
         super(null, null, OPERATION_NAME);
@@ -44,19 +46,18 @@ public class DeleteResultTemplateResponse extends OwsServiceResponse {
     }
 
     public List<String> getResultTemplates() {
-        if (isSetResultTemplates()) {
-            return resultTemplates;
-        } else {
-            return Collections.emptyList();
-        }
+        return Collections.unmodifiableList(resultTemplates);
     }
 
     public boolean isSetResultTemplates() {
         return CollectionHelper.isNotEmpty(resultTemplates);
     }
 
-    public DeleteResultTemplateResponse addDeletedResultTemplates(List<String> deletedResultTemplates) {
-        resultTemplates = deletedResultTemplates;
+    public DeleteResultTemplateResponse addDeletedResultTemplates(Collection<String> deletedResultTemplates) {
+        this.resultTemplates.clear();
+        if (deletedResultTemplates != null) {
+            this.resultTemplates.addAll(deletedResultTemplates);
+        }
         return this;
     }
 

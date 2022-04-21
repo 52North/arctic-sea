@@ -15,11 +15,12 @@
  */
 package org.n52.shetland.ogc.ows;
 
-import com.google.common.base.Strings;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import java.util.Collection;
 import java.util.Objects;
+
+import com.google.common.base.Strings;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * TODO JavaDoc
@@ -41,31 +42,19 @@ public class OwsDomain extends OwsUnNamedDomain implements Comparable<OwsDomain>
         this(name.toString(), possibleValues, defaultValue, null, null, null, null);
     }
 
-    public OwsDomain(Enum<?> name,
-                     OwsPossibleValues possibleValues,
-                     OwsValue defaultValue,
-                     OwsDomainMetadata meaning,
-                     OwsDomainMetadata dataType,
-                     OwsValuesUnit valuesUnit,
-                     Collection<OwsMetadata> metadata) {
+    public OwsDomain(Enum<?> name, OwsPossibleValues possibleValues, OwsValue defaultValue, OwsDomainMetadata meaning,
+            OwsDomainMetadata dataType, OwsValuesUnit valuesUnit, Collection<OwsMetadata> metadata) {
         this(name.toString(), possibleValues, defaultValue, meaning, dataType, valuesUnit, metadata);
     }
 
-    public OwsDomain(String name,
-                     OwsPossibleValues possibleValues,
-                     OwsValue defaultValue) {
+    public OwsDomain(String name, OwsPossibleValues possibleValues, OwsValue defaultValue) {
         this(name, possibleValues, defaultValue, null, null, null, null);
 
     }
 
     @SuppressFBWarnings("NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
-    public OwsDomain(String name,
-                     OwsPossibleValues possibleValues,
-                     OwsValue defaultValue,
-                     OwsDomainMetadata meaning,
-                     OwsDomainMetadata dataType,
-                     OwsValuesUnit valuesUnit,
-                     Collection<OwsMetadata> metadata) {
+    public OwsDomain(String name, OwsPossibleValues possibleValues, OwsValue defaultValue, OwsDomainMetadata meaning,
+            OwsDomainMetadata dataType, OwsValuesUnit valuesUnit, Collection<OwsMetadata> metadata) {
         super(possibleValues, defaultValue, meaning, dataType, valuesUnit, metadata);
         this.name = Objects.requireNonNull(Strings.emptyToNull(name), "name");
     }

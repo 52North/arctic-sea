@@ -15,6 +15,8 @@
  */
 package org.n52.shetland.iso.gmd;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * TODO JavaDoc
  *
@@ -22,15 +24,14 @@ package org.n52.shetland.iso.gmd;
  */
 public class GmdSpecification extends AbtractGmd {
 
-    private static final GmdSpecification DATA_CAPTURE_SPECIFICATION
-            = new GmdSpecification("Data Capture", GmdCitation
-                                   .airQualityDirectiveEC502008());
-    private static final GmdSpecification TIME_COVERAGE_SPECIFICATION
-            = new GmdSpecification("Time Coverage", GmdCitation
-                                   .airQualityDirectiveEC502008());
+    private static final GmdSpecification DATA_CAPTURE_SPECIFICATION =
+            new GmdSpecification("Data Capture", GmdCitation.airQualityDirectiveEC502008());
+    private static final GmdSpecification TIME_COVERAGE_SPECIFICATION =
+            new GmdSpecification("Time Coverage", GmdCitation.airQualityDirectiveEC502008());
     private final String explanation;
     private final GmdCitation citation;
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public GmdSpecification(String explanation, GmdCitation citation) {
         this.explanation = explanation;
         this.citation = citation;
@@ -40,14 +41,17 @@ public class GmdSpecification extends AbtractGmd {
         return explanation;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public GmdCitation getCitation() {
         return citation;
     }
 
+    @SuppressFBWarnings({ "MS_EXPOSE_REP" })
     public static GmdSpecification dataCapture() {
         return DATA_CAPTURE_SPECIFICATION;
     }
 
+    @SuppressFBWarnings({ "MS_EXPOSE_REP" })
     public static GmdSpecification timeCoverage() {
         return TIME_COVERAGE_SPECIFICATION;
     }

@@ -15,10 +15,10 @@
  */
 package org.n52.shetland.w3c.xlink;
 
+import java.util.Arrays;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-
-import java.util.Arrays;
 
 /**
  * TODO JavaDoc

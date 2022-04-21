@@ -21,13 +21,14 @@ import org.n52.janmayen.http.MediaType;
 import org.n52.shetland.ogc.ows.HasExtension;
 import org.n52.shetland.ogc.ows.extension.Extensions;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * abstract super class for all service request classes
  *
  * @since 1.0.0
  */
-public abstract class OwsServiceResponse
-        extends OwsServiceCommunicationObject
+public abstract class OwsServiceResponse extends OwsServiceCommunicationObject
         implements HasExtension<OwsServiceResponse>, AutoCloseable {
 
     private MediaType contentType;
@@ -45,6 +46,7 @@ public abstract class OwsServiceResponse
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Extensions getExtensions() {
         return this.extensions;
     }

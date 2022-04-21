@@ -59,6 +59,8 @@ import org.n52.shetland.ogc.ows.service.GetCapabilitiesRequest;
 import org.n52.shetland.ogc.ows.service.GetCapabilitiesResponse;
 import org.n52.shetland.ogc.ows.service.OwsServiceKey;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * TODO JavaDoc
  *
@@ -82,6 +84,7 @@ public abstract class AbstractGetCapabilitiesHandler<T> extends AbstractOperatio
     }
 
     @Inject
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setRequestOperatorRepository(RequestOperatorRepository requestOperatorRepository) {
         this.requestOperatorRepository = requestOperatorRepository;
     }

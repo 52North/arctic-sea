@@ -17,7 +17,6 @@ package org.n52.shetland.ogc.ows.extension;
 
 import org.n52.shetland.ogc.ows.OwsCapabilitiesExtension;
 
-public interface StringBasedCapabilitiesExtension extends OwsCapabilitiesExtension,
-                                                          StringBasedExtension,
-                                                          DisableableExtension {
+public interface StringBasedCapabilitiesExtension
+        extends OwsCapabilitiesExtension, StringBasedExtension, DisableableExtension {
 }

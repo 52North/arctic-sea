@@ -17,12 +17,11 @@ package org.n52.shetland.ogc.om.features;
 
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.core.Is.is;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.jupiter.api.Test;
-
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
 import org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeature;
 

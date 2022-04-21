@@ -16,6 +16,7 @@
 package org.n52.shetland.ogc.swe;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -26,10 +27,9 @@ import org.n52.shetland.ogc.swe.simpleType.SweCount;
 
 import com.google.common.collect.Lists;
 
-public class SweDataStream
-        implements
-        HasDefaultEncoding<SweDataStream>,
-        Copyable<SweDataStream> {
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+public class SweDataStream implements HasDefaultEncoding<SweDataStream>, Copyable<SweDataStream> {
 
     /**
      * optional: swe:description[0..1]
@@ -50,7 +50,7 @@ public class SweDataStream
      * Each list entry represents one block, a list of tokens.<br />
      * Atm, this implementation using java.lang.String to represent each token.
      */
-    private List<List<String>> values;
+    private List<List<String>> values = new LinkedList<>();
 
     /**
      * swe:elementType
@@ -102,7 +102,7 @@ public class SweDataStream
      * @return the values
      */
     public List<List<String>> getValues() {
-        return values;
+        return Collections.unmodifiableList(values);
     }
 
     /**
@@ -112,13 +112,17 @@ public class SweDataStream
      * @return This SweDataStream
      */
     public SweDataStream setValues(final List<List<String>> values) {
-        this.values = values;
+        this.values.clear();
+        if (values != null) {
+            this.values.addAll(values);
+        }
         return this;
     }
 
     /**
      * @return the elementType
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SweAbstractDataComponent getElementType() {
         return elementType;
     }
@@ -128,11 +132,13 @@ public class SweDataStream
      *            the elementType to set
      * @return This SweDataStream
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweDataStream setElementType(final SweAbstractDataComponent elementType) {
         this.elementType = elementType;
         return this;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SweCount getElementCount() {
         if (isSetValues()) {
             return new SweCount().setValue(values.size());
@@ -142,10 +148,12 @@ public class SweDataStream
         return new SweCount().setValue(0);
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SweAbstractEncoding getEncoding() {
         return encoding;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweDataStream setEncoding(final SweAbstractEncoding encoding) {
         this.encoding = encoding;
         return this;
@@ -166,8 +174,7 @@ public class SweDataStream
     }
 
     /**
-     * Adds the given block - a {@link List}&lt;{@link String}&gt; - add the end of
-     * the current list of blocks
+     * Adds the given block - a {@link List}&lt;{@link String}&gt; - add the end of the current list of blocks
      *
      * @param blockOfTokensToAddAtTheEnd
      *            the blocks of tokens to add
@@ -175,16 +182,11 @@ public class SweDataStream
      *         <tt>false</tt> if block could not be added
      */
     public boolean add(final List<String> blockOfTokensToAddAtTheEnd) {
-        if (values == null) {
-            values = new LinkedList<>();
-        }
         return values.add(blockOfTokensToAddAtTheEnd);
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public boolean addAll(List<List<String>> newValues) {
-        if (values == null) {
-            values = newValues;
-        }
         return values.addAll(newValues);
     }
 
@@ -206,7 +208,7 @@ public class SweDataStream
         final int prime = 23;
         int hash = 7;
         hash = prime * hash + super.hashCode();
-        hash = prime * hash + (getValues() != null ? getValues().hashCode() : 0);
+        hash = prime * hash + getValues().hashCode();
         hash = prime * hash + (getElementType() != null ? getElementType().hashCode() : 0);
         hash = prime * hash + (getEncoding() != null ? getEncoding().hashCode() : 0);
         hash = prime * hash + (getDescription() != null ? getDescription().hashCode() : 0);
@@ -257,6 +259,7 @@ public class SweDataStream
         return encoding != null;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SweDataStream setElementCount(final SweCount elementCount) {
         this.elementCount = elementCount;
         return this;

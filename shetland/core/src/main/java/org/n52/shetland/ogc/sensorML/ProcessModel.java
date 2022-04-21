@@ -15,6 +15,8 @@
  */
 package org.n52.shetland.ogc.sensorML;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * @since 1.0.0
  *
@@ -23,10 +25,12 @@ public class ProcessModel extends AbstractProcess implements HasProcessMethod {
 
     private ProcessMethod method;
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public ProcessMethod getMethod() {
         return method;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setMethod(final ProcessMethod method) {
         this.method = method;
     }

@@ -16,6 +16,8 @@
 package org.n52.shetland.ogc.sensorML.elements;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -27,15 +29,20 @@ public class SmlDocumentationList extends AbstractSmlDocumentation {
     private List<SmlDocumentationListMember> members = new ArrayList<SmlDocumentationListMember>(0);
 
     public List<SmlDocumentationListMember> getMember() {
-        return members;
+        return Collections.unmodifiableList(members);
     }
 
-    public void setMember(List<SmlDocumentationListMember> members) {
-        this.members = members;
+    public SmlDocumentationList setMember(Collection<SmlDocumentationListMember> members) {
+        this.members.clear();
+        if (members != null) {
+            this.members.addAll(members);
+        }
+        return this;
     }
 
-    public void addMember(SmlDocumentationListMember member) {
+    public SmlDocumentationList addMember(SmlDocumentationListMember member) {
         this.members.add(member);
+        return this;
     }
 
     public boolean isSetMembers() {

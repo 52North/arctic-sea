@@ -24,12 +24,12 @@ import java.util.Comparator;
  *
  */
 public interface OwsCapabilitiesExtension extends Comparable<OwsCapabilitiesExtension> {
-    Comparator<OwsCapabilitiesExtension> COMPARATOR = Comparator
-            .comparing(OwsCapabilitiesExtension::getSectionName,
-                       Comparator.nullsLast(String::compareTo));
+    Comparator<OwsCapabilitiesExtension> COMPARATOR =
+            Comparator.comparing(OwsCapabilitiesExtension::getSectionName, Comparator.nullsLast(String::compareTo));
 
     /**
-     * Get the section name if it should be listed in the GetCapabilities OperationMetadata. E.g InsertionCapabilities.
+     * Get the section name if it should be listed in the GetCapabilities OperationMetadata. E.g
+     * InsertionCapabilities.
      *
      * @return Section name to be listed
      */

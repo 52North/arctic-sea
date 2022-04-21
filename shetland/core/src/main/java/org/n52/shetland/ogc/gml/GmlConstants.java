@@ -256,14 +256,17 @@ public interface GmlConstants {
     String VALUE_REF_GML_DESCRIPTION = "gml:description";
 
     /**
-     * Enumeration of the possible values for indeterminate Time attribute of
-     * eventtime in GetObservation request
+     * Enumeration of the possible values for indeterminate Time attribute of eventtime in GetObservation
+     * request
      *
      * @since 1.0.0
      *
      */
     enum IndetTimeValues {
-        after, before, now, unknown
+        after,
+        before,
+        now,
+        unknown
     }
 
     /**
@@ -272,17 +275,16 @@ public interface GmlConstants {
      * @since 1.0.0
      */
     enum SortingOrder {
-        ASC, DESC
+        ASC,
+        DESC
     }
 
     /**
-     * inapplicable there is no value missing the correct value is not readily
-     * available to the sender of this data. Furthermore, a correct value may
-     * not exist template the value will be available later unknown the correct
-     * value is not known to, and not computable by, the sender of this data.
-     * However, a correct value probably exists withheld the value is not
-     * divulged Not supported: other:text other brief explanation, where text is
-     * a string of two or more characters with no included spaces
+     * inapplicable there is no value missing the correct value is not readily available to the sender of this
+     * data. Furthermore, a correct value may not exist template the value will be available later unknown the
+     * correct value is not known to, and not computable by, the sender of this data. However, a correct value
+     * probably exists withheld the value is not divulged Not supported: other:text other brief explanation,
+     * where text is a string of two or more characters with no included spaces
      *
      * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
      *
@@ -290,7 +292,11 @@ public interface GmlConstants {
      *
      */
     enum NilReason {
-        inapplicable, missing, template, unknown, withheld;
+        inapplicable,
+        missing,
+        template,
+        unknown,
+        withheld;
     }
 
 }

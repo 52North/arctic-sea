@@ -23,8 +23,7 @@ import org.n52.shetland.ogc.sos.Sos1Constants;
  *
  * @since 1.0.0
  */
-public class SosDescribeFeatureTypeRequest
-        extends OwsServiceRequest {
+public class SosDescribeFeatureTypeRequest extends OwsServiceRequest {
 
     /**
      * FeatureOfInterest identifier

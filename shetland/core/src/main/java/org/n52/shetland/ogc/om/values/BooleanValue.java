@@ -19,7 +19,6 @@ import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
 import org.n52.shetland.ogc.swe.simpleType.SweBoolean;
 
-
 /**
  * Boolean measurement representation for observation
  *
@@ -44,7 +43,7 @@ public class BooleanValue extends SweBoolean implements Value<Boolean> {
      * constructor
      *
      * @param value
-     *              Measurement value
+     *            Measurement value
      */
     public BooleanValue(Boolean value) {
         super();
@@ -88,12 +87,13 @@ public class BooleanValue extends SweBoolean implements Value<Boolean> {
 
     @Override
     public String toString() {
-        return String
-                .format("BooleanValue [value=%s, unit=%s]", getValue(), getUnit());
+        return String.format("BooleanValue [value=%s, unit=%s]", getValue(), getUnit());
     }
 
     @Override
-    public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
+    public <
+            X,
+            E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
         return visitor.visit(this);
     }
 }

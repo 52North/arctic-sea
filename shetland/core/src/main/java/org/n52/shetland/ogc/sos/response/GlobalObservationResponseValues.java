@@ -19,6 +19,8 @@ import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
@@ -28,6 +30,7 @@ public class GlobalObservationResponseValues {
 
     private Time phenomenonTime;
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public GlobalObservationResponseValues addPhenomenonTime(Time phenomenonTime) {
         if (isSetPhenomenonTime()) {
             if (phenomenonTime instanceof TimeInstant) {
@@ -40,11 +43,13 @@ public class GlobalObservationResponseValues {
         return this;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public GlobalObservationResponseValues setPhenomenonTime(Time phenomenonTime) {
         this.phenomenonTime = phenomenonTime;
         return this;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Time getPhenomenonTime() {
         return phenomenonTime;
     }

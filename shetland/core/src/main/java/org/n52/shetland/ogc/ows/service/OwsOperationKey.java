@@ -28,10 +28,8 @@ import com.google.common.base.Objects;
  * @since 1.0.0
  */
 public class OwsOperationKey implements Comparable<OwsOperationKey> {
-    private static final Comparator<OwsOperationKey> COMPARATOR
-            = Comparator.comparing(OwsOperationKey::getService)
-                    .thenComparing(OwsOperationKey::getVersion)
-                    .thenComparing(OwsOperationKey::getOperation);
+    private static final Comparator<OwsOperationKey> COMPARATOR = Comparator.comparing(OwsOperationKey::getService)
+            .thenComparing(OwsOperationKey::getVersion).thenComparing(OwsOperationKey::getOperation);
     private final String service;
     // TODO should be optional because GetCapabilities does not need to have it
     private final String version;
@@ -71,8 +69,8 @@ public class OwsOperationKey implements Comparable<OwsOperationKey> {
     public boolean equals(Object obj) {
         if (obj != null && getClass() == obj.getClass()) {
             final OwsOperationKey o = (OwsOperationKey) obj;
-            return Objects.equal(getService(), o.getService()) && Objects.equal(getVersion(), o.getVersion()) &&
-                     Objects.equal(getOperation(), o.getOperation());
+            return Objects.equal(getService(), o.getService()) && Objects.equal(getVersion(), o.getVersion())
+                    && Objects.equal(getOperation(), o.getOperation());
         }
         return false;
     }

@@ -16,6 +16,7 @@
 package org.n52.shetland.ogc.ows.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 

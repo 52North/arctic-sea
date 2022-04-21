@@ -23,8 +23,9 @@ import org.n52.shetland.ogc.swe.SweAbstractDataRecord;
 
 import com.google.common.base.MoreObjects;
 
-public class ComplexValue
-        implements Value<SweAbstractDataRecord> {
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+public class ComplexValue implements Value<SweAbstractDataRecord> {
     private SweAbstractDataRecord value;
     private UoM unit;
 
@@ -32,17 +33,20 @@ public class ComplexValue
         this(null);
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public ComplexValue(SweAbstractDataRecord value) {
         this.value = value;
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public ComplexValue setValue(SweAbstractDataRecord value) {
         this.value = value;
         return this;
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SweAbstractDataRecord getValue() {
         return this.value;
     }
@@ -78,10 +82,7 @@ public class ComplexValue
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("value", this.value)
-                .add("unit", this.unit)
-                .toString();
+        return MoreObjects.toStringHelper(this).add("value", this.value).add("unit", this.unit).toString();
     }
 
     @Override
@@ -101,12 +102,13 @@ public class ComplexValue
             return false;
         }
         final ComplexValue other = (ComplexValue) obj;
-        return Objects.equals(this.value, other.value) &&
-               Objects.equals(this.unit, other.unit);
+        return Objects.equals(this.value, other.value) && Objects.equals(this.unit, other.unit);
     }
 
     @Override
-    public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
+    public <
+            X,
+            E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
         return visitor.visit(this);
     }
 

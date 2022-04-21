@@ -27,9 +27,7 @@ import org.n52.shetland.util.IdGenerator;
  * @since 1.0.0
  *
  */
-public class GeometryValue
-        extends AbstractGeometry
-        implements Value<Geometry> {
+public class GeometryValue extends AbstractGeometry implements Value<Geometry> {
     private static final String GML_ID_PREFIX = "sp_";
     /**
      * Unit of measure
@@ -104,7 +102,9 @@ public class GeometryValue
     }
 
     @Override
-    public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
+    public <
+            X,
+            E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
         return visitor.visit(this);
     }
 }

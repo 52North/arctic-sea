@@ -17,6 +17,7 @@ package org.n52.iceland.statistics.api;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -141,7 +142,7 @@ public class ElasticsearchSettings {
     }
 
     public List<String> getClusterNodes() {
-        return clusterNodes;
+        return new LinkedList<>(clusterNodes);
     }
 
     /**

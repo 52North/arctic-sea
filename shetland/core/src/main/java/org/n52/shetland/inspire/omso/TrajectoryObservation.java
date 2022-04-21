@@ -42,8 +42,7 @@ import org.n52.shetland.util.IdGenerator;
 
 import com.google.common.collect.Lists;
 
-public class TrajectoryObservation
-        extends AbstractInspireObservation {
+public class TrajectoryObservation extends AbstractInspireObservation {
 
     /**
      * constructor
@@ -86,7 +85,7 @@ public class TrajectoryObservation
 
     @SuppressWarnings("rawtypes")
     @Override
-    public void setValue(ObservationValue<?> value) {
+    public TrajectoryObservation setValue(ObservationValue<?> value) {
         if (value instanceof StreamingValue || value.getValue() instanceof TLVTValue) {
             super.setValue(value);
         } else {
@@ -118,15 +117,17 @@ public class TrajectoryObservation
             }
             super.setValue(multiValue);
         }
+        return this;
     }
 
     @Override
-    public void mergeWithObservation(OmObservation observation) {
+    public TrajectoryObservation mergeWithObservation(OmObservation observation) {
         if (observation instanceof TrajectoryObservation) {
             mergeValues(observation.getValue());
         } else {
             super.mergeWithObservation(observation);
         }
+        return this;
     }
 
     protected boolean mergeValues(ObservationValue<?> observationValue) {
@@ -145,12 +146,10 @@ public class TrajectoryObservation
     }
 
     /**
-     * Create geometry for featureOfInterest from
-     * {@link TimeLocationValueTriple}s
+     * Create geometry for featureOfInterest from {@link TimeLocationValueTriple}s
      *
      * @param values
-     *            The {@link TimeLocationValueTriple}s to check for
-     *            featureOfInterest
+     *            The {@link TimeLocationValueTriple}s to check for featureOfInterest
      */
     private void checkForFeature(List<TimeLocationValueTriple> values) {
         AbstractFeature featureOfInterest = getObservationConstellation().getFeatureOfInterest();
@@ -187,8 +186,7 @@ public class TrajectoryObservation
      * Get {@link Coordinate}s from the {@link TimeLocationValueTriple}s
      *
      * @param values
-     *            The {@link TimeLocationValueTriple}s to get {@link Coordinate}
-     *            s from
+     *            The {@link TimeLocationValueTriple}s to get {@link Coordinate} s from
      * @return The coordinates
      */
     private Coordinate[] getCoordinates(List<TimeLocationValueTriple> values) {

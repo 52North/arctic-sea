@@ -38,6 +38,8 @@ import org.n52.shetland.rdf.dct.Spatial;
 import org.n52.shetland.rdf.dct.Theme;
 import org.n52.shetland.rdf.dct.Title;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class Dataset extends AbstractTitleDescription<Dataset> implements ResourceAdder, DcatRdfPrefix {
 
     /*
@@ -131,7 +133,7 @@ public class Dataset extends AbstractTitleDescription<Dataset> implements Resour
     }
 
     public List<Identifier> getIdentifiers() {
-        return identifiers;
+        return new LinkedList<>(identifiers);
     }
 
     public Dataset setIdentifiers(Collection<Identifier> identifiers) {
@@ -150,7 +152,7 @@ public class Dataset extends AbstractTitleDescription<Dataset> implements Resour
     }
 
     public List<Keyword> getKeywords() {
-        return keywords;
+        return new LinkedList<>(keywords);
     }
 
     public Dataset setKeywords(Collection<Keyword> keywords) {
@@ -168,17 +170,19 @@ public class Dataset extends AbstractTitleDescription<Dataset> implements Resour
         return this;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public AccrualPeriodicity getAccrualPeriodicity() {
         return accrualPeriodicity;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public Dataset setAccrualPeriodicity(AccrualPeriodicity accrualPeriodicity) {
         this.accrualPeriodicity = accrualPeriodicity;
         return this;
     }
 
     public List<Theme> getThemes() {
-        return themes;
+        return new LinkedList<>(themes);
     }
 
     public Dataset setThemes(Collection<Theme> themes) {
@@ -196,17 +200,19 @@ public class Dataset extends AbstractTitleDescription<Dataset> implements Resour
         return this;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Publisher getPublisher() {
         return publisher;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public Dataset setPublisher(Publisher publisher) {
         this.publisher = publisher;
         return this;
     }
 
     public List<Language> getLanguages() {
-        return languages;
+        return new LinkedList<>(languages);
     }
 
     public Dataset setLanguages(Collection<Language> languages) {
@@ -224,26 +230,30 @@ public class Dataset extends AbstractTitleDescription<Dataset> implements Resour
         return this;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Issued getIssued() {
         return issued;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public License getLicense() {
         return license;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public Dataset setLicense(License license) {
         this.license = license;
         return this;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public Dataset setIssued(Issued issued) {
         this.issued = issued;
         return this;
     }
 
     public List<ThemeTaxonomy> getThemeTaxonomies() {
-        return themeTaxonomies;
+        return new LinkedList<>(themeTaxonomies);
     }
 
     public Dataset setThemeTaxonomies(Collection<ThemeTaxonomy> themeTaxonomies) {
@@ -261,17 +271,19 @@ public class Dataset extends AbstractTitleDescription<Dataset> implements Resour
         return this;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Modified getModified() {
         return modified;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public Dataset setModified(Modified modified) {
         this.modified = modified;
         return this;
     }
 
     public List<ContactPoint> getContactPoints() {
-        return contactPoints;
+        return new LinkedList<>(contactPoints);
     }
 
     public Dataset setContactPoints(Collection<ContactPoint> contactPoints) {
@@ -289,17 +301,19 @@ public class Dataset extends AbstractTitleDescription<Dataset> implements Resour
         return this;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public AccessRights getAccessRights() {
         return accessRights;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public Dataset setAccessRights(AccessRights accessRights) {
         this.accessRights = accessRights;
         return this;
     }
 
     public List<LandingPage> getLandingPages() {
-        return landingPages;
+        return new LinkedList<>(landingPages);
     }
 
     public Dataset setLandingPages(Collection<LandingPage> landingPages) {
@@ -311,7 +325,7 @@ public class Dataset extends AbstractTitleDescription<Dataset> implements Resour
     }
 
     public List<DistributionProperty> getDistributions() {
-        return distributions;
+        return new LinkedList<>(distributions);
     }
 
     public Dataset setDistributions(Collection<DistributionProperty> distributions) {
@@ -337,7 +351,7 @@ public class Dataset extends AbstractTitleDescription<Dataset> implements Resour
     }
 
     public List<Spatial> getSpatials() {
-        return spatials;
+        return new LinkedList<>(spatials);
     }
 
     public Dataset setSpatials(Collection<Spatial> spatials) {

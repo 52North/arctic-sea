@@ -20,8 +20,8 @@ import javax.xml.namespace.QName;
 import org.n52.shetland.w3c.SchemaLocation;
 
 /**
- * Constants interface for INSPIRE. Provides element names, prefixes,
- * namespaces, {@link SchemaLocation}, {@link QName}
+ * Constants interface for INSPIRE. Provides element names, prefixes, namespaces, {@link SchemaLocation},
+ * {@link QName}
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
@@ -37,8 +37,8 @@ public interface InspireConstants {
 
     String SCHEMA_LOCATION_URL_INSPIRE_COMMON = "http://inspire.ec.europa.eu/schemas/common/1.0/common.xsd";
 
-    SchemaLocation INSPIRE_COMMON_10_SCHEMA_LOCATION = new SchemaLocation(NS_INSPIRE_COMMON,
-            SCHEMA_LOCATION_URL_INSPIRE_COMMON);
+    SchemaLocation INSPIRE_COMMON_10_SCHEMA_LOCATION =
+            new SchemaLocation(NS_INSPIRE_COMMON, SCHEMA_LOCATION_URL_INSPIRE_COMMON);
 
     String NS_INSPIRE_DLS = "http://inspire.ec.europa.eu/schemas/inspire_dls/1.0";
 
@@ -164,8 +164,8 @@ public interface InspireConstants {
 
     QName QN_CRS = new QName(NS_INSPIRE_DLS, EN_CRS, NS_INSPIRE_DLS_PREFIX);
 
-    QName QN_SPATIAL_DATASET_IDENTIFIER = new QName(NS_INSPIRE_DLS, EN_SPATIAL_DATASET_IDENTIFIER,
-            NS_INSPIRE_DLS_PREFIX);
+    QName QN_SPATIAL_DATASET_IDENTIFIER =
+            new QName(NS_INSPIRE_DLS, EN_SPATIAL_DATASET_IDENTIFIER, NS_INSPIRE_DLS_PREFIX);
 
     QName QN_CODE = new QName(NS_INSPIRE_COMMON, EN_CODE, NS_INSPIRE_COMMON_PREFIX);
 
@@ -175,8 +175,8 @@ public interface InspireConstants {
 
     QName QN_RESOURCE_TYPE = new QName(NS_INSPIRE_COMMON, EN_RESOURCE_TYPE, NS_INSPIRE_COMMON_PREFIX);
 
-    QName QN_SPATIAL_DATA_SERVICE_TYPE = new QName(NS_INSPIRE_COMMON, EN_SPATIAL_DATA_SERVICE_TYPE,
-            NS_INSPIRE_COMMON_PREFIX);
+    QName QN_SPATIAL_DATA_SERVICE_TYPE =
+            new QName(NS_INSPIRE_COMMON, EN_SPATIAL_DATA_SERVICE_TYPE, NS_INSPIRE_COMMON_PREFIX);
 
     QName QN_TEMPORAL_REFERENCE = new QName(NS_INSPIRE_COMMON, EN_TEMPORAL_REFERENCE, NS_INSPIRE_COMMON_PREFIX);
 
@@ -192,8 +192,8 @@ public interface InspireConstants {
 
     QName QN_DEGREE = new QName(NS_INSPIRE_COMMON, EN_DEGREE, NS_INSPIRE_COMMON_PREFIX);
 
-    QName QN_METADATA_POINT_OF_CONTACT = new QName(NS_INSPIRE_COMMON, EN_METADATA_POINT_OF_CONTACT,
-            NS_INSPIRE_COMMON_PREFIX);
+    QName QN_METADATA_POINT_OF_CONTACT =
+            new QName(NS_INSPIRE_COMMON, EN_METADATA_POINT_OF_CONTACT, NS_INSPIRE_COMMON_PREFIX);
 
     QName QN_METADATA_DATE = new QName(NS_INSPIRE_COMMON, EN_METADATA_DATE, NS_INSPIRE_COMMON_PREFIX);
 

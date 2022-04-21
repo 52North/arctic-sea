@@ -18,21 +18,21 @@ package org.n52.shetland.util;
 import java.io.Serializable;
 import java.util.Objects;
 
-import com.google.common.base.Joiner;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Envelope;
 import org.locationtech.jts.geom.Geometry;
 
+import com.google.common.base.Joiner;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
- * Class for internal Envelope representation TODO should this class offer
- * merging capabilities like SosEnvelope.expandTo(SosEnvelope) considering
- * coordinate transformations?
+ * Class for internal Envelope representation TODO should this class offer merging capabilities like
+ * SosEnvelope.expandTo(SosEnvelope) considering coordinate transformations?
  *
  * @since 1.0.0
  */
-public class ReferencedEnvelope
-        implements
-        Serializable {
+public class ReferencedEnvelope implements Serializable {
     private static final long serialVersionUID = 6525679408878064331L;
 
     /**
@@ -74,6 +74,7 @@ public class ReferencedEnvelope
      *
      * @return the envelope
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Envelope getEnvelope() {
         return envelope;
     }
@@ -114,14 +115,14 @@ public class ReferencedEnvelope
      *
      * @return {@code this}
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public ReferencedEnvelope setEnvelope(Envelope envelope) {
         this.envelope = envelope;
         return this;
     }
 
     /**
-     * Creates the minimum and maximum values of this envelope in the default
-     * EPSG.
+     * Creates the minimum and maximum values of this envelope in the default EPSG.
      *
      * @return the {@code MinMax} describing the envelope
      */

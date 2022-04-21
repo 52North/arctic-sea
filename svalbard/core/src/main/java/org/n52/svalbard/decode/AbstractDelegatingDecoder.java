@@ -17,6 +17,8 @@ package org.n52.svalbard.decode;
 
 import javax.inject.Inject;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * TODO JavaDoc
  *
@@ -26,11 +28,13 @@ public abstract class AbstractDelegatingDecoder<T, S> implements Decoder<T, S> {
 
     private DecoderRepository decoderRepository;
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public DecoderRepository getDecoderRepository() {
         return decoderRepository;
     }
 
     @Inject
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setDecoderRepository(DecoderRepository decoderRepository) {
         this.decoderRepository = decoderRepository;
     }

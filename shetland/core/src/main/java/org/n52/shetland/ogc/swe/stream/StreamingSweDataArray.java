@@ -23,6 +23,8 @@ import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
 import org.n52.shetland.ogc.swe.encoding.SweAbstractEncoding;
 import org.n52.shetland.ogc.swe.simpleType.SweCount;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class StreamingSweDataArray extends SweAbstractDataComponent {
 
     /**
@@ -47,6 +49,7 @@ public class StreamingSweDataArray extends SweAbstractDataComponent {
     /**
      * @return the values
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public StreamingValue<?> getValues() {
         return values;
     }
@@ -54,10 +57,11 @@ public class StreamingSweDataArray extends SweAbstractDataComponent {
     /**
      *
      * @param values
-     *               the values to set
+     *            the values to set
      *
      * @return This SweDataArray
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public StreamingSweDataArray setValues(final StreamingValue<?> values) {
         this.values = values;
         return this;
@@ -66,18 +70,19 @@ public class StreamingSweDataArray extends SweAbstractDataComponent {
     /**
      * @return the elementType
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SweAbstractDataComponent getElementType() {
         return elementType;
     }
 
     /**
      * @param elementType
-     *                    the elementType to set
+     *            the elementType to set
      *
      * @return This SweDataArray
      */
-    public StreamingSweDataArray setElementType(
-            final SweAbstractDataComponent elementType) {
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public StreamingSweDataArray setElementType(final SweAbstractDataComponent elementType) {
         this.elementType = elementType;
         return this;
     }
@@ -86,10 +91,12 @@ public class StreamingSweDataArray extends SweAbstractDataComponent {
         return new SweCount();
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SweAbstractEncoding getEncoding() {
         return encoding;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public StreamingSweDataArray setEncoding(final SweAbstractEncoding encoding) {
         this.encoding = encoding;
         return this;
@@ -110,6 +117,7 @@ public class StreamingSweDataArray extends SweAbstractDataComponent {
         return encoding != null;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public StreamingSweDataArray setElementCount(final SweCount elementCount) {
         this.elementCount = elementCount;
         return this;
@@ -148,12 +156,15 @@ public class StreamingSweDataArray extends SweAbstractDataComponent {
     }
 
     @Override
-    public <T, X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
+    public <
+            T,
+            X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
         return visitor.visit(this);
     }
 
     @Override
-    public <X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
+    public <
+            X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
         visitor.visit(this);
     }
 

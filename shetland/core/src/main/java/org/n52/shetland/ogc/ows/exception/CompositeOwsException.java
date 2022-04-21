@@ -34,8 +34,8 @@ import org.n52.janmayen.function.ThrowingConsumer;
 import org.n52.janmayen.function.ThrowingRunnable;
 
 /**
- * Composite {@link OwsExceptionReport} which can contain several
- * {@link OwsExceptionReport}s which were thrown
+ * Composite {@link OwsExceptionReport} which can contain several {@link OwsExceptionReport}s which were
+ * thrown
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  *
@@ -63,9 +63,7 @@ public class CompositeOwsException extends OwsExceptionReport {
 
     public final CompositeOwsException add(Collection<? extends OwsExceptionReport> exceptions) {
         if (exceptions != null) {
-            exceptions.stream()
-                    .map(OwsExceptionReport::getExceptions)
-                    .forEach(this.exceptions::addAll);
+            exceptions.stream().map(OwsExceptionReport::getExceptions).forEach(this.exceptions::addAll);
 
             if (getCause() == null && !this.exceptions.isEmpty()) {
                 initCause(this.exceptions.get(0));
@@ -109,7 +107,8 @@ public class CompositeOwsException extends OwsExceptionReport {
         }
     }
 
-    public <T> Optional<T> wrap(ThrowingCallable<T, OwsExceptionReport> runnable) {
+    public <
+            T> Optional<T> wrap(ThrowingCallable<T, OwsExceptionReport> runnable) {
         try {
             return Optional.ofNullable(runnable.call());
         } catch (OwsExceptionReport e) {
@@ -118,20 +117,22 @@ public class CompositeOwsException extends OwsExceptionReport {
         }
     }
 
-    public static <T> Collector<? super T, ?, CompositeOwsException> toCompositeException(
-            ThrowingConsumer<? super T, ? extends OwsExceptionReport> fun) {
+    public static <
+            T> Collector<? super T, ?, CompositeOwsException> toCompositeException(
+                    ThrowingConsumer<? super T, ? extends OwsExceptionReport> fun) {
         return new ExceptionCollector<>(fun);
     }
 
-    public static <T> void check(Stream<? extends T> stream,
-            ThrowingConsumer<? super T, ? extends OwsExceptionReport> consumer)
-            throws OwsExceptionReport {
+    public static <
+            T> void check(Stream<? extends T> stream,
+                    ThrowingConsumer<? super T, ? extends OwsExceptionReport> consumer) throws OwsExceptionReport {
         CompositeOwsException exceptions = new CompositeOwsException();
         stream.forEach(t -> exceptions.wrap(() -> consumer.accept(t)));
         exceptions.throwIfNotEmpty();
     }
 
-    private static class ExceptionCollector<T> implements Collector<T, CompositeOwsException, CompositeOwsException> {
+    private static class ExceptionCollector<
+            T> implements Collector<T, CompositeOwsException, CompositeOwsException> {
         private final ThrowingConsumer<? super T, ? extends OwsExceptionReport> fun;
 
         ExceptionCollector(ThrowingConsumer<? super T, ? extends OwsExceptionReport> fun) {

@@ -18,9 +18,8 @@
  */
 package org.n52.shetland.util;
 
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
-
 import org.locationtech.jts.geom.Geometry;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
 /**
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>

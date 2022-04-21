@@ -28,7 +28,8 @@ import org.n52.shetland.ogc.om.values.Value;
  * @param <T>
  *            observation value type
  */
-public interface ObservationValue<T extends Value<?>> {
+public interface ObservationValue<
+        T extends Value<?>> {
 
     /**
      * Get phenomenon or sampling time of the observation

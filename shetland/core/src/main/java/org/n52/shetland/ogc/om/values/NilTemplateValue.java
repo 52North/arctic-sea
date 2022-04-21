@@ -24,8 +24,7 @@ import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
  * @since 1.0.0
  *
  */
-public class NilTemplateValue
-        implements Value<String> {
+public class NilTemplateValue implements Value<String> {
 
     /**
      * Unit of measure
@@ -77,7 +76,9 @@ public class NilTemplateValue
     }
 
     @Override
-    public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
+    public <
+            X,
+            E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
         return visitor.visit(this);
     }
 }

@@ -15,12 +15,12 @@
  */
 package org.n52.shetland.ogc.wps;
 
-import org.n52.shetland.util.CollectionHelper;
-
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.SortedSet;
+
+import org.n52.shetland.util.CollectionHelper;
 
 /**
  * TODO JavaDoc

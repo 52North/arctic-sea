@@ -192,7 +192,7 @@ public class UVFEncoder implements ObservationEncoder<BinaryAttachmentResponse, 
 
     @Override
     public Set<EncoderKey> getKeys() {
-        return ENCODER_KEYS;
+        return Collections.unmodifiableSet(ENCODER_KEYS);
     }
 
     @Override

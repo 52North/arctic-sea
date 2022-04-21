@@ -15,7 +15,9 @@
  */
 package org.n52.shetland.ogc.sos.request;
 
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
@@ -24,6 +26,8 @@ import org.n52.shetland.ogc.sos.SosProcedureDescription;
 import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.base.Strings;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * class represents a updateSensor request
@@ -38,7 +42,7 @@ public class UpdateSensorRequest extends OwsServiceRequest {
     /**
      * SOS SensorML description
      */
-    private List<SosProcedureDescription<?>> procedureDescriptions;
+    private List<SosProcedureDescription<?>> procedureDescriptions = new LinkedList<>();
 
     /**
      * default constructor
@@ -64,7 +68,7 @@ public class UpdateSensorRequest extends OwsServiceRequest {
 
     /**
      * @param procedureIdentifier
-     *                            the procedureIdentifier to set
+     *            the procedureIdentifier to set
      */
     public void setProcedureIdentifier(String procedureIdentifier) {
         this.procedureIdentifier = procedureIdentifier;
@@ -87,18 +91,21 @@ public class UpdateSensorRequest extends OwsServiceRequest {
     }
 
     public List<SosProcedureDescription<?>> getProcedureDescriptions() {
-        return procedureDescriptions;
+        return Collections.unmodifiableList(procedureDescriptions);
     }
 
-    public void setProcedureDescriptions(List<SosProcedureDescription<?>> procedureDescriptions) {
-        this.procedureDescriptions = procedureDescriptions;
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public void setProcedureDescriptions(Collection<SosProcedureDescription<?>> procedureDescriptions) {
+        this.procedureDescriptions.clear();
+        if (procedureDescriptions != null) {
+            this.procedureDescriptions.addAll(procedureDescriptions);
+        }
     }
 
     public void addProcedureDescriptionString(SosProcedureDescription<?> procedureDescription) {
-        if (procedureDescriptions == null) {
-            procedureDescriptions = new ArrayList<>();
+        if (procedureDescription != null) {
+            procedureDescriptions.add(procedureDescription);
         }
-        procedureDescriptions.add(procedureDescription);
     }
 
     public boolean isSetProcedureDescriptions() {

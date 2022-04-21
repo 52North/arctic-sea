@@ -15,18 +15,16 @@
  */
 package org.n52.shetland.ogc.gml;
 
+import org.n52.shetland.ogc.HasDefaultEncoding;
 import org.n52.shetland.ogc.om.features.samplingFeatures.FeatureOfInterestVisitor;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
 import com.google.common.base.Strings;
 
-import org.n52.shetland.ogc.HasDefaultEncoding;
-
 /**
- * Abstract class for encoding the feature of interest. Necessary because
- * different feature types should be supported. The database or another
- * feature source (e.g. WFS) should provide information about the application
- * schema.
+ * Abstract class for encoding the feature of interest. Necessary because different feature types should be
+ * supported. The database or another feature source (e.g. WFS) should provide information about the
+ * application schema.
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
@@ -89,7 +87,8 @@ public abstract class AbstractFeature extends AbstractGML implements HasDefaultE
     }
 
     /**
-     * @param xml the xml to set
+     * @param xml
+     *            the xml to set
      */
     public AbstractFeature setXml(String xml) {
         this.xml = xml;
@@ -105,10 +104,11 @@ public abstract class AbstractFeature extends AbstractGML implements HasDefaultE
     }
 
     public void wasEncoded() {
-        this.wasEncoded  = true;
+        this.wasEncoded = true;
     }
 
-    public <X> X accept(FeatureOfInterestVisitor<X> visitor) throws OwsExceptionReport {
+    public <
+            X> X accept(FeatureOfInterestVisitor<X> visitor) throws OwsExceptionReport {
         return null;
     }
 }

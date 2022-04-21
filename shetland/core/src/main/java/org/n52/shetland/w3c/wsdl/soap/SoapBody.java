@@ -38,7 +38,8 @@ public class SoapBody extends ExtensibilityElement {
     }
 
     /**
-     * @param use the use to set
+     * @param use
+     *            the use to set
      */
     public void setUse(String use) {
         this.use = use;
@@ -72,6 +73,5 @@ public class SoapBody extends ExtensibilityElement {
         }
         return Comparables.compare(getQName().getNamespaceURI(), o.getQName().getNamespaceURI());
     }
-
 
 }

@@ -15,13 +15,13 @@
  */
 package org.n52.shetland.ogc.wps.description;
 
-import org.n52.janmayen.stream.Streams;
-import org.n52.shetland.ogc.ows.OwsCode;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Stream;
+
+import org.n52.janmayen.stream.Streams;
+import org.n52.shetland.ogc.ows.OwsCode;
 
 /**
  * @author Christian Autermann
@@ -38,9 +38,9 @@ public interface ProcessInputDescriptionContainer extends Description {
 
     Set<OwsCode> getInputs();
 
-    interface Builder<T extends ProcessInputDescriptionContainer,
-                             B extends ProcessInputDescriptionContainer.Builder<T, B>>
-            extends Description.Builder<T, B> {
+    interface Builder<
+            T extends ProcessInputDescriptionContainer,
+            B extends ProcessInputDescriptionContainer.Builder<T, B>> extends Description.Builder<T, B> {
 
         B withInput(ProcessInputDescription input);
 

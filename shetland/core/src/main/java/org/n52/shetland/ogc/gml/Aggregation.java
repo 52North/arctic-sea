@@ -24,6 +24,11 @@ package org.n52.shetland.ogc.gml;
  */
 public enum Aggregation {
 
-    set, bag, sequence, array, record, table;
+    set,
+    bag,
+    sequence,
+    array,
+    record,
+    table;
 
 }

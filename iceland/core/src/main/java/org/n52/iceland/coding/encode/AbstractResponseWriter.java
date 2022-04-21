@@ -18,6 +18,8 @@ package org.n52.iceland.coding.encode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import org.n52.janmayen.http.MediaType;
 import org.n52.janmayen.http.MediaTypes;
 import org.n52.shetland.ogc.ows.service.ResponseFormat;
@@ -38,6 +40,7 @@ public abstract class AbstractResponseWriter<T> implements ResponseWriter<T> {
     private MediaType contentType;
     private final EncoderRepository encoderRepository;
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public AbstractResponseWriter(EncoderRepository encoderRepository) {
         this.encoderRepository = encoderRepository;
     }

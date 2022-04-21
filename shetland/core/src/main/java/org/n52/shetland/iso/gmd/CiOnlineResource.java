@@ -28,8 +28,7 @@ import com.google.common.base.Strings;
  * @since 1.0.0
  *
  */
-public class CiOnlineResource
-        extends AbstractObject {
+public class CiOnlineResource extends AbstractObject {
 
     /* 1..1 */
     private Nillable<URI> linkage;

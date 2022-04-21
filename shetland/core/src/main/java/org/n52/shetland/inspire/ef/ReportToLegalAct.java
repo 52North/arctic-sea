@@ -20,6 +20,8 @@ import java.net.URI;
 import org.n52.shetland.inspire.base2.LegislationCitation;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class ReportToLegalAct {
 
     /**
@@ -55,13 +57,16 @@ public class ReportToLegalAct {
     /**
      * @return the legalAct
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public LegislationCitation getLegalAct() {
         return legalAct;
     }
 
     /**
-     * @param legalAct the legalAct to set
+     * @param legalAct
+     *            the legalAct to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setLegalAct(LegislationCitation legalAct) {
         this.legalAct = legalAct;
     }
@@ -69,13 +74,16 @@ public class ReportToLegalAct {
     /**
      * @return the reportDate
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public TimeInstant getReportDate() {
         return reportDate;
     }
 
     /**
-     * @param reportDate the reportDate to set
+     * @param reportDate
+     *            the reportDate to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setReportDate(TimeInstant reportDate) {
         this.reportDate = reportDate;
     }
@@ -88,7 +96,8 @@ public class ReportToLegalAct {
     }
 
     /**
-     * @param reportedEnvelope the reportedEnvelope to set
+     * @param reportedEnvelope
+     *            the reportedEnvelope to set
      */
     public void setReportedEnvelope(URI reportedEnvelope) {
         this.reportedEnvelope = reportedEnvelope;
@@ -102,7 +111,8 @@ public class ReportToLegalAct {
     }
 
     /**
-     * @param observationRequired the observationRequired to set
+     * @param observationRequired
+     *            the observationRequired to set
      */
     public void setObservationRequired(boolean observationRequired) {
         this.observationRequired = observationRequired;
@@ -116,7 +126,8 @@ public class ReportToLegalAct {
     }
 
     /**
-     * @param observingCapabilityRequired the observingCapabilityRequired to set
+     * @param observingCapabilityRequired
+     *            the observingCapabilityRequired to set
      */
     public void setObservingCapabilityRequired(boolean observingCapabilityRequired) {
         this.observingCapabilityRequired = observingCapabilityRequired;
@@ -130,7 +141,8 @@ public class ReportToLegalAct {
     }
 
     /**
-     * @param description the description to set
+     * @param description
+     *            the description to set
      */
     public void setDescription(String description) {
         this.description = description;

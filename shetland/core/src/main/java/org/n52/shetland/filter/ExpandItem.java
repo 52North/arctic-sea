@@ -15,9 +15,9 @@
  */
 package org.n52.shetland.filter;
 
-import org.n52.shetland.oasis.odata.query.option.QueryOptions;
-
 import java.util.Objects;
+
+import org.n52.shetland.oasis.odata.query.option.QueryOptions;
 
 public class ExpandItem {
 
@@ -44,11 +44,13 @@ public class ExpandItem {
         return queryOptions;
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
         return Objects.hash(path, Objects.hashCode(queryOptions));
     }
 
-    @Override public boolean equals(Object o) {
+    @Override
+    public boolean equals(Object o) {
         if (o == this) {
             return true;
         }
@@ -57,11 +59,12 @@ public class ExpandItem {
             return false;
         }
 
-        return Objects.equals(this.path, ((ExpandItem) o).getPath()) &&
-                Objects.equals(this.queryOptions, ((ExpandItem) o).getQueryOptions());
+        return Objects.equals(this.path, ((ExpandItem) o).getPath())
+                && Objects.equals(this.queryOptions, ((ExpandItem) o).getQueryOptions());
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
         return path + "(" + getQueryOptions().toString() + ")";
     }
 }

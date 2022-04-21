@@ -15,6 +15,8 @@
  */
 package org.n52.shetland.ogc.sensorML.elements;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * @since 1.0.0
  *
@@ -29,6 +31,7 @@ public class SmlDocumentationListMember {
         return name;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SmlDocumentation getDocumentation() {
         return documentation;
     }
@@ -37,8 +40,10 @@ public class SmlDocumentationListMember {
         this.name = name;
     }
 
-    public void setDocumentation(SmlDocumentation documentation) {
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public SmlDocumentationListMember setDocumentation(SmlDocumentation documentation) {
         this.documentation = documentation;
+        return this;
     }
 
 }

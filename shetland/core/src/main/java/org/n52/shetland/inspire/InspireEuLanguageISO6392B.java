@@ -54,7 +54,8 @@ public enum InspireEuLanguageISO6392B {
     /**
      * constructor
      *
-     * @param v the three character language string
+     * @param v
+     *            the three character language string
      */
     InspireEuLanguageISO6392B(String v) {
         value = v;
@@ -91,10 +92,8 @@ public enum InspireEuLanguageISO6392B {
      * Get {@link InspireEuLanguageISO6392B} for {@link InspireLanguageISO6392B}
      *
      * @param v
-     *            {@link InspireLanguageISO6392B} to get
-     *            {@link InspireEuLanguageISO6392B} for
-     * @return {@link InspireEuLanguageISO6392B} of
-     *         {@link InspireLanguageISO6392B}
+     *            {@link InspireLanguageISO6392B} to get {@link InspireEuLanguageISO6392B} for
+     * @return {@link InspireEuLanguageISO6392B} of {@link InspireLanguageISO6392B}
      * @throws IllegalArgumentException
      *             if the {@link InspireLanguageISO6392B} is invalid
      */

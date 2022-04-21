@@ -15,7 +15,8 @@
  */
 package org.n52.shetland.ogc.ows.extension;
 
-public interface Extension<T> {
+public interface Extension<
+        T> {
 
     String getNamespace();
 

@@ -23,11 +23,14 @@ import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.exception.NoDecoderForKeyException;
 import org.n52.svalbard.util.CodingHelper;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public abstract class AbstractStringRequestDecoder implements Decoder<OwsServiceCommunicationObject, String> {
 
     private DecoderRepository decoderRepository;
 
     @Inject
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setDecoderRepository(DecoderRepository decoderRepository) {
         this.decoderRepository = decoderRepository;
     }

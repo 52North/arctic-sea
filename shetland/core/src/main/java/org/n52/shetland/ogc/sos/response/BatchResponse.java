@@ -26,6 +26,8 @@ import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.shetland.ogc.sos.BatchConstants;
 import org.n52.shetland.ogc.sos.response.BatchResponse.ExceptionOrResponse;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * TODO JavaDoc
  *
@@ -34,25 +36,26 @@ import org.n52.shetland.ogc.sos.response.BatchResponse.ExceptionOrResponse;
  * @since 1.0.0
  */
 public class BatchResponse extends OwsServiceResponse implements Iterable<ExceptionOrResponse> {
-    private final List<ExceptionOrResponse> responses;
+    private final List<ExceptionOrResponse> responses = new LinkedList<ExceptionOrResponse>();
 
     public BatchResponse() {
         this(new LinkedList<>());
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public BatchResponse(List<ExceptionOrResponse> responses) {
-        super(null, null, BatchConstants.OPERATION_NAME);
-        this.responses = responses;
+        this(null, null, responses);
     }
 
     public BatchResponse(String service, String version, List<ExceptionOrResponse> responses) {
-        super(service, version, BatchConstants.OPERATION_NAME);
-        this.responses = responses;
+        this(service, version, BatchConstants.OPERATION_NAME, responses);
     }
 
     public BatchResponse(String service, String version, String operationName, List<ExceptionOrResponse> responses) {
         super(service, version, operationName);
-        this.responses = responses;
+        if (responses != null) {
+            this.responses.addAll(responses);
+        }
     }
 
     public List<ExceptionOrResponse> getResponses() {
@@ -102,10 +105,12 @@ public class BatchResponse extends OwsServiceResponse implements Iterable<Except
             return exception != null;
         }
 
+        @SuppressFBWarnings({ "EI_EXPOSE_REP" })
         public OwsExceptionReport getException() {
             return exception;
         }
 
+        @SuppressFBWarnings({ "EI_EXPOSE_REP" })
         public OwsServiceResponse getResponse() {
             return response;
         }

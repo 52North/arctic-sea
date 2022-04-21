@@ -38,9 +38,7 @@ public class Extensions {
     }
 
     public boolean addExtension(Collection<Extension<?>> extensions) {
-        return extensions.stream()
-                .map(this::addExtension)
-                .reduce(false, (ret, changed) -> ret || changed);
+        return extensions.stream().map(this::addExtension).reduce(false, (ret, changed) -> ret || changed);
     }
 
     public boolean addExtension(Extension<?> extensions) {
@@ -61,15 +59,12 @@ public class Extensions {
     }
 
     public boolean containsExtension(String identifier) {
-        return this.extensions.stream()
-                .filter(e -> checkExtensionName(identifier, e))
-                .findAny().isPresent();
+        return this.extensions.stream().filter(e -> checkExtensionName(identifier, e)).findAny().isPresent();
     }
 
     public int countExtensions(String identifier) {
-        return this.extensions.stream()
-                .filter(e -> checkExtensionName(identifier, e))
-                .collect(Collectors.toSet()).size();
+        return this.extensions.stream().filter(e -> checkExtensionName(identifier, e)).collect(Collectors.toSet())
+                .size();
     }
 
     @SuppressWarnings("rawtypes")
@@ -78,9 +73,7 @@ public class Extensions {
     }
 
     public Optional<Extension<?>> getExtension(String identifier) {
-        return this.extensions.stream()
-                .filter(e -> checkExtensionName(identifier, e))
-                .findFirst();
+        return this.extensions.stream().filter(e -> checkExtensionName(identifier, e)).findFirst();
     }
 
     public boolean isEmpty() {
@@ -121,9 +114,8 @@ public class Extensions {
         if (Strings.emptyToNull(name) == null || extension == null) {
             return false;
         }
-        return Optional.ofNullable(extractor
-                                    .apply(extension))
-                                    .map(s -> s.equalsIgnoreCase(name)).orElseGet(() -> false);
+        return Optional.ofNullable(extractor.apply(extension)).map(s -> s.equalsIgnoreCase(name))
+                .orElseGet(() -> false);
     }
 
     private boolean checkExtensionName(String extensionName, Extension<?> extension) {

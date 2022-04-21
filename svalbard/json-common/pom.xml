@@ -61,6 +61,7 @@
         <dependency>
             <groupId>com.github.fge</groupId>
             <artifactId>jackson-coreutils</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -108,6 +109,12 @@
         <dependency>
             <artifactId>jackson-core</artifactId>
             <groupId>com.fasterxml.jackson.core</groupId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.spotbugs</groupId>
+            <artifactId>spotbugs-annotations</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
     <build>

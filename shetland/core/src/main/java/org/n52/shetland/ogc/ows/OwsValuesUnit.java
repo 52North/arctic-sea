@@ -51,5 +51,4 @@ public abstract class OwsValuesUnit extends OwsDomainMetadata {
         throw new UnsupportedOperationException();
     }
 
-
 }

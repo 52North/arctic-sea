@@ -16,6 +16,7 @@
 package org.n52.iceland.statistics.impl.handlers.exceptions;
 
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.n52.iceland.statistics.api.AbstractElasticSearchDataHolder;
@@ -40,7 +41,7 @@ public class CodedExceptionEventHandler extends AbstractElasticSearchDataHolder
                 put(ServiceEventDataMapping.CEX_SOAP_FAULT, exception.getCode().getSoapFaultReason());
             }
             put(ServiceEventDataMapping.EX_MESSAGE, exception.getMessage());
-            return dataMap;
+            return new LinkedHashMap<>(dataMap);
         } else {
             return Collections.emptyMap();
         }

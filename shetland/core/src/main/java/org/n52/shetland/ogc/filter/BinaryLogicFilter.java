@@ -17,6 +17,7 @@ package org.n52.shetland.ogc.filter;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
 
 import org.n52.shetland.ogc.filter.FilterConstants.BinaryLogicOperator;
@@ -30,9 +31,7 @@ import com.google.common.collect.Sets;
  * @since 1.0.0
  *
  */
-public class BinaryLogicFilter
-        extends Filter<BinaryLogicOperator>
-        implements LogicFilter {
+public class BinaryLogicFilter extends Filter<BinaryLogicOperator> implements LogicFilter {
 
     private BinaryLogicOperator operator;
     // keep insertion order
@@ -79,7 +78,7 @@ public class BinaryLogicFilter
      * @return the filterPredicates
      */
     public Set<Filter<?>> getFilterPredicates() {
-        return filterPredicates;
+        return Collections.unmodifiableSet(filterPredicates);
     }
 
     /**
@@ -87,7 +86,9 @@ public class BinaryLogicFilter
      *            the filterPredicate to add
      */
     public BinaryLogicFilter addFilterPredicates(Filter<?> filterPredicate) {
-        this.filterPredicates.add(filterPredicate);
+        if (filterPredicate != null) {
+            this.filterPredicates.add(filterPredicate);
+        }
         return this;
     }
 
@@ -96,7 +97,9 @@ public class BinaryLogicFilter
      *            the filterPredicates to add
      */
     public BinaryLogicFilter addFilterPredicates(Collection<Filter<?>> filterPredicates) {
-        this.filterPredicates.addAll(filterPredicates);
+        if (filterPredicates != null) {
+            this.filterPredicates.addAll(filterPredicates);
+        }
         return this;
     }
 

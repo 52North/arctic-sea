@@ -15,19 +15,17 @@
  */
 package org.n52.shetland.ogc.swe;
 
-import static org.hamcrest.core.Is.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-
+import org.locationtech.jts.geom.Envelope;
 import org.n52.shetland.ogc.swe.SweConstants.SweCoordinateNames;
 import org.n52.shetland.ogc.swe.simpleType.SweQuantity;
 import org.n52.shetland.util.ReferencedEnvelope;
-
-import org.locationtech.jts.geom.Envelope;
 
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk

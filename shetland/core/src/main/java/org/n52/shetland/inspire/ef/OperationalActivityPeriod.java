@@ -18,6 +18,8 @@ package org.n52.shetland.inspire.ef;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.time.Time;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class OperationalActivityPeriod extends AbstractFeature {
 
     /**
@@ -25,6 +27,7 @@ public class OperationalActivityPeriod extends AbstractFeature {
      */
     private Time activityTime;
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public OperationalActivityPeriod(Time activityTime) {
         super("");
         this.activityTime = activityTime;
@@ -33,6 +36,7 @@ public class OperationalActivityPeriod extends AbstractFeature {
     /**
      * @return the activityTime
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Time getActivityTime() {
         return activityTime;
     }

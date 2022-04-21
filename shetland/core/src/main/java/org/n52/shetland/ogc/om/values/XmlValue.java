@@ -15,7 +15,7 @@
  */
 package org.n52.shetland.ogc.om.values;
 
-public interface XmlValue<T>
-        extends Value<T> {
+public interface XmlValue<
+        T> extends Value<T> {
 
 }

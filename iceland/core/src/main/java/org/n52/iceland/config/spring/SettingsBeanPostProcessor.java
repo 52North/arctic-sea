@@ -23,6 +23,8 @@ import org.n52.faroe.annotation.Setting;
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Bean post processor, that
  * {@linkplain SettingsService#addSetting(org.n52.faroe.SettingDefinition) adds} beans
@@ -44,6 +46,7 @@ public class SettingsBeanPostProcessor implements BeanPostProcessor {
      * @param settingsService the settings service
      */
     @Inject
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setSettingsService(SettingsService settingsService) {
         this.settingsService = settingsService;
     }

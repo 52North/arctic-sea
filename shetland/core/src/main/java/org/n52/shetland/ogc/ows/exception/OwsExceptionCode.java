@@ -18,8 +18,7 @@ package org.n52.shetland.ogc.ows.exception;
 import org.n52.shetland.ogc.ows.OWSConstants;
 
 /**
- * ExceptionCodes are defined in
- * <a href="http://portal.opengeospatial.org/files/?artifact_id=20040">OGC Web
+ * ExceptionCodes are defined in <a href="http://portal.opengeospatial.org/files/?artifact_id=20040">OGC Web
  * Service Common Specification 1.1.0</a>.
  *
  * @since 1.0.0
@@ -32,6 +31,7 @@ public enum OwsExceptionCode implements ExceptionCode {
     OperationNotSupported(OWSConstants.SOAP_REASON_OPTION_NOT_SUPPORTED),
     OptionNotSupported(OWSConstants.SOAP_REASON_OPERATION_NOT_SUPPORTED),
     VersionNegotiationFailed(OWSConstants.SOAP_REASON_VERSION_NEGOTIATION_FAILED);
+
     private final String soapFaulReason;
 
     OwsExceptionCode(String soapFaultReason) {

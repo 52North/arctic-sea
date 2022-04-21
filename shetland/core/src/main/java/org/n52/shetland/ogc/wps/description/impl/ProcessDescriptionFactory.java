@@ -27,19 +27,10 @@ import org.n52.shetland.ogc.wps.description.LiteralOutputDescription;
 import org.n52.shetland.ogc.wps.description.ProcessDescription;
 import org.n52.shetland.ogc.wps.description.ProcessDescriptionBuilderFactory;
 
-public class ProcessDescriptionFactory
-        implements ProcessDescriptionBuilderFactory<
-                                                           ProcessDescription,
-                                                           GroupInputDescription,
-                                                           GroupOutputDescription,
-                                                           LiteralInputDescription,
-                                                           LiteralOutputDescription,
-                                                           ComplexInputDescription,
-                                                           ComplexOutputDescription,
-                                                           BoundingBoxInputDescription,
-                                                           BoundingBoxOutputDescription,
-                                                           LiteralDataDomain
-                                                           > {
+public class ProcessDescriptionFactory implements
+        ProcessDescriptionBuilderFactory<ProcessDescription, GroupInputDescription, GroupOutputDescription,
+                LiteralInputDescription, LiteralOutputDescription, ComplexInputDescription, ComplexOutputDescription,
+                BoundingBoxInputDescription, BoundingBoxOutputDescription, LiteralDataDomain> {
 
     private static final ProcessDescriptionFactory INSTANCE = new ProcessDescriptionFactory();
 

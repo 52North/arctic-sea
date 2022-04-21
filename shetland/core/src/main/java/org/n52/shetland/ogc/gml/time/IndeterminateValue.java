@@ -15,15 +15,16 @@
  */
 package org.n52.shetland.ogc.gml.time;
 
-import com.google.common.base.Strings;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
+
+import com.google.common.base.Strings;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * @author Christian Autermann
@@ -91,8 +92,7 @@ public class IndeterminateValue implements Serializable {
             return false;
         }
         IndeterminateValue other = (IndeterminateValue) obj;
-        return getAlias().contains(other.getValue()) ||
-               other.getAlias().contains(getValue());
+        return getAlias().contains(other.getValue()) || other.getAlias().contains(getValue());
     }
 
     @Override

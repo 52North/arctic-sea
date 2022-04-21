@@ -20,6 +20,8 @@ import java.util.Objects;
 import org.n52.shetland.ogc.ows.extension.Value;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Interface for the SOS internal representation of SWE simpleTypes
  *
@@ -28,9 +30,8 @@ import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  */
-public abstract class SweAbstractSimpleType<T>
-        extends SweAbstractDataComponent
-        implements Value<T, SweAbstractSimpleType<T>> {
+public abstract class SweAbstractSimpleType<
+        T> extends SweAbstractDataComponent implements Value<T, SweAbstractSimpleType<T>> {
 
     private SweQualityHolder quality;
 
@@ -41,6 +42,7 @@ public abstract class SweAbstractSimpleType<T>
      *
      * @return Quality information
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SweQualityHolder getQuality() {
         return quality;
     }
@@ -48,10 +50,12 @@ public abstract class SweAbstractSimpleType<T>
     /**
      * Set quality information
      *
-     * @param quality quality information to set
+     * @param quality
+     *            quality information to set
      *
      * @return This SweAbstractSimpleType
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweAbstractSimpleType<T> setQuality(SweQualityHolder quality) {
         this.quality = quality;
         return this;
@@ -59,7 +63,7 @@ public abstract class SweAbstractSimpleType<T>
 
     /**
      * @return <tt>true</tt>, if the quality field is not <tt>null</tt>,<br>
-     * <tt>false</tt> else.
+     *         <tt>false</tt> else.
      */
     public boolean isSetQuality() {
         return getQuality() != null && !getQuality().isEmpty();
@@ -78,9 +82,8 @@ public abstract class SweAbstractSimpleType<T>
 
     @Override
     public String toString() {
-        return String.format("%s [value=%s; quality=%s; simpleType=%s]",
-                             this.getClass().getSimpleName(), getValue(),
-                             getQuality(), getDataComponentType());
+        return String.format("%s [value=%s; quality=%s; simpleType=%s]", this.getClass().getSimpleName(), getValue(),
+                getQuality(), getDataComponentType());
     }
 
     @Override
@@ -98,8 +101,7 @@ public abstract class SweAbstractSimpleType<T>
             return false;
         }
         final SweAbstractSimpleType<?> other = (SweAbstractSimpleType<?>) obj;
-        return Objects.equals(this.getQuality(), other.getQuality()) &&
-               Objects.equals(getValue(), other.getValue());
+        return Objects.equals(this.getQuality(), other.getQuality()) && Objects.equals(getValue(), other.getValue());
     }
 
 }

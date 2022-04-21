@@ -43,8 +43,8 @@ public abstract class AbstractGmlEncoderv321<T, S> extends AbstractXmlEncoder<T,
             } else {
                 if (context.has(XmlBeansEncodingFlags.ENCODE)
                         && !context.getBoolean(XmlBeansEncodingFlags.ENCODE)
-                        || (abstractFeature instanceof FeatureWithEncode
-                                && !((FeatureWithEncode) abstractFeature).isEncode())) {
+                        || abstractFeature instanceof FeatureWithEncode
+                                && !((FeatureWithEncode) abstractFeature).isEncode()) {
                     featurePropertyType.setHref(abstractFeature.getIdentifierCodeWithAuthority().getValue());
                     if (abstractFeature.isSetName()) {
                         featurePropertyType.setTitle(abstractFeature.getFirstName().getValue());

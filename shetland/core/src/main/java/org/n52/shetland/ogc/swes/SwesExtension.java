@@ -23,7 +23,8 @@ import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
  *
  * @since 1.0.0
  */
-public class SwesExtension<T> extends AbstractExtension<T> {
+public class SwesExtension<
+        T> extends AbstractExtension<T> {
 
     private T value;
 
@@ -58,7 +59,7 @@ public class SwesExtension<T> extends AbstractExtension<T> {
 
     @Override
     public String toString() {
-        return String.format("SwesExtension [value=%s, identifier=%s, definition=%s]",
-                             value, getIdentifier(), getDefinition());
+        return String.format("SwesExtension [value=%s, identifier=%s, definition=%s]", value, getIdentifier(),
+                getDefinition());
     }
 }

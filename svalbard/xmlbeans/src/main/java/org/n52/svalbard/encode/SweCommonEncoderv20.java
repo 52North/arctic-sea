@@ -183,9 +183,8 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
     private static final String DEFAULT_ELEMENT_TYPE_NAME = "Components";
 
     public SweCommonEncoderv20() {
-        LOGGER.debug("Encoder for the following keys initialized successfully: {}!", ENCODER_KEYS.stream()
-                .map(EncoderKey::toString)
-                .collect(joining(", ")));
+        LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
+                ENCODER_KEYS.stream().map(EncoderKey::toString).collect(joining(", ")));
     }
 
     @Override
@@ -333,8 +332,7 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
             propertyType.setVector((VectorType) type);
             return propertyType;
         } else {
-            throw new NotYetSupportedEncodingException(type.getClass()
-                    .getName(), type);
+            throw new NotYetSupportedEncodingException(type.getClass().getName(), type);
         }
     }
 
@@ -400,8 +398,7 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
             document.setVector((VectorType) type);
             return document;
         } else {
-            throw new NotYetSupportedEncodingException(type.getClass()
-                    .getName(), type);
+            throw new NotYetSupportedEncodingException(type.getClass().getName(), type);
         }
     }
 
@@ -409,8 +406,7 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
         // TODO How to deal with the decimal separator - is it an issue here?
         SweTextEncoding textEncoding = (SweTextEncoding) encoding;
 
-        String valueString = values.stream()
-                .map(block -> String.join(textEncoding.getTokenSeparator(), block))
+        String valueString = values.stream().map(block -> String.join(textEncoding.getTokenSeparator(), block))
                 .collect(joining(textEncoding.getBlockSeparator()));
         // create XB result object
         XmlString xmlString = XmlString.Factory.newInstance(getXmlOptions());
@@ -423,8 +419,7 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
         DataRecordType.Field xmlField = DataRecordType.Field.Factory.newInstance(getXmlOptions());
 
         if (field.isSetName()) {
-            xmlField.setName(NcName.makeValid(field.getName()
-                    .getValue()));
+            xmlField.setName(NcName.makeValid(field.getName().getValue()));
         }
 
         if (element != null) {
@@ -482,10 +477,7 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
 
     private UnitReference createUnitReference(final UoM uom) {
         final UnitReference unitReference = UnitReference.Factory.newInstance(getXmlOptions());
-        if (!uom.isSetLink() && (uom.getUom()
-                .startsWith(URN)
-                || uom.getUom()
-                        .startsWith(HTTP))) {
+        if (!uom.isSetLink() && (uom.getUom().startsWith(URN) || uom.getUom().startsWith(HTTP))) {
             unitReference.setHref(uom.getUom());
         } else {
             unitReference.setCode(uom.getUom());
@@ -515,27 +507,13 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
             createAllowedValues(avpt.addNewAllowedValues(), constraint.getInstance());
         } else if (constraint.isReference()) {
             org.n52.shetland.w3c.xlink.Reference reference = constraint.getReference();
-            reference.getActuate()
-                    .map(Actuate::toString)
-                    .map(ActuateType.Enum::forString)
-                    .ifPresent(avpt::setActuate);
-            reference.getArcrole()
-                    .ifPresent(avpt::setArcrole);
-            reference.getHref()
-                    .map(URI::toString)
-                    .ifPresent(avpt::setHref);
-            reference.getRole()
-                    .ifPresent(avpt::setRole);
-            reference.getShow()
-                    .map(Show::toString)
-                    .map(ShowType.Enum::forString)
-                    .ifPresent(avpt::setShow);
-            reference.getTitle()
-                    .ifPresent(avpt::setTitle);
-            reference.getType()
-                    .map(Type::toString)
-                    .map(TypeType.Enum::forString)
-                    .ifPresent(avpt::setType);
+            reference.getActuate().map(Actuate::toString).map(ActuateType.Enum::forString).ifPresent(avpt::setActuate);
+            reference.getArcrole().ifPresent(avpt::setArcrole);
+            reference.getHref().map(URI::toString).ifPresent(avpt::setHref);
+            reference.getRole().ifPresent(avpt::setRole);
+            reference.getShow().map(Show::toString).map(ShowType.Enum::forString).ifPresent(avpt::setShow);
+            reference.getTitle().ifPresent(avpt::setTitle);
+            reference.getType().map(Type::toString).map(TypeType.Enum::forString).ifPresent(avpt::setType);
         }
         return avpt;
     }
@@ -546,27 +524,13 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
             createAllowedTimes(atpt.addNewAllowedTimes(), constraint.getInstance());
         } else if (constraint.isReference()) {
             org.n52.shetland.w3c.xlink.Reference reference = constraint.getReference();
-            reference.getActuate()
-                    .map(Actuate::toString)
-                    .map(ActuateType.Enum::forString)
-                    .ifPresent(atpt::setActuate);
-            reference.getArcrole()
-                    .ifPresent(atpt::setArcrole);
-            reference.getHref()
-                    .map(URI::toString)
-                    .ifPresent(atpt::setHref);
-            reference.getRole()
-                    .ifPresent(atpt::setRole);
-            reference.getShow()
-                    .map(Show::toString)
-                    .map(ShowType.Enum::forString)
-                    .ifPresent(atpt::setShow);
-            reference.getTitle()
-                    .ifPresent(atpt::setTitle);
-            reference.getType()
-                    .map(Type::toString)
-                    .map(TypeType.Enum::forString)
-                    .ifPresent(atpt::setType);
+            reference.getActuate().map(Actuate::toString).map(ActuateType.Enum::forString).ifPresent(atpt::setActuate);
+            reference.getArcrole().ifPresent(atpt::setArcrole);
+            reference.getHref().map(URI::toString).ifPresent(atpt::setHref);
+            reference.getRole().ifPresent(atpt::setRole);
+            reference.getShow().map(Show::toString).map(ShowType.Enum::forString).ifPresent(atpt::setShow);
+            reference.getTitle().ifPresent(atpt::setTitle);
+            reference.getType().map(Type::toString).map(TypeType.Enum::forString).ifPresent(atpt::setType);
         }
         return atpt;
     }
@@ -577,27 +541,13 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
             createAllowedTokens(atpt.addNewAllowedTokens(), constraint.getInstance());
         } else if (constraint.isReference()) {
             org.n52.shetland.w3c.xlink.Reference reference = constraint.getReference();
-            reference.getActuate()
-                    .map(Actuate::toString)
-                    .map(ActuateType.Enum::forString)
-                    .ifPresent(atpt::setActuate);
-            reference.getArcrole()
-                    .ifPresent(atpt::setArcrole);
-            reference.getHref()
-                    .map(URI::toString)
-                    .ifPresent(atpt::setHref);
-            reference.getRole()
-                    .ifPresent(atpt::setRole);
-            reference.getShow()
-                    .map(Show::toString)
-                    .map(ShowType.Enum::forString)
-                    .ifPresent(atpt::setShow);
-            reference.getTitle()
-                    .ifPresent(atpt::setTitle);
-            reference.getType()
-                    .map(Type::toString)
-                    .map(TypeType.Enum::forString)
-                    .ifPresent(atpt::setType);
+            reference.getActuate().map(Actuate::toString).map(ActuateType.Enum::forString).ifPresent(atpt::setActuate);
+            reference.getArcrole().ifPresent(atpt::setArcrole);
+            reference.getHref().map(URI::toString).ifPresent(atpt::setHref);
+            reference.getRole().ifPresent(atpt::setRole);
+            reference.getShow().map(Show::toString).map(ShowType.Enum::forString).ifPresent(atpt::setShow);
+            reference.getTitle().ifPresent(atpt::setTitle);
+            reference.getType().map(Type::toString).map(TypeType.Enum::forString).ifPresent(atpt::setType);
 
         }
         return atpt;
@@ -605,30 +555,21 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
 
     private AllowedValuesType createAllowedValues(AllowedValuesType avt, Nillable<SweAllowedValues> instance) {
         if (instance.isPresent()) {
-            if (instance.get()
-                    .isSetGmlID()) {
-                avt.setId(instance.get()
-                        .getGmlId());
+            if (instance.get().isSetGmlID()) {
+                avt.setId(instance.get().getGmlId());
             }
-            if (instance.get()
-                    .isSetValue()) {
-                for (Double value : instance.get()
-                        .getValue()) {
-                    avt.addNewValue()
-                            .setDoubleValue(value);
+            if (instance.get().isSetValue()) {
+                for (Double value : instance.get().getValue()) {
+                    avt.addNewValue().setDoubleValue(value);
                 }
             }
-            if (instance.get()
-                    .isSetInterval()) {
-                for (RangeValue<Double> interval : instance.get()
-                        .getInterval()) {
+            if (instance.get().isSetInterval()) {
+                for (RangeValue<Double> interval : instance.get().getInterval()) {
                     avt.addInterval(interval.getRangeAsList());
                 }
             }
-            if (instance.get()
-                    .isSetSignificantFigures()) {
-                avt.setSignificantFigures(instance.get()
-                        .getSignificantFigures());
+            if (instance.get().isSetSignificantFigures()) {
+                avt.setSignificantFigures(instance.get().getSignificantFigures());
             }
         }
         return avt;
@@ -636,23 +577,16 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
 
     private AllowedTokensType createAllowedTokens(AllowedTokensType att, Nillable<SweAllowedTokens> instance) {
         if (instance.isPresent()) {
-            if (instance.get()
-                    .isSetGmlID()) {
-                att.setId(instance.get()
-                        .getGmlId());
+            if (instance.get().isSetGmlID()) {
+                att.setId(instance.get().getGmlId());
             }
-            if (instance.get()
-                    .isSetValue()) {
-                for (String value : instance.get()
-                        .getValue()) {
-                    att.addNewValue()
-                            .setStringValue(value);
+            if (instance.get().isSetValue()) {
+                for (String value : instance.get().getValue()) {
+                    att.addNewValue().setStringValue(value);
                 }
             }
-            if (instance.get()
-                    .isSetPattern()) {
-                att.setPattern(instance.get()
-                        .getPattern());
+            if (instance.get().isSetPattern()) {
+                att.setPattern(instance.get().getPattern());
             }
         }
         return att;
@@ -660,23 +594,16 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
 
     private AllowedTimesType createAllowedTimes(AllowedTimesType att, Nillable<SweAllowedTimes> instance) {
         if (instance.isPresent()) {
-            if (instance.get()
-                    .isSetGmlID()) {
-                att.setId(instance.get()
-                        .getGmlId());
+            if (instance.get().isSetGmlID()) {
+                att.setId(instance.get().getGmlId());
             }
-            if (instance.get()
-                    .isSetValue()) {
-                for (DateTime value : instance.get()
-                        .getValue()) {
-                    att.addNewValue()
-                            .setStringValue(DateTimeHelper.formatDateTime2IsoString(value));
+            if (instance.get().isSetValue()) {
+                for (DateTime value : instance.get().getValue()) {
+                    att.addNewValue().setStringValue(DateTimeHelper.formatDateTime2IsoString(value));
                 }
             }
-            if (instance.get()
-                    .isSetInterval()) {
-                for (RangeValue<DateTime> interval : instance.get()
-                        .getInterval()) {
+            if (instance.get().isSetInterval()) {
+                for (RangeValue<DateTime> interval : instance.get().getInterval()) {
                     List<String> list = Lists.newArrayListWithCapacity(2);
                     list.add(DateTimeHelper.formatDateTime2IsoString(interval.getRangeStart()));
                     if (interval.isSetEndValue()) {
@@ -685,10 +612,8 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
                     att.addInterval(list);
                 }
             }
-            if (instance.get()
-                    .isSetSignificantFigures()) {
-                att.setSignificantFigures(instance.get()
-                        .getSignificantFigures());
+            if (instance.get().isSetSignificantFigures()) {
+                att.setSignificantFigures(instance.get().getSignificantFigures());
             }
         }
         return att;
@@ -696,13 +621,12 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
 
     private QualityPropertyType[] createQuality(final SweQualityHolder quality) throws EncodingException {
         if (!quality.isEmpty()) {
-            final ArrayList<QualityPropertyType> xbQualities = Lists.newArrayListWithCapacity(quality.getQuality()
-                    .size());
+            final ArrayList<QualityPropertyType> xbQualities =
+                    Lists.newArrayListWithCapacity(quality.getQuality().size());
             for (final SweQuality sweQuality : quality.getQuality()) {
                 final QualityPropertyType xbQuality = QualityPropertyType.Factory.newInstance();
                 if (sweQuality instanceof SweText) {
-                    xbQuality.addNewText()
-                            .set(((SweText) sweQuality).accept(new SweDataComponentVisitorImpl()));
+                    xbQuality.addNewText().set(((SweText) sweQuality).accept(new SweDataComponentVisitorImpl()));
                 } else if (sweQuality instanceof SweCategory) {
                     xbQuality.addNewCategory()
                             .set(((SweCategory) sweQuality).accept(new SweDataComponentVisitorImpl()));
@@ -727,6 +651,7 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
         return unitReference;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public class SweDataComponentVisitorImpl
             implements SweDataComponentVisitor<AbstractDataComponentType, EncodingException> {
         @Override
@@ -774,23 +699,17 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
             DataArrayType xmlDataArray = DataArrayType.Factory.newInstance(getXmlOptions());
             if (component.isSetElementCount()) {
                 CountType xbCount = CountType.Factory.newInstance(getXmlOptions());
-                if (component.getElementCount()
-                        .isSetValue()) {
-                    xbCount.setValue(new BigInteger(Integer.toString(component.getElementCount()
-                            .getValue())));
+                if (component.getElementCount().isSetValue()) {
+                    xbCount.setValue(new BigInteger(Integer.toString(component.getElementCount().getValue())));
                 }
-                xmlDataArray.addNewElementCount()
-                        .setCount(xbCount);
+                xmlDataArray.addNewElementCount().setCount(xbCount);
             } else {
-                xmlDataArray.addNewElementCount()
-                        .addNewCount();
+                xmlDataArray.addNewElementCount().addNewCount();
             }
             if (component.isSetElementTyp()) {
                 DataArrayType.ElementType elementType = xmlDataArray.addNewElementType();
-                if (component.getElementType()
-                        .isSetDefinition()) {
-                    elementType.setName(component.getElementType()
-                            .getDefinition());
+                if (component.getElementType().isSetDefinition()) {
+                    elementType.setName(component.getElementType().getDefinition());
                 } else {
                     elementType.setName(SweCommonEncoderv20.DEFAULT_ELEMENT_TYPE_NAME);
                 }
@@ -809,20 +728,18 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
                     }
                     xbDataRecord.setFieldArray(xbFields.toArray(new Field[xbFields.size()]));
                 }
-                elementType.addNewAbstractDataComponent()
-                        .set(xbDataRecord);
-                elementType.getAbstractDataComponent()
-                        .substitute(SweConstants.QN_DATA_RECORD_SWE_200, DataRecordType.type);
+                elementType.addNewAbstractDataComponent().set(xbDataRecord);
+                elementType.getAbstractDataComponent().substitute(SweConstants.QN_DATA_RECORD_SWE_200,
+                        DataRecordType.type);
             }
             if (component.isSetEncoding()) {
                 Encoding xbEncoding = xmlDataArray.addNewEncoding();
                 xbEncoding.setAbstractEncoding(createAbstractEncoding(component.getEncoding()));
-                xbEncoding.getAbstractEncoding()
-                        .substitute(SweConstants.QN_TEXT_ENCODING_SWE_200, TextEncodingType.type);
+                xbEncoding.getAbstractEncoding().substitute(SweConstants.QN_TEXT_ENCODING_SWE_200,
+                        TextEncodingType.type);
             }
             if (component.isSetValues()) {
-                xmlDataArray.addNewValues()
-                        .set(createValues(component.getValues(), component.getEncoding()));
+                xmlDataArray.addNewValues().set(createValues(component.getValues(), component.getEncoding()));
             }
             return xmlDataArray;
         }
@@ -843,8 +760,7 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
         public AbstractDataComponentType visit(SweCountRange component) throws EncodingException {
             CountRangeType xml = CountRangeType.Factory.newInstance(getXmlOptions());
             if (component.isSetValue()) {
-                xml.setValue(component.getValue()
-                        .getRangeAsList());
+                xml.setValue(component.getValue().getRangeAsList());
             }
             if (component.isSetContstraint()) {
                 createConstraint(xml.addNewConstraint(), component.getConstraint());
@@ -865,8 +781,7 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
         public AbstractDataComponentType visit(SweCategory component) throws EncodingException {
             CategoryType xml = CategoryType.Factory.newInstance(getXmlOptions());
             if (component.getCodeSpace() != null) {
-                xml.addNewCodeSpace()
-                        .setHref(component.getCodeSpace());
+                xml.addNewCodeSpace().setHref(component.getCodeSpace());
             }
             if (component.isSetValue()) {
                 xml.setValue(component.getValue());
@@ -881,12 +796,10 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
         public AbstractDataComponentType visit(SweCategoryRange component) throws EncodingException {
             CategoryRangeType xml = CategoryRangeType.Factory.newInstance(getXmlOptions());
             if (component.isSetUom()) {
-                xml.addNewCodeSpace()
-                        .setHref(component.getUom());
+                xml.addNewCodeSpace().setHref(component.getUom());
             }
             if (component.isSetValue()) {
-                xml.setValue(component.getValue()
-                        .getRangeAsList());
+                xml.setValue(component.getValue().getRangeAsList());
             }
             if (component.isSetContstraint()) {
                 createConstraint(xml.addNewConstraint(), component.getConstraint());
@@ -906,8 +819,7 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
                 xml.setAxisID(component.getAxisID());
             }
             if (component.isSetValue()) {
-                xml.setValue(component.getValue()
-                        .doubleValue());
+                xml.setValue(component.getValue().doubleValue());
             }
             if (component.isSetUom()) {
                 xml.setUom(createUnitReference(component.getUomObject()));
@@ -931,8 +843,7 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
                 xml.setAxisID(component.getAxisID());
             }
             if (component.isSetValue()) {
-                xml.setValue(component.getValue()
-                        .getRangeAsList());
+                xml.setValue(component.getValue().getRangeAsList());
             }
             if (component.isSetUom()) {
                 xml.setUom(createUnitReference(component.getUom()));
@@ -984,12 +895,10 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
         public AbstractDataComponentType visit(SweTimeRange component) throws EncodingException {
             TimeRangeType xml = TimeRangeType.Factory.newInstance(getXmlOptions());
             if (component.isSetUom()) {
-                xml.addNewUom()
-                        .setHref(component.getUom());
+                xml.addNewUom().setHref(component.getUom());
             }
             if (component.isSetValue()) {
-                xml.setValue(component.getValue()
-                        .getRangeAsStringList());
+                xml.setValue(component.getValue().getRangeAsStringList());
             }
             if (component.isSetQuality()) {
                 xml.setQualityArray(createQuality(component.getQuality()));
@@ -1016,8 +925,7 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
             }
             if (component.isSetCoordinates()) {
                 for (SweCoordinate<?> coordinate : component.getCoordinates()) {
-                    xbVector.addNewCoordinate()
-                            .set(createCoordinate(coordinate));
+                    xbVector.addNewCoordinate().set(createCoordinate(coordinate));
                 }
             }
             return xbVector;

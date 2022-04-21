@@ -24,6 +24,8 @@ import java.util.Objects;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.sos.BatchConstants;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * TODO JavaDoc
  *
@@ -36,6 +38,7 @@ public class BatchRequest extends OwsServiceRequest implements Iterable<OwsServi
 
     private boolean stopAtFailure;
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public BatchRequest(List<OwsServiceRequest> requests) {
         super(null, null, BatchConstants.OPERATION_NAME);
         this.requests = Objects.requireNonNull(requests);

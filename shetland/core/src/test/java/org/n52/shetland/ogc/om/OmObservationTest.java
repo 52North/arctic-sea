@@ -15,22 +15,22 @@
  */
 package org.n52.shetland.ogc.om;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.core.Is.is;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
-
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.PrecisionModel;
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.om.values.GeometryValue;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
 import com.google.common.io.BaseEncoding.DecodingException;
-import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.geom.GeometryFactory;
-import org.locationtech.jts.geom.PrecisionModel;
 
 /**
  * @since 1.0.0

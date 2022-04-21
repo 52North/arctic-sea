@@ -29,7 +29,7 @@ public interface DeleteResultTemplateConstants {
 
     String NS_PREFIX = "drt";
 
-    String SCHEMA_LOCATION_URL =  "http://52north.org/schema/sosdrt/1.0/sosdrt.xsd";
+    String SCHEMA_LOCATION_URL = "http://52north.org/schema/sosdrt/1.0/sosdrt.xsd";
 
     String CONFORMANCE_CLASS_INSERTION = "http://www.opengis.net/spec/SOS/2.0/conf/resultInsertion";
 

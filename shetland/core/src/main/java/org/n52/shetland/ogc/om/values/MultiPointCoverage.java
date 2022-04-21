@@ -18,6 +18,7 @@ package org.n52.shetland.ogc.om.values;
 import static java.util.stream.Collectors.toList;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -42,8 +43,7 @@ import com.google.common.collect.Lists;
  * @since 1.0.0
  *
  */
-public class MultiPointCoverage
-        implements DiscreteCoverage<List<PointValuePair>> {
+public class MultiPointCoverage implements DiscreteCoverage<List<PointValuePair>> {
 
     private static final String GML_ID_PREFIX = "mpc_";
     private final String gmlId;
@@ -77,7 +77,7 @@ public class MultiPointCoverage
     @Override
     public List<PointValuePair> getValue() {
         Collections.sort(value);
-        return value;
+        return Collections.unmodifiableList(value);
     }
 
     public PointValueLists getPointValue() {
@@ -87,7 +87,9 @@ public class MultiPointCoverage
     @Override
     public MultiPointCoverage setValue(List<PointValuePair> value) {
         this.value.clear();
-        this.value.addAll(value);
+        if (value != null) {
+            this.value.addAll(value);
+        }
         return this;
     }
 
@@ -96,9 +98,13 @@ public class MultiPointCoverage
      *
      * @param value
      *            Time value pair value to add
+     * @return this
      */
-    public void addValue(PointValuePair value) {
-        this.value.add(value);
+    public MultiPointCoverage addValue(PointValuePair value) {
+        if (value != null) {
+            this.value.add(value);
+        }
+        return this;
     }
 
     /**
@@ -106,9 +112,13 @@ public class MultiPointCoverage
      *
      * @param values
      *            Time value pair values to add
+     * @return this
      */
-    public void addValues(List<PointValuePair> values) {
-        this.value.addAll(values);
+    public MultiPointCoverage addValues(Collection<PointValuePair> values) {
+        if (value != null) {
+            this.value.addAll(values);
+        }
+        return this;
     }
 
     @Override
@@ -188,8 +198,9 @@ public class MultiPointCoverage
     }
 
     @Override
-    public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor)
-            throws E {
+    public <
+            X,
+            E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
         return visitor.visit(this);
     }
 

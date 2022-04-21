@@ -15,6 +15,8 @@
  */
 package org.n52.shetland.inspire.ef;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
 
 import org.n52.shetland.inspire.base.Identifier;
@@ -34,7 +36,7 @@ public class EnvironmentalMonitoringProgramme extends AbstractMonitoringObject {
         super(inspireId, mediaMonitored);
     }
 
-    public EnvironmentalMonitoringProgramme(Identifier inspireId, Set<ReferenceType> mediaMonitored) {
+    public EnvironmentalMonitoringProgramme(Identifier inspireId, Collection<ReferenceType> mediaMonitored) {
         super(inspireId, mediaMonitored);
     }
 
@@ -42,15 +44,20 @@ public class EnvironmentalMonitoringProgramme extends AbstractMonitoringObject {
      * @return the triggers
      */
     public Set<EnvironmentalMonitoringActivity> getTriggers() {
-        return triggers;
+        return Collections.unmodifiableSet(triggers);
     }
 
     /**
-     * @param triggers the triggers to set
+     * @param triggers
+     *            the triggers to set
+     * @return this
      */
-    public void setTriggers(Set<EnvironmentalMonitoringActivity> triggers) {
+    public EnvironmentalMonitoringProgramme setTriggers(Collection<EnvironmentalMonitoringActivity> triggers) {
         this.triggers.clear();
-        this.triggers = triggers;
+        if (triggers != null) {
+            this.triggers.addAll(triggers);
+        }
+        return this;
     }
 
     public boolean isSetTriggers() {

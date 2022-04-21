@@ -20,8 +20,7 @@ import java.util.List;
 
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
- *         J&uuml;rrens</a>
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  *
  * @since 1.0.0
  */
@@ -55,7 +54,7 @@ public abstract class CodedException extends OwsExceptionReport {
 
     @Override
     public final List<CodedException> getExceptions() {
-        return this.exceptions;
+        return Collections.unmodifiableList(exceptions);
     }
 
     public final CodedException at(final String locator) {

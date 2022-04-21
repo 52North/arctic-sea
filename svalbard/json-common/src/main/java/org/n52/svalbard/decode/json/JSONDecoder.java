@@ -15,8 +15,18 @@
  */
 package org.n52.svalbard.decode.json;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
 import org.joda.time.DateTime;
 import org.n52.janmayen.exception.CompositeException;
 import org.n52.janmayen.stream.Streams;
@@ -39,15 +49,10 @@ import org.n52.svalbard.decode.exception.NoDecoderForKeyException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toSet;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * TODO JavaDoc
@@ -58,7 +63,7 @@ import static java.util.stream.Collectors.toSet;
 public abstract class JSONDecoder<T>
         extends AbstractDelegatingDecoder<T, JsonNode> {
     private static final Logger LOGGER = LoggerFactory.getLogger(JSONDecoder.class);
-    private final Set<DecoderKey> decoderKeys;
+    private final Set<DecoderKey> decoderKeys = new LinkedHashSet<>();
 
     public JSONDecoder(Class<T> type) {
         this(Collections.singleton(new JsonDecoderKey(type)));
@@ -68,8 +73,11 @@ public abstract class JSONDecoder<T>
         this(Streams.stream(keys).collect(toSet()));
     }
 
-    public JSONDecoder(Set<DecoderKey> keys) {
-        this.decoderKeys = keys;
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public JSONDecoder(Collection<DecoderKey> keys) {
+        if (keys != null) {
+            this.decoderKeys.addAll(keys);
+        }
     }
 
     private <T> Decoder<T, JsonNode> getDecoder(Class<T> type)

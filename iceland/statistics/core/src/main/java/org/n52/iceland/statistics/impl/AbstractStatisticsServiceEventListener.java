@@ -17,6 +17,7 @@ package org.n52.iceland.statistics.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -72,7 +73,7 @@ public abstract class AbstractStatisticsServiceEventListener implements EventLis
 
     @Override
     public Set<Class<? extends Event>> getTypes() {
-        return eventTypes;
+        return new LinkedHashSet<>(eventTypes);
     }
 
     @Override

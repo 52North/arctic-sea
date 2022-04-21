@@ -15,11 +15,9 @@
  */
 package org.n52.shetland.iso.gmd;
 
-
+import org.n52.shetland.ogc.HasDefaultEncoding;
 
 import com.google.common.base.Strings;
-
-import org.n52.shetland.ogc.HasDefaultEncoding;
 
 public abstract class AbtractGmd implements HasDefaultEncoding<AbtractGmd> {
 

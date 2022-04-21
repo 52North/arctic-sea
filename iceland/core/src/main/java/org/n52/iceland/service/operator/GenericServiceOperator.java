@@ -31,6 +31,8 @@ import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 
 import com.google.common.base.MoreObjects;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Generic service operator implementation that just delegates to a matching
  * {@link RequestOperator}.
@@ -67,6 +69,7 @@ public class GenericServiceOperator implements ServiceOperator {
      * @param repo the repository
      */
     @Inject
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setRequestOperatorRepository(RequestOperatorRepository repo) {
         this.requestOperatorRepository = repo;
     }

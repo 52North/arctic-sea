@@ -15,6 +15,8 @@
  */
 package org.n52.shetland.inspire;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Abstract service internal representation of INSPIRE keywords
  *
@@ -22,7 +24,8 @@ package org.n52.shetland.inspire;
  * @since 1.0.0
  *
  */
-public abstract class AbstractInspireKeyword<T> {
+public abstract class AbstractInspireKeyword<
+        T> {
 
     private InspireOriginatingControlledVocabulary originatingControlledVocabulary;
 
@@ -47,6 +50,7 @@ public abstract class AbstractInspireKeyword<T> {
      *
      * @return the originatingControlledVocabulary
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public InspireOriginatingControlledVocabulary getOriginatingControlledVocabulary() {
         return originatingControlledVocabulary;
     }
@@ -88,8 +92,8 @@ public abstract class AbstractInspireKeyword<T> {
 
     @Override
     public String toString() {
-        return String.format("%s %n[%n originatingControlledVocabulary=%s,%n keywordValue=%s%n]", this.getClass()
-                .getSimpleName(), getOriginatingControlledVocabulary(), getKeywordValue());
+        return String.format("%s %n[%n originatingControlledVocabulary=%s,%n keywordValue=%s%n]",
+                this.getClass().getSimpleName(), getOriginatingControlledVocabulary(), getKeywordValue());
     }
 
 }

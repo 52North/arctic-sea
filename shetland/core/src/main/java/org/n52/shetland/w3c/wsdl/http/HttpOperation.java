@@ -38,7 +38,8 @@ public class HttpOperation extends ExtensibilityElement {
     }
 
     /**
-     * @param location the location to set
+     * @param location
+     *            the location to set
      */
     public void setLocation(String location) {
         this.location = location;

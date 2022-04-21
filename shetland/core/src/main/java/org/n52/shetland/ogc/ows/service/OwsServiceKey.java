@@ -25,17 +25,18 @@ import java.util.Objects;
  *
  */
 public class OwsServiceKey implements Comparable<OwsServiceKey> {
-    private static final Comparator<OwsServiceKey> COMPARATOR
-            = Comparator.comparing(OwsServiceKey::getService)
-                    .thenComparing(OwsServiceKey::getVersion);
+    private static final Comparator<OwsServiceKey> COMPARATOR =
+            Comparator.comparing(OwsServiceKey::getService).thenComparing(OwsServiceKey::getVersion);
     private final String service;
     private final String version;
 
     /**
      * Constructor
      *
-     * @param service Service name
-     * @param version Service version
+     * @param service
+     *            Service name
+     * @param version
+     *            Service version
      */
     public OwsServiceKey(String service, String version) {
         this.service = service;
@@ -87,8 +88,8 @@ public class OwsServiceKey implements Comparable<OwsServiceKey> {
     public boolean equals(Object o) {
         if (o != null && o.getClass() == getClass()) {
             OwsServiceKey other = (OwsServiceKey) o;
-            return Objects.equals(getService(), other.getService()) &&
-                   Objects.equals(getVersion(), other.getVersion());
+            return Objects.equals(getService(), other.getService())
+                    && Objects.equals(getVersion(), other.getVersion());
         }
         return false;
     }

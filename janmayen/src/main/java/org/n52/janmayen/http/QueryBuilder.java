@@ -51,6 +51,7 @@ public class QueryBuilder {
         this(url, StandardCharsets.UTF_8);
     }
 
+    @SuppressFBWarnings("EI_EXPOSE_REP2")
     public QueryBuilder(URL url, Charset charset) {
         this.charset = Objects.requireNonNull(charset);
         this.url = Objects.requireNonNull(url);

@@ -15,8 +15,8 @@
  */
 package org.n52.shetland.util;
 
-import static org.hamcrest.core.Is.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
 
 import org.junit.jupiter.api.Test;
 

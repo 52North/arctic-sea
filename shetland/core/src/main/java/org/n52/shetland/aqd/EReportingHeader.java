@@ -33,11 +33,14 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class EReportingHeader extends AbstractEReportingHeader {
     private Identifier inspireID;
     private RelatedParty reportingAuthority;
     private EReportingChange change;
-    private Referenceable<Time> reportingPeriod = Referenceable.of(Nillable.<Time>missing());
+    private Referenceable<Time> reportingPeriod = Referenceable.of(Nillable.<
+            Time> missing());
     private final List<Referenceable<AbstractFeature>> delete = new LinkedList<>();
     private final List<Referenceable<AbstractFeature>> content = new LinkedList<>();
 
@@ -45,10 +48,12 @@ public class EReportingHeader extends AbstractEReportingHeader {
         setDefaultElementEncoding(AqdConstants.NS_AQD);
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public EReportingChange getChange() {
         return change;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public EReportingHeader setChange(EReportingChange change) {
         this.change = Preconditions.checkNotNull(change);
         return this;
@@ -62,10 +67,12 @@ public class EReportingHeader extends AbstractEReportingHeader {
         return super.setIdentifier(identifier);
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Identifier getInspireID() {
         return inspireID;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public EReportingHeader setInspireID(Identifier inspireID) {
         this.inspireID = Preconditions.checkNotNull(inspireID);
         super.setIdentifier(inspireID);
@@ -76,18 +83,18 @@ public class EReportingHeader extends AbstractEReportingHeader {
         return reportingPeriod;
     }
 
-    public EReportingHeader setReportingPeriod(
-            Referenceable<Time> reportingPeriod) {
+    public EReportingHeader setReportingPeriod(Referenceable<Time> reportingPeriod) {
         this.reportingPeriod = Preconditions.checkNotNull(reportingPeriod);
         return this;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public RelatedParty getReportingAuthority() {
         return reportingAuthority;
     }
 
-    public EReportingHeader setReportingAuthority(
-            RelatedParty reportingAuthority) {
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public EReportingHeader setReportingAuthority(RelatedParty reportingAuthority) {
         this.reportingAuthority = Preconditions.checkNotNull(reportingAuthority);
         return this;
     }
@@ -114,7 +121,9 @@ public class EReportingHeader extends AbstractEReportingHeader {
     }
 
     public EReportingHeader addContent(Referenceable<AbstractFeature> content) {
-        this.content.add(Preconditions.checkNotNull(content));
+        if (content != null) {
+            this.content.add(Preconditions.checkNotNull(content));
+        }
         return this;
     }
 
@@ -125,37 +134,29 @@ public class EReportingHeader extends AbstractEReportingHeader {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getInspireID(), getReportingAuthority(),
-                                getChange(), getReportingPeriod(), getDelete(),
-                                getContent());
+        return Objects.hashCode(getInspireID(), getReportingAuthority(), getChange(), getReportingPeriod(),
+                getDelete(), getContent());
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof EReportingHeader) {
             EReportingHeader that = (EReportingHeader) obj;
-            return Objects.equal(getInspireID(), that.getInspireID()) &&
-                   Objects.equal(getReportingAuthority(), that.getReportingAuthority()) &&
-                   Objects.equal(getChange(), that.getChange()) &&
-                   Objects.equal(getReportingPeriod(), that.getReportingPeriod()) &&
-                   Objects.equal(getDelete(), that.getDelete()) &&
-                   Objects.equal(getContent(), that.getContent());
+            return Objects.equal(getInspireID(), that.getInspireID())
+                    && Objects.equal(getReportingAuthority(), that.getReportingAuthority())
+                    && Objects.equal(getChange(), that.getChange())
+                    && Objects.equal(getReportingPeriod(), that.getReportingPeriod())
+                    && Objects.equal(getDelete(), that.getDelete()) && Objects.equal(getContent(), that.getContent());
         }
         return false;
     }
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("inspireID", getInspireID())
-                .add("reportingAuthority", getReportingAuthority())
-                .add("change", getChange())
-                .add("reportingPeriod", getReportingPeriod())
-                .add("delete", getDelete())
-                .add("content", getContent())
+        return MoreObjects.toStringHelper(this).add("inspireID", getInspireID())
+                .add("reportingAuthority", getReportingAuthority()).add("change", getChange())
+                .add("reportingPeriod", getReportingPeriod()).add("delete", getDelete()).add("content", getContent())
                 .toString();
     }
-
-
 
 }

@@ -19,6 +19,8 @@ import org.n52.shetland.ogc.sensorML.HasProcessMethod;
 import org.n52.shetland.ogc.sensorML.ProcessMethod;
 import org.n52.shetland.util.IdGenerator;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Class that represents SensorML 2.0 PhysicalComponent
  *
@@ -26,9 +28,7 @@ import org.n52.shetland.util.IdGenerator;
  * @since 1.0.0
  *
  */
-public class PhysicalComponent
-        extends AbstractPhysicalProcess
-        implements HasProcessMethod {
+public class PhysicalComponent extends AbstractPhysicalProcess implements HasProcessMethod {
 
     public static final String ID_PREFIX = "pc_";
     private ProcessMethod method;
@@ -38,11 +38,13 @@ public class PhysicalComponent
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public ProcessMethod getMethod() {
         return method;
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setMethod(ProcessMethod method) {
         this.method = method;
     }

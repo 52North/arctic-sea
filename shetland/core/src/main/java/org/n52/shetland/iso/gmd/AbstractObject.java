@@ -38,14 +38,16 @@ public abstract class AbstractObject extends AbtractGmd {
     }
 
     /**
-     * @param id the id to set
+     * @param id
+     *            the id to set
      */
     public void setId(String id) {
         this.id = id;
     }
 
     /**
-     * @param id the id to set
+     * @param id
+     *            the id to set
      */
     public void setId(Long id) {
         this.id = id.toString();
@@ -63,7 +65,8 @@ public abstract class AbstractObject extends AbtractGmd {
     }
 
     /**
-     * @param uuid the uuid to set
+     * @param uuid
+     *            the uuid to set
      */
     public void setUuid(String uuid) {
         this.uuid = uuid;

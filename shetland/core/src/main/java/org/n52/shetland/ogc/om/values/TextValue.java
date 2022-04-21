@@ -27,9 +27,7 @@ import com.google.common.base.Strings;
  * @since 1.0.0
  *
  */
-public class TextValue
-        extends SweText
-        implements Value<String> {
+public class TextValue extends SweText implements Value<String> {
     /**
      * Unit of measure
      */
@@ -106,7 +104,9 @@ public class TextValue
     }
 
     @Override
-    public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
+    public <
+            X,
+            E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
         return visitor.visit(this);
     }
 

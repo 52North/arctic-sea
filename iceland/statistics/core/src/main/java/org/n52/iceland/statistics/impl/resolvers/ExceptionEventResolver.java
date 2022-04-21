@@ -15,6 +15,7 @@
  */
 package org.n52.iceland.statistics.impl.resolvers;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.n52.iceland.event.events.ExceptionEvent;
@@ -29,7 +30,7 @@ public class ExceptionEventResolver implements StatisticsServiceEventResolver<Ex
 
     private ExceptionEvent event;
 
-    private Map<String, StatisticsServiceEventHandler<?>> handlers;
+    private Map<String, StatisticsServiceEventHandler<?>> handlers = new LinkedHashMap<>();
 
     @Override
     public Map<String, Object> resolve() {
@@ -45,7 +46,10 @@ public class ExceptionEventResolver implements StatisticsServiceEventResolver<Ex
 
     @Override
     public void setHandlers(Map<String, StatisticsServiceEventHandler<?>> handlers) {
-        this.handlers = handlers;
+        this.handlers.clear();
+        if (handlers != null) {
+            this.handlers.putAll(handlers);
+        }
     }
 
     @Override

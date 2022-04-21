@@ -15,6 +15,7 @@
  */
 package org.n52.iceland.statistics.impl.resolvers;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.n52.iceland.statistics.api.interfaces.StatisticsServiceEventHandler;
@@ -22,12 +23,14 @@ import org.n52.iceland.statistics.api.interfaces.StatisticsServiceEventResolver;
 import org.n52.iceland.statistics.api.utils.EventHandlerFinder;
 import org.n52.janmayen.event.Event;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class DefaultServiceEventResolver implements StatisticsServiceEventResolver<Event> {
 
     // private static final Logger logger =
     // LoggerFactory.getLogger(DefaultServiceEventResolver.class);
     private Event event;
-    private Map<String, StatisticsServiceEventHandler<?>> handlers;
+    private Map<String, StatisticsServiceEventHandler<?>> handlers = new LinkedHashMap<>();
 
     @Override
     public Map<String, Object> resolve() {
@@ -50,8 +53,12 @@ public class DefaultServiceEventResolver implements StatisticsServiceEventResolv
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setHandlers(Map<String, StatisticsServiceEventHandler<?>> handlers) {
-        this.handlers = handlers;
+        this.handlers.clear();
+        if (handlers != null) {
+            this.handlers.putAll(handlers);
+        }
     }
 
 }

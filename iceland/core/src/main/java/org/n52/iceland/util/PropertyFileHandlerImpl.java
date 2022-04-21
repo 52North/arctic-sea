@@ -116,7 +116,7 @@ public class PropertyFileHandlerImpl implements PropertyFileHandler {
         } catch (IOException ioe) {
             throw new RuntimeException(ioe);
         }
-        if (propertiesFile.exists() || (create && propertiesFile.createNewFile())) {
+        if (propertiesFile.exists() || create && propertiesFile.createNewFile()) {
             return propertiesFile;
         }
         return null;

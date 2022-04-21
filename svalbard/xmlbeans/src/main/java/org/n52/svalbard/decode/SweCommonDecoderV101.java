@@ -467,10 +467,12 @@ public class SweCommonDecoderV101
         if (xbQuantityRange.isSetValue()) {
             try {
                 List<?> value = xbQuantityRange.getValue();
-                BigDecimal rangeStart = new BigDecimal(value.get(0).toString());
-                BigDecimal rangeEnd = new BigDecimal(value.get(1).toString());
-                sosQuantityRange.setValue(new RangeValue<>(rangeStart, rangeEnd));
-            } catch (final NumberFormatException | NullPointerException | IndexOutOfBoundsException nfe) {
+                if (value != null && value.size() == 2 && value.get(0) != null && value.get(1) != null) {
+                    BigDecimal rangeStart = new BigDecimal(value.get(0).toString());
+                    BigDecimal rangeEnd = new BigDecimal(value.get(1).toString());
+                    sosQuantityRange.setValue(new RangeValue<>(rangeStart, rangeEnd));
+                }
+            } catch (final NumberFormatException | IndexOutOfBoundsException nfe) {
                 throw createParsingException(nfe);
             }
         }

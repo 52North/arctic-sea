@@ -19,7 +19,6 @@ import java.util.Objects;
 
 import org.n52.shetland.ogc.gml.ReferenceType;
 
-
 /**
  * Representation of OGC O&amp;M 2.0 ObservationContext
  *

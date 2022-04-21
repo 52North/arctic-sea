@@ -32,6 +32,8 @@ import org.n52.iceland.util.LocalizedProducer;
 import org.n52.shetland.ogc.ows.OwsServiceIdentification;
 import org.n52.shetland.ogc.ows.OwsServiceProvider;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * TODO JavaDoc
  *
@@ -56,6 +58,7 @@ public class OwsServiceMetadataRepositoryImpl implements OwsServiceMetadataRepos
     }
 
     @Inject
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setSettingsService(SettingsService settingsService) {
         this.settingsService = settingsService;
     }

@@ -15,9 +15,9 @@
  */
 package org.n52.shetland.ogc.filter;
 
+import org.n52.shetland.ogc.filter.FilterConstants.ComparisonOperator;
 import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
-import org.n52.shetland.ogc.filter.FilterConstants.ComparisonOperator;
 
 /**
  * OGC Filter class for comparison filter
@@ -71,11 +71,11 @@ public class ComparisonFilter extends Filter<ComparisonOperator> {
      * constructor
      *
      * @param operator
-     *                       Filter operator
+     *            Filter operator
      * @param valueReference
-     *                       valueReference
+     *            valueReference
      * @param value
-     *                       value
+     *            value
      */
     public ComparisonFilter(ComparisonOperator operator, String valueReference, String value) {
         super(valueReference);
@@ -87,17 +87,16 @@ public class ComparisonFilter extends Filter<ComparisonOperator> {
      * constructor for {@link ComparisonOperator#PropertyIsBetween} filter
      *
      * @param operator
-     *                       Filter operator
+     *            Filter operator
      * @param valueReference
-     *                       valueReference
+     *            valueReference
      * @param value
-     *                       value
+     *            value
      * @param valueUpper
-     *                       upper value
+     *            upper value
      *
      * @throws OwsExceptionReport
-     *                            If operator is not
-     *                            {@link ComparisonOperator#PropertyIsBetween}
+     *             If operator is not {@link ComparisonOperator#PropertyIsBetween}
      */
     public ComparisonFilter(ComparisonOperator operator, String valueReference, String value, String valueUpper)
             throws OwsExceptionReport {
@@ -108,8 +107,8 @@ public class ComparisonFilter extends Filter<ComparisonOperator> {
             this.valueUpper = valueUpper;
         } else {
             throw new NoApplicableCodeException()
-                    .withMessage("Use other constructor for ComparisonFilter! This constructor can only " +
-                                 "be used for operator 'PropertyIsBetween'");
+                    .withMessage("Use other constructor for ComparisonFilter! This constructor can only "
+                            + "be used for operator 'PropertyIsBetween'");
         }
     }
 
@@ -117,21 +116,21 @@ public class ComparisonFilter extends Filter<ComparisonOperator> {
      * constructor for {@link ComparisonOperator#PropertyIsLike} filter
      *
      * @param operator
-     *                       Filter operator
+     *            Filter operator
      * @param valueReference
-     *                       valueReference
+     *            valueReference
      * @param value
-     *                       value
+     *            value
      * @param valueUpper
-     *                       upper value for between filter
+     *            upper value for between filter
      * @param escapeString
-     *                       Escape characters
+     *            Escape characters
      *
      * @throws OwsExceptionReport
-     *                            If operator is not {@link ComparisonOperator#PropertyIsLike}
+     *             If operator is not {@link ComparisonOperator#PropertyIsLike}
      */
     public ComparisonFilter(ComparisonOperator operator, String valueReference, String value, String valueUpper,
-                            String escapeString) throws OwsExceptionReport {
+            String escapeString) throws OwsExceptionReport {
         super(valueReference);
         if (operator == ComparisonOperator.PropertyIsLike) {
             this.operator = operator;
@@ -139,9 +138,8 @@ public class ComparisonFilter extends Filter<ComparisonOperator> {
             this.valueUpper = valueUpper;
             this.escapeString = escapeString;
         } else {
-            throw new NoApplicableCodeException()
-                    .withMessage("Use other constructor for ComparisonFilter! " +
-                                 "This constructor can only be used for operator 'PropertyIsLike'");
+            throw new NoApplicableCodeException().withMessage("Use other constructor for ComparisonFilter! "
+                    + "This constructor can only be used for operator 'PropertyIsLike'");
         }
     }
 
@@ -178,7 +176,7 @@ public class ComparisonFilter extends Filter<ComparisonOperator> {
      * Set filter value
      *
      * @param value
-     *              filter value
+     *            filter value
      */
     public void setValue(String value) {
         this.value = value;
@@ -188,7 +186,7 @@ public class ComparisonFilter extends Filter<ComparisonOperator> {
      * Set upper filter value
      *
      * @param valueUpper
-     *                   upper filter value
+     *            upper filter value
      */
     public void setValueUpper(String valueUpper) {
         this.valueUpper = valueUpper;
@@ -207,7 +205,7 @@ public class ComparisonFilter extends Filter<ComparisonOperator> {
      * Set escape characters
      *
      * @param escapeString
-     *                     escape characters
+     *            escape characters
      */
     public void setEscapeString(String escapeString) {
         this.escapeString = escapeString;
@@ -226,7 +224,7 @@ public class ComparisonFilter extends Filter<ComparisonOperator> {
      * Set wild card character
      *
      * @param wildCard
-     *                 wild card character
+     *            wild card character
      */
     public void setWildCard(String wildCard) {
         this.wildCard = wildCard;
@@ -245,7 +243,7 @@ public class ComparisonFilter extends Filter<ComparisonOperator> {
      * Set single char character
      *
      * @param singleChar
-     *                   single char character
+     *            single char character
      */
     public void setSingleChar(String singleChar) {
         this.singleChar = singleChar;
@@ -304,7 +302,8 @@ public class ComparisonFilter extends Filter<ComparisonOperator> {
     }
 
     /**
-     * @param matchCase the matchCase to set
+     * @param matchCase
+     *            the matchCase to set
      */
     public void setMatchCase(boolean matchCase) {
         this.matchCase = matchCase;
@@ -340,8 +339,8 @@ public class ComparisonFilter extends Filter<ComparisonOperator> {
     public String toString() {
         String result = "ComparisonFilter: ";
         if (isSetValueUpper()) {
-            return result + getValueReference() + " " + getValue() + " " + getOperator().name() + " " +
-                   getValueUpper();
+            return result + getValueReference() + " " + getValue() + " " + getOperator().name() + " "
+                    + getValueUpper();
         } else {
             return result + getValueReference() + " " + getOperator().name() + " " + getValue();
         }
