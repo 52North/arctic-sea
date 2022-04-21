@@ -34,6 +34,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>janmayen</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -66,6 +67,7 @@
         <dependency>
             <groupId>org.apache.jena</groupId>
             <artifactId>jena-core</artifactId>
+            <scope>provided</scope>
         </dependency>
         <!-- Testing dependencies -->
         <dependency>
@@ -108,10 +110,12 @@
         <dependency>
             <groupId>org.n52.sensorweb</groupId>
             <artifactId>52n-xml-swes-v20</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.n52.sensorweb</groupId>
             <artifactId>52n-xml-om-v20</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.xmlbeans</groupId>
@@ -145,6 +149,7 @@
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
