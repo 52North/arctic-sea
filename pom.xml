@@ -152,12 +152,12 @@
         <version.jena>3.17.0</version.jena>
         <version.jackson>2.13.2.20220328</version.jackson>
         <version.junit>5.8.2</version.junit>
-        <version.mockito>4.4.0</version.mockito>
+        <version.mockito>4.5.0</version.mockito>
         <version.hamcrest>2.2</version.hamcrest>
         <version.httpcore>4.4.15</version.httpcore>
         <version.elastic>7.17.1</version.elastic>
         <version.antlr4>4.9.3</version.antlr4>
-        <version.maven-javadoc-plugin>3.3.2</version.maven-javadoc-plugin>
+        <version.maven-javadoc-plugin>3.4.0</version.maven-javadoc-plugin>
     </properties>
 
     <dependencyManagement>
@@ -1071,7 +1071,7 @@
             <dependency>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-stdlib</artifactId>
-                <version>1.6.20</version>
+                <version>1.6.21</version>
                 <scope>runtime</scope>
             </dependency>
             <dependency>
