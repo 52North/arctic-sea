@@ -134,7 +134,9 @@ public class OmObservationConstellation extends AbstractFeature
         super("");
         this.procedure = Nillable.of(procedure);
         this.observableProperty = observableProperty;
-        this.offerings = offerings;
+        if (offerings != null) {
+            this.offerings.addAll(offerings);
+        }
         this.featureOfInterest = Nillable.of(featureOfInterest);
         this.observationType = observationType;
     }
