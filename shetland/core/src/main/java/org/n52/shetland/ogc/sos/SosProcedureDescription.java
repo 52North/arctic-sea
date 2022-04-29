@@ -220,7 +220,7 @@ public class SosProcedureDescription<
     }
 
     public SosProcedureDescription<T> addPhenomenon(Map<String, AbstractPhenomenon> phenomenons) {
-        phenomenons.forEach(phenomenons::put);
+        phenomenons.forEach(phenomenonMap::put);
         return this;
     }
 
