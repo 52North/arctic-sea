@@ -64,7 +64,7 @@ All projects are available on Maven Central.
 
 ```xml
 <properties>
-  <version.arctic-sea>8.5.3</version.arctic-sea>
+  <version.arctic-sea>9.5.3</version.arctic-sea>
 </properties>
 <dependencies>
   <dependency>
