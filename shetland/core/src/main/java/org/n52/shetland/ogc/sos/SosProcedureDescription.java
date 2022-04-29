@@ -215,7 +215,7 @@ public class SosProcedureDescription<
     }
 
     public SosProcedureDescription<T> addPhenomenon(AbstractPhenomenon phenomenon) {
-        getPhenomenon().put(phenomenon.getIdentifier(), phenomenon);
+        phenomenonMap.put(phenomenon.getIdentifier(), phenomenon);
         return this;
     }
 
