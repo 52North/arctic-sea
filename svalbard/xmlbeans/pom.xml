@@ -21,7 +21,7 @@
     <parent>
         <groupId>org.n52.arctic-sea</groupId>
         <artifactId>svalbard-parent</artifactId>
-        <version>9.5.2</version>
+        <version>9.6.0-SNAPSHOT</version>
     </parent>
     <artifactId>svalbard-xmlbeans</artifactId>
     <name>52°North Svalbard XmlBeans</name>
