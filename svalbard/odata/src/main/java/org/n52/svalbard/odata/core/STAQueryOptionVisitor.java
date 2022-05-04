@@ -15,6 +15,16 @@
  */
 package org.n52.svalbard.odata.core;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.function.Supplier;
+
 import org.joda.time.DateTime;
 import org.n52.shetland.filter.CountFilter;
 import org.n52.shetland.filter.ExpandFilter;
@@ -47,16 +57,6 @@ import org.n52.svalbard.odata.core.expr.temporal.TimeValueExpr;
 import org.n52.svalbard.odata.grammar.STAQueryOptionsGrammar;
 import org.n52.svalbard.odata.grammar.STAQueryOptionsGrammarBaseVisitor;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.function.Supplier;
-
 /**
  * @author <a href="mailto:j.speckamp@52north.org">Jan Speckamp</a>
  */
@@ -64,11 +64,11 @@ import java.util.function.Supplier;
 public class STAQueryOptionVisitor extends STAQueryOptionsGrammarBaseVisitor {
 
     @Override public QueryOptions visitQueryOptions(STAQueryOptionsGrammar.QueryOptionsContext ctx) {
-        Set<FilterClause> qops = new HashSet<>();
+        Set<FilterClause> filterClauses = new HashSet<>();
         for (STAQueryOptionsGrammar.SystemQueryOptionContext systemQueryOptionContext : ctx.systemQueryOption()) {
-            qops.add(this.visitSystemQueryOption(systemQueryOptionContext));
+            filterClauses.add(this.visitSystemQueryOption(systemQueryOptionContext));
         }
-        return new QueryOptions("", qops);
+        return new QueryOptions(filterClauses);
     }
 
     @Override public FilterClause visitSystemQueryOption(STAQueryOptionsGrammar.SystemQueryOptionContext ctx) {
@@ -204,7 +204,7 @@ public class STAQueryOptionVisitor extends STAQueryOptionsGrammarBaseVisitor {
                                 qo1::getTopFilter,
                                 qo2::hasTopFilter,
                                 qo2::getTopFilter));
-        return new QueryOptions(qo1.getBaseURI(), clauses);
+        return new QueryOptions(clauses);
     }
 
     private FilterClause mergeOption(Supplier<Boolean> q1hasClause,
@@ -237,9 +237,9 @@ public class STAQueryOptionVisitor extends STAQueryOptionsGrammarBaseVisitor {
             for (STAQueryOptionsGrammar.SystemQueryOptionContext expandQueryOptions : ctx.systemQueryOption()) {
                 options.add(this.visitSystemQueryOption(expandQueryOptions));
             }
-            return handleSlashRewrite(ctx, new QueryOptions("", options));
+            return handleSlashRewrite(ctx, new QueryOptions(options));
         } else {
-            QueryOptions base = new QueryOptions("", null);
+            QueryOptions base = new QueryOptions(null);
             return handleSlashRewrite(ctx, base);
         }
     }
@@ -251,7 +251,7 @@ public class STAQueryOptionVisitor extends STAQueryOptionsGrammarBaseVisitor {
             for (int i = ctx.memberExpr().ALPHAPLUS().size() - 1; i >= 1; i--) {
                 ExpandItem expandItem = new ExpandItem(ctx.memberExpr().ALPHAPLUS(i).getText(), base);
                 ExpandFilter expandFilter = new ExpandFilter(expandItem);
-                base = new QueryOptions("", Collections.singleton(expandFilter));
+                base = new QueryOptions(Collections.singleton(expandFilter));
             }
         }
         return new ExpandItem(ctx.memberExpr().ALPHAPLUS(0).getText(), base);

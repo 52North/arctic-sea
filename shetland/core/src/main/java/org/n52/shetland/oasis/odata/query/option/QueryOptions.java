@@ -15,6 +15,11 @@
  */
 package org.n52.shetland.oasis.odata.query.option;
 
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.n52.shetland.filter.CountFilter;
 import org.n52.shetland.filter.ExpandFilter;
 import org.n52.shetland.filter.FilterFilter;
@@ -25,11 +30,6 @@ import org.n52.shetland.ogc.filter.FilterClause;
 import org.n52.shetland.ogc.filter.FilterConstants;
 import org.n52.shetland.ogc.filter.FilterConstants.SkipTopOperator;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 /**
  * Class to hold Query Parameters
  *
@@ -38,9 +38,9 @@ import java.util.stream.Collectors;
  */
 public class QueryOptions {
 
-    private static Long DEFAULT_TOP = 100L;
+    // TODO return Optionals in case of 'null'-able filters
 
-    private String baseURL;
+    private static Long DEFAULT_TOP = 100L;
 
     private CountFilter countFilter;
     private OrderByFilter orderByFilter;
@@ -50,8 +50,7 @@ public class QueryOptions {
     private SkipTopFilter topFilter;
     private FilterFilter filterFilter;
 
-    public QueryOptions(String baseURL, Set<FilterClause> queryFilters) {
-        this.baseURL = baseURL;
+    public QueryOptions(Set<FilterClause> queryFilters) {
         if (queryFilters != null) {
             queryFilters.forEach(input -> {
                 if (input instanceof CountFilter) {
@@ -76,10 +75,6 @@ public class QueryOptions {
         if (!hasTopFilter()) {
             this.topFilter = new SkipTopFilter(SkipTopOperator.Top, DEFAULT_TOP);
         }
-    }
-
-    public String getBaseURI() {
-        return baseURL;
     }
 
     public boolean hasCountFilter() {
@@ -165,8 +160,7 @@ public class QueryOptions {
     }
 
     @Override public int hashCode() {
-        return Objects.hash(baseURL,
-                            countFilter,
+        return Objects.hash(countFilter,
                             topFilter,
                             skipFilter,
                             orderByFilter,

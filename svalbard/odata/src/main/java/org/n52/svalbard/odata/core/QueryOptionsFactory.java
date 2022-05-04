@@ -15,6 +15,8 @@
  */
 package org.n52.svalbard.odata.core;
 
+import java.util.Set;
+
 import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CodePointCharStream;
@@ -27,8 +29,6 @@ import org.n52.shetland.ogc.filter.FilterClause;
 import org.n52.svalbard.odata.grammar.STAQueryOptionsGrammar;
 import org.n52.svalbard.odata.grammar.STAQueryOptionsGrammar.QueryOptionsContext;
 import org.n52.svalbard.odata.grammar.STAQueryOptionsLexer;
-
-import java.util.Set;
 
 /**
  * @author <a href="mailto:j.speckamp@52north.org">Jan Speckamp</a>
@@ -43,11 +43,11 @@ public class QueryOptionsFactory {
     }
 
     public QueryOptions createQueryOptions(Set<FilterClause> filters) {
-        return new QueryOptions("", filters);
+        return new QueryOptions(filters);
     }
 
-    public QueryOptions createDummy() {
-        return new QueryOptions("", null);
+    public QueryOptions createEmpty() {
+        return new QueryOptions(null);
     }
 
     STAQueryOptionsGrammar createGrammar(String query) {
