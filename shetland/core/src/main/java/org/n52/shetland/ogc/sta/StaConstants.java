@@ -20,7 +20,6 @@ public interface StaConstants {
     /**
      * Profiles/Extensions
      */
-    String VANILLA = "vanilla";
     String STAPLUS = "staplus";
     String MULTIDATASTREAM = "multiDatastream";
     String UFZAGGREGATA = "ufzaggregata";
@@ -85,8 +84,10 @@ public interface StaConstants {
     String AT = "@";
     String IOT_ID = "iot.id";
     String IOT_SELFLINK = "iot.selfLink";
+    String IOT_NAVIGATIONLINK = "iot.navigationLink";
     String AT_IOT_ID = AT + IOT_ID;
     String AT_IOT_SELFLINK = AT + IOT_SELFLINK;
+    String AT_IOT_NAVIGATIONLINK = AT + IOT_NAVIGATIONLINK;
 
     /**
      * Properties

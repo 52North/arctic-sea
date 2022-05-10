@@ -15,6 +15,9 @@
  */
 package org.n52.svalbard.odata.core;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.n52.shetland.filter.CountFilter;
@@ -35,9 +38,6 @@ import org.n52.svalbard.odata.core.expr.StringValueExpr;
 import org.n52.svalbard.odata.core.expr.arithmetic.NumericValueExpr;
 import org.n52.svalbard.odata.core.expr.bool.ComparisonExpr;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * @author <a href="mailto:j.speckamp@52north.org">Jan Speckamp</a>
  */
@@ -48,7 +48,7 @@ public class ExpandQueryOptionTest extends QueryOptionTests {
     public void testValidExpandOption() {
         String val, nested;
         ExpandFilter actual, reference;
-        QueryOptions defaultQO = new QueryOptions("", null);
+        QueryOptions defaultQO = new QueryOptions(null);
         Set<FilterClause> nestedFilters;
 
         // Simple
@@ -67,7 +67,7 @@ public class ExpandQueryOptionTest extends QueryOptionTests {
                                        .accept(new STAQueryOptionVisitor())).getExpandFilter();
         nestedFilters = new HashSet<>();
         nestedFilters.add(new ExpandFilter(new ExpandItem(nested, defaultQO)));
-        reference = new ExpandFilter(new ExpandItem(val, new QueryOptions("", nestedFilters)));
+        reference = new ExpandFilter(new ExpandItem(val, new QueryOptions(nestedFilters)));
         Assertions.assertEquals(reference, actual);
 
         // Expand with queryOptions
@@ -80,7 +80,7 @@ public class ExpandQueryOptionTest extends QueryOptionTests {
         nestedFilters.add(new FilterFilter(new ComparisonExpr(FilterConstants.ComparisonOperator.PropertyIsEqualTo,
                                                               new MemberExpr("id"),
                                                               new StringValueExpr("2"))));
-        reference = new ExpandFilter(new ExpandItem(val, new QueryOptions("", nestedFilters)));
+        reference = new ExpandFilter(new ExpandItem(val, new QueryOptions(nestedFilters)));
         Assertions.assertEquals(reference, actual);
 
         // Expand with queryOptions
@@ -91,7 +91,7 @@ public class ExpandQueryOptionTest extends QueryOptionTests {
                                        .accept(new STAQueryOptionVisitor())).getExpandFilter();
         nestedFilters = new HashSet<>();
         nestedFilters.add(new SkipTopFilter(FilterConstants.SkipTopOperator.Top, 52L));
-        reference = new ExpandFilter(new ExpandItem(val, new QueryOptions("", nestedFilters)));
+        reference = new ExpandFilter(new ExpandItem(val, new QueryOptions(nestedFilters)));
         Assertions.assertEquals(reference, actual);
 
         // Expand with queryOptions
@@ -102,7 +102,7 @@ public class ExpandQueryOptionTest extends QueryOptionTests {
                                        .accept(new STAQueryOptionVisitor())).getExpandFilter();
         nestedFilters = new HashSet<>();
         nestedFilters.add(new SkipTopFilter(FilterConstants.SkipTopOperator.Skip, 52L));
-        reference = new ExpandFilter(new ExpandItem(val, new QueryOptions("", nestedFilters)));
+        reference = new ExpandFilter(new ExpandItem(val, new QueryOptions(nestedFilters)));
         Assertions.assertEquals(reference, actual);
 
         // Expand with queryOptions
@@ -113,7 +113,7 @@ public class ExpandQueryOptionTest extends QueryOptionTests {
                                        .accept(new STAQueryOptionVisitor())).getExpandFilter();
         nestedFilters = new HashSet<>();
         nestedFilters.add(new SelectFilter("id"));
-        reference = new ExpandFilter(new ExpandItem(val, new QueryOptions("", nestedFilters)));
+        reference = new ExpandFilter(new ExpandItem(val, new QueryOptions(nestedFilters)));
         Assertions.assertEquals(reference, actual);
 
         // Expand with queryOptions
@@ -124,7 +124,7 @@ public class ExpandQueryOptionTest extends QueryOptionTests {
                                        .accept(new STAQueryOptionVisitor())).getExpandFilter();
         nestedFilters = new HashSet<>();
         nestedFilters.add(new ExpandFilter(new ExpandItem(nested, defaultQO)));
-        reference = new ExpandFilter(new ExpandItem(val, new QueryOptions("", nestedFilters)));
+        reference = new ExpandFilter(new ExpandItem(val, new QueryOptions(nestedFilters)));
         Assertions.assertEquals(reference, actual);
 
         // Expand with queryOptions
@@ -135,7 +135,7 @@ public class ExpandQueryOptionTest extends QueryOptionTests {
                                        .accept(new STAQueryOptionVisitor())).getExpandFilter();
         nestedFilters = new HashSet<>();
         nestedFilters.add(new OrderByFilter(new OrderProperty("id", FilterConstants.SortOrder.ASC)));
-        reference = new ExpandFilter(new ExpandItem(val, new QueryOptions("", nestedFilters)));
+        reference = new ExpandFilter(new ExpandItem(val, new QueryOptions(nestedFilters)));
         Assertions.assertEquals(reference, actual);
     }
 
@@ -198,14 +198,14 @@ public class ExpandQueryOptionTest extends QueryOptionTests {
                                                                 new NumericValueExpr("1"))));
 
                 filters.add(new ExpandFilter(
-                        new ExpandItem("FeatureOfInterest", new QueryOptions("", null))));
+                        new ExpandItem("FeatureOfInterest", new QueryOptions(null))));
                 filters.add(new SelectFilter("id"));
                 filters.add(new OrderByFilter(new OrderProperty("id")));
                 filters.add(new SkipTopFilter(FilterConstants.SkipTopOperator.Skip, 5L));
                 filters.add(new SkipTopFilter(FilterConstants.SkipTopOperator.Top, 10L));
                 filters.add(new CountFilter(true));
 
-                Assertions.assertEquals(new QueryOptions("", filters), obs.getQueryOptions());
+                Assertions.assertEquals(new QueryOptions(filters), obs.getQueryOptions());
             } else if (obs.getPath().equals("ObservedProperty")) {
                 Assertions.assertEquals("ObservedProperty", obs.getPath());
                 Assertions.assertNotNull(obs.getQueryOptions());
