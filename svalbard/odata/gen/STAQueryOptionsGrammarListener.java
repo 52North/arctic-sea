@@ -13,7 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-// Generated from /home/specki/git/arctic-sea/svalbard/odata/src/main/antlr4/org/n52/svalbard/odata/grammar/STAQueryOptionsGrammar.g4 by ANTLR 4.8
+// Generated from org\n52\svalbard\odata\grammar\STAQueryOptionsGrammar.g4 by ANTLR 4.10.1
+package org.n52.svalbard.odata.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
