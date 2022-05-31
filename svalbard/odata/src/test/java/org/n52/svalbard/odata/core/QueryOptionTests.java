@@ -15,6 +15,7 @@
  */
 package org.n52.svalbard.odata.core;
 
+import org.n52.shetland.oasis.odata.query.option.QueryOptions;
 import org.n52.svalbard.odata.grammar.STAQueryOptionsGrammar;
 
 /**

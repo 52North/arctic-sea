@@ -36,39 +36,39 @@ import org.n52.svalbard.odata.grammar.STAQueryOptionsLexer;
 @SuppressWarnings("unchecked")
 public class QueryOptionsFactory {
 
-    public QueryOptions createQueryOptions(String query) {
+    public static QueryOptions createQueryOptions(String query) {
         STAQueryOptionsGrammar grammar = createGrammar(query);
         QueryOptionsContext context = grammar.queryOptions();
         return context.<QueryOptions>accept(new STAQueryOptionVisitor());
     }
 
-    public QueryOptions createQueryOptions(Set<FilterClause> filters) {
+    public static QueryOptions createQueryOptions(Set<FilterClause> filters) {
         return new QueryOptions(filters);
     }
 
-    public QueryOptions createEmpty() {
+    public static QueryOptions createEmpty() {
         return new QueryOptions(null);
     }
 
-    STAQueryOptionsGrammar createGrammar(String query) {
+    static STAQueryOptionsGrammar createGrammar(String query) {
         return createGrammar(createLexer(query));
     }
 
-    private STAQueryOptionsLexer createLexer(String query) {
+    private static STAQueryOptionsLexer createLexer(String query) {
         CodePointCharStream charStream = CharStreams.fromString(query.trim());
         STAQueryOptionsLexer staQueryOptionsLexer = new STAQueryOptionsLexer(charStream);
         replaceErrorListener(staQueryOptionsLexer);
         return staQueryOptionsLexer;
     }
 
-    private STAQueryOptionsGrammar createGrammar(STAQueryOptionsLexer lexer) {
+    private static STAQueryOptionsGrammar createGrammar(STAQueryOptionsLexer lexer) {
         CommonTokenStream tokenStream = new CommonTokenStream(lexer);
         STAQueryOptionsGrammar parser = new STAQueryOptionsGrammar(tokenStream);
         replaceErrorListener(parser);
         return parser;
     }
 
-    private void replaceErrorListener(Recognizer<?, ?> recognizer) {
+    private static void replaceErrorListener(Recognizer<?, ?> recognizer) {
         recognizer.removeErrorListeners();
         Vocabulary vocabulary = recognizer.getVocabulary();
         recognizer.addErrorListener(new CustomErrorListener(vocabulary));
