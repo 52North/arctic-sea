@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,12 +23,13 @@ import java.util.Set;
 import javax.inject.Inject;
 
 import org.apache.xmlbeans.XmlObject;
-
 import org.n52.shetland.aqd.AqdConstants;
 import org.n52.shetland.ogc.ows.service.OwsServiceCommunicationObject;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.XmlHelper;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * {@link XmlObject} decoder for AQD e-Reporting requests
@@ -47,6 +47,7 @@ public class AqdDecoderv10 implements Decoder<OwsServiceCommunicationObject, Xml
     private DecoderRepository decoderRepository;
 
     @Inject
+    @SuppressFBWarnings({"EI_EXPOSE_REP2"})
     public void setDecoderRepository(DecoderRepository decoderRepository) {
         this.decoderRepository = Objects.requireNonNull(decoderRepository);
     }

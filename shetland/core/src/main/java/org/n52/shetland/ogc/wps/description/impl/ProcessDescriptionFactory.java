@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,19 +27,10 @@ import org.n52.shetland.ogc.wps.description.LiteralOutputDescription;
 import org.n52.shetland.ogc.wps.description.ProcessDescription;
 import org.n52.shetland.ogc.wps.description.ProcessDescriptionBuilderFactory;
 
-public class ProcessDescriptionFactory
-        implements ProcessDescriptionBuilderFactory<
-                                                           ProcessDescription,
-                                                           GroupInputDescription,
-                                                           GroupOutputDescription,
-                                                           LiteralInputDescription,
-                                                           LiteralOutputDescription,
-                                                           ComplexInputDescription,
-                                                           ComplexOutputDescription,
-                                                           BoundingBoxInputDescription,
-                                                           BoundingBoxOutputDescription,
-                                                           LiteralDataDomain
-                                                           > {
+public class ProcessDescriptionFactory implements
+        ProcessDescriptionBuilderFactory<ProcessDescription, GroupInputDescription, GroupOutputDescription,
+                LiteralInputDescription, LiteralOutputDescription, ComplexInputDescription, ComplexOutputDescription,
+                BoundingBoxInputDescription, BoundingBoxOutputDescription, LiteralDataDomain> {
 
     private static final ProcessDescriptionFactory INSTANCE = new ProcessDescriptionFactory();
 

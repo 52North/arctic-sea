@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +15,12 @@
  */
 package org.n52.shetland.ogc.wps.description.impl;
 
-import com.google.common.collect.ImmutableSet;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.n52.janmayen.stream.MoreCollectors;
 import org.n52.shetland.ogc.ows.OwsCode;
 import org.n52.shetland.ogc.wps.description.Description;
@@ -24,11 +28,7 @@ import org.n52.shetland.ogc.wps.description.GroupOutputDescription;
 import org.n52.shetland.ogc.wps.description.ProcessDescriptionBuilderFactory;
 import org.n52.shetland.ogc.wps.description.ProcessOutputDescription;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
+import com.google.common.collect.ImmutableSet;
 
 /**
  * TODO JavaDoc
@@ -42,18 +42,19 @@ public class GroupOutputDescriptionImpl extends AbstractProcessOutputDescription
     protected GroupOutputDescriptionImpl(AbstractBuilder<?, ?> builder) {
         super(builder);
         this.outputs = builder.getOutputs().stream()
-                              .collect(Collectors.groupingBy(Description::getId, MoreCollectors.toSingleResult()));
+                .collect(Collectors.groupingBy(Description::getId, MoreCollectors.toSingleResult()));
     }
 
     @Override
-    public <T> T visit(ReturningVisitor<T> visitor) {
+    public <
+            T> T visit(ReturningVisitor<T> visitor) {
         return visitor.visit(this);
     }
 
     @Override
-    public <T, X extends Exception> T visit(
-            ThrowingReturningVisitor<T, X> visitor)
-            throws X {
+    public <
+            T,
+            X extends Exception> T visit(ThrowingReturningVisitor<T, X> visitor) throws X {
         return visitor.visit(this);
     }
 
@@ -77,8 +78,9 @@ public class GroupOutputDescriptionImpl extends AbstractProcessOutputDescription
         return getFactory().groupOutput(this);
     }
 
-    public abstract static class AbstractBuilder<T extends GroupOutputDescription, B extends AbstractBuilder<T, B>>
-            extends AbstractProcessOutputDescription.AbstractBuilder<T, B>
+    public abstract static class AbstractBuilder<
+            T extends GroupOutputDescription,
+            B extends AbstractBuilder<T, B>> extends AbstractProcessOutputDescription.AbstractBuilder<T, B>
             implements GroupOutputDescription.Builder<T, B> {
 
         private final ImmutableSet.Builder<ProcessOutputDescription> inputs = ImmutableSet.builder();
@@ -88,7 +90,7 @@ public class GroupOutputDescriptionImpl extends AbstractProcessOutputDescription
         }
 
         protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
-                                  GroupOutputDescription entity) {
+                GroupOutputDescription entity) {
             super(factory, entity);
             this.inputs.addAll(entity.getOutputDescriptions());
         }
@@ -113,7 +115,7 @@ public class GroupOutputDescriptionImpl extends AbstractProcessOutputDescription
         }
 
         protected Builder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
-                          GroupOutputDescription entity) {
+                GroupOutputDescription entity) {
             super(factory, entity);
         }
 

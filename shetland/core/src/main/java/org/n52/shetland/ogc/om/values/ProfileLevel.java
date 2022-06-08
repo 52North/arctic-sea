@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +30,8 @@ import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 import org.n52.shetland.ogc.swe.SweDataRecord;
 import org.n52.shetland.ogc.swe.SweField;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Represents the level of a profile
  *
@@ -38,8 +39,7 @@ import org.n52.shetland.ogc.swe.SweField;
  * @since 1.0.0
  *
  */
-public class ProfileLevel extends AbstractPofileTrajectoryElement<ProfileLevel>
-        implements Comparable<ProfileLevel> {
+public class ProfileLevel extends AbstractPofileTrajectoryElement<ProfileLevel> implements Comparable<ProfileLevel> {
 
     private QuantityValue levelStart;
     private QuantityValue levelEnd;
@@ -61,6 +61,7 @@ public class ProfileLevel extends AbstractPofileTrajectoryElement<ProfileLevel>
      * @param value
      *            the values
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public ProfileLevel(QuantityValue levelStart, QuantityValue levelEnd, List<Value<?>> value) {
         super(value);
         this.levelStart = levelStart;
@@ -70,6 +71,7 @@ public class ProfileLevel extends AbstractPofileTrajectoryElement<ProfileLevel>
     /**
      * @return the levelStart
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public QuantityValue getLevelStart() {
         return levelStart;
     }
@@ -79,6 +81,7 @@ public class ProfileLevel extends AbstractPofileTrajectoryElement<ProfileLevel>
      *            the levelStart to set
      * @return {@code this}
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public ProfileLevel setLevelStart(QuantityValue levelStart) {
         this.levelStart = levelStart;
         return this;
@@ -91,6 +94,7 @@ public class ProfileLevel extends AbstractPofileTrajectoryElement<ProfileLevel>
     /**
      * @return the levelEnd
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public QuantityValue getLevelEnd() {
         return levelEnd;
     }
@@ -100,6 +104,7 @@ public class ProfileLevel extends AbstractPofileTrajectoryElement<ProfileLevel>
      *            the levelEnd to set
      * @return {@code this}
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public ProfileLevel setLevelEnd(QuantityValue levelEnd) {
         this.levelEnd = levelEnd;
         return this;
@@ -108,7 +113,6 @@ public class ProfileLevel extends AbstractPofileTrajectoryElement<ProfileLevel>
     public boolean isSetLevelEnd() {
         return getLevelEnd() != null;
     }
-
 
     @Override
     public int compareTo(ProfileLevel o) {
@@ -208,7 +212,8 @@ public class ProfileLevel extends AbstractPofileTrajectoryElement<ProfileLevel>
         return parameter;
     }
 
-    public <X> Collection<X> accept(ProfileLevelVisitor<X> visitor) throws OwsExceptionReport {
+    public <
+            X> Collection<X> accept(ProfileLevelVisitor<X> visitor) throws OwsExceptionReport {
         return visitor.visit(this);
     }
 }

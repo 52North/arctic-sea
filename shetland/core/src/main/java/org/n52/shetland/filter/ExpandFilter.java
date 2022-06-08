@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,35 +15,42 @@
  */
 package org.n52.shetland.filter;
 
-import org.n52.shetland.ogc.filter.FilterClause;
-
-import java.util.HashSet;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.n52.shetland.ogc.filter.FilterClause;
+
 public class ExpandFilter implements FilterClause {
 
-    private final Set<ExpandItem> items;
+    private final Set<ExpandItem> items = new LinkedHashSet<>();
 
     public ExpandFilter(ExpandItem item) {
-        this.items = new HashSet<>();
-        this.items.add(item);
+        if (item != null) {
+            this.items.add(item);
+        }
     }
 
-    public ExpandFilter(Set<ExpandItem> items) {
-        this.items = items;
+    public ExpandFilter(Collection<ExpandItem> items) {
+        if (items != null) {
+            this.items.addAll(items);
+        }
     }
 
     public Set<ExpandItem> getItems() {
-        return items;
+        return Collections.unmodifiableSet(items);
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
         return Objects.hash(this.items);
     }
 
-    @Override public boolean equals(Object o) {
+    @Override
+    public boolean equals(Object o) {
         if (o == this) {
             return true;
         }
@@ -56,8 +62,8 @@ public class ExpandFilter implements FilterClause {
         return this.items.equals(((ExpandFilter) o).getItems());
     }
 
-    @Override public String toString() {
-        return "$expand=" +
-                this.items.stream().map(ExpandItem::toString).collect(Collectors.joining(", "));
+    @Override
+    public String toString() {
+        return "$expand=" + this.items.stream().map(ExpandItem::toString).collect(Collectors.joining(", "));
     }
 }

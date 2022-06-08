@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +15,13 @@
  */
 package org.n52.shetland.ogc.wps.description.impl;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableSet;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.n52.janmayen.stream.MoreCollectors;
 import org.n52.shetland.ogc.ows.OwsCode;
 import org.n52.shetland.ogc.wps.description.Description;
@@ -26,12 +30,8 @@ import org.n52.shetland.ogc.wps.description.ProcessDescriptionBuilderFactory;
 import org.n52.shetland.ogc.wps.description.ProcessInputDescription;
 import org.n52.shetland.ogc.wps.description.ProcessOutputDescription;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableSet;
 
 /**
  * TODO JavaDoc
@@ -49,9 +49,9 @@ public class ProcessDescriptionImpl extends AbstractDescription implements Proce
     protected ProcessDescriptionImpl(AbstractBuilder<?, ?> builder) {
         super(builder);
         this.inputs = builder.getInputs().stream()
-                             .collect(Collectors.groupingBy(Description::getId, MoreCollectors.toSingleResult()));
+                .collect(Collectors.groupingBy(Description::getId, MoreCollectors.toSingleResult()));
         this.outputs = builder.getOutputs().stream()
-                              .collect(Collectors.groupingBy(Description::getId, MoreCollectors.toSingleResult()));
+                .collect(Collectors.groupingBy(Description::getId, MoreCollectors.toSingleResult()));
         this.storeSupported = builder.isStoreSupported();
         this.statusSupported = builder.isStatusSupported();
         this.version = Objects.requireNonNull(builder.getVersion(), "version");
@@ -131,15 +131,14 @@ public class ProcessDescriptionImpl extends AbstractDescription implements Proce
         }
         final ProcessDescriptionImpl other = (ProcessDescriptionImpl) obj;
 
-        return this.storeSupported != other.storeSupported &&
-               this.statusSupported != other.statusSupported &&
-               Objects.equals(this.version, other.version) &&
-               Objects.equals(this.inputs, other.inputs) &&
-               Objects.equals(this.outputs, other.outputs);
+        return this.storeSupported != other.storeSupported && this.statusSupported != other.statusSupported
+                && Objects.equals(this.version, other.version) && Objects.equals(this.inputs, other.inputs)
+                && Objects.equals(this.outputs, other.outputs);
     }
 
-    public abstract static class AbstractBuilder<T extends ProcessDescription, B extends AbstractBuilder<T, B>>
-            extends AbstractDescription.AbstractBuilder<T, B>
+    public abstract static class AbstractBuilder<
+            T extends ProcessDescription,
+            B extends AbstractBuilder<T, B>> extends AbstractDescription.AbstractBuilder<T, B>
             implements ProcessDescription.Builder<T, B> {
 
         private final ImmutableSet.Builder<ProcessInputDescription> inputs = ImmutableSet.builder();
@@ -149,7 +148,7 @@ public class ProcessDescriptionImpl extends AbstractDescription implements Proce
         private String version;
 
         protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
-                                  ProcessDescription entity) {
+                ProcessDescription entity) {
             super(factory, entity);
             this.inputs.addAll(entity.getInputDescriptions());
             this.outputs.addAll(entity.getOutputDescriptions());
@@ -222,7 +221,7 @@ public class ProcessDescriptionImpl extends AbstractDescription implements Proce
     public static class Builder extends AbstractBuilder<ProcessDescription, Builder> {
 
         protected Builder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
-                          ProcessDescription entity) {
+                ProcessDescription entity) {
             super(factory, entity);
         }
 

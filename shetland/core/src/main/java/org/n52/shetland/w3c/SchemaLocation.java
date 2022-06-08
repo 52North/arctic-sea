@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,9 +26,8 @@ import com.google.common.base.Objects;
  * @since 1.0.0
  */
 public class SchemaLocation implements Comparable<SchemaLocation> {
-    private static final Comparator<SchemaLocation> COMPARATOR
-            = Comparator.comparing(SchemaLocation::getNamespace)
-                    .thenComparing(SchemaLocation::getSchemaFileUrl);
+    private static final Comparator<SchemaLocation> COMPARATOR =
+            Comparator.comparing(SchemaLocation::getNamespace).thenComparing(SchemaLocation::getSchemaFileUrl);
     private final String namespace;
     private final String schemaFileUrl;
     private final String schemaLocationString;
@@ -37,8 +35,10 @@ public class SchemaLocation implements Comparable<SchemaLocation> {
     /**
      * Constructor
      *
-     * @param namespace Namespace
-     * @param schemaFileUrl Schema file URL
+     * @param namespace
+     *            Namespace
+     * @param schemaFileUrl
+     *            Schema file URL
      */
     public SchemaLocation(String namespace, String schemaFileUrl) {
         this.namespace = namespace;
@@ -85,8 +85,8 @@ public class SchemaLocation implements Comparable<SchemaLocation> {
     public boolean equals(Object obj) {
         if (obj != null && obj.getClass() == getClass()) {
             SchemaLocation other = (SchemaLocation) obj;
-            return Objects.equal(getNamespace(), other.getNamespace()) &&
-                     Objects.equal(getSchemaFileUrl(), other.getSchemaFileUrl());
+            return Objects.equal(getNamespace(), other.getNamespace())
+                    && Objects.equal(getSchemaFileUrl(), other.getSchemaFileUrl());
         }
         return false;
     }

@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,24 +15,26 @@
  */
 package org.n52.shetland.ogc.wps.description.impl;
 
-import com.google.common.collect.ImmutableSet;
-import org.n52.shetland.ogc.wps.Format;
-import org.n52.shetland.ogc.wps.description.ComplexInputDescription;
-import org.n52.shetland.ogc.wps.description.ProcessDescriptionBuilderFactory;
-
 import java.math.BigInteger;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
+import org.n52.shetland.ogc.wps.Format;
+import org.n52.shetland.ogc.wps.description.ComplexInputDescription;
+import org.n52.shetland.ogc.wps.description.ProcessDescriptionBuilderFactory;
+
+import com.google.common.collect.ImmutableSet;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * TODO JavaDoc
  *
  * @author Christian Autermann
  */
-public class ComplexInputDescriptionImpl extends AbstractProcessInputDescription
-        implements ComplexInputDescription {
+public class ComplexInputDescriptionImpl extends AbstractProcessInputDescription implements ComplexInputDescription {
 
     private final Format defaultFormat;
     private final Set<Format> supportedFormats;
@@ -52,6 +53,7 @@ public class ComplexInputDescriptionImpl extends AbstractProcessInputDescription
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Format getDefaultFormat() {
         return defaultFormat;
     }
@@ -66,8 +68,9 @@ public class ComplexInputDescriptionImpl extends AbstractProcessInputDescription
         return getFactory().complexInput(this);
     }
 
-    public abstract static class AbstractBuilder<T extends ComplexInputDescription, B extends AbstractBuilder<T, B>>
-            extends AbstractProcessInputDescription.AbstractBuilder<T, B>
+    public abstract static class AbstractBuilder<
+            T extends ComplexInputDescription,
+            B extends AbstractBuilder<T, B>> extends AbstractProcessInputDescription.AbstractBuilder<T, B>
             implements ComplexInputDescription.Builder<T, B> {
 
         private final ImmutableSet.Builder<Format> supportedFormats = ImmutableSet.builder();
@@ -75,7 +78,7 @@ public class ComplexInputDescriptionImpl extends AbstractProcessInputDescription
         private BigInteger maximumMegabytes;
 
         protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
-                                  ComplexInputDescription entity) {
+                ComplexInputDescription entity) {
             super(factory, entity);
             this.defaultFormat = entity.getDefaultFormat();
             this.supportedFormats.addAll(entity.getSupportedFormats());
@@ -88,14 +91,14 @@ public class ComplexInputDescriptionImpl extends AbstractProcessInputDescription
 
         @Override
         public B withMaximumMegabytes(BigInteger maximumMegabytes) {
-            if (maximumMegabytes == null ||
-                maximumMegabytes.compareTo(BigInteger.ZERO) > 0) {
+            if (maximumMegabytes == null || maximumMegabytes.compareTo(BigInteger.ZERO) > 0) {
                 this.maximumMegabytes = maximumMegabytes;
             }
             return self();
         }
 
         @Override
+        @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
         public B withDefaultFormat(Format format) {
             this.defaultFormat = Objects.requireNonNull(format);
             this.supportedFormats.add(format);
@@ -114,6 +117,7 @@ public class ComplexInputDescriptionImpl extends AbstractProcessInputDescription
             return supportedFormats.build();
         }
 
+        @SuppressFBWarnings({ "EI_EXPOSE_REP" })
         public Format getDefaultFormat() {
             return defaultFormat;
         }
@@ -130,7 +134,7 @@ public class ComplexInputDescriptionImpl extends AbstractProcessInputDescription
         }
 
         protected Builder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
-                          ComplexInputDescription entity) {
+                ComplexInputDescription entity) {
             super(factory, entity);
         }
 

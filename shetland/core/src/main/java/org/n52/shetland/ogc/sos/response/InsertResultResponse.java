@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +15,7 @@
  */
 package org.n52.shetland.ogc.sos.response;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.n52.shetland.ogc.om.OmObservation;
@@ -44,7 +44,7 @@ public class InsertResultResponse extends OwsServiceResponse {
     }
 
     public List<OmObservation> getObservations() {
-        return observations;
+        return Collections.unmodifiableList(observations);
     }
 
     public void setObservation(OmObservation observation) {

@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,6 +34,8 @@ import org.n52.shetland.w3c.soap.SoapHeader;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * @since 1.0.0
@@ -80,6 +81,7 @@ public class ServiceResponse implements CommunicationObjectWithSoapHeader {
      *            the HTTP response code as specified in
      *            {@link HttpServletResponse}
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public ServiceResponse(ByteArrayOutputStream baos, MediaType contentType, HTTPStatus status) {
         this.byteArrayOutputStream = baos;
         this.contentType = contentType;

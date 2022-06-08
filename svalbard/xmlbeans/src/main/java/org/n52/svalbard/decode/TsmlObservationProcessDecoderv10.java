@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,13 +19,6 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
-import net.opengis.tsml.x10.ObservationProcessDocument;
-import net.opengis.tsml.x10.ObservationProcessPropertyType;
-import net.opengis.tsml.x10.ObservationProcessType;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.n52.shetland.ogc.SupportedType;
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.om.series.tsml.ObservationProcess;
@@ -37,11 +29,18 @@ import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.util.CodingHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
+
+import net.opengis.tsml.x10.ObservationProcessDocument;
+import net.opengis.tsml.x10.ObservationProcessPropertyType;
+import net.opengis.tsml.x10.ObservationProcessType;
 
 public class TsmlObservationProcessDecoderv10
         extends

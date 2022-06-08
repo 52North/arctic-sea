@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,9 +17,9 @@ package org.n52.shetland.ogc.sos.gda;
 
 import javax.xml.namespace.QName;
 
+import org.n52.shetland.ogc.om.OmConstants;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
-import org.n52.shetland.ogc.om.OmConstants;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.shetland.w3c.W3CConstants;
 
@@ -152,8 +151,8 @@ public interface GetDataAvailabilityConstants {
     QName GDA_GET_DATA_AVAILABILITY_20 = new QName(GetDataAvailabilityConstants.NS_GDA_20, EN_GET_DATA_AVAILABILITY,
             GetDataAvailabilityConstants.NS_GDA_PREFIX);
 
-    QName GDA_20_EXTENSION =
-            new QName(GetDataAvailabilityConstants.NS_GDA_20, EN_EXTENSION, GetDataAvailabilityConstants.NS_GDA_PREFIX);
+    QName GDA_20_EXTENSION = new QName(GetDataAvailabilityConstants.NS_GDA_20, EN_EXTENSION,
+            GetDataAvailabilityConstants.NS_GDA_PREFIX);
 
     /**
      * The {@code QName} for {@code gda:featureOfInterest}.
@@ -287,8 +286,7 @@ public interface GetDataAvailabilityConstants {
     /**
      * The {@code QName} for {@code xlink:title}.
      */
-    QName XLINK_TITLE =
-            new QName(W3CConstants.NS_XLINK, W3CConstants.AN_TITLE, W3CConstants.NS_XLINK_PREFIX);
+    QName XLINK_TITLE = new QName(W3CConstants.NS_XLINK, W3CConstants.AN_TITLE, W3CConstants.NS_XLINK_PREFIX);
 
     /**
      * The {@code QName} for {@code om:featureOfInterest}.
@@ -322,7 +320,10 @@ public interface GetDataAvailabilityConstants {
      * The available parameters of the operation.
      */
     enum GetDataAvailabilityParams {
-        featureOfInterest, observedProperty, procedure, offering;
+        featureOfInterest,
+        observedProperty,
+        procedure,
+        offering;
     }
 
     enum GetDataAvailabilityV20Params {

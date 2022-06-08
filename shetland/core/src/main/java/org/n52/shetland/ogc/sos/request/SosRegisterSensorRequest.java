@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,19 +16,22 @@
 package org.n52.shetland.ogc.sos.request;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashSet;
 
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.om.AbstractPhenomenon;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.sos.Sos1Constants;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * SOS RegisterSensor request
  *
  * @since 1.0.0
  */
-public class SosRegisterSensorRequest
-        extends OwsServiceRequest {
+public class SosRegisterSensorRequest extends OwsServiceRequest {
 
     /**
      * SOS Sensor system
@@ -39,12 +41,12 @@ public class SosRegisterSensorRequest
     /**
      * observableProperties collection
      */
-    private Collection<AbstractPhenomenon> observableProperties;
+    private Collection<AbstractPhenomenon> observableProperties = new LinkedHashSet<>();
 
     /**
      * featureOfInterest collection
      */
-    private Collection<AbstractFeature> featuresOfInterest;
+    private Collection<AbstractFeature> featuresOfInterest = new LinkedHashSet<>();
 
     /**
      * Sensor description
@@ -61,14 +63,14 @@ public class SosRegisterSensorRequest
      * @param featuresOfInterest
      *            FeatureOfInterest
      */
-    public SosRegisterSensorRequest(
-            Collection<AbstractPhenomenon> observableProperties, String sensorDescription,
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public SosRegisterSensorRequest(Collection<AbstractPhenomenon> observableProperties, String sensorDescription,
             Collection<AbstractFeature> featuresOfInterest) {
         super(null, null, Sos1Constants.Operations.RegisterSensor.name());
         // this.system = system;
-        this.observableProperties = observableProperties;
+        this.observableProperties.addAll(observableProperties);
         this.sensorDescription = sensorDescription;
-        this.featuresOfInterest = featuresOfInterest;
+        this.featuresOfInterest.addAll(featuresOfInterest);
     }
 
     /**
@@ -77,7 +79,7 @@ public class SosRegisterSensorRequest
      * @return observableProperties
      */
     public Collection<AbstractPhenomenon> getObservableProperties() {
-        return observableProperties;
+        return Collections.unmodifiableCollection(observableProperties);
     }
 
     /**
@@ -86,8 +88,12 @@ public class SosRegisterSensorRequest
      * @param observableProperties
      *            observableProperties
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setObservableProperties(Collection<AbstractPhenomenon> observableProperties) {
-        this.observableProperties = observableProperties;
+        this.observableProperties.clear();
+        if (observableProperties != null) {
+            this.observableProperties.addAll(observableProperties);
+        }
     }
 
     /**
@@ -109,32 +115,13 @@ public class SosRegisterSensorRequest
         this.sensorDescription = sensorDescription;
     }
 
-    // /**
-    // * Get SOS sensor system
-    // *
-    // * @return SOS sensor system
-    // */
-    // public SensorSystem getSystem() {
-    // return system;
-    // }
-    //
-    // /**
-    // * Set SOS sensor system
-    // *
-    // * @param system
-    // * SOS sensor system
-    // */
-    // public void setSystem(SensorSystem system) {
-    // this.system = system;
-    // }
-
     /**
      * Get featuresOfInterst
      *
      * @return featuresOfInterst
      */
     public Collection<AbstractFeature> getFeaturesOfInterest() {
-        return featuresOfInterest;
+        return Collections.unmodifiableCollection(featuresOfInterest);
     }
 
     /**
@@ -143,8 +130,12 @@ public class SosRegisterSensorRequest
      * @param featuresOfInterest
      *            featuresOfInterst
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setFeaturesOfInterest(Collection<AbstractFeature> featuresOfInterest) {
-        this.featuresOfInterest = featuresOfInterest;
+        this.featuresOfInterest.clear();
+        if (featuresOfInterest != null) {
+            this.featuresOfInterest.addAll(featuresOfInterest);
+        }
     }
 
 }

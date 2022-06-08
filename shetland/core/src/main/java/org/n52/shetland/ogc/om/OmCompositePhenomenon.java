@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,42 +15,44 @@
  */
 package org.n52.shetland.ogc.om;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 public class OmCompositePhenomenon extends AbstractPhenomenon implements Iterable<OmObservableProperty> {
 
     /**
      * the components of the composite phenomenon
      */
-    private List<OmObservableProperty> phenomenonComponents;
+    private List<OmObservableProperty> phenomenonComponents = new LinkedList<>();
 
     /**
      * standard constructor
      *
      * @param compPhenId
-     *                             id of the composite phenomenon
+     *            id of the composite phenomenon
      * @param compPhenDesc
-     *                             description of the composite phenomenon
+     *            description of the composite phenomenon
      * @param phenomenonComponents
-     *                             components of the composite phenomenon
+     *            components of the composite phenomenon
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public OmCompositePhenomenon(String compPhenId, String compPhenDesc,
-                                 List<OmObservableProperty> phenomenonComponents) {
+            Collection<OmObservableProperty> phenomenonComponents) {
         super(compPhenId, compPhenDesc);
-        this.phenomenonComponents = phenomenonComponents;
+        setPhenomenonComponents(phenomenonComponents);
     }
 
     public OmCompositePhenomenon(String identifier) {
         super(identifier);
-        this.phenomenonComponents = new LinkedList<>();
     }
 
     public OmCompositePhenomenon(String identifier, String description) {
         super(identifier, description);
-        this.phenomenonComponents = new LinkedList<>();
     }
 
     /**
@@ -60,33 +61,35 @@ public class OmCompositePhenomenon extends AbstractPhenomenon implements Iterabl
      * @return Returns the phenomenonComponents.
      */
     public List<OmObservableProperty> getPhenomenonComponents() {
-        return phenomenonComponents;
+        return Collections.unmodifiableList(phenomenonComponents);
     }
 
     /**
      * Set observableProperties
      *
      * @param phenomenonComponents
-     *                             The phenomenonComponents to set.
+     *            The phenomenonComponents to set.
+     * @return this
      */
-    public void setPhenomenonComponents(List<OmObservableProperty> phenomenonComponents) {
-        this.phenomenonComponents = phenomenonComponents;
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public OmCompositePhenomenon setPhenomenonComponents(Collection<OmObservableProperty> phenomenonComponents) {
+        this.phenomenonComponents.clear();
+        if (phenomenonComponents != null) {
+            this.phenomenonComponents.addAll(phenomenonComponents);
+        }
+        return this;
     }
 
-    public void addPhenomenonComponent(OmObservableProperty observableProperty) {
-        if (this.phenomenonComponents == null) {
-            this.phenomenonComponents = new LinkedList<>();
+    public OmCompositePhenomenon addPhenomenonComponent(OmObservableProperty observableProperty) {
+        if (observableProperty != null) {
+            this.phenomenonComponents.add(observableProperty);
         }
-        this.phenomenonComponents.add(observableProperty);
+        return this;
     }
 
     @Override
     public Iterator<OmObservableProperty> iterator() {
-        if (getPhenomenonComponents() == null) {
-            return Collections.emptyIterator();
-        } else {
-            return getPhenomenonComponents().iterator();
-        }
+        return getPhenomenonComponents().iterator();
     }
 
     @Override

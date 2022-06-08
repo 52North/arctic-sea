@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +21,8 @@ import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.shetland.ogc.wps.Result;
 import org.n52.shetland.ogc.wps.WPSConstants;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * @author Christian Autermann
  */
@@ -33,6 +34,7 @@ public class GetResultResponse extends OwsServiceResponse {
         this(null, null, null);
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public GetResultResponse(String service, String version, Result result) {
         super(service, version);
         this.result = result;
@@ -43,10 +45,12 @@ public class GetResultResponse extends OwsServiceResponse {
         return WPSConstants.Operations.GetResult.toString();
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Result getResult() {
         return this.result;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setResult(Result result) {
         this.result = Objects.requireNonNull(result);
     }

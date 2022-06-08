@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +16,7 @@
 package org.n52.shetland.inspire;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
 
 import org.n52.shetland.util.CollectionHelper;
@@ -73,7 +73,7 @@ public class InspireSupportedLanguages implements InspireObject {
      * @return the supportedLanguages
      */
     public Set<InspireLanguageISO6392B> getSupportedLanguages() {
-        return supportedLanguages;
+        return Collections.unmodifiableSet(supportedLanguages);
     }
 
     /**
@@ -83,9 +83,9 @@ public class InspireSupportedLanguages implements InspireObject {
      *            the supportedLanguages to set
      */
     public void setSupportedLanguages(Collection<InspireLanguageISO6392B> supportedLanguages) {
-        getSupportedLanguages().clear();
+        this.supportedLanguages.clear();
         if (CollectionHelper.isNotEmpty(supportedLanguages)) {
-            getSupportedLanguages().addAll(supportedLanguages);
+            this.supportedLanguages.addAll(supportedLanguages);
         }
 
     }
@@ -98,7 +98,9 @@ public class InspireSupportedLanguages implements InspireObject {
      * @return this
      */
     public InspireSupportedLanguages addSupportedLanguage(InspireLanguageISO6392B supportedLanguage) {
-        getSupportedLanguages().add(supportedLanguage);
+        if (supportedLanguage != null) {
+            this.supportedLanguages.add(supportedLanguage);
+        }
         return this;
     }
 
@@ -113,7 +115,8 @@ public class InspireSupportedLanguages implements InspireObject {
 
     @Override
     public String toString() {
-        return String.format("%s %n[%n defaultLanguage=%s,%n supportedLanguages=%s%n]", this.getClass()
-                .getSimpleName(), getDefaultLanguage(), CollectionHelper.collectionToString(getSupportedLanguages()));
+        return String.format("%s %n[%n defaultLanguage=%s,%n supportedLanguages=%s%n]",
+                this.getClass().getSimpleName(), getDefaultLanguage(),
+                CollectionHelper.collectionToString(getSupportedLanguages()));
     }
 }

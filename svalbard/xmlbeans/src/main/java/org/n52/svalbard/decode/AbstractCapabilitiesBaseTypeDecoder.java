@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,34 +29,7 @@ import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.stream.Stream;
 
-import net.opengis.ows.x11.AddressType;
-import net.opengis.ows.x11.AllowedValuesDocument.AllowedValues;
-import net.opengis.ows.x11.AnyValueDocument.AnyValue;
-import net.opengis.ows.x11.CapabilitiesBaseType;
-import net.opengis.ows.x11.CodeType;
-import net.opengis.ows.x11.ContactType;
-import net.opengis.ows.x11.DCPDocument.DCP;
-import net.opengis.ows.x11.DomainMetadataType;
-import net.opengis.ows.x11.DomainType;
-import net.opengis.ows.x11.HTTPDocument.HTTP;
-import net.opengis.ows.x11.KeywordsType;
-import net.opengis.ows.x11.LanguageStringType;
-import net.opengis.ows.x11.MetadataType;
-import net.opengis.ows.x11.NoValuesDocument.NoValues;
-import net.opengis.ows.x11.OnlineResourceType;
-import net.opengis.ows.x11.OperationDocument.Operation;
-import net.opengis.ows.x11.OperationsMetadataDocument.OperationsMetadata;
-import net.opengis.ows.x11.RangeType;
-import net.opengis.ows.x11.RequestMethodType;
-import net.opengis.ows.x11.ResponsiblePartySubsetType;
-import net.opengis.ows.x11.ServiceIdentificationDocument.ServiceIdentification;
-import net.opengis.ows.x11.ServiceProviderDocument.ServiceProvider;
-import net.opengis.ows.x11.TelephoneType;
-import net.opengis.ows.x11.ValueType;
-import net.opengis.ows.x11.ValuesReferenceDocument.ValuesReference;
-
 import org.apache.xmlbeans.XmlObject;
-
 import org.n52.janmayen.http.HTTPMethods;
 import org.n52.janmayen.i18n.LocaleHelper;
 import org.n52.janmayen.i18n.LocalizedString;
@@ -98,6 +70,32 @@ import org.n52.shetland.w3c.xlink.Show;
 import org.n52.svalbard.decode.exception.DecodingException;
 
 import com.google.common.base.Strings;
+
+import net.opengis.ows.x11.AddressType;
+import net.opengis.ows.x11.AllowedValuesDocument.AllowedValues;
+import net.opengis.ows.x11.AnyValueDocument.AnyValue;
+import net.opengis.ows.x11.CapabilitiesBaseType;
+import net.opengis.ows.x11.CodeType;
+import net.opengis.ows.x11.ContactType;
+import net.opengis.ows.x11.DCPDocument.DCP;
+import net.opengis.ows.x11.DomainMetadataType;
+import net.opengis.ows.x11.DomainType;
+import net.opengis.ows.x11.HTTPDocument.HTTP;
+import net.opengis.ows.x11.KeywordsType;
+import net.opengis.ows.x11.LanguageStringType;
+import net.opengis.ows.x11.MetadataType;
+import net.opengis.ows.x11.NoValuesDocument.NoValues;
+import net.opengis.ows.x11.OnlineResourceType;
+import net.opengis.ows.x11.OperationDocument.Operation;
+import net.opengis.ows.x11.OperationsMetadataDocument.OperationsMetadata;
+import net.opengis.ows.x11.RangeType;
+import net.opengis.ows.x11.RequestMethodType;
+import net.opengis.ows.x11.ResponsiblePartySubsetType;
+import net.opengis.ows.x11.ServiceIdentificationDocument.ServiceIdentification;
+import net.opengis.ows.x11.ServiceProviderDocument.ServiceProvider;
+import net.opengis.ows.x11.TelephoneType;
+import net.opengis.ows.x11.ValueType;
+import net.opengis.ows.x11.ValuesReferenceDocument.ValuesReference;
 
 public abstract class AbstractCapabilitiesBaseTypeDecoder<T, S> extends AbstractXmlDecoder<T, S> {
 

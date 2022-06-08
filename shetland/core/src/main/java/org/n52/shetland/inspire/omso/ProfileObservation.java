@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,8 +38,7 @@ import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.collect.Lists;
 
-public class ProfileObservation
-        extends AbstractInspireObservation {
+public class ProfileObservation extends AbstractInspireObservation {
 
     /**
      * constructor
@@ -69,7 +67,7 @@ public class ProfileObservation
     }
 
     @Override
-    public void setValue(ObservationValue<?> value) {
+    public ProfileObservation setValue(ObservationValue<?> value) {
         if (value instanceof StreamingValue<?>) {
             super.setValue(value);
         } else if (value.getValue() instanceof RectifiedGridCoverage
@@ -113,6 +111,7 @@ public class ProfileObservation
             rectifiedGridCoverage.addValue(heightDepth, value.getValue());
             super.setValue(new SingleObservationValue<>(value.getPhenomenonTime(), rectifiedGridCoverage));
         }
+        return this;
     }
 
     private void setFeatureGeometry(List<Coordinate> coordinates, int srid) {

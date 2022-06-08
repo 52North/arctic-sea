@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,8 +18,7 @@ package org.n52.shetland.ogc.sensorML;
 /**
  * Implementation for sml:RulesDefinition
  *
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
- *         J&uuml;rrens</a>
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  *
  * @since 1.0.0
  */
@@ -45,8 +43,7 @@ public class RulesDefinition {
     /**
      *
      * @param description
-     *            a {@link String} holding the
-     *            "[t]extual description of the i/o structure" (Source: SensorML
+     *            a {@link String} holding the "[t]extual description of the i/o structure" (Source: SensorML
      *            1.0.1).
      * @return the {@link RulesDefinition} object instance
      */

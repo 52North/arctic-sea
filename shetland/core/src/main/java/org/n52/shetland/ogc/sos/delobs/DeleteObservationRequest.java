@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +16,7 @@
 package org.n52.shetland.ogc.sos.delobs;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -27,8 +27,7 @@ import org.n52.shetland.ogc.ows.service.ResponseFormat;
 import org.n52.shetland.util.CollectionHelper;
 
 /**
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
- *         J&uuml;rrens</a>
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  *
  * @since 1.0.0
  */
@@ -63,18 +62,20 @@ public class DeleteObservationRequest extends OwsServiceRequest implements Respo
     }
 
     public Set<String> getObservationIdentifiers() {
-        return observationIdentifiers;
+        return Collections.unmodifiableSet(observationIdentifiers);
     }
 
-    public void setObservationIdentifiers(Collection<String> observationIdentifier) {
+    public DeleteObservationRequest setObservationIdentifiers(Collection<String> observationIdentifier) {
         this.observationIdentifiers.clear();
         if (observationIdentifier != null) {
             this.observationIdentifiers.addAll(observationIdentifier);
         }
+        return this;
     }
 
-    public void addObservationIdentifier(String observationIdentifier) {
+    public DeleteObservationRequest addObservationIdentifier(String observationIdentifier) {
         this.observationIdentifiers.add(observationIdentifier);
+        return this;
     }
 
     public boolean isSetObservationIdentifiers() {
@@ -85,22 +86,24 @@ public class DeleteObservationRequest extends OwsServiceRequest implements Respo
      * @return the procedures
      */
     public Set<String> getProcedures() {
-        return procedures;
+        return Collections.unmodifiableSet(procedures);
     }
 
     /**
      * @param procedures
      *            the procedures to set
      */
-    public void setProcedures(Collection<String> procedures) {
+    public DeleteObservationRequest setProcedures(Collection<String> procedures) {
         this.procedures.clear();
         if (procedures != null) {
             this.procedures.addAll(procedures);
         }
+        return this;
     }
 
-    public void addProcedure(String procedure) {
+    public DeleteObservationRequest addProcedure(String procedure) {
         this.procedures.add(procedure);
+        return this;
     }
 
     public boolean isSetprocedures() {
@@ -111,22 +114,24 @@ public class DeleteObservationRequest extends OwsServiceRequest implements Respo
      * @return the observedProperties
      */
     public Set<String> getObservedProperties() {
-        return observedProperties;
+        return Collections.unmodifiableSet(observedProperties);
     }
 
     /**
      * @param observedProperties
      *            the observedProperties to set
      */
-    public void setObservedProperties(Collection<String> observedProperties) {
+    public DeleteObservationRequest setObservedProperties(Collection<String> observedProperties) {
         this.observedProperties.clear();
         if (observedProperties != null) {
             this.observedProperties.addAll(observedProperties);
         }
+        return this;
     }
 
-    public void addObservedProperty(String observedProperty) {
+    public DeleteObservationRequest addObservedProperty(String observedProperty) {
         this.observedProperties.add(observedProperty);
+        return this;
     }
 
     public boolean isSetObservedProperty() {
@@ -137,22 +142,24 @@ public class DeleteObservationRequest extends OwsServiceRequest implements Respo
      * @return the featureOfInterest
      */
     public Set<String> getFeatureIdentifiers() {
-        return features;
+        return Collections.unmodifiableSet(features);
     }
 
     /**
      * @param featureOfInterest
      *            the featureOfInterest to set
      */
-    public void setFeatureIdentifiers(Collection<String> featureOfInterest) {
+    public DeleteObservationRequest setFeatureIdentifiers(Collection<String> featureOfInterest) {
         this.features.clear();
         if (featureOfInterest != null) {
             this.features.addAll(featureOfInterest);
         }
+        return this;
     }
 
-    public void addFeatureIdentifier(String featureOfInterest) {
+    public DeleteObservationRequest addFeatureIdentifier(String featureOfInterest) {
         this.features.add(featureOfInterest);
+        return this;
     }
 
     public boolean isSetFeatureIdentifiers() {
@@ -163,22 +170,25 @@ public class DeleteObservationRequest extends OwsServiceRequest implements Respo
      * @return the offerings
      */
     public Set<String> getOfferings() {
-        return offerings;
+        return Collections.unmodifiableSet(offerings);
     }
 
     /**
      * @param offerings
      *            the offerings to set
+     * @return this
      */
-    public void setOfferings(Collection<String> offerings) {
+    public DeleteObservationRequest setOfferings(Collection<String> offerings) {
         this.offerings.clear();
         if (offerings != null) {
             this.offerings.addAll(offerings);
         }
+        return this;
     }
 
-    public void addOffering(String offering) {
+    public DeleteObservationRequest addOffering(String offering) {
         this.offerings.add(offering);
+        return this;
     }
 
     public boolean isSetOfferings() {
@@ -189,7 +199,7 @@ public class DeleteObservationRequest extends OwsServiceRequest implements Respo
      * @return the temporalFilters
      */
     public Set<TemporalFilter> getTemporalFilters() {
-        return temporalFilters;
+        return Collections.unmodifiableSet(temporalFilters);
     }
 
     /**

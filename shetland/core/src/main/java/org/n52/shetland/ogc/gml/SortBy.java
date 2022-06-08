@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,8 +38,7 @@ public class SortBy {
      * @param propertyp
      *            name of property, by which should be sorted
      * @param orderp
-     *            sorting order (currently only ascending ('ASC') or descending
-     *            ('DESC')
+     *            sorting order (currently only ascending ('ASC') or descending ('DESC')
      */
     public SortBy(String propertyp, SortingOrder orderp) {
         this.property = propertyp;

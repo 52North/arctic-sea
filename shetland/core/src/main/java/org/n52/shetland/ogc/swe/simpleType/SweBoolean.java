@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -62,12 +61,15 @@ public class SweBoolean extends SweAbstractSimpleType<Boolean> {
     }
 
     @Override
-    public <T, X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
+    public <
+            T,
+            X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
         return visitor.visit(this);
     }
 
     @Override
-    public <X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
+    public <
+            X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
         visitor.visit(this);
     }
 
@@ -75,9 +77,7 @@ public class SweBoolean extends SweAbstractSimpleType<Boolean> {
     public SweBoolean copy() {
         SweBoolean copy = new SweBoolean();
         copyValueTo(copy);
-        if (isSetQuality()) {
-            copy.setQuality(cloneQuality());
-        }
+        copyQuality(copy);
         if (isSetValue()) {
             copy.setValue(getValue());
         }

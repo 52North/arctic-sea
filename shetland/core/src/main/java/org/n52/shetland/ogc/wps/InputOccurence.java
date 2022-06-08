@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,13 +15,13 @@
  */
 package org.n52.shetland.ogc.wps;
 
+import java.math.BigInteger;
+import java.util.Optional;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.math.BigInteger;
-import java.util.Optional;
 
 /**
  * TODO JavaDoc
@@ -38,7 +37,7 @@ public class InputOccurence {
 
     @JsonCreator
     public InputOccurence(@JsonProperty(value = MIN_OCCURS, required = true) BigInteger min,
-                          @JsonProperty(MAX_OCCURS) BigInteger max) {
+            @JsonProperty(MAX_OCCURS) BigInteger max) {
         this.min = min == null ? BigInteger.ONE : min;
 
         if (max == null) {
@@ -81,8 +80,7 @@ public class InputOccurence {
     }
 
     public boolean isInBounds(BigInteger occurence) {
-        return this.min.compareTo(occurence) <= 0 &&
-               (this.max == null || this.max.compareTo(occurence) >= 0);
+        return this.min.compareTo(occurence) <= 0 && (this.max == null || this.max.compareTo(occurence) >= 0);
     }
 
     @Override

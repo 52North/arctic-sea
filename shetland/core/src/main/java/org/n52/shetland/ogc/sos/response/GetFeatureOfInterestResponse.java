@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,12 +19,13 @@ import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.shetland.ogc.sos.SosConstants;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * @since 1.0.0
  *
  */
-public class GetFeatureOfInterestResponse
-        extends OwsServiceResponse {
+public class GetFeatureOfInterestResponse extends OwsServiceResponse {
 
     private AbstractFeature abstractFeature;
 
@@ -41,6 +41,7 @@ public class GetFeatureOfInterestResponse
         super(service, version, operationName);
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public GetFeatureOfInterestResponse(AbstractFeature abstractFeature) {
         this.abstractFeature = abstractFeature;
     }
@@ -49,16 +50,19 @@ public class GetFeatureOfInterestResponse
         this(service, version, SosConstants.Operations.GetFeatureOfInterest.name(), abstractFeature);
     }
 
-    public GetFeatureOfInterestResponse(
-            String service, String version, String operationName, AbstractFeature abstractFeature) {
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public GetFeatureOfInterestResponse(String service, String version, String operationName,
+            AbstractFeature abstractFeature) {
         super(service, version, operationName);
         this.abstractFeature = abstractFeature;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public AbstractFeature getAbstractFeature() {
         return abstractFeature;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setAbstractFeature(AbstractFeature abstractFeature) {
         this.abstractFeature = abstractFeature;
     }

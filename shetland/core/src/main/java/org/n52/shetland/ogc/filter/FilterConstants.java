@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,8 +27,7 @@ import com.google.common.collect.EnumBiMap;
 import com.google.common.collect.Sets;
 
 /**
- * Constants interface for <a
- * href="http://www.opengeospatial.org/standards/filter">OGC Filter Encoding</a>
+ * Constants interface for <a href="http://www.opengeospatial.org/standards/filter">OGC Filter Encoding</a>
  *
  * @since 1.0.0
  */
@@ -101,8 +99,8 @@ public interface FilterConstants {
 
     class TimeOperatorMapping {
 
-        private static final BiMap<TimeOperator, TimeOperator2> BIMAP
-                = EnumBiMap.create(TimeOperator.class, TimeOperator2.class);
+        private static final BiMap<TimeOperator, TimeOperator2> BIMAP =
+                EnumBiMap.create(TimeOperator.class, TimeOperator2.class);
 
         static {
             BIMAP.put(TimeOperator.TM_Before, TimeOperator2.Before);
@@ -339,11 +337,10 @@ public interface FilterConstants {
         BBox,
         SortBy
         /*
-         * TypeNames is mandatory but "Standards that reference this
-         * International Standard may change the requirement for the TYPENAME
-         * parameter. In such cases, the referencing standard shall document
-         * whether the TYPENAME parameter is mandatory, optional or mandatory in
-         * some cases and optional in others."
+         * TypeNames is mandatory but "Standards that reference this International Standard may change the
+         * requirement for the TYPENAME parameter. In such cases, the referencing standard shall document
+         * whether the TYPENAME parameter is mandatory, optional or mandatory in some cases and optional in
+         * others."
          */
     }
 

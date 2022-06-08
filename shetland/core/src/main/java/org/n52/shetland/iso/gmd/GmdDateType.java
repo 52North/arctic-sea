@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,15 +23,13 @@ package org.n52.shetland.iso.gmd;
 public class GmdDateType {
 
     private static final String EN_PUBLICATION = "publication";
-    private static final GmdDateType PUBLICATION
-            = new GmdDateType("eng", EN_PUBLICATION, EN_PUBLICATION);
+    private static final GmdDateType PUBLICATION = new GmdDateType("eng", EN_PUBLICATION, EN_PUBLICATION);
     private final String codeList;
     private final String codeListValue;
     private final String codeSpace;
     private final String value;
 
-    public GmdDateType(String codeList, String codeListValue, String codeSpace,
-                       String value) {
+    public GmdDateType(String codeList, String codeListValue, String codeSpace, String value) {
         this.codeList = codeList;
         this.codeListValue = codeListValue;
         this.codeSpace = codeSpace;

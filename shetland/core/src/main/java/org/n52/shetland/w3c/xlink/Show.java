@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +15,10 @@
  */
 package org.n52.shetland.w3c.xlink;
 
+import java.util.Arrays;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-
-import java.util.Arrays;
 
 /**
  * TODO JavaDoc
@@ -45,9 +44,7 @@ public enum Show {
             return null;
         }
 
-        return Arrays.stream(values())
-                .filter(show -> show.name().equalsIgnoreCase(str))
-                .findAny().orElse(null);
+        return Arrays.stream(values()).filter(show -> show.name().equalsIgnoreCase(str)).findAny().orElse(null);
     }
 
 }

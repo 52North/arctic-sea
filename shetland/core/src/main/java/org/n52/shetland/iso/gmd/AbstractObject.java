@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,14 +38,16 @@ public abstract class AbstractObject extends AbtractGmd {
     }
 
     /**
-     * @param id the id to set
+     * @param id
+     *            the id to set
      */
     public void setId(String id) {
         this.id = id;
     }
 
     /**
-     * @param id the id to set
+     * @param id
+     *            the id to set
      */
     public void setId(Long id) {
         this.id = id.toString();
@@ -64,7 +65,8 @@ public abstract class AbstractObject extends AbtractGmd {
     }
 
     /**
-     * @param uuid the uuid to set
+     * @param uuid
+     *            the uuid to set
      */
     public void setUuid(String uuid) {
         this.uuid = uuid;

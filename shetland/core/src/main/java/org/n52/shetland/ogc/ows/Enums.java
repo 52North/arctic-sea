@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,7 +33,6 @@ import java.util.stream.Stream;
  */
 public final class Enums {
 
-
     private static final Map<Class<? extends Enum<?>>, Map<String, Enum<?>>> NAMES = new HashMap<>();
 
     private Enums() {
@@ -49,14 +47,16 @@ public final class Enums {
         return stream.collect(collector);
     }
 
-    static <E extends Enum<E>> boolean contains(Class<? extends E> enumClass, String string) {
+    static <
+            E extends Enum<E>> boolean contains(Class<? extends E> enumClass, String string) {
         return fromString(enumClass, string).isPresent();
     }
 
     @SuppressWarnings(value = "unchecked")
-    static <E extends Enum<E>> Optional<E> fromString(Class<? extends E> enumClass, String string) {
-        return Optional.ofNullable((E) NAMES.computeIfAbsent(enumClass, Enums::getNamesForEnum)
-                .get(string.toLowerCase(Locale.ROOT)));
+    static <
+            E extends Enum<E>> Optional<E> fromString(Class<? extends E> enumClass, String string) {
+        return Optional.ofNullable(
+                (E) NAMES.computeIfAbsent(enumClass, Enums::getNamesForEnum).get(string.toLowerCase(Locale.ROOT)));
     }
 
 }

@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +27,8 @@ import org.n52.shetland.rdf.AbstractTitleDescription;
 import org.n52.shetland.rdf.RDFElement;
 import org.n52.shetland.rdf.dct.Format;
 import org.n52.shetland.rdf.dct.License;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 public class Distribution extends AbstractTitleDescription<Distribution> implements RDFElement, DcatRdfPrefix {
     /*
@@ -63,7 +64,7 @@ public class Distribution extends AbstractTitleDescription<Distribution> impleme
     }
 
     public List<AccessURL> getAccessURLs() {
-        return accessURLs;
+        return new LinkedList<>(accessURLs);
     }
 
     public Distribution setAccessURLs(List<AccessURL> accessURLs) {
@@ -82,7 +83,7 @@ public class Distribution extends AbstractTitleDescription<Distribution> impleme
     }
 
     public List<DownloadURL> getDownloadURLs() {
-        return downloadURLs;
+        return new LinkedList<>(downloadURLs);
     }
 
     public Distribution setDownloadURLs(List<DownloadURL> downloadURLs) {
@@ -100,18 +101,22 @@ public class Distribution extends AbstractTitleDescription<Distribution> impleme
         return this;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Format getFormat() {
         return format;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setFormat(Format format) {
         this.format = format;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public License getLicense() {
         return license;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setLicense(License license) {
         this.license = license;
     }

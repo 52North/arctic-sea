@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,9 +33,8 @@ public class OwsResponsibleParty {
     private final Optional<OwsContact> contactInfo;
     private final Optional<OwsCode> role;
 
-    public OwsResponsibleParty(String individualName, String organisationName,
-                               String positionName, OwsContact contactInfo,
-                               OwsCode role) {
+    public OwsResponsibleParty(String individualName, String organisationName, String positionName,
+            OwsContact contactInfo, OwsCode role) {
         this.individualName = Optional.ofNullable(Strings.emptyToNull(individualName));
         this.organisationName = Optional.ofNullable(Strings.emptyToNull(organisationName));
         this.positionName = Optional.ofNullable(Strings.emptyToNull(positionName));
@@ -107,11 +105,8 @@ public class OwsResponsibleParty {
 
     @Override
     public String toString() {
-        return "OwsResponsibleParty{" + "individualName=" + individualName +
-               ", organisationName=" + organisationName + ", positionName=" +
-               positionName + ", contactInfo=" + contactInfo + ", role=" + role +
-               '}';
+        return "OwsResponsibleParty{" + "individualName=" + individualName + ", organisationName=" + organisationName
+                + ", positionName=" + positionName + ", contactInfo=" + contactInfo + ", role=" + role + '}';
     }
-
 
 }

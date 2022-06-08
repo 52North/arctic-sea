@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +20,8 @@ import java.util.Objects;
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.om.values.Value;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Class representing a O&amp;M conform NamedValue
  *
@@ -29,7 +30,8 @@ import org.n52.shetland.ogc.om.values.Value;
  * @param <T>
  *            value type
  */
-public class NamedValue<T> implements Comparable<NamedValue<T>> {
+public class NamedValue<
+        T> implements Comparable<NamedValue<T>> {
 
     /**
      * Value name
@@ -41,6 +43,7 @@ public class NamedValue<T> implements Comparable<NamedValue<T>> {
      */
     private Value<T> value;
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public NamedValue(ReferenceType name, Value<T> value) {
         this.name = name;
         this.value = value;
@@ -78,6 +81,7 @@ public class NamedValue<T> implements Comparable<NamedValue<T>> {
      *
      * @return Value
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Value<T> getValue() {
         return value;
     }
@@ -88,6 +92,7 @@ public class NamedValue<T> implements Comparable<NamedValue<T>> {
      * @param value
      *            Value to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setValue(Value<T> value) {
         this.value = value;
     }

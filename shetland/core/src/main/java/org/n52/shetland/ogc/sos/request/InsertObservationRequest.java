@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +15,8 @@
  */
 package org.n52.shetland.ogc.sos.request;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -34,23 +35,24 @@ import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.base.Strings;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * SOS InsertObservation request
  *
  * @since 1.0.0
  */
-public class InsertObservationRequest
-        extends OwsServiceRequest {
+public class InsertObservationRequest extends OwsServiceRequest {
 
     /**
      * Assigned sensor id
      */
     private String assignedSensorId;
-    private List<String> offerings;
+    private List<String> offerings = new LinkedList<>();
     /**
      * SOS observation collection with observations to insert
      */
-    private List<OmObservation> observations;
+    private List<OmObservation> observations = new LinkedList<>();
     private ReferenceChecker referenceChecker = new ReferenceChecker();
 
     public InsertObservationRequest() {
@@ -95,7 +97,7 @@ public class InsertObservationRequest
      * @return observations to insert
      */
     public List<OmObservation> getObservations() {
-        return observations;
+        return Collections.unmodifiableList(observations);
     }
 
     /**
@@ -110,9 +112,6 @@ public class InsertObservationRequest
     }
 
     public InsertObservationRequest addObservation(OmObservation observation) {
-        if (observations == null) {
-            observations = new LinkedList<OmObservation>();
-        }
         observations.add(referenceChecker.checkObservationForReferences(observation));
         return this;
     }
@@ -121,13 +120,17 @@ public class InsertObservationRequest
         return CollectionHelper.isNotEmpty(getObservations());
     }
 
-    public InsertObservationRequest setOfferings(List<String> offerings) {
-        this.offerings = offerings;
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public InsertObservationRequest setOfferings(Collection<String> offerings) {
+        this.offerings.clear();
+        if (offerings != null) {
+            this.offerings.addAll(offerings);
+        }
         return this;
     }
 
     public List<String> getOfferings() {
-        return offerings;
+        return Collections.unmodifiableList(offerings);
     }
 
     public boolean isSetOfferings() {
@@ -139,8 +142,8 @@ public class InsertObservationRequest
     }
 
     /**
-     * Checks if an observation contains referenced elements. Checked elements
-     * are phenomenonTime, resultTime and featureOfInterest.
+     * Checks if an observation contains referenced elements. Checked elements are phenomenonTime, resultTime
+     * and featureOfInterest.
      *
      * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
      * @since 4.3.7

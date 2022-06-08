@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,7 +52,7 @@ public class IdGenerator {
      * Generates a sensor id from description and current time as long.
      *
      * @param message
-     *                sensor description
+     *            sensor description
      *
      * @return generated sensor id as hex SHA-256.
      */
@@ -67,7 +66,7 @@ public class IdGenerator {
      * Transforms byte to hex representation
      *
      * @param bytes
-     *          bytes
+     *            bytes
      *
      * @return hex
      */

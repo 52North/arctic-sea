@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,10 +18,9 @@ package org.n52.shetland.ogc.wps;
 import java.util.Objects;
 
 /**
- * A JobID is a unique identifier for a process execution, i.e.&nbsp;a process
- * instance. Particularly suitable JobIDs are UUIDs or monotonic identifiers
- * such as unique timestamps. If the privacy of a Processing Job is imperative,
- * the JobID should be non-guessable.
+ * A JobID is a unique identifier for a process execution, i.e.&nbsp;a process instance. Particularly suitable
+ * JobIDs are UUIDs or monotonic identifiers such as unique timestamps. If the privacy of a Processing Job is
+ * imperative, the JobID should be non-guessable.
  *
  * @author Christian Autermann
  */

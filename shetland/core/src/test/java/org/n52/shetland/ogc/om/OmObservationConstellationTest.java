@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +15,14 @@
  */
 package org.n52.shetland.ogc.om;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
-
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
 import org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeature;
 import org.n52.shetland.ogc.sensorML.AbstractSensorML;
@@ -85,6 +86,19 @@ public class OmObservationConstellationTest {
         ooc.setObservationType(OmConstants.OBS_TYPE_UNKNOWN);
         assertThat(ooc.checkObservationTypeForMerging(), is(false));
 
+    }
+
+    @Test
+    public void testNotNullOffering() {
+        OmObservationConstellation ooc = new OmObservationConstellation(PROCEDURE,
+                new OmObservableProperty(OBSERVABLE_PROPERTY_1), new OmObservableProperty(OBSERVABLE_PROPERTY_1));
+        assertNotNull(ooc.getOfferings());
+        assertThat(ooc.getOfferings().size(), is(0));
+        List<String> offerings = null;
+        ooc = new OmObservationConstellation(PROCEDURE, new OmObservableProperty(OBSERVABLE_PROPERTY_1),
+                new OmObservableProperty(OBSERVABLE_PROPERTY_1), offerings);
+        assertNotNull(ooc.getOfferings());
+        assertThat(ooc.getOfferings().size(), is(0));
     }
 
 }

@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,6 +26,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import org.n52.iceland.coding.encode.OwsEncodingException;
 import org.n52.iceland.event.events.ExceptionEvent;
@@ -82,11 +83,13 @@ public abstract class SimpleBinding implements Binding {
     private DecoderRepository decoderRepository;
     private HttpUtils httpUtils;
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public HttpUtils getHttpUtils() {
         return httpUtils;
     }
 
     @Inject
+    @SuppressFBWarnings({"EI_EXPOSE_REP2"})
     public void setHttpUtils(HttpUtils httpUtils) {
         this.httpUtils = httpUtils;
     }
@@ -110,19 +113,23 @@ public abstract class SimpleBinding implements Binding {
     }
 
     @Inject
+    @SuppressFBWarnings({"EI_EXPOSE_REP2"})
     public void setEncoderRepository(EncoderRepository encoderRepository) {
         this.encoderRepository = encoderRepository;
     }
 
+    @SuppressFBWarnings({"EI_EXPOSE_REP"})
     public EncoderRepository getEncoderRepository() {
         return encoderRepository;
     }
 
     @Inject
+    @SuppressFBWarnings({"EI_EXPOSE_REP2"})
     public void setDecoderRepository(DecoderRepository decoderRepository) {
         this.decoderRepository = decoderRepository;
     }
 
+    @SuppressFBWarnings({"EI_EXPOSE_REP"})
     public DecoderRepository getDecoderRepository() {
         return decoderRepository;
     }

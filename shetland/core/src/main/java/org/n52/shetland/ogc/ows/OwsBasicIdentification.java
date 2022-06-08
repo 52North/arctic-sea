@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,9 +29,8 @@ public abstract class OwsBasicIdentification extends OwsDescription {
 
     private final Optional<OwsCode> identifier;
 
-    public OwsBasicIdentification(OwsCode identifier, MultilingualString title,
-                                  MultilingualString abstrakt,
-                                  Set<OwsKeyword> keywords) {
+    public OwsBasicIdentification(OwsCode identifier, MultilingualString title, MultilingualString abstrakt,
+            Set<OwsKeyword> keywords) {
         super(title, abstrakt, keywords);
         this.identifier = Optional.ofNullable(identifier);
     }

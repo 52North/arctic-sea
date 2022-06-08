@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,7 +46,8 @@ public class InspireKeyword extends AbstractInspireKeyword<String> {
      * @param originatingControlledVocabulary
      *            the originating controlled vocabulary
      */
-    public InspireKeyword(String keywordValue, InspireOriginatingControlledVocabulary originatingControlledVocabulary) {
+    public InspireKeyword(String keywordValue,
+            InspireOriginatingControlledVocabulary originatingControlledVocabulary) {
         super(originatingControlledVocabulary);
         setKeywordValue(keywordValue);
     }

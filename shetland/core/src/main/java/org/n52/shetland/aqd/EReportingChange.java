@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -67,15 +66,13 @@ public class EReportingChange {
 
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof EReportingChange &&
-               java.util.Objects.equals(getDescription(), ((EReportingChange) obj).getDescription());
+        return obj instanceof EReportingChange
+                && java.util.Objects.equals(getDescription(), ((EReportingChange) obj).getDescription());
     }
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("change", isChange())
-                .add("description", getDescription())
+        return MoreObjects.toStringHelper(this).add("change", isChange()).add("description", getDescription())
                 .toString();
     }
 

@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,8 +20,7 @@ import org.n52.shetland.ogc.om.features.samplingFeatures.FeatureOfInterestVisito
 import org.n52.shetland.ogc.om.series.AbstractMonitoringFeature;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
-public class TsmlMonitoringFeature
-        extends AbstractMonitoringFeature {
+public class TsmlMonitoringFeature extends AbstractMonitoringFeature {
 
     public TsmlMonitoringFeature(CodeWithAuthority featureIdentifier) {
         this(featureIdentifier, null);
@@ -34,14 +32,14 @@ public class TsmlMonitoringFeature
     }
 
     @Override
-    public <X> X accept(FeatureOfInterestVisitor<X> visitor) throws OwsExceptionReport {
+    public <
+            X> X accept(FeatureOfInterestVisitor<X> visitor) throws OwsExceptionReport {
         return visitor.visit(this);
     }
 
     @Override
     public String toString() {
-        return String.format(
-                "MonitoringFeature [name=%s, description=%s, xmlDescription=%s, geometry=%s, "
+        return String.format("MonitoringFeature [name=%s, description=%s, xmlDescription=%s, geometry=%s, "
                 + "featureType=%s, url=%s, sampledFeatures=%s, parameters=%s, encode=%b, relatedSamplingFeatures=%s]",
                 getName(), getDescription(), getXml(), getGeometry(), getFeatureType(), getUrl(), getSampledFeatures(),
                 getParameters(), isEncode(), getRelatedSamplingFeatures());

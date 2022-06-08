@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +24,8 @@ import java.util.Objects;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.sos.BatchConstants;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * TODO JavaDoc
  *
@@ -37,6 +38,7 @@ public class BatchRequest extends OwsServiceRequest implements Iterable<OwsServi
 
     private boolean stopAtFailure;
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public BatchRequest(List<OwsServiceRequest> requests) {
         super(null, null, BatchConstants.OPERATION_NAME);
         this.requests = Objects.requireNonNull(requests);

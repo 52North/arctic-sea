@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,8 +27,7 @@ import org.n52.shetland.ogc.om.values.GeometryValue;
  * @since 1.0.0
  *
  */
-public abstract class AbstractInspireObservation
-        extends OmObservation {
+public abstract class AbstractInspireObservation extends OmObservation {
 
     /**
      * constructor
@@ -54,13 +52,11 @@ public abstract class AbstractInspireObservation
     }
 
     /**
-     * Check if the {@link OmObservation} has a featureOfInterest with geometry
-     * value
+     * Check if the {@link OmObservation} has a featureOfInterest with geometry value
      *
      * @param observation
      *            {@link OmObservation} to check
-     * @return <code>true</code>, if the {@link OmObservation} has a
-     *         featureOfInterest with geometry value
+     * @return <code>true</code>, if the {@link OmObservation} has a featureOfInterest with geometry value
      */
     protected boolean checkForFeatureGeometry(OmObservation observation) {
         if (observation.getObservationConstellation().isSetFeatureOfInterest() && observation
@@ -72,8 +68,7 @@ public abstract class AbstractInspireObservation
     }
 
     /**
-     * Get the geometry value from the featureOfInterest of the
-     * {@link OmObservation}
+     * Get the geometry value from the featureOfInterest of the {@link OmObservation}
      *
      * @param observation
      *            The {@link OmObservation} to get the geometry from
@@ -85,8 +80,7 @@ public abstract class AbstractInspireObservation
     }
 
     /**
-     * Get the geometry value from the samplingGeometry (om:parameter) of the
-     * {@link OmObservation}
+     * Get the geometry value from the samplingGeometry (om:parameter) of the {@link OmObservation}
      *
      * @param observation
      *            The {@link OmObservation} to get the geometry from

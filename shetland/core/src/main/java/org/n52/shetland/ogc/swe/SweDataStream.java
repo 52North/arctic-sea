@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +15,20 @@
  */
 package org.n52.shetland.ogc.swe;
 
-import com.google.common.collect.Lists;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.n52.janmayen.Copyable;
 import org.n52.shetland.ogc.HasDefaultEncoding;
 import org.n52.shetland.ogc.swe.encoding.SweAbstractEncoding;
 import org.n52.shetland.ogc.swe.simpleType.SweCount;
 
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
+import com.google.common.collect.Lists;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 
 public class SweDataStream extends AbstractSWEIdentifiable
     implements HasDefaultEncoding<SweDataStream>, Copyable<SweDataStream> {
@@ -34,7 +38,7 @@ public class SweDataStream extends AbstractSWEIdentifiable
      * Each list entry represents one block, a list of tokens.<br />
      * Atm, this implementation using java.lang.String to represent each token.
      */
-    private List<List<String>> values;
+    private List<List<String>> values = new LinkedList<>();
 
     /**
      * swe:elementType
@@ -56,7 +60,7 @@ public class SweDataStream extends AbstractSWEIdentifiable
      * @return the values
      */
     public List<List<String>> getValues() {
-        return values;
+        return Collections.unmodifiableList(values);
     }
 
     /**
@@ -64,13 +68,17 @@ public class SweDataStream extends AbstractSWEIdentifiable
      * @return This SweDataStream
      */
     public SweDataStream setValues(final List<List<String>> values) {
-        this.values = values;
+        this.values.clear();
+        if (values != null) {
+            this.values.addAll(values);
+        }
         return this;
     }
 
     /**
      * @return the elementType
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SweAbstractDataComponent getElementType() {
         return elementType;
     }
@@ -79,11 +87,13 @@ public class SweDataStream extends AbstractSWEIdentifiable
      * @param elementType the elementType to set
      * @return This SweDataStream
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweDataStream setElementType(final SweAbstractDataComponent elementType) {
         this.elementType = elementType;
         return this;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SweCount getElementCount() {
         if (isSetValues()) {
             return new SweCount().setValue(values.size());
@@ -93,15 +103,18 @@ public class SweDataStream extends AbstractSWEIdentifiable
         return new SweCount().setValue(0);
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SweDataStream setElementCount(final SweCount elementCount) {
         this.elementCount = elementCount;
         return this;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SweAbstractEncoding getEncoding() {
         return encoding;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweDataStream setEncoding(final SweAbstractEncoding encoding) {
         this.encoding = encoding;
         return this;
@@ -122,24 +135,18 @@ public class SweDataStream extends AbstractSWEIdentifiable
     }
 
     /**
-     * Adds the given block - a {@link List}&lt;{@link String}&gt; - add the end of
-     * the current list of blocks
+     * Adds the given block - a {@link List}&lt;{@link String}&gt; - add the end of the current list of blocks
      *
      * @param blockOfTokensToAddAtTheEnd the blocks of tokens to add
      * @return <tt>true</tt> (as specified by {@link Collection#add}) <br />
      * <tt>false</tt> if block could not be added
      */
     public boolean add(final List<String> blockOfTokensToAddAtTheEnd) {
-        if (values == null) {
-            values = new LinkedList<>();
-        }
         return values.add(blockOfTokensToAddAtTheEnd);
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public boolean addAll(List<List<String>> newValues) {
-        if (values == null) {
-            values = newValues;
-        }
         return values.addAll(newValues);
     }
 
@@ -161,7 +168,7 @@ public class SweDataStream extends AbstractSWEIdentifiable
         final int prime = 23;
         int hash = 7;
         hash = prime * hash + super.hashCode();
-        hash = prime * hash + (getValues() != null ? getValues().hashCode() : 0);
+        hash = prime * hash + getValues().hashCode();
         hash = prime * hash + (getElementType() != null ? getElementType().hashCode() : 0);
         hash = prime * hash + (getEncoding() != null ? getEncoding().hashCode() : 0);
         hash = prime * hash + (getDescription() != null ? getDescription().hashCode() : 0);

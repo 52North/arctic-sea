@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,6 +33,8 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class KibanaImporter {
 
     public static final String INDEX_NEEDLE = "##!NO_SPOON!##";
@@ -46,6 +47,7 @@ public class KibanaImporter {
 
     private final String statisticsIndexName;
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public KibanaImporter(RestHighLevelClient client, String kibanaIndexName, String statisticsIndexName) {
         Objects.requireNonNull(client);
         Objects.requireNonNull(kibanaIndexName);

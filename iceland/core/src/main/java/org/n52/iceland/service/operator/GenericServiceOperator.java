@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +30,8 @@ import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 
 import com.google.common.base.MoreObjects;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Generic service operator implementation that just delegates to a matching
@@ -68,6 +69,7 @@ public class GenericServiceOperator implements ServiceOperator {
      * @param repo the repository
      */
     @Inject
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setRequestOperatorRepository(RequestOperatorRepository repo) {
         this.requestOperatorRepository = repo;
     }

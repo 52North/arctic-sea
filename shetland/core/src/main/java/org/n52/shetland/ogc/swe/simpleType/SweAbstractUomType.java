@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,12 +19,12 @@ import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 
 /**
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
- *         J&uuml;rrens</a>
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  *
  * @since 1.0.0
  */
-public abstract class SweAbstractUomType<T> extends SweAbstractSimpleType<T> {
+public abstract class SweAbstractUomType<
+        T> extends SweAbstractSimpleType<T> {
 
     /**
      * unit of measurement

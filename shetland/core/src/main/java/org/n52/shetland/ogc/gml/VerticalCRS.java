@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,21 +29,20 @@ import com.google.common.collect.Lists;
  * @since 1.0.0
  *
  */
-public class VerticalCRS
-        extends AbstractCRS {
+public class VerticalCRS extends AbstractCRS {
 
-    private Referenceable<VerticalCS> verticalCS = Referenceable.of(Nillable.<VerticalCS> missing());
+    private Referenceable<VerticalCS> verticalCS = Referenceable.of(Nillable.<
+            VerticalCS> missing());
 
-    private Referenceable<VerticalDatum> verticalDatum = Referenceable.of(Nillable.<VerticalDatum> missing());
+    private Referenceable<VerticalDatum> verticalDatum = Referenceable.of(Nillable.<
+            VerticalDatum> missing());
 
-    public VerticalCRS(
-            CodeWithAuthority identifier, String scope, Referenceable<VerticalCS> verticalCS,
+    public VerticalCRS(CodeWithAuthority identifier, String scope, Referenceable<VerticalCS> verticalCS,
             Referenceable<VerticalDatum> verticalDatum) {
         this(identifier, Lists.newArrayList(scope), verticalCS, verticalDatum);
     }
 
-    public VerticalCRS(
-            CodeWithAuthority identifier, List<String> scope, Referenceable<VerticalCS> verticalCS,
+    public VerticalCRS(CodeWithAuthority identifier, List<String> scope, Referenceable<VerticalCS> verticalCS,
             Referenceable<VerticalDatum> verticalDatum) {
         super(identifier, scope);
         setVerticalCS(verticalCS);

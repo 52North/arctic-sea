@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,14 +18,13 @@ package org.n52.shetland.ogc.gml.time;
 import java.util.Optional;
 
 import org.joda.time.DateTime;
-
 import org.n52.shetland.ogc.gml.time.Time.TimeFormat;
 
 import com.google.common.base.MoreObjects;
 
 /**
- * Representation class for GML TimePosition. Used by TimeInstant and TimePeriod
- * during encoding to reduce duplicate code.
+ * Representation class for GML TimePosition. Used by TimeInstant and TimePeriod during encoding to reduce
+ * duplicate code.
  *
  * @since 1.0.0
  *
@@ -130,9 +128,7 @@ public class TimePosition {
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("time", this.time.get())
-                .add("indeterminate time", this.indeterminateValue.get())
-                .omitNullValues().toString();
+        return MoreObjects.toStringHelper(this).add("time", this.time.get())
+                .add("indeterminate time", this.indeterminateValue.get()).omitNullValues().toString();
     }
 }

@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +14,6 @@
  * limitations under the License.
  */
 package org.n52.shetland.ogc.sos;
-
 
 import java.util.Collection;
 import java.util.Collections;
@@ -59,19 +57,17 @@ public class SosCapabilities extends OwsCapabilities {
         this(owsCapabilities, null, null);
     }
 
-    public SosCapabilities(
-            OwsCapabilities owsCapabilities, FilterCapabilities filterCapabilities,
+    public SosCapabilities(OwsCapabilities owsCapabilities, FilterCapabilities filterCapabilities,
             Collection<SosObservationOffering> contents) {
         super(owsCapabilities);
         this.filterCapabilities = Optional.ofNullable(filterCapabilities);
         this.contents = Optional.ofNullable(contents).map(CollectionHelper::newSortedSet);
     }
 
-    public SosCapabilities(
-            String service, String version, String updateSequence, OwsServiceIdentification serviceIdentification,
-            OwsServiceProvider serviceProvider, OwsOperationsMetadata operationsMetadata, Set<String> languages,
-            FilterCapabilities filterCapabilities, Collection<SosObservationOffering> contents,
-            Collection<OwsCapabilitiesExtension> extensions) {
+    public SosCapabilities(String service, String version, String updateSequence,
+            OwsServiceIdentification serviceIdentification, OwsServiceProvider serviceProvider,
+            OwsOperationsMetadata operationsMetadata, Set<String> languages, FilterCapabilities filterCapabilities,
+            Collection<SosObservationOffering> contents, Collection<OwsCapabilitiesExtension> extensions) {
         super(SosConstants.SOS, version, updateSequence, serviceIdentification, serviceProvider, operationsMetadata,
                 languages, extensions);
         this.filterCapabilities = Optional.ofNullable(filterCapabilities);

@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,9 +23,11 @@ import org.n52.janmayen.Copyable;
 /**
  * @since 1.0.0
  *
- * @param <T> Value type
+ * @param <T>
+ *            Value type
  */
-public class RangeValue<T> implements Comparable<RangeValue<T>>, Copyable<RangeValue<T>> {
+public class RangeValue<
+        T> implements Comparable<RangeValue<T>>, Copyable<RangeValue<T>> {
 
     private static final String NULL = "null";
     private T rangeStart;
@@ -139,8 +140,8 @@ public class RangeValue<T> implements Comparable<RangeValue<T>>, Copyable<RangeV
 
     @Override
     public int compareTo(RangeValue<T> o) {
-        if (checkCompareToParameter(getRangeStart(), o.getRangeStart()) &&
-                 checkCompareToParameter(getRangeEnd(), o.getRangeEnd())) {
+        if (checkCompareToParameter(getRangeStart(), o.getRangeStart())
+                && checkCompareToParameter(getRangeEnd(), o.getRangeEnd())) {
             return 0;
         }
         return 1;

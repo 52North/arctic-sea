@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +18,8 @@ package org.n52.iceland.cache;
 import org.n52.iceland.util.action.Action;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  *
@@ -32,6 +33,7 @@ public abstract class ContentCacheUpdate implements Action {
     /**
      * @return the cause of failure or {@code null}
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public OwsExceptionReport getFailureCause() {
         return this.exceptionReport;
     }
@@ -59,6 +61,7 @@ public abstract class ContentCacheUpdate implements Action {
     /**
      * @return the writable cache of this action
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public WritableContentCache getCache() {
         return cache;
     }
@@ -69,6 +72,7 @@ public abstract class ContentCacheUpdate implements Action {
      *
      * @return this
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public ContentCacheUpdate setCache(WritableContentCache cache) {
         this.cache = cache;
         return this;

@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +31,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  *
  * @author Christian Autermann
  */
-public class ObjectWithXmlString<T> {
+public class ObjectWithXmlString<
+        T> {
 
     private Optional<T> object;
     private Optional<String> xml;
@@ -105,7 +105,7 @@ public class ObjectWithXmlString<T> {
             return false;
         }
         ObjectWithXmlString<?> other = (ObjectWithXmlString<?>) obj;
-        return ((this.isDecoded() && other.isDecoded()) || (this.isEncoded() && other.isEncoded()))
+        return (this.isDecoded() && other.isDecoded() || this.isEncoded() && other.isEncoded())
                 && (this.isDecoded() && other.isDecoded() ? Objects.equals(this.object, other.object) : true)
                 && (this.isEncoded() && other.isEncoded() ? Objects.equals(this.xml, other.xml) : true);
     }

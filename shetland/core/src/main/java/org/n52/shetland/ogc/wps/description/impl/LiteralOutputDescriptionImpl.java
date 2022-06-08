@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,31 +15,33 @@
  */
 package org.n52.shetland.ogc.wps.description.impl;
 
-import com.google.common.collect.ImmutableSet;
+import java.util.Collections;
+import java.util.Objects;
+import java.util.Set;
+
 import org.n52.shetland.ogc.wps.description.LiteralDataDomain;
 import org.n52.shetland.ogc.wps.description.LiteralOutputDescription;
 import org.n52.shetland.ogc.wps.description.ProcessDescriptionBuilderFactory;
 
-import java.util.Collections;
-import java.util.Objects;
-import java.util.Set;
+import com.google.common.collect.ImmutableSet;
 
 /**
  * TODO JavaDoc
  *
  * @author Christian Autermann
  */
-public class LiteralOutputDescriptionImpl extends AbstractProcessOutputDescription implements LiteralOutputDescription {
+public class LiteralOutputDescriptionImpl extends AbstractProcessOutputDescription
+        implements LiteralOutputDescription {
 
     private final LiteralDataDomain defaultLiteralDataDomain;
     private final Set<LiteralDataDomain> supportedLiteralDataDomains;
 
     protected LiteralOutputDescriptionImpl(AbstractBuilder<?, ?> builder) {
         super(builder);
-        this.defaultLiteralDataDomain = Objects.requireNonNull(builder.getDefaultLiteralDataDomain(),
-                                                               "defaultLiteralDataDomain");
-        this.supportedLiteralDataDomains = Objects.requireNonNull(builder.getSupportedLiteralDataDomains(),
-                                                                  "supportedLiteralDataDomains");
+        this.defaultLiteralDataDomain =
+                Objects.requireNonNull(builder.getDefaultLiteralDataDomain(), "defaultLiteralDataDomain");
+        this.supportedLiteralDataDomains =
+                Objects.requireNonNull(builder.getSupportedLiteralDataDomains(), "supportedLiteralDataDomains");
     }
 
     @Override
@@ -58,8 +59,9 @@ public class LiteralOutputDescriptionImpl extends AbstractProcessOutputDescripti
         return getFactory().literalOutput(this);
     }
 
-    public abstract static class AbstractBuilder<T extends LiteralOutputDescription, B extends AbstractBuilder<T, B>>
-            extends AbstractProcessOutputDescription.AbstractBuilder<T, B>
+    public abstract static class AbstractBuilder<
+            T extends LiteralOutputDescription,
+            B extends AbstractBuilder<T, B>> extends AbstractProcessOutputDescription.AbstractBuilder<T, B>
             implements LiteralOutputDescription.Builder<T, B> {
 
         private LiteralDataDomain defaultLiteralDataDomain;
@@ -70,7 +72,7 @@ public class LiteralOutputDescriptionImpl extends AbstractProcessOutputDescripti
         }
 
         protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
-                                  LiteralOutputDescription entity) {
+                LiteralOutputDescription entity) {
             super(factory, entity);
             this.defaultLiteralDataDomain = entity.getDefaultLiteralDataDomain();
             this.supportedLiteralDataDomains.addAll(entity.getSupportedLiteralDataDomains());
@@ -105,7 +107,7 @@ public class LiteralOutputDescriptionImpl extends AbstractProcessOutputDescripti
         }
 
         protected Builder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
-                          LiteralOutputDescription entity) {
+                LiteralOutputDescription entity) {
             super(factory, entity);
         }
 

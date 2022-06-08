@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +14,8 @@
  * limitations under the License.
  */
 package org.n52.shetland.inspire;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Service internal representation of INSPIRE conformity
@@ -47,6 +48,7 @@ public class InspireConformity {
      *
      * @return the inspireSpecification
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public InspireConformityCitation getInspireSpecification() {
         return inspireSpecification;
     }
@@ -97,7 +99,9 @@ public class InspireConformity {
      *
      */
     public enum InspireDegreeOfConformity {
-        conformant, notConformant, notEvaluated;
+        conformant,
+        notConformant,
+        notEvaluated;
     }
 
 }

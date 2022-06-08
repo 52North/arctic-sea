@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,16 +17,16 @@ package org.n52.shetland.ogc.wps.description;
 
 @SuppressWarnings("checkstyle:interfacetypeparametername")
 public interface ProcessDescriptionBuilderFactory<
-                                                         PD extends ProcessDescription,
-                                                         GID extends GroupInputDescription,
-                                                         GOD extends GroupOutputDescription,
-                                                         LID extends LiteralInputDescription,
-                                                         LOD extends LiteralOutputDescription,
-                                                         CID extends ComplexInputDescription,
-                                                         COD extends ComplexOutputDescription,
-                                                         BID extends BoundingBoxInputDescription,
-                                                         BOD extends BoundingBoxOutputDescription,
-                                                         LDD extends LiteralDataDomain> {
+        PD extends ProcessDescription,
+        GID extends GroupInputDescription,
+        GOD extends GroupOutputDescription,
+        LID extends LiteralInputDescription,
+        LOD extends LiteralOutputDescription,
+        CID extends ComplexInputDescription,
+        COD extends ComplexOutputDescription,
+        BID extends BoundingBoxInputDescription,
+        BOD extends BoundingBoxOutputDescription,
+        LDD extends LiteralDataDomain> {
 
     ProcessDescription.Builder<? extends PD, ?> process();
 

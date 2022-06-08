@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,19 +16,23 @@
 package org.n52.shetland.ogc.sensorML;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.n52.shetland.ogc.sensorML.elements.SmlComponent;
 import org.n52.shetland.ogc.sensorML.elements.SmlConnection;
 
-public class ProcessChain extends AbstractProcess implements HasComponents<ProcessChain>, HasConnections<ProcessChain> {
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+public class ProcessChain extends AbstractProcess
+        implements HasComponents<ProcessChain>, HasConnections<ProcessChain> {
 
     private final List<SmlComponent> components = new ArrayList<>(0);
     private SmlConnection connections;
 
     @Override
     public List<SmlComponent> getComponents() {
-        return components;
+        return Collections.unmodifiableList(components);
     }
 
     @Override
@@ -48,10 +51,12 @@ public class ProcessChain extends AbstractProcess implements HasComponents<Proce
         return this;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SmlConnection getConnections() {
         return connections;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public ProcessChain setConnections(SmlConnection connections) {
         this.connections = connections;
         return this;

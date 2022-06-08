@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,16 +25,16 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.joda.time.Period;
 import org.joda.time.format.ISOPeriodFormat;
-
 import org.n52.shetland.util.CollectionHelper;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Class represents a GML conform timePeriod element.
  *
  * @since 1.0.0
  */
-public class TimePeriod
-        extends Time {
+public class TimePeriod extends Time {
     /**
      * serial number
      */
@@ -69,8 +68,10 @@ public class TimePeriod
     /**
      * Creates a new {@code TimePeriod} from an {@code Interval}.
      *
-     * @param interval the interval
+     * @param interval
+     *            the interval
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public TimePeriod(Interval interval) {
         this(interval.getStart(), interval.getEnd());
     }
@@ -83,6 +84,7 @@ public class TimePeriod
      * @param end
      *            end date of the time period
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public TimePeriod(DateTime start, DateTime end) {
         this.start = start;
         this.end = end;
@@ -98,6 +100,7 @@ public class TimePeriod
      * @param id
      *            GML id
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public TimePeriod(DateTime start, DateTime end, String id) {
         super(id);
         this.start = start;
@@ -116,6 +119,7 @@ public class TimePeriod
      * @param endIndet
      *            indeterminate time value of end position
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public TimePeriod(DateTime start, IndeterminateValue startIndet, DateTime end, IndeterminateValue endIndet) {
         this.start = start;
         this.startIndet = startIndet;
@@ -139,12 +143,11 @@ public class TimePeriod
      * @param id
      *            the optional GML id
      * @throws ParseException
-     *             if parsing the time strings of start or end into
-     *             java.util.Date failed
+     *             if parsing the time strings of start or end into java.util.Date failed
      */
-    public TimePeriod(
-            DateTime start, IndeterminateValue startIndet, DateTime end, IndeterminateValue endIndet, String duration,
-            String id) throws ParseException {
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public TimePeriod(DateTime start, IndeterminateValue startIndet, DateTime end, IndeterminateValue endIndet,
+            String duration, String id) throws ParseException {
         super(id);
         this.start = start;
         this.startIndet = startIndet;
@@ -161,6 +164,7 @@ public class TimePeriod
      * @param endTime
      *            End TimeInstant
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public TimePeriod(TimeInstant startTime, TimeInstant endTime) {
         if (startTime != null) {
             this.start = startTime.getValue();
@@ -173,14 +177,14 @@ public class TimePeriod
     }
 
     /**
-     * Constructor using Java {@link Date}s, setting unknown indeterminate
-     * values if null
+     * Constructor using Java {@link Date}s, setting unknown indeterminate values if null
      *
      * @param start
      *            start Date
      * @param end
      *            end Date
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public TimePeriod(Date start, Date end) {
         if (start != null) {
             this.start = new DateTime(start, DateTimeZone.UTC);
@@ -195,14 +199,14 @@ public class TimePeriod
     }
 
     /**
-     * Constructor using Java {@link Object}s, setting unknown indeterminate
-     * values if null
+     * Constructor using Java {@link Object}s, setting unknown indeterminate values if null
      *
      * @param start
      *            start {@link Object}
      * @param end
      *            end {@link Object}
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public TimePeriod(Object start, Object end) {
         if (start != null) {
             this.start = new DateTime(start, DateTimeZone.UTC);
@@ -221,6 +225,7 @@ public class TimePeriod
      *
      * @return Returns the duration.
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Period getDuration() {
         return duration;
     }
@@ -231,6 +236,7 @@ public class TimePeriod
      * @param duration
      *            The duration to set.
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setDuration(Period duration) {
         this.duration = duration;
     }
@@ -240,6 +246,7 @@ public class TimePeriod
      *
      * @return Returns the start.
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public DateTime getStart() {
         return start;
     }
@@ -250,6 +257,7 @@ public class TimePeriod
      * @param start
      *            The start to set.
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setStart(DateTime start) {
         this.start = start;
     }
@@ -268,6 +276,7 @@ public class TimePeriod
      *
      * @return Returns the end.
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public DateTime getEnd() {
         return end;
     }
@@ -278,6 +287,7 @@ public class TimePeriod
      * @param end
      *            The end to set.
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setEnd(DateTime end) {
         this.end = end;
     }
@@ -430,8 +440,7 @@ public class TimePeriod
     }
 
     /**
-     * Extend TimePeriod to contain DateTime. Used by other extendToContain
-     * methods.
+     * Extend TimePeriod to contain DateTime. Used by other extendToContain methods.
      *
      * @param time
      *            the time to contain
@@ -448,8 +457,8 @@ public class TimePeriod
     }
 
     /**
-     * Is this TimePeriod contained by another TimePeriod? Equal start/end times
-     * are considered to be containing, as are equal indeterminate times.
+     * Is this TimePeriod contained by another TimePeriod? Equal start/end times are considered to be
+     * containing, as are equal indeterminate times.
      *
      * @param otherTimePeriod
      *            Potentially containing TimePeriod

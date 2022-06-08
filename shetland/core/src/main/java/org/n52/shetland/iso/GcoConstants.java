@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,7 +37,5 @@ public interface GcoConstants {
     QName QN_GCO_CHARACTER_STRING = new QName(NS_GCO, EN_CHARACTER_STRING, NS_GCO_PREFIX);
 
     QName QN_GCO_NIL_REASON = new QName(NS_GCO, AN_NIL_REASON, NS_GCO_PREFIX);
-
-
 
 }

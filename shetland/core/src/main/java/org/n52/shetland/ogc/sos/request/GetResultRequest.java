@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +15,10 @@
  */
 package org.n52.shetland.ogc.sos.request;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,13 +30,13 @@ import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.base.Strings;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * @since 1.0.0
  *
  */
-public class GetResultRequest
-        extends OwsServiceRequest
-        implements SpatialFeatureQueryRequest {
+public class GetResultRequest extends OwsServiceRequest implements SpatialFeatureQueryRequest {
 
     /**
      * Identifier for the observation template
@@ -44,13 +47,13 @@ public class GetResultRequest
 
     private String observedProperty;
 
-    private List<String> featureIdentifiers;
+    private List<String> featureIdentifiers = new LinkedList<>();
 
-    private List<TemporalFilter> temporalFilter;
+    private List<TemporalFilter> temporalFilter = new LinkedList<>();
 
     private SpatialFilter spatialFilter;
 
-    private Map<String, String> namespaces;
+    private Map<String, String> namespaces = new LinkedHashMap<>();
 
     public GetResultRequest() {
         super(null, null, SosConstants.Operations.GetResult.name());
@@ -78,9 +81,11 @@ public class GetResultRequest
      *
      * @param observationTemplateIdentifier
      *            observation template identifier
+     * @return this
      */
-    public void setObservationTemplateIdentifier(String observationTemplateIdentifier) {
+    public GetResultRequest setObservationTemplateIdentifier(String observationTemplateIdentifier) {
         this.observationTemplateIdentifier = observationTemplateIdentifier;
+        return this;
     }
 
     public boolean isSetObservationTemplateIdentifier() {
@@ -91,8 +96,9 @@ public class GetResultRequest
         return offering;
     }
 
-    public void setOffering(String offering) {
+    public GetResultRequest setOffering(String offering) {
         this.offering = offering;
+        return this;
     }
 
     public boolean isSetOffering() {
@@ -103,8 +109,9 @@ public class GetResultRequest
         return observedProperty;
     }
 
-    public void setObservedProperty(String observedProperty) {
+    public GetResultRequest setObservedProperty(String observedProperty) {
         this.observedProperty = observedProperty;
+        return this;
     }
 
     public boolean isSetObservedProperty() {
@@ -118,7 +125,7 @@ public class GetResultRequest
      */
     @Override
     public List<String> getFeatureIdentifiers() {
-        return featureIdentifiers;
+        return Collections.unmodifiableList(featureIdentifiers);
     }
 
     /**
@@ -126,18 +133,26 @@ public class GetResultRequest
      *
      * @param featureIdentifiers
      *            FOI identifiers
+     * @return this
      */
     @Override
     public void setFeatureIdentifiers(List<String> featureIdentifiers) {
-        this.featureIdentifiers = featureIdentifiers;
+        this.featureIdentifiers.clear();
+        if (featureIdentifiers != null) {
+            this.featureIdentifiers.addAll(featureIdentifiers);
+        }
     }
 
     public List<TemporalFilter> getTemporalFilter() {
-        return temporalFilter;
+        return Collections.unmodifiableList(temporalFilter);
     }
 
-    public void setTemporalFilter(List<TemporalFilter> temporalFilters) {
-        this.temporalFilter = temporalFilters;
+    public GetResultRequest setTemporalFilter(Collection<TemporalFilter> temporalFilters) {
+        this.temporalFilter.clear();
+        if (temporalFilters != null) {
+            this.temporalFilter.addAll(temporalFilters);
+        }
+        return this;
     }
 
     public boolean hasTemporalFilter() {
@@ -145,21 +160,27 @@ public class GetResultRequest
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SpatialFilter getSpatialFilter() {
         return spatialFilter;
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setSpatialFilter(SpatialFilter spatialFilter) {
         this.spatialFilter = spatialFilter;
     }
 
     public Map<String, String> getNamespaces() {
-        return namespaces;
+        return Collections.unmodifiableMap(namespaces);
     }
 
-    public void setNamespaces(Map<String, String> namespaces) {
-        this.namespaces = namespaces;
+    public GetResultRequest setNamespaces(Map<String, String> namespaces) {
+        this.namespaces.clear();
+        if (namespaces != null) {
+            this.namespaces.putAll(namespaces);
+        }
+        return this;
     }
 
     public boolean isSetNamespaces() {

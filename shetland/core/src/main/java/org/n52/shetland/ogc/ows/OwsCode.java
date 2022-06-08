@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,16 +15,18 @@
  */
 package org.n52.shetland.ogc.ows;
 
-import com.google.common.base.MoreObjects;
-import com.google.common.base.Strings;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import org.n52.janmayen.Optionals;
-
 import java.io.Serializable;
 import java.net.URI;
 import java.util.Comparator;
 import java.util.Objects;
 import java.util.Optional;
+
+import org.n52.janmayen.Optionals;
+
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Strings;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * TODO JavaDoc
@@ -35,9 +36,8 @@ import java.util.Optional;
 public class OwsCode implements Comparable<OwsCode>, Serializable {
     private static final long serialVersionUID = -1884521299174349193L;
 
-    private static final Comparator<OwsCode> COMPARATOR
-            = Comparator.nullsLast(Comparator.comparing(OwsCode::getCodeSpace, Optionals.nullsLast())
-                                             .thenComparing(OwsCode::getValue));
+    private static final Comparator<OwsCode> COMPARATOR = Comparator.nullsLast(
+            Comparator.comparing(OwsCode::getCodeSpace, Optionals.nullsLast()).thenComparing(OwsCode::getValue));
 
     private final String value;
     private final URI codeSpace;
@@ -81,17 +81,14 @@ public class OwsCode implements Comparable<OwsCode>, Serializable {
             return false;
         }
         final OwsCode other = (OwsCode) obj;
-        return Objects.equals(this.getValue(), other.getValue()) &&
-               Objects.equals(this.getCodeSpace(), other.getCodeSpace());
+        return Objects.equals(this.getValue(), other.getValue())
+                && Objects.equals(this.getCodeSpace(), other.getCodeSpace());
     }
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this)
-                          .omitNullValues()
-                          .add("value", getValue())
-                          .add("codeSpace", getCodeSpace().orElse(null))
-                          .toString();
+        return MoreObjects.toStringHelper(this).omitNullValues().add("value", getValue())
+                .add("codeSpace", getCodeSpace().orElse(null)).toString();
     }
 
     @Override

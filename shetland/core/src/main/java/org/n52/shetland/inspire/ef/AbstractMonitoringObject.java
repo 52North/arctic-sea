@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +15,8 @@
  */
 package org.n52.shetland.inspire.ef;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
 
 import org.locationtech.jts.geom.Geometry;
@@ -31,8 +32,9 @@ import org.n52.shetland.w3c.xlink.Referenceable;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 
-public abstract class AbstractMonitoringObject
-        extends AbstractFeature {
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+public abstract class AbstractMonitoringObject extends AbstractFeature {
 
     /**
      * 1..1 inspireId, super.identifier
@@ -105,9 +107,11 @@ public abstract class AbstractMonitoringObject
         this(inspireId, Sets.newHashSet(mediaMonitored));
     }
 
-    public AbstractMonitoringObject(Identifier inspireId, Set<ReferenceType> mediaMonitored) {
+    public AbstractMonitoringObject(Identifier inspireId, Collection<ReferenceType> mediaMonitored) {
         super(inspireId);
-        this.mediaMonitored.addAll(mediaMonitored);
+        if (mediaMonitored != null) {
+            this.mediaMonitored.addAll(mediaMonitored);
+        }
     }
 
     public Identifier getInspireId() {
@@ -137,39 +141,53 @@ public abstract class AbstractMonitoringObject
      * @return the mediaMonitored
      */
     public Set<ReferenceType> getMediaMonitored() {
-        return mediaMonitored;
+        return Collections.unmodifiableSet(mediaMonitored);
     }
 
     /**
      * @param mediaMonitored
      *            the mediaMonitored to add
+     * @return this
      */
-    public void addMediaMonitored(Set<ReferenceType> mediaMonitored) {
-        this.mediaMonitored.addAll(mediaMonitored);
+    public AbstractMonitoringObject addMediaMonitored(Collection<ReferenceType> mediaMonitored) {
+        this.mediaMonitored.clear();
+        if (mediaMonitored != null) {
+            this.mediaMonitored.addAll(mediaMonitored);
+        }
+        return this;
     }
 
     /**
      * @param mediaMonitored
      *            the mediaMonitored to add
+     * @return this
      */
-    public void addMediaMonitored(ReferenceType mediaMonitored) {
-        this.mediaMonitored.add(mediaMonitored);
+    public AbstractMonitoringObject addMediaMonitored(ReferenceType mediaMonitored) {
+        if (mediaMonitored != null) {
+            this.mediaMonitored.add(mediaMonitored);
+        }
+        return this;
     }
 
     /**
      * @return the legalBackground
      */
     public Set<Referenceable<LegislationCitation>> getLegalBackground() {
-        return legalBackground;
+        return Collections.unmodifiableSet(legalBackground);
     }
 
     /**
      * @param legalBackground
      *            the legalBackground to set
+     * @return this
      */
-    public void setLegalBackground(Set<Referenceable<LegislationCitation>> legalBackground) {
+    public AbstractMonitoringObject setLegalBackground(
+            Collection<Referenceable<LegislationCitation>> legalBackground) {
         this.legalBackground.clear();
-        this.legalBackground = legalBackground;
+        if (legalBackground != null) {
+            this.legalBackground.addAll(legalBackground);
+        }
+        return this;
     }
 
     public boolean isSetLegalBackground() {
@@ -179,6 +197,7 @@ public abstract class AbstractMonitoringObject
     /**
      * @return the responsibleParty
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public RelatedParty getResponsibleParty() {
         return responsibleParty;
     }
@@ -187,6 +206,7 @@ public abstract class AbstractMonitoringObject
      * @param responsibleParty
      *            the responsibleParty to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setResponsibleParty(RelatedParty responsibleParty) {
         this.responsibleParty = responsibleParty;
     }
@@ -198,6 +218,7 @@ public abstract class AbstractMonitoringObject
     /**
      * @return the geometry
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public AbstractGeometry getGeometry() {
         return geometry;
     }
@@ -206,6 +227,7 @@ public abstract class AbstractMonitoringObject
      * @param geometry
      *            the geometry to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setGeometry(AbstractGeometry geometry) {
         this.geometry = geometry;
     }
@@ -226,16 +248,20 @@ public abstract class AbstractMonitoringObject
      * @return the onlineResource
      */
     public Set<String> getOnlineResource() {
-        return onlineResource;
+        return Collections.unmodifiableSet(onlineResource);
     }
 
     /**
      * @param onlineResource
      *            the onlineResource to set
+     * @return this
      */
-    public void setOnlineResource(Set<String> onlineResource) {
+    public AbstractMonitoringObject setOnlineResource(Collection<String> onlineResource) {
         this.onlineResource.clear();
-        this.onlineResource = onlineResource;
+        if (onlineResource != null) {
+            this.onlineResource.addAll(onlineResource);
+        }
+        return this;
     }
 
     public boolean isSetOnlineResources() {
@@ -246,16 +272,20 @@ public abstract class AbstractMonitoringObject
      * @return the purpose
      */
     public Set<ReferenceType> getPurpose() {
-        return purpose;
+        return Collections.unmodifiableSet(purpose);
     }
 
     /**
      * @param purpose
      *            the purpose to set
+     * @return this
      */
-    public void setPurpose(Set<ReferenceType> purpose) {
+    public AbstractMonitoringObject setPurpose(Collection<ReferenceType> purpose) {
         this.purpose.clear();
-        this.purpose = purpose;
+        if (purpose != null) {
+            this.purpose.addAll(purpose);
+        }
+        return this;
     }
 
     public boolean isSetPurpose() {
@@ -266,24 +296,33 @@ public abstract class AbstractMonitoringObject
      * @return the observingCapability
      */
     public Set<Referenceable<ObservingCapability>> getObservingCapability() {
-        return observingCapability;
+        return Collections.unmodifiableSet(observingCapability);
     }
 
     /**
      * @param observingCapability
      *            the observingCapability to set
+     * @return this
      */
-    public void setObservingCapability(Set<Referenceable<ObservingCapability>> observingCapability) {
+    public AbstractMonitoringObject setObservingCapability(
+            Collection<Referenceable<ObservingCapability>> observingCapability) {
         this.observingCapability.clear();
-        this.observingCapability = observingCapability;
+        if (observingCapability != null) {
+            this.observingCapability.addAll(observingCapability);
+        }
+        return this;
     }
 
     /**
      * @param observingCapability
      *            the observingCapability to add
+     * @return this
      */
-    public void addObservingCapability(Referenceable<ObservingCapability> observingCapability) {
-        this.observingCapability.add(observingCapability);
+    public AbstractMonitoringObject addObservingCapability(Referenceable<ObservingCapability> observingCapability) {
+        if (observingCapability != null) {
+            this.observingCapability.add(observingCapability);
+        }
+        return this;
     }
 
     /**
@@ -325,16 +364,20 @@ public abstract class AbstractMonitoringObject
      * @return the narrower
      */
     public Set<Referenceable<Hierarchy>> getNarrower() {
-        return narrower;
+        return Collections.unmodifiableSet(narrower);
     }
 
     /**
      * @param narrower
      *            the narrower to set
+     * @return this
      */
-    public void setNarrower(Set<Referenceable<Hierarchy>> narrower) {
+    public AbstractMonitoringObject setNarrower(Collection<Referenceable<Hierarchy>> narrower) {
         this.narrower.clear();
-        this.narrower = narrower;
+        if (narrower != null) {
+            this.narrower.addAll(narrower);
+        }
+        return this;
     }
 
     public boolean isSetNarrower() {
@@ -345,16 +388,20 @@ public abstract class AbstractMonitoringObject
      * @return the supersedes
      */
     public Set<Referenceable<AbstractMonitoringObject>> getSupersedes() {
-        return supersedes;
+        return Collections.unmodifiableSet(supersedes);
     }
 
     /**
      * @param supersedes
      *            the supersedes to set
+     * @return this
      */
-    public void setSupersedes(Set<Referenceable<AbstractMonitoringObject>> supersedes) {
+    public AbstractMonitoringObject setSupersedes(Collection<Referenceable<AbstractMonitoringObject>> supersedes) {
         this.supersedes.clear();
-        this.supersedes = supersedes;
+        if (supersedes != null) {
+            this.supersedes.addAll(supersedes);
+        }
+        return this;
     }
 
     public boolean isSetSupersedes() {
@@ -365,16 +412,20 @@ public abstract class AbstractMonitoringObject
      * @return the supersededBy
      */
     public Set<Referenceable<AbstractMonitoringObject>> getSupersededBy() {
-        return supersededBy;
+        return Collections.unmodifiableSet(supersededBy);
     }
 
     /**
      * @param supersededBy
      *            the supersededBy to set
+     * @return this
      */
-    public void setSupersededBy(Set<Referenceable<AbstractMonitoringObject>> supersededBy) {
+    public AbstractMonitoringObject setSupersededBy(Collection<Referenceable<AbstractMonitoringObject>> supersededBy) {
         this.supersededBy.clear();
-        this.supersededBy = supersededBy;
+        if (supersededBy != null) {
+            this.supersededBy.addAll(supersededBy);
+        }
+        return this;
     }
 
     public boolean isSetSupersededBy() {

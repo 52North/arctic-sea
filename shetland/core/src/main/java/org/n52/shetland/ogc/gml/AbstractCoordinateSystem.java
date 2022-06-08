@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +16,8 @@
 package org.n52.shetland.ogc.gml;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.n52.shetland.w3c.xlink.Referenceable;
@@ -28,30 +29,29 @@ import org.n52.shetland.w3c.xlink.Referenceable;
  * @since 1.0.0
  *
  */
-public abstract class AbstractCoordinateSystem
-        extends IdentifiedObject {
+public abstract class AbstractCoordinateSystem extends IdentifiedObject {
 
     private final List<Referenceable<CoordinateSystemAxis>> coordinateSystemAxis = new ArrayList<>();
 
     private Aggregation aggregation;
 
-    public AbstractCoordinateSystem(
-            CodeWithAuthority identifier, Referenceable<CoordinateSystemAxis> coordinateSystemAxis) {
+    public AbstractCoordinateSystem(CodeWithAuthority identifier,
+            Referenceable<CoordinateSystemAxis> coordinateSystemAxis) {
         super(identifier);
         addCoordinateSystemAxis(coordinateSystemAxis);
     }
 
-    public AbstractCoordinateSystem(
-            CodeWithAuthority identifier, List<Referenceable<CoordinateSystemAxis>> coordinateSystemAxis) {
+    public AbstractCoordinateSystem(CodeWithAuthority identifier,
+            Collection<Referenceable<CoordinateSystemAxis>> coordinateSystemAxis) {
         super(identifier);
-        addCoordinateSystemAxis(coordinateSystemAxis);
+        setCoordinateSystemAxis(coordinateSystemAxis);
     }
 
     /**
      * @return the coordinateSystemAxis
      */
     public List<Referenceable<CoordinateSystemAxis>> getCoordinateSystemAxis() {
-        return coordinateSystemAxis;
+        return Collections.unmodifiableList(coordinateSystemAxis);
     }
 
     /**
@@ -61,9 +61,11 @@ public abstract class AbstractCoordinateSystem
      * @return {@code this}
      */
     public AbstractCoordinateSystem setCoordinateSystemAxis(
-            List<Referenceable<CoordinateSystemAxis>> coordinateSystemAxis) {
+            Collection<Referenceable<CoordinateSystemAxis>> coordinateSystemAxis) {
         this.coordinateSystemAxis.clear();
-        this.coordinateSystemAxis.addAll(coordinateSystemAxis);
+        if (coordinateSystemAxis != null) {
+            this.coordinateSystemAxis.addAll(coordinateSystemAxis);
+        }
         return this;
     }
 
@@ -74,8 +76,10 @@ public abstract class AbstractCoordinateSystem
      * @return {@code this}
      */
     public AbstractCoordinateSystem addCoordinateSystemAxis(
-            List<Referenceable<CoordinateSystemAxis>> coordinateSystemAxis) {
-        this.coordinateSystemAxis.addAll(coordinateSystemAxis);
+            Collection<Referenceable<CoordinateSystemAxis>> coordinateSystemAxis) {
+        if (coordinateSystemAxis != null) {
+            this.coordinateSystemAxis.addAll(coordinateSystemAxis);
+        }
         return this;
     }
 
@@ -86,7 +90,9 @@ public abstract class AbstractCoordinateSystem
      * @return {@code this}
      */
     public AbstractCoordinateSystem addCoordinateSystemAxis(Referenceable<CoordinateSystemAxis> coordinateSystemAxis) {
-        this.coordinateSystemAxis.add(coordinateSystemAxis);
+        if (coordinateSystemAxis != null) {
+            this.coordinateSystemAxis.add(coordinateSystemAxis);
+        }
         return this;
     }
 

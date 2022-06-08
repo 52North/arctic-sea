@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,20 +15,20 @@
  */
 package org.n52.janmayen.event;
 
-import java.util.Collection;
-
-import javax.inject.Inject;
-
 import org.n52.janmayen.lifecycle.Constructable;
 import org.n52.janmayen.lifecycle.Destroyable;
+
+import javax.inject.Inject;
+import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  * Class used to decouple {@link EventListener} and {@link EventBus} creation.
  *
+ * @author Christian Autermann
  * @see EventBus
  * @see EventListener
  * @since 1.0.0
- * @author Christian Autermann
  */
 public class EventListenerRegistrator implements Constructable, Destroyable {
 
@@ -38,7 +37,7 @@ public class EventListenerRegistrator implements Constructable, Destroyable {
 
     @Inject
     public void setListeners(Collection<EventListener> listeners) {
-        this.listeners = listeners;
+        this.listeners = new LinkedList<>(listeners);
     }
 
     @Inject

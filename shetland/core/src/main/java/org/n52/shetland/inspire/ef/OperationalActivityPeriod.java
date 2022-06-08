@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +18,8 @@ package org.n52.shetland.inspire.ef;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.time.Time;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class OperationalActivityPeriod extends AbstractFeature {
 
     /**
@@ -26,6 +27,7 @@ public class OperationalActivityPeriod extends AbstractFeature {
      */
     private Time activityTime;
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public OperationalActivityPeriod(Time activityTime) {
         super("");
         this.activityTime = activityTime;
@@ -34,6 +36,7 @@ public class OperationalActivityPeriod extends AbstractFeature {
     /**
      * @return the activityTime
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Time getActivityTime() {
         return activityTime;
     }

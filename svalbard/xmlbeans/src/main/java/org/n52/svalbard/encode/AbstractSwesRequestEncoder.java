@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,13 +17,17 @@ package org.n52.svalbard.encode;
 
 import java.util.Set;
 
+import org.n52.shetland.ogc.ows.extension.Extension;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.swes.SwesConstants;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.w3c.SchemaLocation;
+import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
+
+import net.opengis.swes.x20.ExtensibleRequestType;
 
 /**
  * @author <a href="mailto:j.schulte@52north.org">Jan Schulte</a>
@@ -36,6 +39,15 @@ public abstract class AbstractSwesRequestEncoder<T extends OwsServiceRequest> ex
     public AbstractSwesRequestEncoder(String operation, Class<T> responseType) {
         super(SosConstants.SOS, Sos2Constants.SERVICEVERSION, operation, SwesConstants.NS_SWES_20,
               SwesConstants.NS_SWES_PREFIX, responseType);
+    }
+
+    protected void addExtension(OwsServiceRequest request, ExtensibleRequestType extensibleRequestType)
+            throws EncodingException {
+        if (request.hasExtensions()) {
+            for (Extension<?> extension : request.getExtensions().getExtensions()) {
+                extensibleRequestType.addNewExtension().set(encodeObjectToXml(extension.getNamespace(), extension));
+            }
+        }
     }
 
     @Override

@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,16 +25,14 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 
 /**
- * A range of values of a numeric parameter. This range can be continuous or
- * discrete, defined by a fixed spacing between adjacent valid values. If the
- * MinimumValue or MaximumValue is not included, there is no value limit in that
- * direction. Inclusion of the specified minimum and maximum values in the range
- * shall be defined by the rangeClosure.
+ * A range of values of a numeric parameter. This range can be continuous or discrete, defined by a fixed
+ * spacing between adjacent valid values. If the MinimumValue or MaximumValue is not included, there is no
+ * value limit in that direction. Inclusion of the specified minimum and maximum values in the range shall be
+ * defined by the rangeClosure.
  *
  * @author Christian Autermann
  */
-public class OwsRange
-        implements OwsValueRestriction {
+public class OwsRange implements OwsValueRestriction {
     public static final Comparator<OwsRange> COMPARATOR =
             Comparator.comparing(OwsRange::getLowerBound, Optionals.nullsFirst())
                     .thenComparing(Comparator.comparing(OwsRange::getUpperBound, Optionals.nullsLast()));
@@ -64,8 +61,7 @@ public class OwsRange
         this(lowerBound, lowerBoundType, upperBound, upperBoundType, null);
     }
 
-    public OwsRange(
-            OwsValue lowerBound, BoundType lowerBoundType, OwsValue upperBound, BoundType upperBoundType,
+    public OwsRange(OwsValue lowerBound, BoundType lowerBoundType, OwsValue upperBound, BoundType upperBoundType,
             OwsValue spacing) {
         this(new Bound(lowerBoundType, lowerBound), new Bound(upperBoundType, upperBound), spacing);
     }
@@ -212,7 +208,8 @@ public class OwsRange
     }
 
     public enum BoundType {
-        OPEN('(', ')'), CLOSED('[', ']');
+        OPEN('(', ')'),
+        CLOSED('[', ']');
 
         private final char upper;
         private final char lower;

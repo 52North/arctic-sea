@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,8 +34,7 @@ public final class SmlIoPredicates {
         return new DefinitionPredicate(definition);
     }
 
-    public static Predicate<SmlIo> nameOrDefinition(String name,
-                                                            String definition) {
+    public static Predicate<SmlIo> nameOrDefinition(String name, String definition) {
         return name(name).or(definition(definition));
     }
 
@@ -44,8 +42,7 @@ public final class SmlIoPredicates {
         return identifier(identifier).or(name(name)).or(definition(definition));
     }
 
-    public static Predicate<SmlIo> nameAndDefinition(String name,
-                                                             String definition) {
+    public static Predicate<SmlIo> nameAndDefinition(String name, String definition) {
         return name(name).and(definition(definition));
     }
 
@@ -58,8 +55,8 @@ public final class SmlIoPredicates {
 
         @Override
         public boolean test(SmlIo input) {
-            return input.getIoValue().isSetDefinition() &&
-                   input.getIoValue().getDefinition().equalsIgnoreCase(definition);
+            return input.getIoValue().isSetDefinition()
+                    && input.getIoValue().getDefinition().equalsIgnoreCase(definition);
         }
     }
 
@@ -72,8 +69,8 @@ public final class SmlIoPredicates {
 
         @Override
         public boolean test(SmlIo input) {
-            return (input.isSetName() && input.getIoName().equalsIgnoreCase(name)) || (input.getIoValue().isSetName()
-                    && input.getIoValue().getName().getValue().equalsIgnoreCase(name));
+            return input.isSetName() && input.getIoName().equalsIgnoreCase(name) || input.getIoValue().isSetName()
+                    && input.getIoValue().getName().getValue().equalsIgnoreCase(name);
         }
     }
 
@@ -86,8 +83,8 @@ public final class SmlIoPredicates {
 
         @Override
         public boolean test(SmlIo input) {
-            return input.isSetHref() || (input.getIoValue().isSetIdentifier()
-                    && input.getIoValue().getIdentifier().equalsIgnoreCase(identifier));
+            return input.isSetHref() || input.getIoValue().isSetIdentifier()
+                    && input.getIoValue().getIdentifier().equalsIgnoreCase(identifier);
         }
     }
 }

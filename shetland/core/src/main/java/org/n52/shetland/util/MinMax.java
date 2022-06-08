@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,14 +18,16 @@ package org.n52.shetland.util;
 import java.util.Comparator;
 
 /**
- * @param <T> the type
+ * @param <T>
+ *            the type
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 1.0.0
  *
  */
-//TODO move to janmayen
-public class MinMax<T> {
+// TODO move to janmayen
+public class MinMax<
+        T> {
 
     private T minimum;
     private T maximum;
@@ -56,7 +57,8 @@ public class MinMax<T> {
     /**
      * Set the value of minimum
      *
-     * @param minimum new value of minimum
+     * @param minimum
+     *            new value of minimum
      *
      * @return this
      */
@@ -80,7 +82,8 @@ public class MinMax<T> {
     /**
      * Set the value of maximum
      *
-     * @param maximum new value of maximum
+     * @param maximum
+     *            new value of maximum
      *
      * @return this
      */
@@ -95,8 +98,10 @@ public class MinMax<T> {
     /**
      * Extend this {@code MinMax} to include {@code t}.
      *
-     * @param t the object to include
-     * @param c the comparator used to compare the values
+     * @param t
+     *            the object to include
+     * @param c
+     *            the comparator used to compare the values
      *
      * @return this
      */
@@ -113,11 +118,12 @@ public class MinMax<T> {
     }
 
     /**
-     * *
-     * Extend this {@code MinMax} to include {@code minmax}.
+     * * Extend this {@code MinMax} to include {@code minmax}.
      *
-     * @param minmax the {@code MinMax} to include
-     * @param c      the comparator
+     * @param minmax
+     *            the {@code MinMax} to include
+     * @param c
+     *            the comparator
      *
      * @return this
      */
@@ -139,8 +145,8 @@ public class MinMax<T> {
     public boolean equals(Object obj) {
         if (obj != null && obj.getClass() == getClass()) {
             final MinMax<T> other = (MinMax<T>) obj;
-            return (getMinimum() == null ? other.getMinimum() == null : other.getMinimum().equals(getMinimum())) &&
-                   (getMaximum() == null ? other.getMaximum() == null : other.getMaximum().equals(getMaximum()));
+            return (getMinimum() == null ? other.getMinimum() == null : other.getMinimum().equals(getMinimum()))
+                    && (getMaximum() == null ? other.getMaximum() == null : other.getMaximum().equals(getMaximum()));
         }
         return false;
     }

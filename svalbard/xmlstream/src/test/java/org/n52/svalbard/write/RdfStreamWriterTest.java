@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,8 +25,6 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.RDFWriter;
 import org.junit.jupiter.api.Test;
-import org.n52.shetland.rdf.AbstractDatatype;
-import org.n52.shetland.rdf.AbstractDatatype.DataType;
 import org.n52.shetland.rdf.RDF;
 import org.n52.shetland.rdf.RDFDataTypes;
 import org.n52.shetland.rdf.dcat.AccessURL;

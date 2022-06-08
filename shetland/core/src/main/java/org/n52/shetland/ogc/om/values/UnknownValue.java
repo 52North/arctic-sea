@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,8 +24,7 @@ import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
  * @since 1.0.0
  *
  */
-public class UnknownValue
-        implements Value<Object> {
+public class UnknownValue implements Value<Object> {
 
     /**
      * Measurement
@@ -89,7 +87,9 @@ public class UnknownValue
     }
 
     @Override
-    public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
+    public <
+            X,
+            E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
         return visitor.visit(this);
     }
 }

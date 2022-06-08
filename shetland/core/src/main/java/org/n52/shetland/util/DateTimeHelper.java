@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -123,8 +122,7 @@ public final class DateTimeHelper {
     }
 
     /**
-     * Parses the given ISO 8601 String to a {@link Time} including
-     * {@link TimeInstant} and {@link TimePeriod}
+     * Parses the given ISO 8601 String to a {@link Time} including {@link TimeInstant} and {@link TimePeriod}
      *
      * @param timeString
      *            a ISO 8601 formatted time string
@@ -160,8 +158,7 @@ public final class DateTimeHelper {
      *            an {@link Time} object to be formatted
      * @return an ISO 8601 conform {@link String}.
      * @throws IllegalArgumentException
-     *             in the case of receiving <tt>null</tt> or not supported
-     *             types.
+     *             in the case of receiving <tt>null</tt> or not supported types.
      * @see #formatDateTime2IsoString(DateTime)
      */
     public static String format(Time time) {
@@ -369,8 +366,8 @@ public final class DateTimeHelper {
     }
 
     /**
-     * Set the time object to the end values (seconds, minutes, hours, days,..)
-     * if the time Object has not all values
+     * Set the time object to the end values (seconds, minutes, hours, days,..) if the time Object has not all
+     * values
      *
      * @param dateTime
      *            Time object

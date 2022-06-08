@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,25 +20,10 @@ import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.Set;
 
-import net.opengis.gml.CodeType;
-import net.opengis.gml.CoordinatesType;
-import net.opengis.gml.DirectPositionType;
-import net.opengis.gml.EnvelopeDocument;
-import net.opengis.gml.EnvelopeType;
-import net.opengis.gml.PointType;
-import net.opengis.gml.TimeInstantDocument;
-import net.opengis.gml.TimeInstantType;
-import net.opengis.gml.TimePeriodDocument;
-import net.opengis.gml.TimePeriodType;
-import net.opengis.gml.TimePositionType;
-
 import org.apache.xmlbeans.XmlObject;
 import org.joda.time.DateTime;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.io.ParseException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.gml.time.IndeterminateValue;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
@@ -51,8 +35,22 @@ import org.n52.shetland.util.JTSHelper;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.exception.UnsupportedDecoderXmlInputException;
 import org.n52.svalbard.util.CodingHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
+
+import net.opengis.gml.CodeType;
+import net.opengis.gml.CoordinatesType;
+import net.opengis.gml.DirectPositionType;
+import net.opengis.gml.EnvelopeDocument;
+import net.opengis.gml.EnvelopeType;
+import net.opengis.gml.PointType;
+import net.opengis.gml.TimeInstantDocument;
+import net.opengis.gml.TimeInstantType;
+import net.opengis.gml.TimePeriodDocument;
+import net.opengis.gml.TimePeriodType;
+import net.opengis.gml.TimePositionType;
 
 /**
  * @since 1.0.0

@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +16,7 @@
 package org.n52.shetland.w3c.wsdl;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.TreeSet;
 
 import javax.xml.namespace.QName;
@@ -33,7 +33,7 @@ public class PortType extends AbstractWsdl {
 
     @Override
     public QName getQName() {
-        return  WSDLQNames.QN_WSDL_PORT_TYPE;
+        return WSDLQNames.QN_WSDL_PORT_TYPE;
     }
 
     public PortType addOperation(Operation operation) {
@@ -58,7 +58,7 @@ public class PortType extends AbstractWsdl {
     }
 
     public Collection<Operation> getOperations() {
-        return operations;
+        return Collections.unmodifiableCollection(operations);
     }
 
     public boolean isSetOperations() {
@@ -67,14 +67,8 @@ public class PortType extends AbstractWsdl {
 
     public Operation getOperation(String name, String request, String response) {
         for (Operation operation : operations) {
-            if (operation.getName()
-                    .equals(name)
-                    && operation.getInput()
-                            .getName()
-                            .equals(request)
-                    && operation.getOutput()
-                            .getName()
-                            .equals(response)) {
+            if (operation.getName().equals(name) && operation.getInput().getName().equals(request)
+                    && operation.getOutput().getName().equals(response)) {
                 return operation;
             }
         }

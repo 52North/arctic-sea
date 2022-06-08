@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,16 +15,17 @@
  */
 package org.n52.shetland.ogc.ows;
 
-import com.google.common.base.Preconditions;
-import com.google.common.base.Strings;
-import org.n52.shetland.util.CollectionHelper;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.SortedSet;
 import java.util.TreeSet;
+
+import org.n52.shetland.util.CollectionHelper;
+
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 
 /**
  * TODO JavaDoc
@@ -42,14 +42,10 @@ public class OwsCapabilities {
     private Optional<SortedSet<String>> languages;
     private SortedSet<OwsCapabilitiesExtension> extensions;
 
-    public OwsCapabilities(String service,
-                           String version,
-                           String updateSequence,
-                           OwsServiceIdentification serviceIdentification,
-                           OwsServiceProvider serviceProvider,
-                           OwsOperationsMetadata operationsMetadata,
-                           Collection<String> languages,
-                           Collection<OwsCapabilitiesExtension> extensions) {
+    public OwsCapabilities(String service, String version, String updateSequence,
+            OwsServiceIdentification serviceIdentification, OwsServiceProvider serviceProvider,
+            OwsOperationsMetadata operationsMetadata, Collection<String> languages,
+            Collection<OwsCapabilitiesExtension> extensions) {
         this.service = Optional.ofNullable(Strings.emptyToNull(service));
         Preconditions.checkArgument(!Objects.requireNonNull(version).isEmpty());
         this.version = version;
@@ -58,19 +54,13 @@ public class OwsCapabilities {
         this.serviceProvider = Optional.ofNullable(serviceProvider);
         this.operationsMetadata = Optional.ofNullable(operationsMetadata);
         this.languages = Optional.ofNullable(languages).map(TreeSet::new);
-        this.extensions =
-                Optional.ofNullable(extensions).map(TreeSet::new).orElseGet(TreeSet::new);
+        this.extensions = Optional.ofNullable(extensions).map(TreeSet::new).orElseGet(TreeSet::new);
     }
 
     public OwsCapabilities(OwsCapabilities other) {
-        this(other.getService().orElse(null),
-             other.getVersion(),
-             other.getUpdateSequence().orElse(null),
-             other.getServiceIdentification().orElse(null),
-             other.getServiceProvider().orElse(null),
-             other.getOperationsMetadata().orElse(null),
-             other.getLanguages().orElse(null),
-             other.getExtensions());
+        this(other.getService().orElse(null), other.getVersion(), other.getUpdateSequence().orElse(null),
+                other.getServiceIdentification().orElse(null), other.getServiceProvider().orElse(null),
+                other.getOperationsMetadata().orElse(null), other.getLanguages().orElse(null), other.getExtensions());
     }
 
     public String getVersion() {

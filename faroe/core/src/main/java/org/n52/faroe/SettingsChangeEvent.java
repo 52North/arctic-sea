@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +17,8 @@ package org.n52.faroe;
 
 import org.n52.janmayen.event.Event;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * This event is fired if the {@link SettingValue} of a {@link SettingDefinition} has been changed or a
  * {@link SettingDefinition} was deleted.
@@ -33,6 +34,7 @@ public class SettingsChangeEvent<T> implements Event {
     private final SettingValue<T> oldValue;
     private final SettingValue<T> newValue;
 
+    @SuppressFBWarnings({"EI_EXPOSE_REP2"})
     public SettingsChangeEvent(SettingDefinition<T> setting, SettingValue<T> oldValue, SettingValue<T> newValue) {
         this.setting = setting;
         this.oldValue = oldValue;
@@ -43,10 +45,12 @@ public class SettingsChangeEvent<T> implements Event {
         return setting;
     }
 
+    @SuppressFBWarnings({"EI_EXPOSE_REP"})
     public SettingValue<T> getOldValue() {
         return oldValue;
     }
 
+    @SuppressFBWarnings({"EI_EXPOSE_REP"})
     public SettingValue<T> getNewValue() {
         return newValue;
     }

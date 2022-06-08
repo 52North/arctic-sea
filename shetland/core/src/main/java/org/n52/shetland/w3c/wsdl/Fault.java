@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,32 +32,31 @@ import com.google.common.collect.ImmutableList;
  */
 public class Fault extends AbstractWsdl {
 
-    public static final Fault EXCEPTION_MESSAGE = new Fault("ExceptionMessage",
-            WSDLConstants.OWS_EXCEPTION_ACTION);
+    public static final Fault EXCEPTION_MESSAGE = new Fault("ExceptionMessage", WSDLConstants.OWS_EXCEPTION_ACTION);
 
-    public static final Fault REQUEST_EXTENSION_NOT_SUPPORTED_EXCEPTION = new Fault(
-            "RequestExtensionNotSupportedException", WSDLConstants.SWES_EXCEPTION_ACTION);
+    public static final Fault REQUEST_EXTENSION_NOT_SUPPORTED_EXCEPTION =
+            new Fault("RequestExtensionNotSupportedException", WSDLConstants.SWES_EXCEPTION_ACTION);
 
-    public static final Fault INVALID_REQUEST_EXCEPTION = new Fault("InvalidRequestException",
-            WSDLConstants.SWES_EXCEPTION_ACTION);
+    public static final Fault INVALID_REQUEST_EXCEPTION =
+            new Fault("InvalidRequestException", WSDLConstants.SWES_EXCEPTION_ACTION);
 
-    public static final Fault NO_APPLICABLE_CODE_EXCEPTION = new Fault("NoApplicableCodeException",
-            WSDLConstants.OWS_EXCEPTION_ACTION);
+    public static final Fault NO_APPLICABLE_CODE_EXCEPTION =
+            new Fault("NoApplicableCodeException", WSDLConstants.OWS_EXCEPTION_ACTION);
 
-    public static final Fault INVALID_UPDATE_SEQUENCE_EXCEPTION = new Fault("InvalidUpdateSequenceException",
-            WSDLConstants.OWS_EXCEPTION_ACTION);
+    public static final Fault INVALID_UPDATE_SEQUENCE_EXCEPTION =
+            new Fault("InvalidUpdateSequenceException", WSDLConstants.OWS_EXCEPTION_ACTION);
 
-    public static final Fault VERSION_NEGOTIATION_FAILED_EXCEPTION = new Fault(
-            "VersionNegotiationFailedException", WSDLConstants.OWS_EXCEPTION_ACTION);
+    public static final Fault VERSION_NEGOTIATION_FAILED_EXCEPTION =
+            new Fault("VersionNegotiationFailedException", WSDLConstants.OWS_EXCEPTION_ACTION);
 
-    public static final Fault MISSING_PARAMETER_VALUE_EXCEPTION = new Fault("MissingParameterValueException",
-            WSDLConstants.OWS_EXCEPTION_ACTION);
+    public static final Fault MISSING_PARAMETER_VALUE_EXCEPTION =
+            new Fault("MissingParameterValueException", WSDLConstants.OWS_EXCEPTION_ACTION);
 
-    public static final Fault INVALID_PARAMETER_VALUE_EXCEPTION = new Fault("InvalidParameterValueException",
-            WSDLConstants.OWS_EXCEPTION_ACTION);
+    public static final Fault INVALID_PARAMETER_VALUE_EXCEPTION =
+            new Fault("InvalidParameterValueException", WSDLConstants.OWS_EXCEPTION_ACTION);
 
-    public static final Fault OPERATION_NOT_SUPPORTED_EXCEPTION = new Fault("OperationNotSupportedException",
-            WSDLConstants.OWS_EXCEPTION_ACTION);
+    public static final Fault OPERATION_NOT_SUPPORTED_EXCEPTION =
+            new Fault("OperationNotSupportedException", WSDLConstants.OWS_EXCEPTION_ACTION);
 
     // public static final Collection<WSDLFault> DEFAULT_FAULTS =
     // ImmutableList.of(MISSING_PARAMETER_VALUE_EXCEPTION,

@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +16,8 @@
 package org.n52.shetland.ogc.om.series;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.n52.shetland.iso.gmd.CiResponsibleParty;
@@ -49,13 +50,14 @@ public abstract class AbstractMonitoringFeature extends AbstractSamplingFeature 
      * @return the relatedParty
      */
     public List<Referenceable<CiResponsibleParty>> getRelatedParty() {
-        return relatedParty;
+        return Collections.unmodifiableList(relatedParty);
     }
 
     /**
-     * @param relatedParty the relatedParty to set
+     * @param relatedParty
+     *            the relatedParty to set
      */
-    public AbstractMonitoringFeature setRelatedParty(List<Referenceable<CiResponsibleParty>> relatedParty) {
+    public AbstractMonitoringFeature setRelatedParty(Collection<Referenceable<CiResponsibleParty>> relatedParty) {
         this.relatedParty.clear();
         if (relatedParty != null) {
             this.relatedParty.addAll(relatedParty);
@@ -64,9 +66,10 @@ public abstract class AbstractMonitoringFeature extends AbstractSamplingFeature 
     }
 
     /**
-     * @param relatedParty the relatedParty to add
+     * @param relatedParty
+     *            the relatedParty to add
      */
-    public AbstractMonitoringFeature addRelatedParty(List<Referenceable<CiResponsibleParty>> relatedParty) {
+    public AbstractMonitoringFeature addRelatedParty(Collection<Referenceable<CiResponsibleParty>> relatedParty) {
         if (relatedParty != null) {
             this.relatedParty.addAll(relatedParty);
         }
@@ -74,7 +77,8 @@ public abstract class AbstractMonitoringFeature extends AbstractSamplingFeature 
     }
 
     /**
-     * @param relatedParty the relatedParty to add
+     * @param relatedParty
+     *            the relatedParty to add
      */
     public AbstractMonitoringFeature addRelatedParty(Referenceable<CiResponsibleParty> relatedParty) {
         if (relatedParty != null) {
@@ -91,13 +95,14 @@ public abstract class AbstractMonitoringFeature extends AbstractSamplingFeature 
      * @return the monitoringType
      */
     public List<ReferenceType> getMonitoringType() {
-        return monitoringType;
+        return Collections.unmodifiableList(monitoringType);
     }
 
     /**
-     * @param monitoringType the monitoringType to set
+     * @param monitoringType
+     *            the monitoringType to set
      */
-    public AbstractMonitoringFeature setMonitoringType(List<ReferenceType> monitoringType) {
+    public AbstractMonitoringFeature setMonitoringType(Collection<ReferenceType> monitoringType) {
         this.monitoringType.clear();
         if (monitoringType != null) {
             this.monitoringType.addAll(monitoringType);
@@ -106,9 +111,10 @@ public abstract class AbstractMonitoringFeature extends AbstractSamplingFeature 
     }
 
     /**
-     * @param monitoringType the monitoringType to add
+     * @param monitoringType
+     *            the monitoringType to add
      */
-    public AbstractMonitoringFeature addMonitoringType(List<ReferenceType> monitoringType) {
+    public AbstractMonitoringFeature addMonitoringType(Collection<ReferenceType> monitoringType) {
         if (monitoringType != null) {
             this.monitoringType.addAll(monitoringType);
         }
@@ -116,7 +122,8 @@ public abstract class AbstractMonitoringFeature extends AbstractSamplingFeature 
     }
 
     /**
-     * @param monitoringType the monitoringType to add
+     * @param monitoringType
+     *            the monitoringType to add
      */
     public AbstractMonitoringFeature addMonitoringType(ReferenceType monitoringType) {
         if (monitoringType != null) {
@@ -133,13 +140,14 @@ public abstract class AbstractMonitoringFeature extends AbstractSamplingFeature 
      * @return the descriptionReference
      */
     public List<ReferenceType> getDescriptionReference() {
-        return descriptionReference;
+        return Collections.unmodifiableList(descriptionReference);
     }
 
     /**
-     * @param descriptionReference the descriptionReference to set
+     * @param descriptionReference
+     *            the descriptionReference to set
      */
-    public AbstractMonitoringFeature setDescriptionReference(List<ReferenceType> descriptionReference) {
+    public AbstractMonitoringFeature setDescriptionReference(Collection<ReferenceType> descriptionReference) {
         this.descriptionReference.clear();
         if (descriptionReference != null) {
             this.descriptionReference.addAll(descriptionReference);
@@ -148,9 +156,10 @@ public abstract class AbstractMonitoringFeature extends AbstractSamplingFeature 
     }
 
     /**
-     * @param descriptionReference the descriptionReference to add
+     * @param descriptionReference
+     *            the descriptionReference to add
      */
-    public AbstractMonitoringFeature addDescriptionReference(List<ReferenceType> descriptionReference) {
+    public AbstractMonitoringFeature addDescriptionReference(Collection<ReferenceType> descriptionReference) {
         this.descriptionReference.clear();
         if (descriptionReference != null) {
             this.descriptionReference.addAll(descriptionReference);
@@ -159,7 +168,8 @@ public abstract class AbstractMonitoringFeature extends AbstractSamplingFeature 
     }
 
     /**
-     * @param descriptionReference the descriptionReference to add
+     * @param descriptionReference
+     *            the descriptionReference to add
      */
     public AbstractMonitoringFeature addDescriptionReference(ReferenceType descriptionReference) {
         if (descriptionReference != null) {
@@ -176,13 +186,14 @@ public abstract class AbstractMonitoringFeature extends AbstractSamplingFeature 
      * @return the verticalDatum
      */
     public List<Referenceable<VerticalDatum>> getVerticalDatum() {
-        return verticalDatum;
+        return Collections.unmodifiableList(verticalDatum);
     }
 
     /**
-     * @param verticalDatum the verticalDatum to set
+     * @param verticalDatum
+     *            the verticalDatum to set
      */
-    public AbstractMonitoringFeature setVerticalDatum(List<Referenceable<VerticalDatum>> verticalDatum) {
+    public AbstractMonitoringFeature setVerticalDatum(Collection<Referenceable<VerticalDatum>> verticalDatum) {
         this.verticalDatum.clear();
         if (verticalDatum != null) {
             this.verticalDatum.addAll(verticalDatum);
@@ -191,9 +202,10 @@ public abstract class AbstractMonitoringFeature extends AbstractSamplingFeature 
     }
 
     /**
-     * @param verticalDatum the verticalDatum to add
+     * @param verticalDatum
+     *            the verticalDatum to add
      */
-    public AbstractMonitoringFeature addVerticalDatum(List<Referenceable<VerticalDatum>> verticalDatum) {
+    public AbstractMonitoringFeature addVerticalDatum(Collection<Referenceable<VerticalDatum>> verticalDatum) {
         if (verticalDatum != null) {
             this.verticalDatum.addAll(verticalDatum);
         }
@@ -201,7 +213,8 @@ public abstract class AbstractMonitoringFeature extends AbstractSamplingFeature 
     }
 
     /**
-     * @param verticalDatum the verticalDatum to add
+     * @param verticalDatum
+     *            the verticalDatum to add
      */
     public AbstractMonitoringFeature addVerticalDatum(Referenceable<VerticalDatum> verticalDatum) {
         if (verticalDatum != null) {

@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +25,7 @@ import org.n52.iceland.util.ServletContextPropertyFileHandler;
  * @since 1.0.0
  *
  */
-public class DatabaseSettingsHandler extends DelegatingPropertyFileHandler {
+public class DatabaseSettingsHandler extends DelegatingPropertyFileHandler implements DatasourceSettingsHandler {
 
     public static final String INIT_PARAM_DATA_SOURCE_CONFIG_LOCATION
             = "datasourceConfigLocation";

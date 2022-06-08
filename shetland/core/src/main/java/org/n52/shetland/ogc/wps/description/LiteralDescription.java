@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,9 +15,9 @@
  */
 package org.n52.shetland.ogc.wps.description;
 
-import org.n52.janmayen.stream.Streams;
-
 import java.util.Set;
+
+import org.n52.janmayen.stream.Streams;
 
 /**
  * TODO JavaDoc
@@ -30,7 +29,9 @@ public interface LiteralDescription {
 
     LiteralDataDomain getDefaultLiteralDataDomain();
 
-    interface Builder<T extends LiteralDescription, B extends Builder<T, B>> extends org.n52.janmayen.Builder<T, B> {
+    interface Builder<
+            T extends LiteralDescription,
+            B extends Builder<T, B>> extends org.n52.janmayen.Builder<T, B> {
 
         default B withSupportedLiteralDataDomain(Iterable<LiteralDataDomain> domains) {
             Streams.stream(domains).forEach(this::withDefaultLiteralDataDomain);

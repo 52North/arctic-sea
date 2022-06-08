@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +15,12 @@
  */
 package org.n52.shetland.ogc.ows;
 
-import com.google.common.base.Strings;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import java.util.Objects;
 import java.util.Optional;
+
+import com.google.common.base.Strings;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * TODO JavaDoc
@@ -34,9 +34,8 @@ public class OwsServiceProvider {
     private final OwsResponsibleParty serviceContact;
 
     @SuppressFBWarnings("NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
-    public OwsServiceProvider(String providerName,
-                              OwsOnlineResource providerSite,
-                              OwsResponsibleParty serviceContact) {
+    public OwsServiceProvider(String providerName, OwsOnlineResource providerSite,
+            OwsResponsibleParty serviceContact) {
         this.providerName = Objects.requireNonNull(Strings.emptyToNull(providerName));
         this.providerSite = Optional.ofNullable(providerSite);
         this.serviceContact = Objects.requireNonNull(serviceContact);
@@ -89,9 +88,8 @@ public class OwsServiceProvider {
 
     @Override
     public String toString() {
-        return "OwsServiceProvider{" + "providerName=" + providerName +
-               ", providerSite=" + providerSite + ", serviceContact=" +
-               serviceContact + '}';
+        return "OwsServiceProvider{" + "providerName=" + providerName + ", providerSite=" + providerSite
+                + ", serviceContact=" + serviceContact + '}';
     }
 
 }

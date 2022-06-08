@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,7 +37,8 @@ public class UoM {
     }
 
     /**
-     * @param uom the uom to set
+     * @param uom
+     *            the uom to set
      *
      * @return {@code this}
      */
@@ -55,7 +55,8 @@ public class UoM {
     }
 
     /**
-     * @param name the name to set
+     * @param name
+     *            the name to set
      *
      * @return {@code this}
      */
@@ -76,7 +77,8 @@ public class UoM {
     }
 
     /**
-     * @param link the link to set
+     * @param link
+     *            the link to set
      *
      * @return {@code this}
      */
@@ -90,7 +92,7 @@ public class UoM {
     }
 
     public boolean isEmpty() {
-        return getUom() == null || (getUom() != null && getUom().isEmpty());
+        return getUom() == null || getUom() != null && getUom().isEmpty();
     }
 
     @Override

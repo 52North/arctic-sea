@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -68,8 +67,7 @@ import net.opengis.om.x20.OMObservationType;
  * @since 1.0.0
  *
  */
-public abstract class AbstractOmV20XmlStreamWriter
-        extends XmlStreamWriter<OmObservation> {
+public abstract class AbstractOmV20XmlStreamWriter extends XmlStreamWriter<OmObservation> {
     public AbstractOmV20XmlStreamWriter(EncodingContext context, OutputStream outputStream, OmObservation element)
             throws XMLStreamException {
         super(context, outputStream, element);
@@ -88,11 +86,14 @@ public abstract class AbstractOmV20XmlStreamWriter
     /**
      * Write {@link OmObservation} XML encoded to stream
      *
-     * @param observation the observation
+     * @param observation
+     *            the observation
      *
-     * @throws XMLStreamException If an error occurs when writing to stream
-     * @throws EncodingException  If an error occurs when creating elements to be written If an error occurs when
-     *                            creating elements to be written
+     * @throws XMLStreamException
+     *             If an error occurs when writing to stream
+     * @throws EncodingException
+     *             If an error occurs when creating elements to be written If an
+     *             error occurs when creating elements to be written
      */
     protected void writeObservation(OmObservation observation) throws XMLStreamException, EncodingException {
         start(getDocumentName());
@@ -106,8 +107,10 @@ public abstract class AbstractOmV20XmlStreamWriter
         checkAndWriteIdentifier();
         checkAndWriteName();
         checkAndWriteDescription();
-        if (observation.getObservationConstellation().isSetObservationType()) {
-            writeObservationType(observation.getObservationConstellation().getObservationType());
+        if (observation.getObservationConstellation()
+                .isSetObservationType()) {
+            writeObservationType(observation.getObservationConstellation()
+                    .getObservationType());
         }
         if (observation.isSetMetaDataProperty()) {
             writeMetaDataProperty(observation.getMetaDataProperty());
@@ -316,10 +319,20 @@ public abstract class AbstractOmV20XmlStreamWriter
     protected void writeProcedure() throws XMLStreamException, EncodingException {
         empty(OmConstants.QN_OM_20_PROCEDURE);
         OmObservation observation = getElement();
-        addXlinkHrefAttr(observation.getObservationConstellation().getProcedure().getIdentifier());
-        if (observation.getObservationConstellation().getProcedure().isSetName()
-                && observation.getObservationConstellation().getProcedure().getFirstName().isSetValue()) {
-            addXlinkTitleAttr(observation.getObservationConstellation().getProcedure().getFirstName().getValue());
+        addXlinkHrefAttr(observation.getObservationConstellation()
+                .getProcedure()
+                .getIdentifier());
+        if (observation.getObservationConstellation()
+                .getProcedure()
+                .isSetName()
+                && observation.getObservationConstellation()
+                        .getProcedure()
+                        .getFirstName()
+                        .isSetValue()) {
+            addXlinkTitleAttr(observation.getObservationConstellation()
+                    .getProcedure()
+                    .getFirstName()
+                    .getValue());
         }
     }
 
@@ -352,11 +365,20 @@ public abstract class AbstractOmV20XmlStreamWriter
     protected void writeObservableProperty() throws XMLStreamException {
         empty(OmConstants.QN_OM_20_OBSERVED_PROPERTY);
         OmObservation observation = getElement();
-        addXlinkHrefAttr(observation.getObservationConstellation().getObservableProperty().getIdentifier());
-        if (observation.getObservationConstellation().getObservableProperty().isSetName()
-                && observation.getObservationConstellation().getObservableProperty().getFirstName().isSetValue()) {
-            addXlinkTitleAttr(
-                    observation.getObservationConstellation().getObservableProperty().getFirstName().getValue());
+        addXlinkHrefAttr(observation.getObservationConstellation()
+                .getObservableProperty()
+                .getIdentifier());
+        if (observation.getObservationConstellation()
+                .getObservableProperty()
+                .isSetName()
+                && observation.getObservationConstellation()
+                        .getObservableProperty()
+                        .getFirstName()
+                        .isSetValue()) {
+            addXlinkTitleAttr(observation.getObservationConstellation()
+                    .getObservableProperty()
+                    .getFirstName()
+                    .getValue());
         }
     }
 
@@ -371,7 +393,8 @@ public abstract class AbstractOmV20XmlStreamWriter
     protected void writeFeatureOfIntererst() throws XMLStreamException, EncodingException {
 
         Optional<String> namespace = getDefaultFeatureEncodingNamespace();
-        AbstractFeature foi = getElement().getObservationConstellation().getFeatureOfInterest();
+        AbstractFeature foi = getElement().getObservationConstellation()
+                .getFeatureOfInterest();
 
         if (namespace.isPresent()) {
             EncodingContext codingContext = EncodingContext.of(XmlEncoderFlags.ENCODE_NAMESPACE, namespace.get());
@@ -380,8 +403,10 @@ public abstract class AbstractOmV20XmlStreamWriter
         } else {
             empty(OmConstants.QN_OM_20_FEATURE_OF_INTEREST);
             addXlinkHrefAttr(foi.getIdentifier());
-            if (foi.isSetName() && foi.getFirstName().isSetValue()) {
-                addXlinkTitleAttr(foi.getFirstName().getValue());
+            if (foi.isSetName() && foi.getFirstName()
+                    .isSetValue()) {
+                addXlinkTitleAttr(foi.getFirstName()
+                        .getValue());
             }
         }
     }
@@ -401,16 +426,20 @@ public abstract class AbstractOmV20XmlStreamWriter
         if (observation.getValue() instanceof AbstractObservationValue<?>) {
             ((AbstractObservationValue<?>) observation.getValue()).setValuesForResultEncoding(observation);
         }
-        XmlObject createResult = (XmlObject) getEncoder(getEncodeNamespace().orElse(OmConstants.NS_OM_2),
-                                                        observation.getValue()).encode(observation.getValue());
+        XmlObject createResult =
+                (XmlObject) getEncoder(getEncodeNamespace().orElse(OmConstants.NS_OM_2), observation.getValue())
+                        .encode(observation.getValue());
         if (createResult != null) {
-            if (createResult.xmlText().contains(XML_FRAGMENT)) {
-                XmlObject set =
-                        OMObservationType.Factory.newInstance(getXmlOptions()).addNewResult().set(createResult);
+            if (createResult.xmlText()
+                    .contains(XML_FRAGMENT)) {
+                XmlObject set = OMObservationType.Factory.newInstance(getXmlOptions())
+                        .addNewResult()
+                        .set(createResult);
                 writeXmlObject(set, OmConstants.QN_OM_20_RESULT);
             } else {
-                if (checkResult(createResult)) {
-                    QName name = createResult.schemaType().getName();
+                if (check(createResult)) {
+                    QName name = createResult.schemaType()
+                            .getName();
                     String prefix = name.getPrefix();
                     if (Strings.isNullOrEmpty(prefix)) {
                         XmlCursor newCursor = createResult.newCursor();
@@ -467,13 +496,14 @@ public abstract class AbstractOmV20XmlStreamWriter
      *
      * @return <code>true</code>, if content contains ...PropertyType
      */
-    private boolean checkResult(XmlObject result) {
+    protected boolean check(XmlObject result) {
         if (result.schemaType() != null) {
             SchemaType schemaType = result.schemaType();
             if (schemaType.getName() != null) {
                 QName name = schemaType.getName();
-                if (name.getLocalPart() != null
-                        && name.getLocalPart().toLowerCase(Locale.ROOT).contains("propertytype")) {
+                if (name.getLocalPart() != null && name.getLocalPart()
+                        .toLowerCase(Locale.ROOT)
+                        .contains("propertytype")) {
                     return true;
                 }
             }

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright 2015-2021 52°North Initiative for Geospatial Open Source
-    Software GmbH
+    Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -23,7 +22,7 @@
     <parent>
         <groupId>org.n52.arctic-sea</groupId>
         <artifactId>arctic-sea</artifactId>
-        <version>8.3.0-SNAPSHOT</version>
+        <version>9.6.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>janmayen</artifactId>

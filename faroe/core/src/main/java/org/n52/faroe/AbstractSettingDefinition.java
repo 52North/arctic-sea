@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +16,8 @@
 package org.n52.faroe;
 
 import java.io.Serializable;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Generic implementation of <code>SettingDefinition</code>.
@@ -99,11 +100,13 @@ public abstract class AbstractSettingDefinition<T> extends AbstractOrdered
     }
 
     @Override
+    @SuppressFBWarnings({"EI_EXPOSE_REP"})
     public SettingDefinitionGroup getGroup() {
         return group;
     }
 
     @Override
+    @SuppressFBWarnings({"EI_EXPOSE_REP2"})
     public AbstractSettingDefinition<T> setGroup(SettingDefinitionGroup g) {
         this.group = g;
         return this;
@@ -150,8 +153,8 @@ public abstract class AbstractSettingDefinition<T> extends AbstractOrdered
                    (getGroup() == null ? o.getGroup() == null : getGroup().equals(o.getGroup())) &&
                    (getDefaultValue() == null ? o.getDefaultValue() == null : getDefaultValue().equals(o
                            .getDefaultValue())) &&
-                   (getType() == o.getType()) &&
-                   (isOptional() == o.isOptional());
+                   getType() == o.getType() &&
+                   isOptional() == o.isOptional();
         }
         return false;
     }

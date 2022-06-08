@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +14,6 @@
  * limitations under the License.
  */
 package org.n52.shetland.aqd;
-
 
 import org.n52.janmayen.function.Functions;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
@@ -36,11 +34,8 @@ public final class ReportObligations {
     }
 
     public static ReportObligationType getFlow(Extensions extensions) throws OwsExceptionReport {
-        return extensions.getExtension(AqdConstants.EXTENSION_FLOW)
-                .map(x -> x.getValue())
-                .flatMap(Functions.castIfInstanceOf(SweText.class))
-                .map(SweText::getValue)
-                .map(ReportObligationType::from)
-                .orElse(ReportObligationType.E2A);
+        return extensions.getExtension(AqdConstants.EXTENSION_FLOW).map(x -> x.getValue())
+                .flatMap(Functions.castIfInstanceOf(SweText.class)).map(SweText::getValue)
+                .map(ReportObligationType::from).orElse(ReportObligationType.E2A);
     }
 }

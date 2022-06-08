@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +19,8 @@ import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.sensorML.AbstractProcess;
 import org.n52.shetland.ogc.sensorML.SensorML20Constants;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Class that represents SensorML 2.0 AbstractProcess
  *
@@ -36,11 +37,13 @@ public class AbstractProcessV20 extends AbstractProcess {
 
     private ReferenceType typeOf;
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public AbstractProcessV20 setSmlFeatureOfInterest(SmlFeatureOfInterest featureOfInterest) {
         this.featureOfInterest = featureOfInterest;
         return this;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SmlFeatureOfInterest getSmlFeatureOfInterest() {
         return featureOfInterest;
     }
@@ -57,7 +60,8 @@ public class AbstractProcessV20 extends AbstractProcess {
     }
 
     /**
-     * @param configuration the configuration to set
+     * @param configuration
+     *            the configuration to set
      */
     public void setConfiguration(AbstractSettings configuration) {
         this.configuration = configuration;
@@ -71,7 +75,8 @@ public class AbstractProcessV20 extends AbstractProcess {
     }
 
     /**
-     * @param modes the modes to set
+     * @param modes
+     *            the modes to set
      */
     public void setModes(AbstractModes modes) {
         this.modes = modes;
@@ -85,7 +90,8 @@ public class AbstractProcessV20 extends AbstractProcess {
     }
 
     /**
-     * @param definition the definition to set
+     * @param definition
+     *            the definition to set
      */
     public void setDefinition(String definition) {
         this.definition = definition;
@@ -99,7 +105,8 @@ public class AbstractProcessV20 extends AbstractProcess {
     }
 
     /**
-     * @param typeOf the typeOf to set
+     * @param typeOf
+     *            the typeOf to set
      */
     public void setTypeOf(ReferenceType typeOf) {
         this.typeOf = typeOf;

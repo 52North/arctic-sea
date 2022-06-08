@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,6 +51,8 @@ import org.n52.svalbard.write.util.IndentingXMLStreamWriter;
 import com.google.common.base.Strings;
 import com.google.common.xml.XmlEscapers;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Abstract XML stream writer.
  *
@@ -75,6 +76,7 @@ public abstract class XmlStreamWriter<S> {
     private final boolean close;
     private final boolean embedded;
 
+    @SuppressFBWarnings({"EI_EXPOSE_REP2"})
     public XmlStreamWriter(EncodingContext context, OutputStream outputStream, S element) throws XMLStreamException {
         this.context = Objects.requireNonNull(context);
         this.outputStream = Objects.requireNonNull(outputStream);

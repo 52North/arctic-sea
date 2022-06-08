@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +26,6 @@ import org.n52.shetland.ogc.sos.Sos2Constants;
  */
 public interface SpatialFilteringProfileRequest {
 
-
     /**
      * Get SpatialFilter
      *
@@ -38,7 +36,8 @@ public interface SpatialFilteringProfileRequest {
     /**
      * Set SpatialFilter
      *
-     * @param spatialFilter SpatialFilter to set
+     * @param spatialFilter
+     *            SpatialFilter to set
      */
     void setSpatialFilter(SpatialFilter spatialFilter);
 
@@ -57,8 +56,8 @@ public interface SpatialFilteringProfileRequest {
      * @return True if SpatialFilter is a SpatialFilteringProfile spatial filter
      */
     default boolean hasSpatialFilteringProfileSpatialFilter() {
-        return isSetSpatialFilter() &&
-               getSpatialFilter().getValueReference().equals(Sos2Constants.VALUE_REFERENCE_SPATIAL_FILTERING_PROFILE);
+        return isSetSpatialFilter() && getSpatialFilter().getValueReference()
+                .equals(Sos2Constants.VALUE_REFERENCE_SPATIAL_FILTERING_PROFILE);
     }
 
 }

@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +16,7 @@
 package org.n52.shetland.w3c.wsdl;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -61,7 +61,8 @@ public abstract class AbstractWsdl implements Comparable<AbstractWsdl> {
     }
 
     /**
-     * @param name the name to set
+     * @param name
+     *            the name to set
      */
     public void setName(String name) {
         this.name = name;
@@ -79,7 +80,8 @@ public abstract class AbstractWsdl implements Comparable<AbstractWsdl> {
     }
 
     /**
-     * @param qName the qName to set
+     * @param qName
+     *            the qName to set
      */
     public void setQName(QName qName) {
         this.qName = qName;
@@ -102,7 +104,7 @@ public abstract class AbstractWsdl implements Comparable<AbstractWsdl> {
     }
 
     public Map<QName, Object> getExtensionAttributes() {
-        return extensionAttributes;
+        return Collections.unmodifiableMap(extensionAttributes);
     }
 
     public boolean isSetExtensionAttributes() {
@@ -131,7 +133,7 @@ public abstract class AbstractWsdl implements Comparable<AbstractWsdl> {
     }
 
     public Collection<ExtensibilityElement> getExtensibilityElements() {
-        return extensibilityElements;
+        return Collections.unmodifiableCollection(extensibilityElements);
     }
 
     public boolean isSetExtensibilityElements() {

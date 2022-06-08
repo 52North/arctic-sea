@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -63,8 +62,7 @@ public class JTSHelper {
     }
 
     /**
-     * Creates a JTS Geometry from an WKT representation. Switches the
-     * coordinate order if needed.
+     * Creates a JTS Geometry from an WKT representation. Switches the coordinate order if needed.
      *
      * @param wkt
      *            WKT representation of the geometry
@@ -78,7 +76,7 @@ public class JTSHelper {
      */
     public static Geometry createGeometryFromWKT(String wkt, int srid) throws ParseException {
         WKTReader wktReader = getWKTReaderForSRID(srid);
-        LOGGER.debug("FOI Geometry: {}", wkt);
+        LOGGER.trace("FOI Geometry: {}", wkt);
         return wktReader.read(wkt);
     }
 
@@ -173,7 +171,7 @@ public class JTSHelper {
     public static Geometry createPolygonFromEnvelope(double minx, double miny, double maxx, double maxy, int srid) {
         GeometryFactory fac = getGeometryFactoryForSRID(srid);
         return fac.createPolygon(new Coordinate[] { new Coordinate(minx, miny), new Coordinate(minx, maxy),
-            new Coordinate(maxx, maxy), new Coordinate(maxx, miny), new Coordinate(minx, miny) });
+                new Coordinate(maxx, maxy), new Coordinate(maxx, miny), new Coordinate(minx, miny) });
     }
 
     /**
@@ -185,7 +183,8 @@ public class JTSHelper {
      *            Geometry to switch coordinates.
      * @return Geometry with switched coordinates
      */
-    public static <G extends Geometry> G switchCoordinateAxisOrder(G geometry) {
+    public static <
+            G extends Geometry> G switchCoordinateAxisOrder(G geometry) {
         if (geometry == null) {
             return null;
         }
@@ -231,10 +230,9 @@ public class JTSHelper {
     }
 
     /**
-     * Fix for Binary-Incompatible-Change in JTS 1.17.0 Polygon getExteriorRing() which
-     * returns LinearRing instead of a LineString. This changes occurs
-     * errors in the SOS with Hinernate/Geolatte until the 3rd party
-     * libraries have not updated to JTS 1.17.0.
+     * Fix for Binary-Incompatible-Change in JTS 1.17.0 Polygon getExteriorRing() which returns LinearRing
+     * instead of a LineString. This changes occurs errors in the SOS with Hinernate/Geolatte until the 3rd
+     * party libraries have not updated to JTS 1.17.0.
      *
      * @param polygon
      *            polygon to get exterior ring from
@@ -243,8 +241,7 @@ public class JTSHelper {
     public static Coordinate[] getExteriorRingCoordinatesFromPolygon(Polygon polygon) {
         int interiorNumPoints = 0;
         for (int i = 0; i < polygon.getNumInteriorRing(); i++) {
-            interiorNumPoints += polygon.getInteriorRingN(i)
-                    .getNumPoints();
+            interiorNumPoints += polygon.getInteriorRingN(i).getNumPoints();
         }
         return interiorNumPoints == 0 ? polygon.getCoordinates()
                 : Arrays.copyOfRange(polygon.getCoordinates(), 0, polygon.getCoordinates().length - interiorNumPoints);
@@ -296,12 +293,10 @@ public class JTSHelper {
             return geometry;
         }
 
-
         /**
-         * Fix for Binary-Incompatible-Change in JTS 1.17.0 Polygon getExteriorRing() which
-         * returns LinearRing instead of a LineString. This changes occurs
-         * errors in the SOS with Hinernate/Geolatte until the 3rd party
-         * libraries have not updated to JTS 1.17.0.
+         * Fix for Binary-Incompatible-Change in JTS 1.17.0 Polygon getExteriorRing() which returns LinearRing
+         * instead of a LineString. This changes occurs errors in the SOS with Hinernate/Geolatte until the
+         * 3rd party libraries have not updated to JTS 1.17.0.
          *
          * @param polygon
          *            polygon to get exterior ring from

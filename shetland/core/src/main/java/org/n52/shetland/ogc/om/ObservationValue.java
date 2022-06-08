@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +28,8 @@ import org.n52.shetland.ogc.om.values.Value;
  * @param <T>
  *            observation value type
  */
-public interface ObservationValue<T extends Value<?>> {
+public interface ObservationValue<
+        T extends Value<?>> {
 
     /**
      * Get phenomenon or sampling time of the observation

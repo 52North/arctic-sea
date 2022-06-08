@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +18,6 @@ package org.n52.svalbard.decode;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -51,6 +49,7 @@ import org.n52.shetland.ogc.swe.simpleType.SweCount;
 import org.n52.shetland.ogc.swe.simpleType.SweCountRange;
 import org.n52.shetland.ogc.swe.simpleType.SweObservableProperty;
 import org.n52.shetland.ogc.swe.simpleType.SweQuality;
+import org.n52.shetland.ogc.swe.simpleType.SweQualityHolder;
 import org.n52.shetland.ogc.swe.simpleType.SweQuantity;
 import org.n52.shetland.ogc.swe.simpleType.SweQuantityRange;
 import org.n52.shetland.ogc.swe.simpleType.SweText;
@@ -468,10 +467,12 @@ public class SweCommonDecoderV101
         if (xbQuantityRange.isSetValue()) {
             try {
                 List<?> value = xbQuantityRange.getValue();
-                BigDecimal rangeStart = new BigDecimal(value.get(0).toString());
-                BigDecimal rangeEnd = new BigDecimal(value.get(1).toString());
-                sosQuantityRange.setValue(new RangeValue<>(rangeStart, rangeEnd));
-            } catch (final NumberFormatException | NullPointerException | IndexOutOfBoundsException nfe) {
+                if (value != null && value.size() == 2 && value.get(0) != null && value.get(1) != null) {
+                    BigDecimal rangeStart = new BigDecimal(value.get(0).toString());
+                    BigDecimal rangeEnd = new BigDecimal(value.get(1).toString());
+                    sosQuantityRange.setValue(new RangeValue<>(rangeStart, rangeEnd));
+                }
+            } catch (final NumberFormatException | IndexOutOfBoundsException nfe) {
                 throw createParsingException(nfe);
             }
         }
@@ -706,15 +707,17 @@ public class SweCommonDecoderV101
         return allowedTimes;
     }
 
-    private Collection<SweQuality> parseQuality(QualityPropertyType... qualityArray) throws DecodingException {
+    private SweQualityHolder parseQuality(QualityPropertyType... qualityArray) throws DecodingException {
         if (qualityArray != null && qualityArray.length > 0) {
+            SweQualityHolder sweQualityHolder = new SweQualityHolder();
             ArrayList<SweQuality> sosQualities = new ArrayList<>(qualityArray.length);
             for (QualityPropertyType quality : qualityArray) {
                 parseQualityPropertyType(quality).ifPresent(sosQualities::add);
             }
-            return sosQualities;
+            sweQualityHolder.setQuality(sosQualities);
+            return sweQualityHolder;
         }
-        return Collections.emptyList();
+        return null;
     }
 
     private SmlPosition parsePosition(PositionType position) throws DecodingException {

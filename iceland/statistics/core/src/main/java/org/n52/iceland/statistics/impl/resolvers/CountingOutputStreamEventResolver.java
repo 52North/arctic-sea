@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +15,7 @@
  */
 package org.n52.iceland.statistics.impl.resolvers;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.n52.iceland.event.events.CountingOutputStreamEvent;
@@ -23,12 +23,15 @@ import org.n52.iceland.statistics.api.interfaces.StatisticsServiceEventHandler;
 import org.n52.iceland.statistics.api.interfaces.StatisticsServiceEventResolver;
 import org.n52.iceland.statistics.api.utils.EventHandlerFinder;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class CountingOutputStreamEventResolver implements StatisticsServiceEventResolver<CountingOutputStreamEvent> {
 
     private CountingOutputStreamEvent event;
-    private Map<String, StatisticsServiceEventHandler<?>> handlers;
+    private Map<String, StatisticsServiceEventHandler<?>> handlers = new LinkedHashMap<>();
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Map<String, Object> resolve() {
         if (event == null) {
             return null;
@@ -41,15 +44,20 @@ public class CountingOutputStreamEventResolver implements StatisticsServiceEvent
 
     @Override
     public void setHandlers(Map<String, StatisticsServiceEventHandler<?>> handlers) {
-        this.handlers = handlers;
+        this.handlers.clear();
+        if (handlers != null) {
+            this.handlers.putAll(handlers);
+        }
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setEvent(CountingOutputStreamEvent payload) {
         this.event = payload;
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public CountingOutputStreamEvent getEvent() {
         return event;
     }

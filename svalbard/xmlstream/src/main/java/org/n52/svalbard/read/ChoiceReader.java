@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +22,8 @@ import javax.xml.stream.XMLStreamException;
 
 import org.n52.svalbard.decode.exception.DecodingException;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * TODO JavaDoc
  *
@@ -33,6 +34,7 @@ public abstract class ChoiceReader<T> extends XmlReader<T> {
     private final Map<QName, ? extends XmlReader<? extends T>> delegates;
     private T t;
 
+    @SuppressFBWarnings({"EI_EXPOSE_REP2"})
     public ChoiceReader(Map<QName, ? extends XmlReader<? extends T>> delegates) {
         this.delegates = delegates;
     }

@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +15,13 @@
  */
 package org.n52.shetland.ogc.wps.description.impl;
 
-import com.google.common.base.Preconditions;
+import java.math.BigInteger;
+
 import org.n52.shetland.ogc.wps.InputOccurence;
 import org.n52.shetland.ogc.wps.description.ProcessDescriptionBuilderFactory;
 import org.n52.shetland.ogc.wps.description.ProcessInputDescription;
 
-import java.math.BigInteger;
+import com.google.common.base.Preconditions;
 
 /**
  * TODO JavaDoc
@@ -43,15 +43,16 @@ public abstract class AbstractProcessInputDescription extends AbstractDataDescri
         return this.occurence;
     }
 
-    protected abstract static class AbstractBuilder<T extends ProcessInputDescription, B extends AbstractBuilder<T, B>>
-            extends AbstractDataDescription.AbstractBuilder<T, B>
+    protected abstract static class AbstractBuilder<
+            T extends ProcessInputDescription,
+            B extends AbstractBuilder<T, B>> extends AbstractDataDescription.AbstractBuilder<T, B>
             implements ProcessInputDescription.Builder<T, B> {
 
         private BigInteger minimalOccurence = BigInteger.ONE;
         private BigInteger maximalOccurence = BigInteger.ONE;
 
         protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
-                                  ProcessInputDescription entity) {
+                ProcessInputDescription entity) {
             super(factory, entity);
             this.minimalOccurence = entity.getOccurence().getMin();
             this.maximalOccurence = entity.getOccurence().getMax().orElse(null);

@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +17,8 @@ package org.n52.shetland.aqd;
 
 import org.n52.shetland.aqd.AqdConstants.AssessmentType;
 import org.n52.shetland.inspire.ef.EfEnvironmentalMonitoringFacility;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Class represents an AQD_SamplingPoint
@@ -46,7 +47,8 @@ public class AqdSamplingPoint extends EfEnvironmentalMonitoringFacility {
     }
 
     /**
-     * @param assessmentType the assessmentType to set
+     * @param assessmentType
+     *            the assessmentType to set
      */
     public void setAssessmentType(AssessmentType assessmentType) {
         this.assessmentType = assessmentType;
@@ -55,13 +57,16 @@ public class AqdSamplingPoint extends EfEnvironmentalMonitoringFacility {
     /**
      * @return the station
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public AqdStation getStation() {
         return station;
     }
 
     /**
-     * @param station the station to set
+     * @param station
+     *            the station to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setStation(AqdStation station) {
         this.station = station;
     }
@@ -76,13 +81,16 @@ public class AqdSamplingPoint extends EfEnvironmentalMonitoringFacility {
     /**
      * @return the network
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public AqdNetwork getNetwork() {
         return network;
     }
 
     /**
-     * @param network the network to set
+     * @param network
+     *            the network to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setNetwork(AqdNetwork network) {
         this.network = network;
     }

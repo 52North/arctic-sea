@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,9 +17,11 @@ package org.n52.shetland.ogc.swe.simpleType;
 
 import org.n52.shetland.ogc.swe.RangeValue;
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
-import org.n52.shetland.w3c.xlink.Referenceable;
 import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
 import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
+import org.n52.shetland.w3c.xlink.Referenceable;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 public class SweCategoryRange extends SweAbstractUomType<RangeValue<String>> implements SweQuality {
 
@@ -31,6 +32,7 @@ public class SweCategoryRange extends SweAbstractUomType<RangeValue<String>> imp
     private Referenceable<SweAllowedTokens> constraint;
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public RangeValue<String> getValue() {
         return value;
     }
@@ -54,6 +56,7 @@ public class SweCategoryRange extends SweAbstractUomType<RangeValue<String>> imp
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweAbstractSimpleType<RangeValue<String>> setValue(RangeValue<String> value) {
         this.value = value;
         return this;
@@ -67,14 +70,16 @@ public class SweCategoryRange extends SweAbstractUomType<RangeValue<String>> imp
     }
 
     /**
-     * @param constraint the constraint to set
+     * @param constraint
+     *            the constraint to set
      */
     public void setConstraint(SweAllowedTokens constraint) {
         this.constraint = Referenceable.of(constraint);
     }
 
     /**
-     * @param constraint the constraint to set
+     * @param constraint
+     *            the constraint to set
      */
     public void setConstraint(Referenceable<SweAllowedTokens> constraint) {
         this.constraint = constraint;
@@ -89,14 +94,16 @@ public class SweCategoryRange extends SweAbstractUomType<RangeValue<String>> imp
         return SweDataComponentType.CategoryRange;
     }
 
-
     @Override
-    public <T, X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
+    public <
+            T,
+            X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
         return visitor.visit(this);
     }
 
     @Override
-    public <X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
+    public <
+            X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
         visitor.visit(this);
     }
 
@@ -104,9 +111,7 @@ public class SweCategoryRange extends SweAbstractUomType<RangeValue<String>> imp
     public SweCategoryRange copy() {
         SweCategoryRange copy = new SweCategoryRange();
         copyValueTo(copy);
-        if (isSetQuality()) {
-            copy.setQuality(cloneQuality());
-        }
+        copyQuality(copy);
         if (isSetValue()) {
             copy.setValue(getValue().copy());
         }

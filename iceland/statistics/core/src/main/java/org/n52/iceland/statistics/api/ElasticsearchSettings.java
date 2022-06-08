@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +17,7 @@ package org.n52.iceland.statistics.api;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -142,7 +142,7 @@ public class ElasticsearchSettings {
     }
 
     public List<String> getClusterNodes() {
-        return clusterNodes;
+        return new LinkedList<>(clusterNodes);
     }
 
     /**

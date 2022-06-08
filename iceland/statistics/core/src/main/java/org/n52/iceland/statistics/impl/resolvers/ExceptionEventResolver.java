@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +15,7 @@
  */
 package org.n52.iceland.statistics.impl.resolvers;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.n52.iceland.event.events.ExceptionEvent;
@@ -30,7 +30,7 @@ public class ExceptionEventResolver implements StatisticsServiceEventResolver<Ex
 
     private ExceptionEvent event;
 
-    private Map<String, StatisticsServiceEventHandler<?>> handlers;
+    private Map<String, StatisticsServiceEventHandler<?>> handlers = new LinkedHashMap<>();
 
     @Override
     public Map<String, Object> resolve() {
@@ -46,7 +46,10 @@ public class ExceptionEventResolver implements StatisticsServiceEventResolver<Ex
 
     @Override
     public void setHandlers(Map<String, StatisticsServiceEventHandler<?>> handlers) {
-        this.handlers = handlers;
+        this.handlers.clear();
+        if (handlers != null) {
+            this.handlers.putAll(handlers);
+        }
     }
 
     @Override

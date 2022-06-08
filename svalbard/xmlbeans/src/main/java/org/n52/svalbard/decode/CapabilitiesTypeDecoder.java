@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,22 +28,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import net.opengis.fes.x20.FilterCapabilitiesDocument;
-import net.opengis.gml.x32.EnvelopeType;
-import net.opengis.sos.x20.CapabilitiesType;
-import net.opengis.sos.x20.CapabilitiesType.Contents;
-import net.opengis.sos.x20.ContentsType;
-import net.opengis.sos.x20.ObservationOfferingPropertyType;
-import net.opengis.sos.x20.ObservationOfferingType;
-import net.opengis.swes.x20.AbstractContentsType;
-import net.opengis.swes.x20.AbstractOfferingType.RelatedFeature;
-
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.Node;
-
 import org.n52.shetland.ogc.filter.FilterCapabilities;
 import org.n52.shetland.ogc.gml.CodeType;
 import org.n52.shetland.ogc.gml.time.Time;
@@ -61,10 +46,22 @@ import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.exception.UnsupportedDecoderInputException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.XmlHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Node;
 
 import com.google.common.base.Joiner;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import net.opengis.fes.x20.FilterCapabilitiesDocument;
+import net.opengis.gml.x32.EnvelopeType;
+import net.opengis.sos.x20.CapabilitiesType;
+import net.opengis.sos.x20.CapabilitiesType.Contents;
+import net.opengis.sos.x20.ContentsType;
+import net.opengis.sos.x20.ObservationOfferingPropertyType;
+import net.opengis.sos.x20.ObservationOfferingType;
+import net.opengis.swes.x20.AbstractContentsType;
+import net.opengis.swes.x20.AbstractOfferingType.RelatedFeature;
 
 /**
  * @author <a href="mailto:j.schulte@52north.org">Jan Schulte</a>

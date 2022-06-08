@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,13 +15,13 @@
  */
 package org.n52.shetland.ogc.wps.description;
 
-import org.n52.janmayen.stream.Streams;
-import org.n52.shetland.ogc.ows.OwsCode;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Stream;
+
+import org.n52.janmayen.stream.Streams;
+import org.n52.shetland.ogc.ows.OwsCode;
 
 /**
  * @author Christian Autermann
@@ -39,8 +38,9 @@ public interface ProcessOutputDescriptionContainer extends Description {
 
     Set<OwsCode> getOutputs();
 
-    interface Builder<T extends ProcessOutputDescriptionContainer, B extends Builder<T, B>>
-            extends Description.Builder<T, B> {
+    interface Builder<
+            T extends ProcessOutputDescriptionContainer,
+            B extends Builder<T, B>> extends Description.Builder<T, B> {
         B withOutput(ProcessOutputDescription output);
 
         default B withOutput(ProcessOutputDescription.Builder<?, ?> output) {

@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +15,9 @@
  */
 package org.n52.shetland.ogc.om;
 
+import java.util.List;
 
+import org.locationtech.jts.geom.Geometry;
 import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
@@ -29,10 +30,6 @@ import org.n52.shetland.ogc.sos.response.AbstractStreaming;
 import org.n52.shetland.util.GeometryTransformer;
 import org.n52.shetland.util.JavaHelper;
 
-import java.util.List;
-
-import org.locationtech.jts.geom.Geometry;
-
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
@@ -44,7 +41,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @param <S>
  *            Entity type
  */
-public abstract class StreamingValue<S> extends AbstractStreaming {
+public abstract class StreamingValue<
+        S> extends AbstractStreaming {
     private Time phenomenonTime;
     private TimeInstant resultTime;
     private Time validTime;
@@ -99,6 +97,7 @@ public abstract class StreamingValue<S> extends AbstractStreaming {
      * @param observationTemplate
      *            Observation template to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setObservationTemplate(OmObservation observationTemplate) {
         this.observationTemplate = observationTemplate;
     }
@@ -106,17 +105,20 @@ public abstract class StreamingValue<S> extends AbstractStreaming {
     /**
      * @return the observationTemplate
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public OmObservation getObservationTemplate() {
         return observationTemplate;
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Time getPhenomenonTime() {
         isSetPhenomenonTime();
         return phenomenonTime;
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setPhenomenonTime(Time phenomenonTime) {
         this.phenomenonTime = phenomenonTime;
     }
@@ -164,7 +166,9 @@ public abstract class StreamingValue<S> extends AbstractStreaming {
             }
 
             @Override
-            public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
+            public <
+                    X,
+                    E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
                 throw new UnsupportedOperationException();
             }
         };
@@ -196,10 +200,12 @@ public abstract class StreamingValue<S> extends AbstractStreaming {
         return unit != null;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public TimeInstant getResultTime() {
         return resultTime;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     protected void setResultTime(TimeInstant resultTime) {
         this.resultTime = resultTime;
     }
@@ -208,10 +214,12 @@ public abstract class StreamingValue<S> extends AbstractStreaming {
         return getResultTime() != null;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Time getValidTime() {
         return validTime;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     protected void setValidTime(Time validTime) {
         this.validTime = validTime;
     }

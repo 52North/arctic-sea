@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,13 +18,12 @@ package org.n52.shetland.ogc.wps;
 import org.n52.shetland.w3c.SchemaLocation;
 
 /**
- * WpsConstants holds all important and often used constants (e.g. name of the
- * getCapabilities operation) that are specific to OGC WPS 1.0.0
+ * WpsConstants holds all important and often used constants (e.g. name of the getCapabilities operation) that
+ * are specific to OGC WPS 1.0.0
  *
  * @since 1.0.0
  */
-public interface WPS100Constants
-        extends WPSConstants {
+public interface WPS100Constants extends WPSConstants {
 
     String NS_WPS = "http://www.opengis.net/wps/1.0.0";
 

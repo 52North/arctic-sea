@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +27,8 @@ import org.n52.iceland.util.activation.ActivationSource;
 import org.n52.iceland.util.activation.DefaultActivationInitializer;
 import org.n52.iceland.util.activation.FunctionalActivationListener;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * TODO JavaDoc
  *
@@ -38,6 +39,7 @@ public class ActivationService {
     private ActivationDao activationDao;
 
     @Inject
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setActivationDao(ActivationDao dao) {
         this.activationDao = dao;
     }

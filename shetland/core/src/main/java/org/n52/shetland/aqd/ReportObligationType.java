@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,9 +24,10 @@ public enum ReportObligationType {
     // B("B", "Information on zones and agglomerations"),
     // C("C", "Information on the assessment regime"),
     // D("D", "Information on the assessment methods"),
-    E1A("E1a", "Primary validated assessment data - measurements"), E1B("E1b",
-            "Primary validated assessment data - modelled"), E2A("E2a",
-                    "Primary up-to-date assessment data - measurements");
+    E1A("E1a", "Primary validated assessment data - measurements"),
+    E1B("E1b", "Primary validated assessment data - modelled"),
+    E2A("E2a", "Primary up-to-date assessment data - measurements");
+
     private final String title;
 
     private final String description;

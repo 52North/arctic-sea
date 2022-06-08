@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +16,7 @@
 package org.n52.shetland.ogc.gml;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.n52.shetland.util.CollectionHelper;
@@ -31,8 +31,7 @@ import com.google.common.collect.Lists;
  * @since 1.0.0
  *
  */
-public abstract class AbstractCRS
-        extends IdentifiedObject {
+public abstract class AbstractCRS extends IdentifiedObject {
 
     /* 0..* */
     private List<Referenceable<DomainOfValidity>> domainOfValidity = new ArrayList<>();
@@ -49,7 +48,7 @@ public abstract class AbstractCRS
     }
 
     public List<Referenceable<DomainOfValidity>> getDomainOfValidity() {
-        return domainOfValidity;
+        return Collections.unmodifiableList(domainOfValidity);
     }
 
     public AbstractCRS setDomainOfValidity(List<Referenceable<DomainOfValidity>> domainOfValidity) {
@@ -61,12 +60,16 @@ public abstract class AbstractCRS
     }
 
     public AbstractCRS addDomainOfValidity(List<Referenceable<DomainOfValidity>> domainOfValidity) {
-        this.domainOfValidity.addAll(domainOfValidity);
+        if (!CollectionHelper.nullEmptyOrContainsOnlyNulls(domainOfValidity)) {
+            this.domainOfValidity.addAll(domainOfValidity);
+        }
         return this;
     }
 
     public AbstractCRS addDomainOfValidity(Referenceable<DomainOfValidity> domainOfValidity) {
-        this.domainOfValidity.add(domainOfValidity);
+        if (domainOfValidity != null) {
+            this.domainOfValidity.add(domainOfValidity);
+        }
         return this;
     }
 
@@ -75,7 +78,7 @@ public abstract class AbstractCRS
     }
 
     public List<String> getScope() {
-        return scope;
+        return Collections.unmodifiableList(scope);
     }
 
     public AbstractCRS setScope(List<String> scope) {
@@ -87,12 +90,16 @@ public abstract class AbstractCRS
     }
 
     public AbstractCRS addScope(List<String> scope) {
-        this.scope.addAll(scope);
+        if (!CollectionHelper.nullEmptyOrContainsOnlyNulls(scope)) {
+            this.scope.addAll(scope);
+        }
         return this;
     }
 
     public AbstractCRS addScope(String scope) {
-        this.scope.add(scope);
+        if (scope != null) {
+            this.scope.add(scope);
+        }
         return this;
     }
 

@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +15,10 @@
  */
 package org.n52.shetland.ogc.wps.description;
 
-import org.n52.shetland.ogc.wps.InputOccurence;
-
 import java.math.BigInteger;
 import java.util.Objects;
+
+import org.n52.shetland.ogc.wps.InputOccurence;
 
 /**
  * TODO JavaDoc
@@ -46,7 +45,8 @@ public interface ProcessInputDescription extends DataDescription {
 
     InputOccurence getOccurence();
 
-    <T> T visit(ReturningVisitor<T> visitor);
+    <
+            T> T visit(ReturningVisitor<T> visitor);
 
     default void visit(Visitor visitor) {
         Objects.requireNonNull(visitor);
@@ -77,7 +77,8 @@ public interface ProcessInputDescription extends DataDescription {
         });
     }
 
-    default <X extends Exception> void visit(ThrowingVisitor<X> visitor) throws X {
+    default <
+            X extends Exception> void visit(ThrowingVisitor<X> visitor) throws X {
         visit(new ThrowingReturningVisitor<Void, X>() {
             @Override
             public Void visit(BoundingBoxInputDescription output) throws X {
@@ -105,7 +106,9 @@ public interface ProcessInputDescription extends DataDescription {
         });
     }
 
-    <T, X extends Exception> T visit(ThrowingReturningVisitor<T, X> visitor) throws X;
+    <
+            T,
+            X extends Exception> T visit(ThrowingReturningVisitor<T, X> visitor) throws X;
 
     interface Visitor {
         void visit(BoundingBoxInputDescription input);
@@ -117,7 +120,8 @@ public interface ProcessInputDescription extends DataDescription {
         void visit(GroupInputDescription input);
     }
 
-    interface ThrowingVisitor<X extends Exception> {
+    interface ThrowingVisitor<
+            X extends Exception> {
         void visit(BoundingBoxInputDescription input) throws X;
 
         void visit(ComplexInputDescription input) throws X;
@@ -127,7 +131,8 @@ public interface ProcessInputDescription extends DataDescription {
         void visit(GroupInputDescription input) throws X;
     }
 
-    interface ReturningVisitor<T> {
+    interface ReturningVisitor<
+            T> {
         T visit(BoundingBoxInputDescription input);
 
         T visit(ComplexInputDescription input);
@@ -137,7 +142,9 @@ public interface ProcessInputDescription extends DataDescription {
         T visit(GroupInputDescription input);
     }
 
-    interface ThrowingReturningVisitor<T, X extends Exception> {
+    interface ThrowingReturningVisitor<
+            T,
+            X extends Exception> {
         T visit(BoundingBoxInputDescription input) throws X;
 
         T visit(ComplexInputDescription input) throws X;
@@ -147,8 +154,9 @@ public interface ProcessInputDescription extends DataDescription {
         T visit(GroupInputDescription input) throws X;
     }
 
-    interface Builder<T extends ProcessInputDescription, B extends Builder<T, B>>
-            extends DataDescription.Builder<T, B> {
+    interface Builder<
+            T extends ProcessInputDescription,
+            B extends Builder<T, B>> extends DataDescription.Builder<T, B> {
 
         B withMaximalOccurence(BigInteger max);
 

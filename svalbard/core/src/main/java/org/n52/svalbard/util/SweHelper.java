@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +17,7 @@ package org.n52.svalbard.util;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -507,7 +507,7 @@ public final class SweHelper {
      * @return the northingNames
      */
     public Set<String> getNorthingNames() {
-        return northingNames;
+        return new LinkedHashSet<>(northingNames);
     }
 
     /**
@@ -536,7 +536,7 @@ public final class SweHelper {
      * @return the eastingNames
      */
     public Set<String> getEastingNames() {
-        return eastingNames;
+        return new LinkedHashSet<>(eastingNames);
     }
 
     /**
@@ -565,7 +565,7 @@ public final class SweHelper {
      * @return the altitudeNames
      */
     public Set<String> getAltitudeNames() {
-        return altitudeNames;
+        return new LinkedHashSet<>(altitudeNames);
     }
 
     /**

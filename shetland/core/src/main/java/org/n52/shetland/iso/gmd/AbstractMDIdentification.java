@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +15,9 @@
  */
 package org.n52.shetland.iso.gmd;
 
-public abstract class AbstractMDIdentification
-        extends AbstractObject {
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+public abstract class AbstractMDIdentification extends AbstractObject {
 
     /**
      * 1..1
@@ -28,6 +28,7 @@ public abstract class AbstractMDIdentification
      */
     private String abstrakt;
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public AbstractMDIdentification(GmdCitation citation, String abstrakt) {
         this.citation = citation;
         this.abstrakt = abstrakt;
@@ -36,6 +37,7 @@ public abstract class AbstractMDIdentification
     /**
      * @return the citation
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public GmdCitation getCitation() {
         return citation;
     }

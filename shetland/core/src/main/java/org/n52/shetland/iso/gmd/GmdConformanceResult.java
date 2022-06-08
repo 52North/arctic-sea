@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +17,8 @@ package org.n52.shetland.iso.gmd;
 
 import org.n52.shetland.ogc.gml.GmlConstants.NilReason;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * TODO JavaDoc
  *
@@ -29,12 +30,14 @@ public class GmdConformanceResult extends GmdDomainConsistency {
     private final NilReason passNilReason;
     private final GmdSpecification specification;
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public GmdConformanceResult(boolean pass, GmdSpecification specification) {
         this.pass = pass;
         this.passNilReason = null;
         this.specification = specification;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public GmdConformanceResult(NilReason passNilReason, GmdSpecification specification) {
         this.pass = false;
         this.passNilReason = passNilReason;
@@ -53,6 +56,7 @@ public class GmdConformanceResult extends GmdDomainConsistency {
         return getPassNilReason() != null;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public GmdSpecification getSpecification() {
         return specification;
     }

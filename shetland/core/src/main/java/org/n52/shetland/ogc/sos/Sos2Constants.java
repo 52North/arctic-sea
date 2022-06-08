@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,13 +26,12 @@ import org.n52.shetland.w3c.SchemaLocation;
 import com.google.common.collect.ImmutableSet;
 
 /**
- * SosConstants holds all important and often used constants (e.g. name of the
- * getCapabilities operation) that are specific to OGC SOS 2.0
+ * SosConstants holds all important and often used constants (e.g. name of the getCapabilities operation) that
+ * are specific to OGC SOS 2.0
  *
  * @since 1.0.0
  */
-public interface Sos2Constants
-        extends SosConstants {
+public interface Sos2Constants extends SosConstants {
 
     String NS_SOS_20 = "http://www.opengis.net/sos/2.0";
 
@@ -222,7 +220,7 @@ public interface Sos2Constants
 
     String SOAP_REASON_INVALID_PROPERTY_OFFERING_COMBINATION =
             "Observations for the requested combination of observedProperty and offering do not use "
-            + "SWE Common encoded results.";
+                    + "SWE Common encoded results.";
 
     String SOAP_REASON_RESPONSE_EXCEEDS_SIZE_LIMIT =
             "The requested result set exceeds the response size limit of this service and thus cannot be delivered.";
@@ -243,8 +241,7 @@ public interface Sos2Constants
     String SERVICEVERSION = "2.0.0";
 
     /**
-     * the names of the OGC SOS 2.0 operations that are not supported by all
-     * versions
+     * the names of the OGC SOS 2.0 operations that are not supported by all versions
      */
     enum Operations {
         InsertSensor,
@@ -256,8 +253,7 @@ public interface Sos2Constants
     }
 
     /**
-     * enum with names of OGC SOS 2.0 Capabilities sections not supported by all
-     * versions
+     * enum with names of OGC SOS 2.0 Capabilities sections not supported by all versions
      */
     enum CapabilitiesSections {
         FilterCapabilities,
@@ -274,8 +270,7 @@ public interface Sos2Constants
     }
 
     /**
-     * enum with parameter names for OGC SOS 2.0 insertObservation request not
-     * supported by all versions
+     * enum with parameter names for OGC SOS 2.0 insertObservation request not supported by all versions
      */
     enum InsertObservationParams {
         offering,
@@ -288,8 +283,7 @@ public interface Sos2Constants
     }
 
     /**
-     * enum with parameter names for OGC SOS 2.0 getObservation request not
-     * supported by all versions
+     * enum with parameter names for OGC SOS 2.0 getObservation request not supported by all versions
      */
     enum DescribeSensorParams {
         procedureDescriptionFormat,
@@ -297,8 +291,7 @@ public interface Sos2Constants
     }
 
     /**
-     * enum with parameter names for OGC SOS 2.0 getFeatureOfInterest request
-     * not supported by all versions
+     * enum with parameter names for OGC SOS 2.0 getFeatureOfInterest request not supported by all versions
      */
     enum GetFeatureOfInterestParams {
         featureOfInterest,

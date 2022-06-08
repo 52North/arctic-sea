@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,40 +15,44 @@
  */
 package org.n52.shetland.ogc.om.values;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.locationtech.jts.geom.Geometry;
 import org.n52.shetland.ogc.gml.time.Time;
+
 import com.google.common.collect.Lists;
 
-public abstract class AbstractPofileTrajectoryElement<T> {
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+public abstract class AbstractPofileTrajectoryElement<
+        T> {
 
     private List<Value<?>> value = Lists.newArrayList();
     private Geometry location;
     private Time phenomenonTime;
 
-
     public AbstractPofileTrajectoryElement() {
         this(null, null, null);
     }
 
-
-    public AbstractPofileTrajectoryElement(List<Value<?>> value) {
+    public AbstractPofileTrajectoryElement(Collection<Value<?>> value) {
         this(null, null, value);
     }
 
-    public AbstractPofileTrajectoryElement(Time phenomenonTime, Geometry location, List<Value<?>> values) {
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public AbstractPofileTrajectoryElement(Time phenomenonTime, Geometry location, Collection<Value<?>> values) {
         setPhenomenonTime(phenomenonTime);
         setLocation(location);
         setValue(values);
     }
 
-
     /**
      * @return the value
      */
     public List<Value<?>> getValue() {
-        return value;
+        return Collections.unmodifiableList(value);
     }
 
     /**
@@ -57,7 +60,7 @@ public abstract class AbstractPofileTrajectoryElement<T> {
      *            the value to set
      * @return {@code this}
      */
-    public T setValue(List<Value<?>> value) {
+    public T setValue(Collection<Value<?>> value) {
         this.value.clear();
         if (value != null) {
             this.value.addAll(value);
@@ -91,6 +94,7 @@ public abstract class AbstractPofileTrajectoryElement<T> {
     /**
      * @return the location
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Geometry getLocation() {
         return location;
     }
@@ -100,6 +104,7 @@ public abstract class AbstractPofileTrajectoryElement<T> {
      *            the location to set
      * @return {@code this}
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public T setLocation(Geometry location) {
         this.location = location;
         return (T) this;
@@ -112,6 +117,7 @@ public abstract class AbstractPofileTrajectoryElement<T> {
     /**
      * @return the phenomenonTime
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Time getPhenomenonTime() {
         return phenomenonTime;
     }
@@ -120,6 +126,7 @@ public abstract class AbstractPofileTrajectoryElement<T> {
      * @param phenomenonTime
      *            the phenomenonTime to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setPhenomenonTime(Time phenomenonTime) {
         this.phenomenonTime = phenomenonTime;
     }

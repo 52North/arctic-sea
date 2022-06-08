@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,6 +35,8 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Sets;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * TODO JavaDoc
  *
@@ -52,6 +53,7 @@ public class SupportedTypeRepository {
         this.cache = CacheBuilder.newBuilder().build(new CacheLoaderImpl());
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void init(DecoderRepository decoderRepository, EncoderRepository encoderRepository) {
         this.decoderRepository = decoderRepository;
         this.encoderRepository = encoderRepository;

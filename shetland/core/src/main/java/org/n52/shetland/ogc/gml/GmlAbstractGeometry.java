@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +16,8 @@
 package org.n52.shetland.ogc.gml;
 
 import org.locationtech.jts.geom.Geometry;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * A class that represents a gml:AbstractGeometry (PointType, ...).
@@ -54,6 +55,7 @@ public class GmlAbstractGeometry extends AbstractFeature {
      *
      * @return the geometry
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Geometry getGeometry() {
         return geometry;
     }
@@ -64,6 +66,7 @@ public class GmlAbstractGeometry extends AbstractFeature {
      * @param geometry
      *            the geometry to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setGeometry(Geometry geometry) {
         this.geometry = geometry;
     }

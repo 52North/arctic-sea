@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,54 +47,45 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  */
 @SuppressFBWarnings(value = "RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE", justification = "spotbugs false positive")
 public final class HTTP {
-    private static final CloseableHttpClient CLIENT = HttpClientBuilder.create()
-            .useSystemProperties()
-            .setUserAgent("shetland-1.0.0")
-            .build();
+    private static final CloseableHttpClient CLIENT =
+            HttpClientBuilder.create().useSystemProperties().setUserAgent("shetland-1.0.0").build();
 
     private HTTP() {
     }
 
-    public static String getAsString(URI uri)
-            throws IOException {
+    public static String getAsString(URI uri) throws IOException {
         try (CloseableHttpResponse response = CLIENT.execute(new HttpGet(uri))) {
             HttpEntity entity = response.getEntity();
-            String encoding = Optional.ofNullable(entity.getContentEncoding())
-                    .map(Header::getValue).orElse(StandardCharsets.UTF_8.name());
+            String encoding = Optional.ofNullable(entity.getContentEncoding()).map(Header::getValue)
+                    .orElse(StandardCharsets.UTF_8.name());
             Charset charset = Charset.forName(encoding);
-            try (InputStream is = entity.getContent();
-                 Reader reader = new InputStreamReader(is, charset)) {
+            try (InputStream is = entity.getContent(); Reader reader = new InputStreamReader(is, charset)) {
                 return CharStreams.toString(reader);
             }
         }
     }
 
-    public static byte[] get(URI uri)
-            throws IOException {
+    public static byte[] get(URI uri) throws IOException {
         return execute(new HttpGet(uri));
     }
 
-    public static void get(URI uri, OutputStream out)
-            throws IOException {
+    public static void get(URI uri, OutputStream out) throws IOException {
         execute(new HttpGet(uri), out);
     }
 
-    public static byte[] post(URI uri, byte[] bytes)
-            throws IOException {
+    public static byte[] post(URI uri, byte[] bytes) throws IOException {
         HttpPost request = new HttpPost(uri);
         request.setEntity(new ByteArrayEntity(bytes));
         return execute(request);
     }
 
-    public static void post(URI uri, byte[] bytes, OutputStream out)
-            throws IOException {
+    public static void post(URI uri, byte[] bytes, OutputStream out) throws IOException {
         HttpPost request = new HttpPost(uri);
         request.setEntity(new ByteArrayEntity(bytes));
         execute(request, out);
     }
 
-    private static byte[] execute(HttpUriRequest request)
-            throws IOException {
+    private static byte[] execute(HttpUriRequest request) throws IOException {
         try (CloseableHttpResponse response = CLIENT.execute(request)) {
             try (InputStream is = response.getEntity().getContent()) {
                 return ByteStreams.toByteArray(is);
@@ -103,8 +93,7 @@ public final class HTTP {
         }
     }
 
-    private static void execute(HttpUriRequest request, OutputStream out)
-            throws IOException {
+    private static void execute(HttpUriRequest request, OutputStream out) throws IOException {
         try (CloseableHttpResponse response = CLIENT.execute(request)) {
             response.getEntity().writeTo(out);
         }

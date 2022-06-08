@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,9 +15,13 @@
  */
 package org.n52.shetland.ogc.sensorML.elements;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 public class SmlConnection {
 
@@ -87,17 +90,22 @@ public class SmlConnection {
     }
 
     public List<SmlLink> getConnections() {
-        return connections;
+        return Collections.unmodifiableList(connections);
     }
 
-    public SmlConnection setConnections(List<SmlLink> connections) {
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public SmlConnection setConnections(Collection<SmlLink> connections) {
         this.connections.clear();
-        this.connections.addAll(connections);
+        if (connections != null) {
+            this.connections.addAll(connections);
+        }
         return this;
     }
 
     public SmlConnection addConnection(SmlLink connection) {
-        this.connections.add(connection);
+        if (connection != null) {
+            this.connections.add(connection);
+        }
         return this;
     }
 

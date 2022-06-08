@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,13 +15,13 @@
  */
 package org.n52.shetland.filter;
 
-import org.n52.shetland.ogc.filter.AbstractSortingClause;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
+import org.n52.shetland.ogc.filter.AbstractSortingClause;
 
 /**
  * class for OrderBy element
@@ -55,11 +54,13 @@ public class OrderByFilter implements AbstractSortingClause {
         return Collections.unmodifiableList(sortProperties);
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
         return Objects.hash(sortProperties);
     }
 
-    @Override public boolean equals(Object o) {
+    @Override
+    public boolean equals(Object o) {
         if (o == this) {
             return true;
         }
@@ -71,8 +72,9 @@ public class OrderByFilter implements AbstractSortingClause {
         return this.sortProperties.equals(((OrderByFilter) o).getSortProperties());
     }
 
-    @Override public String toString() {
-        return "$orderby=" +
-                this.sortProperties.stream().map(OrderProperty::toString).collect(Collectors.joining(", "));
+    @Override
+    public String toString() {
+        return "$orderby="
+                + this.sortProperties.stream().map(OrderProperty::toString).collect(Collectors.joining(", "));
     }
 }

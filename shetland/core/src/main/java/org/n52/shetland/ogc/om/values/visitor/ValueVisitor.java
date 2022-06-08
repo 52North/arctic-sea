@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,77 +43,58 @@ import org.n52.shetland.ogc.om.values.XmlValue;
  * TODO JavaDoc
  *
  * @author Christian Autermann
- * @param <T> the return type
- * @param <X> the exception type
+ * @param <T>
+ *            the return type
+ * @param <X>
+ *            the exception type
  */
-public interface ValueVisitor<T, X extends Exception> {
-    T visit(BooleanValue value)
-            throws X;
+public interface ValueVisitor<
+        T,
+        X extends Exception> {
+    T visit(BooleanValue value) throws X;
 
-    T visit(CategoryValue value)
-            throws X;
+    T visit(CategoryValue value) throws X;
 
-    T visit(ComplexValue value)
-            throws X;
+    T visit(ComplexValue value) throws X;
 
-    T visit(CountValue value)
-            throws X;
+    T visit(CountValue value) throws X;
 
-    T visit(GeometryValue value)
-            throws X;
+    T visit(GeometryValue value) throws X;
 
-    T visit(HrefAttributeValue value)
-            throws X;
+    T visit(HrefAttributeValue value) throws X;
 
-    T visit(NilTemplateValue value)
-            throws X;
+    T visit(NilTemplateValue value) throws X;
 
-    T visit(QuantityValue value)
-            throws X;
+    T visit(QuantityValue value) throws X;
 
-    T visit(QuantityRangeValue value)
-            throws X;
+    T visit(QuantityRangeValue value) throws X;
 
-    T visit(ReferenceValue value)
-            throws X;
+    T visit(ReferenceValue value) throws X;
 
-    T visit(SweDataArrayValue value)
-            throws X;
+    T visit(SweDataArrayValue value) throws X;
 
-    T visit(TVPValue value)
-            throws X;
+    T visit(TVPValue value) throws X;
 
-    T visit(TLVTValue value)
-            throws X;
+    T visit(TLVTValue value) throws X;
 
-    T visit(TextValue value)
-            throws X;
+    T visit(TextValue value) throws X;
 
-    T visit(CvDiscretePointCoverage value)
-            throws X;
+    T visit(CvDiscretePointCoverage value) throws X;
 
-    T visit(MultiPointCoverage value)
-            throws X;
+    T visit(MultiPointCoverage value) throws X;
 
-    T visit(RectifiedGridCoverage value)
-            throws X;
+    T visit(RectifiedGridCoverage value) throws X;
 
-    T visit(ProfileValue value)
-            throws X;
+    T visit(ProfileValue value) throws X;
 
-    T visit(TrajectoryValue value)
-            throws X;
+    T visit(TrajectoryValue value) throws X;
 
-    T visit(UnknownValue value)
-            throws X;
+    T visit(UnknownValue value) throws X;
 
-    T visit(TimeValue value)
-            throws X;
+    T visit(TimeValue value) throws X;
 
-    T visit(TimeRangeValue value)
-            throws X;
+    T visit(TimeRangeValue value) throws X;
 
-    T visit(XmlValue<?> value)
-            throws X;
+    T visit(XmlValue<?> value) throws X;
 
 }

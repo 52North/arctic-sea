@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,9 +20,6 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.xml.namespace.QName;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.n52.janmayen.http.HTTPStatus;
 import org.n52.shetland.ogc.om.OmConstants;
@@ -63,6 +59,8 @@ import org.n52.shetland.ogc.swe.simpleType.SweCategory;
 import org.n52.shetland.ogc.swe.simpleType.SweCount;
 import org.n52.shetland.ogc.swe.simpleType.SweQuantity;
 import org.n52.shetland.ogc.swe.simpleType.SweText;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Utility class for Observation and Measurement
@@ -84,8 +82,7 @@ public final class OMHelper {
                 || SfConstants.SAMPLING_FEAT_TYPE_SF_SAMPLING_CURVE.equals(featureType)
                 || SfConstants.SAMPLING_FEAT_TYPE_SF_SAMPLING_SURFACE.equals(featureType)) {
             return SfConstants.NS_SAMS;
-        } else if (SfConstants.FT_SAMPLINGPOINT.equals(featureType)
-                || SfConstants.FT_SAMPLINGCURVE.equals(featureType)
+        } else if (SfConstants.FT_SAMPLINGPOINT.equals(featureType) || SfConstants.FT_SAMPLINGCURVE.equals(featureType)
                 || SfConstants.FT_SAMPLINGSURFACE.equals(featureType)) {
             return SfConstants.NS_SA;
         } else if (SfConstants.SAMPLING_FEAT_TYPE_SF_SPECIMEN.equals(featureType)) {
@@ -296,7 +293,7 @@ public final class OMHelper {
 
         @Override
         public String visit(TimeValue value) throws RuntimeException {
-            return  OmConstants.OBS_TYPE_TEMPORAL_OBSERVATION;
+            return OmConstants.OBS_TYPE_TEMPORAL_OBSERVATION;
         }
 
         @Override

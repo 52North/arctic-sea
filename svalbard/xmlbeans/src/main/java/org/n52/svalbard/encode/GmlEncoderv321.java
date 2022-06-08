@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -326,7 +325,9 @@ public class GmlEncoderv321
                     return featurePropertyType;
                 } else {
                     String namespace = ctx.getString(XmlEncoderFlags.ENCODE_NAMESPACE)
-                            .orElseGet(() -> OMHelper.getNamespaceForFeatureType(samplingFeature.getFeatureType()));
+                            .orElseGet(() -> samplingFeature.isSetDefaultElementEncoding()
+                                    ? samplingFeature.getDefaultElementEncoding()
+                                    : OMHelper.getNamespaceForFeatureType(samplingFeature.getFeatureType()));
                     XmlObject encodedXmlObject = encodeObjectToXml(namespace, samplingFeature);
 
                     if (encodedXmlObject != null) {

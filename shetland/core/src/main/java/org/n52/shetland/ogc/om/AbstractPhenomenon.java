@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +14,6 @@
  * limitations under the License.
  */
 package org.n52.shetland.ogc.om;
-
 
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
@@ -69,8 +67,7 @@ public abstract class AbstractPhenomenon extends AbstractFeature implements Comp
 
     @Override
     public int compareTo(final AbstractPhenomenon o) {
-        return getIdentifierCodeWithAuthority().compareTo(o
-                .getIdentifierCodeWithAuthority());
+        return getIdentifierCodeWithAuthority().compareTo(o.getIdentifierCodeWithAuthority());
     }
 
     public abstract boolean isComposite();
@@ -85,13 +82,9 @@ public abstract class AbstractPhenomenon extends AbstractFeature implements Comp
         return (OmCompositePhenomenon) this;
     }
 
-
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .omitNullValues()
-                .add("identifier", getIdentifier())
-                .add("description", getDescription())
-                .toString();
+        return MoreObjects.toStringHelper(this).omitNullValues().add("identifier", getIdentifier())
+                .add("description", getDescription()).toString();
     }
 }

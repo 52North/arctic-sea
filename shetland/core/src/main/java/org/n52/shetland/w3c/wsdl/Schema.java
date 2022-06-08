@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +21,8 @@ import org.n52.janmayen.Comparables;
 
 import com.google.common.collect.ComparisonChain;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class Schema extends ExtensibilityElement {
 
     private String elementFormDefault;
@@ -32,6 +33,7 @@ public class Schema extends ExtensibilityElement {
         this("qualified", targetNamespace, include);
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public Schema(String elementFormDefault, String targetNamespace, Include include) {
         super(WSDLConstants.QN_XSD_SCHEMA);
         this.elementFormDefault = elementFormDefault;
@@ -47,6 +49,7 @@ public class Schema extends ExtensibilityElement {
         return targetNamespace;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Include getInclude() {
         return include;
     }
@@ -76,14 +79,11 @@ public class Schema extends ExtensibilityElement {
     public int compareTo(ExtensibilityElement o) {
         Objects.requireNonNull(o);
         if (o instanceof Schema) {
-            return ComparisonChain.start()
-                    .compare(this.getTargetNamespace(), ((Schema) o).getTargetNamespace())
+            return ComparisonChain.start().compare(this.getTargetNamespace(), ((Schema) o).getTargetNamespace())
                     .compare(this.getElementFormDefault(), ((Schema) o).getElementFormDefault())
-                    .compare(this.getInclude(), ((Schema) o).getInclude())
-                    .result();
+                    .compare(this.getInclude(), ((Schema) o).getInclude()).result();
         }
-        return Comparables.compare(getQName().getNamespaceURI(), o.getQName()
-                .getNamespaceURI());
+        return Comparables.compare(getQName().getNamespaceURI(), o.getQName().getNamespaceURI());
     }
 
 }

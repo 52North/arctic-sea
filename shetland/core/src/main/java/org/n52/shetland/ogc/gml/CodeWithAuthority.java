@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,7 +37,8 @@ public class CodeWithAuthority implements Comparable<CodeWithAuthority> {
     /**
      * constructor
      *
-     * @param value Value/identifier
+     * @param value
+     *            Value/identifier
      */
     public CodeWithAuthority(String value) {
         setValue(value);
@@ -47,8 +47,10 @@ public class CodeWithAuthority implements Comparable<CodeWithAuthority> {
     /**
      * constructor
      *
-     * @param value     Value/identifier
-     * @param codeSpace Code space
+     * @param value
+     *            Value/identifier
+     * @param codeSpace
+     *            Code space
      */
     public CodeWithAuthority(String value, String codeSpace) {
         setValue(value);
@@ -79,7 +81,8 @@ public class CodeWithAuthority implements Comparable<CodeWithAuthority> {
     /**
      * Set value and return this CodeWithAuthority object
      *
-     * @param value Value to set
+     * @param value
+     *            Value to set
      * @return This CodeWithAuthority object
      */
     public CodeWithAuthority setValue(String value) {
@@ -90,7 +93,8 @@ public class CodeWithAuthority implements Comparable<CodeWithAuthority> {
     /**
      * Set code space and return this CodeWithAuthority object
      *
-     * @param codeSpace Code space to set
+     * @param codeSpace
+     *            Code space to set
      * @return This CodeWithAuthority object
      */
     public CodeWithAuthority setCodeSpace(String codeSpace) {

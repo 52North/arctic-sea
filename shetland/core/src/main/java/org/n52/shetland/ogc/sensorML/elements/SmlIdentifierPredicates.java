@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +16,6 @@
 package org.n52.shetland.ogc.sensorML.elements;
 
 import java.util.function.Predicate;
-
 
 /**
  * TODO JavaDoc
@@ -36,13 +34,11 @@ public final class SmlIdentifierPredicates {
         return new DefinitionPredicate(definition);
     }
 
-    public static Predicate<SmlIdentifier> nameOrDefinition(String name,
-                                                            String definition) {
+    public static Predicate<SmlIdentifier> nameOrDefinition(String name, String definition) {
         return name(name).or(definition(definition));
     }
 
-    public static Predicate<SmlIdentifier> nameAndDefinition(String name,
-                                                             String definition) {
+    public static Predicate<SmlIdentifier> nameAndDefinition(String name, String definition) {
         return name(name).and(definition(definition));
     }
 
@@ -55,8 +51,7 @@ public final class SmlIdentifierPredicates {
 
         @Override
         public boolean test(SmlIdentifier input) {
-            return input.isSetDefinition() &&
-                   input.getDefinition().equalsIgnoreCase(definition);
+            return input.isSetDefinition() && input.getDefinition().equalsIgnoreCase(definition);
         }
     }
 
@@ -69,8 +64,7 @@ public final class SmlIdentifierPredicates {
 
         @Override
         public boolean test(SmlIdentifier input) {
-            return input.isSetName() &&
-                   input.getName().equalsIgnoreCase(name);
+            return input.isSetName() && input.getName().equalsIgnoreCase(name);
         }
     }
 }

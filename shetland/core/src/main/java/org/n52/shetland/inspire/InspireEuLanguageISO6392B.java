@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -55,7 +54,8 @@ public enum InspireEuLanguageISO6392B {
     /**
      * constructor
      *
-     * @param v the three character language string
+     * @param v
+     *            the three character language string
      */
     InspireEuLanguageISO6392B(String v) {
         value = v;
@@ -92,10 +92,8 @@ public enum InspireEuLanguageISO6392B {
      * Get {@link InspireEuLanguageISO6392B} for {@link InspireLanguageISO6392B}
      *
      * @param v
-     *            {@link InspireLanguageISO6392B} to get
-     *            {@link InspireEuLanguageISO6392B} for
-     * @return {@link InspireEuLanguageISO6392B} of
-     *         {@link InspireLanguageISO6392B}
+     *            {@link InspireLanguageISO6392B} to get {@link InspireEuLanguageISO6392B} for
+     * @return {@link InspireEuLanguageISO6392B} of {@link InspireLanguageISO6392B}
      * @throws IllegalArgumentException
      *             if the {@link InspireLanguageISO6392B} is invalid
      */

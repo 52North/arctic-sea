@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,17 +25,18 @@ import java.util.Objects;
  *
  */
 public class OwsServiceKey implements Comparable<OwsServiceKey> {
-    private static final Comparator<OwsServiceKey> COMPARATOR
-            = Comparator.comparing(OwsServiceKey::getService)
-                    .thenComparing(OwsServiceKey::getVersion);
+    private static final Comparator<OwsServiceKey> COMPARATOR =
+            Comparator.comparing(OwsServiceKey::getService).thenComparing(OwsServiceKey::getVersion);
     private final String service;
     private final String version;
 
     /**
      * Constructor
      *
-     * @param service Service name
-     * @param version Service version
+     * @param service
+     *            Service name
+     * @param version
+     *            Service version
      */
     public OwsServiceKey(String service, String version) {
         this.service = service;
@@ -88,8 +88,8 @@ public class OwsServiceKey implements Comparable<OwsServiceKey> {
     public boolean equals(Object o) {
         if (o != null && o.getClass() == getClass()) {
             OwsServiceKey other = (OwsServiceKey) o;
-            return Objects.equals(getService(), other.getService()) &&
-                   Objects.equals(getVersion(), other.getVersion());
+            return Objects.equals(getService(), other.getService())
+                    && Objects.equals(getVersion(), other.getVersion());
         }
         return false;
     }

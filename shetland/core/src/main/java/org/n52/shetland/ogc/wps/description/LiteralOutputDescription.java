@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,19 +33,23 @@ public interface LiteralOutputDescription extends LiteralDescription, ProcessOut
     }
 
     @Override
-    default <T> T visit(ReturningVisitor<T> visitor) {
+    default <
+            T> T visit(ReturningVisitor<T> visitor) {
         return visitor.visit(this);
     }
 
     @Override
-    default <T, X extends Exception> T visit(ThrowingReturningVisitor<T, X> visitor) throws X {
+    default <
+            T,
+            X extends Exception> T visit(ThrowingReturningVisitor<T, X> visitor) throws X {
         return visitor.visit(this);
     }
 
     Builder<?, ?> newBuilder();
 
-    interface Builder<T extends LiteralOutputDescription, B extends Builder<T, B>>
-            extends LiteralDescription.Builder<T, B>, ProcessOutputDescription.Builder<T, B> {
+    interface Builder<
+            T extends LiteralOutputDescription,
+            B extends Builder<T, B>> extends LiteralDescription.Builder<T, B>, ProcessOutputDescription.Builder<T, B> {
 
     }
 

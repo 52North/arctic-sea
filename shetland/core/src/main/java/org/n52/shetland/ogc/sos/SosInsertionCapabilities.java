@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +29,8 @@ import org.n52.shetland.util.CollectionHelper;
  * @since 1.0.0
  *
  */
-public class SosInsertionCapabilities implements OwsCapabilitiesExtension, MergableExtension<SosInsertionCapabilities> {
+public class SosInsertionCapabilities
+        implements OwsCapabilitiesExtension, MergableExtension<SosInsertionCapabilities> {
     private static final String SECTION_NAME = Sos2Constants.CapabilitiesSections.InsertionCapabilities.name();
 
     private final SortedSet<String> featureOfInterestTypes = new TreeSet<>();
@@ -137,9 +137,9 @@ public class SosInsertionCapabilities implements OwsCapabilitiesExtension, Merga
             return false;
         }
         final SosInsertionCapabilities other = (SosInsertionCapabilities) obj;
-        return Objects.equals(this.featureOfInterestTypes, other.featureOfInterestTypes) &&
-               Objects.equals(this.observationTypes, other.observationTypes) &&
-               Objects.equals(this.procedureDescriptionFormats, other.procedureDescriptionFormats) &&
-               Objects.equals(this.supportedEncodings, other.supportedEncodings);
+        return Objects.equals(this.featureOfInterestTypes, other.featureOfInterestTypes)
+                && Objects.equals(this.observationTypes, other.observationTypes)
+                && Objects.equals(this.procedureDescriptionFormats, other.procedureDescriptionFormats)
+                && Objects.equals(this.supportedEncodings, other.supportedEncodings);
     }
 }

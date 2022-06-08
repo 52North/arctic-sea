@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +19,8 @@ import java.util.Optional;
 
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * TODO JavaDoc
@@ -44,6 +45,7 @@ public class EnvelopeOrGeometry {
         this(geometry, null);
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Optional<Geometry> getGeometry() {
         return Optional.ofNullable(this.geometry);
     }
@@ -90,6 +92,7 @@ public class EnvelopeOrGeometry {
         }
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Geometry toGeometry() {
         if (this.geometry != null) {
             return this.geometry;

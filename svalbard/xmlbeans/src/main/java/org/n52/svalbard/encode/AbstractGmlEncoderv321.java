@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,8 +43,8 @@ public abstract class AbstractGmlEncoderv321<T, S> extends AbstractXmlEncoder<T,
             } else {
                 if (context.has(XmlBeansEncodingFlags.ENCODE)
                         && !context.getBoolean(XmlBeansEncodingFlags.ENCODE)
-                        || (abstractFeature instanceof FeatureWithEncode
-                                && !((FeatureWithEncode) abstractFeature).isEncode())) {
+                        || abstractFeature instanceof FeatureWithEncode
+                                && !((FeatureWithEncode) abstractFeature).isEncode()) {
                     featurePropertyType.setHref(abstractFeature.getIdentifierCodeWithAuthority().getValue());
                     if (abstractFeature.isSetName()) {
                         featurePropertyType.setTitle(abstractFeature.getFirstName().getValue());

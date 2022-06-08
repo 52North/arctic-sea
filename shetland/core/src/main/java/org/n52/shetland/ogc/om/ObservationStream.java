@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,13 +40,13 @@ import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
  *
  * @author Christian Autermann
  */
-public interface ObservationStream
-        extends ThrowingIterator<OmObservation, OwsExceptionReport>, AutoCloseable {
+public interface ObservationStream extends ThrowingIterator<OmObservation, OwsExceptionReport>, AutoCloseable {
     @Override
     default void close() {
     }
 
-    default <T extends Collection<OmObservation>> T collect(Supplier<T> supplier) throws OwsExceptionReport {
+    default <
+            T extends Collection<OmObservation>> T collect(Supplier<T> supplier) throws OwsExceptionReport {
         T collection = supplier.get();
         forEachRemaining(collection::add);
         return collection;
@@ -70,9 +69,8 @@ public interface ObservationStream
     }
 
     /**
-     * Creates a new stream of this observation stream. Note that consuming the
-     * stream will drain the iterator and all thrown exceptions will be wrapped
-     * in {@link RuntimeException}s.
+     * Creates a new stream of this observation stream. Note that consuming the stream will drain the iterator
+     * and all thrown exceptions will be wrapped in {@link RuntimeException}s.
      *
      * @return the stream
      */
@@ -100,8 +98,7 @@ public interface ObservationStream
     }
 
     /**
-     * As this stream is always serial this is the same as {@link #findFirst() }
-     * .
+     * As this stream is always serial this is the same as {@link #findFirst() } .
      *
      * @return the first observation of the stream
      *
@@ -114,8 +111,8 @@ public interface ObservationStream
 
     /**
      *
-     * Creates a new observation stream from an consumer that consumes every
-     * observation before it is emitted by the stream.
+     * Creates a new observation stream from an consumer that consumes every observation before it is emitted
+     * by the stream.
      *
      * @param consumer
      *            the consumer
@@ -132,8 +129,8 @@ public interface ObservationStream
     }
 
     /**
-     * Creates a new observation stream from a mapping function that produces a
-     * stream for every observation in this stream.
+     * Creates a new observation stream from a mapping function that produces a stream for every observation
+     * in this stream.
      *
      * @param mapper
      *            the mapping function
@@ -177,8 +174,8 @@ public interface ObservationStream
     }
 
     /**
-     * Produces a observation new stream from a mapping function that produces a
-     * new observation for every observation in this stream.
+     * Produces a observation new stream from a mapping function that produces a new observation for every
+     * observation in this stream.
      *
      * @param operator
      *            the mapping function
@@ -206,8 +203,8 @@ public interface ObservationStream
     }
 
     /**
-     * Creates a new observation stream that filters the observatons from the
-     * original stream using the supplied predicate.
+     * Creates a new observation stream that filters the observatons from the original stream using the
+     * supplied predicate.
      *
      * @param predicate
      *            the filter
@@ -238,9 +235,8 @@ public interface ObservationStream
     }
 
     /**
-     * Creates a new stream out of this stream in which observations with the
-     * same observation constellation are merged. Be aware that this method will
-     * consume this stream completely.
+     * Creates a new stream out of this stream in which observations with the same observation constellation
+     * are merged. Be aware that this method will consume this stream completely.
      *
      * @return the new observation stream
      *
@@ -256,9 +252,8 @@ public interface ObservationStream
     }
 
     /**
-     * Creates a new stream out of this stream in which observations with the
-     * same observation constellation are merged. Be aware that this method will
-     * consume this stream completely.
+     * Creates a new stream out of this stream in which observations with the same observation constellation
+     * are merged. Be aware that this method will consume this stream completely.
      *
      * @param indicator
      *

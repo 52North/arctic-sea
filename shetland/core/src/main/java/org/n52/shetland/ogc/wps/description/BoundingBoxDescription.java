@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +15,12 @@
  */
 package org.n52.shetland.ogc.wps.description;
 
-import org.n52.janmayen.stream.Streams;
-import org.n52.shetland.ogc.ows.OwsCRS;
-
 import java.net.URI;
 import java.util.Arrays;
 import java.util.Set;
+
+import org.n52.janmayen.stream.Streams;
+import org.n52.shetland.ogc.ows.OwsCRS;
 
 /**
  * TODO JavaDoc
@@ -34,8 +33,9 @@ public interface BoundingBoxDescription {
 
     Set<OwsCRS> getSupportedCRS();
 
-    interface Builder<T extends BoundingBoxDescription, B extends Builder<T, B>>
-            extends org.n52.janmayen.Builder<T, B> {
+    interface Builder<
+            T extends BoundingBoxDescription,
+            B extends Builder<T, B>> extends org.n52.janmayen.Builder<T, B> {
 
         B withDefaultCRS(OwsCRS defaultCRS);
 

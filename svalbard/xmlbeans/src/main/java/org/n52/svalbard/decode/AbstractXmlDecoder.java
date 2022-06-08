@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,13 +21,11 @@ import javax.inject.Inject;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
-import org.w3c.dom.Node;
-
-
 import org.n52.janmayen.Producer;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.exception.NoDecoderForKeyException;
 import org.n52.svalbard.decode.exception.XmlDecodingException;
+import org.w3c.dom.Node;
 
 /**
  * TODO JavaDoc

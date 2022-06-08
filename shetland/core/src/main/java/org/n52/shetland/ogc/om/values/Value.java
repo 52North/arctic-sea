@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +15,6 @@
  */
 package org.n52.shetland.ogc.om.values;
 
-
 import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
 
@@ -28,13 +26,14 @@ import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
  * @param <T>
  *            specific value type
  */
-public interface Value<T> {
+public interface Value<
+        T> {
 
     /**
      * Set the measurment value
      *
      * @param value
-     *              Value to set
+     *            Value to set
      */
     Value<T> setValue(T value);
 
@@ -93,6 +92,8 @@ public interface Value<T> {
         return getUnitObject() != null && !getUnitObject().isEmpty();
     }
 
-    <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E;
+    <
+            X,
+            E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E;
 
 }

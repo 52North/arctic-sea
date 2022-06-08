@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,7 +51,8 @@ public abstract class Term {
     }
 
     /**
-     * @param name the name to set
+     * @param name
+     *            the name to set
      */
     public void setName(final String name) {
         this.name = name;
@@ -66,7 +66,8 @@ public abstract class Term {
     }
 
     /**
-     * @param label Identifier label
+     * @param label
+     *            Identifier label
      */
     public void setLabel(final String label) {
         this.label = label;
@@ -81,7 +82,8 @@ public abstract class Term {
     }
 
     /**
-     * @param definition Identifier definition
+     * @param definition
+     *            Identifier definition
      */
     public void setDefinition(final String definition) {
         this.definition = definition;
@@ -95,7 +97,8 @@ public abstract class Term {
     }
 
     /**
-     * @param codeSpace href Classifier codeSpace href
+     * @param codeSpace
+     *            href Classifier codeSpace href
      */
     public void setCodeSpace(final String codeSpace) {
         this.codeSpace = codeSpace;
@@ -109,7 +112,8 @@ public abstract class Term {
     }
 
     /**
-     * @param value the value to set
+     * @param value
+     *            the value to set
      */
     public void setValue(final String value) {
         this.value = value;

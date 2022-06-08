@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,13 +15,14 @@
  */
 package org.n52.shetland.ogc.wps.data;
 
-import com.google.common.base.MoreObjects;
-import org.n52.shetland.ogc.ows.OwsCode;
-import org.n52.shetland.ogc.wps.Format;
-
 import java.net.URI;
 import java.util.Objects;
 import java.util.Optional;
+
+import org.n52.shetland.ogc.ows.OwsCode;
+import org.n52.shetland.ogc.wps.Format;
+
+import com.google.common.base.MoreObjects;
 
 /**
  * TODO JavaDoc
@@ -81,7 +81,7 @@ public class ReferenceProcessData extends FormattedProcessData {
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this).omitNullValues().add("id", getId()).add("format", getFormat())
-                          .add("uri", getURI()).add("body", getBody().orElse(null)).toString();
+                .add("uri", getURI()).add("body", getBody().orElse(null)).toString();
     }
 
     @Override
@@ -101,8 +101,8 @@ public class ReferenceProcessData extends FormattedProcessData {
             return false;
         }
         final ReferenceProcessData other = (ReferenceProcessData) obj;
-        return Objects.equals(getId(), other.getId()) && Objects.equals(getFormat(), other.getFormat()) &&
-               Objects.equals(getURI(), other.getURI()) && Objects.equals(getBody(), other.getBody());
+        return Objects.equals(getId(), other.getId()) && Objects.equals(getFormat(), other.getFormat())
+                && Objects.equals(getURI(), other.getURI()) && Objects.equals(getBody(), other.getBody());
     }
 
 }

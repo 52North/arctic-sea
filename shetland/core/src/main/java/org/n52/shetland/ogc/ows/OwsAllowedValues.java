@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -66,8 +65,7 @@ public class OwsAllowedValues implements OwsPossibleValues, Iterable<OwsValueRes
     public OwsAllowedValues setRestrictions(Stream<? extends OwsValueRestriction> restrictions) {
         if (restrictions != null) {
             this.restrictions.clear();
-            restrictions.map(Objects::requireNonNull)
-                    .forEach(this.restrictions::add);
+            restrictions.map(Objects::requireNonNull).forEach(this.restrictions::add);
         }
         return this;
     }

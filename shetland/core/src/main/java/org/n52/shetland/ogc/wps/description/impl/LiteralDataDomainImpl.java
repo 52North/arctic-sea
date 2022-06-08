@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +15,9 @@
  */
 package org.n52.shetland.ogc.wps.description.impl;
 
+import java.util.Objects;
+import java.util.Optional;
+
 import org.n52.janmayen.AbstractBuildable;
 import org.n52.shetland.ogc.ows.OwsAnyValue;
 import org.n52.shetland.ogc.ows.OwsDomainMetadata;
@@ -23,9 +25,6 @@ import org.n52.shetland.ogc.ows.OwsPossibleValues;
 import org.n52.shetland.ogc.ows.OwsValue;
 import org.n52.shetland.ogc.wps.description.LiteralDataDomain;
 import org.n52.shetland.ogc.wps.description.ProcessDescriptionBuilderFactory;
-
-import java.util.Objects;
-import java.util.Optional;
 
 public class LiteralDataDomainImpl
         extends AbstractBuildable<ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?>>
@@ -68,8 +67,9 @@ public class LiteralDataDomainImpl
         return getFactory().literalDataDomain(this);
     }
 
-    public abstract static class AbstractBuilder<T extends LiteralDataDomain, B extends AbstractBuilder<T, B>>
-            extends
+    public abstract static class AbstractBuilder<
+            T extends LiteralDataDomain,
+            B extends AbstractBuilder<T, B>> extends
             AbstractBuildable.AbstractBuilder<ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?>, T, B>
             implements LiteralDataDomain.Builder<T, B> {
         private OwsPossibleValues possibleValues = OwsAnyValue.instance();
@@ -82,7 +82,7 @@ public class LiteralDataDomainImpl
         }
 
         protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
-                                  LiteralDataDomain entity) {
+                LiteralDataDomain entity) {
             super(factory);
             this.possibleValues = entity.getPossibleValues();
             this.dataType = entity.getDataType().orElse(null);
@@ -143,7 +143,7 @@ public class LiteralDataDomainImpl
         }
 
         protected Builder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
-                          LiteralDataDomain entity) {
+                LiteralDataDomain entity) {
             super(factory, entity);
         }
 

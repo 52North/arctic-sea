@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +15,6 @@
  */
 package org.n52.svalbard.decode;
 
-import net.opengis.swes.x20.ExtensibleRequestType;
-
 import org.apache.xmlbeans.XmlObject;
 import org.n52.shetland.ogc.ows.extension.Extension;
 import org.n52.shetland.ogc.ows.extension.Extensions;
@@ -27,6 +24,8 @@ import org.n52.shetland.util.CollectionHelper;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import net.opengis.swes.x20.ExtensibleRequestType;
 
 public abstract class AbstractSwesDecoderv20<S>
         extends AbstractXmlDecoder<XmlObject, S> {
@@ -41,7 +40,6 @@ public abstract class AbstractSwesDecoderv20<S>
         if (CollectionHelper.isNotNullOrEmpty(extensionArray)) {
             final Extensions extensions = new Extensions();
             for (XmlObject xbExtension : extensionArray) {
-
                 Object obj = decodeXmlElement(xbExtension);
                 if (obj instanceof Extension<?>) {
                     extensions.addExtension((Extension<?>) obj);
@@ -50,6 +48,7 @@ public abstract class AbstractSwesDecoderv20<S>
                             new SwesExtension<SweAbstractDataComponent>();
                     swesExtension.setIdentifier(((SweAbstractDataComponent) obj).getIdentifier());
                     swesExtension.setDefinition(((SweAbstractDataComponent) obj).getDefinition());
+                    swesExtension.setValue((SweAbstractDataComponent) obj);
                     extensions.addExtension(swesExtension);
                 }
             }

@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +19,7 @@ import static java.util.Collections.singleton;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.IOException;
@@ -33,7 +33,6 @@ import org.junit.jupiter.api.Test;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.sos.request.InsertSensorRequest;
 import org.n52.svalbard.decode.exception.DecodingException;
-import org.n52.svalbard.decode.json.InsertSensorRequestDecoder;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JsonLoader;
@@ -131,8 +130,7 @@ public class InsertSensorRequestDecoderTest {
     @Test
     public void testRelatedFeatures()
             throws OwsExceptionReport, IOException {
-
-        assertThat(req.getRelatedFeatures(), is(nullValue()));
+        assertThat(req.getRelatedFeatures(), is(empty()));
     }
 
     @Test

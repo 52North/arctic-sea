@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,8 +23,7 @@ import org.n52.shetland.w3c.SchemaLocation;
 /**
  * Constants class for SensorML
  *
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
- *         J&uuml;rrens</a>
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @author ShaneStClair
@@ -68,8 +66,8 @@ public interface SensorMLConstants {
     String VERSION_V101 = "1.0.1";
 
     /**
-     * Name of a SensorML element describing the offerings a procedure/sensor is
-     * related to or should be inserted into
+     * Name of a SensorML element describing the offerings a procedure/sensor is related to or should be
+     * inserted into
      */
     String ELEMENT_NAME_OFFERINGS = "offerings";
 

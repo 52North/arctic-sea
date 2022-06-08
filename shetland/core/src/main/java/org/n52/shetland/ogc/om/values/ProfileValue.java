@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +16,7 @@
 package org.n52.shetland.ogc.om.values;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.SortedSet;
@@ -41,6 +41,8 @@ import org.n52.shetland.ogc.swe.SweField;
 
 import com.google.common.collect.Lists;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Represents the GroundWaterML 2.0 GW_GeologyLogCoverage
  *
@@ -48,9 +50,7 @@ import com.google.common.collect.Lists;
  * @since 1.0.0
  *
  */
-public class ProfileValue
-        extends AbstractFeature
-        implements Value<List<ProfileLevel>> {
+public class ProfileValue extends AbstractFeature implements Value<List<ProfileLevel>> {
 
     private QuantityValue fromLevel;
     private boolean queriedFromLevel;
@@ -73,23 +73,29 @@ public class ProfileValue
     @Override
     public ProfileValue setValue(List<ProfileLevel> value) {
         this.values.clear();
-        this.values.addAll(value);
+        if (value != null) {
+            this.values.addAll(value);
+        }
         return this;
     }
 
     public ProfileValue addValue(ProfileLevel value) {
-        this.values.add(value);
+        if (value != null) {
+            this.values.add(value);
+        }
         return this;
     }
 
-    public ProfileValue addValues(List<ProfileLevel> value) {
-        this.values.addAll(value);
+    public ProfileValue addValues(Collection<ProfileLevel> value) {
+        if (value != null) {
+            this.values.addAll(value);
+        }
         return this;
     }
 
     @Override
     public List<ProfileLevel> getValue() {
-        return values;
+        return Collections.unmodifiableList(values);
     }
 
     @Override
@@ -126,6 +132,7 @@ public class ProfileValue
     /**
      * @return the fromLevel
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public QuantityValue getFromLevel() {
         if (!isFromLevel() && !queriedFromLevel) {
             if (isSetValue()) {
@@ -161,6 +168,7 @@ public class ProfileValue
      * @param fromLevel
      *            the fromLevel to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public ProfileValue setFromLevel(QuantityValue fromLevel) {
         this.fromLevel = fromLevel;
         return this;
@@ -177,6 +185,7 @@ public class ProfileValue
     /**
      * @return the toLevel
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public QuantityValue getToLevel() {
         if (!isToLevel() && !queriedToLevel) {
             if (isSetValue()) {
@@ -213,6 +222,7 @@ public class ProfileValue
      * @param toLevel
      *            the toLevel to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public ProfileValue setToLevel(QuantityValue toLevel) {
         this.toLevel = toLevel;
         return this;
@@ -232,7 +242,9 @@ public class ProfileValue
     }
 
     @Override
-    public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
+    public <
+            X,
+            E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
         return visitor.visit(this);
     }
 

@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +15,14 @@
  */
 package org.n52.shetland.ogc.sensorML;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.n52.shetland.util.CollectionHelper;
 
-import com.google.common.collect.Lists;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Implementation for sml:ContactList
@@ -30,29 +32,29 @@ import com.google.common.collect.Lists;
  * @since 1.0.0
  */
 public class SmlContactList extends SmlContact {
-    private List<SmlContact> members;
+    private List<SmlContact> members = new LinkedList<>();
 
     public boolean isSetMembers() {
         return !CollectionHelper.nullEmptyOrContainsOnlyNulls(members);
     }
 
-
     public List<SmlContact> getMembers() {
-        return members;
+        return Collections.unmodifiableList(members);
     }
 
-    public void setMembers(List<SmlContact> members) {
-        if (isSetMembers()) {
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public SmlContactList setMembers(Collection<SmlContact> members) {
+        this.members.clear();
+        if (CollectionHelper.isNotEmpty(members)) {
             this.members.addAll(members);
-        } else {
-            this.members = members;
         }
+        return this;
     }
 
-    public void addMember(SmlContact member) {
-        if (!isSetMembers()) {
-            this.members = Lists.newArrayList();
+    public SmlContactList addMember(SmlContact member) {
+        if (member != null) {
+            this.members.add(member);
         }
-        this.members.add(member);
+        return this;
     }
 }

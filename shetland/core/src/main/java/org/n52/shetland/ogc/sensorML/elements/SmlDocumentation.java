@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +16,8 @@
 package org.n52.shetland.ogc.sensorML.elements;
 
 import org.n52.shetland.ogc.gml.time.TimeInstant;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * @since 1.0.0
@@ -38,6 +39,7 @@ public class SmlDocumentation extends AbstractSmlDocumentation {
         return version;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public TimeInstant getDate() {
         return date;
     }
@@ -58,20 +60,25 @@ public class SmlDocumentation extends AbstractSmlDocumentation {
         this.version = version;
     }
 
-    public void setDate(TimeInstant date) {
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public SmlDocumentation setDate(TimeInstant date) {
         this.date = date;
+        return this;
     }
 
-    public void setContact(String contact) {
+    public SmlDocumentation setContact(String contact) {
         this.contact = contact;
+        return this;
     }
 
-    public void setFormat(String format) {
+    public SmlDocumentation setFormat(String format) {
         this.format = format;
+        return this;
     }
 
-    public void setOnlineResource(String onlineResource) {
+    public SmlDocumentation setOnlineResource(String onlineResource) {
         this.onlineResource = onlineResource;
+        return this;
     }
 
     public boolean isSetVersion() {

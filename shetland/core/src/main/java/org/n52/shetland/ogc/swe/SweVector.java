@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,23 +18,28 @@ package org.n52.shetland.ogc.swe;
 import static java.util.stream.Collectors.toList;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
 
 import com.google.common.base.Objects;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * @since 1.0.0
  *
  */
 public class SweVector extends SweAbstractDataComponent {
-    private List<? extends SweCoordinate<? extends Number>> coordinates;
+    private List<? extends SweCoordinate<? extends Number>> coordinates = new LinkedList<>();
 
     private String referenceFrame;
 
     private String localFrame;
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweVector(List<? extends SweCoordinate<? extends Number>> coordinates) {
         this.coordinates = coordinates;
     }
@@ -50,9 +54,10 @@ public class SweVector extends SweAbstractDataComponent {
     }
 
     public List<? extends SweCoordinate<? extends Number>> getCoordinates() {
-        return coordinates;
+        return Collections.unmodifiableList(coordinates);
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweVector setCoordinates(final List<? extends SweCoordinate<? extends Number>> coordinates) {
         this.coordinates = coordinates;
         return this;
@@ -119,12 +124,15 @@ public class SweVector extends SweAbstractDataComponent {
     }
 
     @Override
-    public <T, X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
+    public <
+            T,
+            X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
         return visitor.visit(this);
     }
 
     @Override
-    public <X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
+    public <
+            X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
         visitor.visit(this);
     }
 

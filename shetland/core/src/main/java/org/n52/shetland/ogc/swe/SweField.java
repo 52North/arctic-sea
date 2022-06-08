@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,12 +18,14 @@ package org.n52.shetland.ogc.swe;
 import org.n52.shetland.ogc.gml.CodeType;
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * SOS internal representation of SWE field
  *
  * @since 1.0.0
  */
-//FIXME this is not a AbstractDataComponent according to the SWE standard
+// FIXME this is not a AbstractDataComponent according to the SWE standard
 public class SweField extends SweAbstractDataComponent {
 
     /**
@@ -37,6 +38,7 @@ public class SweField extends SweAbstractDataComponent {
         setName(name);
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweField(final CodeType name) {
         super();
         setName(name);
@@ -50,12 +52,14 @@ public class SweField extends SweAbstractDataComponent {
      * @param element
      *            Field element
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweField(final String name, final SweAbstractDataComponent element) {
         super();
         setName(name);
         this.element = element;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweField(final CodeType name, final SweAbstractDataComponent element) {
         super();
         setName(name);
@@ -65,6 +69,7 @@ public class SweField extends SweAbstractDataComponent {
     /**
      * @return the element
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SweAbstractDataComponent getElement() {
         return element;
     }
@@ -74,6 +79,7 @@ public class SweField extends SweAbstractDataComponent {
      *            the element to set
      * @return This SweField
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweField setElement(final SweAbstractDataComponent element) {
         this.element = element;
         return this;
@@ -118,12 +124,15 @@ public class SweField extends SweAbstractDataComponent {
     }
 
     @Override
-    public <T, X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
+    public <
+            T,
+            X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
         return visitor.visit(this);
     }
 
     @Override
-    public <X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
+    public <
+            X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
         visitor.visit(this);
     }
 

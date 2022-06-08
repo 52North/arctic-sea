@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +15,8 @@
  */
 package org.n52.shetland.ogc.om;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
 
 import org.n52.shetland.ogc.gml.time.Time;
@@ -25,6 +26,8 @@ import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.collect.Sets;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Class representing a single value observation value
  *
@@ -33,7 +36,8 @@ import com.google.common.collect.Sets;
  * @param <T>
  *            value type
  */
-public class SingleObservationValue<T> extends AbstractObservationValue<Value<T>> {
+public class SingleObservationValue<
+        T> extends AbstractObservationValue<Value<T>> {
 
     /**
      * Phenomenon time
@@ -62,6 +66,7 @@ public class SingleObservationValue<T> extends AbstractObservationValue<Value<T>
      * @param value
      *            Measurement value
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SingleObservationValue(Value<T> value) {
         this.value = value;
     }
@@ -76,6 +81,7 @@ public class SingleObservationValue<T> extends AbstractObservationValue<Value<T>
      * @param qualityList
      *            Measurment quality
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SingleObservationValue(Time phenomenonTime, Value<T> value, Set<OmResultQuality> qualityList) {
         this.phenomenonTime = phenomenonTime;
         this.value = value;
@@ -90,27 +96,32 @@ public class SingleObservationValue<T> extends AbstractObservationValue<Value<T>
      * @param value
      *            Measurement value
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SingleObservationValue(Time phenomenonTime, Value<T> value) {
         this.phenomenonTime = phenomenonTime;
         this.value = value;
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Time getPhenomenonTime() {
         return phenomenonTime;
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setPhenomenonTime(Time phenomenonTime) {
         this.phenomenonTime = phenomenonTime;
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Value<T> getValue() {
         return value;
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setValue(Value<T> value) {
         this.value = value;
     }
@@ -121,18 +132,26 @@ public class SingleObservationValue<T> extends AbstractObservationValue<Value<T>
      * @param qualityList
      *            Measurement quality to set
      */
-    public SingleObservationValue<T> setQualityList(Set<OmResultQuality> qualityList) {
-        this.qualityList = qualityList;
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public SingleObservationValue<T> setQualityList(Collection<OmResultQuality> qualityList) {
+        this.qualityList.clear();
+        if (qualityList != null) {
+            this.qualityList.addAll(qualityList);
+        }
         return this;
     }
 
-    public SingleObservationValue<T> addQualityList(Set<OmResultQuality> qualityList) {
-        this.qualityList.addAll(qualityList);
+    public SingleObservationValue<T> addQualityList(Collection<OmResultQuality> qualityList) {
+        if (qualityList != null) {
+            this.qualityList.addAll(qualityList);
+        }
         return this;
     }
 
     public SingleObservationValue<T> addQuality(OmResultQuality qualityList) {
-        this.qualityList.add(qualityList);
+        if (qualityList != null) {
+            this.qualityList.add(qualityList);
+        }
         return this;
     }
 
@@ -142,7 +161,7 @@ public class SingleObservationValue<T> extends AbstractObservationValue<Value<T>
      * @return Measurement quality
      */
     public Set<OmResultQuality> getQualityList() {
-        return qualityList;
+        return Collections.unmodifiableSet(qualityList);
     }
 
     public boolean isSetQualityList() {

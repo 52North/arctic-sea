@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,12 +27,10 @@ import org.n52.janmayen.Optionals;
  * @author Christian Autermann
  */
 public class OwsKeyword implements Comparable<OwsKeyword> {
-    private static final Comparator<OwsKeyword> COMPARATOR
-            = Comparator.nullsLast(Comparator
-                    .comparing(OwsKeyword::getType, Optionals.nullsLast())
-                    .thenComparing(OwsKeyword::getKeyword, Comparator
-                                   .comparing(OwsLanguageString::getLang, Optionals.nullsLast())
-                                   .thenComparing(OwsLanguageString::getValue)));
+    private static final Comparator<OwsKeyword> COMPARATOR =
+            Comparator.nullsLast(Comparator.comparing(OwsKeyword::getType, Optionals.nullsLast()).thenComparing(
+                    OwsKeyword::getKeyword, Comparator.comparing(OwsLanguageString::getLang, Optionals.nullsLast())
+                            .thenComparing(OwsLanguageString::getValue)));
 
     private final OwsLanguageString keyword;
     private final Optional<OwsCode> type;

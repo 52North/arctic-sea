@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,6 +29,7 @@ import org.apache.xmlbeans.XmlInteger;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlString;
 import org.apache.xmlbeans.impl.values.XmlAnyTypeImpl;
+import org.locationtech.jts.geom.Geometry;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.AbstractGML;
 import org.n52.shetland.ogc.gml.AbstractGeometry;
@@ -60,7 +60,6 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import org.locationtech.jts.geom.Geometry;
 
 import net.opengis.gml.x32.AbstractFeatureType;
 import net.opengis.gml.x32.AbstractGMLType;
@@ -283,7 +282,7 @@ public abstract class AbstractGmlDecoderv321<T, S>
             return namedValue;
         } else if (value instanceof SweText) {
             NamedValue<String> namedValue = new NamedValue<>();
-            namedValue.setValue(new TextValue(((SweText) value).getValue()));
+            namedValue.setValue(new TextValue((SweText) value));
             return namedValue;
         } else if (value instanceof String) {
             NamedValue<String> namedValue = new NamedValue<>();

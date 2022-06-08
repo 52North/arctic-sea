@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +15,7 @@
  */
 package org.n52.iceland.statistics.impl.handlers;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.n52.iceland.event.events.OutgoingResponseEvent;
@@ -30,8 +30,7 @@ public class OutgoingResponseEventHandler extends AbstractElasticSearchDataHolde
     public Map<String, Object> resolveAsMap(OutgoingResponseEvent event) {
         put(ServiceEventDataMapping.ORE_EXEC_TIME.getName(), event.getElapsedTime());
         put(ServiceEventDataMapping.ORE_COUNT.getName(), event.getRequestNumber());
-
-        return dataMap;
+        return new LinkedHashMap<>(dataMap);
     }
 
 }

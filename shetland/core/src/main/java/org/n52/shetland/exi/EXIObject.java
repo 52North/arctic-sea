@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,19 +20,22 @@ import java.io.OutputStream;
 /**
  * Class to hold the XML object which should be encoded and written to the {@link OutputStream}.
  *
- * @param <T> the type of the xml object
+ * @param <T>
+ *            the type of the xml object
  *
  * @since 1.0.0
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  *
  */
-public class EXIObject<T> {
+public class EXIObject<
+        T> {
 
     private final T doc;
 
     /**
-     * @param doc the XML object to encode
+     * @param doc
+     *            the XML object to encode
      */
     public EXIObject(T doc) {
         this.doc = doc;

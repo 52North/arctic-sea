@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +15,8 @@
  */
 package org.n52.shetland.inspire.ef;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
 
 import org.locationtech.jts.geom.Point;
@@ -27,8 +28,9 @@ import org.n52.shetland.w3c.xlink.Referenceable;
 
 import com.google.common.collect.Sets;
 
-public class EnvironmentalMonitoringFacility
-        extends AbstractMonitoringFeature {
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+public class EnvironmentalMonitoringFacility extends AbstractMonitoringFeature {
 
     /**
      * 0..1
@@ -80,8 +82,8 @@ public class EnvironmentalMonitoringFacility
         super(inspireId, mediaMonitored);
     }
 
-    public EnvironmentalMonitoringFacility(
-            Identifier inspireId, ReferenceType mediaMonitored, ReferenceType measurementRegime, boolean mobile,
+    public EnvironmentalMonitoringFacility(Identifier inspireId, ReferenceType mediaMonitored,
+            ReferenceType measurementRegime, boolean mobile,
             Referenceable<OperationalActivityPeriod> operationalActivityPeriod) {
         super(inspireId, mediaMonitored);
         this.measurementRegime = measurementRegime;
@@ -90,8 +92,8 @@ public class EnvironmentalMonitoringFacility
         setDefaultElementEncoding(InspireEfConstants.NS_EF);
     }
 
-    public EnvironmentalMonitoringFacility(
-            Identifier inspireId, Set<ReferenceType> mediaMonitored, ReferenceType measurementRegime, boolean mobile,
+    public EnvironmentalMonitoringFacility(Identifier inspireId, Set<ReferenceType> mediaMonitored,
+            ReferenceType measurementRegime, boolean mobile,
             Set<Referenceable<OperationalActivityPeriod>> operationalActivityPeriod) {
         super(inspireId, mediaMonitored);
         this.measurementRegime = measurementRegime;
@@ -119,6 +121,7 @@ public class EnvironmentalMonitoringFacility
     /**
      * @return the representativePoint
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Point getRepresentativePoint() {
         return representativePoint;
     }
@@ -126,9 +129,12 @@ public class EnvironmentalMonitoringFacility
     /**
      * @param representativePoint
      *            the representativePoint to set
+     * @return this
      */
-    public void setRepresentativePoint(Point representativePoint) {
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public EnvironmentalMonitoringFacility setRepresentativePoint(Point representativePoint) {
         this.representativePoint = representativePoint;
+        return this;
     }
 
     public boolean isSetRepresentativePoint() {
@@ -145,9 +151,11 @@ public class EnvironmentalMonitoringFacility
     /**
      * @param measurementRegime
      *            the measurementRegime to set
+     * @return this
      */
-    public void setMeasurementRegime(ReferenceType measurementRegime) {
+    public EnvironmentalMonitoringFacility setMeasurementRegime(ReferenceType measurementRegime) {
         this.measurementRegime = measurementRegime;
+        return this;
     }
 
     public boolean isSetMeasurementRegime() {
@@ -177,16 +185,20 @@ public class EnvironmentalMonitoringFacility
      * @return the resultAcquisitionSource
      */
     public Set<ReferenceType> getResultAcquisitionSource() {
-        return resultAcquisitionSource;
+        return Collections.unmodifiableSet(resultAcquisitionSource);
     }
 
     /**
      * @param resultAcquisitionSource
      *            the resultAcquisitionSource to set
      */
-    public void setResultAcquisitionSource(Set<ReferenceType> resultAcquisitionSource) {
+    public EnvironmentalMonitoringFacility setResultAcquisitionSource(
+            Collection<ReferenceType> resultAcquisitionSource) {
         this.resultAcquisitionSource.clear();
-        this.resultAcquisitionSource = resultAcquisitionSource;
+        if (resultAcquisitionSource != null) {
+            this.resultAcquisitionSource.addAll(resultAcquisitionSource);
+        }
+        return this;
     }
 
     public boolean isSetResultAcquisitionSource() {
@@ -204,8 +216,9 @@ public class EnvironmentalMonitoringFacility
      * @param specialisedEMFType
      *            the specialisedEMFType to set
      */
-    public void setSpecialisedEMFType(ReferenceType specialisedEMFType) {
+    public EnvironmentalMonitoringFacility setSpecialisedEMFType(ReferenceType specialisedEMFType) {
         this.specialisedEMFType = specialisedEMFType;
+        return this;
     }
 
     public boolean isSetSpecialisedEMFType() {
@@ -216,15 +229,21 @@ public class EnvironmentalMonitoringFacility
      * @return the operationalActivityPeriod
      */
     public Set<Referenceable<OperationalActivityPeriod>> getOperationalActivityPeriod() {
-        return operationalActivityPeriod;
+        return Collections.unmodifiableSet(operationalActivityPeriod);
     }
 
     /**
      * @param operationalActivityPeriod
      *            the operationalActivityPeriod to set
+     * @return this
      */
-    public void setOperationalActivityPeriod(Set<Referenceable<OperationalActivityPeriod>> operationalActivityPeriod) {
-        this.operationalActivityPeriod = operationalActivityPeriod;
+    public EnvironmentalMonitoringFacility setOperationalActivityPeriod(
+            Collection<Referenceable<OperationalActivityPeriod>> operationalActivityPeriod) {
+        this.operationalActivityPeriod.clear();
+        if (operationalActivityPeriod != null) {
+            this.operationalActivityPeriod.addAll(operationalActivityPeriod);
+        }
+        return this;
     }
 
     public boolean isSetOperationalActivityPeriod() {
@@ -235,16 +254,20 @@ public class EnvironmentalMonitoringFacility
      * @return the relatedTo
      */
     public Set<Referenceable<AnyDomainLink>> getRelatedTo() {
-        return relatedTo;
+        return Collections.unmodifiableSet(relatedTo);
     }
 
     /**
      * @param relatedTo
      *            the relatedTo to set
+     * @return this
      */
-    public void setRelatedTo(Set<Referenceable<AnyDomainLink>> relatedTo) {
+    public EnvironmentalMonitoringFacility setRelatedTo(Collection<Referenceable<AnyDomainLink>> relatedTo) {
         this.relatedTo.clear();
-        this.relatedTo = relatedTo;
+        if (relatedTo != null) {
+            this.relatedTo.addAll(relatedTo);
+        }
+        return this;
     }
 
     public boolean isSetRelatedTo() {
@@ -255,16 +278,20 @@ public class EnvironmentalMonitoringFacility
      * @return the belongsTo
      */
     public Set<Referenceable<NetworkFacility>> getBelongsTo() {
-        return belongsTo;
+        return Collections.unmodifiableSet(belongsTo);
     }
 
     /**
      * @param belongsTo
      *            the belongsTo to set
+     * @return this
      */
-    public void setBelongsTo(Set<Referenceable<NetworkFacility>> belongsTo) {
+    public EnvironmentalMonitoringFacility setBelongsTo(Collection<Referenceable<NetworkFacility>> belongsTo) {
         this.belongsTo.clear();
-        this.belongsTo = belongsTo;
+        if (relatedTo != null) {
+            this.belongsTo.addAll(belongsTo);
+        }
+        return this;
     }
 
     public boolean isSetBelongsTo() {

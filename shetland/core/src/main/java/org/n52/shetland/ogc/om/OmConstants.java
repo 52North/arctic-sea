@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,8 +28,7 @@ import com.google.common.collect.ImmutableSet;
 /**
  * Class contains element names and namespaces used to encode the O&amp;M responses.
  *
- * Interface contains element names and namespaces used to encode the OGC O&amp;M
- * responses.
+ * Interface contains element names and namespaces used to encode the OGC O&amp;M responses.
  *
  * @since 1.0.0
  */
@@ -214,6 +212,8 @@ public interface OmConstants {
 
     String PARAMETER_NAME_CATEGORY = "category";
 
+    String PARAMETER_NAME_PLATFORM = "platform";
+
     String PARAMETER = EN_PARAMETER;
 
     String OM_PARAMETER = "om:" + PARAMETER;
@@ -332,16 +332,8 @@ public interface OmConstants {
     ObservationType OBS_TYPE_REFERENCE_OBSERVATION_TYPE = new ObservationType(OBS_TYPE_REFERENCE_OBSERVATION);
     ObservationType OBS_TYPE_TRAJECTORY_OBSERVATION_TYPE = new ObservationType(OBS_TYPE_TRAJECTORY_OBSERVATION);
 
-    Set<String> OBSERVATION_TYPES =
-            ImmutableSet.of(OBS_TYPE_MEASUREMENT,
-                    OBS_TYPE_CATEGORY_OBSERVATION,
-                    OBS_TYPE_COMPLEX_OBSERVATION,
-                    OBS_TYPE_COUNT_OBSERVATION,
-                    OBS_TYPE_GEOMETRY_OBSERVATION,
-                    OBS_TYPE_TEXT_OBSERVATION,
-                    OBS_TYPE_TRUTH_OBSERVATION,
-                    OBS_TYPE_SWE_ARRAY_OBSERVATION,
-                    OBS_TYPE_PROFILE_OBSERVATION,
-                    OBS_TYPE_TRAJECTORY_OBSERVATION,
-                    OBS_TYPE_REFERENCE_OBSERVATION);
+    Set<String> OBSERVATION_TYPES = ImmutableSet.of(OBS_TYPE_MEASUREMENT, OBS_TYPE_CATEGORY_OBSERVATION,
+            OBS_TYPE_COMPLEX_OBSERVATION, OBS_TYPE_COUNT_OBSERVATION, OBS_TYPE_GEOMETRY_OBSERVATION,
+            OBS_TYPE_TEXT_OBSERVATION, OBS_TYPE_TRUTH_OBSERVATION, OBS_TYPE_SWE_ARRAY_OBSERVATION,
+            OBS_TYPE_PROFILE_OBSERVATION, OBS_TYPE_TRAJECTORY_OBSERVATION, OBS_TYPE_REFERENCE_OBSERVATION);
 }

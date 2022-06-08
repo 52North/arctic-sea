@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,13 +15,14 @@
  */
 package org.n52.shetland.iso.gmd;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * TODO JavaDoc
  *
  * @author Christian Autermann
  */
-public class GmdCitation
-        extends AbtractGmd {
+public class GmdCitation extends AbtractGmd {
 
     private static final GmdCitation EC_50_2008 =
             new GmdCitation("EC/50/2008", new GmdCitationDate(GmdDateType.publication(), "2008"));
@@ -42,6 +42,7 @@ public class GmdCitation
         return date;
     }
 
+    @SuppressFBWarnings({ "MS_EXPOSE_REP" })
     public static GmdCitation airQualityDirectiveEC502008() {
         return EC_50_2008;
     }

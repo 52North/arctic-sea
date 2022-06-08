@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,11 +31,8 @@ public class OwsContact {
     private final Optional<String> hoursOfService;
     private final Optional<String> contactInstructions;
 
-    public OwsContact(OwsPhone phone,
-                      OwsAddress address,
-                      OwsOnlineResource onlineResource,
-                      String hoursOfService,
-                      String contactInstructions) {
+    public OwsContact(OwsPhone phone, OwsAddress address, OwsOnlineResource onlineResource, String hoursOfService,
+            String contactInstructions) {
         this.phone = Optional.ofNullable(phone);
         this.address = Optional.ofNullable(address);
         this.onlineResource = Optional.ofNullable(onlineResource);
@@ -107,10 +103,8 @@ public class OwsContact {
 
     @Override
     public String toString() {
-        return "OwsContact{" + "phone=" + phone + ", address=" + address +
-               ", onlineResource=" + onlineResource + ", hoursOfService=" +
-               hoursOfService + ", contactInstructions=" + contactInstructions +
-               '}';
+        return "OwsContact{" + "phone=" + phone + ", address=" + address + ", onlineResource=" + onlineResource
+                + ", hoursOfService=" + hoursOfService + ", contactInstructions=" + contactInstructions + '}';
     }
 
 }

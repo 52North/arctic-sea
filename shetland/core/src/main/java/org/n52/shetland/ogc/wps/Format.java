@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,14 +15,6 @@
  */
 package org.n52.shetland.ogc.wps;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.base.Strings;
-import org.n52.janmayen.Optionals;
-import org.n52.janmayen.http.MediaType;
-
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
@@ -35,6 +26,15 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import org.n52.janmayen.Optionals;
+import org.n52.janmayen.http.MediaType;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.Strings;
 
 /**
  * TODO JavaDoc
@@ -51,8 +51,8 @@ public class Format implements Comparable<Format> {
     public static final Format TEXT_XML = new Format("text/xml");
     private static final Comparator<Format> COMPARATOR =
             Comparator.nullsLast(Comparator.comparing(Format::getMimeType, Optionals.nullsFirst()))
-                      .thenComparing(Format::getSchema, Optionals.nullsFirst())
-                      .thenComparing(Format::getEncoding, Optionals.nullsFirst());
+                    .thenComparing(Format::getSchema, Optionals.nullsFirst())
+                    .thenComparing(Format::getEncoding, Optionals.nullsFirst());
     private static final String STAR_SLASH_STAR = "*/*";
     private static final Set<String> CHARSETS = new HashSet<>(Charset.availableCharsets().keySet());
     private static final String SCHEMA = "schema";
@@ -64,9 +64,8 @@ public class Format implements Comparable<Format> {
     private final String schema;
 
     @JsonCreator
-    public Format(@JsonProperty(MIME_TYPE) String mimeType,
-                  @JsonProperty(ENCODING) String encoding,
-                  @JsonProperty(SCHEMA) String schema) {
+    public Format(@JsonProperty(MIME_TYPE) String mimeType, @JsonProperty(ENCODING) String encoding,
+            @JsonProperty(SCHEMA) String schema) {
         this.mimeType = Strings.emptyToNull(mimeType);
         this.encoding = Strings.emptyToNull(encoding);
         this.schema = Strings.emptyToNull(schema);
@@ -222,9 +221,8 @@ public class Format implements Comparable<Format> {
     public boolean equals(Object obj) {
         if (obj instanceof Format) {
             final Format that = (Format) obj;
-            return Objects.equals(this.mimeType, that.mimeType) &&
-                   Objects.equals(this.encoding, that.encoding) &&
-                   Objects.equals(this.schema, that.schema);
+            return Objects.equals(this.mimeType, that.mimeType) && Objects.equals(this.encoding, that.encoding)
+                    && Objects.equals(this.schema, that.schema);
         }
         return false;
     }
@@ -242,7 +240,7 @@ public class Format implements Comparable<Format> {
     }
 
     public boolean isCompatible(Format that) {
-        if (!((!this.hasEncoding() && (!that.hasEncoding() || that.isCharacterEncoding())) ||
+        if (!(!this.hasEncoding() && (!that.hasEncoding() || that.isCharacterEncoding()) ||
               this.hasEncoding(that))) {
             return false;
         }

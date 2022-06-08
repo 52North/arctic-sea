@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,13 +15,13 @@
  */
 package org.n52.shetland.ogc.wps.description;
 
-import org.n52.janmayen.stream.Streams;
-import org.n52.shetland.ogc.wps.Format;
-
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.Set;
+
+import org.n52.janmayen.stream.Streams;
+import org.n52.shetland.ogc.wps.Format;
 
 /**
  * TODO JavaDoc
@@ -37,7 +36,9 @@ public interface ComplexDescription {
 
     Optional<BigInteger> getMaximumMegabytes();
 
-    interface Builder<T extends ComplexDescription, B extends Builder<T, B>> extends org.n52.janmayen.Builder<T, B> {
+    interface Builder<
+            T extends ComplexDescription,
+            B extends Builder<T, B>> extends org.n52.janmayen.Builder<T, B> {
         B withDefaultFormat(Format format);
 
         B withSupportedFormat(Format format);

@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,14 +17,14 @@ package org.n52.shetland.ogc.swes;
 
 import org.n52.shetland.ogc.ows.extension.AbstractExtension;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
-import org.n52.shetland.ogc.swe.SweConstants;
 
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  *
  * @since 1.0.0
  */
-public class SwesExtension<T> extends AbstractExtension<T> {
+public class SwesExtension<
+        T> extends AbstractExtension<T> {
 
     private T value;
 
@@ -39,7 +38,7 @@ public class SwesExtension<T> extends AbstractExtension<T> {
 
     @Override
     public String getNamespace() {
-        return SweConstants.NS_SWE_20;
+        return SwesConstants.NS_SWES_20;
     }
 
     @Override
@@ -60,7 +59,7 @@ public class SwesExtension<T> extends AbstractExtension<T> {
 
     @Override
     public String toString() {
-        return String.format("SwesExtension [value=%s, identifier=%s, definition=%s]",
-                             value, getIdentifier(), getDefinition());
+        return String.format("SwesExtension [value=%s, identifier=%s, definition=%s]", value, getIdentifier(),
+                getDefinition());
     }
 }

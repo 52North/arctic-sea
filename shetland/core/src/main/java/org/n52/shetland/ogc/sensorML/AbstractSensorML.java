@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +18,6 @@ package org.n52.shetland.ogc.sensorML;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -43,13 +41,13 @@ import org.n52.shetland.ogc.swe.simpleType.SweBoolean;
 
 import com.google.common.collect.Sets;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * @since 1.0.0
  *
  */
-public abstract class AbstractSensorML
-        extends AbstractFeature
-        implements PhenomenonNameDescriptionProvider {
+public abstract class AbstractSensorML extends AbstractFeature implements PhenomenonNameDescriptionProvider {
 
     private List<String> keywords = new ArrayList<>(0);
     private List<SmlIdentifier> identifications = new ArrayList<>(0);
@@ -143,31 +141,33 @@ public abstract class AbstractSensorML
     }
 
     public List<String> getKeywords() {
-        return keywords;
+        return Collections.unmodifiableList(keywords);
     }
 
-    public AbstractSensorML setKeywords(List<String> keywords) {
-        this.keywords = keywords;
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public AbstractSensorML setKeywords(Collection<String> keywords) {
+        this.keywords.clear();
+        if (keywords != null) {
+            this.keywords.addAll(keywords);
+        }
         return this;
     }
 
-    public AbstractSensorML addKeywords(List<String> keywords) {
-        if (isSetKeywords()) {
+    public AbstractSensorML addKeywords(Collection<String> keywords) {
+        if (keywords != null) {
             this.keywords.addAll(keywords);
-        } else {
-            this.keywords = keywords;
         }
         return this;
     }
 
     public List<SmlIdentifier> getIdentifications() {
-        return identifications;
+        return Collections.unmodifiableList(identifications);
     }
 
-    public AbstractSensorML setIdentifications(final List<SmlIdentifier> identifications) {
-        if (this.identifications.isEmpty()) {
-            this.identifications = identifications;
-        } else {
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public AbstractSensorML setIdentifications(final Collection<SmlIdentifier> identifications) {
+        this.identifications.clear();
+        if (identifications != null) {
             this.identifications.addAll(identifications);
         }
         return this;
@@ -185,17 +185,23 @@ public abstract class AbstractSensorML
     }
 
     public List<SmlClassifier> getClassifications() {
-        return classifications;
+        return Collections.unmodifiableList(classifications);
     }
 
-    public AbstractSensorML setClassifications(final List<SmlClassifier> classifications) {
-        this.classifications = classifications;
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public AbstractSensorML setClassifications(final Collection<SmlClassifier> classifications) {
+        this.classifications.clear();
+        if (classifications != null) {
+            this.classifications.addAll(classifications);
+        }
         return this;
     }
 
-    public AbstractSensorML addClassifications(List<SmlClassifier> classifications) {
-        if (isSetClassifications()) {
-            this.classifications.addAll(classifications);
+    public AbstractSensorML addClassifications(Collection<SmlClassifier> classifications) {
+        if (classifications != null) {
+            if (isSetClassifications()) {
+                this.classifications.addAll(classifications);
+            }
         }
         return this;
     }
@@ -209,19 +215,21 @@ public abstract class AbstractSensorML
     }
 
     public AbstractSensorML addClassification(final SmlClassifier classifier) {
-        classifications.add(classifier);
+        if (classifier != null) {
+            classifications.add(classifier);
+        }
         return this;
     }
 
     public List<SmlCharacteristics> getCharacteristics() {
-        return characteristics;
+        return Collections.unmodifiableList(characteristics);
     }
 
-    public AbstractSensorML setCharacteristics(final List<SmlCharacteristics> characteristics) {
-        if (isSetCharacteristics()) {
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public AbstractSensorML setCharacteristics(final Collection<SmlCharacteristics> characteristics) {
+        this.characteristics.clear();
+        if (characteristics != null) {
             this.characteristics.addAll(characteristics);
-        } else {
-            this.characteristics = characteristics;
         }
         return this;
     }
@@ -235,15 +243,17 @@ public abstract class AbstractSensorML
     }
 
     public AbstractSensorML addCharacteristic(final SmlCharacteristics characteristic) {
-        characteristics.add(characteristic);
+        if (characteristic != null) {
+            characteristics.add(characteristic);
+        }
         return this;
     }
 
     public List<SmlCapabilities> getCapabilities() {
-        return capabilities;
+        return Collections.unmodifiableList(capabilities);
     }
 
-    public AbstractSensorML addCapabilities(final List<SmlCapabilities> capabilities) {
+    public AbstractSensorML addCapabilities(final Collection<SmlCapabilities> capabilities) {
         if (capabilities != null) {
             this.capabilities.addAll(capabilities);
         }
@@ -262,14 +272,15 @@ public abstract class AbstractSensorML
         }
     }
 
-    public void removeCapabilities(SmlCapabilities caps) {
+    public AbstractSensorML removeCapabilities(SmlCapabilities caps) {
         if (this.capabilities != null) {
             this.capabilities.remove(caps);
         }
+        return this;
     }
 
     public List<SmlContact> getContact() {
-        return contacts;
+        return Collections.unmodifiableList(contacts);
     }
 
     /**
@@ -287,49 +298,56 @@ public abstract class AbstractSensorML
         return null;
     }
 
-    private SmlContact getContact(List<SmlContact> contacts, String contactRole) {
-        for (SmlContact contact : contacts) {
-            if (contact instanceof SmlContactList) {
-                SmlContact cont = getContact(((SmlContactList) contact).getMembers(), contactRole);
-                if (cont != null) {
-                    return cont;
+    private SmlContact getContact(Collection<SmlContact> contacts, String contactRole) {
+        if (contacts != null) {
+            for (SmlContact contact : contacts) {
+                if (contact instanceof SmlContactList) {
+                    SmlContact cont = getContact(((SmlContactList) contact).getMembers(), contactRole);
+                    if (cont != null) {
+                        return cont;
+                    }
+                } else if (contact.getRole() != null && contact.getRole().equals(contactRole)
+                        && contact instanceof SmlResponsibleParty) {
+                    return (SmlResponsibleParty) contact;
                 }
-            } else if (contact.getRole() != null && contact.getRole().equals(contactRole)
-                    && contact instanceof SmlResponsibleParty) {
-                return (SmlResponsibleParty) contact;
             }
         }
         return null;
     }
 
-    public AbstractSensorML setContact(List<SmlContact> contacts) {
-        if (isSetContact()) {
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public AbstractSensorML setContact(Collection<SmlContact> contacts) {
+        this.contacts.clear();
+        if (contacts != null) {
             this.contacts.addAll(contacts);
-        } else {
-            this.contacts = contacts;
         }
         return this;
     }
 
     public AbstractSensorML addContact(final SmlContact contact) {
-        if (this.contacts == null) {
-            this.contacts = new LinkedList<>();
+        if (contact != null) {
+            this.contacts.add(contact);
         }
-        this.contacts.add(contact);
         return this;
     }
 
     public List<AbstractSmlDocumentation> getDocumentation() {
-        return documentations;
+        return Collections.unmodifiableList(documentations);
     }
 
-    public AbstractSensorML setDocumentation(final List<AbstractSmlDocumentation> documentations) {
-        this.documentations.addAll(documentations);
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public AbstractSensorML setDocumentation(final Collection<AbstractSmlDocumentation> documentations) {
+        this.documentations.clear();
+        if (documentations != null) {
+            this.documentations.addAll(documentations);
+        }
         return this;
     }
 
     public AbstractSensorML addDocumentation(final AbstractSmlDocumentation documentation) {
-        documentations.add(documentation);
+        if (documentation != null) {
+            documentations.add(documentation);
+        }
         return this;
     }
 
@@ -381,7 +399,7 @@ public abstract class AbstractSensorML
 
     public boolean isSetMobile() {
         return getSweBooleanFromCapabilitiesFor(
-                Sets.newHashSet(SensorMLConstants.STATIONARY, SensorMLConstants.MOBILE)) == null ? false : true;
+                Sets.newHashSet(SensorMLConstants.STATIONARY, SensorMLConstants.MOBILE)) != null;
     }
 
     public boolean getMobile() {
@@ -397,8 +415,7 @@ public abstract class AbstractSensorML
 
     public boolean isSetInsitu() {
         return getSweBooleanFromCapabilitiesFor(
-                Sets.newHashSet(Sets.newHashSet(SensorMLConstants.INSITU, SensorMLConstants.REMOTE))) == null ? false
-                        : true;
+                Sets.newHashSet(Sets.newHashSet(SensorMLConstants.INSITU, SensorMLConstants.REMOTE))) != null;
     }
 
     public boolean getInsitu() {

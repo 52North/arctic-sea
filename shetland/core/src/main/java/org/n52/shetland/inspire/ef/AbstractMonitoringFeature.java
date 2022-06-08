@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +15,8 @@
  */
 package org.n52.shetland.inspire.ef;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
 
 import org.n52.shetland.inspire.base.Identifier;
@@ -47,7 +48,7 @@ public abstract class AbstractMonitoringFeature extends AbstractMonitoringObject
         super(inspireId, mediaMonitored);
     }
 
-    public AbstractMonitoringFeature(Identifier inspireId, Set<ReferenceType> mediaMonitored) {
+    public AbstractMonitoringFeature(Identifier inspireId, Collection<ReferenceType> mediaMonitored) {
         super(inspireId, mediaMonitored);
     }
 
@@ -55,15 +56,20 @@ public abstract class AbstractMonitoringFeature extends AbstractMonitoringObject
      * @return the reportedTo
      */
     public Set<ReportToLegalAct> getReportedTo() {
-        return reportedTo;
+        return Collections.unmodifiableSet(reportedTo);
     }
 
     /**
-     * @param reportedTo the reportedTo to set
+     * @param reportedTo
+     *            the reportedTo to set
+     * @return this
      */
-    public void setReportedTo(Set<ReportToLegalAct> reportedTo) {
+    public AbstractMonitoringFeature setReportedTo(Collection<ReportToLegalAct> reportedTo) {
         this.reportedTo.clear();
-        this.reportedTo = reportedTo;
+        if (reportedTo != null) {
+            this.reportedTo.addAll(reportedTo);
+        }
+        return this;
     }
 
     public boolean isSetReportedTo() {
@@ -74,26 +80,33 @@ public abstract class AbstractMonitoringFeature extends AbstractMonitoringObject
      * @return the hasObservation
      */
     public Set<Referenceable<OmObservation>> getHasObservation() {
-        return hasObservation;
+        return Collections.unmodifiableSet(hasObservation);
     }
 
     /**
-     * @param hasObservation the hasObservation to set
+     * @param hasObservationa
+     *            the hasObservation to set
+     * @return this
      */
-    public void setHasObservation(Set<Referenceable<OmObservation>> hasObservation) {
+    public AbstractMonitoringFeature setHasObservation(Collection<Referenceable<OmObservation>> hasObservation) {
         this.hasObservation.clear();
-        this.hasObservation = hasObservation;
+        if (hasObservation != null) {
+            this.hasObservation.addAll(hasObservation);
+        }
+        return this;
     }
 
     /**
-     * @param hasObservation the hasObservation to add
+     * @param hasObservation
+     *            the hasObservation to add
      */
     public void addHasObservation(OmObservation hasObservation) {
         this.hasObservation.add(Referenceable.of(hasObservation));
     }
 
     /**
-     * @param hasObservation the hasObservation to add
+     * @param hasObservation
+     *            the hasObservation to add
      */
     public void addHasObservation(Referenceable<OmObservation> hasObservation) {
         this.hasObservation.add(hasObservation);
@@ -107,15 +120,21 @@ public abstract class AbstractMonitoringFeature extends AbstractMonitoringObject
      * @return the involvedIn
      */
     public Set<Referenceable<EnvironmentalMonitoringActivity>> getInvolvedIn() {
-        return involvedIn;
+        return Collections.unmodifiableSet(involvedIn);
     }
 
     /**
-     * @param involvedIn the involvedIn to set
+     * @param involvedIn
+     *            the involvedIn to set
+     * @return this
      */
-    public void setInvolvedIn(Set<Referenceable<EnvironmentalMonitoringActivity>> involvedIn) {
+    public AbstractMonitoringFeature setInvolvedIn(
+            Collection<Referenceable<EnvironmentalMonitoringActivity>> involvedIn) {
         this.involvedIn.clear();
-        this.involvedIn = involvedIn;
+        if (involvedIn != null) {
+            this.involvedIn.addAll(involvedIn);
+        }
+        return this;
     }
 
     public boolean isSetInvolvedIn() {

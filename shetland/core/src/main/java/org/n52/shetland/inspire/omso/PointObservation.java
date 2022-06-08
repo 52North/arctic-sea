@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,8 +29,7 @@ import org.n52.shetland.ogc.om.features.samplingFeatures.InvalidSridException;
 import org.n52.shetland.ogc.om.values.CvDiscretePointCoverage;
 import org.n52.shetland.ogc.om.values.GeometryValue;
 
-public class PointObservation
-        extends AbstractInspireObservation {
+public class PointObservation extends AbstractInspireObservation {
 
     /**
      * constructor
@@ -68,7 +66,7 @@ public class PointObservation
     }
 
     @Override
-    public void setValue(ObservationValue<?> value) {
+    public PointObservation setValue(ObservationValue<?> value) {
         if (value instanceof StreamingValue<?>) {
             super.setValue(value);
         } else if (value.getValue() instanceof CvDiscretePointCoverage) {
@@ -101,6 +99,7 @@ public class PointObservation
             }
             super.setValue(new SingleObservationValue<>(value.getPhenomenonTime(), cvDiscretePointCoverage));
         }
+        return this;
     }
 
 }

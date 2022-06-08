@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,8 +41,7 @@ import org.locationtech.jts.geom.impl.CoordinateArraySequence;
  *
  * @since 1.0.0
  */
-public class GeoJSONEncoder
-        extends JSONEncoder<Geometry> {
+public class GeoJSONEncoder extends JSONEncoder<Geometry> {
     public static final int DEFAULT_SRID = 4326;
 
     public static final String SRID_LINK_PREFIX = "http://www.opengis.net/def/crs/EPSG/0/";
@@ -55,8 +53,7 @@ public class GeoJSONEncoder
     }
 
     @Override
-    public ObjectNode encodeJSON(Geometry value)
-            throws JSONEncodingException {
+    public ObjectNode encodeJSON(Geometry value) throws JSONEncodingException {
         if (value == null) {
             return null;
         } else {
@@ -64,8 +61,7 @@ public class GeoJSONEncoder
         }
     }
 
-    protected ObjectNode encodeGeometry(Geometry geometry, int parentSrid)
-            throws JSONEncodingException {
+    protected ObjectNode encodeGeometry(Geometry geometry, int parentSrid) throws JSONEncodingException {
         Preconditions.checkNotNull(geometry);
         if (geometry.isEmpty()) {
             return null;
@@ -149,8 +145,7 @@ public class GeoJSONEncoder
         return json;
     }
 
-    public ObjectNode encode(GeometryCollection geometry, int parentSrid)
-            throws JSONEncodingException {
+    public ObjectNode encode(GeometryCollection geometry, int parentSrid) throws JSONEncodingException {
         Preconditions.checkNotNull(geometry);
         ObjectNode json = jsonFactory.objectNode();
         ArrayNode geometries =
@@ -205,7 +200,7 @@ public class GeoJSONEncoder
     }
 
     protected int encodeCRS(int srid, int parentSrid, ObjectNode json) {
-        if (srid == parentSrid || srid == 0 || (parentSrid == DEFAULT_SRID && srid == DEFAULT_SRID)) {
+        if (srid == parentSrid || srid == 0 || parentSrid == DEFAULT_SRID && srid == DEFAULT_SRID) {
             return parentSrid;
         } else {
             json.putObject(JSONConstants.CRS).put(JSONConstants.TYPE, JSONConstants.LINK)

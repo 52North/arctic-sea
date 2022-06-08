@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,13 +15,12 @@
  */
 package org.n52.shetland.ogc.swe.simpleType;
 
-import java.util.Collection;
 import java.util.Objects;
 
 import org.n52.shetland.ogc.ows.extension.Value;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 
-import com.google.common.collect.Lists;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Interface for the SOS internal representation of SWE simpleTypes
@@ -32,12 +30,10 @@ import com.google.common.collect.Lists;
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  */
-public abstract class SweAbstractSimpleType<T>
-        extends SweAbstractDataComponent
-        implements Value<T, SweAbstractSimpleType<T>> {
+public abstract class SweAbstractSimpleType<
+        T> extends SweAbstractDataComponent implements Value<T, SweAbstractSimpleType<T>> {
 
-    // TODO quality needs to be a collection
-    private Collection<SweQuality> quality;
+    private SweQualityHolder quality;
 
     public abstract void setStringValue(String s);
 
@@ -46,28 +42,37 @@ public abstract class SweAbstractSimpleType<T>
      *
      * @return Quality information
      */
-    public Collection<SweQuality> getQuality() {
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
+    public SweQualityHolder getQuality() {
         return quality;
     }
 
     /**
      * Set quality information
      *
-     * @param quality quality information to set
+     * @param quality
+     *            quality information to set
      *
      * @return This SweAbstractSimpleType
      */
-    public SweAbstractSimpleType<T> setQuality(Collection<SweQuality> quality) {
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public SweAbstractSimpleType<T> setQuality(SweQualityHolder quality) {
         this.quality = quality;
         return this;
     }
 
     /**
      * @return <tt>true</tt>, if the quality field is not <tt>null</tt>,<br>
-     * <tt>false</tt> else.
+     *         <tt>false</tt> else.
      */
     public boolean isSetQuality() {
-        return quality != null && !quality.isEmpty();
+        return getQuality() != null && !getQuality().isEmpty();
+    }
+
+    public void copyQuality(SweAbstractSimpleType<T> copy) {
+        if (isSetQuality()) {
+            copy.setQuality(getQuality().copy());
+        }
     }
 
     @Override
@@ -77,16 +82,8 @@ public abstract class SweAbstractSimpleType<T>
 
     @Override
     public String toString() {
-        return String.format("%s [value=%s; quality=%s; simpleType=%s]",
-                             this.getClass().getSimpleName(), getValue(),
-                             getQuality(), getDataComponentType());
-    }
-
-    protected Collection<SweQuality> cloneQuality() {
-        if (isSetQuality()) {
-            return Lists.newArrayList(getQuality());
-        }
-        return null;
+        return String.format("%s [value=%s; quality=%s; simpleType=%s]", this.getClass().getSimpleName(), getValue(),
+                getQuality(), getDataComponentType());
     }
 
     @Override
@@ -104,8 +101,7 @@ public abstract class SweAbstractSimpleType<T>
             return false;
         }
         final SweAbstractSimpleType<?> other = (SweAbstractSimpleType<?>) obj;
-        return Objects.equals(this.getQuality(), other.getQuality()) &&
-               Objects.equals(getValue(), other.getValue());
+        return Objects.equals(this.getQuality(), other.getQuality()) && Objects.equals(getValue(), other.getValue());
     }
 
 }

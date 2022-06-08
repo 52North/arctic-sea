@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +18,8 @@ package org.n52.shetland.ogc.sensorML.elements;
 import org.n52.shetland.ogc.gml.AbstractReferenceType;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Abstract container class for {@link SweAbstractDataComponent}s
  *
@@ -28,7 +29,8 @@ import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
  * @param <T>
  *            Implemented class
  */
-public class AbstractDataComponentContainer<T> extends AbstractReferenceType {
+public class AbstractDataComponentContainer<
+        T> extends AbstractReferenceType {
 
     private String name;
 
@@ -59,6 +61,7 @@ public class AbstractDataComponentContainer<T> extends AbstractReferenceType {
      * @param abstractDataComponent
      *            data component
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public AbstractDataComponentContainer(String name, SweAbstractDataComponent abstractDataComponent) {
         this.name = name;
         this.abstractDataComponent = abstractDataComponent;
@@ -81,6 +84,7 @@ public class AbstractDataComponentContainer<T> extends AbstractReferenceType {
     /**
      * @return the abstractDataComponent
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SweAbstractDataComponent getAbstractDataComponent() {
         return abstractDataComponent;
     }
@@ -89,6 +93,7 @@ public class AbstractDataComponentContainer<T> extends AbstractReferenceType {
      * @param abstractDataComponent
      *            the abstractDataComponent to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setAbstractDataComponent(SweAbstractDataComponent abstractDataComponent) {
         this.abstractDataComponent = abstractDataComponent;
     }

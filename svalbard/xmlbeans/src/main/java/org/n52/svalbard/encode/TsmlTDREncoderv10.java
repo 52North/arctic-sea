@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -82,9 +81,7 @@ import net.opengis.watermlDr.x20.TimePositionListType;
  * @since 1.0.0
  *
  */
-public class TsmlTDREncoderv10
-        extends
-        AbstractTsmlEncoderv10 {
+public class TsmlTDREncoderv10 extends AbstractTsmlEncoderv10 {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TsmlTDREncoderv10.class);
 
@@ -93,13 +90,12 @@ public class TsmlTDREncoderv10
 
     private static final Set<EncoderKey> ENCODER_KEYS = createEncoderKeys();
 
-    private static final ImmutableSet<SupportedType> SUPPORTED_TYPES = ImmutableSet.<SupportedType>builder()
+    private static final ImmutableSet<SupportedType> SUPPORTED_TYPES = ImmutableSet.<SupportedType> builder()
             .add(new ObservationType(TimeseriesMLConstants.OBSERVATION_TYPE_MEASURMENT_TDR)).build();
 
-    private static final Map<String, Map<String, Set<String>>> SUPPORTED_RESPONSE_FORMATS = Collections
-            .singletonMap(SosConstants.SOS, Collections.singletonMap(
-                          Sos2Constants.SERVICEVERSION,
-                          Collections.singleton(TimeseriesMLConstants.NS_TSML_10)));
+    private static final Map<String, Map<String, Set<String>>> SUPPORTED_RESPONSE_FORMATS =
+            Collections.singletonMap(SosConstants.SOS, Collections.singletonMap(Sos2Constants.SERVICEVERSION,
+                    Collections.singleton(TimeseriesMLConstants.NS_TSML_10)));
 
     private static final String TIMESERIES_ID_PREFIX = "timeseries_";
 
@@ -109,7 +105,7 @@ public class TsmlTDREncoderv10
 
     public TsmlTDREncoderv10() {
         LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
-                     Joiner.on(", ").join(ENCODER_KEYS));
+                Joiner.on(", ").join(ENCODER_KEYS));
     }
 
     @Override
@@ -144,8 +140,8 @@ public class TsmlTDREncoderv10
 
     @Override
     public Set<String> getSupportedResponseFormats(String service, String version) {
-        if (SUPPORTED_RESPONSE_FORMATS.get(service) != null &&
-            SUPPORTED_RESPONSE_FORMATS.get(service).get(version) != null) {
+        if (SUPPORTED_RESPONSE_FORMATS.get(service) != null
+                && SUPPORTED_RESPONSE_FORMATS.get(service).get(version) != null) {
             return SUPPORTED_RESPONSE_FORMATS.get(service).get(version);
         }
         return Collections.emptySet();
@@ -154,8 +150,8 @@ public class TsmlTDREncoderv10
     @Override
     public Set<SchemaLocation> getSchemaLocations() {
         return Sets.newHashSet(TimeseriesMLConstants.TSML_10_SCHEMA_LOCATION,
-                               TimeseriesMLConstants.TSML_10_DR_SCHEMA_LOCATION,
-                               GmlCoverageConstants.GML_COVERAGE_10_SCHEMA_LOCATION);
+                TimeseriesMLConstants.TSML_10_DR_SCHEMA_LOCATION,
+                GmlCoverageConstants.GML_COVERAGE_10_SCHEMA_LOCATION);
     }
 
     @Override
@@ -164,8 +160,7 @@ public class TsmlTDREncoderv10
     }
 
     @Override
-    public XmlObject encode(Object element, EncodingContext additionalValues)
-            throws EncodingException {
+    public XmlObject encode(Object element, EncodingContext additionalValues) throws EncodingException {
         if (element instanceof ObservationValue) {
             return encodeResult((ObservationValue<?>) element);
         } else {
@@ -179,7 +174,7 @@ public class TsmlTDREncoderv10
         if (objectToEncode instanceof OmObservation) {
             try {
                 new TsmlTDREncoderv10XmlStreamWriter(ctx.with(StreamingEncoderFlags.ENCODER, this), outputStream,
-                                                     (OmObservation) objectToEncode).write();
+                        (OmObservation) objectToEncode).write();
             } catch (XMLStreamException xmlse) {
                 throw new EncodingException("Error while writing element to stream!", xmlse);
             }
@@ -189,25 +184,23 @@ public class TsmlTDREncoderv10
     }
 
     @Override
-    protected XmlObject createResult(OmObservation sosObservation)
-            throws EncodingException {
+    protected XmlObject createResult(OmObservation sosObservation) throws EncodingException {
         return createMeasurementDomainRange(sosObservation);
     }
 
     @Override
-    protected XmlObject encodeResult(ObservationValue<?> observationValue)
-            throws EncodingException {
+    protected XmlObject encodeResult(ObservationValue<?> observationValue) throws EncodingException {
         return createMeasurementDomainRange((AbstractObservationValue<?>) observationValue);
     }
 
     @Override
     protected void addObservationType(OMObservationType xbObservation, String observationType) {
         if (!Strings.isNullOrEmpty(observationType)) {
-            if (observationType.equals(OmConstants.OBS_TYPE_MEASUREMENT) ||
-                observationType.equals(TimeseriesMLConstants.OBSERVATION_TYPE_MEASURMENT_TDR)) {
+            if (observationType.equals(OmConstants.OBS_TYPE_MEASUREMENT)
+                    || observationType.equals(TimeseriesMLConstants.OBSERVATION_TYPE_MEASURMENT_TDR)) {
                 xbObservation.addNewType().setHref(TimeseriesMLConstants.OBSERVATION_TYPE_MEASURMENT_TDR);
-            } else if (observationType.equals(OmConstants.OBS_TYPE_CATEGORY_OBSERVATION) ||
-                       observationType.equals(TimeseriesMLConstants.OBSERVATION_TYPE_CATEGORICAL_TDR)) {
+            } else if (observationType.equals(OmConstants.OBS_TYPE_CATEGORY_OBSERVATION)
+                    || observationType.equals(TimeseriesMLConstants.OBSERVATION_TYPE_CATEGORICAL_TDR)) {
                 xbObservation.addNewType().setHref(TimeseriesMLConstants.OBSERVATION_TYPE_CATEGORICAL_TDR);
             }
         }
@@ -220,25 +213,25 @@ public class TsmlTDREncoderv10
     /**
      * Create a XML MeasurementTimeseriesDomainRange object from SOS observation for om:result
      *
-     * @param sosObservation SOS observation
+     * @param sosObservation
+     *            SOS observation
      *
      * @return XML MeasurementTimeseriesDomainRange object for om:result
      *
-     * @throws EncodingException If an error occurs
+     * @throws EncodingException
+     *             If an error occurs
      */
-    private XmlObject createMeasurementDomainRange(OmObservation sosObservation)
-            throws EncodingException {
-        if (!sosObservation.getObservationConstellation().isSetObservationType() ||
-            (sosObservation.getObservationConstellation().isSetObservationType() && isInvalidObservationType(
-             sosObservation.getObservationConstellation().getObservationType()))) {
+    private XmlObject createMeasurementDomainRange(OmObservation sosObservation) throws EncodingException {
+        if (!sosObservation.getObservationConstellation().isSetObservationType()
+                || sosObservation.getObservationConstellation().isSetObservationType() && isInvalidObservationType(
+                        sosObservation.getObservationConstellation().getObservationType())) {
             throw new UnsupportedEncoderInputException(this,
-                                                       sosObservation.getObservationConstellation()
-                                                               .isSetObservationType());
+                    sosObservation.getObservationConstellation().isSetObservationType());
         }
-        MeasurementTimeseriesDomainRangeDocument xbMearuementTimeseriesDomainRangeDoc
-                = MeasurementTimeseriesDomainRangeDocument.Factory.newInstance();
-        MeasurementTimeseriesCoverageType xbMeasurementTimeseriesDomainRange = xbMearuementTimeseriesDomainRangeDoc
-                .addNewMeasurementTimeseriesDomainRange();
+        MeasurementTimeseriesDomainRangeDocument xbMearuementTimeseriesDomainRangeDoc =
+                MeasurementTimeseriesDomainRangeDocument.Factory.newInstance();
+        MeasurementTimeseriesCoverageType xbMeasurementTimeseriesDomainRange =
+                xbMearuementTimeseriesDomainRangeDoc.addNewMeasurementTimeseriesDomainRange();
         xbMeasurementTimeseriesDomainRange.setId(TIMESERIES_ID_PREFIX + sosObservation.getObservationID());
 
         // set time position list
@@ -264,8 +257,8 @@ public class TsmlTDREncoderv10
         }
         quantityList.setUom(unit);
         // set unit to SosObservableProperty if not set.
-        if (observableProperty instanceof OmObservableProperty &&
-            !((OmObservableProperty) observableProperty).isSetUnit()) {
+        if (observableProperty instanceof OmObservableProperty
+                && !((OmObservableProperty) observableProperty).isSetUnit()) {
             ((OmObservableProperty) observableProperty).setUnit(unit);
         }
         // set up range set
@@ -279,15 +272,15 @@ public class TsmlTDREncoderv10
 
     private XmlObject createMeasurementDomainRange(AbstractObservationValue<?> observationValue)
             throws EncodingException {
-        if (!observationValue.isSetObservationType() ||
-            isInvalidObservationType(observationValue.getObservationType())) {
+        if (!observationValue.isSetObservationType()
+                || isInvalidObservationType(observationValue.getObservationType())) {
             return null;
         }
 
-        MeasurementTimeseriesDomainRangeDocument xbMearuementTimeseriesDomainRangeDoc
-                = MeasurementTimeseriesDomainRangeDocument.Factory.newInstance();
-        MeasurementTimeseriesCoverageType xbMeasurementTimeseriesDomainRange = xbMearuementTimeseriesDomainRangeDoc
-                .addNewMeasurementTimeseriesDomainRange();
+        MeasurementTimeseriesDomainRangeDocument xbMearuementTimeseriesDomainRangeDoc =
+                MeasurementTimeseriesDomainRangeDocument.Factory.newInstance();
+        MeasurementTimeseriesCoverageType xbMeasurementTimeseriesDomainRange =
+                xbMearuementTimeseriesDomainRangeDoc.addNewMeasurementTimeseriesDomainRange();
         xbMeasurementTimeseriesDomainRange.setId(TIMESERIES_ID_PREFIX + observationValue.getObservationID());
 
         // set time position list
@@ -329,20 +322,21 @@ public class TsmlTDREncoderv10
     /**
      * Create a SOS DataRecord object from SOS observation and encode to XmlBeans object
      *
-     * @param sosObservation SOS observation
+     * @param sosObservation
+     *            SOS observation
      *
      * @return XML DataRecord object
      *
-     * @throws EncodingException If an error occurs
+     * @throws EncodingException
+     *             If an error occurs
      */
-    private XmlObject createDataRecord(OmObservation sosObservation)
-            throws EncodingException {
+    private XmlObject createDataRecord(OmObservation sosObservation) throws EncodingException {
         AbstractPhenomenon observableProperty = sosObservation.getObservationConstellation().getObservableProperty();
         SweQuantity quantity = new SweQuantity();
         quantity.setDefinition(observableProperty.getIdentifier());
         quantity.setDescription(observableProperty.getDescription());
-        if (observableProperty instanceof OmObservableProperty &&
-            ((OmObservableProperty) observableProperty).isSetUnit()) {
+        if (observableProperty instanceof OmObservableProperty
+                && ((OmObservableProperty) observableProperty).isSetUnit()) {
             quantity.setUom(((OmObservableProperty) observableProperty).getUnit());
         }
         return createDataRecord(quantity, sosObservation.getObservationID());
@@ -358,27 +352,27 @@ public class TsmlTDREncoderv10
         return createDataRecord(quantity, observationValue.getObservationID());
     }
 
-    private XmlObject createDataRecord(SweQuantity quantity, String observationId)
-            throws EncodingException {
+    private XmlObject createDataRecord(SweQuantity quantity, String observationId) throws EncodingException {
         SweField field = new SweField("observed_value", quantity);
         SweDataRecord dataRecord = new SweDataRecord();
         dataRecord.setIdentifier(DATA_RECORD_ID_PREFIX + observationId);
         dataRecord.addField(field);
         return encodeObjectToXml(SweConstants.NS_SWE_20, dataRecord,
-                                 EncodingContext.of(XmlBeansEncodingFlags.FOR_OBSERVATION));
+                EncodingContext.of(XmlBeansEncodingFlags.FOR_OBSERVATION));
     }
 
     /**
      * Create a TimePositionList XML object from time values
      *
-     * @param sosObservation SOS observation
+     * @param sosObservation
+     *            SOS observation
      *
      * @return XML TimePositionList object
      *
-     * @throws EncodingException If an error occurs
+     * @throws EncodingException
+     *             If an error occurs
      */
-    private TimePositionListDocument getTimePositionList(OmObservation sosObservation)
-            throws EncodingException {
+    private TimePositionListDocument getTimePositionList(OmObservation sosObservation) throws EncodingException {
         TimePositionListDocument timePositionListDoc = TimePositionListDocument.Factory.newInstance();
         TimePositionListType timePositionList = timePositionListDoc.addNewTimePositionList();
         timePositionList.setId(TIME_POSITION_LIST_ID_PREFIX + sosObservation.getObservationID());
@@ -403,14 +397,15 @@ public class TsmlTDREncoderv10
     /**
      * Create a array from time values
      *
-     * @param sosObservationValues SOS multi value observation object
+     * @param sosObservationValues
+     *            SOS multi value observation object
      *
      * @return List with string representations of time values
      *
-     * @throws EncodingException If an error occurs
+     * @throws EncodingException
+     *             If an error occurs
      */
-    private List<String> getTimeArray(MultiObservationValues<?> sosObservationValues)
-            throws EncodingException {
+    private List<String> getTimeArray(MultiObservationValues<?> sosObservationValues) throws EncodingException {
         return ((TVPValue) sosObservationValues.getValue()).getValue().stream().map(TimeValuePair::getTime)
                 .map(this::getTimeString).collect(toList());
     }
@@ -418,14 +413,15 @@ public class TsmlTDREncoderv10
     /**
      * Get a value list from SOS TimeValuePair objects
      *
-     * @param timeValuePairs SOS TimeValuePair objects
+     * @param timeValuePairs
+     *            SOS TimeValuePair objects
      *
      * @return List with value objects
      *
-     * @throws EncodingException If an error occurs
+     * @throws EncodingException
+     *             If an error occurs
      */
-    private List<Object> getValueList(List<TimeValuePair> timeValuePairs)
-            throws EncodingException {
+    private List<Object> getValueList(List<TimeValuePair> timeValuePairs) throws EncodingException {
         return timeValuePairs.stream().map(TimeValuePair::getValue).map(value -> {
             if (value != null && (value instanceof CountValue || value instanceof QuantityValue)) {
                 return value.getValue();
@@ -436,19 +432,15 @@ public class TsmlTDREncoderv10
     }
 
     private boolean isInvalidObservationType(String observationType) {
-        return !(OmConstants.OBS_TYPE_COUNT_OBSERVATION.equals(observationType) ||
-                 OmConstants.OBS_TYPE_MEASUREMENT.equals(observationType) ||
-                 OmConstants.OBS_TYPE_SWE_ARRAY_OBSERVATION.equals(observationType));
+        return !(OmConstants.OBS_TYPE_COUNT_OBSERVATION.equals(observationType)
+                || OmConstants.OBS_TYPE_MEASUREMENT.equals(observationType)
+                || OmConstants.OBS_TYPE_SWE_ARRAY_OBSERVATION.equals(observationType));
     }
 
     private static Set<EncoderKey> createEncoderKeys() {
-        return CollectionHelper.union(
-                getDefaultEncoderKeys(),
-                CodingHelper.encoderKeysForElements(TimeseriesMLConstants.NS_TSML_DR_10,
-                                                    GetObservationResponse.class,
-                                                    OmObservation.class,
-                                                    AbstractFeature.class,
-                                                    SingleObservationValue.class,
-                                                    MultiObservationValues.class));
+        return CollectionHelper.union(getDefaultEncoderKeys(),
+                CodingHelper.encoderKeysForElements(TimeseriesMLConstants.NS_TSML_DR_10, GetObservationResponse.class,
+                        OmObservation.class, AbstractFeature.class, SingleObservationValue.class,
+                        MultiObservationValues.class));
     }
 }

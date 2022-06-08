@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,7 +39,8 @@ public class ObservationMergeIndicator {
     /**
      * Creates a new {@code ObservationMergeIndicator} that requires the supplied parameters to be equal.
      *
-     * @param parameters the parameters
+     * @param parameters
+     *            the parameters
      */
     private ObservationMergeIndicator(Set<Param> parameters) {
         this.parameters = Objects.requireNonNull(parameters);
@@ -49,7 +49,8 @@ public class ObservationMergeIndicator {
     /**
      * Sets that the parameter idoes not need to be equal to merge two observations.
      *
-     * @param param the parameter
+     * @param param
+     *            the parameter
      *
      * @return {@code this}
      */
@@ -61,7 +62,8 @@ public class ObservationMergeIndicator {
     /**
      * Sets that the parameter should be equal to merge two observations.
      *
-     * @param param the parameter
+     * @param param
+     *            the parameter
      *
      * @return {@code this}
      */
@@ -73,7 +75,8 @@ public class ObservationMergeIndicator {
     /**
      * Checks if all of the parameters should be equal to merge two observations.
      *
-     * @param param the parameters
+     * @param param
+     *            the parameters
      *
      * @return if all should be equal
      */
@@ -298,8 +301,8 @@ public class ObservationMergeIndicator {
     }
 
     /**
-     * Checks if the observation constellation (procedure, observable property, feature of interest and offering) should
-     * be equal to merge two observations.
+     * Checks if the observation constellation (procedure, observable property, feature of interest and
+     * offering) should be equal to merge two observations.
      *
      * @return if the observation constellation should be equal
      */
@@ -310,7 +313,8 @@ public class ObservationMergeIndicator {
     /**
      * Sets whether the procedure should be to merge two observations.
      *
-     * @param procedure if the procedure should be equal
+     * @param procedure
+     *            if the procedure should be equal
      *
      * @return {@code this}
      */
@@ -321,7 +325,8 @@ public class ObservationMergeIndicator {
     /**
      * Sets whether the observable property should be to merge two observations.
      *
-     * @param observableProperty if the observable property should be equal
+     * @param observableProperty
+     *            if the observable property should be equal
      *
      * @return {@code this}
      */
@@ -332,7 +337,8 @@ public class ObservationMergeIndicator {
     /**
      * Sets whether the feature of interest should be to merge two observations.
      *
-     * @param featureOfInterest if the feature of interest should be equal
+     * @param featureOfInterest
+     *            if the feature of interest should be equal
      *
      * @return {@code this}
      */
@@ -343,7 +349,8 @@ public class ObservationMergeIndicator {
     /**
      * Sets whether the offering should be to merge two observations.
      *
-     * @param offerings if the offerings should be equal
+     * @param offerings
+     *            if the offerings should be equal
      *
      * @return {@code this}
      */
@@ -354,7 +361,8 @@ public class ObservationMergeIndicator {
     /**
      * Sets whether the phenomenon time should be to merge two observations.
      *
-     * @param phenomenonTime if the phenomenon time should be equal
+     * @param phenomenonTime
+     *            if the phenomenon time should be equal
      *
      * @return {@code this}
      */
@@ -365,7 +373,8 @@ public class ObservationMergeIndicator {
     /**
      * Sets whether the result time should be to merge two observations.
      *
-     * @param resultTime if the result time should be equal
+     * @param resultTime
+     *            if the result time should be equal
      *
      * @return {@code this}
      */
@@ -376,7 +385,8 @@ public class ObservationMergeIndicator {
     /**
      * Sets whether the sampling geometry should be to merge two observations.
      *
-     * @param samplingGeometry if the sampling geometry should be equal
+     * @param samplingGeometry
+     *            if the sampling geometry should be equal
      *
      * @return {@code this}
      */
@@ -387,7 +397,8 @@ public class ObservationMergeIndicator {
     /**
      * Sets whether the observation type should be checked to merge two observations.
      *
-     * @param observationType if the observation type should be checked
+     * @param observationType
+     *            if the observation type should be checked
      *
      * @return {@code this}
      */
@@ -416,8 +427,8 @@ public class ObservationMergeIndicator {
     }
 
     /**
-     * Gets an indicator that requires the observation constellations (procedure, observable property, feature of
-     * interest and offering) to be the same.
+     * Gets an indicator that requires the observation constellations (procedure, observable property, feature
+     * of interest and offering) to be the same.
      *
      * @return the indicator
      */

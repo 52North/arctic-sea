@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +18,8 @@ package org.n52.iceland.statistics.api.parameters;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 public class ElasticsearchTypeRegistry {
     private static final String TYPE = "type";
@@ -48,10 +49,12 @@ public class ElasticsearchTypeRegistry {
     public static class ElasticsearchType {
         private final Map<String, Object> type;
 
+        @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
         public ElasticsearchType(Map<String, Object> type) {
             this.type = type;
         }
 
+        @SuppressFBWarnings({ "EI_EXPOSE_REP" })
         public Map<String, Object> getType() {
             return type;
         }

@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,15 +20,15 @@ import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.sensorML.HasPosition;
 import org.n52.shetland.ogc.sensorML.elements.SmlPosition;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Class that represents SensorML 2.0 PhysicalProcess.
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  */
-public class AbstractPhysicalProcess
-    extends DescribedObject
-    implements HasPosition<AbstractPhysicalProcess> {
+public class AbstractPhysicalProcess extends DescribedObject implements HasPosition<AbstractPhysicalProcess> {
 
     private ReferenceType attachedTo;
 
@@ -49,8 +48,8 @@ public class AbstractPhysicalProcess
     }
 
     /**
-     * Set the attachedTo reference. It is automatically added to
-     * parentProcedure list. If title is set, the title is used, else the href.
+     * Set the attachedTo reference. It is automatically added to parentProcedure list. If title is set, the
+     * title is used, else the href.
      *
      * @param attachedTo the attachedTo to set
      */
@@ -93,6 +92,7 @@ public class AbstractPhysicalProcess
     /**
      * @return the position
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SmlPosition getPosition() {
         return position;
     }
@@ -100,6 +100,7 @@ public class AbstractPhysicalProcess
     /**
      * @param position the position to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public AbstractPhysicalProcess setPosition(SmlPosition position) {
         this.position = position;
         return this;

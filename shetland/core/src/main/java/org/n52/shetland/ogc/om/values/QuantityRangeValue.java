@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,9 +28,18 @@ public class QuantityRangeValue extends SweQuantityRange
 
     /**
      * Creates a new {@code QuantityRangeValue}.
+     */
+    public QuantityRangeValue() {
+        super();
+    }
+
+    /**
+     * Creates a new {@code QuantityRangeValue}.
      *
-     * @param rangeStart the start of the range
-     * @param rangeEnd   the end of the range
+     * @param rangeStart
+     *            the start of the range
+     * @param rangeEnd
+     *            the end of the range
      */
     public QuantityRangeValue(BigDecimal rangeStart, BigDecimal rangeEnd) {
         super();
@@ -41,9 +49,12 @@ public class QuantityRangeValue extends SweQuantityRange
     /**
      * Creates a new {@code QuantityRangeValue}.
      *
-     * @param rangeStart the start of the range
-     * @param rangeEnd   the end of the range
-     * @param unit Unit of measure
+     * @param rangeStart
+     *            the start of the range
+     * @param rangeEnd
+     *            the end of the range
+     * @param unit
+     *            Unit of measure
      */
     public QuantityRangeValue(BigDecimal rangeStart, BigDecimal rangeEnd, String unit) {
         this(rangeStart, rangeEnd);
@@ -88,7 +99,9 @@ public class QuantityRangeValue extends SweQuantityRange
     }
 
     @Override
-    public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
+    public <
+            X,
+            E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
         return visitor.visit(this);
     }
 

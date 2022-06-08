@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +17,8 @@ package org.n52.shetland.ogc.sensorML.elements;
 
 import static java.util.stream.Collectors.toList;
 
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.n52.shetland.ogc.gml.CodeType;
@@ -35,19 +36,20 @@ import org.n52.shetland.util.CollectionHelper;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * SOS internal representation of SensorML position
  *
  * @since 1.0.0
  */
-public class SmlPosition
-        extends SweAbstractDataComponent {
+public class SmlPosition extends SweAbstractDataComponent {
 
     private boolean fixed;
 
     private String referenceFrame;
 
-    private List<? extends SweCoordinate<? extends Number>> position;
+    private List<? extends SweCoordinate<? extends Number>> position = new LinkedList<>();
 
     private SweVector vector;
 
@@ -72,8 +74,8 @@ public class SmlPosition
      * @param position
      *            Position coordinates
      */
-    public SmlPosition(
-            final String name, final boolean fixed, final String referenceFrame,
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public SmlPosition(final String name, final boolean fixed, final String referenceFrame,
             final List<SweCoordinate<? extends Number>> position) {
         super();
         setName(name);
@@ -94,8 +96,8 @@ public class SmlPosition
      * @param position
      *            Position coordinates
      */
-    public SmlPosition(
-            final CodeType name, final boolean fixed, final String referenceFrame,
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public SmlPosition(final CodeType name, final boolean fixed, final String referenceFrame,
             final List<SweCoordinate<? extends Number>> position) {
         super();
         setName(name);
@@ -171,7 +173,7 @@ public class SmlPosition
                 }
             }
         }
-        return position;
+        return Collections.unmodifiableList(position);
     }
 
     /**
@@ -180,8 +182,12 @@ public class SmlPosition
      *
      * @return This object
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SmlPosition setPosition(List<? extends SweCoordinate<? extends Number>> position) {
-        this.position = position;
+        this.position.clear();
+        if (position != null) {
+            this.position = position;
+        }
         return this;
     }
 
@@ -189,6 +195,7 @@ public class SmlPosition
         return CollectionHelper.isNotEmpty(position);
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SweVector getVector() {
         if (!isSetVector() && isSetPosition()) {
             SweVector v = (SweVector) copyValueTo(new SweVector(getPosition()));
@@ -201,14 +208,17 @@ public class SmlPosition
         return this.vector;
     }
 
-    public void setVector(SweVector vector) {
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public SmlPosition setVector(SweVector vector) {
         this.vector = vector;
+        return this;
     }
 
     public boolean isSetVector() {
         return vector != null;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SweAbstractDataComponent getAbstractDataComponent() {
         if (!isSetAbstractDataComponent() && isSetVector()) {
             return vector;
@@ -216,11 +226,13 @@ public class SmlPosition
         return dataComponent;
     }
 
-    public void setAbstractDataComponent(SweAbstractDataComponent dataComponent) {
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public SmlPosition setAbstractDataComponent(SweAbstractDataComponent dataComponent) {
         if (dataComponent instanceof SweVector) {
             setVector((SweVector) dataComponent);
         }
         this.dataComponent = dataComponent;
+        return this;
     }
 
     public boolean isSetAbstractDataComponent() {
@@ -228,17 +240,21 @@ public class SmlPosition
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SweDataComponentType getDataComponentType() {
         return SweDataComponentType.Position;
     }
 
     @Override
-    public <T, X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
+    public <
+            T,
+            X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
         return visitor.visit(this);
     }
 
     @Override
-    public <X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
+    public <
+            X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
         visitor.visit(this);
     }
 

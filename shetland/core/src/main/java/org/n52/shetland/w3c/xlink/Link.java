@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,16 +15,18 @@
  */
 package org.n52.shetland.w3c.xlink;
 
+import java.net.URI;
+import java.util.Objects;
+import java.util.Optional;
+
+import javax.annotation.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Strings;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-import javax.annotation.Nullable;
-import java.net.URI;
-import java.util.Objects;
-import java.util.Optional;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * TODO JavaDoc
@@ -57,12 +58,9 @@ public class Link {
 
     @SuppressFBWarnings(value = "NP_PARAMETER_MUST_BE_NONNULL_BUT_MARKED_AS_NULLABLE")
     @JsonCreator
-    public Link(@JsonProperty(HREF) @Nullable URI href,
-                @JsonProperty(ROLE) @Nullable URI role,
-                @JsonProperty(ARCROLE) @Nullable URI arcrole,
-                @JsonProperty(TITLE) @Nullable String title,
-                @JsonProperty(SHOW) @Nullable Show show,
-                @JsonProperty(ACTUATE) @Nullable Actuate actuate) {
+    public Link(@JsonProperty(HREF) @Nullable URI href, @JsonProperty(ROLE) @Nullable URI role,
+            @JsonProperty(ARCROLE) @Nullable URI arcrole, @JsonProperty(TITLE) @Nullable String title,
+            @JsonProperty(SHOW) @Nullable Show show, @JsonProperty(ACTUATE) @Nullable Actuate actuate) {
         this.href = Optional.ofNullable(href);
         this.role = Optional.ofNullable(role);
         this.arcrole = Optional.ofNullable(arcrole);
@@ -103,8 +101,7 @@ public class Link {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getHref(), getRole(), getArcrole(),
-                            getTitle(), getShow(), getActuate());
+        return Objects.hash(getHref(), getRole(), getArcrole(), getTitle(), getShow(), getActuate());
     }
 
     @Override
@@ -119,12 +116,10 @@ public class Link {
             return false;
         }
         final Link other = (Link) obj;
-        return Objects.equals(this.getHref(), other.getHref()) &&
-               Objects.equals(this.getRole(), other.getRole()) &&
-               Objects.equals(this.getArcrole(), other.getArcrole()) &&
-               Objects.equals(this.getTitle(), other.getTitle()) &&
-               Objects.equals(this.getShow(), other.getShow()) &&
-               Objects.equals(this.getActuate(), other.getActuate());
+        return Objects.equals(this.getHref(), other.getHref()) && Objects.equals(this.getRole(), other.getRole())
+                && Objects.equals(this.getArcrole(), other.getArcrole())
+                && Objects.equals(this.getTitle(), other.getTitle()) && Objects.equals(this.getShow(), other.getShow())
+                && Objects.equals(this.getActuate(), other.getActuate());
     }
 
 }

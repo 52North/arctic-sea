@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61,7 +60,7 @@ public class FilterCapabilities {
      * Set spatial operands
      *
      * @param spatialOperands
-     *                        spatial operands
+     *            spatial operands
      */
     public void setSpatialOperands(Collection<QName> spatialOperands) {
         this.spatialOperands.clear();
@@ -81,7 +80,7 @@ public class FilterCapabilities {
      * Set spatial operators
      *
      * @param spatialOperators
-     *                         spatial operators
+     *            spatial operators
      */
     public void setSpatialOperators(Map<SpatialOperator, ? extends Collection<QName>> spatialOperators) {
         setOperators(this.spatialOperators, spatialOperators);
@@ -100,7 +99,7 @@ public class FilterCapabilities {
      * Set temporal operands
      *
      * @param temporalOperands
-     *                         temporal operands
+     *            temporal operands
      */
     public void setTemporalOperands(Collection<QName> temporalOperands) {
         this.temporalOperands.clear();
@@ -120,14 +119,15 @@ public class FilterCapabilities {
      * Set temporal operators
      *
      * @param temporalOperators
-     *                          temporal operators
+     *            temporal operators
      */
     public void setTemporalOperators(Map<TimeOperator, ? extends Collection<QName>> temporalOperators) {
         setOperators(this.temporalOperators, temporalOperators);
     }
 
-    private <T> void setOperators(SortedMap<T, SortedSet<QName>> operators,
-                                  Map<T, ? extends Collection<QName>> newOperators) {
+    private <
+            T> void setOperators(SortedMap<T, SortedSet<QName>> operators,
+                    Map<T, ? extends Collection<QName>> newOperators) {
         operators.clear();
         Optional.ofNullable(newOperators).ifPresent(so -> {
             so.forEach((operator, qnames) -> {
@@ -152,7 +152,7 @@ public class FilterCapabilities {
      * Set comparison operators
      *
      * @param comparisonOperators
-     *                            comparison operators
+     *            comparison operators
      */
     public void setComparisonOperators(Collection<ComparisonOperator> comparisonOperators) {
         this.comparisonOperators.clear();

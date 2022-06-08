@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -62,6 +61,8 @@ import com.siemens.ct.exi.core.EXIFactory;
 import com.siemens.ct.exi.core.exceptions.EXIException;
 import com.siemens.ct.exi.main.api.sax.EXISource;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 
 /**
  * Binding implementation for EXI - Efficient XML Interchange See See
@@ -78,6 +79,7 @@ public class EXIBinding extends SimpleBinding {
     private final EXIUtils exiUtils;
 
     @Inject
+    @SuppressFBWarnings({"EI_EXPOSE_REP2"})
     public EXIBinding(EXIUtils exiUtils) {
         this.exiUtils = exiUtils;
     }

@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.common.base.MoreObjects;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Event is thrown if a {@link HttpServletResponse} was sent back.
  *
@@ -35,6 +36,7 @@ public class OutgoingResponseEvent extends AbstractFlowEvent {
     private final long requestNumber;
     private final long elapsedTime;
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public OutgoingResponseEvent(HttpServletRequest request, HttpServletResponse response, long requestNumber,
                                  long elapsedTime) {
         super(Thread.currentThread().getId());
@@ -48,6 +50,7 @@ public class OutgoingResponseEvent extends AbstractFlowEvent {
         return request;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public HttpServletResponse getResponse() {
         return response;
     }

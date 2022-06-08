@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,11 +21,10 @@ import org.n52.shetland.ogc.gml.AbstractFeature;
  * @since 1.0.0
  *
  */
-public class SosProcedureDescriptionUnknownType
-        extends SosProcedureDescription<AbstractFeature> {
+public class SosProcedureDescriptionUnknownType extends SosProcedureDescription<AbstractFeature> {
 
-    public SosProcedureDescriptionUnknownType(
-            String identifier, String procedureDescriptionFormat, String xmlDescription) {
+    public SosProcedureDescriptionUnknownType(String identifier, String procedureDescriptionFormat,
+            String xmlDescription) {
         super(new UnknownGMLDescription(identifier, procedureDescriptionFormat, xmlDescription));
     }
 
@@ -50,8 +48,7 @@ public class SosProcedureDescriptionUnknownType
         return this;
     }
 
-    private static class UnknownGMLDescription
-            extends AbstractFeature {
+    private static class UnknownGMLDescription extends AbstractFeature {
         UnknownGMLDescription(String identifier, String procedureDescriptionFormat, String xmlDescription) {
             super(identifier);
             setDefaultElementEncoding(procedureDescriptionFormat);

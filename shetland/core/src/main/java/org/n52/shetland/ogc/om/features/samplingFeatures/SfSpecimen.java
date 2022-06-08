@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +15,11 @@
  */
 package org.n52.shetland.ogc.om.features.samplingFeatures;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
+import org.locationtech.jts.geom.Geometry;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.gml.time.Time;
@@ -27,10 +29,10 @@ import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.w3c.xlink.Referenceable;
 
 import com.google.common.collect.Lists;
-import org.locationtech.jts.geom.Geometry;
 
-public class SfSpecimen
-        extends SamplingFeature {
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+public class SfSpecimen extends SamplingFeature {
 
     /*
      * 1..1
@@ -89,13 +91,15 @@ public class SfSpecimen
      * @param materialClass
      *            the materialClass to set
      */
-    public void setMaterialClass(ReferenceType materialClass) {
+    public SfSpecimen setMaterialClass(ReferenceType materialClass) {
         this.materialClass = materialClass;
+        return this;
     }
 
     /**
      * @return the samplingTime
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Time getSamplingTime() {
         return samplingTime;
     }
@@ -104,8 +108,10 @@ public class SfSpecimen
      * @param samplingTime
      *            the samplingTime to set
      */
-    public void setSamplingTime(Time samplingTime) {
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public SfSpecimen setSamplingTime(Time samplingTime) {
         this.samplingTime = samplingTime;
+        return this;
     }
 
     /**
@@ -119,16 +125,18 @@ public class SfSpecimen
      * @param samplingMethod
      *            the samplingMethod to set
      */
-    public void setSamplingMethod(SfProcess samplingMethod) {
+    public SfSpecimen setSamplingMethod(SfProcess samplingMethod) {
         this.samplingMethod = Referenceable.of(samplingMethod);
+        return this;
     }
 
     /**
      * @param samplingMethod
      *            the samplingMethod to set
      */
-    public void setSamplingMethod(Referenceable<SfProcess> samplingMethod) {
+    public SfSpecimen setSamplingMethod(Referenceable<SfProcess> samplingMethod) {
         this.samplingMethod = samplingMethod;
+        return this;
     }
 
     public boolean isSetSamplingMethod() {
@@ -148,8 +156,9 @@ public class SfSpecimen
      * @throws InvalidSridException
      *             If the SRID is invalid
      */
-    public void setSamplingLocation(Geometry samplingLocation) throws InvalidSridException {
+    public SfSpecimen setSamplingLocation(Geometry samplingLocation) throws InvalidSridException {
         setGeometry(samplingLocation);
+        return this;
     }
 
     public boolean isSetSamplingLocation() {
@@ -160,24 +169,34 @@ public class SfSpecimen
      * @return the processingDetails
      */
     public List<PreparationStep> getProcessingDetails() {
-        return processingDetails;
+        return Collections.unmodifiableList(processingDetails);
     }
 
     /**
      * @param processingDetails
      *            the processingDetails to set
+     * @return this
      */
-    public void setProcessingDetails(List<PreparationStep> processingDetails) {
+    public SfSpecimen setProcessingDetails(Collection<PreparationStep> processingDetails) {
         this.processingDetails.clear();
-        this.processingDetails.addAll(processingDetails);
+        if (processingDetails != null) {
+            this.processingDetails.addAll(processingDetails);
+        }
+        return this;
     }
 
-    public void addProcessingDetails(PreparationStep processingDetails) {
-        this.processingDetails.add(processingDetails);
+    public SfSpecimen addProcessingDetails(PreparationStep processingDetails) {
+        if (processingDetails != null) {
+            this.processingDetails.add(processingDetails);
+        }
+        return this;
     }
 
-    public void addProcessingDetails(List<PreparationStep> processingDetails) {
-        this.processingDetails.addAll(processingDetails);
+    public SfSpecimen addProcessingDetails(Collection<PreparationStep> processingDetails) {
+        if (processingDetails != null) {
+            this.processingDetails.addAll(processingDetails);
+        }
+        return this;
     }
 
     public boolean isSetProcessingDetails() {
@@ -187,6 +206,7 @@ public class SfSpecimen
     /**
      * @return the size
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public QuantityValue getSize() {
         return size;
     }
@@ -195,8 +215,10 @@ public class SfSpecimen
      * @param size
      *            the size to set
      */
-    public void setSize(QuantityValue size) {
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public SfSpecimen setSize(QuantityValue size) {
         this.size = size;
+        return this;
     }
 
     public boolean isSetSize() {
@@ -214,8 +236,9 @@ public class SfSpecimen
      * @param currentLocation
      *            the currentLocation to set
      */
-    public void setCurrentLocation(Referenceable<SpecLocation> currentLocation) {
+    public SfSpecimen setCurrentLocation(Referenceable<SpecLocation> currentLocation) {
         this.currentLocation = currentLocation;
+        return this;
     }
 
     public boolean isSetCurrentLocation() {
@@ -232,9 +255,11 @@ public class SfSpecimen
     /**
      * @param specimenType
      *            the specimenType to set
+     * @return this
      */
-    public void setSpecimenType(ReferenceType specimenType) {
+    public SfSpecimen setSpecimenType(ReferenceType specimenType) {
         this.specimenType = specimenType;
+        return this;
     }
 
     public boolean isSetSpecimenType() {
@@ -242,7 +267,8 @@ public class SfSpecimen
     }
 
     @Override
-    public <X> X accept(FeatureOfInterestVisitor<X> visitor) throws OwsExceptionReport {
+    public <
+            X> X accept(FeatureOfInterestVisitor<X> visitor) throws OwsExceptionReport {
         return visitor.visit(this);
     }
 }

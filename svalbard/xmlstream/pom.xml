@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright 2015-2021 52°North Initiative for Geospatial Open Source
-    Software GmbH
+    Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -22,7 +21,7 @@
     <parent>
         <groupId>org.n52.arctic-sea</groupId>
         <artifactId>svalbard-parent</artifactId>
-        <version>8.3.0-SNAPSHOT</version>
+        <version>9.6.0-SNAPSHOT</version>
     </parent>
     <artifactId>svalbard-xmlstream</artifactId>
     <name>52°North Svalbard XML Stream</name>
@@ -35,6 +34,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>janmayen</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -67,6 +67,7 @@
         <dependency>
             <groupId>org.apache.jena</groupId>
             <artifactId>jena-core</artifactId>
+            <scope>provided</scope>
         </dependency>
         <!-- Testing dependencies -->
         <dependency>
@@ -109,10 +110,12 @@
         <dependency>
             <groupId>org.n52.sensorweb</groupId>
             <artifactId>52n-xml-swes-v20</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.n52.sensorweb</groupId>
             <artifactId>52n-xml-om-v20</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.xmlbeans</groupId>
@@ -131,6 +134,12 @@
         <dependency>
             <groupId>stax</groupId>
             <artifactId>stax-api</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>xml-apis</groupId>
+            <artifactId>xml-apis</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>xmlunit</groupId>
@@ -140,6 +149,12 @@
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

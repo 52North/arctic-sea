@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,11 +39,13 @@ public class CiResponsibleParty extends AbstractObject {
     private Nillable<Role> role;
 
     public CiResponsibleParty() {
-        this.role = Nillable.<Role>missing();
+        this.role = Nillable.<
+                Role> missing();
     }
 
     public CiResponsibleParty(Role role) {
-        this.role = Nillable.<Role>of(role);
+        this.role = Nillable.<
+                Role> of(role);
     }
 
     public CiResponsibleParty(Nillable<Role> role) {
@@ -98,7 +99,8 @@ public class CiResponsibleParty extends AbstractObject {
     }
 
     /**
-     * @param contactInfo the contactInfo to set
+     * @param contactInfo
+     *            the contactInfo to set
      *
      * @return {@code this}
      */
@@ -110,7 +112,8 @@ public class CiResponsibleParty extends AbstractObject {
     }
 
     /**
-     * @param contactInfo the contactInfo to set
+     * @param contactInfo
+     *            the contactInfo to set
      *
      * @return {@code this}
      */

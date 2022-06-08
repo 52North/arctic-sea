@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,13 +20,11 @@ import java.util.Set;
 
 import org.apache.xmlbeans.XmlObject;
 import org.isotc211.x2005.gco.CodeListValueType;
-
 import org.n52.shetland.iso.GcoConstants;
 import org.n52.shetland.ogc.sensorML.Role;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.exception.UnsupportedDecoderXmlInputException;
 import org.n52.svalbard.util.CodingHelper;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

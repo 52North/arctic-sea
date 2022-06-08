@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,15 +30,16 @@ public abstract class AbstractProcessOutputDescription extends AbstractDataDescr
         super(builder);
     }
 
-    protected abstract static class AbstractBuilder<T extends ProcessOutputDescription, B extends AbstractBuilder<T, B>>
-            extends AbstractDataDescription.AbstractBuilder<T, B>
+    protected abstract static class AbstractBuilder<
+            T extends ProcessOutputDescription,
+            B extends AbstractBuilder<T, B>> extends AbstractDataDescription.AbstractBuilder<T, B>
             implements ProcessOutputDescription.Builder<T, B> {
         protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory) {
             super(factory);
         }
 
         protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
-                                  ProcessOutputDescription entity) {
+                ProcessOutputDescription entity) {
             super(factory, entity);
         }
     }

@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,6 +51,7 @@ public class QueryBuilder {
         this(url, StandardCharsets.UTF_8);
     }
 
+    @SuppressFBWarnings("EI_EXPOSE_REP2")
     public QueryBuilder(URL url, Charset charset) {
         this.charset = Objects.requireNonNull(charset);
         this.url = Objects.requireNonNull(url);

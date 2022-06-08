@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +15,20 @@
  */
 package org.n52.shetland.w3c.soap;
 
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.n52.shetland.ogc.ows.service.OwsServiceCommunicationObject;
 
-public abstract class AbstractSoap<T extends OwsServiceCommunicationObject> {
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+public abstract class AbstractSoap<
+        T extends OwsServiceCommunicationObject> {
     private String soapNamespace;
     private String soapVersion;
     private String soapAction;
-    private List<SoapHeader> soapHeader;
+    private List<SoapHeader> soapHeader = new LinkedList<>();
     private T bodyContent;
     private SoapFault soapFault;
 
@@ -82,7 +86,10 @@ public abstract class AbstractSoap<T extends OwsServiceCommunicationObject> {
     }
 
     public AbstractSoap<T> setSoapHeader(List<SoapHeader> soapHeader) {
-        this.soapHeader = soapHeader;
+        this.soapHeader.clear();
+        if (soapHeader != null) {
+            this.soapHeader.addAll(soapHeader);
+        }
         return this;
     }
 
@@ -90,7 +97,7 @@ public abstract class AbstractSoap<T extends OwsServiceCommunicationObject> {
      * @return the soapHeader
      */
     public List<SoapHeader> getSoapHeader() {
-        return soapHeader;
+        return Collections.unmodifiableList(soapHeader);
     }
 
     public AbstractSoap<T> setHeader(List<SoapHeader> list) {
@@ -109,20 +116,24 @@ public abstract class AbstractSoap<T extends OwsServiceCommunicationObject> {
         return soapAction;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public T getSoapBodyContent() {
         return bodyContent;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public AbstractSoap<T> setSoapBodyContent(T bodyContent) {
         this.bodyContent = bodyContent;
         return this;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public AbstractSoap<T> setBodyContent(T response) {
         this.bodyContent = response;
         return this;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public T getBodyContent() {
         return bodyContent;
     }
@@ -135,15 +146,18 @@ public abstract class AbstractSoap<T extends OwsServiceCommunicationObject> {
         return getBodyContent() != null;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public AbstractSoap<T> setSoapFault(SoapFault soapFault) {
         this.soapFault = soapFault;
         return this;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SoapFault getSoapFault() {
         return soapFault;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public boolean hasSoapFault() {
         return getSoapFault() != null;
     }

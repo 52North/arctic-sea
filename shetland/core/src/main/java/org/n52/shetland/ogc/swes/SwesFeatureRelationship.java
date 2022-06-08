@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +17,8 @@ package org.n52.shetland.ogc.swes;
 
 import org.n52.shetland.ogc.gml.AbstractFeature;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * @since 1.0.0
  *
@@ -27,6 +28,7 @@ public class SwesFeatureRelationship {
 
     private AbstractFeature feature;
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SwesFeatureRelationship(String role, AbstractFeature feature) {
         this.role = role;
         this.feature = feature;
@@ -44,10 +46,12 @@ public class SwesFeatureRelationship {
         this.role = role;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public AbstractFeature getFeature() {
         return feature;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setFeature(AbstractFeature feature) {
         this.feature = feature;
     }

@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,15 +31,15 @@ import com.google.common.collect.Maps;
  *
  * @since 1.0.0
  */
-public class FeatureCollection
-        extends AbstractFeature
-        implements Iterable<AbstractFeature> {
+public class FeatureCollection extends AbstractFeature implements Iterable<AbstractFeature> {
 
     private static String GML_FEATURE_COLLECTION = "gml:FeatureCollection";
     /**
      * members of this feature collection
      */
-    private SortedMap<String, AbstractFeature> members = Maps.<String, AbstractFeature> newTreeMap();
+    private SortedMap<String, AbstractFeature> members = Maps.<
+            String,
+            AbstractFeature> newTreeMap();
 
     /**
      * constructor

@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,13 +18,6 @@ package org.n52.svalbard.decode;
 import java.util.Collections;
 import java.util.Set;
 
-import net.opengis.gml.x32.FeaturePropertyType;
-import net.opengis.sos.x20.GetFeatureOfInterestResponseDocument;
-import net.opengis.sos.x20.GetFeatureOfInterestResponseType;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.om.features.FeatureCollection;
 import org.n52.shetland.ogc.sos.Sos2Constants;
@@ -34,10 +26,15 @@ import org.n52.shetland.util.CollectionHelper;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.exception.UnsupportedDecoderInputException;
 import org.n52.svalbard.util.CodingHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import net.opengis.gml.x32.FeaturePropertyType;
+import net.opengis.sos.x20.GetFeatureOfInterestResponseDocument;
+import net.opengis.sos.x20.GetFeatureOfInterestResponseType;
 
 /**
  * XML {@link Decoder} for {@link GetFeatureOfInterestResponse}

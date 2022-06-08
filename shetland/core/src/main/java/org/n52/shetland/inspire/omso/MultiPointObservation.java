@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,8 +42,7 @@ import org.n52.shetland.util.JTSHelper;
  * @since
  *
  */
-public class MultiPointObservation
-        extends AbstractInspireObservation {
+public class MultiPointObservation extends AbstractInspireObservation {
 
     /**
      * consturctor
@@ -58,7 +56,8 @@ public class MultiPointObservation
      *
      * @param observation
      *            {@link OmObservation} to convert
-     * @throws CodedException If an error occurs
+     * @throws CodedException
+     *             If an error occurs
      */
     public MultiPointObservation(OmObservation observation) throws CodedException {
         super(observation);
@@ -85,7 +84,7 @@ public class MultiPointObservation
     }
 
     @Override
-    public void setValue(ObservationValue<?> value) {
+    public MultiPointObservation setValue(ObservationValue<?> value) {
         if (value.getValue() instanceof MultiPointCoverage) {
             super.setValue(value);
         } else {
@@ -94,6 +93,7 @@ public class MultiPointObservation
             multiPointCoverage.addValue(new PointValuePair(getPoint(), value.getValue()));
             super.setValue(new SingleObservationValue<>(value.getPhenomenonTime(), multiPointCoverage));
         }
+        return this;
     }
 
     protected boolean mergeValues(ObservationValue<?> observationValue) {

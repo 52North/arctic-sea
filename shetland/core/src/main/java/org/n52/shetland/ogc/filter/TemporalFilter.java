@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,14 +18,15 @@ package org.n52.shetland.ogc.filter;
 import org.n52.shetland.ogc.filter.FilterConstants.TimeOperator;
 import org.n52.shetland.ogc.gml.time.Time;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Temporal filter class
  *
  * @since 1.0.0
  *
  */
-public class TemporalFilter
-        extends Filter<TimeOperator> {
+public class TemporalFilter extends Filter<TimeOperator> {
 
     private TimeOperator operator;
 
@@ -46,6 +46,7 @@ public class TemporalFilter
      * @param valueReference
      *            value reference
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public TemporalFilter(TimeOperator operator, Time time, String valueReference) {
         super(valueReference);
         this.operator = operator;
@@ -82,6 +83,7 @@ public class TemporalFilter
      *
      * @return filter time
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Time getTime() {
         return time;
     }
@@ -93,6 +95,7 @@ public class TemporalFilter
      *            filter time
      * @return This filter
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public TemporalFilter setTime(Time time) {
         this.time = time;
         return this;

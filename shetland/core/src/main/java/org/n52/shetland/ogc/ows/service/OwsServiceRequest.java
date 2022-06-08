@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,14 +30,15 @@ import org.n52.shetland.ogc.swe.simpleType.SweText;
 
 import com.google.common.base.Strings;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Abstract super class for all service request classes
  *
  * @since 1.0.0
  *
  */
-public abstract class OwsServiceRequest
-        extends OwsServiceCommunicationObject
+public abstract class OwsServiceRequest extends OwsServiceCommunicationObject
         implements HasExtension<OwsServiceRequest> {
 
     private List<OwsServiceKey> serviceOperatorKeyTypes;
@@ -57,8 +57,7 @@ public abstract class OwsServiceRequest
         super(service, version, operationName);
     }
 
-    public List<OwsServiceKey> getServiceOperatorKeys()
-            throws OwsExceptionReport {
+    public List<OwsServiceKey> getServiceOperatorKeys() throws OwsExceptionReport {
         if (serviceOperatorKeyTypes == null) {
             checkServiceAndVersionParameter();
             serviceOperatorKeyTypes = Collections.singletonList(new OwsServiceKey(getService(), getVersion()));
@@ -66,8 +65,7 @@ public abstract class OwsServiceRequest
         return Collections.unmodifiableList(serviceOperatorKeyTypes);
     }
 
-    private void checkServiceAndVersionParameter()
-            throws OwsExceptionReport {
+    private void checkServiceAndVersionParameter() throws OwsExceptionReport {
         if (!isSetService()) {
             throw new MissingServiceParameterException();
         }
@@ -76,10 +74,12 @@ public abstract class OwsServiceRequest
         }
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public OwsServiceRequestContext getRequestContext() {
         return requestContext;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public OwsServiceRequest setRequestContext(OwsServiceRequestContext requestContext) {
         this.requestContext = requestContext;
         return this;
@@ -90,11 +90,13 @@ public abstract class OwsServiceRequest
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Extensions getExtensions() {
         return this.extensions;
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public OwsServiceRequest setExtensions(Extensions extensions) {
         this.extensions = Optional.ofNullable(extensions).orElseGet(Extensions::new);
         return this;

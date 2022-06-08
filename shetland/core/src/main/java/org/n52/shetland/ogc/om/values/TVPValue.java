@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +16,7 @@
 package org.n52.shetland.ogc.om.values;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -33,8 +33,7 @@ import org.n52.shetland.util.CollectionHelper;
  * @since 1.0.0
  *
  */
-public class TVPValue
-        implements MultiValue<List<TimeValuePair>> {
+public class TVPValue implements MultiValue<List<TimeValuePair>> {
 
     /**
      * Mesurement values
@@ -49,14 +48,16 @@ public class TVPValue
     @Override
     public TVPValue setValue(List<TimeValuePair> value) {
         this.value.clear();
-        this.value.addAll(value);
+        if (value != null) {
+            this.value.addAll(value);
+        }
         return this;
     }
 
     @Override
     public List<TimeValuePair> getValue() {
         Collections.sort(value);
-        return value;
+        return Collections.unmodifiableList(value);
     }
 
     /**
@@ -64,9 +65,13 @@ public class TVPValue
      *
      * @param value
      *            Time value pair value to add
+     * @return this
      */
-    public void addValue(TimeValuePair value) {
-        this.value.add(value);
+    public TVPValue addValue(TimeValuePair value) {
+        if (value != null) {
+            this.value.add(value);
+        }
+        return this;
     }
 
     /**
@@ -74,9 +79,13 @@ public class TVPValue
      *
      * @param values
      *            Time value pair values to add
+     * @return this
      */
-    public void addValues(List<TimeValuePair> values) {
-        this.value.addAll(values);
+    public TVPValue addValues(Collection<TimeValuePair> values) {
+        if (values != null) {
+            this.value.addAll(values);
+        }
+        return this;
     }
 
     @Override
@@ -120,7 +129,9 @@ public class TVPValue
     }
 
     @Override
-    public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
+    public <
+            X,
+            E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
         return visitor.visit(this);
     }
 }

@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +16,8 @@
 package org.n52.shetland.ogc.gml;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -25,6 +26,8 @@ import org.n52.shetland.w3c.Nillable;
 import org.n52.shetland.w3c.xlink.Referenceable;
 
 import com.google.common.collect.Lists;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Internal representation of the OGC GML AbstractDatum.
@@ -48,7 +51,7 @@ public abstract class AbstractDatum extends IdentifiedObject {
         this(identifier, Lists.newArrayList(scope));
     }
 
-    public AbstractDatum(CodeWithAuthority identifier, List<String> scope) {
+    public AbstractDatum(CodeWithAuthority identifier, Collection<String> scope) {
         super(identifier);
         setScope(scope);
     }
@@ -66,7 +69,8 @@ public abstract class AbstractDatum extends IdentifiedObject {
         if (domainOfValidity != null) {
             this.domainOfValidity = Referenceable.of(domainOfValidity);
         } else {
-            this.domainOfValidity = Referenceable.of(Nillable.<DomainOfValidity>missing());
+            this.domainOfValidity = Referenceable.of(Nillable.<
+                    DomainOfValidity> missing());
         }
         return this;
     }
@@ -76,10 +80,10 @@ public abstract class AbstractDatum extends IdentifiedObject {
     }
 
     public List<String> getScope() {
-        return scope;
+        return Collections.unmodifiableList(scope);
     }
 
-    public AbstractDatum setScope(List<String> scope) {
+    public AbstractDatum setScope(Collection<String> scope) {
         this.scope.clear();
         if (!CollectionHelper.nullEmptyOrContainsOnlyNulls(scope)) {
             this.scope.addAll(scope);
@@ -87,13 +91,17 @@ public abstract class AbstractDatum extends IdentifiedObject {
         return this;
     }
 
-    public AbstractDatum addScope(List<String> scope) {
-        this.scope.addAll(scope);
+    public AbstractDatum addScope(Collection<String> scope) {
+        if (!CollectionHelper.nullEmptyOrContainsOnlyNulls(scope)) {
+            this.scope.addAll(scope);
+        }
         return this;
     }
 
     public AbstractDatum addScope(String scope) {
-        this.scope.add(scope);
+        if (scope != null) {
+            this.scope.add(scope);
+        }
         return this;
     }
 
@@ -114,10 +122,12 @@ public abstract class AbstractDatum extends IdentifiedObject {
         return getAnchorDefinition() != null && getAnchorDefinition().isSetValue();
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public DateTime getRealizationEpoch() {
         return realizationEpoch;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public AbstractDatum setRealizationEpoch(DateTime realizationEpoch) {
         this.realizationEpoch = realizationEpoch;
         return this;

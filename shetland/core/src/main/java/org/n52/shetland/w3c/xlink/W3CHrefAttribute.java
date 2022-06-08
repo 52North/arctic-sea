@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,7 +36,7 @@ public class W3CHrefAttribute {
      * Constructor
      *
      * @param href
-     *             value to set
+     *            value to set
      */
     public W3CHrefAttribute(String href) {
         setHref(href);
@@ -52,7 +51,7 @@ public class W3CHrefAttribute {
 
     /**
      * @param href
-     *             value to set
+     *            value to set
      *
      * @return this
      */

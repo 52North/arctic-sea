@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +16,7 @@
 package org.n52.shetland.inspire;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
 
 import org.n52.janmayen.http.MediaType;
@@ -78,7 +78,7 @@ public class InspireResourceLocator {
      * @return the media types
      */
     public Set<MediaType> getMediaTypes() {
-        return mediaTypes;
+        return Collections.unmodifiableSet(mediaTypes);
     }
 
     /**
@@ -90,9 +90,9 @@ public class InspireResourceLocator {
      *
      */
     public InspireResourceLocator setMediaTypes(Collection<MediaType> mediaTypes) {
-        getMediaTypes().clear();
+        this.mediaTypes.clear();
         if (CollectionHelper.isNotEmpty(mediaTypes)) {
-            getMediaTypes().addAll(mediaTypes);
+            this.mediaTypes.addAll(mediaTypes);
         }
         return this;
     }
@@ -105,7 +105,9 @@ public class InspireResourceLocator {
      * @return this
      */
     public InspireResourceLocator addMediaType(MediaType mediaType) {
-        getMediaTypes().add(mediaType);
+        if (mediaType != null) {
+            this.mediaTypes.add(mediaType);
+        }
         return this;
     }
 

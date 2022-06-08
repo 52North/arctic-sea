@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,14 +15,15 @@
  */
 package org.n52.shetland.ogc.wps.description.impl;
 
-import com.google.common.collect.ImmutableSet;
+import java.util.Collections;
+import java.util.Objects;
+import java.util.Set;
+
 import org.n52.shetland.ogc.ows.OwsCRS;
 import org.n52.shetland.ogc.wps.description.BoundingBoxOutputDescription;
 import org.n52.shetland.ogc.wps.description.ProcessDescriptionBuilderFactory;
 
-import java.util.Collections;
-import java.util.Objects;
-import java.util.Set;
+import com.google.common.collect.ImmutableSet;
 
 /**
  * TODO JavaDoc
@@ -57,9 +57,9 @@ public class BoundingBoxOutputDescriptionImpl extends AbstractProcessOutputDescr
         return this.defaultCRS;
     }
 
-    public abstract static class AbstractBuilder<T extends BoundingBoxOutputDescription,
-                                                        B extends AbstractBuilder<T, B>>
-            extends AbstractProcessOutputDescription.AbstractBuilder<T, B>
+    public abstract static class AbstractBuilder<
+            T extends BoundingBoxOutputDescription,
+            B extends AbstractBuilder<T, B>> extends AbstractProcessOutputDescription.AbstractBuilder<T, B>
             implements BoundingBoxOutputDescription.Builder<T, B> {
 
         private OwsCRS defaultCRS;
@@ -70,7 +70,7 @@ public class BoundingBoxOutputDescriptionImpl extends AbstractProcessOutputDescr
         }
 
         protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
-                                  BoundingBoxOutputDescription entity) {
+                BoundingBoxOutputDescription entity) {
             super(factory, entity);
             this.defaultCRS = entity.getDefaultCRS();
             this.supportedCRS.addAll(entity.getSupportedCRS());
@@ -106,7 +106,7 @@ public class BoundingBoxOutputDescriptionImpl extends AbstractProcessOutputDescr
         }
 
         protected Builder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
-                          BoundingBoxOutputDescription entity) {
+                BoundingBoxOutputDescription entity) {
             super(factory, entity);
         }
 

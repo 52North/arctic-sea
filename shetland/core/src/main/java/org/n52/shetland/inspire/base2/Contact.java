@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -196,7 +195,8 @@ public class Contact {
 
     public Contact addTelephoneFacsimile(Nillable<String> telephoneFacsimile) {
         if (this.telephoneFacsimile.isAbsent() || this.telephoneFacsimile.isNil()) {
-            this.telephoneFacsimile = Nillable.of((List<Nillable<String>>) Lists.<Nillable<String>> newArrayList());
+            this.telephoneFacsimile = Nillable.of((List<Nillable<String>>) Lists.<
+                    Nillable<String>> newArrayList());
         }
         if (this.telephoneFacsimile.isPresent()) {
             this.telephoneFacsimile.get().add(telephoneFacsimile);
@@ -238,7 +238,8 @@ public class Contact {
 
     public Contact addTelephoneVoice(Nillable<String> telephoneVoice) {
         if (this.telephoneVoice.isAbsent() || this.telephoneVoice.isNil()) {
-            this.telephoneVoice = Nillable.of((List<Nillable<String>>) Lists.<Nillable<String>> newArrayList());
+            this.telephoneVoice = Nillable.of((List<Nillable<String>>) Lists.<
+                    Nillable<String>> newArrayList());
         }
         if (telephoneVoice.isPresent()) {
             this.telephoneVoice.get().add(telephoneVoice);

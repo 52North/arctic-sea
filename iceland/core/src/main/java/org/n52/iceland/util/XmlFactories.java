@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +28,8 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * TODO JavaDoc
  *
@@ -55,6 +56,7 @@ public class XmlFactories {
     /**
      * @return the event factory
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public XMLEventFactory eventFactory() {
         return eventFactory;
     }
@@ -62,6 +64,7 @@ public class XmlFactories {
     /**
      * @return the output factory
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public XMLOutputFactory outputFactory() {
         return outputFactory;
     }
@@ -69,6 +72,7 @@ public class XmlFactories {
     /**
      * @return the input factory
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public XMLInputFactory inputFactory() {
         return inputFactory;
     }
@@ -90,6 +94,7 @@ public class XmlFactories {
     /**
      * @return the transformer factory
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public TransformerFactory transformerFactory() {
         return transformerFactory;
     }

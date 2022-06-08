@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +16,8 @@
 package org.n52.shetland.ogc.om.series;
 
 /**
- * This class implements the OGC TimeseriesML 1.0 and OGC WaterML 2.0 Metadata Element
- * element <code>metadata</code>. See <code>/req/uml-timeseries-observation/metadata</code>.
+ * This class implements the OGC TimeseriesML 1.0 and OGC WaterML 2.0 Metadata Element element
+ * <code>metadata</code>. See <code>/req/uml-timeseries-observation/metadata</code>.
  *
  * @see <a href="http://www.opengeospatial.org/standards/tsml">OGC TSML</a>
  * @see <a href="http://www.opengeospatial.org/standards/waterml">OGC WaterML</a>

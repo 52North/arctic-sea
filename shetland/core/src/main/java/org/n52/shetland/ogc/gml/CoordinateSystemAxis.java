@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,8 +22,7 @@ package org.n52.shetland.ogc.gml;
  * @since 1.0.0
  *
  */
-public class CoordinateSystemAxis
-        extends IdentifiedObject {
+public class CoordinateSystemAxis extends IdentifiedObject {
 
     /* 1..1 */
     private CodeType axisAbbrev;
@@ -39,8 +37,8 @@ public class CoordinateSystemAxis
     /* 1..1 */
     private String uom;
 
-    public CoordinateSystemAxis(
-            CodeWithAuthority identifier, CodeType axisAbbrev, CodeWithAuthority axisDirection, String uom) {
+    public CoordinateSystemAxis(CodeWithAuthority identifier, CodeType axisAbbrev, CodeWithAuthority axisDirection,
+            String uom) {
         super(identifier);
         this.axisAbbrev = axisAbbrev;
         this.axisDirection = axisDirection;

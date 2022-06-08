@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,8 +20,7 @@ import org.n52.shetland.ogc.sensorML.Term;
 /**
  * SOS internal representation of SensorML classifier
  *
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
- *         J&uuml;rrens</a>
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  *
  * @since 1.0.0
@@ -52,8 +50,7 @@ public class SmlClassifier extends Term {
      * @param value
      *            Classifier value
      */
-    public SmlClassifier(final String name, final String definition, final String codeSpace,
-            final String value) {
+    public SmlClassifier(final String name, final String definition, final String codeSpace, final String value) {
         super();
         setName(name);
         setCodeSpace(codeSpace);

@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +16,7 @@
 package org.n52.iceland.statistics.impl.handlers;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
@@ -37,8 +37,7 @@ public class CountingOutputStreamEventHandler extends AbstractElasticSearchDataH
         data.put(ObjectEsParameterFactory.DISPLAY_BYTES.getName(),
                  FileUtils.byteCountToDisplaySize(event.getBytesWritten()));
         put(ServiceEventDataMapping.ORE_BYTES_WRITTEN, data);
-
-        return dataMap;
+        return new LinkedHashMap<>(dataMap);
     }
 
 }

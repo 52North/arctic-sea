@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,7 +36,7 @@ public abstract class AbstractMeasureType {
      * constructor
      *
      * @param value
-     *              Measured value
+     *            Measured value
      */
     public AbstractMeasureType(Double value) {
         this(value, null);
@@ -47,9 +46,9 @@ public abstract class AbstractMeasureType {
      * constructor
      *
      * @param value
-     *              Measured value
+     *            Measured value
      * @param unit
-     *              Unit of measure
+     *            Unit of measure
      */
     public AbstractMeasureType(Double value, String unit) {
         this.value = value;
@@ -58,7 +57,7 @@ public abstract class AbstractMeasureType {
 
     /**
      * @param value
-     *              Measured value to set
+     *            Measured value to set
      */
     public void setValue(Double value) {
         this.value = value;
@@ -75,7 +74,7 @@ public abstract class AbstractMeasureType {
      * Set unit of measure
      *
      * @param unit
-     *             Unit of measure to set
+     *            Unit of measure to set
      */
     public void setUnit(String unit) {
         this.unit = unit;

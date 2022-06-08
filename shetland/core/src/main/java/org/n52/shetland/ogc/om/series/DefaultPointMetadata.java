@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,8 +22,10 @@ package org.n52.shetland.ogc.om.series;
  *
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  * @since 1.0.0
- * @see <a href="http://www.opengeospatial.org/standards/waterml">http://www.opengeospatial.org/standards/waterml</a>
- * @see <a href="http://www.opengeospatial.org/standards/tsml">http://www.opengeospatial.org/standards/tsml</a>
+ * @see <a href=
+ *      "http://www.opengeospatial.org/standards/waterml">http://www.opengeospatial.org/standards/waterml</a>
+ * @see <a href=
+ *      "http://www.opengeospatial.org/standards/tsml">http://www.opengeospatial.org/standards/tsml</a>
  */
 public class DefaultPointMetadata {
 

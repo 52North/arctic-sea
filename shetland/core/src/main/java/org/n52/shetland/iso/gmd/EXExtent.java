@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +16,7 @@
 package org.n52.shetland.iso.gmd;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.n52.shetland.util.CollectionHelper;
@@ -31,8 +31,7 @@ import com.google.common.base.Strings;
  * @since 1.0.0
  *
  */
-public class EXExtent
-        extends AbstractObject {
+public class EXExtent extends AbstractObject {
 
     private String description;
     // private List<Object> exGeographicalExtent = new ArrayList<>();
@@ -114,7 +113,7 @@ public class EXExtent
     // }
 
     public List<Referenceable<EXVerticalExtent>> getExVerticalExtent() {
-        return exVerticalExtent;
+        return Collections.unmodifiableList(exVerticalExtent);
     }
 
     public EXExtent setVerticalExtent(List<Referenceable<EXVerticalExtent>> exVerticalExtent) {

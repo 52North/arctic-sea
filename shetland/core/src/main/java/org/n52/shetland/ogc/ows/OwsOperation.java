@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,14 +15,16 @@
  */
 package org.n52.shetland.ogc.ows;
 
-import com.google.common.base.Strings;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import org.n52.shetland.util.CollectionHelper;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.SortedSet;
+
+import org.n52.shetland.util.CollectionHelper;
+
+import com.google.common.base.Strings;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * TODO JavaDoc
@@ -38,11 +39,8 @@ public class OwsOperation implements Comparable<OwsOperation> {
     private SortedSet<OwsDCP> dcp;
 
     @SuppressFBWarnings("NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
-    public OwsOperation(String name,
-                        Collection<OwsDomain> parameters,
-                        Collection<OwsDomain> constraints,
-                        Collection<OwsMetadata> metadata,
-                        Collection<OwsDCP> dcp) {
+    public OwsOperation(String name, Collection<OwsDomain> parameters, Collection<OwsDomain> constraints,
+            Collection<OwsMetadata> metadata, Collection<OwsDCP> dcp) {
         this.name = Objects.requireNonNull(Strings.emptyToNull(name));
         this.parameters = CollectionHelper.newSortedSet(parameters);
         this.constraints = CollectionHelper.newSortedSet(constraints);
@@ -152,9 +150,8 @@ public class OwsOperation implements Comparable<OwsOperation> {
 
     @Override
     public String toString() {
-        return "OwsOperation{" + "name=" + name + ", parameters=" + parameters +
-               ", constraints=" + constraints + ", metadata=" + metadata +
-               ", dcp=" + dcp + '}';
+        return "OwsOperation{" + "name=" + name + ", parameters=" + parameters + ", constraints=" + constraints
+                + ", metadata=" + metadata + ", dcp=" + dcp + '}';
     }
 
 }

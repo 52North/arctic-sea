@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,19 +15,21 @@
  */
 package org.n52.shetland.ogc.ows;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.net.URI;
+import java.util.Comparator;
+import java.util.Objects;
+import java.util.Optional;
+
+import javax.annotation.Nullable;
+
 import org.n52.janmayen.Optionals;
 import org.n52.shetland.w3c.xlink.Actuate;
 import org.n52.shetland.w3c.xlink.Link;
 import org.n52.shetland.w3c.xlink.Show;
 
-import javax.annotation.Nullable;
-import java.net.URI;
-import java.util.Comparator;
-import java.util.Objects;
-import java.util.Optional;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Christian Autermann
@@ -36,9 +37,9 @@ import java.util.Optional;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class OwsMetadata extends Link implements Comparable<OwsMetadata> {
 
-    private static final Comparator<OwsMetadata> COMPARATOR
-            = Comparator.nullsLast(Comparator.comparing(OwsMetadata::getTitle, Optionals.nullsLast())
-                                             .thenComparing(OwsMetadata::getHref, Optionals.nullsLast()));
+    private static final Comparator<OwsMetadata> COMPARATOR =
+            Comparator.nullsLast(Comparator.comparing(OwsMetadata::getTitle, Optionals.nullsLast())
+                    .thenComparing(OwsMetadata::getHref, Optionals.nullsLast()));
     private static final String ABOUT = "about";
 
     private final Optional<URI> about;
@@ -60,13 +61,10 @@ public class OwsMetadata extends Link implements Comparable<OwsMetadata> {
     }
 
     @JsonCreator
-    public OwsMetadata(@JsonProperty(HREF) @Nullable URI href,
-                       @JsonProperty(ROLE) @Nullable URI role,
-                       @JsonProperty(ARCROLE) @Nullable URI arcrole,
-                       @JsonProperty(TITLE) @Nullable String title,
-                       @JsonProperty(SHOW) @Nullable Show show,
-                       @JsonProperty(ACTUATE) @Nullable Actuate actuate,
-                       @JsonProperty(ABOUT) @Nullable URI about) {
+    public OwsMetadata(@JsonProperty(HREF) @Nullable URI href, @JsonProperty(ROLE) @Nullable URI role,
+            @JsonProperty(ARCROLE) @Nullable URI arcrole, @JsonProperty(TITLE) @Nullable String title,
+            @JsonProperty(SHOW) @Nullable Show show, @JsonProperty(ACTUATE) @Nullable Actuate actuate,
+            @JsonProperty(ABOUT) @Nullable URI about) {
         super(href, role, arcrole, title, show, actuate);
         this.about = Optional.ofNullable(about);
     }

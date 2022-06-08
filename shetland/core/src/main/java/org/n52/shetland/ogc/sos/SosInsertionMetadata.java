@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +16,11 @@
 package org.n52.shetland.ogc.sos;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
-import com.google.common.collect.Sets;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * SOS internal representation of SOS insertion metadata
@@ -31,12 +32,12 @@ public class SosInsertionMetadata {
     /**
      * list of valid feature types
      */
-    private Set<String> featureOfInterestTypes;
+    private Set<String> featureOfInterestTypes = new LinkedHashSet<>();
 
     /**
      * list of valid observation types
      */
-    private Set<String> observationTypes;
+    private Set<String> observationTypes = new LinkedHashSet<>();
 
     /**
      * constructor
@@ -49,15 +50,19 @@ public class SosInsertionMetadata {
      * @return the featureOfInterestTypes
      */
     public Set<String> getFeatureOfInterestTypes() {
-        return featureOfInterestTypes;
+        return Collections.unmodifiableSet(featureOfInterestTypes);
     }
 
     /**
      * @param featureOfInterestTypes
      *            the featureOfInterestTypes to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SosInsertionMetadata setFeatureOfInterestTypes(Collection<String> featureOfInterestTypes) {
-        this.featureOfInterestTypes = Sets.newHashSet(featureOfInterestTypes);
+        this.featureOfInterestTypes.clear();
+        if (featureOfInterestTypes != null) {
+            this.featureOfInterestTypes.addAll(featureOfInterestTypes);
+        }
         return this;
     }
 
@@ -65,15 +70,19 @@ public class SosInsertionMetadata {
      * @return the observationTypes
      */
     public Set<String> getObservationTypes() {
-        return observationTypes;
+        return Collections.unmodifiableSet(observationTypes);
     }
 
     /**
      * @param observationTypes
      *            the observationTypes to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SosInsertionMetadata setObservationTypes(Collection<String> observationTypes) {
-        this.observationTypes = Sets.newHashSet(observationTypes);
+        this.observationTypes.clear();
+        if (observationTypes != null) {
+            this.observationTypes.addAll(observationTypes);
+        }
         return this;
     }
 }

@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,9 +24,8 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 
 /**
- * SosConstants holds all important and often used constants of OGC SOS (e.g.
- * name of the getCapabilities operation) that are global between all supported
- * versions
+ * SosConstants holds all important and often used constants of OGC SOS (e.g. name of the getCapabilities
+ * operation) that are global between all supported versions
  *
  * @since 1.0.0
  */
@@ -48,14 +46,12 @@ public interface SosConstants {
     String SOS = "SOS";
 
     /**
-     * String representing parameter value, if parameter is any in an operation
-     * request
+     * String representing parameter value, if parameter is any in an operation request
      */
     String PARAMETER_ANY = "ANY";
 
     /**
-     * String representing parameter value, if parameter is no values in an
-     * operation request
+     * String representing parameter value, if parameter is no values in an operation request
      */
     String PARAMETER_NO_VALUES = "NoValues";
 
@@ -87,35 +83,33 @@ public interface SosConstants {
     String OBS_TEMP_ID_PREFIX = "ot_";
 
     /**
-     * Constant 'out-of-bands' for response mode, which means that the results
-     * in an observation response appear external to the observation element
+     * Constant 'out-of-bands' for response mode, which means that the results in an observation response
+     * appear external to the observation element
      */
     String RESPONSE_MODE_OUT_OF_BANDS = "out-of-bands";
 
     /**
-     * Constant 'resultTemplate' for response mode, which means that the result
-     * is an ObservationTemplate for subsequent calls to GetResult operation
+     * Constant 'resultTemplate' for response mode, which means that the result is an ObservationTemplate for
+     * subsequent calls to GetResult operation
      */
     String RESPONSE_RESULT_TEMPLATE = "resultTemplate";
 
     /**
-     * Constant 'inline' for response mode, which means that results are
-     * contained inline the Observation elements of an observation response
-     * document
+     * Constant 'inline' for response mode, which means that results are contained inline the Observation
+     * elements of an observation response document
      */
     String RESPONSE_MODE_INLINE = "inline";
 
     /**
-     * Constant 'attached' for response mode, which means that result values of
-     * an observation response are attached as MIME attachments
+     * Constant 'attached' for response mode, which means that result values of an observation response are
+     * attached as MIME attachments
      */
     String RESPONSE_MODE_ATTACHED = "attached";
 
     /**
      * Array of constants for response mode.
      */
-    Set<String> RESPONSE_MODES = ImmutableSet.of(RESPONSE_MODE_INLINE,
-                                                 RESPONSE_RESULT_TEMPLATE);
+    Set<String> RESPONSE_MODES = ImmutableSet.of(RESPONSE_MODE_INLINE, RESPONSE_RESULT_TEMPLATE);
 
     String MIN_VALUE = "MinValue";
 
@@ -132,7 +126,7 @@ public interface SosConstants {
 
     String SOAP_REASON_INVALID_PROPERTY_OFFERING_COMBINATION =
             "Observations for the requested combination of observedProperty and "
-            + "offering do not use SWE Common encoded results.";
+                    + "offering do not use SWE Common encoded results.";
 
     String GENERATED_IDENTIFIER_PREFIX = "generated_";
 
@@ -145,8 +139,7 @@ public interface SosConstants {
     String VALID_DESCRIBE_SENSOR_TIME_VALUE_REFERENCE = "validDescribeSensorTime";
 
     /**
-     * the names of the operations supported by all versions of the SOS
-     * specification
+     * the names of the operations supported by all versions of the SOS specification
      */
     enum Operations {
         GetCapabilities,
@@ -176,8 +169,7 @@ public interface SosConstants {
     }
 
     /**
-     * enum with parameter names for getObservation request supported by all
-     * versions
+     * enum with parameter names for getObservation request supported by all versions
      */
     enum GetObservationParams {
         srsName,
@@ -197,8 +189,7 @@ public interface SosConstants {
     }
 
     /**
-     * enum with parameter names for getObservation request supported by all
-     * versions
+     * enum with parameter names for getObservation request supported by all versions
      */
     enum DescribeSensorParams {
         procedure;

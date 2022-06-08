@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +15,18 @@
  */
 package org.n52.svalbard.encode;
 
+import static java.util.stream.Collectors.toMap;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Stream;
+
+import javax.inject.Inject;
+
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.n52.faroe.annotation.Configurable;
@@ -29,16 +40,7 @@ import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.N52XmlHelper;
 import org.n52.svalbard.util.XmlHelper;
 
-import javax.inject.Inject;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.function.Function;
-import java.util.stream.Stream;
-
-import static java.util.stream.Collectors.toMap;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * @param <T> the response type
@@ -90,10 +92,12 @@ public abstract class AbstractXmlResponseEncoder<T> extends AbstractXmlEncoder<X
     }
 
     @Inject
+    @SuppressFBWarnings({"EI_EXPOSE_REP2"})
     public void setSchemaRepository(SchemaRepository schemaRepository) {
         this.schemaRepository = schemaRepository;
     }
 
+    @SuppressFBWarnings({"EI_EXPOSE_REP"})
     public SchemaRepository getSchemaRepository() {
         return schemaRepository;
     }

@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,9 +26,15 @@ import org.n52.shetland.ogc.swe.simpleType.SweTimeRange;
  *
  * @author Christian Autermann
  */
-public class TimeRangeValue
-        extends SweTimeRange
-        implements Value<RangeValue<DateTime>> {
+public class TimeRangeValue extends SweTimeRange implements Value<RangeValue<DateTime>> {
+
+    /**
+     * constructor
+     */
+    public TimeRangeValue() {
+        super();
+    }
+
     /**
      * constructor
      *
@@ -102,7 +107,9 @@ public class TimeRangeValue
     }
 
     @Override
-    public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
+    public <
+            X,
+            E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
         return visitor.visit(this);
     }
 

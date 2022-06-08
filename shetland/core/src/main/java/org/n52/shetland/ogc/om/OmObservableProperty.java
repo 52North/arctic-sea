@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,7 +36,7 @@ public class OmObservableProperty extends AbstractPhenomenon {
      * constructor
      *
      * @param identifier
-     *                   observableProperty identifier
+     *            observableProperty identifier
      */
     public OmObservableProperty(String identifier) {
         super(identifier);
@@ -47,15 +46,13 @@ public class OmObservableProperty extends AbstractPhenomenon {
      * constructor
      *
      * @param identifier
-     *                    id of the observableProperty
+     *            id of the observableProperty
      * @param description
-     *                    description of the observableProperty
+     *            description of the observableProperty
      * @param unit
-     *                    unit of the observation values according to this
-     *                    observableProperty
+     *            unit of the observation values according to this observableProperty
      * @param valueType
-     *                    database valType of the observation values according to this
-     *                    observableProperty
+     *            database valType of the observation values according to this observableProperty
      */
     public OmObservableProperty(String identifier, String description, String unit, String valueType) {
         super(identifier, description);
@@ -76,7 +73,7 @@ public class OmObservableProperty extends AbstractPhenomenon {
      * Set unit of measurement
      *
      * @param unit
-     *             The unit to set.
+     *            The unit to set.
      */
     public void setUnit(String unit) {
         this.unit = unit;
@@ -95,7 +92,7 @@ public class OmObservableProperty extends AbstractPhenomenon {
      * Set value type
      *
      * @param valueType
-     *                  The valueType to set.
+     *            The valueType to set.
      */
     public void setValueType(String valueType) {
         this.valueType = valueType;

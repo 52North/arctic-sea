@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,14 +38,9 @@ public class OwsServiceIdentification extends OwsDescription {
     private SortedSet<String> fees;
     private SortedSet<String> accessConstraints;
 
-    public OwsServiceIdentification(OwsCode serviceType,
-                                    Set<String> serviceTypeVersion,
-                                    Set<URI> profiles,
-                                    Set<String> fees,
-                                    Set<String> accessConstraints,
-                                    MultilingualString title,
-                                    MultilingualString abstrakt,
-                                    Set<OwsKeyword> keywords) {
+    public OwsServiceIdentification(OwsCode serviceType, Set<String> serviceTypeVersion, Set<URI> profiles,
+            Set<String> fees, Set<String> accessConstraints, MultilingualString title, MultilingualString abstrakt,
+            Set<OwsKeyword> keywords) {
         super(title, abstrakt, keywords);
         this.serviceType = Objects.requireNonNull(serviceType);
         this.serviceTypeVersion = CollectionHelper.newSortedSet(serviceTypeVersion);
@@ -135,11 +129,9 @@ public class OwsServiceIdentification extends OwsDescription {
 
     @Override
     public String toString() {
-        return "OwsServiceIdentification{" + "serviceType=" + serviceType +
-               ", serviceTypeVersion=" + serviceTypeVersion + ", profiles=" +
-               profiles + ", fees=" + fees + ", accessConstraints=" +
-               accessConstraints + '}';
+        return "OwsServiceIdentification{" + "serviceType=" + serviceType + ", serviceTypeVersion="
+                + serviceTypeVersion + ", profiles=" + profiles + ", fees=" + fees + ", accessConstraints="
+                + accessConstraints + '}';
     }
-
 
 }

@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,10 +35,8 @@ public class OwsOperationsMetadata {
     private SortedSet<OwsDomain> constraints;
     private Optional<OwsOperationMetadataExtension> extension;
 
-    public OwsOperationsMetadata(Collection<OwsOperation> operations,
-                                 Collection<OwsDomain> parameters,
-                                 Collection<OwsDomain> constraints,
-                                 OwsOperationMetadataExtension extension) {
+    public OwsOperationsMetadata(Collection<OwsOperation> operations, Collection<OwsDomain> parameters,
+            Collection<OwsDomain> constraints, OwsOperationMetadataExtension extension) {
         this.operations = CollectionHelper.newSortedSet(operations);
         this.parameters = CollectionHelper.newSortedSet(parameters);
         this.constraints = CollectionHelper.newSortedSet(constraints);
@@ -117,8 +114,7 @@ public class OwsOperationsMetadata {
 
     @Override
     public String toString() {
-        return "OwsOperationsMetadata{" + "operations=" + operations +
-               ", parameters=" + parameters + ", constraints=" + constraints +
-               '}';
+        return "OwsOperationsMetadata{" + "operations=" + operations + ", parameters=" + parameters + ", constraints="
+                + constraints + '}';
     }
 }

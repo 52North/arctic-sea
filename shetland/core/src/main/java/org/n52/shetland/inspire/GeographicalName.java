@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +15,7 @@
  */
 package org.n52.shetland.inspire;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -27,6 +27,8 @@ import org.n52.shetland.w3c.Nillable;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * TODO JavaDoc
@@ -116,8 +118,10 @@ public class GeographicalName {
         return Collections.unmodifiableList(spelling);
     }
 
-    public GeographicalName setSpelling(List<Spelling> spelling) {
-        this.spelling = Preconditions.checkNotNull(spelling);
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public GeographicalName setSpelling(Collection<Spelling> spelling) {
+        this.spelling.clear();
+        this.spelling.addAll(Preconditions.checkNotNull(spelling));
         return this;
     }
 

@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +17,7 @@ package org.n52.shetland.ogc.gml;
 
 /**
  * Class represents a GML conform MetaDataProperty element
+ *
  * @since 1.0.0
  *
  */
@@ -40,7 +40,9 @@ public class GmlMetaDataProperty {
 
     /**
      * Set title
-     * @param title Title to set
+     *
+     * @param title
+     *            Title to set
      */
     public void setTitle(String title) {
         this.title = title;
@@ -48,7 +50,9 @@ public class GmlMetaDataProperty {
 
     /**
      * Set role
-     * @param role Role to set
+     *
+     * @param role
+     *            Role to set
      */
     public void setRole(String role) {
         this.role = role;
@@ -56,7 +60,9 @@ public class GmlMetaDataProperty {
 
     /**
      * Set href
-     * @param href Href to set
+     *
+     * @param href
+     *            Href to set
      */
     public void setHref(String href) {
         this.href = href;
@@ -64,6 +70,7 @@ public class GmlMetaDataProperty {
 
     /**
      * Get title
+     *
      * @return Title
      */
     public String getTitle() {
@@ -72,6 +79,7 @@ public class GmlMetaDataProperty {
 
     /**
      * Get role
+     *
      * @return Role
      */
     public String getRole() {
@@ -80,6 +88,7 @@ public class GmlMetaDataProperty {
 
     /**
      * Get href
+     *
      * @return Href
      */
     public String getHref() {

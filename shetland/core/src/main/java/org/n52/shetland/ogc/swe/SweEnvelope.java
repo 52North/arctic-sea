@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +15,8 @@
  */
 package org.n52.shetland.ogc.swe;
 
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Envelope;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.swe.SweConstants.SweCoordinateNames;
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
@@ -26,15 +27,14 @@ import org.n52.shetland.util.ReferencedEnvelope;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
-import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.Envelope;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * @since 1.0.0
  *
  */
-public class SweEnvelope
-        extends SweAbstractDataComponent {
+public class SweEnvelope extends SweAbstractDataComponent {
     private String referenceFrame;
     private SweVector upperCorner;
     private SweVector lowerCorner;
@@ -45,17 +45,19 @@ public class SweEnvelope
         this(null, null, null, null, northingFirst);
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweEnvelope(String referenceFrame, SweVector upperCorner, SweVector lowerCorner, boolean northingFirst) {
         this(referenceFrame, upperCorner, lowerCorner, null, northingFirst);
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweEnvelope(ReferencedEnvelope sosEnvelope, String uom, boolean northingFirst) {
         this(String.valueOf(sosEnvelope.getSrid()), createUpperCorner(sosEnvelope, uom, northingFirst),
                 createLowerCorner(sosEnvelope, uom, northingFirst), northingFirst);
     }
 
-    public SweEnvelope(
-            String referenceFrame, SweVector upperCorner, SweVector lowerCorner, SweTimeRange time,
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public SweEnvelope(String referenceFrame, SweVector upperCorner, SweVector lowerCorner, SweTimeRange time,
             boolean northingFirst) {
         this.referenceFrame = referenceFrame;
         this.upperCorner = upperCorner;
@@ -77,6 +79,7 @@ public class SweEnvelope
         return this;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SweVector getUpperCorner() {
         return upperCorner;
     }
@@ -85,11 +88,13 @@ public class SweEnvelope
         return getUpperCorner() != null;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweEnvelope setUpperCorner(SweVector upperCorner) {
         this.upperCorner = upperCorner;
         return this;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SweVector getLowerCorner() {
         return lowerCorner;
     }
@@ -98,11 +103,13 @@ public class SweEnvelope
         return getLowerCorner() != null;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweEnvelope setLowerCorner(SweVector lowerCorner) {
         this.lowerCorner = lowerCorner;
         return this;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SweTimeRange getTime() {
         return time;
     }
@@ -111,6 +118,7 @@ public class SweEnvelope
         return getTime() != null;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweEnvelope setTime(SweTimeRange time) {
         this.time = time;
         return this;
@@ -197,12 +205,15 @@ public class SweEnvelope
     }
 
     @Override
-    public <T, X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
+    public <
+            T,
+            X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
         return visitor.visit(this);
     }
 
     @Override
-    public <X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
+    public <
+            X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
         visitor.visit(this);
     }
 

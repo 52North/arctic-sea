@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,9 +22,8 @@ import org.n52.janmayen.http.HTTPStatus;
  * <p>
  * <i>The result for the requested JobID has not yet been generated</i>
  *
- * @see <a href="http://docs.opengeospatial.org/is/14-065/14-065.html#69">OGC
- *      WPS 2.0.2 Interface Standard, Table 50 — Additional exception codes for
- *      the GetResult operation</a>
+ * @see <a href="http://docs.opengeospatial.org/is/14-065/14-065.html#69">OGC WPS 2.0.2 Interface Standard,
+ *      Table 50 — Additional exception codes for the GetResult operation</a>
  * @author <a href="mailto:b.pross@52north.org">Benjamin Pross</a>
  *
  * @since 5.3.0

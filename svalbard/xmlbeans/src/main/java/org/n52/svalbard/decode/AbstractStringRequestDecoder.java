@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,17 +18,19 @@ package org.n52.svalbard.decode;
 import javax.inject.Inject;
 
 import org.apache.xmlbeans.XmlObject;
-
 import org.n52.shetland.ogc.ows.service.OwsServiceCommunicationObject;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.exception.NoDecoderForKeyException;
 import org.n52.svalbard.util.CodingHelper;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 public abstract class AbstractStringRequestDecoder implements Decoder<OwsServiceCommunicationObject, String> {
 
     private DecoderRepository decoderRepository;
 
     @Inject
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setDecoderRepository(DecoderRepository decoderRepository) {
         this.decoderRepository = decoderRepository;
     }

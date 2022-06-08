@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +16,8 @@
 package org.n52.svalbard.decode.exception;
 
 import org.apache.xmlbeans.XmlObject;
-import org.w3c.dom.Node;
-
 import org.n52.svalbard.decode.Decoder;
+import org.w3c.dom.Node;
 
 public class UnsupportedDecoderXmlInputException extends UnsupportedDecoderInputException {
     private static final long serialVersionUID = -7244575661954080973L;

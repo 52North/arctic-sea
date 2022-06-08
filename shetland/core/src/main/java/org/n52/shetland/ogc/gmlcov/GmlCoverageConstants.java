@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +19,7 @@ import org.n52.shetland.w3c.SchemaLocation;
 
 /**
  * Interface for GML coverage constants
+ *
  * @since 1.0.0
  *
  */
@@ -31,7 +31,7 @@ public interface GmlCoverageConstants {
 
     String SCHEMA_LOCATION_URL_GML_COVERAGE_10 = "http://schemas.opengis.net/gmlcov/1.0/gmlcovAll.xsd";
 
-    SchemaLocation GML_COVERAGE_10_SCHEMA_LOCATION = new SchemaLocation(NS_GML_COV,
-            SCHEMA_LOCATION_URL_GML_COVERAGE_10);
+    SchemaLocation GML_COVERAGE_10_SCHEMA_LOCATION =
+            new SchemaLocation(NS_GML_COV, SCHEMA_LOCATION_URL_GML_COVERAGE_10);
 
 }

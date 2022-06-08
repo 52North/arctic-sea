@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +15,13 @@
  */
 package org.n52.janmayen.event;
 
+import org.n52.janmayen.Classes;
+import org.n52.janmayen.GroupedAndNamedThreadFactory;
+import org.n52.janmayen.function.Functions;
+import org.n52.janmayen.lifecycle.Constructable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -29,14 +35,6 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.stream.Collectors;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.n52.janmayen.Classes;
-import org.n52.janmayen.GroupedAndNamedThreadFactory;
-import org.n52.janmayen.function.Functions;
-import org.n52.janmayen.lifecycle.Constructable;
 
 
 /**
@@ -58,18 +56,19 @@ public class EventBus implements Constructable {
     private final Executor executor;
     private final Map<Class<? extends Event>, Set<EventListener>> listeners;
     private final Queue<HandlerExecution> queue;
-    private boolean async;
+    private final boolean async;
 
     public EventBus() {
+        this(false);
+    }
+
+    public EventBus(boolean async) {
         this.classCache = new ClassCache();
         this.lock = new ReentrantReadWriteLock();
         this.threadFactory = new GroupedAndNamedThreadFactory(THREAD_GROUP_NAME);
         this.executor = Executors.newFixedThreadPool(THREAD_POOL_SIZE, threadFactory);
         this.listeners = new HashMap<>();
         this.queue = new ConcurrentLinkedQueue<>();
-    }
-
-    public void setAsync(boolean async) {
         this.async = async;
     }
 

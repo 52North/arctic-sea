@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +15,8 @@
  */
 package org.n52.shetland.ogc.swe.simpleType;
 
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.n52.shetland.ogc.swes.AbstractSWES;
@@ -23,17 +24,16 @@ import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.base.Strings;
 
-public class SweAllowedTokens
-        extends AbstractSWES {
+public class SweAllowedTokens extends AbstractSWES {
 
-    private List<String> value;
+    private List<String> value = new LinkedList<>();
     private String pattern;
 
     /**
      * @return the value
      */
     public List<String> getValue() {
-        return value;
+        return Collections.unmodifiableList(value);
     }
 
     /**
@@ -41,7 +41,10 @@ public class SweAllowedTokens
      *            the value to set
      */
     public void setValue(List<String> value) {
-        this.value = value;
+        this.value.clear();
+        if (value != null) {
+            this.value.addAll(value);
+        }
     }
 
     public boolean isSetValue() {

@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +32,8 @@ public interface InspireOMSOConstants {
 
     String NS_OMSO_PREFIX = "omso";
 
-    //String SCHEMA_LOCATION_URL_OMSO = "http://inspire.ec.europa.eu/schemas/omso/3.0/SpecialisedObservations.xsd";
+    // String SCHEMA_LOCATION_URL_OMSO =
+    // "http://inspire.ec.europa.eu/schemas/omso/3.0/SpecialisedObservations.xsd";
     // Fixed schema
     String SCHEMA_LOCATION_URL_OMSO = "https://52north.org/schema/inspire/omso/3.0.1/SpecialisedObservations.xsd";
 

@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +27,8 @@ import javax.inject.Inject;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import org.n52.iceland.cache.ContentCachePersistenceStrategy;
 import org.n52.iceland.cache.ContentCacheUpdate;
@@ -57,6 +58,7 @@ public class ContentCacheControllerImpl extends AbstractSchedulingContentCacheCo
     }
 
     @Inject
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setPersistenceStrategy(ContentCachePersistenceStrategy persistenceStrategy) {
         this.persistenceStrategy = persistenceStrategy;
     }
@@ -88,6 +90,7 @@ public class ContentCacheControllerImpl extends AbstractSchedulingContentCacheCo
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public WritableContentCache getCache() {
         return this.cache;
     }
@@ -216,6 +219,7 @@ public class ContentCacheControllerImpl extends AbstractSchedulingContentCacheCo
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public ContentCachePersistenceStrategy getContentCachePersistenceStrategy() {
         return this.persistenceStrategy;
     }

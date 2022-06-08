@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,8 +18,7 @@ package org.n52.shetland.aqd;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 
 /**
- * Abstract class for AQD e-Reporting header. Required to use defined method in
- * AQD API module.
+ * Abstract class for AQD e-Reporting header. Required to use defined method in AQD API module.
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0

@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +15,7 @@
  */
 package org.n52.svalbard.decode;
 
+import java.util.Collections;
 import java.util.Set;
 
 import org.apache.xmlbeans.XmlException;
@@ -82,7 +82,7 @@ public class DescribeSensorResponseSwesDocumentDecoder extends AbstractSwesDecod
 
     @Override
     public Set<DecoderKey> getKeys() {
-        return DECODER_KEYS;
+        return Collections.unmodifiableSet(DECODER_KEYS);
     }
 
 }

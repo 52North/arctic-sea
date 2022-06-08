@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,24 +22,30 @@ import org.apache.jena.sparql.vocabulary.FOAF;
 import org.apache.jena.vocabulary.RDF;
 import org.n52.shetland.rdf.RDFElement;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class Organization implements RDFElement, FoafRdfPrefix {
 
     private Name name;
 
     private MBox mBox;
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Name getName() {
         return name;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setName(Name name) {
         this.name = name;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public MBox getmBox() {
         return mBox;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setmBox(MBox mBox) {
         this.mBox = mBox;
     }

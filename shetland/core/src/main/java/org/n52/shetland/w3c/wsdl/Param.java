@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,7 +50,8 @@ public abstract class Param extends AbstractWsdl {
     }
 
     /**
-     * @param message the message to set
+     * @param message
+     *            the message to set
      */
     public void setMessage(QName message) {
         this.message = message;
@@ -69,7 +69,8 @@ public abstract class Param extends AbstractWsdl {
     }
 
     /**
-     * @param action the action to set
+     * @param action
+     *            the action to set
      */
     public void setAction(URI action) {
         this.action = action;

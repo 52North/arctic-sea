@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,15 +16,14 @@
 package org.n52.shetland.ogc.ows.exception;
 
 /**
- * Implementation of {@link CodedOwsException} to be used if <p> <i>Request is
- * for an operation that is not supported by this server.</i>
+ * Implementation of {@link CodedOwsException} to be used if
+ * <p>
+ * <i>Request is for an operation that is not supported by this server.</i>
  *
- * @see <a href="http://portal.opengeospatial.org/files/?artifact_id=20040">OGC
- *      Web Service Common Specification 1.1.0, Table 25 — Standard exception codes and
- *      meanings</a>
+ * @see <a href="http://portal.opengeospatial.org/files/?artifact_id=20040">OGC Web Service Common
+ *      Specification 1.1.0, Table 25 — Standard exception codes and meanings</a>
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
- *         J&uuml;rrens</a>
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  *
  * @since 1.0.0
  */

@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +17,8 @@ package org.n52.shetland.iso.gmd;
 
 import org.n52.shetland.ogc.gml.GmlConstants.NilReason;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * TODO JavaDoc
  *
@@ -29,18 +30,21 @@ public class GmdQuantitativeResult extends GmdDomainConsistency {
     private final String value;
     private final NilReason valueNilReason;
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public GmdQuantitativeResult(GmlBaseUnit unit, String value) {
         this.unit = unit;
         this.value = value;
         this.valueNilReason = null;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public GmdQuantitativeResult(GmlBaseUnit unit, NilReason valueNilReason) {
         this.unit = unit;
         this.value = null;
         this.valueNilReason = valueNilReason;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public GmlBaseUnit getUnit() {
         return unit;
     }

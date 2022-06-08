@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -80,14 +79,16 @@ public class SweText extends SweAbstractSimpleType<String> implements Comparable
     }
 
     /**
-     * @param constraint the constraint to set
+     * @param constraint
+     *            the constraint to set
      */
     public void setConstraint(SweAllowedTokens constraint) {
         this.constraint = Referenceable.of(constraint);
     }
 
     /**
-     * @param constraint the constraint to set
+     * @param constraint
+     *            the constraint to set
      */
     public void setConstraint(Referenceable<SweAllowedTokens> constraint) {
         this.constraint = constraint;
@@ -109,12 +110,15 @@ public class SweText extends SweAbstractSimpleType<String> implements Comparable
     }
 
     @Override
-    public <T, X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
+    public <
+            T,
+            X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
         return visitor.visit(this);
     }
 
     @Override
-    public <X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
+    public <
+            X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
         visitor.visit(this);
     }
 

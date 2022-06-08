@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +15,18 @@
  */
 package org.n52.shetland.util;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.sameInstance;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.n52.shetland.util.JTSHelperForTesting.randomCoordinate;
+import static org.n52.shetland.util.JTSHelperForTesting.randomCoordinateRing;
+import static org.n52.shetland.util.JTSHelperForTesting.randomCoordinates;
+
 import org.geolatte.geom.G2D;
 import org.geolatte.geom.Point;
 import org.geolatte.geom.crs.CoordinateReferenceSystems;
@@ -29,18 +40,6 @@ import org.locationtech.jts.geom.LinearRing;
 import org.locationtech.jts.geom.Polygon;
 import org.locationtech.jts.io.ParseException;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
-
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.CoreMatchers.sameInstance;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.n52.shetland.util.JTSHelperForTesting.randomCoordinate;
-import static org.n52.shetland.util.JTSHelperForTesting.randomCoordinateRing;
-import static org.n52.shetland.util.JTSHelperForTesting.randomCoordinates;
 
 /**
  * TODO JavaDoc

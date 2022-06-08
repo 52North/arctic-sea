@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,9 +24,11 @@ import java.util.function.Function;
  * {@link #isNil()}, {@link #isAbsent()} and {@link #isPresent()} are mutually exclusive {@code true}.
  *
  * @author Christian Autermann
- * @param <T> the instance type
+ * @param <T>
+ *            the instance type
  */
-public abstract class Nillable<T> {
+public abstract class Nillable<
+        T> {
 
     private static final String INSTANCE_ABSENT = "instance is absent";
 
@@ -68,12 +69,15 @@ public abstract class Nillable<T> {
     /**
      * Transforms this {@code Nillable} to the target type.
      *
-     * @param <X> the target type
-     * @param fun the transformation function
+     * @param <X>
+     *            the target type
+     * @param fun
+     *            the transformation function
      *
      * @return the {@code Nillable}
      */
-    public abstract <X> Nillable<X> map(Function<? super T, X> fun);
+    public abstract <
+            X> Nillable<X> map(Function<? super T, X> fun);
 
     /**
      * Checks if this {@code Nillable} is {@code null}.
@@ -100,7 +104,8 @@ public abstract class Nillable<T> {
      *
      * @return the object
      *
-     * @throws UnsupportedOperationException if this instance is not present
+     * @throws UnsupportedOperationException
+     *             if this instance is not present
      * @see #isPresent()
      */
     public abstract T get();
@@ -119,7 +124,8 @@ public abstract class Nillable<T> {
      *
      * @return the nil reason
      *
-     * @throws UnsupportedOperationException if this instance is not nil
+     * @throws UnsupportedOperationException
+     *             if this instance is not nil
      * @see #isNil()
      */
     public abstract Optional<String> getNilReason();
@@ -127,114 +133,138 @@ public abstract class Nillable<T> {
     /**
      * Creates a new {@code Nillable} from a present instance.
      *
-     * @param <T> the type
-     * @param t   the object
+     * @param <T>
+     *            the type
+     * @param t
+     *            the object
      *
-     * @throws NullPointerException if {@code t} is {@code null}
+     * @throws NullPointerException
+     *             if {@code t} is {@code null}
      * @return the present {@code Nillable}
      */
-    public static <T> Nillable<T> present(T t) {
+    public static <
+            T> Nillable<T> present(T t) {
         return new Present<>(t);
     }
 
     /**
      * Creates a {@code Nillable} for a absent instance.
      *
-     * @param <T> the type
+     * @param <T>
+     *            the type
      *
      * @return the absent {@code Nillable}
      */
-    public static <T> Nillable<T> absent() {
+    public static <
+            T> Nillable<T> absent() {
         return Absent.INSTANCE.cast();
     }
 
     /**
      * Creates a new {@code Nillable} that is {@code nil} because of optionally supplied reason.
      *
-     * @param <T>    the type
-     * @param reason the reason (may be {@code null})
+     * @param <T>
+     *            the type
+     * @param reason
+     *            the reason (may be {@code null})
      *
      * @return the nil {@code Nillable}
      */
-    public static <T> Nillable<T> nil(String reason) {
+    public static <
+            T> Nillable<T> nil(String reason) {
         return new Nil(reason).cast();
     }
 
     /**
      * Creates a new {@code Nillable} that is {@code nil}.
      *
-     * @param <T> the type
+     * @param <T>
+     *            the type
      *
      * @return the nil {@code Nillable}
      */
-    public static <T> Nillable<T> nil() {
+    public static <
+            T> Nillable<T> nil() {
         return nil(null);
     }
 
     /**
      * Creates a new {@code Nillable}, that is nil because it is inapplicable.
      *
-     * @param <T> the type
+     * @param <T>
+     *            the type
      *
      * @return the nil {@code Nillable}
      */
-    public static <T> Nillable<T> inapplicable() {
+    public static <
+            T> Nillable<T> inapplicable() {
         return Nil.INAPPLICABLE.cast();
     }
 
     /**
      * Creates a new {@code Nillable}, that is nil because it is missing.
      *
-     * @param <T> the type
+     * @param <T>
+     *            the type
      *
      * @return the nil {@code Nillable}
      */
-    public static <T> Nillable<T> missing() {
+    public static <
+            T> Nillable<T> missing() {
         return Nil.MISSING.cast();
     }
 
     /**
      * Creates a new {@code Nillable}, that is nil because it is a template value.
      *
-     * @param <T> the type
+     * @param <T>
+     *            the type
      *
      * @return the nil {@code Nillable}
      */
-    public static <T> Nillable<T> template() {
+    public static <
+            T> Nillable<T> template() {
         return Nil.TEMPLATE.cast();
     }
 
     /**
      * Creates a new {@code Nillable}, that is nil because it is unknown.
      *
-     * @param <T> the type
+     * @param <T>
+     *            the type
      *
      * @return the nil {@code Nillable}
      */
-    public static <T> Nillable<T> unknown() {
+    public static <
+            T> Nillable<T> unknown() {
         return Nil.UNKNOWN.cast();
     }
 
     /**
      * Creates a new {@code Nillable}, that is nil because it is withheld.
      *
-     * @param <T> the type
+     * @param <T>
+     *            the type
      *
      * @return the nil {@code Nillable}
      */
-    public static <T> Nillable<T> withheld() {
+    public static <
+            T> Nillable<T> withheld() {
         return Nil.WITHHELD.cast();
     }
 
     /**
      * Creates a new {@code Nillable} that is either present (if {@code obj} is not {@code null}), or absent.
      *
-     * @param <T> the type
-     * @param obj the object (may be {@code null})
+     * @param <T>
+     *            the type
+     * @param obj
+     *            the object (may be {@code null})
      *
      * @return the {@code Nillable}
      */
-    public static <T> Nillable<T> of(T obj) {
+    public static <
+            T> Nillable<T> of(T obj) {
         return of(obj, null);
     }
 
@@ -242,13 +272,17 @@ public abstract class Nillable<T> {
      * Creates a new {@code Nillable} that is either present (if {@code obj} is not {@code null}), nil (if
      * {@code reason} is not {@code null}) or absent.
      *
-     * @param <T>    the type
-     * @param obj    the object (may be {@code null})
-     * @param reason the nil reason (may be {@code null})
+     * @param <T>
+     *            the type
+     * @param obj
+     *            the object (may be {@code null})
+     * @param reason
+     *            the nil reason (may be {@code null})
      *
      * @return the {@code Nillable}
      */
-    public static <T> Nillable<T> of(T obj, String reason) {
+    public static <
+            T> Nillable<T> of(T obj, String reason) {
         if (obj == null) {
             if (reason == null) {
                 return absent();
@@ -258,7 +292,8 @@ public abstract class Nillable<T> {
         return present(obj);
     }
 
-    private static class Present<T> extends Nillable<T> {
+    private static class Present<
+            T> extends Nillable<T> {
         private final T obj;
 
         Present(T obj) {
@@ -291,7 +326,8 @@ public abstract class Nillable<T> {
         }
 
         @Override
-        public <X> Nillable<X> map(Function<? super T, X> fun) {
+        public <
+                X> Nillable<X> map(Function<? super T, X> fun) {
             return new Present<>(fun.apply(get()));
         }
 
@@ -302,8 +338,7 @@ public abstract class Nillable<T> {
 
         @Override
         public boolean equals(Object obj) {
-            return obj instanceof Present && Objects
-                   .equals(get(), ((Present) obj).get());
+            return obj instanceof Present && Objects.equals(get(), ((Present) obj).get());
         }
 
         @Override
@@ -350,7 +385,8 @@ public abstract class Nillable<T> {
         }
 
         @Override
-        public <X> Nillable<X> map(Function<? super Object, X> fun) {
+        public <
+                X> Nillable<X> map(Function<? super Object, X> fun) {
             return this.cast();
         }
 
@@ -361,12 +397,12 @@ public abstract class Nillable<T> {
 
         @Override
         public boolean equals(Object obj) {
-            return obj instanceof Nil && Objects
-                   .equals(getNilReason(), ((Nil) obj).getNilReason());
+            return obj instanceof Nil && Objects.equals(getNilReason(), ((Nil) obj).getNilReason());
         }
 
         @SuppressWarnings("unchecked")
-        <T> Nillable<T> cast() {
+        <
+                T> Nillable<T> cast() {
             return (Nillable<T>) this;
         }
 
@@ -410,7 +446,8 @@ public abstract class Nillable<T> {
         }
 
         @Override
-        public <X> Nillable<X> map(Function<? super Object, X> fun) {
+        public <
+                X> Nillable<X> map(Function<? super Object, X> fun) {
             return this.cast();
         }
 
@@ -425,7 +462,8 @@ public abstract class Nillable<T> {
         }
 
         @SuppressWarnings("unchecked")
-        <T> Nillable<T> cast() {
+        <
+                T> Nillable<T> cast() {
             return (Nillable<T>) this;
         }
 

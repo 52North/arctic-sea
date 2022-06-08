@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +15,14 @@
  */
 package org.n52.shetland.ogc.om;
 
-
 import java.util.Objects;
 
 import org.apache.commons.lang.builder.CompareToBuilder;
-
+import org.locationtech.jts.geom.Geometry;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.om.values.Value;
 
-import org.locationtech.jts.geom.Geometry;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Class that hold the time, the location and the value.
@@ -40,6 +38,7 @@ public class TimeLocationValueTriple extends TimeValuePair {
      */
     private Geometry location;
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public TimeLocationValueTriple(Time time, Value<?> value, Geometry location) {
         super(time, value);
         this.location = location;
@@ -48,6 +47,7 @@ public class TimeLocationValueTriple extends TimeValuePair {
     /**
      * @return the location
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Geometry getLocation() {
         return location;
     }
@@ -56,6 +56,7 @@ public class TimeLocationValueTriple extends TimeValuePair {
      * @param location
      *            the location to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setLocation(Geometry location) {
         this.location = location;
     }

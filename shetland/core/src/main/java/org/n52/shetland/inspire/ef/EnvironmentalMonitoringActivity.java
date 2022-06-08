@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +16,8 @@
 package org.n52.shetland.inspire.ef;
 
 import java.net.URI;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
 
 import org.n52.shetland.inspire.base.Identifier;
@@ -27,8 +28,9 @@ import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.collect.Sets;
 
-public class EnvironmentalMonitoringActivity
-        extends AbstractFeature {
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+public class EnvironmentalMonitoringActivity extends AbstractFeature {
 
     /**
      * 1..1
@@ -70,8 +72,9 @@ public class EnvironmentalMonitoringActivity
      */
     private Set<AbstractMonitoringFeature> uses = Sets.newHashSet();
 
-    public EnvironmentalMonitoringActivity(
-            Time activityTime, String activityConditions, RelatedParty responsibleParty, Identifier inspireId) {
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public EnvironmentalMonitoringActivity(Time activityTime, String activityConditions, RelatedParty responsibleParty,
+            Identifier inspireId) {
         super(inspireId);
         this.activityTime = activityTime;
         this.activityConditions = activityConditions;
@@ -82,6 +85,7 @@ public class EnvironmentalMonitoringActivity
     /**
      * @return the activityTime
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Time getActivityTime() {
         return activityTime;
     }
@@ -115,6 +119,7 @@ public class EnvironmentalMonitoringActivity
     /**
      * @return the responsibleParty
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public RelatedParty getResponsibleParty() {
         return responsibleParty;
     }
@@ -122,6 +127,7 @@ public class EnvironmentalMonitoringActivity
     /**
      * @return the inspireId
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Identifier getInspireId() {
         return inspireId;
     }
@@ -130,16 +136,21 @@ public class EnvironmentalMonitoringActivity
      * @return the onlineResource
      */
     public Set<URI> getOnlineResource() {
-        return onlineResource;
+        return Collections.unmodifiableSet(onlineResource);
     }
 
     /**
      * @param onlineResource
      *            the onlineResource to set
+     * @return this
      */
-    public void setOnlineResource(Set<URI> onlineResource) {
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public EnvironmentalMonitoringActivity setOnlineResource(Collection<URI> onlineResource) {
         this.onlineResource.clear();
-        this.onlineResource = onlineResource;
+        if (onlineResource != null) {
+            this.onlineResource.addAll(onlineResource);
+        }
+        return this;
     }
 
     public boolean isSetOnlineResource() {
@@ -150,16 +161,21 @@ public class EnvironmentalMonitoringActivity
      * @return the setUpFor
      */
     public Set<EnvironmentalMonitoringProgramme> getSetUpFor() {
-        return setUpFor;
+        return Collections.unmodifiableSet(setUpFor);
     }
 
     /**
      * @param setUpFor
      *            the setUpFor to set
+     * @return this
      */
-    public void setSetUpFor(Set<EnvironmentalMonitoringProgramme> setUpFor) {
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public EnvironmentalMonitoringActivity setSetUpFor(Collection<EnvironmentalMonitoringProgramme> setUpFor) {
         this.setUpFor.clear();
-        this.setUpFor = setUpFor;
+        if (setUpFor != null) {
+            this.setUpFor.addAll(setUpFor);
+        }
+        return this;
     }
 
     public boolean isSetUpFor() {
@@ -170,16 +186,21 @@ public class EnvironmentalMonitoringActivity
      * @return the uses
      */
     public Set<AbstractMonitoringFeature> getUses() {
-        return uses;
+        return Collections.unmodifiableSet(uses);
     }
 
     /**
      * @param uses
      *            the uses to set
+     * @return this
      */
-    public void setUses(Set<AbstractMonitoringFeature> uses) {
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public EnvironmentalMonitoringActivity setUses(Collection<AbstractMonitoringFeature> uses) {
         this.uses.clear();
-        this.uses = uses;
+        if (uses != null) {
+            this.uses.addAll(uses);
+        }
+        return this;
     }
 
     public boolean isSetUses() {

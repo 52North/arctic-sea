@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +18,7 @@ package org.n52.iceland.statistics.impl.schemabuilders;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -49,8 +49,7 @@ public abstract class DefaultElasticsearchSchemas {
 
         processSchemaClass(ServiceEventDataMapping.class);
         appSpecificSchema();
-
-        return properties;
+        return new LinkedHashMap<>(properties);
     }
 
     /**
@@ -113,7 +112,7 @@ public abstract class DefaultElasticsearchSchemas {
         mappings = new HashMap<>();
         properties.put(PROPERTIES_KEY, mappings);
         processSchemaClass(MetadataDataMapping.class);
-        return properties;
+        return new LinkedHashMap<>(properties);
     }
 
     public abstract int getSchemaVersion();

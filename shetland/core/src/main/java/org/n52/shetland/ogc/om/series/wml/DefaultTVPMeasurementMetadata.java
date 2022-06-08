@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,14 +29,10 @@ import org.n52.shetland.ogc.om.series.wml.WaterMLConstants.InterpolationType;
  * @since 1.0.0
  * @see <a href="http://www.opengeospatial.org/standards/waterml">OGC WaterML</a>
  */
-public class DefaultTVPMeasurementMetadata implements AbstractDefaultTVPMeasurementMetadata {
+public class DefaultTVPMeasurementMetadata
+        extends AbstractDefaultTVPMeasurementMetadata<DefaultTVPMeasurementMetadata> {
 
     private InterpolationType interpolationtype;
-
-    @Override
-    public boolean isSetInterpolationType() {
-        return interpolationtype != null;
-    }
 
     @Override
     public AbstractInterpolationType getInterpolationtype() {

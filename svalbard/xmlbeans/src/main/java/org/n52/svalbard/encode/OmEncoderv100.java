@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -85,6 +84,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import net.opengis.om.x10.CategoryObservationDocument;
 import net.opengis.om.x10.CategoryObservationType;
 import net.opengis.om.x10.CountObservationDocument;
@@ -149,6 +149,7 @@ public class OmEncoderv100
     }
 
     @Inject
+    @SuppressFBWarnings({"EI_EXPOSE_REP2"})
     public void setSweHelper(SweHelper sweHelper) {
         this.sweHelper = sweHelper;
     }
@@ -293,7 +294,7 @@ public class OmEncoderv100
                 for (OmObservation sosObservation : sosObservationCollection) {
                     String observationType = checkObservationType(sosObservation);
                     if (Strings.isNullOrEmpty(resultModel)
-                            || (!Strings.isNullOrEmpty(resultModel) && observationType.equals(resultModel))) {
+                            || !Strings.isNullOrEmpty(resultModel) && observationType.equals(resultModel)) {
                         if (sosObservation.getValue() instanceof StreamingValue) {
                             StreamingValue<?> streamingValue = (StreamingValue<?>) sosObservation.getValue();
                             while (streamingValue.hasNext()) {

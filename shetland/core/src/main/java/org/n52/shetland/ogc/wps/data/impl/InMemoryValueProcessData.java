@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -69,18 +68,14 @@ public class InMemoryValueProcessData extends ValueProcessData {
             return false;
         }
         final InMemoryValueProcessData other = (InMemoryValueProcessData) obj;
-        return Objects.equals(getId(), other.getId()) &&
-               Objects.equals(getFormat(), other.getFormat()) &&
-               Arrays.equals(this.bytes, other.bytes);
+        return Objects.equals(getId(), other.getId()) && Objects.equals(getFormat(), other.getFormat())
+                && Arrays.equals(this.bytes, other.bytes);
     }
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this).omitNullValues()
-                .add("id", getId())
-                .add("format", getFormat())
-                .add("value", this.bytes)
-                .toString();
+        return MoreObjects.toStringHelper(this).omitNullValues().add("id", getId()).add("format", getFormat())
+                .add("value", this.bytes).toString();
     }
 
 }

@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,24 +28,17 @@ public class WPSCapabilities extends OwsCapabilities {
 
     private final Optional<ProcessOfferings> processOfferings;
 
-    public WPSCapabilities(String version, String updateSequence,
-                           OwsServiceIdentification serviceIdentification,
-                           OwsServiceProvider serviceProvider,
-                           OwsOperationsMetadata operationsMetadata,
-                           Collection<String> languages,
-                           Collection<OwsCapabilitiesExtension> extension,
-                           ProcessOfferings processOfferings) {
+    public WPSCapabilities(String version, String updateSequence, OwsServiceIdentification serviceIdentification,
+            OwsServiceProvider serviceProvider, OwsOperationsMetadata operationsMetadata, Collection<String> languages,
+            Collection<OwsCapabilitiesExtension> extension, ProcessOfferings processOfferings) {
         this(WPSConstants.SERVICE, version, updateSequence, serviceIdentification, serviceProvider, operationsMetadata,
                 languages, extension, processOfferings);
     }
 
     public WPSCapabilities(String service, String version, String updateSequence,
-                           OwsServiceIdentification serviceIdentification,
-                           OwsServiceProvider serviceProvider,
-                           OwsOperationsMetadata operationsMetadata,
-                           Collection<String> languages,
-                           Collection<OwsCapabilitiesExtension> extension,
-                           ProcessOfferings processOfferings) {
+            OwsServiceIdentification serviceIdentification, OwsServiceProvider serviceProvider,
+            OwsOperationsMetadata operationsMetadata, Collection<String> languages,
+            Collection<OwsCapabilitiesExtension> extension, ProcessOfferings processOfferings) {
         super(service, version, updateSequence, serviceIdentification, serviceProvider, operationsMetadata, languages,
                 extension);
         this.processOfferings = Optional.ofNullable(processOfferings);

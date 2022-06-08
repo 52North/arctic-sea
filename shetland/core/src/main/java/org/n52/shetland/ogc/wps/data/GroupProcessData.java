@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -92,15 +91,12 @@ public class GroupProcessData extends ProcessData implements Iterable<ProcessDat
             return false;
         }
         final GroupProcessData other = (GroupProcessData) obj;
-        return Objects.equals(getId(), other.getId()) &&
-                Objects.equals(getElements(), other.getElements());
+        return Objects.equals(getId(), other.getId()) && Objects.equals(getElements(), other.getElements());
     }
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this).omitNullValues()
-                .add("id", getId())
-                .add("elements", getElements())
+        return MoreObjects.toStringHelper(this).omitNullValues().add("id", getId()).add("elements", getElements())
                 .toString();
     }
 
@@ -112,7 +108,5 @@ public class GroupProcessData extends ProcessData implements Iterable<ProcessDat
     public Stream<ProcessData> stream() {
         return this.elements.stream();
     }
-
-
 
 }

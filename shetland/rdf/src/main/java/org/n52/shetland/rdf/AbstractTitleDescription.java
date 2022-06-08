@@ -1,6 +1,5 @@
 /*
- * Copyright 2015-2021 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +31,7 @@ public abstract class AbstractTitleDescription<T extends AbstractTitleDescriptio
     private List<Description> desctiptions = new LinkedList<Description>();
 
     public List<Title> getTitles() {
-        return titles;
+        return new LinkedList<>(titles);
     }
 
     @SuppressWarnings("unchecked")
@@ -53,7 +52,7 @@ public abstract class AbstractTitleDescription<T extends AbstractTitleDescriptio
     }
 
     public List<Description> getDesctiptions() {
-        return desctiptions;
+        return new LinkedList<>(desctiptions);
     }
 
     @SuppressWarnings("unchecked")
