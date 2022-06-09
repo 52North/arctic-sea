@@ -81,7 +81,7 @@ public abstract class AbstractGmlDecoderv321<T, S>
         parseNames(agmlt, abstractGML);
         paresDescription(agmlt, abstractGML);
         // parseMetaDataProperty(agmlt, abstractGML);
-        return null;
+        return abstractGML;
     }
 
     protected AbstractFeature parseAbstractFeatureType(AbstractFeatureType aft, AbstractFeature abstractFeature)
