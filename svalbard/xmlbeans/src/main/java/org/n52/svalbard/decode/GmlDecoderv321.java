@@ -205,13 +205,14 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
         if (featurePropertyType.getHref() != null) {
             if (featurePropertyType.getHref().startsWith("#")) {
                 feature = new SamplingFeature(null, featurePropertyType.getHref().replace("#", ""));
+                feature.setGmlId(featurePropertyType.getHref());
             } else {
                 feature = new SamplingFeature(new CodeWithAuthority(featurePropertyType.getHref()));
                 if (featurePropertyType.getTitle() != null && !featurePropertyType.getTitle().isEmpty()) {
                     feature.addName(new org.n52.shetland.ogc.gml.CodeType(featurePropertyType.getTitle()));
                 }
+                feature.setGmlId("ssf_" + NcName.makeValid(featurePropertyType.getHref()));
             }
-            feature.setGmlId("ssf_" + NcName.makeValid(featurePropertyType.getHref()));
         } else {
             // if feature is encoded
             XmlObject abstractFeature = null;
