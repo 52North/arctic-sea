@@ -21,7 +21,7 @@
     <parent>
         <groupId>org.n52.arctic-sea</groupId>
         <artifactId>shetland-parent</artifactId>
-        <version>9.7.0-SNAPSHOT</version>
+        <version>10.0.0-SNAPSHOT</version>
     </parent>
     <artifactId>shetland-rdf</artifactId>
     <name>52°North Shetland RDF</name>
