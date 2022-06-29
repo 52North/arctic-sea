@@ -19,6 +19,17 @@ updates:
   - dependency-name: org.elasticsearch:elasticsearch
     versions:
     - 7.11.0
+- package-ecosystem: maven
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "04:15"
+  open-pull-requests-limit: 10
+  target-branch: "version/v10.0"
+  ignore:
+  - dependency-name: xml-apis:xml-apis
+    versions:
+    - ">= 2.a, < 3"
 - package-ecosystem: "github-actions"
   directory: "/"
   schedule:
