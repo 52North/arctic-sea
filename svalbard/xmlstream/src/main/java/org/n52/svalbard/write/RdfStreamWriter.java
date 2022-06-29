@@ -21,7 +21,7 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.RDFWriter;
+import org.apache.jena.rdf.model.RDFWriterI;
 import org.n52.shetland.rdf.RDF;
 import org.n52.svalbard.encode.EncodingContext;
 import org.n52.svalbard.encode.exception.EncodingException;
@@ -36,7 +36,7 @@ public class RdfStreamWriter extends XmlStreamWriter<RDF> {
     public void write() throws XMLStreamException, EncodingException {
         Model model = ModelFactory.createDefaultModel();
         getElement().addToModel(model);
-        RDFWriter w = model.getWriter("RDF/XML-ABBREV");
+        RDFWriterI w = model.getWriter("RDF/XML-ABBREV");
         w.setProperty("showXMLDeclaration", "true");
         w.setProperty("tab", "4");
         w.write(model, getOutputStream(), null);

@@ -23,7 +23,7 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.RDFWriter;
+import org.apache.jena.rdf.model.RDFWriterI;
 import org.junit.jupiter.api.Test;
 import org.n52.shetland.rdf.RDF;
 import org.n52.shetland.rdf.RDFDataTypes;
@@ -99,7 +99,7 @@ public class RdfStreamWriterTest {
         Model model = ModelFactory.createDefaultModel();
         rdf.addToModel(model);
 
-        RDFWriter w = model.getWriter("RDF/XML-ABBREV");
+        RDFWriterI w = model.getWriter("RDF/XML-ABBREV");
         w.setProperty("showXMLDeclaration", "true");
         w.setProperty("tab", "4");
         try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
