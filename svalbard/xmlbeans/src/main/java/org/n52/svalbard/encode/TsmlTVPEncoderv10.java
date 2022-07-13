@@ -54,12 +54,9 @@ import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.response.GetObservationResponse;
-import org.n52.shetland.ogc.swe.simpleType.SweCategory;
 import org.n52.shetland.ogc.swe.simpleType.SweQuality;
 import org.n52.shetland.ogc.swe.simpleType.SweQualityHolder;
 import org.n52.shetland.ogc.swe.simpleType.SweQuantity;
-import org.n52.shetland.ogc.swe.simpleType.SweQuantityRange;
-import org.n52.shetland.ogc.swe.simpleType.SweText;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.encode.exception.EncodingException;
@@ -472,16 +469,16 @@ public class TsmlTVPEncoderv10 extends AbstractTsmlEncoderv10 implements WmlTmlH
         }
     }
 
+    private void addValuesToMeasurementTVP(MeasurementTVPType measurementTVPType, String time, CountValue value) {
+        addValuesToMeasurementTVP(measurementTVPType, time,
+                value.isSetValue() ? Integer.toString(value.getValue()) : null);
+    }
+
     private boolean checkQuality(SweQualityHolder quality) {
         if (quality.isSetQuality()) {
             return quality.getQuality().stream().filter(q -> q instanceof SweQuantity).findFirst().isPresent();
         }
         return false;
-    }
-
-    private void addValuesToMeasurementTVP(MeasurementTVPType measurementTVPType, String time, CountValue value) {
-        addValuesToMeasurementTVP(measurementTVPType, time,
-                value.isSetValue() ? Integer.toString(value.getValue()) : null);
     }
 
     private void addMeasurmentMetadataMissing(PointMetadataType metadata) {

@@ -336,6 +336,7 @@ public class TsmlTVPEncoderv10XmlStreamWriter extends AbstractOmV20XmlStreamWrit
      * @throws XMLStreamException
      *             If an error occurs when writing to stream
      * @throws EncodingException
+     *             If an error occurs when encoding quality
      */
     private void writePoint(String time, String value, SweQualityHolder qualityHolder)
             throws XMLStreamException, EncodingException {
@@ -368,7 +369,7 @@ public class TsmlTVPEncoderv10XmlStreamWriter extends AbstractOmV20XmlStreamWrit
         writeValue(value);
         end(TimeseriesMLConstants.QN_MEASUREMENT_TVP);
     }
-    
+
     private boolean checkQuality(SweQualityHolder quality) {
         if (quality.isSetQuality()) {
             return quality.getQuality().stream().filter(q -> q instanceof SweQuantity).findFirst().isPresent();

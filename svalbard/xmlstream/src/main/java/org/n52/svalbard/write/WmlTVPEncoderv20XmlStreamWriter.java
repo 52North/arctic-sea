@@ -336,6 +336,7 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
      * @throws XMLStreamException
      *             If an error occurs when writing to stream
      * @throws EncodingException
+     *             If an error occurs when encoding quality
      */
     private void writePoint(String time, String value, SweQualityHolder qualityHolder)
             throws XMLStreamException, EncodingException {
