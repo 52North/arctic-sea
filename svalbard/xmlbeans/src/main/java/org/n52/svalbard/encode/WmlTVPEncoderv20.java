@@ -54,9 +54,12 @@ import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.response.GetObservationResponse;
+import org.n52.shetland.ogc.swe.simpleType.SweCategory;
 import org.n52.shetland.ogc.swe.simpleType.SweQuality;
 import org.n52.shetland.ogc.swe.simpleType.SweQualityHolder;
 import org.n52.shetland.ogc.swe.simpleType.SweQuantity;
+import org.n52.shetland.ogc.swe.simpleType.SweQuantityRange;
+import org.n52.shetland.ogc.swe.simpleType.SweText;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.encode.exception.EncodingException;
@@ -219,8 +222,7 @@ public class WmlTVPEncoderv20 extends AbstractWmlEncoderv20 {
 
     @Override
     protected OMObservationType createOmObservationType() {
-        // TODO Auto-generated method stub
-        return null;
+        return OMObservationType.Factory.newInstance(getXmlOptions());
     }
 
     /**
@@ -492,21 +494,20 @@ public class WmlTVPEncoderv20 extends AbstractWmlEncoderv20 {
 
     private void addValuesToMeasurementTVP(MeasureTVPType measurementTVP, String time, QuantityValue value)
             throws EncodingException {
-        measurementTVP.addNewTime()
-                .setStringValue(time);
+        measurementTVP.addNewTime().setStringValue(time);
         if (value.isSetValue()) {
-            measurementTVP.addNewValue()
-                    .setStringValue(value.getValue()
-                            .toPlainString());
-        } else {
-            measurementTVP.addNewValue()
-                    .setNil();
+            measurementTVP.addNewValue().setStringValue(value.getValue().toPlainString());
             if (value.isSetQuality()) {
-                addMeasurmentMetadata(measurementTVP.addNewMetadata()
-                        .addNewTVPMeasurementMetadata(), value.getQuality());
+                addMeasurmentMetadata(measurementTVP.addNewMetadata().addNewTVPMeasurementMetadata(),
+                        value.getQuality());
+            }
+        } else {
+            measurementTVP.addNewValue().setNil();
+            if (value.isSetQuality()) {
+                addMeasurmentMetadata(measurementTVP.addNewMetadata().addNewTVPMeasurementMetadata(),
+                        value.getQuality());
             } else {
-                addMeasurmentMetadataMissing(measurementTVP.addNewMetadata()
-                        .addNewTVPMeasurementMetadata());
+                addMeasurmentMetadataMissing(measurementTVP.addNewMetadata().addNewTVPMeasurementMetadata());
             }
         }
     }
@@ -534,9 +535,24 @@ public class WmlTVPEncoderv20 extends AbstractWmlEncoderv20 {
         if (quality.isSetQuality()) {
             for (SweQuality qualifier : quality.getQuality()) {
                 if (qualifier instanceof SweQuantity) {
-                    XmlObject xmlQuality = encodeSweCommon(quality);
+                    XmlObject xmlQuality = encodeSweCommon(qualifier);
                     metadata.addNewQualifier()
                             .addNewQuantity()
+                            .set(xmlQuality);
+                } else if (qualifier instanceof SweText) {
+                    XmlObject xmlQuality = encodeSweCommon(qualifier);
+                    metadata.addNewQualifier()
+                            .addNewText()
+                            .set(xmlQuality);
+                } else if (qualifier instanceof SweCategory) {
+                    XmlObject xmlQuality = encodeSweCommon(qualifier);
+                    metadata.addNewQualifier()
+                            .addNewCategory()
+                            .set(xmlQuality);
+                } else if (qualifier instanceof SweQuantityRange) {
+                    XmlObject xmlQuality = encodeSweCommon(qualifier);
+                    metadata.addNewQualifier()
+                            .addNewQuantityRange()
                             .set(xmlQuality);
                 }
             }
