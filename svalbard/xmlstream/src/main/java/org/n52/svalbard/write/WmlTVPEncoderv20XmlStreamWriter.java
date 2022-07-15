@@ -59,8 +59,8 @@ import org.n52.svalbard.encode.exception.EncodingException;
 import com.google.common.base.Strings;
 
 /**
- * Implementation of {@link AbstractOmV20XmlStreamWriter} to write WaterML 2.0
- * encoded {@link OmObservation}s to stream
+ * Implementation of {@link AbstractOmV20XmlStreamWriter} to write WaterML 2.0 encoded {@link OmObservation}s
+ * to stream
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
@@ -82,12 +82,10 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
         writeMeasurementTimeseriesMetadata(observation);
         if (observation.getValue() instanceof SingleObservationValue) {
             SingleObservationValue<?> observationValue = (SingleObservationValue<?>) observation.getValue();
-            writeDefaultPointMetadata(observationValue, observationValue.getValue()
-                    .getUnit());
+            writeDefaultPointMetadata(observationValue, observationValue.getValue().getUnit());
             if (checkSweDataArray(observationValue.getValue())) {
                 SweDataArrayValue sweDataArrayValue = (SweDataArrayValue) observationValue.getValue();
-                for (List<String> list : sweDataArrayValue.getValue()
-                        .getValues()) {
+                for (List<String> list : sweDataArrayValue.getValue().getValues()) {
                     for (int i = 0; i < list.size(); i = i + 2) {
                         writePoint(list.get(i), list.get(i + 1));
                         close();
@@ -95,15 +93,13 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
                 }
             } else {
                 String time = getTimeString(observationValue.getPhenomenonTime());
-                writePoint(time, observation.getValue()
-                        .getValue());
+                writePoint(time, observation.getValue().getValue());
                 close();
             }
         } else if (observation.getValue() instanceof MultiObservationValues) {
             // XML streaming to client
             MultiObservationValues<?> observationValue = (MultiObservationValues<?>) observation.getValue();
-            writeDefaultPointMetadata(observationValue, observationValue.getValue()
-                    .getUnit());
+            writeDefaultPointMetadata(observationValue, observationValue.getValue().getUnit());
             TVPValue tvpValue = (TVPValue) observationValue.getValue();
             List<TimeValuePair> timeValuePairs = tvpValue.getValue();
             for (TimeValuePair timeValuePair : timeValuePairs) {
@@ -119,11 +115,11 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
                 writeDefaultPointMetadata(observationValue, observationValue.getUnit());
             } else if (observation.getObservationConstellation()
                     .getObservableProperty() instanceof OmObservableProperty
-                    && ((OmObservableProperty) observation.getObservationConstellation()
-                            .getObservableProperty()).isSetUnit()) {
+                    && ((OmObservableProperty) observation.getObservationConstellation().getObservableProperty())
+                            .isSetUnit()) {
                 writeDefaultPointMetadata(observationValue,
-                        ((OmObservableProperty) observation.getObservationConstellation()
-                                .getObservableProperty()).getUnit());
+                        ((OmObservableProperty) observation.getObservationConstellation().getObservableProperty())
+                                .getUnit());
             } else {
                 writeDefaultPointMetadata(observationValue, null);
             }
@@ -150,10 +146,8 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
 
     @Override
     protected void checkAndWriteIdentifier() throws EncodingException, XMLStreamException {
-        if (getElement().getObservationConstellation()
-                .isSetIdentifier()) {
-            writeIdentifier(getElement().getObservationConstellation()
-                    .getIdentifierCodeWithAuthority());
+        if (getElement().getObservationConstellation().isSetIdentifier()) {
+            writeIdentifier(getElement().getObservationConstellation().getIdentifierCodeWithAuthority());
         } else {
             super.checkAndWriteIdentifier();
         }
@@ -161,10 +155,8 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
 
     @Override
     protected void checkAndWriteName() throws EncodingException, XMLStreamException {
-        if (getElement().getObservationConstellation()
-                .isSetName()) {
-            for (CodeType name : getElement().getObservationConstellation()
-                    .getName()) {
+        if (getElement().getObservationConstellation().isSetName()) {
+            for (CodeType name : getElement().getObservationConstellation().getName()) {
                 writeName(name);
             }
         } else {
@@ -174,10 +166,8 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
 
     @Override
     protected void checkAndWriteDescription() throws XMLStreamException {
-        if (getElement().getObservationConstellation()
-                .isSetDescription()) {
-            writeDescription(getElement().getObservationConstellation()
-                    .getDescription());
+        if (getElement().getObservationConstellation().isSetDescription()) {
+            writeDescription(getElement().getObservationConstellation().getDescription());
         } else {
             super.checkAndWriteDescription();
         }
@@ -207,20 +197,12 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
         start(WaterMLConstants.QN_METADATA);
         start(WaterMLConstants.QN_MEASUREMENT_TIMESERIES_METADATA);
         empty(WaterMLConstants.QN_TEMPORAL_EXTENT);
-        addXlinkHrefAttr("#" + o.getPhenomenonTime()
-                .getGmlId());
-        if (o.isSetValue() && o.getValue()
-                .isSetMetadata()
-                && o.getValue()
-                        .getMetadata()
-                        .isSetTimeseriesMetadata()
-                && o.getValue()
-                        .getMetadata()
-                        .getTimeseriesmetadata() instanceof MeasurementTimeseriesMetadata) {
+        addXlinkHrefAttr("#" + o.getPhenomenonTime().getGmlId());
+        if (o.isSetValue() && o.getValue().isSetMetadata() && o.getValue().getMetadata().isSetTimeseriesMetadata()
+                && o.getValue().getMetadata().getTimeseriesmetadata() instanceof MeasurementTimeseriesMetadata) {
             start(WaterMLConstants.QN_CUMULATIVE);
-            chars(Boolean.toString(((MeasurementTimeseriesMetadata) o.getValue()
-                    .getMetadata()
-                    .getTimeseriesmetadata()).isCumulative()));
+            chars(Boolean.toString(((MeasurementTimeseriesMetadata) o.getValue().getMetadata().getTimeseriesmetadata())
+                    .isCumulative()));
             endInline(WaterMLConstants.QN_CUMULATIVE);
         }
         end(WaterMLConstants.QN_MEASUREMENT_TIMESERIES_METADATA);
@@ -276,13 +258,11 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
      */
     private void writeInterpolationType(@Nullable ObservationValue<?> value) throws XMLStreamException {
         empty(WaterMLConstants.QN_INTERPOLATION_TYPE);
-        if (value != null && value.isSetMetadata() && value.getDefaultPointMetadata()
-                .isSetDefaultTVPMeasurementMetadata() && value.getDefaultPointMetadata()
-                        .getDefaultTVPMeasurementMetadata()
-                        .isSetInterpolationType()) {
+        if (value != null && value.isSetMetadata()
+                && value.getDefaultPointMetadata().isSetDefaultTVPMeasurementMetadata()
+                && value.getDefaultPointMetadata().getDefaultTVPMeasurementMetadata().isSetInterpolationType()) {
             InterpolationType interpolationtype = (InterpolationType) value.getDefaultPointMetadata()
-                    .getDefaultTVPMeasurementMetadata()
-                    .getInterpolationtype();
+                    .getDefaultTVPMeasurementMetadata().getInterpolationtype();
             addXlinkHrefAttr(interpolationtype.getIdentifier());
             addXlinkTitleAttr(interpolationtype.getTitle());
         } else {
@@ -292,14 +272,11 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
     }
 
     private void writeAggregationDuration(ObservationValue<?> value) throws XMLStreamException {
-        if (value != null && value.isSetMetadata() && value.getDefaultPointMetadata()
-                .isSetDefaultTVPMeasurementMetadata() && value.getDefaultPointMetadata()
-                        .getDefaultTVPMeasurementMetadata()
-                        .isSetAggregationDuration()) {
+        if (value != null && value.isSetMetadata()
+                && value.getDefaultPointMetadata().isSetDefaultTVPMeasurementMetadata()
+                && value.getDefaultPointMetadata().getDefaultTVPMeasurementMetadata().isSetAggregationDuration()) {
             start(WaterMLConstants.QN_AGGREGATION_DURATION);
-            chars(value.getDefaultPointMetadata()
-                    .getDefaultTVPMeasurementMetadata()
-                    .getAggregationDuration());
+            chars(value.getDefaultPointMetadata().getDefaultTVPMeasurementMetadata().getAggregationDuration());
             end(WaterMLConstants.QN_AGGREGATION_DURATION);
         }
     }
@@ -312,10 +289,7 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
             } else if (value instanceof ProfileValue) {
                 ProfileValue gwglcValue = (ProfileValue) value;
                 if (gwglcValue.isSetValue()) {
-                    writePoint(time, gwglcValue.getValue()
-                            .iterator()
-                            .next()
-                            .getSimpleValue());
+                    writePoint(time, gwglcValue.getValue().iterator().next().getSimpleValue());
                 }
             } else if (value instanceof CountValue) {
                 CountValue countValue = (CountValue) value;
@@ -323,7 +297,7 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
             } else if (value instanceof TextValue) {
                 TextValue textValue = (TextValue) value;
                 String nonXmlEscapedText = textValue.getValue();
-                writePoint(time, StringEscapeUtils.escapeXml(nonXmlEscapedText));
+                writePoint(time, StringEscapeUtils.escapeXml(nonXmlEscapedText), textValue.getQuality());
             }
         } else {
             writePoint(time, "");
@@ -332,19 +306,22 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
 
     private void writePoint(String time, QuantityValue value) throws XMLStreamException, EncodingException {
         if (value.isSetValue()) {
-            writePoint(time, value.getValue()
-                    .toPlainString());
+            writePoint(time, value.getValue().toPlainString(), value.getQuality());
         } else {
             if (value.isSetQuality()) {
-                writePointWithQuality(time, value.getQuality());
+                writePointEmptyValueWithQuality(time, value.getQuality());
             } else {
                 writePoint(time, "");
             }
         }
     }
 
-    private void writePoint(String time, CountValue value) throws XMLStreamException {
-        writePoint(time, value.isSetValue() ? Integer.toString(value.getValue()) : "");
+    private void writePoint(String time, CountValue value) throws XMLStreamException, EncodingException {
+        writePoint(time, value.isSetValue() ? Integer.toString(value.getValue()) : "", value.getQuality());
+    }
+
+    private void writePoint(String time, String string) throws XMLStreamException, EncodingException {
+        writePoint(time, string, null);
     }
 
     /**
@@ -354,14 +331,18 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
      *            time as {@link String}
      * @param value
      *            value as {@link String}
-     *
+     * @param sweQualityHolder
+     *            quality data
      * @throws XMLStreamException
      *             If an error occurs when writing to stream
+     * @throws EncodingException
+     *             If an error occurs when encoding quality
      */
-    private void writePoint(String time, String value) throws XMLStreamException {
+    private void writePoint(String time, String value, SweQualityHolder qualityHolder)
+            throws XMLStreamException, EncodingException {
         if (!Strings.isNullOrEmpty(time)) {
             start(WaterMLConstants.QN_POINT);
-            writeMeasurementTVP(time, value);
+            writeMeasurementTVP(time, value, qualityHolder);
             end(WaterMLConstants.QN_POINT);
         }
     }
@@ -373,16 +354,23 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
      *            time as {@link String}
      * @param value
      *            value as {@link String}
-     *
+     * @param sweQualityHolder
+     *            quality data
      * @throws XMLStreamException
      *             If an error occurs when writing to stream
      */
-    private void writeMeasurementTVP(String time, String value) throws XMLStreamException {
+    private void writeMeasurementTVP(String time, String value, SweQualityHolder qualityHolder)
+            throws XMLStreamException, EncodingException {
         start(WaterMLConstants.QN_MEASUREMENT_TVP);
         writeTime(time);
         writeValue(value);
+        if (qualityHolder != null && qualityHolder.isSetQuality()) {
+            writeValueMetadata(qualityHolder);
+        }
         end(WaterMLConstants.QN_MEASUREMENT_TVP);
     }
+
+
 
     /**
      * Write wml:time to stream
@@ -419,7 +407,7 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
         }
     }
 
-    private void writePointWithQuality(String time, SweQualityHolder qualityHolder)
+    private void writePointEmptyValueWithQuality(String time, SweQualityHolder qualityHolder)
             throws XMLStreamException, EncodingException {
         start(WaterMLConstants.QN_POINT);
         start(WaterMLConstants.QN_MEASUREMENT_TVP);
@@ -466,10 +454,9 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
     }
 
     private void writeCensoredReason(SweQualityHolder qualityHolder) throws XMLStreamException {
-        if (qualityHolder.isSetReferences() && qualityHolder.getReferences()
-                .containsKey(WaterMLConstants.EN_CENSORED_REASON)) {
-            ReferenceType reference = qualityHolder.getReferences()
-                    .get(WaterMLConstants.EN_CENSORED_REASON);
+        if (qualityHolder.isSetReferences()
+                && qualityHolder.getReferences().containsKey(WaterMLConstants.EN_CENSORED_REASON)) {
+            ReferenceType reference = qualityHolder.getReferences().get(WaterMLConstants.EN_CENSORED_REASON);
             empty(WaterMLConstants.QN_CENSORED_REASON);
             if (reference.isSetHref()) {
                 attr(W3CConstants.QN_XLINK_HREF, reference.getHref());
