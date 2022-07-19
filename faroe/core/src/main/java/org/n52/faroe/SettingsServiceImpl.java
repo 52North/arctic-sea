@@ -31,6 +31,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -65,8 +66,8 @@ public class SettingsServiceImpl implements SettingsService {
     private static final Logger LOG = LoggerFactory.getLogger(SettingsServiceImpl.class);
     private final Map<String, Set<ConfigurableObject>> configurableObjects = new HashMap<>();
     private final ReadWriteLock configurableObjectsLock = new ReentrantReadWriteLock();
-    private Set<SettingDefinition<?>> definitions;
-    private Map<String, SettingDefinition<?>> definitionByKey;
+    private Set<SettingDefinition<?>> definitions = new HashSet<>();
+    private Map<String, SettingDefinition<?>> definitionByKey = new TreeMap<>();
     private SettingsDao settingsManagerDao;
     private SettingValueFactory settingValueFactory;
     private EventBus serviceEventBus;
@@ -90,14 +91,11 @@ public class SettingsServiceImpl implements SettingsService {
 
     @Inject
     public void setSettingDefinitions(Optional<Collection<SettingDefinition<?>>> def) {
+        this.definitions.clear();
+        this.definitionByKey.clear();
         if (def.isPresent()) {
             Collection<SettingDefinition<?>> defs = def.get();
-            this.definitions = new HashSet<>(defs.size());
-            this.definitionByKey = new HashMap<>(defs.size());
             addSettings(defs);
-        } else {
-            this.definitions = new HashSet<>(0);
-            this.definitionByKey = new HashMap<>(0);
         }
     }
 
