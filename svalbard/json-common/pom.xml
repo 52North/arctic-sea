@@ -21,7 +21,7 @@
     <parent>
         <groupId>org.n52.arctic-sea</groupId>
         <artifactId>svalbard-parent</artifactId>
-        <version>9.6.1</version>
+        <version>9.6.2-SNAPSHOT</version>
     </parent>
     <artifactId>svalbard-json-common</artifactId>
     <name>52°North Svalbard JSON Common</name>
