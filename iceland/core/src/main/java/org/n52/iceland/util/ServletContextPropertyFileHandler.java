@@ -15,6 +15,8 @@
  */
 package org.n52.iceland.util;
 
+import java.nio.file.Paths;
+
 import javax.servlet.ServletContext;
 
 /**
@@ -27,7 +29,8 @@ import javax.servlet.ServletContext;
 public class ServletContextPropertyFileHandler extends PropertyFileHandlerImpl {
 
     public ServletContextPropertyFileHandler(ServletContext ctx, String name) {
-        super(ctx.getRealPath(name));
+        super(ctx.getRealPath(name) != null ? ctx.getRealPath(name)
+                : Paths.get(ctx.getRealPath("/"), name).toString());
     }
 
 }
