@@ -26,7 +26,7 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-public abstract class ScheduledJob extends QuartzJobBean {
+public abstract class ScheduledJob extends QuartzJobBean implements CronExpressionValidator {
     private boolean enabled = true;
 
     private String jobName;
@@ -35,21 +35,26 @@ public abstract class ScheduledJob extends QuartzJobBean {
 
     private String jobDescription;
 
-    private String cronExpression;
-
-    private boolean triggerAtStartup;
+    private final JobConfiguration jobConfiguration;
 
     private DateTime startUpDelay;
 
     private boolean modified;
 
+    public ScheduledJob(JobConfiguration jobConfiguration) {
+        this.jobConfiguration = jobConfiguration;
+        this.modified = true;
+    }
+
     // XXX job details create a job instance! snake biting tail
     public abstract JobDetail createJobDetails();
 
+    public String getJobConfigurationName() {
+        return jobConfiguration.getName();
+    }
+
     public String getJobName() {
-        return jobName == null || jobName.isEmpty()
-                ? getClass().getSimpleName()
-                : jobName;
+        return jobName == null || jobName.isEmpty() ? getClass().getSimpleName() : jobName;
     }
 
     public void setJobName(String jobName) {
@@ -57,9 +62,7 @@ public abstract class ScheduledJob extends QuartzJobBean {
     }
 
     public String getTriggerName() {
-        return triggerName == null || triggerName.isEmpty()
-                ? "trigger_" + getJobName()
-                : triggerName;
+        return triggerName == null || triggerName.isEmpty() ? "trigger_" + getJobName() : triggerName;
     }
 
     public void setTriggerName(String triggerName) {
@@ -75,19 +78,19 @@ public abstract class ScheduledJob extends QuartzJobBean {
     }
 
     public String getCronExpression() {
-        return cronExpression;
+        return jobConfiguration.getCronExpression();
     }
 
     public void setCronExpression(String cronExpresssion) {
-        this.cronExpression = cronExpresssion;
+        validate(cronExpresssion);
+        if (checkCronExpression(cronExpresssion)) {
+            jobConfiguration.setCronExpression(cronExpresssion);
+            setModified(true);
+        }
     }
 
     public boolean isTriggerAtStartup() {
-        return triggerAtStartup || isStartUpDelay();
-    }
-
-    public void setTriggerAtStartup(boolean triggerAtStartup) {
-        this.triggerAtStartup = triggerAtStartup;
+        return jobConfiguration.isTriggerAtStartup() || isStartUpDelay();
     }
 
     public boolean isStartUpDelay() {
@@ -95,9 +98,7 @@ public abstract class ScheduledJob extends QuartzJobBean {
     }
 
     public Trigger createTrigger(JobKey jobKey) {
-        TriggerBuilder<Trigger> tb = TriggerBuilder.newTrigger()
-                .forJob(jobKey)
-                .withIdentity(getTriggerName());
+        TriggerBuilder<Trigger> tb = TriggerBuilder.newTrigger().forJob(jobKey).withIdentity(getTriggerName());
         if (getCronExpression() != null) {
             tb.withSchedule(CronScheduleBuilder.cronSchedule(getCronExpression()));
         }
@@ -133,5 +134,14 @@ public abstract class ScheduledJob extends QuartzJobBean {
     @SuppressFBWarnings("EI_EXPOSE_REP2")
     public void setStartUpDelay(DateTime startUpDelay) {
         this.startUpDelay = startUpDelay;
+    }
+
+    private boolean checkCronExpression(String cronExpression) {
+        if (getCronExpression() == null || getCronExpression() != null && !getCronExpression().isEmpty()
+                && !getCronExpression().equals(cronExpression)) {
+            setCronExpression(cronExpression);
+            return true;
+        }
+        return false;
     }
 }
