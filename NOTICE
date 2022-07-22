@@ -57,6 +57,7 @@ This project includes:
   Apache Jena - IRI under The Apache Software License, Version 2.0
   Apache Jena - Shadowed external libraries under The Apache Software License, Version 2.0
   Apache Log4j API under Apache License, Version 2.0
+  Apache Log4j to SLF4J Adapter under Apache License, Version 2.0
   Apache Thrift under The Apache Software License, Version 2.0
   c3p0 under GNU Lesser General Public License, Version 2.1 or Eclipse Public License, Version 1.0
   Checker Qual under The MIT License
@@ -72,6 +73,7 @@ This project includes:
   elasticsearch-x-content under Elastic License 2.0 or Server Side Public License, v 1
   embedded-elasticsearch under The Apache Software License, Version 2.0
   error-prone annotations under Apache 2.0
+  faroe-rest under The Apache Software License, Version 2.0
   FindBugs-jsr305 under The Apache Software License, Version 2.0
   Geographic Common (GCO) schema (version 2012-07-13) under The Apache Software License, Version 2.0
   Geographic MetaData (GMD) schema (version 2012-07-13) under The Apache Software License, Version 2.0
@@ -98,10 +100,14 @@ This project includes:
   J2ObjC Annotations under The Apache Software License, Version 2.0
   Jackson dataformat: CBOR under The Apache Software License, Version 2.0
   Jackson dataformat: Smile under The Apache Software License, Version 2.0
+  Jackson datatype: jdk8 under The Apache Software License, Version 2.0
+  Jackson datatype: JSR310 under The Apache Software License, Version 2.0
   Jackson-annotations under The Apache Software License, Version 2.0
   Jackson-core under The Apache Software License, Version 2.0
   jackson-databind under The Apache Software License, Version 2.0
   Jackson-dataformat-YAML under The Apache Software License, Version 2.0
+  Jackson-module-parameter-names under The Apache Software License, Version 2.0
+  Jakarta Annotations API under EPL 2.0 or GPL2 w/ CPE
   Java archiving library under Apache 2
   JavaBeans(TM) Activation Framework under COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL) Version 1.0
   JavaMail API jar under CDDL or GPLv2+CE
@@ -112,8 +118,11 @@ This project includes:
   Joda-Time under Apache License, Version 2.0
   JOpt Simple under The MIT License
   JSONLD Java :: Core under Revised BSD License
+  JUL to SLF4J bridge under MIT License
   lang-mustache under Elastic License 2.0 or Server Side Public License, v 1
   libphonenumber under The Apache Software License, Version 2.0
+  Logback Classic Module under Eclipse Public License - v 1.0 or GNU Lesser General Public License
+  Logback Core Module under Eclipse Public License - v 1.0 or GNU Lesser General Public License
   Lucene Common Analyzers under Apache License, Version 2.0
   Lucene Grouping under Apache License, Version 2.0
   Lucene Highlighter under Apache License, Version 2.0
@@ -137,8 +146,8 @@ This project includes:
   Netty/Common under Apache License, Version 2.0
   Netty/Handler under Apache License, Version 2.0
   Netty/Resolver under Apache License, Version 2.0
-  Netty/TomcatNative [OpenSSL - Classes] under The Apache Software License, Version 2.0
   Netty/Transport under Apache License, Version 2.0
+  Netty/Transport/Native/Unix/Common under Apache License, Version 2.0
   null under Lesser General Public License, version 3 or greater or Apache Software License, version 2.0
   OASIS WS-N specification schemas - including WS-BrokeredNotification (v1.3) under The Apache Software License, Version 2.0
   OASIS WS-Resources specification schemas v1.2 under The Apache Software License, Version 2.0
@@ -199,7 +208,18 @@ This project includes:
   Spring Core under Apache License, Version 2.0
   Spring Expression Language (SpEL) under Apache License, Version 2.0
   Spring Web under Apache License, Version 2.0
+  Spring Web MVC under Apache License, Version 2.0
+  spring-boot under Apache License, Version 2.0
+  spring-boot-autoconfigure under Apache License, Version 2.0
+  spring-boot-starter under Apache License, Version 2.0
+  spring-boot-starter-json under Apache License, Version 2.0
+  spring-boot-starter-logging under Apache License, Version 2.0
+  spring-boot-starter-tomcat under Apache License, Version 2.0
+  spring-boot-starter-web under Apache License, Version 2.0
   T-Digest under The Apache Software License, Version 2.0
+  tomcat-embed-core under Apache License, Version 2.0
+  tomcat-embed-el under Apache License, Version 2.0
+  tomcat-embed-websocket under Apache License, Version 2.0
   W3C SOAP specification recommondation (v1.1) under The Apache Software License, Version 2.0
   W3C SOAP specification recommondation (v1.2 part 1) under The Apache Software License, Version 2.0
   W3C WS-Addressing specification schemas (v1.0) under The Apache Software License, Version 2.0

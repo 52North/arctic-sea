@@ -32,5 +32,6 @@
         <module>core</module>
         <module>annotations</module>
         <module>utils</module>
+        <module>rest</module>
     </modules>
 </project>
