@@ -15,8 +15,7 @@
  */
 package org.n52.faroeREST.springrest.settings;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import org.n52.faroe.SettingDefinition;
 import org.n52.faroeREST.springrest.entities.Groups;

@@ -98,7 +98,12 @@
 		  <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>iceland</artifactId>
-                <version>${project.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>javax.inject</groupId>
+                <artifactId>javax.inject</artifactId>
+            	<scope>provided</scope>
             </dependency>
 	</dependencies>
 
