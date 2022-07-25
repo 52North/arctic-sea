@@ -9,7 +9,7 @@
     <bean id="settingsEncoder" class="org.n52.faroe.json.JsonSettingsEncoder" />
     <bean id="settingsDecoder" class="org.n52.faroe.json.JsonSettingsDecoder" />
     <bean id="settingValue" class="org.n52.faroe.json.JsonSettingValueFactory" />
-    <bean id="settingConf" class="org.n52.faroe.json.JsonConfiguration" />
-    <bean id="settingServConf" class="org.n52.iceland.ServletConfigLocationProvider" />
-
+	<bean id="JsonConfiguration" class="org.n52.faroe.json.JsonConfiguration" />
+	<bean id="EventBus" class="org.n52.janmayen.event.EventBus" />
+	<bean id="ServletConfig" class="org.n52.iceland.service.ServletConfigLocationProvider" />
 </beans>
