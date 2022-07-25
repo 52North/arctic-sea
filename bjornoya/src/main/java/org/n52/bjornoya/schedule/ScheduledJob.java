@@ -46,10 +46,6 @@ public abstract class ScheduledJob extends QuartzJobBean implements CronExpressi
 
     private DateTime startUpDelay;
 
-    public ScheduledJob() {
-        this.jobConfiguration = jobConfiguration.setModified(true);
-    }
-
     @Override
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
         Long start = System.currentTimeMillis();
@@ -66,7 +62,7 @@ public abstract class ScheduledJob extends QuartzJobBean implements CronExpressi
     }
 
     private void setJobConfig(JobExecutionContext context) {
-        if (this.jobConfiguration == null) {
+        if (this.getJobConfiguration() == null) {
             this.jobConfiguration = (JobConfiguration) context.getJobDetail().getJobDataMap().get(JOB_CONFIG);
         }
     }
@@ -78,21 +74,23 @@ public abstract class ScheduledJob extends QuartzJobBean implements CronExpressi
 
     protected JobDataMap getJobDataMap() {
         JobDataMap dataMap = new JobDataMap();
-        dataMap.put(JOB_CONFIG, jobConfiguration);
+        dataMap.put(JOB_CONFIG, getJobConfiguration());
         return dataMap;
     }
 
     public String getJobConfigurationName() {
-        return getJobConfiguration().getName();
+        return isSetJobConfiguration() ? getJobConfiguration().getName() : null;
     }
 
-    public void init(JobConfiguration initConfig) {
+    public ScheduledJob init(JobConfiguration initConfig) {
         setJobConfiguration(initConfig);
         setJobName(initConfig.getName());
+        return this;
     }
 
-    public void setJobConfiguration(JobConfiguration jobConfiguration) {
+    public ScheduledJob setJobConfiguration(JobConfiguration jobConfiguration) {
         this.jobConfiguration = jobConfiguration;
+        return this;
     }
 
     public JobConfiguration getJobConfiguration() {
@@ -103,40 +101,47 @@ public abstract class ScheduledJob extends QuartzJobBean implements CronExpressi
         return jobName == null || jobName.isEmpty() ? getClass().getSimpleName() : jobName;
     }
 
-    public void setJobName(String jobName) {
+    public ScheduledJob setJobName(String jobName) {
         this.jobName = jobName;
+        return this;
     }
 
     public String getTriggerName() {
         return triggerName == null || triggerName.isEmpty() ? "trigger_" + getJobName() : triggerName;
     }
 
-    public void setTriggerName(String triggerName) {
+    public ScheduledJob setTriggerName(String triggerName) {
         this.triggerName = triggerName;
+        return this;
     }
 
     public String getJobDescription() {
         return jobDescription;
     }
 
-    public void setJobDescription(String jobDescription) {
+    public ScheduledJob setJobDescription(String jobDescription) {
         this.jobDescription = jobDescription;
+        return this;
     }
 
     public String getCronExpression() {
-        return jobConfiguration.getCronExpression();
+        return isSetJobConfiguration() ? getJobConfiguration().getCronExpression() : null;
     }
 
-    public void setCronExpression(String cronExpresssion) {
+    public ScheduledJob setCronExpression(String cronExpresssion) {
         validate(cronExpresssion);
         if (checkCronExpression(cronExpresssion)) {
-            jobConfiguration.setCronExpression(cronExpresssion);
+            if (!isSetJobConfiguration()) {
+                setJobConfiguration(new JobConfiguration());
+            }
+            getJobConfiguration().setCronExpression(cronExpresssion);
             setModified(true);
         }
+        return this;
     }
 
     public boolean isTriggerAtStartup() {
-        return jobConfiguration.isTriggerAtStartup() || isStartUpDelay();
+        return isSetJobConfiguration() && getJobConfiguration().isTriggerAtStartup() || isStartUpDelay();
     }
 
     public boolean isStartUpDelay() {
@@ -165,11 +170,13 @@ public abstract class ScheduledJob extends QuartzJobBean implements CronExpressi
     }
 
     public boolean isModified() {
-        return getJobConfiguration().isModified();
+        return isSetJobConfiguration() ? getJobConfiguration().isModified() : false;
     }
 
     public void setModified(boolean modified) {
-        getJobConfiguration().setModified(modified);
+        if (isSetJobConfiguration()) {
+            getJobConfiguration().setModified(modified);
+        }
     }
 
     @SuppressFBWarnings("EI_EXPOSE_REP")
@@ -180,6 +187,10 @@ public abstract class ScheduledJob extends QuartzJobBean implements CronExpressi
     @SuppressFBWarnings("EI_EXPOSE_REP2")
     public void setStartUpDelay(DateTime startUpDelay) {
         this.startUpDelay = startUpDelay;
+    }
+
+    private boolean isSetJobConfiguration() {
+        return getJobConfiguration() != null;
     }
 
     private boolean checkCronExpression(String cronExpression) {
