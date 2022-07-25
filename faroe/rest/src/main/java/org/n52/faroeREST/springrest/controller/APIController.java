@@ -15,8 +15,9 @@
  */
 package org.n52.faroeREST.springrest.controller;
 
-import java.util.List;
+import java.util.Set;
 
+import org.n52.faroe.SettingDefinition;
 import org.n52.faroeREST.springrest.entities.Groups;
 import org.n52.faroeREST.springrest.settings.SettingsAPI;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,28 +38,28 @@ public class APIController {
 	private SettingsAPI api;
 
 	@GetMapping(path = "/groups")
-	public List<Groups> getGroup(){
+	public Set<SettingDefinition<?>> getGroup(){
 
-		return this.api.getGroup();
+		return this.api.getSettings();
 
 	}
 
 	@GetMapping(path = "/groups/{groupTitle}")
 	public Groups getGroupbyTitle(@PathVariable String groupTitle) {
-		return this.api.getGroupbyTitle(groupTitle);
+		return this.api.getSettingsbyTitle(groupTitle);
 	}
 
 	@PostMapping(path = "/groups", consumes = "application/json")
 	public Groups addGroup(@RequestBody Groups group) {
 
-		return this.api.addGroup(group);
+		return this.api.addSettings(group);
 
 	}
 
 	@PutMapping(path = "/groups", consumes = "application/json")
 	public Groups updateGroup(@RequestBody Groups group) {
 
-		return this.api.updateGroup(group);
+		return this.api.updateSettings(group);
 
 	}
 

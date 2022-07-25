@@ -18,11 +18,26 @@ package org.n52.faroeREST.springrest.settings;
 import java.util.*;
 import java.util.stream.Collectors;
 
+
+import javax.inject.Inject;
+
+import org.n52.faroe.SettingDefinition;
+import org.n52.faroe.SettingsService;
 import org.n52.faroeREST.springrest.entities.Groups;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class SettingsAPIImpl implements SettingsAPI {
+
+	@Inject
+	private SettingsService service;
+
+
+	@Override
+	public Set<SettingDefinition<?>> getSettings() {
+		return service.getSettingDefinitions();
+	}
 
 	List<Groups> list;
 
@@ -32,13 +47,9 @@ public class SettingsAPIImpl implements SettingsAPI {
 		list.add(new Groups("Desc2","This is desc2"));
 	}
 
-	@Override
-	public List<Groups> getGroup() {
-		return list;
-	}
 
 	@Override
-	public Groups getGroupbyTitle(String groupTitle) {
+	public Groups getSettingsbyTitle(String groupTitle) {
 
 		Groups g=null;
 		for(Groups group : list) {
@@ -52,7 +63,7 @@ public class SettingsAPIImpl implements SettingsAPI {
 	}
 
 	@Override
-	public Groups addGroup(Groups group) {
+	public Groups addSettings(Groups group) {
 
 		list.add(group);
 
@@ -60,7 +71,7 @@ public class SettingsAPIImpl implements SettingsAPI {
 	}
 
 	@Override
-	public Groups updateGroup(Groups group) {
+	public Groups updateSettings(Groups group) {
 
 		list.forEach(e -> {
 			if(e.getTitle() == group.getTitle()) {

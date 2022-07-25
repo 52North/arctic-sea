@@ -16,7 +16,16 @@
 package org.n52.faroeREST.springrest;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
+import org.n52.janmayen.ConfigLocationProvider;
+import org.n52.janmayen.event.EventBus;
+
+@Configuration
+@EnableAutoConfiguration
+@ImportResource("classpath:faroe.xml")
 
 @SpringBootApplication
 public class SpringrestApplication {

@@ -16,18 +16,20 @@
 package org.n52.faroeREST.springrest.settings;
 
 import java.util.List;
+import java.util.Set;
 
+import org.n52.faroe.SettingDefinition;
 import org.n52.faroeREST.springrest.entities.Groups;
 
 public interface SettingsAPI {
 
-	public List<Groups> getGroup();
+	public Set<SettingDefinition<?>> getSettings();
 
-	public Groups getGroupbyTitle(String groupTitle);
+	public Groups getSettingsbyTitle(String groupTitle);
 
-	public Groups addGroup(Groups group);
+	public Groups addSettings(Groups group);
 
-	public Groups updateGroup(Groups group);
+	public Groups updateSettings(Groups group);
 
 	public Groups deleteGroup(String groupTitle);
 }
