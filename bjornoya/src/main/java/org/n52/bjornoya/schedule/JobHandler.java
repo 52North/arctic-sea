@@ -16,11 +16,13 @@
 package org.n52.bjornoya.schedule;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.inject.Inject;
 
@@ -38,7 +40,7 @@ public class JobHandler implements Constructable, CronExpressionValidator {
     private static final Logger LOGGER = LoggerFactory.getLogger(JobHandler.class);
     private Scheduler scheduler;
     private Set<String> jobs = new HashSet<>();
-    private List<ScheduledJob> scheduledJobs = new ArrayList<>();
+    private Set<ScheduledJob> scheduledJobs = new TreeSet<>();
     private DefaultJobConfiguration defaultJobConfiguration;
 
     @Inject
@@ -53,14 +55,14 @@ public class JobHandler implements Constructable, CronExpressionValidator {
     }
 
     @Inject
-    public void setScheduledJobs(Optional<List<ScheduledJob>> scheduledJobs) {
+    public void setScheduledJobs(Optional<Collection<ScheduledJob>> scheduledJobs) {
         this.scheduledJobs.clear();
         if (scheduledJobs.isPresent()) {
             this.scheduledJobs.addAll(scheduledJobs.get());
         }
     }
 
-    public void addScheduledJobs(List<ScheduledJob> scheduledJobs) {
+    public void addScheduledJobs(Collection<ScheduledJob> scheduledJobs) {
         if (scheduledJobs != null) {
             this.scheduledJobs.addAll(scheduledJobs);
         }
@@ -81,10 +83,10 @@ public class JobHandler implements Constructable, CronExpressionValidator {
     public void reschedule() {
         for (ScheduledJob job : getScheduledJobs()) {
             if (jobs.contains(job.getJobName())) {
-                if (job instanceof FullHarvesterJob && job.getJobConfigurationName()
+                if (job instanceof FullHarvesterJob && job.getJobName()
                         .equalsIgnoreCase(DefaultJobConfiguration.DEFUALT_FULL_HARVEST_JOB_NAME)) {
                     job.setCronExpression(defaultJobConfiguration.getFullCronExpression());
-                } else if (job instanceof TemporalHarvesterJob && job.getJobConfigurationName()
+                } else if (job instanceof TemporalHarvesterJob && job.getJobName()
                         .equalsIgnoreCase(DefaultJobConfiguration.DEFUALT_TEMPORAL_HARVEST_JOB_NAME)) {
                     job.setCronExpression(defaultJobConfiguration.getTemporalCronExpression());
                 }

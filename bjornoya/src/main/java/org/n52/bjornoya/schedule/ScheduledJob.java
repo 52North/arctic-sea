@@ -18,15 +18,22 @@ package org.n52.bjornoya.schedule;
 import org.joda.time.DateTime;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.DateBuilder;
+import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
 import org.quartz.JobKey;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-public abstract class ScheduledJob extends QuartzJobBean implements CronExpressionValidator {
+public abstract class ScheduledJob extends QuartzJobBean implements CronExpressionValidator, Comparable<ScheduledJob> {
+    protected static final String JOB_CONFIG = "config";
+    private static final Logger LOGGER = LoggerFactory.getLogger(ScheduledJob.class);
     private boolean enabled = true;
 
     private String jobName;
@@ -35,22 +42,61 @@ public abstract class ScheduledJob extends QuartzJobBean implements CronExpressi
 
     private String jobDescription;
 
-    private final JobConfiguration jobConfiguration;
+    private JobConfiguration jobConfiguration;
 
     private DateTime startUpDelay;
 
-    private boolean modified;
-
-    public ScheduledJob(JobConfiguration jobConfiguration) {
-        this.jobConfiguration = jobConfiguration;
-        this.modified = true;
+    public ScheduledJob() {
+        this.jobConfiguration = jobConfiguration.setModified(true);
     }
+
+    @Override
+    protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
+        Long start = System.currentTimeMillis();
+        try {
+            LOGGER.debug(context.getJobDetail().getKey() + " execution starts.");
+            setJobConfig(context);
+            process(context);
+        } catch (Exception ex) {
+            LOGGER.error("Error while harvesting data!", ex);
+        } finally {
+            LOGGER.debug(context.getJobDetail().getKey() + " execution finished in {} ms.",
+                    System.currentTimeMillis() - start);
+        }
+    }
+
+    private void setJobConfig(JobExecutionContext context) {
+        if (this.jobConfiguration == null) {
+            this.jobConfiguration = (JobConfiguration) context.getJobDetail().getJobDataMap().get(JOB_CONFIG);
+        }
+    }
+
+    protected abstract void process(JobExecutionContext context) throws JobExecutionException;
 
     // XXX job details create a job instance! snake biting tail
     public abstract JobDetail createJobDetails();
 
+    protected JobDataMap getJobDataMap() {
+        JobDataMap dataMap = new JobDataMap();
+        dataMap.put(JOB_CONFIG, jobConfiguration);
+        return dataMap;
+    }
+
     public String getJobConfigurationName() {
-        return jobConfiguration.getName();
+        return getJobConfiguration().getName();
+    }
+
+    public void init(JobConfiguration initConfig) {
+        setJobConfiguration(initConfig);
+        setJobName(initConfig.getName());
+    }
+
+    public void setJobConfiguration(JobConfiguration jobConfiguration) {
+        this.jobConfiguration = jobConfiguration;
+    }
+
+    public JobConfiguration getJobConfiguration() {
+        return jobConfiguration;
     }
 
     public String getJobName() {
@@ -119,11 +165,11 @@ public abstract class ScheduledJob extends QuartzJobBean implements CronExpressi
     }
 
     public boolean isModified() {
-        return modified;
+        return getJobConfiguration().isModified();
     }
 
     public void setModified(boolean modified) {
-        this.modified = modified;
+        getJobConfiguration().setModified(modified);
     }
 
     @SuppressFBWarnings("EI_EXPOSE_REP")
@@ -143,5 +189,10 @@ public abstract class ScheduledJob extends QuartzJobBean implements CronExpressi
             return true;
         }
         return false;
+    }
+
+    @Override
+    public int compareTo(ScheduledJob o) {
+        return o == null ? -1 : getJobName().compareTo(o.getJobName());
     }
 }

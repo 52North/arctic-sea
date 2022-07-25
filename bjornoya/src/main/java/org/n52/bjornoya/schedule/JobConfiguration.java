@@ -21,6 +21,7 @@ public class JobConfiguration {
     private boolean enabled;
     private boolean triggerAtStartup;
     private String name = "default";
+    private boolean modified;
 
     public String getCronExpression() {
         return cronExpression;
@@ -46,6 +47,15 @@ public class JobConfiguration {
 
     public JobConfiguration setTriggerAtStartup(boolean triggerAtStartup) {
         this.triggerAtStartup = triggerAtStartup;
+        return this;
+    }
+
+    public boolean isModified() {
+        return modified;
+    }
+
+    public JobConfiguration setModified(boolean modified) {
+        this.modified = modified;
         return this;
     }
 
