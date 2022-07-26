@@ -20,8 +20,9 @@ public class JobConfiguration {
     private String cronExpression;
     private boolean enabled;
     private boolean triggerAtStartup;
-    private String name = "default";
+    private JobType jobType  = JobType.full;
     private boolean modified;
+    private String name = "default" + jobType.name();
 
     public String getCronExpression() {
         return cronExpression;
@@ -42,7 +43,7 @@ public class JobConfiguration {
     }
 
     public boolean isTriggerAtStartup() {
-        return triggerAtStartup;
+        return this.jobType.equals(JobType.temporal) ? false : triggerAtStartup;
     }
 
     public JobConfiguration setTriggerAtStartup(boolean triggerAtStartup) {
@@ -59,13 +60,28 @@ public class JobConfiguration {
         return this;
     }
 
+    public JobConfiguration setName(String name) {
+        this.name = name;
+        return this;
+    }
+
     public String getName() {
         return name;
     }
 
-    public JobConfiguration setName(String name) {
-        this.name = name;
+    public String getJobType() {
+        return jobType.name();
+    }
+
+    public JobConfiguration setJobType(String jobType) {
+        if (jobType != null && !jobType.isEmpty())
+        this.jobType = JobType.valueOf(jobType);
         return this;
+    }
+
+    public enum JobType {
+        full,
+        temporal;
     }
 
 }

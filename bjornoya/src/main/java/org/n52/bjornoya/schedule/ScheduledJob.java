@@ -18,6 +18,8 @@ package org.n52.bjornoya.schedule;
 import org.joda.time.DateTime;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.DateBuilder;
+import org.quartz.Job;
+import org.quartz.JobBuilder;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
@@ -51,7 +53,7 @@ public abstract class ScheduledJob extends QuartzJobBean implements CronExpressi
         Long start = System.currentTimeMillis();
         try {
             LOGGER.debug(context.getJobDetail().getKey() + " execution starts.");
-            setJobConfig(context);
+            recreateConfig(context);
             process(context);
         } catch (Exception ex) {
             LOGGER.error("Error while harvesting data!", ex);
@@ -61,16 +63,23 @@ public abstract class ScheduledJob extends QuartzJobBean implements CronExpressi
         }
     }
 
-    private void setJobConfig(JobExecutionContext context) {
-        if (this.getJobConfiguration() == null) {
+    private void recreateConfig(JobExecutionContext context) {
+        if (this.getJobConfiguration() == null && context != null && context.getJobDetail() != null
+                && context.getJobDetail().getJobDataMap() != null
+                && context.getJobDetail().getJobDataMap().get(JOB_CONFIG) != null
+                && context.getJobDetail().getJobDataMap().get(JOB_CONFIG) instanceof JobConfiguration) {
             this.jobConfiguration = (JobConfiguration) context.getJobDetail().getJobDataMap().get(JOB_CONFIG);
         }
     }
 
     protected abstract void process(JobExecutionContext context) throws JobExecutionException;
 
-    // XXX job details create a job instance! snake biting tail
-    public abstract JobDetail createJobDetails();
+    protected abstract Class<? extends Job> getClazz();
+
+    public JobDetail createJobDetails() {
+        return JobBuilder.newJob(getClazz()).withIdentity(getJobName()).usingJobData(getJobDataMap())
+                .build();
+    }
 
     protected JobDataMap getJobDataMap() {
         JobDataMap dataMap = new JobDataMap();
