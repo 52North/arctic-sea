@@ -20,7 +20,7 @@ public class JobConfiguration {
     private String cronExpression;
     private boolean enabled;
     private boolean triggerAtStartup;
-    private JobType jobType  = JobType.full;
+    private JobType jobType = JobType.full;
     private boolean modified;
     private String name = "default" + jobType.name();
 
@@ -74,8 +74,9 @@ public class JobConfiguration {
     }
 
     public JobConfiguration setJobType(String jobType) {
-        if (jobType != null && !jobType.isEmpty())
-        this.jobType = JobType.valueOf(jobType);
+        if (jobType != null && !jobType.isEmpty()) {
+            this.jobType = JobType.valueOf(jobType);
+        }
         return this;
     }
 
