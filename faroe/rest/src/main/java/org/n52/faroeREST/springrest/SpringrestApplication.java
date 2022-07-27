@@ -23,7 +23,7 @@ import org.springframework.context.annotation.ImportResource;
 
 @Configuration
 @EnableAutoConfiguration
-@ImportResource("classpath:faroe.xml")
+@ImportResource({ "faroe.xml", "settings-service.xml", "settings-service-identification.xml", "settings-service-provider.xml" })
 
 @SpringBootApplication
 public class SpringrestApplication {
