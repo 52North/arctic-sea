@@ -16,66 +16,76 @@
 package org.n52.faroeREST.springrest.settings;
 
 import java.util.*;
-import java.util.stream.Collectors;
+import javax.inject.Inject;
 
+import org.n52.faroe.SettingDefinition;
+import org.n52.faroe.SettingsService;
 import org.n52.faroeREST.springrest.entities.Groups;
 import org.springframework.stereotype.Service;
+
 
 @Service
 public class SettingsAPIImpl implements SettingsAPI {
 
-	List<Groups> list;
+	@Inject
+	private SettingsService service;
+	private Collection<SettingDefinition<?>> titles = new ArrayList<SettingDefinition<?>>();
+	private Set<String> groups =  new HashSet<String>();
 
-	public SettingsAPIImpl() {
-		list=new ArrayList<>();
-		list.add(new Groups("Desc","This is desc"));
-		list.add(new Groups("Desc2","This is desc2"));
+	@Override
+	public Set<SettingDefinition<?>> getSettings() {
+		return service.getSettingDefinitions();
+	}
+
+
+	@Override
+	public Collection<SettingDefinition<?>> getSettingsbyTitle(String groupTitle) {
+		service.getSettingDefinitions().forEach(definition -> {
+           if(definition.getGroup().getTitle().equalsIgnoreCase(groupTitle))
+        		   {
+        	   			this.titles.add(definition);
+        		   }
+		});
+		
+		return this.titles;
+	}
+	
+	@Override
+	public Set<String> getGroups() {
+		service.getSettingDefinitions().forEach(definition -> {
+           
+        	   			this.groups.add(definition.getGroup().getTitle());   
+		});
+		
+		return this.groups;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Set<SettingDefinition<?>> addSettings(Groups group) {
+
+		service.addSettings((Collection<SettingDefinition<?>>) group);
+
+		return service.getSettingDefinitions();
 	}
 
 	@Override
-	public List<Groups> getGroup() {
-		return list;
-	}
-
-	@Override
-	public Groups getGroupbyTitle(String groupTitle) {
-
-		Groups g=null;
-		for(Groups group : list) {
-			if(group.getTitle() == groupTitle) {
-				g=group;
-				break;
-			}
-		}
-		return g;
-
-	}
-
-	@Override
-	public Groups addGroup(Groups group) {
-
-		list.add(group);
-
-		return group;
-	}
-
-	@Override
-	public Groups updateGroup(Groups group) {
-
+	public Groups updateSettings(Groups group) {
+/*
 		list.forEach(e -> {
 			if(e.getTitle() == group.getTitle()) {
 				e.setDescription(group.getDescription());
 			}
 
 	});
-
-		return group;
+*/
+		return /*group*/ null;
 	}
 
-	@Override
-	public Groups deleteGroup(String groupTitle) {
-		list=this.list.stream().filter(e->e.getTitle()!=groupTitle).collect(Collectors.toList());
-		return null;
+	public Set<SettingDefinition<?>> deleteGroup() {
+
+		service.deleteAll();
+		return service.getSettingDefinitions();
 	}
 
 }
