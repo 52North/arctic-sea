@@ -80,13 +80,15 @@ public class JobHandler implements Constructable, CronExpressionValidator {
     }
 
     public void reschedule() {
+        reschedule(defaultJobConfiguration.getDefaultJobNames());
+    }
+
+    public void reschedule(Collection<String> defaultJobNames) {
         for (ScheduledJob job : getScheduledJobs()) {
             if (jobs.contains(job.getJobName())) {
-                if (job instanceof FullHarvesterJob && job.getJobName()
-                        .equalsIgnoreCase(DefaultJobConfiguration.DEFUALT_FULL_HARVEST_JOB_NAME)) {
+                if (job instanceof FullHarvesterJob && defaultJobNames.contains(job.getJobName())) {
                     job.setCronExpression(defaultJobConfiguration.getFullCronExpression());
-                } else if (job instanceof TemporalHarvesterJob && job.getJobName()
-                        .equalsIgnoreCase(DefaultJobConfiguration.DEFUALT_TEMPORAL_HARVEST_JOB_NAME)) {
+                } else if (job instanceof TemporalHarvesterJob && defaultJobNames.contains(job.getJobName())) {
                     job.setCronExpression(defaultJobConfiguration.getTemporalCronExpression());
                 }
                 if (job.isModified()) {

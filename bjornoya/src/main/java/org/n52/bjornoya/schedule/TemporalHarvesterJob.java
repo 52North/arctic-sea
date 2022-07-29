@@ -37,4 +37,11 @@ public interface TemporalHarvesterJob extends Job {
                         new DateTime(context.getNextFireTime())));
     }
 
+    default DateTime getNextTime(String nextToken, DateTime now) {
+        if (nextToken != null && !nextToken.isEmpty()) {
+            return new DateTime(nextToken);
+        }
+        return now;
+    }
+
 }

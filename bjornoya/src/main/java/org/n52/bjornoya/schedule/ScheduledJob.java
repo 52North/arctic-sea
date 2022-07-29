@@ -15,7 +15,13 @@
  */
 package org.n52.bjornoya.schedule;
 
+import java.util.Optional;
+
+import javax.inject.Inject;
+
 import org.joda.time.DateTime;
+import org.n52.janmayen.event.Event;
+import org.n52.janmayen.event.EventBus;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.DateBuilder;
 import org.quartz.Job;
@@ -40,6 +46,7 @@ public abstract class ScheduledJob extends QuartzJobBean implements CronExpressi
 
     private String jobName;
 
+    private String jobGroup;
     private String triggerName;
 
     private String jobDescription;
@@ -47,6 +54,9 @@ public abstract class ScheduledJob extends QuartzJobBean implements CronExpressi
     private JobConfiguration jobConfiguration;
 
     private DateTime startUpDelay;
+
+    @Inject
+    private Optional<EventBus> eventBus;
 
     @Override
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
@@ -77,7 +87,7 @@ public abstract class ScheduledJob extends QuartzJobBean implements CronExpressi
     protected abstract Class<? extends Job> getClazz();
 
     public JobDetail createJobDetails() {
-        return JobBuilder.newJob(getClazz()).withIdentity(getJobName()).usingJobData(getJobDataMap())
+        return JobBuilder.newJob(getClazz()).withIdentity(getJobName(), getJobGroup()).usingJobData(getJobDataMap())
                 .build();
     }
 
@@ -94,6 +104,7 @@ public abstract class ScheduledJob extends QuartzJobBean implements CronExpressi
     public ScheduledJob init(JobConfiguration initConfig) {
         setJobConfiguration(initConfig);
         setJobName(initConfig.getName());
+        setJobGroup(initConfig.getGroup());
         return this;
     }
 
@@ -112,6 +123,15 @@ public abstract class ScheduledJob extends QuartzJobBean implements CronExpressi
 
     public ScheduledJob setJobName(String jobName) {
         this.jobName = jobName;
+        return this;
+    }
+
+    public String getJobGroup() {
+        return jobGroup;
+    }
+
+    public ScheduledJob setJobGroup(String jobGroup) {
+        this.jobGroup = jobGroup;
         return this;
     }
 
@@ -209,6 +229,16 @@ public abstract class ScheduledJob extends QuartzJobBean implements CronExpressi
             return true;
         }
         return false;
+    }
+
+    protected EventBus getEventBus() {
+        return eventBus.isPresent() ? eventBus.get() : null;
+    }
+
+    protected void submitEvent(Event event) {
+        if (getEventBus() != null && event != null) {
+            getEventBus().submit(event);
+        }
     }
 
     @Override

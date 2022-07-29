@@ -22,7 +22,8 @@ public class JobConfiguration {
     private boolean triggerAtStartup;
     private JobType jobType = JobType.full;
     private boolean modified;
-    private String name = "default" + jobType.name();
+    private String name = "default - " + jobType.name();
+    private String group = "group";
 
     public String getCronExpression() {
         return cronExpression;
@@ -69,6 +70,15 @@ public class JobConfiguration {
         return name;
     }
 
+    public String getGroup() {
+        return group;
+    }
+
+    public JobConfiguration setGroup(String group) {
+        this.group = group;
+        return this;
+    }
+
     public String getJobType() {
         return jobType.name();
     }
@@ -76,6 +86,13 @@ public class JobConfiguration {
     public JobConfiguration setJobType(String jobType) {
         if (jobType != null && !jobType.isEmpty()) {
             this.jobType = JobType.valueOf(jobType);
+        }
+        return this;
+    }
+
+    public JobConfiguration setJobType(JobType jobType) {
+        if (jobType != null) {
+            this.jobType = jobType;
         }
         return this;
     }

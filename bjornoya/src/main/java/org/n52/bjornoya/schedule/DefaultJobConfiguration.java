@@ -15,6 +15,11 @@
  */
 package org.n52.bjornoya.schedule;
 
+import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+import org.n52.bjornoya.schedule.JobConfiguration.JobType;
 import org.n52.faroe.Validation;
 import org.n52.faroe.annotation.Configurable;
 import org.n52.faroe.annotation.Setting;
@@ -25,7 +30,7 @@ import org.springframework.beans.factory.annotation.Value;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 @Configurable
-@SuppressFBWarnings({"EI_EXPOSE_REP", "EI_EXPOSE_REP2"})
+@SuppressFBWarnings({ "EI_EXPOSE_REP", "EI_EXPOSE_REP2" })
 public class DefaultJobConfiguration implements CronExpressionValidator {
 
     public static final String FULL_HARVEST_UPDATE = "harvest.full";
@@ -45,6 +50,7 @@ public class DefaultJobConfiguration implements CronExpressionValidator {
     private String cronFullExpression = DEFAULT_FULL;
     private String cronTemporalExpression = DEFAULT_TEMPORAL;
     private JobHandler jobHandler;
+    private Set<String> defaultJobNames = new LinkedHashSet<>();
 
     /**
      * @return the cronFullExpression
@@ -109,13 +115,48 @@ public class DefaultJobConfiguration implements CronExpressionValidator {
     }
 
     public JobConfiguration getFullJobConfiguration() {
+        return getFullJobConfiguration(DEFUALT_FULL_HARVEST_JOB_NAME);
+    }
+
+    public JobConfiguration getFullJobConfiguration(String name) {
+        addDefaultJobName(name);
         return new JobConfiguration().setEnabled(true).setTriggerAtStartup(true)
-                .setCronExpression(getFullCronExpression()).setName(DEFUALT_FULL_HARVEST_JOB_NAME);
+                .setCronExpression(getFullCronExpression()).setJobType(JobType.full).setName(name);
     }
 
     public JobConfiguration getTemporalJobConfiguration() {
+        return getTemporalJobConfiguration(DEFUALT_TEMPORAL_HARVEST_JOB_NAME);
+    }
+
+    public JobConfiguration getTemporalJobConfiguration(String name) {
+        addDefaultJobName(name);
         return new JobConfiguration().setEnabled(true).setTriggerAtStartup(true)
-                .setCronExpression(getTemporalCronExpression()).setName(DEFUALT_TEMPORAL_HARVEST_JOB_NAME);
+                .setCronExpression(getTemporalCronExpression()).setJobType(JobType.temporal).setName(name);
+    }
+
+    public DefaultJobConfiguration addDefaultJobNames(Collection<String> names) {
+        if (names != null) {
+            names.forEach(this::addDefaultJobName);
+        }
+        return this;
+    }
+
+    public DefaultJobConfiguration addDefaultJobName(String name) {
+        if (name != null && !name.isEmpty()) {
+            this.defaultJobNames.add(name);
+        }
+        return this;
+    }
+
+    public DefaultJobConfiguration removeDefaultJobName(String name) {
+        if (name != null && !name.isEmpty()) {
+            this.defaultJobNames.remove(name);
+        }
+        return this;
+    }
+
+    public Collection<String> getDefaultJobNames() {
+        return defaultJobNames;
     }
 
 }
