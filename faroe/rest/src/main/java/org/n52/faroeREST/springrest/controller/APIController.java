@@ -15,10 +15,12 @@
  */
 package org.n52.faroeREST.springrest.controller;
 
+import java.util.Collection;
 import java.util.Set;
 
 import org.n52.faroe.SettingDefinition;
 import org.n52.faroeREST.springrest.entities.Groups;
+import org.n52.faroeREST.springrest.settings.SettingAPIDao;
 import org.n52.faroeREST.springrest.settings.SettingsAPI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,40 +39,55 @@ public class APIController {
 	@Autowired
 	private SettingsAPI api;
 
-	@GetMapping(path = "/groups")
-	public Set<SettingDefinition<?>> getGroup(){
-
+	@GetMapping(path = "/settings")
+	public Collection<SettingAPIDao> getSettings(){
+		
 		return this.api.getSettings();
 
 	}
+	
+	@GetMapping(path = "/settings/groups")
+	public Set<String> getGroups(){
 
-	@GetMapping(path = "/groups/{groupTitle}")
-	public Groups getGroupbyTitle(@PathVariable String groupTitle) {
+		return this.api.getGroups();
+
+	}
+
+	@GetMapping(path = "/settings/groups/{groupTitle}")
+	public Collection<SettingDefinition<?>> getSettingsbyTitle(@PathVariable String groupTitle) {
 		return this.api.getSettingsbyTitle(groupTitle);
 	}
 
-	@PostMapping(path = "/groups", consumes = "application/json")
-	public Groups addGroup(@RequestBody Groups group) {
 
-		return this.api.addSettings(group);
+	@PostMapping(path = "/settings", consumes = "application/json")
+	public String addGroup(@RequestBody SettingAPIDao group) {
+//		this.api.addSettings(group);
+		return "Added";
 
 	}
 
-	@PutMapping(path = "/groups", consumes = "application/json")
-	public Groups updateGroup(@RequestBody Groups group) {
+	@PutMapping(path = "/settings", consumes = "application/json")
+	public Collection<SettingDefinition<?>> updateSettings(@RequestBody Collection<SettingDefinition<?>> group) {
 
 		return this.api.updateSettings(group);
 
 	}
 
-	@DeleteMapping(path = "/groups/{groupTitle}")
-	public ResponseEntity<HttpStatus> deleteGroup(@PathVariable String groupTitle){
-		try {
-			this.api.deleteGroup(groupTitle);
-			return new ResponseEntity<>(HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+	@DeleteMapping({"/settings/{setting}"})
+	public String deleteSetting(@PathVariable("setting") SettingDefinition<?> setting) {
+		System.out.println(setting.getTitle());
+//		this.api.deleteSettings(setting);
+		return "Hello";
+		
+			
+	}		
+	
+
+	@DeleteMapping(path = "/settings/deleteAll")
+	public String deleteAllSettings() {
+		this.api.deleteAllSettings();
+		return "Deleted Settings";
+		
 	}
 
 }

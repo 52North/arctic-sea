@@ -22,13 +22,19 @@ import org.n52.faroeREST.springrest.entities.Groups;
 
 public interface SettingsAPI {
 
-	public Set<SettingDefinition<?>> getSettings();
+	public Collection<SettingAPIDao> getSettings();
+	
+	public Set<String> getGroups();
 
-	public Groups getSettingsbyTitle(String groupTitle);
+	public Collection<SettingDefinition<?>> getSettingsbyTitle(String groupTitle);
 
-	public Groups addSettings(Groups group);
+	public String addSettings(SettingAPIDao group);
 
-	public Groups updateSettings(Groups group);
+	public Collection<SettingDefinition<?>> updateSettings(Collection<SettingDefinition<?>> group);
 
-	public Groups deleteGroup(String groupTitle);
+	public Set<SettingDefinition<?>> deleteGroup();
+
+	public String deleteSettings(Collection<SettingDefinition<?>> setting);
+
+	public String deleteAllSettings();
 }

@@ -16,9 +16,6 @@
 package org.n52.faroeREST.springrest.settings;
 
 import java.util.*;
-import java.util.stream.Collectors;
-
-
 import javax.inject.Inject;
 
 import org.n52.faroe.SettingDefinition;
@@ -32,61 +29,100 @@ public class SettingsAPIImpl implements SettingsAPI {
 
 	@Inject
 	private SettingsService service;
-
-
-	@Override
-	public Set<SettingDefinition<?>> getSettings() {
-		return service.getSettingDefinitions();
-	}
-
-	List<Groups> list;
-
-	public SettingsAPIImpl() {
-		list=new ArrayList<>();
-		list.add(new Groups("Desc","This is desc"));
-		list.add(new Groups("Desc2","This is desc2"));
-	}
-
+	private Collection<SettingDefinition<?>> titles = new ArrayList<SettingDefinition<?>>();
+	private Collection<SettingAPIDao> settings = new ArrayList<SettingAPIDao>();
+	private Set<String> groups =  new HashSet<String>();
 
 	@Override
-	public Groups getSettingsbyTitle(String groupTitle) {
-
-		Groups g=null;
-		for(Groups group : list) {
-			if(group.getTitle() == groupTitle) {
-				g=group;
-				break;
+	public Collection<SettingAPIDao> getSettings() {
+		
+		service.getSettingDefinitions().forEach(definition -> {
+			   SettingAPIDao  setting =  new SettingAPIDao(definition.getGroup().getTitle(), definition.getGroup().getDescription(), "Sujit");
+//			   if(this.settings.toArray().length == 0) {
+//					this.settings.add(setting);   				
+//				}
+//			   System.out.println(setting);
+			   
+			this.settings.forEach(definitions -> {
+//				System.out.println(this.service.getSettingDefinitions());
+			if(definitions.getTitle()!=(definition.getGroup().getTitle())) {
+					this.settings.add(setting);   
 			}
-		}
-		return g;
+		});
+	          
+   	
+});
 
+//		System.out.println(this.settings.size());
+		return this.settings;
+	}
+
+
+	@Override
+	public Collection<SettingDefinition<?>> getSettingsbyTitle(String groupTitle) {
+		service.getSettingDefinitions().forEach(definition -> {
+           if(definition.getGroup().getTitle().equalsIgnoreCase(groupTitle))
+        		   {
+        	   
+        	   			this.titles.add(definition);
+        		   }
+		});
+		
+		return this.titles;
+	}
+	
+	@Override
+	public Set<String> getGroups() {
+		service.getSettingDefinitions().forEach(definition -> {
+           
+        	   			this.groups.add(definition.getGroup().getTitle());   
+		});
+		
+		return this.groups;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public String addSettings(SettingAPIDao group) {
+		System.out.println(group);
+//		service.addSettings((Collection<SettingDefinition<?>>) group);
+		return "Added Successfully";
 	}
 
 	@Override
-	public Groups addSettings(Groups group) {
+	public Collection<SettingDefinition<?>> updateSettings(Collection<SettingDefinition<?>> group) {
 
-		list.add(group);
-
-		return group;
-	}
-
-	@Override
-	public Groups updateSettings(Groups group) {
-
-		list.forEach(e -> {
-			if(e.getTitle() == group.getTitle()) {
-				e.setDescription(group.getDescription());
+		service.getSettingDefinitions().forEach(e -> {
+			if(e.getKey() == ((SettingDefinition<?>) group).getKey()) {
+				e.setDescription(((SettingDefinition<?>) group).getDescription());
 			}
 
 	});
 
-		return group;
+		return /*group*/ null;
 	}
 
+	public Set<SettingDefinition<?>> deleteGroup() {
+
+		service.deleteAll();
+		return this.service.getSettingDefinitions();
+	}
+
+
 	@Override
-	public Groups deleteGroup(String groupTitle) {
-		list=this.list.stream().filter(e->e.getTitle()!=groupTitle).collect(Collectors.toList());
-		return null;
+	public String deleteSettings(Collection<SettingDefinition<?>> setting) {
+		
+//	 service.deleteSetting(setting);
+	 
+	 return "Deleted Successfully";
+	}
+
+
+	@Override
+	public String deleteAllSettings() {
+
+		service.deleteAll();
+		return "Everything deleted Successfully";
 	}
 
 }
