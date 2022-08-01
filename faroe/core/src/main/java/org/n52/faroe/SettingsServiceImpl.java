@@ -67,6 +67,7 @@ public class SettingsServiceImpl implements SettingsService {
     private final ReadWriteLock configurableObjectsLock = new ReentrantReadWriteLock();
     private Set<SettingDefinition<?>> definitions;
     private Map<String, SettingDefinition<?>> definitionByKey;
+    private Map<String, SettingDefinition<?>> definitionByTitle;
     private SettingsDao settingsManagerDao;
     private SettingValueFactory settingValueFactory;
     private EventBus serviceEventBus;
@@ -205,6 +206,12 @@ public class SettingsServiceImpl implements SettingsService {
         return this.definitionByKey.get(key);
     }
 
+    @Override
+    public SettingDefinition<?> getDefinitionByTitle(String title) {
+        return this.definitionByTitle.get(title);
+    }
+
+    
     /**
      * Gets the value of the setting defined by {@code key}.
      *
@@ -282,6 +289,15 @@ public class SettingsServiceImpl implements SettingsService {
             applySetting(setting, oldValue, null);
             this.settingsManagerDao.deleteSettingValue(setting.getKey());
             this.serviceEventBus.submit(new SettingsChangeEvent(setting, oldValue, null));
+        }
+    }
+    
+    public void deleteSetting(String setting) throws ConfigurationError {
+        SettingValue<?> oldValue = this.settingsManagerDao.getSettingValue(setting);
+        if (oldValue != null) {
+           // applySetting(setting, oldValue, null);
+            this.settingsManagerDao.deleteSettingValue(setting);
+           // this.serviceEventBus.submit(new SettingsChangeEvent(setting, oldValue, null));
         }
     }
 

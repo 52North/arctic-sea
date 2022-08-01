@@ -30,7 +30,7 @@ public class SettingsAPIImpl implements SettingsAPI {
 	@Inject
 	private SettingsService service;
 	private Collection<SettingDefinition<?>> titles = new ArrayList<SettingDefinition<?>>();
-	private Collection<SettingAPIDao> settings = new ArrayList<SettingAPIDao>();
+	private Collection<SettingAPIDao> settings = new LinkedList<SettingAPIDao>();
 	private Set<String> groups =  new HashSet<String>();
 
 	@Override
@@ -38,9 +38,9 @@ public class SettingsAPIImpl implements SettingsAPI {
 		
 		service.getSettingDefinitions().forEach(definition -> {
 			   SettingAPIDao  setting =  new SettingAPIDao(definition.getGroup().getTitle(), definition.getGroup().getDescription(), "Sujit");
-//			   if(this.settings.toArray().length == 0) {
-//					this.settings.add(setting);   				
-//				}
+			   if(this.settings.toArray().length == 0) {
+					this.settings.add(setting);   				
+				}
 //			   System.out.println(setting);
 			   
 			this.settings.forEach(definitions -> {
@@ -83,9 +83,9 @@ public class SettingsAPIImpl implements SettingsAPI {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public String addSettings(SettingAPIDao group) {
-		System.out.println(group);
-//		service.addSettings((Collection<SettingDefinition<?>>) group);
+	public String addSettings(Collection<SettingDefinition<?>> group) {
+//		System.out.println(group);
+		service.addSettings(group);
 		return "Added Successfully";
 	}
 
@@ -110,9 +110,9 @@ public class SettingsAPIImpl implements SettingsAPI {
 
 
 	@Override
-	public String deleteSettings(Collection<SettingDefinition<?>> setting) {
+	public String deleteSettings(String setting) {
 		
-//	 service.deleteSetting(setting);
+	 service.deleteSetting(setting);
 	 
 	 return "Deleted Successfully";
 	}

@@ -60,8 +60,8 @@ public class APIController {
 
 
 	@PostMapping(path = "/settings", consumes = "application/json")
-	public String addGroup(@RequestBody SettingAPIDao group) {
-//		this.api.addSettings(group);
+	public String addGroup(@RequestBody Collection<SettingDefinition<?>> group) {
+		this.api.addSettings(group);
 		return "Added";
 
 	}
@@ -73,11 +73,11 @@ public class APIController {
 
 	}
 
-	@DeleteMapping({"/settings/{setting}"})
-	public String deleteSetting(@PathVariable("setting") SettingDefinition<?> setting) {
-		System.out.println(setting.getTitle());
-//		this.api.deleteSettings(setting);
-		return "Hello";
+	@DeleteMapping("/settings/{setting}")
+	public String deleteSetting(@PathVariable String setting) {
+//		System.out.println(setting.getTitle());
+		this.api.deleteSettings(setting);
+		return "Deleted setting";
 		
 			
 	}		

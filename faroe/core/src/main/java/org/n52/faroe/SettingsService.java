@@ -72,6 +72,8 @@ public interface SettingsService {
      */
     void deleteSetting(SettingDefinition<?> setting) throws ConfigurationError;
 
+    
+    public void deleteSetting(String setting)  throws ConfigurationError;
     /**
      * Get the definition that is defined with the specified key.
      *
@@ -80,9 +82,13 @@ public interface SettingsService {
      * @return the definition or {@code null} if there is no definition for the key
      */
     SettingDefinition<?> getDefinitionByKey(String key);
-
     /**
      * @return the keys for all definitions
+     */
+
+	SettingDefinition<?> getDefinitionByTitle(String title);
+    /**
+     * @return the titles for all definitions
      */
     Set<String> getKeys();
 
@@ -135,5 +141,6 @@ public interface SettingsService {
     void addSetting(SettingDefinition<?> def);
 
     void addSettings(Collection<SettingDefinition<?>> defs);
+
 
 }

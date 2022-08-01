@@ -28,13 +28,13 @@ public interface SettingsAPI {
 
 	public Collection<SettingDefinition<?>> getSettingsbyTitle(String groupTitle);
 
-	public String addSettings(SettingAPIDao group);
+	public String addSettings(Collection<SettingDefinition<?>> group);
 
 	public Collection<SettingDefinition<?>> updateSettings(Collection<SettingDefinition<?>> group);
 
 	public Set<SettingDefinition<?>> deleteGroup();
 
-	public String deleteSettings(Collection<SettingDefinition<?>> setting);
+	public String deleteSettings(String setting);
 
 	public String deleteAllSettings();
 }
