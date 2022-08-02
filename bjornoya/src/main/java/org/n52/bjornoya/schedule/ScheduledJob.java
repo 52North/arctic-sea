@@ -68,8 +68,8 @@ public abstract class ScheduledJob extends QuartzJobBean implements CronExpressi
         } catch (Exception ex) {
             LOGGER.error("Error while harvesting data!", ex);
         } finally {
-            LOGGER.debug(context.getJobDetail().getKey() + " execution finished in {} ms.",
-                    System.currentTimeMillis() - start);
+            LOGGER.debug(context.getJobDetail().getKey() + " execution finished in {} ms. Next execution: {}",
+                    System.currentTimeMillis() - start, new DateTime(context.getNextFireTime()));
         }
     }
 
@@ -223,12 +223,8 @@ public abstract class ScheduledJob extends QuartzJobBean implements CronExpressi
     }
 
     private boolean checkCronExpression(String cronExpression) {
-        if (getCronExpression() == null || getCronExpression() != null && !getCronExpression().isEmpty()
-                && !getCronExpression().equals(cronExpression)) {
-            setCronExpression(cronExpression);
-            return true;
-        }
-        return false;
+        return getCronExpression() == null || getCronExpression() != null && !getCronExpression().isEmpty()
+                && !getCronExpression().equals(cronExpression);
     }
 
     protected EventBus getEventBus() {
