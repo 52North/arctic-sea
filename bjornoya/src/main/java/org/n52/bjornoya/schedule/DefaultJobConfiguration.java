@@ -15,23 +15,14 @@
  */
 package org.n52.bjornoya.schedule;
 
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
-import javax.inject.Inject;
-
-import org.n52.faroe.ConfigurationError;
+import org.n52.bjornoya.schedule.JobConfiguration.JobType;
 import org.n52.faroe.Validation;
 import org.n52.faroe.annotation.Configurable;
 import org.n52.faroe.annotation.Setting;
-import org.n52.janmayen.lifecycle.Constructable;
-import org.quartz.CronExpression;
-import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,10 +30,13 @@ import org.springframework.beans.factory.annotation.Value;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 @Configurable
-public class JobFactory implements Constructable {
+@SuppressFBWarnings({ "EI_EXPOSE_REP", "EI_EXPOSE_REP2" })
+public class DefaultJobConfiguration implements CronExpressionValidator {
 
     public static final String FULL_HARVEST_UPDATE = "harvest.full";
     public static final String TEMPORAL_HARVEST_UPDATE = "harvest.temporal";
+    public static final String DEFUALT_FULL_HARVEST_JOB_NAME = "Default full harvest job";
+    public static final String DEFUALT_TEMPORAL_HARVEST_JOB_NAME = "Default temporal harvest job";
     private static final String DOLLAR_BRACE = "${";
     private static final String BRACE = "}";
     private static final String COLON = ":";
@@ -52,31 +46,11 @@ public class JobFactory implements Constructable {
             DOLLAR_BRACE + FULL_HARVEST_UPDATE + COLON + DEFAULT_FULL + BRACE;
     private static final String TEMPORAL_HARVEST_UPDATE_VALUE =
             DOLLAR_BRACE + TEMPORAL_HARVEST_UPDATE + COLON + DEFAULT_TEMPORAL + BRACE;
-    private static final Logger LOGGER = LoggerFactory.getLogger(JobFactory.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultJobConfiguration.class);
     private String cronFullExpression = DEFAULT_FULL;
     private String cronTemporalExpression = DEFAULT_TEMPORAL;
-    private Scheduler scheduler;
-    private Set<String> jobs = new HashSet<>();
-    private List<ScheduledJob> scheduledJobs = new ArrayList<>();
-    private boolean initialized;
-
-    @Inject
-    @SuppressFBWarnings("EI_EXPOSE_REP2")
-    public void setScheduler(Scheduler scheduler) {
-        this.scheduler = scheduler;
-    }
-
-    @Inject
-    public void setScheduledJobs(Optional<List<ScheduledJob>> scheduledJobs) {
-        this.scheduledJobs.clear();
-        if (scheduledJobs.isPresent()) {
-            this.scheduledJobs.addAll(scheduledJobs.get());
-        }
-    }
-
-    public List<ScheduledJob> getScheduledJobs() {
-        return new LinkedList<>(scheduledJobs);
-    }
+    private JobHandler jobHandler;
+    private Set<String> defaultJobNames = new LinkedHashSet<>();
 
     /**
      * @return the cronFullExpression
@@ -101,6 +75,7 @@ public class JobFactory implements Constructable {
             this.cronFullExpression = cronExpression;
             reschedule();
         }
+
     }
 
     /**
@@ -128,63 +103,60 @@ public class JobFactory implements Constructable {
         }
     }
 
+    public DefaultJobConfiguration setJobHandler(JobHandler jobHandler) {
+        this.jobHandler = jobHandler;
+        return this;
+    }
+
     private void reschedule() {
-        reschedule(true);
-    }
-
-    private void reschedule(boolean update) {
-        if (!initialized && !update || initialized && update) {
-            for (ScheduledJob job : getScheduledJobs()) {
-                if (jobs.contains(job.getJobName())) {
-                    boolean updateJob = false;
-                    if (job instanceof FullHarvesterJob) {
-                        updateJob = checkCronExpression(job, getFullCronExpression());
-                    } else if (job instanceof TemporalHarvesterJob) {
-                        updateJob = checkCronExpression(job, getTemporalCronExpression());
-                    }
-                    if (updateJob) {
-                        try {
-                            scheduler.updateJob(job);
-                        } catch (SchedulerException e) {
-                            LOGGER.error("Error while updating a job!", e);
-                        }
-                    }
-                } else {
-                    if (job instanceof FullHarvesterJob) {
-                        job.setCronExpression(getFullCronExpression());
-                    } else if (job instanceof TemporalHarvesterJob) {
-                        job.setCronExpression(getTemporalCronExpression());
-                    }
-                    scheduler.scheduleJob(job);
-                }
-                jobs.add(job.getJobName());
-            }
+        if (jobHandler != null) {
+            jobHandler.reschedule();
         }
     }
 
-    private boolean checkCronExpression(ScheduledJob job, String cronExpression) {
-        if (job.getCronExpression() == null || job.getCronExpression() != null && !job.getCronExpression().isEmpty()
-                && !job.getCronExpression().equals(cronExpression)) {
-            job.setCronExpression(cronExpression);
-            return true;
-        }
-        return false;
+    public JobConfiguration getFullJobConfiguration() {
+        return getFullJobConfiguration(DEFUALT_FULL_HARVEST_JOB_NAME);
     }
 
-    private void validate(String cronExpression) {
-        try {
-            CronExpression.validateExpression(cronExpression);
-        } catch (ParseException e) {
-            throw new ConfigurationError(String.format(
-                    "%s is invalid! Please check http://www.quartz-scheduler.org/documentation/quartz-2.3.0/tutorials"
-                            + "/tutorial-lesson-06.html",
-                    cronExpression));
-        }
+    public JobConfiguration getFullJobConfiguration(String name) {
+        addDefaultJobName(name);
+        return new JobConfiguration().setEnabled(true).setTriggerAtStartup(true)
+                .setCronExpression(getFullCronExpression()).setJobType(JobType.full).setName(name);
     }
 
-    @Override
-    public void init() {
-        reschedule(false);
-        this.initialized = true;
+    public JobConfiguration getTemporalJobConfiguration() {
+        return getTemporalJobConfiguration(DEFUALT_TEMPORAL_HARVEST_JOB_NAME);
     }
+
+    public JobConfiguration getTemporalJobConfiguration(String name) {
+        addDefaultJobName(name);
+        return new JobConfiguration().setEnabled(true).setTriggerAtStartup(true)
+                .setCronExpression(getTemporalCronExpression()).setJobType(JobType.temporal).setName(name);
+    }
+
+    public DefaultJobConfiguration addDefaultJobNames(Collection<String> names) {
+        if (names != null) {
+            names.forEach(this::addDefaultJobName);
+        }
+        return this;
+    }
+
+    public DefaultJobConfiguration addDefaultJobName(String name) {
+        if (name != null && !name.isEmpty()) {
+            this.defaultJobNames.add(name);
+        }
+        return this;
+    }
+
+    public DefaultJobConfiguration removeDefaultJobName(String name) {
+        if (name != null && !name.isEmpty()) {
+            this.defaultJobNames.remove(name);
+        }
+        return this;
+    }
+
+    public Collection<String> getDefaultJobNames() {
+        return defaultJobNames;
+    }
+
 }
