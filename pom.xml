@@ -155,7 +155,7 @@
         <version.mockito>4.7.0</version.mockito>
         <version.hamcrest>2.2</version.hamcrest>
         <version.httpcore>4.4.15</version.httpcore>
-        <version.elastic>7.17.5</version.elastic>
+        <version.elastic>7.17.6</version.elastic>
         <version.antlr4>4.10.1</version.antlr4>
         <version.maven-javadoc-plugin>3.4.1</version.maven-javadoc-plugin>
         <version.java>11</version.java>
