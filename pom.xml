@@ -141,7 +141,7 @@
         <timestamp>${maven.build.timestamp}</timestamp>
         <version.spring>5.3.22</version.spring>
         <version.slf4j>2.0.0</version.slf4j>
-        <version.xmlbeans>3.1.0</version.xmlbeans>
+        <version.xmlbeans>5.1.1</version.xmlbeans>
         <version.exificient>1.0.4</version.exificient>
         <version.jaxb>2.3.0</version.jaxb>
         <version.n52CommonXML>2.7.0</version.n52CommonXML>
