@@ -17,8 +17,11 @@ package org.n52.iceland.cache.ctrl;
 
 import java.text.ParseException;
 import java.util.Date;
+import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import javax.inject.Inject;
 
 import org.joda.time.DateTime;
 import org.n52.faroe.ConfigurationError;
@@ -44,9 +47,11 @@ public abstract class AbstractSchedulingContentCacheController implements Conten
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractSchedulingContentCacheController.class);
 
     private boolean initialized;
-    private long updateInterval;
+    private long updateInterval = 120;
     private final Timer timer = new Timer("52n-iceland-capabilities-cache-controller", true);
     private TimerTask current;
+    private Optional<StaticCapabilitiesProvider> staticCapabilitiesProvider;
+
 
     /**
      * Starts a new timer task
@@ -74,20 +79,20 @@ public abstract class AbstractSchedulingContentCacheController implements Conten
         Validation.notNullOrEmpty("Cron expression for cache update", cronExpression);
         try {
             DateTime now = DateTime.now();
-            Date next = new CronExpression(cronExpression).getNextInvalidTimeAfter(DateTime.now().toDate());
-            setUpdateInterval(DateTimeHelper.getMinutesSince(now, new DateTime(next)));
+            CronExpression cronExp = new CronExpression(cronExpression);
+            Date first = cronExp.getNextValidTimeAfter(now.toDate());
+            Date next = cronExp.getNextValidTimeAfter(first);
+            setUpdateInterval(DateTimeHelper.getMinutesSince(new DateTime(first), new DateTime(next)));
         } catch (ParseException e) {
+            
             throw new ConfigurationError(String.format("The defined cron expression '%s' is invalid!", cronExpression),
                     e);
         }
-        // for later usage!
-//        if (this.cronExpression == null) {
-//            this.cronExpression = cronExpression;
-//            reschedule();
-//        } else if (!this.cronExpression.equalsIgnoreCase(cronExpression)) {
-//            this.cronExpression = cronExpression;
-//            reschedule();
-//        }
+    }
+
+    @Inject
+    public void setStaticCapabilitiesProvider(Optional<StaticCapabilitiesProvider> staticCapabilitiesProvider) {
+        this.staticCapabilitiesProvider = staticCapabilitiesProvider;
     }
 
     public void setUpdateInterval(int interval) throws ConfigurationError {
@@ -151,6 +156,9 @@ public abstract class AbstractSchedulingContentCacheController implements Conten
                 update();
                 LOGGER.info("Timertask: capabilities cache update successful!");
                 schedule();
+                if (staticCapabilitiesProvider.isPresent()) {
+                    staticCapabilitiesProvider.get().create();
+                }
             } catch (OwsExceptionReport e) {
                 LOGGER.error("Fatal error: Timertask couldn't update capabilities cache! " +
                              "Switch log level to DEBUG to get more details.");
