@@ -47,32 +47,11 @@ public abstract class AbstractSchedulingContentCacheController implements Conten
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractSchedulingContentCacheController.class);
 
     private boolean initialized;
-    private long updateInterval = 120;
+    private long updateInterval;
     private final Timer timer = new Timer("52n-iceland-capabilities-cache-controller", true);
     private TimerTask current;
-    private Optional<StaticCapabilitiesProvider> staticCapabilitiesProvider;
+    private Optional<StaticCapabilitiesProvider> staticCapabilitiesProvider = Optional.empty();
 
-
-    /**
-     * Starts a new timer task
-     */
-    private void schedule() {
-        /*
-         * Timers can not be rescheduled. To make the interval changeable
-         * reschedule a new timer.
-         */
-        current = new UpdateTimerTask();
-        long delay = getUpdateInterval();
-        if (!isInitialized()) {
-            delay = 1;
-            setInitialized(true);
-        }
-        if (delay > 0) {
-            LOGGER.info("Next CapabilitiesCacheUpdate in {}m: {}", delay / 60000,
-                        new DateTime(System.currentTimeMillis() + delay));
-            timer.schedule(current, delay);
-        }
-    }
 
     @Setting(ScheduledContentCacheControllerSettings.CAPABILITIES_CACHE_UPDATE)
     public void setCronExpression(String cronExpression) {
@@ -84,7 +63,7 @@ public abstract class AbstractSchedulingContentCacheController implements Conten
             Date next = cronExp.getNextValidTimeAfter(first);
             setUpdateInterval(DateTimeHelper.getMinutesSince(new DateTime(first), new DateTime(next)));
         } catch (ParseException e) {
-            
+
             throw new ConfigurationError(String.format("The defined cron expression '%s' is invalid!", cronExpression),
                     e);
         }
@@ -105,6 +84,26 @@ public abstract class AbstractSchedulingContentCacheController implements Conten
 
     private long getUpdateInterval() {
         return this.updateInterval * 60000;
+    }
+
+    /**
+     * Starts a new timer task
+     */
+    private void schedule() {
+        /*
+         * Timers can not be rescheduled. To make the interval changeable
+         * reschedule a new timer.
+         */
+        current = new UpdateTimerTask();
+        long delay = getUpdateInterval();
+        if (!isInitialized()) {
+            delay = 1;
+        }
+        if (delay > 0) {
+            LOGGER.info("Next CapabilitiesCacheUpdate in {}m: {}", delay / 60000,
+                        new DateTime(System.currentTimeMillis() + delay));
+            timer.schedule(current, delay);
+        }
     }
 
     /**
@@ -153,11 +152,13 @@ public abstract class AbstractSchedulingContentCacheController implements Conten
         @Override
         public void run() {
             try {
-                update();
-                LOGGER.info("Timertask: capabilities cache update successful!");
-                schedule();
-                if (staticCapabilitiesProvider.isPresent()) {
-                    staticCapabilitiesProvider.get().create();
+                if (isInitialized()) {
+                    update();
+                    LOGGER.info("Timertask: capabilities cache update successful!");
+                    schedule();
+                    if (staticCapabilitiesProvider != null && staticCapabilitiesProvider.isPresent()) {
+                        staticCapabilitiesProvider.get().create();
+                    }
                 }
             } catch (OwsExceptionReport e) {
                 LOGGER.error("Fatal error: Timertask couldn't update capabilities cache! " +
