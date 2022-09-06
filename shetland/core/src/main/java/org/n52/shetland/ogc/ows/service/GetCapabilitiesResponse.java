@@ -28,7 +28,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  */
 public class GetCapabilitiesResponse extends OwsServiceResponse {
     private OwsCapabilities capabilities;
-    private String xmlString;
+    private String staticString;
 
     public GetCapabilitiesResponse() {
         super(null, null, OWSConstants.Operations.GetCapabilities.name());
@@ -65,15 +65,23 @@ public class GetCapabilitiesResponse extends OwsServiceResponse {
     }
 
     public String getXmlString() {
-        return xmlString;
+        return getStaticString();
     }
 
     public GetCapabilitiesResponse setXmlString(String xmlString) {
-        this.xmlString = xmlString;
+        return setStaticString(xmlString);
+    }
+
+    public String getStaticString() {
+        return staticString;
+    }
+
+    public GetCapabilitiesResponse setStaticString(String staticString) {
+        this.staticString = staticString;
         return this;
     }
 
     public boolean isStatic() {
-        return getXmlString() != null && !getXmlString().isEmpty();
+        return getStaticString() != null && !getStaticString().isEmpty();
     }
 }

@@ -54,7 +54,7 @@ public class GetCapabilitiesResponseEncoderTest {
     public void should_create_static_capabilities() throws Exception {
         XmlObject encodedResponse = encoder.encode(minimalCapabilities());
 
-        Diff d = new Diff(encodedResponse.xmlText(), minimalCapabilities().getXmlString());
+        Diff d = new Diff(encodedResponse.xmlText(), minimalCapabilities().getStaticString());
 
         assertThat(d.identical(), is(true));
         assertThat(d.similar(), is(true));
