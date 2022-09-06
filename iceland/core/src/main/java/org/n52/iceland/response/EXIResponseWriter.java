@@ -78,6 +78,11 @@ public class EXIResponseWriter
     @Override
     public void write(EXIObject<XmlObject> exiObject, OutputStream out, ResponseProxy responseProxy)
             throws IOException, EncodingException {
+        write(exiObject, out);
+    }
+
+    @Override
+    public void write(EXIObject<XmlObject> exiObject, OutputStream out) throws IOException, EncodingException {
         byte[] bytes = getBytes(exiObject);
         try (InputStream is = new ByteArrayInputStream(bytes)) {
             EXIResult result = new EXIResult(this.exiFactory.get());
