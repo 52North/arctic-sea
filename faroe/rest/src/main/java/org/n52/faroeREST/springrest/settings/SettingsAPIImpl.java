@@ -15,24 +15,49 @@
  */
 package org.n52.faroeREST.springrest.settings;
 
+
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import javax.inject.Inject;
+import javax.inject.Qualifier;
 
 import org.n52.faroe.SettingDefinition;
+import org.n52.faroe.SettingValue;
+import org.n52.faroe.SettingsDefinitionDao;
 import org.n52.faroe.SettingsService;
-import org.n52.faroeREST.springrest.entities.Groups;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @Service
-public class SettingsAPIImpl implements SettingsAPI {
+public class SettingsAPIImpl implements InitializingBean,SettingsAPI {
 
 	@Inject
 	private SettingsService service;
+	
+	@Inject
+	private SettingsDefinitionDao dao;
+	
+	
 	private Collection<SettingDefinition<?>> titles = new ArrayList<SettingDefinition<?>>();
+	//private Collection<SettingDefinition<?>> assignData = new ArrayList<SettingDefinition<?>>();
 	private Collection<SettingAPIDao> settings = new LinkedList<SettingAPIDao>();
 	private Set<String> groups =  new HashSet<String>();
 
+	
+	public void afterPropertiesSet() {
+		service.addSettings(dao.getAllSettings());
+	}
+	
+	@Override
+	public Collection<SettingDefinition<?>> setSettings() {
+		return null;
+		
+	}
+	
 	@Override
 	public Collection<SettingAPIDao> getSettings() {
 		
@@ -60,6 +85,8 @@ public class SettingsAPIImpl implements SettingsAPI {
 
 	@Override
 	public Collection<SettingDefinition<?>> getSettingsbyTitle(String groupTitle) {
+		titles.clear();
+	
 		service.getSettingDefinitions().forEach(definition -> {
            if(definition.getGroup().getTitle().equalsIgnoreCase(groupTitle))
         		   {
@@ -80,32 +107,20 @@ public class SettingsAPIImpl implements SettingsAPI {
 		
 		return this.groups;
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public String addSettings(Collection<SettingDefinition<?>> group) {
-//		System.out.println(group);
+		dao.saveSettings(group);
 		service.addSettings(group);
-		return "Added Successfully";
+		return "Settings Added Successfully";
 	}
+	
 
 	@Override
-	public Collection<SettingDefinition<?>> updateSettings(Collection<SettingDefinition<?>> group) {
-
-		service.getSettingDefinitions().forEach(e -> {
-			if(e.getKey() == ((SettingDefinition<?>) group).getKey()) {
-				e.setDescription(((SettingDefinition<?>) group).getDescription());
-			}
-
-	});
-
-		return /*group*/ null;
-	}
-
-	public Set<SettingDefinition<?>> deleteGroup() {
-
-		service.deleteAll();
-		return this.service.getSettingDefinitions();
+	public String updateSettings(SettingValue<?> group) {
+		service.changeSetting(group);
+		return "Settings updated";
 	}
 
 

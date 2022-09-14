@@ -35,7 +35,6 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import javax.inject.Inject;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -82,10 +81,10 @@ public class SettingsServiceImpl implements SettingsService {
     public void setSettingValueFactory(SettingValueFactory settingValueFactory) {
         this.settingValueFactory = settingValueFactory;
     }
-
+    
     @Inject
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
-    public void setSettingsManagerDao(SettingsDao settingsManagerDao) {
+    public void  setSettingsManagerDao(SettingsDao settingsManagerDao) {
         this.settingsManagerDao = settingsManagerDao;
     }
 
@@ -292,12 +291,13 @@ public class SettingsServiceImpl implements SettingsService {
         }
     }
     
-    public void deleteSetting(String setting) throws ConfigurationError {
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	public void deleteSetting(String setting) throws ConfigurationError {
         SettingValue<?> oldValue = this.settingsManagerDao.getSettingValue(setting);
         if (oldValue != null) {
-           // applySetting(setting, oldValue, null);
+           applySetting(setting, oldValue, null);
             this.settingsManagerDao.deleteSettingValue(setting);
-           // this.serviceEventBus.submit(new SettingsChangeEvent(setting, oldValue, null));
+            this.serviceEventBus.submit(new SettingsChangeEvent(setting, oldValue, null));
         }
     }
 
@@ -361,6 +361,45 @@ public class SettingsServiceImpl implements SettingsService {
         }
     }
 
+    private void applySetting(String setting, SettingValue<?> oldValue, SettingValue<?> newValue)
+            throws ConfigurationError {
+        List<ConfigurableObject> changed = new LinkedList<>();
+        ConfigurationError e = null;
+        configurableObjectsLock.readLock().lock();
+        try {
+            Set<ConfigurableObject> cos = configurableObjects.get(setting);
+            if (cos != null) {
+                for (ConfigurableObject co : cos) {
+                    try {
+                        if (newValue != null) {
+                            co.configure(newValue.getValue());
+                        }
+                    } catch (ConfigurationError ce) {
+                        e = ce;
+                        break;
+                    } finally {
+                        changed.add(co);
+                    }
+                }
+                if (e != null) {
+                    LOG.debug("Reverting setting...");
+                    changed.stream().forEach(co -> {
+                        try {
+                            co.configure(oldValue.getValue());
+                        } catch (ConfigurationError ce) {
+                            /* there is nothing we can do... */
+                            LOG.error("Error reverting setting!", ce);
+                        }
+                    });
+                    throw e;
+                }
+            }
+        } finally {
+            configurableObjectsLock.readLock().unlock();
+        }
+    }
+    
+    
     private SettingValue<Object> getSettingValue(ConfigurableObject co) {
         return getSettingValue(co.getKey(), co.isRequired());
     }

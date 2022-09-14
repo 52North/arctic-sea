@@ -15,12 +15,15 @@
  */
 package org.n52.faroe.json;
 
+
+import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
 
 import javax.inject.Inject;
 
 import org.n52.faroe.JSONSettingConstants;
+
 import org.n52.faroe.SettingValue;
 import org.n52.faroe.SettingsDao;
 
@@ -36,6 +39,7 @@ public class JsonSettingsDao extends AbstractJsonDao implements SettingsDao {
     private JsonSettingsEncoder settingsEncoder;
     private JsonSettingsDecoder settingsDecoder;
 
+    
     @Inject
     public void setSettingsEncoder(JsonSettingsEncoder settingsEncoder) {
         this.settingsEncoder = settingsEncoder;
@@ -53,7 +57,7 @@ public class JsonSettingsDao extends AbstractJsonDao implements SettingsDao {
     protected JsonSettingsDecoder getSettingsDecoder() {
         return this.settingsDecoder;
     }
-
+    
     @Override
     public Set<SettingValue<?>> getSettingValues() {
         readLock().lock();
@@ -110,4 +114,6 @@ public class JsonSettingsDao extends AbstractJsonDao implements SettingsDao {
     public void deleteAll() {
         this.configuration().delete();
     }
+
+
 }

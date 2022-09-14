@@ -22,11 +22,18 @@
 
 
     <bean id="settingsService" class="org.n52.faroe.SettingsServiceImpl" />
-    <bean id="JsonSettingsDao" class="org.n52.faroe.json.JsonSettingsDao" />
+   <!--  <bean id="JsonSettingsDao" class="org.n52.faroe.json.JsonSettingsDao" />-->
+    <bean id="CRUDSettingsDao" class="org.n52.faroe.json.CRUDSettingsDao" />
     <bean id="settingsEncoder" class="org.n52.faroe.json.JsonSettingsEncoder" />
     <bean id="settingsDecoder" class="org.n52.faroe.json.JsonSettingsDecoder" />
     <bean id="settingValue" class="org.n52.faroe.json.JsonSettingValueFactory" />
-	<bean id="JsonConfiguration" class="org.n52.faroe.json.JsonConfiguration" />
-	<bean id="EventBus" class="org.n52.janmayen.event.EventBus" />
-	<bean id="ServletConfig" class="org.n52.iceland.service.ServletConfigLocationProvider" />
+    <bean id="configLocationProvider" class="org.n52.faroeREST.springrest.settings.LocalConfigLocation" />
+	<!--<bean id="jsonConfiguration" class="org.n52.faroe.json.JsonConfiguration" init-method="init"> -->
+	<bean id="settings" class="org.n52.faroe.json.JsonSettingsFile" init-method="init">
+        <property name="fileName" value="settings.json" />
+        <property name="writeTimeout" value="1000" />
+        <property name="configLocationProvider" ref="configLocationProvider"/>
+    </bean>
+	<bean id="eventBus" class="org.n52.janmayen.event.EventBus" />
+	
 </beans>

@@ -18,8 +18,11 @@ package org.n52.faroeREST.springrest;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableAutoConfiguration
@@ -31,6 +34,17 @@ public class SpringrestApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SpringrestApplication.class, args);
 
+	}
+	
+	@Bean
+	public WebMvcConfigurer corsConfigurer() {
+		return new WebMvcConfigurer() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/settings/groups").allowedOrigins("http://localhost:3000");
+				registry.addMapping("/settings/groups/{groupTitle}").allowedOrigins("http://localhost:3000");
+			}
+		};
 	}
 
 }

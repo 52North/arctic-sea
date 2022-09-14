@@ -18,23 +18,24 @@ package org.n52.faroeREST.springrest.settings;
 import java.util.*;
 
 import org.n52.faroe.SettingDefinition;
-import org.n52.faroeREST.springrest.entities.Groups;
+import org.n52.faroe.SettingValue;
 
 public interface SettingsAPI {
 
 	public Collection<SettingAPIDao> getSettings();
 	
+	public Collection<SettingDefinition<?>> setSettings();
+	
 	public Set<String> getGroups();
 
 	public Collection<SettingDefinition<?>> getSettingsbyTitle(String groupTitle);
-
+	
 	public String addSettings(Collection<SettingDefinition<?>> group);
 
-	public Collection<SettingDefinition<?>> updateSettings(Collection<SettingDefinition<?>> group);
-
-	public Set<SettingDefinition<?>> deleteGroup();
+	public String updateSettings(SettingValue<?> group);
 
 	public String deleteSettings(String setting);
 
 	public String deleteAllSettings();
+	
 }

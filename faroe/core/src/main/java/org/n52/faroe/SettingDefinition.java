@@ -18,6 +18,8 @@ package org.n52.faroe;
 import java.io.Serializable;
 import java.util.Optional;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 /**
  *
  * Interface for setting definitions that can be used within the Service. Defined settings will be presented in the
@@ -36,6 +38,7 @@ import java.util.Optional;
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 1.0.0
  */
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include=JsonTypeInfo.As.PROPERTY, property="_class")
 public interface SettingDefinition<T> extends Ordered, Serializable {
     /**
      * @return the unique key of this definition
@@ -53,7 +56,7 @@ public interface SettingDefinition<T> extends Ordered, Serializable {
     String getDescription();
 
     /**
-     * @return wether this setting is optional or required.
+     * @return weather this setting is optional or required.
      */
     boolean isOptional();
 

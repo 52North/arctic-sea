@@ -31,20 +31,34 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 public class SettingsChangeEvent<T> implements Event {
 
     private final SettingDefinition<T> setting;
+    private final String settings;
     private final SettingValue<T> oldValue;
     private final SettingValue<T> newValue;
 
     @SuppressFBWarnings({"EI_EXPOSE_REP2"})
     public SettingsChangeEvent(SettingDefinition<T> setting, SettingValue<T> oldValue, SettingValue<T> newValue) {
         this.setting = setting;
+		this.settings = null;
         this.oldValue = oldValue;
         this.newValue = newValue;
     }
 
+    
+    public SettingsChangeEvent(String settings, SettingValue<T> oldValue, SettingValue<T> newValue) {
+        this.setting = null;
+		this.settings = settings;
+        this.oldValue = oldValue;
+        this.newValue = newValue;
+    }
+    
     public SettingDefinition<T> getSetting() {
         return setting;
     }
-
+    
+    public String getSettings() {
+        return settings;
+    }
+    
     @SuppressFBWarnings({"EI_EXPOSE_REP"})
     public SettingValue<T> getOldValue() {
         return oldValue;
@@ -65,7 +79,8 @@ public class SettingsChangeEvent<T> implements Event {
 
     @Override
     public String toString() {
-        return String.format("SettingsChangeEvent[setting=%s, oldValue=%s, newValue=%s",
-                             getSetting(), getOldValue(), getNewValue());
+        return String.format("SettingsChangeEvent[setting=%s, settings=%s, oldValue=%s, newValue=%s",
+                             getSetting(), getSettings(), getOldValue(), getNewValue());
     }
+
 }

@@ -17,6 +17,8 @@ package org.n52.faroe;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 /**
  * Holder for generic settings. Implementations are {@link SettingsService} specific.
  *
@@ -25,6 +27,7 @@ import java.io.Serializable;
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 1.0.0
  */
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include=JsonTypeInfo.As.PROPERTY, property="_class")
 public interface SettingValue<T> extends Serializable {
 
     /**

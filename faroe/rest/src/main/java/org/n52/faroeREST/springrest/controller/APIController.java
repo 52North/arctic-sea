@@ -19,12 +19,13 @@ import java.util.Collection;
 import java.util.Set;
 
 import org.n52.faroe.SettingDefinition;
-import org.n52.faroeREST.springrest.entities.Groups;
+import org.n52.faroe.SettingValue;
 import org.n52.faroeREST.springrest.settings.SettingAPIDao;
 import org.n52.faroeREST.springrest.settings.SettingsAPI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,6 +47,14 @@ public class APIController {
 
 	}
 	
+	@GetMapping(path = "/setting")
+	public Collection<SettingDefinition<?>> setSettings(){
+		
+		return this.api.setSettings();
+
+	}
+	
+	@CrossOrigin(origins = "http://localhost:3000/groups")
 	@GetMapping(path = "/settings/groups")
 	public Set<String> getGroups(){
 
@@ -58,28 +67,23 @@ public class APIController {
 		return this.api.getSettingsbyTitle(groupTitle);
 	}
 
-
 	@PostMapping(path = "/settings", consumes = "application/json")
-	public String addGroup(@RequestBody Collection<SettingDefinition<?>> group) {
-		this.api.addSettings(group);
+	public String addSettings(@RequestBody Collection<SettingDefinition<?>> value) {
+		this.api.addSettings(value);
 		return "Added";
-
 	}
 
 	@PutMapping(path = "/settings", consumes = "application/json")
-	public Collection<SettingDefinition<?>> updateSettings(@RequestBody Collection<SettingDefinition<?>> group) {
-
-		return this.api.updateSettings(group);
-
+	public String updateSettings(@RequestBody SettingValue<?> value) {
+		this.api.updateSettings(value);
+		return "Updated";
 	}
 
 	@DeleteMapping("/settings/{setting}")
 	public String deleteSetting(@PathVariable String setting) {
 //		System.out.println(setting.getTitle());
 		this.api.deleteSettings(setting);
-		return "Deleted setting";
-		
-			
+		return "Deleted setting";	
 	}		
 	
 
