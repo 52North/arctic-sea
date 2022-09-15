@@ -43,22 +43,22 @@ public class SettingsChangeEvent<T> implements Event {
         this.newValue = newValue;
     }
 
-    
+
     public SettingsChangeEvent(String settings, SettingValue<T> oldValue, SettingValue<T> newValue) {
         this.setting = null;
 		this.settings = settings;
         this.oldValue = oldValue;
         this.newValue = newValue;
     }
-    
+
     public SettingDefinition<T> getSetting() {
         return setting;
     }
-    
+
     public String getSettings() {
         return settings;
     }
-    
+
     @SuppressFBWarnings({"EI_EXPOSE_REP"})
     public SettingValue<T> getOldValue() {
         return oldValue;

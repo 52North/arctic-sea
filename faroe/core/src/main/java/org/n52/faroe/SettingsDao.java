@@ -50,7 +50,7 @@ public interface SettingsDao {
      * @param setting the value
      */
     void saveSettingValue(SettingValue<?> setting);
-    
+
 
     void deleteAll();
 

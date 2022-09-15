@@ -70,6 +70,7 @@ This project includes:
   Guava InternalFutureFailureAccess and InternalFutures under The Apache Software License, Version 2.0
   Guava ListenableFuture only under The Apache Software License, Version 2.0
   Guava: Google Core Libraries for Java under Apache License, Version 2.0
+  Hamcrest Core under BSD License 3
   HdrHistogram under Public Domain, per Creative Commons CC0
   HPPC Collections under The Apache Software License, Version 2.0
   INSPIRE Addresses schema (spec. v4.0) under The Apache Software License, Version 2.0
@@ -89,18 +90,24 @@ This project includes:
   J2ObjC Annotations under The Apache Software License, Version 2.0
   Jackson dataformat: CBOR under The Apache Software License, Version 2.0
   Jackson dataformat: Smile under The Apache Software License, Version 2.0
+  Jackson datatype: jdk8 under The Apache Software License, Version 2.0
   Jackson-annotations under The Apache Software License, Version 2.0
   Jackson-core under The Apache Software License, Version 2.0
   jackson-databind under The Apache Software License, Version 2.0
   Jackson-dataformat-YAML under The Apache Software License, Version 2.0
+  Jackson-datatype-Hibernate5 under The Apache Software License, Version 2.0
   Java archiving library under Apache 2
   JavaMail API jar under CDDL or GPLv2+CE
   javax.annotation API under CDDL + GPLv2 with classpath exception
   javax.inject under The Apache Software License, Version 2.0
+  javax.transaction API under CDDL + GPLv2 with classpath exception
   jaxb-api under CDDL 1.1 or GPL2 w/ CPE
   Joda-Time under Apache License, Version 2.0
   JOpt Simple under The MIT License
+  JSON in Java under The JSON License
+  JSON.simple under The Apache Software License, Version 2.0
   JSONLD Java :: Core under Revised BSD License
+  JUnit under Eclipse Public License 1.0
   lang-mustache under Elastic License 2.0 or Server Side Public License, v 1
   libphonenumber under The Apache Software License, Version 2.0
   Lucene Common Analyzers under Apache License, Version 2.0

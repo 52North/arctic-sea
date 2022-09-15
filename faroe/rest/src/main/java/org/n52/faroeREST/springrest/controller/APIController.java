@@ -42,18 +42,18 @@ public class APIController {
 
 	@GetMapping(path = "/settings")
 	public Collection<SettingAPIDao> getSettings(){
-		
+
 		return this.api.getSettings();
 
 	}
-	
+
 	@GetMapping(path = "/setting")
 	public Collection<SettingDefinition<?>> setSettings(){
-		
+
 		return this.api.setSettings();
 
 	}
-	
+
 	@CrossOrigin(origins = "http://localhost:3000/groups")
 	@GetMapping(path = "/settings/groups")
 	public Set<String> getGroups(){
@@ -83,15 +83,15 @@ public class APIController {
 	public String deleteSetting(@PathVariable String setting) {
 //		System.out.println(setting.getTitle());
 		this.api.deleteSettings(setting);
-		return "Deleted setting";	
-	}		
-	
+		return "Deleted setting";
+	}
+
 
 	@DeleteMapping(path = "/settings/deleteAll")
 	public String deleteAllSettings() {
 		this.api.deleteAllSettings();
 		return "Deleted Settings";
-		
+
 	}
 
 }

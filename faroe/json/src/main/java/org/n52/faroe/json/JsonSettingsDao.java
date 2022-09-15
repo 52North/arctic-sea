@@ -39,7 +39,7 @@ public class JsonSettingsDao extends AbstractJsonDao implements SettingsDao {
     private JsonSettingsEncoder settingsEncoder;
     private JsonSettingsDecoder settingsDecoder;
 
-    
+
     @Inject
     public void setSettingsEncoder(JsonSettingsEncoder settingsEncoder) {
         this.settingsEncoder = settingsEncoder;
@@ -57,7 +57,7 @@ public class JsonSettingsDao extends AbstractJsonDao implements SettingsDao {
     protected JsonSettingsDecoder getSettingsDecoder() {
         return this.settingsDecoder;
     }
-    
+
     @Override
     public Set<SettingValue<?>> getSettingValues() {
         readLock().lock();

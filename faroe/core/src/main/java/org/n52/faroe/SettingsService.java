@@ -72,7 +72,7 @@ public interface SettingsService {
      */
     void deleteSetting(SettingDefinition<?> setting) throws ConfigurationError;
 
-    
+
     public void deleteSetting(String setting)  throws ConfigurationError;
     /**
      * Get the definition that is defined with the specified key.

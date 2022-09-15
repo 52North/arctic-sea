@@ -44,8 +44,18 @@ public class MockSettingsService implements SettingsService {
     }
 
     @Override
+    public void deleteSetting(String setting) throws ConfigurationError {
+
+    }
+
+    @Override
     public SettingDefinition<?> getDefinitionByKey(String key) {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public SettingDefinition<?> getDefinitionByTitle(String title) {
+        return null;
     }
 
     @Override
