@@ -25,26 +25,27 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-@EnableAutoConfiguration
-@ImportResource({ "faroe.xml", "settings-service.xml", "settings-service-identification.xml", "settings-service-provider.xml" })
+@ImportResource({"classpath:/faroe.xml",
+                 "classpath:/settings-service.xml",
+                 "classpath:/settings-service-identification.xml",
+                 "classpath:/settings-service-provider.xml"})
 
 @SpringBootApplication
 public class SpringrestApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(SpringrestApplication.class, args);
+    public static void main(String[] args) {
+        SpringApplication.run(SpringrestApplication.class, args);
+    }
 
-	}
-	
-	@Bean
-	public WebMvcConfigurer corsConfigurer() {
-		return new WebMvcConfigurer() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/settings/groups").allowedOrigins("http://localhost:3000");
-				registry.addMapping("/settings/groups/{groupTitle}").allowedOrigins("http://localhost:3000");
-			}
-		};
-	}
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/settings/groups").allowedOrigins("http://localhost:3000");
+                registry.addMapping("/settings/groups/{groupTitle}").allowedOrigins("http://localhost:3000");
+            }
+        };
+    }
 
 }

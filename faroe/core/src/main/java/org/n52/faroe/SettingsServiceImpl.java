@@ -81,7 +81,7 @@ public class SettingsServiceImpl implements SettingsService {
     public void setSettingValueFactory(SettingValueFactory settingValueFactory) {
         this.settingValueFactory = settingValueFactory;
     }
-    
+
     @Inject
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void  setSettingsManagerDao(SettingsDao settingsManagerDao) {
@@ -210,7 +210,7 @@ public class SettingsServiceImpl implements SettingsService {
         return this.definitionByTitle.get(title);
     }
 
-    
+
     /**
      * Gets the value of the setting defined by {@code key}.
      *
@@ -290,7 +290,7 @@ public class SettingsServiceImpl implements SettingsService {
             this.serviceEventBus.submit(new SettingsChangeEvent(setting, oldValue, null));
         }
     }
-    
+
     @SuppressWarnings({ "unchecked", "rawtypes" })
 	public void deleteSetting(String setting) throws ConfigurationError {
         SettingValue<?> oldValue = this.settingsManagerDao.getSettingValue(setting);
@@ -398,8 +398,8 @@ public class SettingsServiceImpl implements SettingsService {
             configurableObjectsLock.readLock().unlock();
         }
     }
-    
-    
+
+
     private SettingValue<Object> getSettingValue(ConfigurableObject co) {
         return getSettingValue(co.getKey(), co.isRequired());
     }

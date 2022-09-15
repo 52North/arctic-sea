@@ -23,13 +23,13 @@ import org.n52.faroe.SettingValue;
 public interface SettingsAPI {
 
 	public Collection<SettingAPIDao> getSettings();
-	
+
 	public Collection<SettingDefinition<?>> setSettings();
-	
+
 	public Set<String> getGroups();
 
 	public Collection<SettingDefinition<?>> getSettingsbyTitle(String groupTitle);
-	
+
 	public String addSettings(Collection<SettingDefinition<?>> group);
 
 	public String updateSettings(SettingValue<?> group);
@@ -37,5 +37,5 @@ public interface SettingsAPI {
 	public String deleteSettings(String setting);
 
 	public String deleteAllSettings();
-	
+
 }

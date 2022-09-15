@@ -35,5 +35,5 @@
         <property name="configLocationProvider" ref="configLocationProvider"/>
     </bean>
 	<bean id="eventBus" class="org.n52.janmayen.event.EventBus" />
-	
+
 </beans>

@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.n52.faroe.json;
 
 import java.util.Collection;
@@ -21,13 +36,14 @@ import org.n52.faroe.SettingsDefinitionDao;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 
 public class CRUDSettingsDao extends AbstractJsonSettingsDao implements SettingsDefinitionDao {
 
 	 private JsonSettingsEncoder settingsEncoder;
 	    private JsonSettingsDecoder settingsDecoder;
 
-	    
+
 	    @Inject
 	    public void setSettingsEncoder(JsonSettingsEncoder settingsEncoder) {
 	        this.settingsEncoder = settingsEncoder;
@@ -45,7 +61,7 @@ public class CRUDSettingsDao extends AbstractJsonSettingsDao implements Settings
 	    protected JsonSettingsDecoder getSettingsDecoder() {
 	        return this.settingsDecoder;
 	    }
-	
+
 	@Override
 	public Set<SettingValue<?>> getSettingValues() {
 		 readLock().lock();
@@ -105,12 +121,12 @@ public class CRUDSettingsDao extends AbstractJsonSettingsDao implements Settings
 
 	@Override
 	public Collection<SettingDefinition<?>> getAllSettings() {
-		
+
 		readLock().lock();
-		
+
 		try {
 			 ObjectNode settings = getSettings().with("SettingDefinitions");
-			 
+
 				 ObjectMapper mapper = new ObjectMapper();
 			     mapper.registerModule(new Jdk8Module());
 				 Iterator<JsonNode> it = settings.iterator();
@@ -120,7 +136,7 @@ public class CRUDSettingsDao extends AbstractJsonSettingsDao implements Settings
 				    list.add(mapper.treeToValue(it.next(), SettingDefinition.class));
 				 }
 				 return list;
-				 
+
 		}catch(JsonProcessingException e){
 			throw new RuntimeException(e);
 		}
@@ -135,18 +151,18 @@ public class CRUDSettingsDao extends AbstractJsonSettingsDao implements Settings
 		settings.forEach(setting -> {
 			saveSetting(setting);
 		});
-		
+
 	}
 
 	private void saveSetting(SettingDefinition<?> setting) {
-		
+
 		 writeLock().lock();
 	        try {
 	            ObjectNode settings = getSettings().with("SettingDefinitions");
 	            ObjectMapper mapper = new ObjectMapper();
 	           // mapper.registerModule(new Jdk8Module());
 	            settings.set(setting.getKey(),mapper.valueToTree(setting));
-	            
+
 	        } finally {
 	            writeLock().unlock();
 	        }
