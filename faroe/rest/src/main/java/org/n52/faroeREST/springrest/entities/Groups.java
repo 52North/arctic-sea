@@ -17,31 +17,38 @@ package org.n52.faroeREST.springrest.entities;
 
 public class Groups {
 
-	private String title;
-	private String description;
-	public Groups(String title, String description) {
-		super();
-		this.title = title;
-		this.description = description;
-	}
-	public Groups() {
-		super();
-	}
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	@Override
-	public String toString() {
-		return "Groups [title=" + title + ", description=" + description + "]";
-	}
+    private String title;
+    private String description;
+
+    public Groups(String title, String description) {
+        super();
+        this.title = title;
+        this.description = description;
+    }
+
+    public Groups() {
+        super();
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "Groups [title=" + title + ", description=" + description + "]";
+    }
 
 }

@@ -15,20 +15,15 @@
  */
 package org.n52.faroe.json;
 
-
-import java.util.Collection;
-import java.util.Optional;
-import java.util.Set;
-
-import javax.inject.Inject;
-
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.n52.faroe.JSONSettingConstants;
-
 import org.n52.faroe.SettingValue;
 import org.n52.faroe.SettingsDao;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import javax.inject.Inject;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  *
@@ -51,7 +46,7 @@ public class JsonSettingsDao extends AbstractJsonDao implements SettingsDao {
 
     @Inject
     public void setSettingsDecoder(Optional<JsonSettingsDecoder> settingsDecoder) {
-        this.settingsDecoder = settingsDecoder.isPresent() ? settingsDecoder.get() : new JsonSettingsDecoder();
+        this.settingsDecoder = settingsDecoder.orElseGet(JsonSettingsDecoder::new);
     }
 
     protected JsonSettingsDecoder getSettingsDecoder() {

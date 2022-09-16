@@ -46,5 +46,5 @@ public interface JSONSettingConstants {
     String FILE_TYPE = "file";
     String URI_TYPE = "uri";
 
-
+    String SETTING_DEFINITIONS = "settingDefinitions";
 }
