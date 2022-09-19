@@ -25,7 +25,6 @@ import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -37,46 +36,24 @@ public class SettingsAPIImpl implements InitializingBean, SettingsAPI {
 
     @Inject
     private SettingsDefinitionDao dao;
-    //private Collection<SettingDefinition<?>> assignData = new ArrayList<SettingDefinition<?>>();
-    private Collection<SettingAPIDao> settings = new LinkedList<SettingAPIDao>();
 
     public void afterPropertiesSet() {
         service.addSettings(dao.getAllSettings());
     }
 
     @Override
-    public Collection<SettingDefinition<?>> setSettings() {
-        return null;
+    public Collection<SettingDefinition<?>> getSettingDefinitions() {
+        return service.getSettingDefinitions();
 
     }
 
     @Override
-    public Collection<SettingAPIDao> getSettings() {
-
-        service.getSettingDefinitions().forEach(definition -> {
-            SettingAPIDao setting = new SettingAPIDao(definition.getGroup().getTitle(),
-                                                      definition.getGroup().getDescription(),
-                                                      "Sujit");
-            if (this.settings.isEmpty()) {
-                this.settings.add(setting);
-            }
-//			   System.out.println(setting);
-
-            this.settings.forEach(definitions -> {
-//				System.out.println(this.service.getSettingDefinitions());
-                if (!definitions.getTitle().equals(definition.getGroup().getTitle())) {
-                    this.settings.add(setting);
-                }
-            });
-
-        });
-
-//		System.out.println(this.settings.size());
-        return this.settings;
+    public Collection<SettingValue<?>> getSettingValues() {
+        return service.getSettings().values();
     }
 
     @Override
-    public Collection<SettingDefinition<?>> getSettingsbyTitle(String groupTitle) {
+    public Collection<SettingDefinition<?>> getSettingsByTitle(String groupTitle) {
         return service.getSettingDefinitions().stream()
                       .filter(definition -> definition.getGroup().getTitle().equalsIgnoreCase(groupTitle))
                       .collect(Collectors.toList());
@@ -90,28 +67,26 @@ public class SettingsAPIImpl implements InitializingBean, SettingsAPI {
 
     @SuppressWarnings("unchecked")
     @Override
-    public String addSettings(Collection<SettingDefinition<?>> group) {
+    public void addSettingDefinitions(Collection<SettingDefinition<?>> group) {
         dao.saveSettings(group);
         service.addSettings(group);
-        return "Settings Added Successfully";
     }
 
     @Override
-    public String updateSettings(SettingValue<?> group) {
+    public void updateSettingValue(SettingValue<?> group) {
         service.changeSetting(group);
-        return "Settings updated";
     }
 
     @Override
-    public String deleteSettings(String setting) {
+    public void deleteSettingValue(String setting) {
         service.deleteSetting(setting);
-        return "Deleted Successfully";
     }
 
     @Override
-    public String deleteAllSettings() {
-        service.deleteAll();
-        return "Everything deleted Successfully";
+    public Collection<SettingValue<?>> getSettingValuesByGroup(String title) {
+        return service.getSettingDefinitions().stream()
+                      .filter(definition -> definition.getGroup().getTitle().equalsIgnoreCase(title))
+                      .map(definition -> service.getSetting(definition))
+                      .collect(Collectors.toList());
     }
-
 }

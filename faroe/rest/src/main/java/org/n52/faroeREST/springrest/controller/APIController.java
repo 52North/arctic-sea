@@ -20,11 +20,8 @@ import java.util.Set;
 
 import org.n52.faroe.SettingDefinition;
 import org.n52.faroe.SettingValue;
-import org.n52.faroeREST.springrest.settings.SettingAPIDao;
 import org.n52.faroeREST.springrest.settings.SettingsAPI;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,61 +34,48 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class APIController {
 
-	@Autowired
-	private SettingsAPI api;
+    @Autowired
+    private SettingsAPI api;
 
-	@GetMapping(path = "/settings")
-	public Collection<SettingAPIDao> getSettings(){
+    @GetMapping(path = "/definitions")
+    public Collection<SettingDefinition<?>> getSettingDefinitions() {
+        return this.api.getSettingDefinitions();
 
-		return this.api.getSettings();
+    }
 
-	}
+    @PostMapping(path = "/definitions", consumes = "application/json")
+    public void addSettingDefinitions(@RequestBody Collection<SettingDefinition<?>> value) {
+        this.api.addSettingDefinitions(value);
+    }
 
-	@GetMapping(path = "/setting")
-	public Collection<SettingDefinition<?>> setSettings(){
+    @CrossOrigin(origins = "http://localhost:3000/groups")
+    @GetMapping(path = "/definitions/groups")
+    public Set<String> getGroups() {
+        return this.api.getGroups();
+    }
 
-		return this.api.setSettings();
+    @GetMapping(path = "/definitions/groups/{groupTitle}")
+    public Collection<SettingDefinition<?>> getSettingDefinitionByTitle(@PathVariable String groupTitle) {
+        return this.api.getSettingsByTitle(groupTitle);
+    }
 
-	}
+    @PutMapping(path = "/settings", consumes = "application/json")
+    public void updateSettingValue(@RequestBody SettingValue<?> value) {
+        this.api.updateSettingValue(value);
+    }
 
-	@CrossOrigin(origins = "http://localhost:3000/groups")
-	@GetMapping(path = "/settings/groups")
-	public Set<String> getGroups(){
+    @GetMapping("/settings")
+    public Collection<SettingValue<?>> getSettingValues() {
+        return this.api.getSettingValues();
+    }
 
-		return this.api.getGroups();
+    @GetMapping("/settings/{groupTitle}")
+    public Collection<SettingValue<?>> getSettingValuesByGroup(String groupTitle) {
+        return this.api.getSettingValuesByGroup(groupTitle);
+    }
 
-	}
-
-	@GetMapping(path = "/settings/groups/{groupTitle}")
-	public Collection<SettingDefinition<?>> getSettingsbyTitle(@PathVariable String groupTitle) {
-		return this.api.getSettingsbyTitle(groupTitle);
-	}
-
-	@PostMapping(path = "/settings", consumes = "application/json")
-	public String addSettings(@RequestBody Collection<SettingDefinition<?>> value) {
-		this.api.addSettings(value);
-		return "Added";
-	}
-
-	@PutMapping(path = "/settings", consumes = "application/json")
-	public String updateSettings(@RequestBody SettingValue<?> value) {
-		this.api.updateSettings(value);
-		return "Updated";
-	}
-
-	@DeleteMapping("/settings/{setting}")
-	public String deleteSetting(@PathVariable String setting) {
-//		System.out.println(setting.getTitle());
-		this.api.deleteSettings(setting);
-		return "Deleted setting";
-	}
-
-
-	@DeleteMapping(path = "/settings/deleteAll")
-	public String deleteAllSettings() {
-		this.api.deleteAllSettings();
-		return "Deleted Settings";
-
-	}
-
+    @DeleteMapping("/settings/{setting}")
+    public void deleteSettingValue(@PathVariable String setting) {
+        this.api.deleteSettingValue(setting);
+    }
 }

@@ -22,20 +22,19 @@ import org.n52.faroe.SettingValue;
 
 public interface SettingsAPI {
 
-	public Collection<SettingAPIDao> getSettings();
+    public Collection<SettingValue<?>> getSettingValues();
 
-	public Collection<SettingDefinition<?>> setSettings();
+    public Collection<SettingDefinition<?>> getSettingDefinitions();
 
-	public Set<String> getGroups();
+    public Set<String> getGroups();
 
-	public Collection<SettingDefinition<?>> getSettingsbyTitle(String groupTitle);
+    public Collection<SettingDefinition<?>> getSettingsByTitle(String groupTitle);
 
-	public String addSettings(Collection<SettingDefinition<?>> group);
+    public void addSettingDefinitions(Collection<SettingDefinition<?>> group);
 
-	public String updateSettings(SettingValue<?> group);
+    public void updateSettingValue(SettingValue<?> group);
 
-	public String deleteSettings(String setting);
+    public void deleteSettingValue(String setting);
 
-	public String deleteAllSettings();
-
+    Collection<SettingValue<?>> getSettingValuesByGroup(String title);
 }
