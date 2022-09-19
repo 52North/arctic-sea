@@ -119,6 +119,10 @@ public class SettingsAPIImpl implements InitializingBean, SettingsAPI {
     @SuppressWarnings("unchecked")
     @Override
     public void addSettingDefinitions(Collection<SettingDefinition<?>> group) {
+        if (group.stream().anyMatch(settingDefinition -> service.getKeys().contains(settingDefinition.getKey()))) {
+            throw new IllegalArgumentException("definition already exists");
+        }
+
         dao.saveSettings(group);
         service.addSettings(group);
     }
