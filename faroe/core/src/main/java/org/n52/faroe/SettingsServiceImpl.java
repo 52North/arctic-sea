@@ -66,7 +66,6 @@ public class SettingsServiceImpl implements SettingsService {
     private final ReadWriteLock configurableObjectsLock = new ReentrantReadWriteLock();
     private Set<SettingDefinition<?>> definitions;
     private Map<String, SettingDefinition<?>> definitionByKey;
-    private Map<String, SettingDefinition<?>> definitionByTitle;
     private SettingsDao settingsManagerDao;
     private SettingValueFactory settingValueFactory;
     private EventBus serviceEventBus;
