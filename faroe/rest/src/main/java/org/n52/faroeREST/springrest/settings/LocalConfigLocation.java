@@ -17,11 +17,14 @@ package org.n52.faroeREST.springrest.settings;
 
 import org.n52.janmayen.ConfigLocationProvider;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 public class LocalConfigLocation implements ConfigLocationProvider {
 
     @Override
     public String get() {
-        return "E:\\52 North\\arctic-sea\\faroe\\rest";
+        return Paths.get(".").toAbsolutePath().toString();
     }
 
 }

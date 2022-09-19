@@ -18,6 +18,8 @@ package org.n52.faroe;
 import java.io.File;
 import java.net.URI;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import org.joda.time.DateTime;
 
 import org.n52.janmayen.i18n.LocalizedString;
@@ -69,6 +71,7 @@ public enum SettingType {
      */
     CHOICE;
 
+    @JsonCreator
     public static SettingType fromString(String type) {
         switch (type) {
             case JSONSettingConstants.INTEGER_TYPE:
@@ -120,6 +123,7 @@ public enum SettingType {
     }
 
     @Override
+    @JsonValue
     public String toString() {
         return toString(this);
     }

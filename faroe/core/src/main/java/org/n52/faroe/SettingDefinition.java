@@ -18,38 +18,56 @@ package org.n52.faroe;
 import java.io.Serializable;
 import java.util.Optional;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import org.n52.faroe.settings.BooleanSettingDefinition;
+import org.n52.faroe.settings.ChoiceSettingDefinition;
+import org.n52.faroe.settings.DateTimeSettingDefinition;
+import org.n52.faroe.settings.FileSettingDefinition;
+import org.n52.faroe.settings.IntegerSettingDefinition;
+import org.n52.faroe.settings.MultilingualStringSettingDefinition;
+import org.n52.faroe.settings.NumericSettingDefinition;
+import org.n52.faroe.settings.StringSettingDefinition;
+import org.n52.faroe.settings.UriSettingDefinition;
 
 /**
- *
  * Interface for setting definitions that can be used within the Service. Defined settings will be presented in the
  * administrator and installer view.
  *
+ * @param <T> The type of the value
+ * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @see SettingDefinitionGroup
  * @see SettingsService
  * @see org.n52.faroe.settings.FileSettingDefinition
- * @see org.n52.faroe.settings.BooleanSettingDefinition
+ * @see BooleanSettingDefinition
  * @see org.n52.faroe.settings.IntegerSettingDefinition
  * @see org.n52.faroe.settings.NumericSettingDefinition
  * @see org.n52.faroe.settings.StringSettingDefinition
  * @see org.n52.faroe.settings.UriSettingDefinition
- * @param <T> The type of the value
- *
- * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 1.0.0
  */
-@JsonTypeInfo( use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
-	@JsonSubTypes({
-		@Type(value = org.n52.faroe.settings.BooleanSettingDefinition.class, name = org.n52.faroe.JSONSettingConstants.BOOLEAN_TYPE),
-		@Type(value = org.n52.faroe.settings.StringSettingDefinition.class,  name = org.n52.faroe.JSONSettingConstants.STRING_TYPE),
-		@Type(value = org.n52.faroe.settings.ChoiceSettingDefinition.class,  name = org.n52.faroe.JSONSettingConstants.CHOICE_TYPE),
-		@Type(value = org.n52.faroe.settings.DateTimeSettingDefinition.class,  name = org.n52.faroe.JSONSettingConstants.TIME_INSTANT_TYPE),
-		@Type(value = org.n52.faroe.settings.FileSettingDefinition.class,  name = org.n52.faroe.JSONSettingConstants.FILE_TYPE),
-		@Type(value = org.n52.faroe.settings.IntegerSettingDefinition.class,  name = org.n52.faroe.JSONSettingConstants.INTEGER_TYPE),
-		@Type(value = org.n52.faroe.settings.MultilingualStringSettingDefinition.class,  name = org.n52.faroe.JSONSettingConstants.MULTILINGUAL_TYPE),
-		@Type(value = org.n52.faroe.settings.NumericSettingDefinition.class,  name = org.n52.faroe.JSONSettingConstants.NUMBER_TYPE),
-		@Type(value = org.n52.faroe.settings.UriSettingDefinition.class,  name = org.n52.faroe.JSONSettingConstants.URI_TYPE)
-	})
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonSubTypes(value = {
+        @JsonSubTypes.Type(value = BooleanSettingDefinition.class,
+                           name = JSONSettingConstants.BOOLEAN_TYPE),
+        @JsonSubTypes.Type(value = StringSettingDefinition.class,
+                           name = JSONSettingConstants.STRING_TYPE),
+        @JsonSubTypes.Type(value = ChoiceSettingDefinition.class,
+                           name = JSONSettingConstants.CHOICE_TYPE),
+        @JsonSubTypes.Type(value = DateTimeSettingDefinition.class,
+                           name = JSONSettingConstants.TIME_INSTANT_TYPE),
+        @JsonSubTypes.Type(value = FileSettingDefinition.class,
+                           name = JSONSettingConstants.FILE_TYPE),
+        @JsonSubTypes.Type(value = IntegerSettingDefinition.class,
+                           name = JSONSettingConstants.INTEGER_TYPE),
+        @JsonSubTypes.Type(value = MultilingualStringSettingDefinition.class,
+                           name = JSONSettingConstants.MULTILINGUAL_TYPE),
+        @JsonSubTypes.Type(value = NumericSettingDefinition.class,
+                           name = JSONSettingConstants.NUMBER_TYPE),
+        @JsonSubTypes.Type(value = UriSettingDefinition.class,
+                           name = JSONSettingConstants.URI_TYPE)
+})
 public interface SettingDefinition<T> extends Ordered, Serializable {
     /**
      * @return the unique key of this definition
@@ -139,7 +157,6 @@ public interface SettingDefinition<T> extends Ordered, Serializable {
      * Sets whether this setting is optional or can be null. By default all settings are required.
      *
      * @param optional if this setting is optional
-     *
      */
     SettingDefinition<?> setOptional(boolean optional);
 
@@ -161,5 +178,6 @@ public interface SettingDefinition<T> extends Ordered, Serializable {
     /**
      * @return the type of the value of this definition
      */
+    @JsonIgnore
     SettingType getType();
 }

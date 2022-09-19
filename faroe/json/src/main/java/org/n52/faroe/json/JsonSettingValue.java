@@ -17,11 +17,12 @@ package org.n52.faroe.json;
 
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.n52.faroe.SettingType;
 import org.n52.faroe.SettingValue;
 
 import com.google.common.base.MoreObjects;
-
 
 /**
  * TODO JavaDoc
@@ -35,7 +36,10 @@ public class JsonSettingValue<T> implements SettingValue<T> {
     private String key;
     private T value;
 
-    public JsonSettingValue(SettingType type, String key, T value) {
+    @JsonCreator
+    public JsonSettingValue(@JsonProperty("type") SettingType type,
+                            @JsonProperty("key") String key,
+                            @JsonProperty("value") T value) {
         this.type = type;
         this.key = key;
         this.value = value;
@@ -94,9 +98,9 @@ public class JsonSettingValue<T> implements SettingValue<T> {
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("type", getType())
-                .add("key", getKey())
-                .add("value", getValue())
-                .toString();
+                          .add("type", getType())
+                          .add("key", getKey())
+                          .add("value", getValue())
+                          .toString();
     }
 }

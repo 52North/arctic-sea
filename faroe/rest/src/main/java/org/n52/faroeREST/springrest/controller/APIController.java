@@ -20,6 +20,7 @@ import java.util.Set;
 
 import org.n52.faroe.SettingDefinition;
 import org.n52.faroe.SettingValue;
+import org.n52.faroe.json.JsonSettingValue;
 import org.n52.faroeREST.springrest.settings.SettingsAPI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -60,7 +61,7 @@ public class APIController {
     }
 
     @PutMapping(path = "/settings", consumes = "application/json")
-    public void updateSettingValue(@RequestBody SettingValue<?> value) {
+    public void updateSettingValue(@RequestBody JsonSettingValue<?> value) {
         this.api.updateSettingValue(value);
     }
 
