@@ -38,7 +38,18 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 1.0.0
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include=JsonTypeInfo.As.PROPERTY, property="_class")
+@JsonTypeInfo( use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+	@JsonSubTypes({
+		@Type(value = org.n52.faroe.settings.BooleanSettingDefinition.class, name = org.n52.faroe.JSONSettingConstants.BOOLEAN_TYPE),
+		@Type(value = org.n52.faroe.settings.StringSettingDefinition.class,  name = org.n52.faroe.JSONSettingConstants.STRING_TYPE),
+		@Type(value = org.n52.faroe.settings.ChoiceSettingDefinition.class,  name = org.n52.faroe.JSONSettingConstants.CHOICE_TYPE),
+		@Type(value = org.n52.faroe.settings.DateTimeSettingDefinition.class,  name = org.n52.faroe.JSONSettingConstants.TIME_INSTANT_TYPE),
+		@Type(value = org.n52.faroe.settings.FileSettingDefinition.class,  name = org.n52.faroe.JSONSettingConstants.FILE_TYPE),
+		@Type(value = org.n52.faroe.settings.IntegerSettingDefinition.class,  name = org.n52.faroe.JSONSettingConstants.INTEGER_TYPE),
+		@Type(value = org.n52.faroe.settings.MultilingualStringSettingDefinition.class,  name = org.n52.faroe.JSONSettingConstants.MULTILINGUAL_TYPE),
+		@Type(value = org.n52.faroe.settings.NumericSettingDefinition.class,  name = org.n52.faroe.JSONSettingConstants.NUMBER_TYPE),
+		@Type(value = org.n52.faroe.settings.UriSettingDefinition.class,  name = org.n52.faroe.JSONSettingConstants.URI_TYPE)
+	})
 public interface SettingDefinition<T> extends Ordered, Serializable {
     /**
      * @return the unique key of this definition
