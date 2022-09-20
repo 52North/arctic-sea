@@ -204,12 +204,6 @@ public class SettingsServiceImpl implements SettingsService {
         return this.definitionByKey.get(key);
     }
 
-    @Override
-    public SettingDefinition<?> getDefinitionByTitle(String title) {
-        return this.definitionByTitle.get(title);
-    }
-
-
     /**
      * Gets the value of the setting defined by {@code key}.
      *

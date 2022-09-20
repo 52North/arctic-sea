@@ -54,11 +54,6 @@ public class MockSettingsService implements SettingsService {
     }
 
     @Override
-    public SettingDefinition<?> getDefinitionByTitle(String title) {
-        return null;
-    }
-
-    @Override
     public Set<String> getKeys() {
         throw new UnsupportedOperationException();
     }

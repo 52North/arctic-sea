@@ -82,11 +82,7 @@ public interface SettingsService {
      * @return the definition or {@code null} if there is no definition for the key
      */
     SettingDefinition<?> getDefinitionByKey(String key);
-    /**
-     * @return the keys for all definitions
-     */
 
-	SettingDefinition<?> getDefinitionByTitle(String title);
     /**
      * @return the titles for all definitions
      */
