@@ -94,6 +94,7 @@ public interface SettingDefinition<T> extends Ordered, Serializable {
      */
     T getDefaultValue();
 
+    @JsonIgnore
     default Optional<T> getOptionalDefaultValue() {
         if (hasDefaultValue()) {
             return Optional.of(getDefaultValue());

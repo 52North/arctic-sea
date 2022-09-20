@@ -19,6 +19,9 @@ import java.io.Serializable;
 import java.util.Locale;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
@@ -40,7 +43,8 @@ public class LocalizedString implements Serializable {
         this(null, value);
     }
 
-    public LocalizedString(Locale lang, String value) {
+    @JsonCreator
+    public LocalizedString(@JsonProperty("lang") Locale lang, @JsonProperty("lang") String value) {
         Preconditions.checkArgument(!Strings.isNullOrEmpty(value));
         this.text = value;
         this.lang = lang == null ? NULL_LOCALE : lang;
@@ -61,6 +65,7 @@ public class LocalizedString implements Serializable {
         return this.lang;
     }
 
+    @JsonIgnore
     public String getLangString() {
         String country = this.lang.getISO3Country();
         String language = this.lang.getISO3Language();
@@ -74,9 +79,9 @@ public class LocalizedString implements Serializable {
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("lang", getLang())
-                .add("text", getText())
-                .toString();
+                          .add("lang", getLang())
+                          .add("text", getText())
+                          .toString();
     }
 
     @Override

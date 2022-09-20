@@ -25,7 +25,13 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.JsonValue;
 import org.n52.janmayen.Optionals;
 import org.n52.janmayen.stream.StreamingIterable;
 
@@ -118,19 +124,27 @@ public class MultilingualString implements Serializable, StreamingIterable<Local
         return this;
     }
 
+    @JsonValue
+    private Map<String, String> getLocalizationsJSON() {
+        return this.localizations.values().stream()
+                                 .collect(Collectors.toMap(e -> LocaleHelper.encode(e.getLang()), LocalizedString::getText));
+    }
+
     public MultilingualString only(Locale... locale) {
         return only(Arrays.asList(locale));
     }
 
     public MultilingualString only(Iterable<Locale> locales) {
         MultilingualString mls = new MultilingualString();
-        for (Locale locale : locales) {
-            Optional<LocalizedString> localization = getLocalization(locale);
-            if (localization.isPresent()) {
-                mls.addLocalization(localization.get());
-            }
-        }
+        locales.forEach(locale -> getLocalization(locale).ifPresent(mls::addLocalization));
         return mls;
+    }
+
+    @JsonCreator
+    private static MultilingualString fromStringMap(Map<String, String> localizations) {
+        MultilingualString ms = new MultilingualString();
+        ms.setLocalizations(localizations);
+        return ms;
     }
 
 }
