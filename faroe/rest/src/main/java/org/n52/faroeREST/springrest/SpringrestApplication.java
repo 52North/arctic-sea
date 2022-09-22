@@ -40,10 +40,13 @@ public class SpringrestApplication {
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
+        	
+        	
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/settings/groups").allowedOrigins("http://localhost:3000");
-                registry.addMapping("/settings/groups/{groupTitle}").allowedOrigins("http://localhost:3000");
+            	 registry.addMapping("/**")
+            	 .allowedOrigins("http://localhost:3000")
+            	  .allowedMethods("GET","PUT", "POST", "DELETE");
             }
         };
     }
