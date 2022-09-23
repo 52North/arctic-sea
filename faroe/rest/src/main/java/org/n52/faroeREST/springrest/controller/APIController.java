@@ -49,7 +49,6 @@ public class APIController {
         this.api.addSettingDefinitions(value);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000/groups")
     @GetMapping(path = "/definitions/groups")
     public Set<String> getGroups() {
         return this.api.getGroups();
