@@ -102,17 +102,19 @@ This project includes:
   Jackson dataformat: Smile under The Apache Software License, Version 2.0
   Jackson-annotations under The Apache Software License, Version 2.0
   Jackson-core under The Apache Software License, Version 2.0
+  jackson-coreutils-equivalence under Lesser General Public License, version 3 or greater or Apache Software License, version 2.0
   jackson-databind under The Apache Software License, Version 2.0
   Jackson-dataformat-YAML under The Apache Software License, Version 2.0
   Java archiving library under Apache 2
   JavaBeans(TM) Activation Framework under COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL) Version 1.0
-  JavaMail API jar under CDDL or GPLv2+CE
+  JavaMail API (no providers) under CDDL/GPLv2+CE
   javax.annotation API under CDDL + GPLv2 with classpath exception
   javax.inject under The Apache Software License, Version 2.0
   jaxb-api under CDDL 1.1 or GPL2 w/ CPE
   JCL 1.2 implemented over SLF4J under Apache License, Version 2.0
   Joda-Time under Apache License, Version 2.0
   JOpt Simple under The MIT License
+  json-schema-validator under Lesser General Public License, version 3 or greater or Apache Software License, version 2.0
   JSONLD Java :: Core under Revised BSD License
   lang-mustache under Elastic License 2.0 or Server Side Public License, v 1
   libphonenumber under The Apache Software License, Version 2.0
@@ -141,7 +143,6 @@ This project includes:
   Netty/Resolver under Apache License, Version 2.0
   Netty/TomcatNative [OpenSSL - Classes] under The Apache Software License, Version 2.0
   Netty/Transport under Apache License, Version 2.0
-  null under Lesser General Public License, version 3 or greater or Apache Software License, version 2.0
   OASIS WS-N specification schemas - including WS-BrokeredNotification (v1.3) under The Apache Software License, Version 2.0
   OASIS WS-Resources specification schemas v1.2 under The Apache Software License, Version 2.0
   odata-commons-api under The Apache Software License, Version 2.0
