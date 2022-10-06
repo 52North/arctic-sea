@@ -23,15 +23,16 @@
     <parent>
         <groupId>org.n52.arctic-sea</groupId>
         <artifactId>faroe-rest</artifactId>
-        <version>9.7.0-SNAPSHOT</version>
+        <version>9.9.0-SNAPSHOT</version>
     </parent>
     <artifactId>faroe-rest-app</artifactId>
-    <name>faroe-rest</name>
+    <name>52°North Faroe RestAPI app</name>
     <description>REST API for Arctic Sea</description>
     <dependencies>
      	<dependency>
             <groupId>org.n52.arctic-sea</groupId>
             <artifactId>faroe-rest-core</artifactId>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -105,10 +106,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-hibernate5</artifactId>
             <exclusions>
@@ -133,6 +130,7 @@
         <dependency>
             <groupId>org.n52.arctic-sea</groupId>
             <artifactId>janmayen</artifactId>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>

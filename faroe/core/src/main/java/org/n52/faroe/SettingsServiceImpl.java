@@ -84,7 +84,7 @@ public class SettingsServiceImpl implements SettingsService {
 
     @Inject
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
-    public void  setSettingsManagerDao(SettingsDao settingsManagerDao) {
+    public void setSettingsManagerDao(SettingsDao settingsManagerDao) {
         this.settingsManagerDao = settingsManagerDao;
     }
 
@@ -214,7 +214,8 @@ public class SettingsServiceImpl implements SettingsService {
      */
     @SuppressWarnings("unchecked")
     @Override
-    public <T> SettingValue<T> getSetting(SettingDefinition<T> key) {
+    public <
+            T> SettingValue<T> getSetting(SettingDefinition<T> key) {
         return (SettingValue<T>) this.settingsManagerDao.getSettingValue(key.getKey());
     }
 
@@ -230,7 +231,8 @@ public class SettingsServiceImpl implements SettingsService {
      */
     @SuppressWarnings("unchecked")
     @Override
-    public <T> SettingValue<T> getSetting(String key) {
+    public <
+            T> SettingValue<T> getSetting(String key) {
         SettingDefinition<?> def = getDefinitionByKey(key);
         if (def == null) {
             return null;
@@ -283,10 +285,10 @@ public class SettingsServiceImpl implements SettingsService {
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-	public void deleteSetting(String setting) throws ConfigurationError {
+    public void deleteSetting(String setting) throws ConfigurationError {
         SettingValue<?> oldValue = this.settingsManagerDao.getSettingValue(setting);
         if (oldValue != null) {
-           applySetting(setting, oldValue, null);
+            applySetting(setting, oldValue, null);
             this.settingsManagerDao.deleteSettingValue(setting);
             this.serviceEventBus.submit(new SettingsChangeEvent(setting, oldValue, null));
         }
@@ -335,13 +337,13 @@ public class SettingsServiceImpl implements SettingsService {
                     }
                 }
                 if (e != null) {
-                    LOG.debug("Reverting setting...");
+                    logRevertingSetting();
                     changed.stream().forEach(co -> {
                         try {
                             co.configure(oldValue.getValue());
                         } catch (ConfigurationError ce) {
                             /* there is nothing we can do... */
-                            LOG.error("Error reverting setting!", ce);
+                            logErrorRevertingSetting(ce);
                         }
                     });
                     throw e;
@@ -373,13 +375,13 @@ public class SettingsServiceImpl implements SettingsService {
                     }
                 }
                 if (e != null) {
-                    LOG.debug("Reverting setting...");
+                    logRevertingSetting();
                     changed.stream().forEach(co -> {
                         try {
                             co.configure(oldValue.getValue());
                         } catch (ConfigurationError ce) {
                             /* there is nothing we can do... */
-                            LOG.error("Error reverting setting!", ce);
+                            logErrorRevertingSetting(ce);
                         }
                     });
                     throw e;
@@ -389,7 +391,6 @@ public class SettingsServiceImpl implements SettingsService {
             configurableObjectsLock.readLock().unlock();
         }
     }
-
 
     private SettingValue<Object> getSettingValue(ConfigurableObject co) {
         return getSettingValue(co.getKey(), co.isRequired());
@@ -495,11 +496,21 @@ public class SettingsServiceImpl implements SettingsService {
         }
     }
 
+    private void logRevertingSetting() {
+        LOG.debug("Reverting setting...");
+    }
+
+    private void logErrorRevertingSetting(ConfigurationError ce) {
+        LOG.error("Error reverting setting!", ce);
+    }
+
     private static ConfigurationError noSettingDefinitionFound(String key) {
         return new ConfigurationError(String.format("No SettingDefinition found for key %s", key));
     }
 
-    private static final class NullSettingValue<T> implements SettingValue<T> {
+
+    private static final class NullSettingValue<
+            T> implements SettingValue<T> {
 
         private static final long serialVersionUID = -8873828673362504798L;
         private final String key;

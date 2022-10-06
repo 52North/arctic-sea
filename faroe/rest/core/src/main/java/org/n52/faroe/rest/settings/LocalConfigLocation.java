@@ -15,9 +15,9 @@
  */
 package org.n52.faroe.rest.settings;
 
-import org.n52.janmayen.ConfigLocationProvider;
-
 import java.nio.file.Paths;
+
+import org.n52.janmayen.ConfigLocationProvider;
 
 public class LocalConfigLocation implements ConfigLocationProvider {
 

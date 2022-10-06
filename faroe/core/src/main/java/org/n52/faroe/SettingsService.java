@@ -28,32 +28,40 @@ import org.n52.faroe.annotation.Setting;
 public interface SettingsService {
 
     /**
-     * Changes a setting. The change is propagated to all Objects that are configured. If the change fails for one of
-     * these objects, the setting is reverted to the old value of the setting for all objects.
+     * Changes a setting. The change is propagated to all Objects that are configured. If the change fails for
+     * one of these objects, the setting is reverted to the old value of the setting for all objects.
      *
-     * @param newValue the new value of the setting
+     * @param newValue
+     *            the new value of the setting
      *
-     * @throws ConfigurationError if there is a problem changing the setting.
+     * @throws ConfigurationError
+     *             if there is a problem changing the setting.
      */
     void changeSetting(SettingValue<?> newValue) throws ConfigurationError;
 
     /**
-     * Configure {@code o} with the required settings. All changes to a setting required by the object will be applied.
+     * Configure {@code o} with the required settings. All changes to a setting required by the object will be
+     * applied.
      *
-     * @param object the object to configure
+     * @param object
+     *            the object to configure
      *
-     * @throws ConfigurationError if there is a problem configuring the object
+     * @throws ConfigurationError
+     *             if there is a problem configuring the object
      * @see Configurable
      * @see Setting
      */
     void configure(Object object) throws ConfigurationError;
 
     /**
-     * Configure {@code o} with the required settings. Future changes to settings will not be propagated to the object.
+     * Configure {@code o} with the required settings. Future changes to settings will not be propagated to
+     * the object.
      *
-     * @param object the object to configure
+     * @param object
+     *            the object to configure
      *
-     * @throws ConfigurationError if there is a problem configuring the object
+     * @throws ConfigurationError
+     *             if there is a problem configuring the object
      * @see #configure(java.lang.Object)
      */
     void configureOnce(Object object) throws ConfigurationError;
@@ -66,18 +74,21 @@ public interface SettingsService {
     /**
      * Deletes the setting defined by {@code setting}.
      *
-     * @param setting the definition
+     * @param setting
+     *            the definition
      *
-     * @throws ConfigurationError if there is a problem deleting the setting
+     * @throws ConfigurationError
+     *             if there is a problem deleting the setting
      */
     void deleteSetting(SettingDefinition<?> setting) throws ConfigurationError;
 
+    void deleteSetting(String setting) throws ConfigurationError;
 
-    public void deleteSetting(String setting)  throws ConfigurationError;
     /**
      * Get the definition that is defined with the specified key.
      *
-     * @param key the key
+     * @param key
+     *            the key
      *
      * @return the definition or {@code null} if there is no definition for the key
      */
@@ -91,8 +102,10 @@ public interface SettingsService {
     /**
      * Gets the value of the setting defined by {@code key}.
      *
-     * @param <T> the type of the setting and value
-     * @param key the definition of the setting
+     * @param <T>
+     *            the type of the setting and value
+     * @param key
+     *            the definition of the setting
      *
      * @return the value of the setting
      */
@@ -102,8 +115,10 @@ public interface SettingsService {
     /**
      * Gets the value of the setting defined by {@code key}.
      *
-     * @param <T> the type of the setting and value
-     * @param key the id of the setting
+     * @param <T>
+     *            the type of the setting and value
+     * @param key
+     *            the id of the setting
      *
      * @return the value of the setting
      */
@@ -123,7 +138,8 @@ public interface SettingsService {
     SettingValueFactory getSettingFactory();
 
     /**
-     * Gets all values for all definitions. If there is no value for a definition {@code null} is added to the map.
+     * Gets all values for all definitions. If there is no value for a definition {@code null} is added to the
+     * map.
      *
      * @return all values by definition
      */
@@ -137,6 +153,5 @@ public interface SettingsService {
     void addSetting(SettingDefinition<?> def);
 
     void addSettings(Collection<SettingDefinition<?>> defs);
-
 
 }

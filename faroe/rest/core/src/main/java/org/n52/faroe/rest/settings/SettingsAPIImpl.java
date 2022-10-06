@@ -15,6 +15,15 @@
  */
 package org.n52.faroe.rest.settings;
 
+import java.io.File;
+import java.io.Serializable;
+import java.net.URI;
+import java.util.Collection;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import javax.inject.Inject;
+
 import org.joda.time.DateTime;
 import org.n52.faroe.SettingDefinition;
 import org.n52.faroe.SettingDefinitionGroup;
@@ -22,18 +31,9 @@ import org.n52.faroe.SettingType;
 import org.n52.faroe.SettingValue;
 import org.n52.faroe.SettingsDefinitionDao;
 import org.n52.faroe.SettingsService;
-import org.n52.faroe.settings.ChoiceSettingDefinition;
 import org.n52.janmayen.i18n.MultilingualString;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;
-
-import javax.inject.Inject;
-import java.io.File;
-import java.io.Serializable;
-import java.net.URI;
-import java.util.Collection;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class SettingsAPIImpl implements InitializingBean, SettingsAPI {
@@ -72,32 +72,32 @@ public class SettingsAPIImpl implements InitializingBean, SettingsAPI {
     private SettingValue<? extends Serializable> createDefaultSettingValue(SettingDefinition<?> definition) {
         switch (definition.getType()) {
             case BOOLEAN:
-                return service.getSettingFactory()
-                              .newBooleanSettingValue(definition.getKey(), (Boolean) definition.getDefaultValue());
+                return service.getSettingFactory().newBooleanSettingValue(definition.getKey(),
+                        (Boolean) definition.getDefaultValue());
             case FILE:
-                return service.getSettingFactory()
-                              .newFileSettingValue(definition.getKey(), (File) definition.getDefaultValue());
+                return service.getSettingFactory().newFileSettingValue(definition.getKey(),
+                        (File) definition.getDefaultValue());
             case INTEGER:
-                return service.getSettingFactory()
-                              .newIntegerSettingValue(definition.getKey(), (Integer) definition.getDefaultValue());
+                return service.getSettingFactory().newIntegerSettingValue(definition.getKey(),
+                        (Integer) definition.getDefaultValue());
             case NUMERIC:
-                return service.getSettingFactory()
-                              .newNumericSettingValue(definition.getKey(), (Double) definition.getDefaultValue());
+                return service.getSettingFactory().newNumericSettingValue(definition.getKey(),
+                        (Double) definition.getDefaultValue());
             case STRING:
-                return service.getSettingFactory()
-                              .newStringSettingValue(definition.getKey(), (String) definition.getDefaultValue());
+                return service.getSettingFactory().newStringSettingValue(definition.getKey(),
+                        (String) definition.getDefaultValue());
             case URI:
-                return service.getSettingFactory()
-                              .newUriSettingValue(definition.getKey(), (URI) definition.getDefaultValue());
+                return service.getSettingFactory().newUriSettingValue(definition.getKey(),
+                        (URI) definition.getDefaultValue());
             case TIMEINSTANT:
-                return service.getSettingFactory()
-                              .newDateTimeSettingValue(definition.getKey(), (DateTime) definition.getDefaultValue());
+                return service.getSettingFactory().newDateTimeSettingValue(definition.getKey(),
+                        (DateTime) definition.getDefaultValue());
             case MULTILINGUAL_STRING:
-                return service.getSettingFactory()
-                              .newMultiLingualStringSettingValue(definition.getKey(), (MultilingualString) definition.getDefaultValue());
+                return service.getSettingFactory().newMultiLingualStringSettingValue(definition.getKey(),
+                        (MultilingualString) definition.getDefaultValue());
             case CHOICE:
-                return service.getSettingFactory()
-                              .newChoiceSettingValue(definition.getKey(), (String) definition.getDefaultValue());
+                return service.getSettingFactory().newChoiceSettingValue(definition.getKey(),
+                        (String) definition.getDefaultValue());
             default:
                 throw new IllegalArgumentException(String.format("Type %s not supported", definition.getType()));
         }
@@ -106,14 +106,14 @@ public class SettingsAPIImpl implements InitializingBean, SettingsAPI {
     @Override
     public Collection<SettingDefinition<?>> getSettingsByTitle(String groupTitle) {
         return service.getSettingDefinitions().stream()
-                      .filter(definition -> definition.getGroup().getTitle().equalsIgnoreCase(groupTitle))
-                      .collect(Collectors.toList());
+                .filter(definition -> definition.getGroup().getTitle().equalsIgnoreCase(groupTitle))
+                .collect(Collectors.toList());
     }
 
     @Override
     public Set<String> getGroups() {
         return service.getSettingDefinitions().stream().map(SettingDefinition::getGroup)
-                      .map(SettingDefinitionGroup::getTitle).collect(Collectors.toSet());
+                .map(SettingDefinitionGroup::getTitle).collect(Collectors.toSet());
     }
 
     @SuppressWarnings("unchecked")
@@ -140,15 +140,17 @@ public class SettingsAPIImpl implements InitializingBean, SettingsAPI {
     @Override
     public Collection<SettingValue<?>> getSettingValuesByGroup(String title) {
         return service.getSettingDefinitions().stream()
-                      .filter(definition -> definition.getGroup().getTitle().equalsIgnoreCase(title))
-                      .map(definition -> service.getSetting(definition))
-                      .collect(Collectors.toList());
+                .filter(definition -> definition.getGroup().getTitle().equalsIgnoreCase(title))
+                .map(definition -> service.getSetting(definition)).collect(Collectors.toList());
     }
 
     private static class NullSetting implements SettingValue<Object> {
+        private static final long serialVersionUID = -8259990748332673713L;
         private final SettingDefinition<?> definition;
 
-        public NullSetting(SettingDefinition<?> definition) {this.definition = definition;}
+        NullSetting(SettingDefinition<?> definition) {
+            this.definition = definition;
+        }
 
         @Override
         public String getKey() {

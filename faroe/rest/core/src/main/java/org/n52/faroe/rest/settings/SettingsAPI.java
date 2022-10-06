@@ -15,26 +15,27 @@
  */
 package org.n52.faroe.rest.settings;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Set;
 
 import org.n52.faroe.SettingDefinition;
 import org.n52.faroe.SettingValue;
 
 public interface SettingsAPI {
 
-    public Collection<SettingValue<?>> getSettingValues();
+    Collection<SettingValue<?>> getSettingValues();
 
-    public Collection<SettingDefinition<?>> getSettingDefinitions();
+    Collection<SettingDefinition<?>> getSettingDefinitions();
 
-    public Set<String> getGroups();
+    Set<String> getGroups();
 
-    public Collection<SettingDefinition<?>> getSettingsByTitle(String groupTitle);
+    Collection<SettingDefinition<?>> getSettingsByTitle(String groupTitle);
 
-    public void addSettingDefinitions(Collection<SettingDefinition<?>> group);
+    void addSettingDefinitions(Collection<SettingDefinition<?>> group);
 
-    public void updateSettingValue(SettingValue<?> group);
+    void updateSettingValue(SettingValue<?> group);
 
-    public void deleteSettingValue(String setting);
+    void deleteSettingValue(String setting);
 
     Collection<SettingValue<?>> getSettingValuesByGroup(String title);
 }

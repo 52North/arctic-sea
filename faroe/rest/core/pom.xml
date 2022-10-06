@@ -23,10 +23,10 @@
     <parent>
         <groupId>org.n52.arctic-sea</groupId>
         <artifactId>faroe-rest</artifactId>
-        <version>9.7.0-SNAPSHOT</version>
+        <version>9.9.0-SNAPSHOT</version>
     </parent>
     <artifactId>faroe-rest-core</artifactId>
-    <name>faroe-rest</name>
+    <name>52°North Faroe RestAPI core</name>
     <description>REST API for Arctic Sea</description>
     <dependencies>
         <dependency>
@@ -72,7 +72,6 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>faroe</artifactId>
-            <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -130,27 +129,6 @@
             <groupId>org.n52.arctic-sea</groupId>
             <artifactId>janmayen</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-        </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <includes>
-                    <include>**/*.xml</include>
-                </includes>
-            </resource>
-        </resources>
-    </build>
 
 </project>

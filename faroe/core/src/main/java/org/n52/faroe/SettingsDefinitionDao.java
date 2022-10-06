@@ -19,8 +19,8 @@ import java.util.Collection;
 
 public interface SettingsDefinitionDao extends SettingsDao {
 
-	Collection<SettingDefinition<?>> getAllSettings();
+    Collection<SettingDefinition<?>> getAllSettings();
 
-	void saveSettings(Collection<SettingDefinition<?>> settings);
+    void saveSettings(Collection<SettingDefinition<?>> settings);
 
 }

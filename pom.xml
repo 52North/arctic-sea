@@ -393,6 +393,12 @@
                 <version>${version.junit}</version>
                 <scope>test</scope>
             </dependency>
+			<dependency>
+				<groupId>org.junit.platform</groupId>
+				<artifactId>junit-platform-commons</artifactId>
+				<version>1.9.1</version>
+				<scope>test</scope>
+			</dependency>
             <dependency>
                 <groupId>org.hamcrest</groupId>
                 <artifactId>hamcrest</artifactId>
@@ -749,9 +755,9 @@
                 <type>pom</type>
             </dependency>
             <dependency>
-                <groupId>com.github.fge</groupId>
-                <artifactId>json-schema-validator</artifactId>
-                <version>2.2.6</version>
+			    <groupId>com.github.java-json-tools</groupId>
+			    <artifactId>json-schema-validator</artifactId>
+			    <version>2.2.14</version>
                 <exclusions>
                     <exclusion>
                         <groupId>javax.activation</groupId>
@@ -767,10 +773,10 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-            <dependency>
-                <groupId>com.github.fge</groupId>
-                <artifactId>json-schema-core</artifactId>
-                <version>1.2.5</version>
+			<dependency>
+			    <groupId>com.github.java-json-tools</groupId>
+			    <artifactId>json-schema-core</artifactId>
+			    <version>1.2.14</version>
                 <exclusions>
                     <exclusion>
                         <groupId>com.google.code</groupId>
@@ -787,9 +793,9 @@
                 </exclusions>
             </dependency>
             <dependency>
-                <groupId>com.github.fge</groupId>
-                <artifactId>jackson-coreutils</artifactId>
-                <version>1.8</version>
+			    <groupId>com.github.java-json-tools</groupId>
+			    <artifactId>jackson-coreutils</artifactId>
+			    <version>2.0</version>
                 <exclusions>
                     <exclusion>
                         <groupId>com.google.guava</groupId>

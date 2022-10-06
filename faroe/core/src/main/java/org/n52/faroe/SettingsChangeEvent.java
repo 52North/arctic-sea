@@ -24,10 +24,12 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * {@link SettingDefinition} was deleted.
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
- * @param <T> the settings type
+ * @param <T>
+ *            the settings type
  *
  * @since 1.0.0
  */
+@SuppressFBWarnings({ "EI_EXPOSE_REP", "EI_EXPOSE_REP2" })
 public class SettingsChangeEvent<T> implements Event {
 
     private final SettingDefinition<T> setting;
@@ -35,18 +37,16 @@ public class SettingsChangeEvent<T> implements Event {
     private final SettingValue<T> oldValue;
     private final SettingValue<T> newValue;
 
-    @SuppressFBWarnings({"EI_EXPOSE_REP2"})
     public SettingsChangeEvent(SettingDefinition<T> setting, SettingValue<T> oldValue, SettingValue<T> newValue) {
         this.setting = setting;
-		this.settings = null;
+        this.settings = null;
         this.oldValue = oldValue;
         this.newValue = newValue;
     }
 
-
     public SettingsChangeEvent(String settings, SettingValue<T> oldValue, SettingValue<T> newValue) {
         this.setting = null;
-		this.settings = settings;
+        this.settings = settings;
         this.oldValue = oldValue;
         this.newValue = newValue;
     }
@@ -59,12 +59,10 @@ public class SettingsChangeEvent<T> implements Event {
         return settings;
     }
 
-    @SuppressFBWarnings({"EI_EXPOSE_REP"})
     public SettingValue<T> getOldValue() {
         return oldValue;
     }
 
-    @SuppressFBWarnings({"EI_EXPOSE_REP"})
     public SettingValue<T> getNewValue() {
         return newValue;
     }
@@ -79,8 +77,8 @@ public class SettingsChangeEvent<T> implements Event {
 
     @Override
     public String toString() {
-        return String.format("SettingsChangeEvent[setting=%s, settings=%s, oldValue=%s, newValue=%s",
-                             getSetting(), getSettings(), getOldValue(), getNewValue());
+        return String.format("SettingsChangeEvent[setting=%s, settings=%s, oldValue=%s, newValue=%s", getSetting(),
+                getSettings(), getOldValue(), getNewValue());
     }
 
 }

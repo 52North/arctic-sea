@@ -17,8 +17,6 @@ package org.n52.faroe;
 
 import java.io.Serializable;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
 /**
  * Holder for generic settings. Implementations are {@link SettingsService} specific.
  *
