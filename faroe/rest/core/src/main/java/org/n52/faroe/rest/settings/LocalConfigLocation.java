@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.faroeREST.springrest.settings;
+package org.n52.faroe.rest.settings;
 
 import org.n52.janmayen.ConfigLocationProvider;
 
-import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class LocalConfigLocation implements ConfigLocationProvider {

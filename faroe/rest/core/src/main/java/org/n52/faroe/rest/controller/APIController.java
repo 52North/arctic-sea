@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.faroeREST.springrest.controller;
+package org.n52.faroe.rest.controller;
 
 import java.util.Collection;
 import java.util.Set;
@@ -21,9 +21,8 @@ import java.util.Set;
 import org.n52.faroe.SettingDefinition;
 import org.n52.faroe.SettingValue;
 import org.n52.faroe.json.JsonSettingValue;
-import org.n52.faroeREST.springrest.settings.SettingsAPI;
+import org.n52.faroe.rest.settings.SettingsAPI;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

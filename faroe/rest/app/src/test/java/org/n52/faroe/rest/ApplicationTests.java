@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.faroeREST.springrest;
+package org.n52.faroe.rest;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SpringrestApplicationTests {
+class ApplicationTests {
 
 	@Test
 	void contextLoads() {

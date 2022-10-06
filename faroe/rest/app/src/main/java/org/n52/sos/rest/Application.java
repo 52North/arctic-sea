@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.faroeREST.springrest;
+package org.n52.sos.rest;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,10 +30,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
                  "classpath:/settings-service-provider.xml"})
 
 @SpringBootApplication
-public class SpringrestApplication {
+public class Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringrestApplication.class, args);
+        SpringApplication.run(Application.class, args);
     }
 
     @Bean
