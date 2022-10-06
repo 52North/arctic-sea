@@ -82,7 +82,7 @@ public class GetCapabilitiesResponseEncoder extends AbstractSosResponseEncoder<G
             createExtension(xbCaps, response.getExtensions());
         }
         if (response.isStatic()) {
-            String xml = response.getXmlString();
+            String xml = response.getStaticString();
             LOGGER.trace("Response is static. XML-String:\n{}\n", xml);
             try {
                 doc.set(XmlObject.Factory.parse(xml));

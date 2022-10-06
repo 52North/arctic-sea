@@ -13,24 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.util;
+package org.n52.iceland.cache.ctrl;
 
-import java.nio.file.Paths;
+import org.n52.shetland.ogc.ows.service.GetCapabilitiesResponse;
 
-import javax.servlet.ServletContext;
+public interface StaticCapabilitiesProvider {
 
-/**
- * TODO JavaDoc
- *
- * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
- * @since 1.0.0
- *
- */
-public class ServletContextPropertyFileHandler extends PropertyFileHandlerImpl {
+    String PROVIDE_STATIC_CAPABILITIES = "service.capabilities.provide.static";
 
-    public ServletContextPropertyFileHandler(ServletContext ctx, String name) {
-        super(ctx.getRealPath(name) != null ? ctx.getRealPath(name)
-                : Paths.get(ctx.getRealPath("/"), name).toString());
+    default boolean isProvideStaticCapabilities() {
+        return false;
     }
+
+    void create();
+
+    String get(GetCapabilitiesResponse response);
+
+    String get(String identifier);
 
 }

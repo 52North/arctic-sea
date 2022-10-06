@@ -13,24 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.util;
+package org.n52.bjornoya.schedule;
 
-import java.nio.file.Paths;
+import java.text.ParseException;
 
-import javax.servlet.ServletContext;
+import org.n52.faroe.ConfigurationError;
+import org.quartz.CronExpression;
 
-/**
- * TODO JavaDoc
- *
- * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
- * @since 1.0.0
- *
- */
-public class ServletContextPropertyFileHandler extends PropertyFileHandlerImpl {
+public interface CronExpressionValidator {
 
-    public ServletContextPropertyFileHandler(ServletContext ctx, String name) {
-        super(ctx.getRealPath(name) != null ? ctx.getRealPath(name)
-                : Paths.get(ctx.getRealPath("/"), name).toString());
+    default void validate(String cronExpression) {
+        try {
+            CronExpression.validateExpression(cronExpression);
+        } catch (ParseException e) {
+            throw new ConfigurationError(String.format(
+                    "%s is invalid! Please check http://www.quartz-scheduler.org/documentation/quartz-2.3.0/tutorials"
+                            + "/tutorial-lesson-06.html",
+                    cronExpression));
+        }
     }
-
 }

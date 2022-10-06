@@ -73,6 +73,19 @@ public interface ResponseWriter<T> extends Component<ResponseWriterKey> {
     void write(T t, OutputStream out, ResponseProxy responseProxy) throws IOException, EncodingException;
 
     /**
+     * Write object t to {@link OutputStream} out
+     *
+     * @param t             Object to write
+     * @param out           {@link OutputStream} to be written to
+
+     *
+     * @throws IOException       If an error occurs during writing
+     * @throws EncodingException if an errors occurs during encoding
+     *
+     */
+    void write(T t, OutputStream out) throws IOException, EncodingException;
+
+    /**
      * Check if GZip is supported by this writer
      *
      * @param t Object to write

@@ -17,8 +17,11 @@ package org.n52.iceland.cache.ctrl;
 
 import java.text.ParseException;
 import java.util.Date;
+import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import javax.inject.Inject;
 
 import org.joda.time.DateTime;
 import org.n52.faroe.ConfigurationError;
@@ -47,6 +50,41 @@ public abstract class AbstractSchedulingContentCacheController implements Conten
     private long updateInterval;
     private final Timer timer = new Timer("52n-iceland-capabilities-cache-controller", true);
     private TimerTask current;
+    private Optional<StaticCapabilitiesProvider> staticCapabilitiesProvider = Optional.empty();
+
+
+    @Setting(ScheduledContentCacheControllerSettings.CAPABILITIES_CACHE_UPDATE)
+    public void setCronExpression(String cronExpression) {
+        Validation.notNullOrEmpty("Cron expression for cache update", cronExpression);
+        try {
+            DateTime now = DateTime.now();
+            CronExpression cronExp = new CronExpression(cronExpression);
+            Date first = cronExp.getNextValidTimeAfter(now.toDate());
+            Date next = cronExp.getNextValidTimeAfter(first);
+            setUpdateInterval(DateTimeHelper.getMinutesSince(new DateTime(first), new DateTime(next)));
+        } catch (ParseException e) {
+
+            throw new ConfigurationError(String.format("The defined cron expression '%s' is invalid!", cronExpression),
+                    e);
+        }
+    }
+
+    @Inject
+    public void setStaticCapabilitiesProvider(Optional<StaticCapabilitiesProvider> staticCapabilitiesProvider) {
+        this.staticCapabilitiesProvider = staticCapabilitiesProvider;
+    }
+
+    public void setUpdateInterval(int interval) throws ConfigurationError {
+        Validation.greaterEqualZero("Cache update interval", interval);
+        if (this.updateInterval != interval) {
+            this.updateInterval = interval;
+            reschedule();
+        }
+    }
+
+    private long getUpdateInterval() {
+        return this.updateInterval * 60000;
+    }
 
     /**
      * Starts a new timer task
@@ -60,46 +98,12 @@ public abstract class AbstractSchedulingContentCacheController implements Conten
         long delay = getUpdateInterval();
         if (!isInitialized()) {
             delay = 1;
-            setInitialized(true);
         }
         if (delay > 0) {
             LOGGER.info("Next CapabilitiesCacheUpdate in {}m: {}", delay / 60000,
                         new DateTime(System.currentTimeMillis() + delay));
             timer.schedule(current, delay);
         }
-    }
-
-    @Setting(ScheduledContentCacheControllerSettings.CAPABILITIES_CACHE_UPDATE)
-    public void setCronExpression(String cronExpression) {
-        Validation.notNullOrEmpty("Cron expression for cache update", cronExpression);
-        try {
-            DateTime now = DateTime.now();
-            Date next = new CronExpression(cronExpression).getNextInvalidTimeAfter(DateTime.now().toDate());
-            setUpdateInterval(DateTimeHelper.getMinutesSince(now, new DateTime(next)));
-        } catch (ParseException e) {
-            throw new ConfigurationError(String.format("The defined cron expression '%s' is invalid!", cronExpression),
-                    e);
-        }
-        // for later usage!
-//        if (this.cronExpression == null) {
-//            this.cronExpression = cronExpression;
-//            reschedule();
-//        } else if (!this.cronExpression.equalsIgnoreCase(cronExpression)) {
-//            this.cronExpression = cronExpression;
-//            reschedule();
-//        }
-    }
-
-    public void setUpdateInterval(int interval) throws ConfigurationError {
-        Validation.greaterEqualZero("Cache update interval", interval);
-        if (this.updateInterval != interval) {
-            this.updateInterval = interval;
-            reschedule();
-        }
-    }
-
-    private long getUpdateInterval() {
-        return this.updateInterval * 60000;
     }
 
     /**
@@ -148,9 +152,14 @@ public abstract class AbstractSchedulingContentCacheController implements Conten
         @Override
         public void run() {
             try {
-                update();
-                LOGGER.info("Timertask: capabilities cache update successful!");
-                schedule();
+                if (isInitialized()) {
+                    update();
+                    LOGGER.info("Timertask: capabilities cache update successful!");
+                    schedule();
+                    if (staticCapabilitiesProvider != null && staticCapabilitiesProvider.isPresent()) {
+                        staticCapabilitiesProvider.get().create();
+                    }
+                }
             } catch (OwsExceptionReport e) {
                 LOGGER.error("Fatal error: Timertask couldn't update capabilities cache! " +
                              "Switch log level to DEBUG to get more details.");
