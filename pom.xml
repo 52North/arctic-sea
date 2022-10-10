@@ -327,7 +327,7 @@
             <dependency>
                 <groupId>org.geolatte</groupId>
                 <artifactId>geolatte-geom</artifactId>
-                <version>1.8.2</version>
+                <version>1.9.0</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.locationtech.jts</groupId>
