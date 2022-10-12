@@ -180,6 +180,11 @@
                 <artifactId>shetland-rdf</artifactId>
                 <version>${project.version}</version>
             </dependency>
+             <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>shetland-arcgis</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>faroe</artifactId>

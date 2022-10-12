@@ -20,16 +20,17 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.n52.arctic-sea</groupId>
-        <artifactId>arctic-sea</artifactId>
-        <version>10.0.0-SNAPSHOT</version>
+        <artifactId>shetland-parent</artifactId>
+        <version>9.9.0-SNAPSHOT</version>
     </parent>
-    <artifactId>shetland-parent</artifactId>
-    <packaging>pom</packaging>
-    <name>52°North Shetland Parent</name>
-    <description>52°North OWS Framework</description>
-    <modules>
-        <module>core</module>
-        <module>rdf</module>
-        <module>arcgis</module>
-    </modules>
+    <artifactId>shetland-arcgis</artifactId>
+    <name>52°North Shetland ArcGIS</name>
+    <description>52°North ArcGIS Framework</description>
+    <dependencies>
+        <dependency>
+            <groupId>com.github.spotbugs</groupId>
+            <artifactId>spotbugs-annotations</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 </project>
