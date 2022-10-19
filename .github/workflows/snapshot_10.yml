@@ -2,12 +2,9 @@ name: Create SNAPSHOT with Java 11
 
 on:
   workflow_dispatch:
-    branches:
-      - 'version/v10.0'
 
 jobs:
   publish-snapshot:
-    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
