@@ -66,7 +66,7 @@ public class FeatureCollection extends AbstractFeature implements Iterable<Abstr
      * @return the members
      */
     public Map<String, AbstractFeature> getMembers() {
-        return members;
+        return Collections.unmodifiableSortedMap(members);
     }
 
     /**

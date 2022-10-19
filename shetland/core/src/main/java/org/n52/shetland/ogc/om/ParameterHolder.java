@@ -17,6 +17,7 @@ package org.n52.shetland.ogc.om;
 
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Optional;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -33,7 +34,7 @@ public class ParameterHolder {
     private final SortedSet<NamedValue<?>> parameter = new TreeSet<>();
 
     public SortedSet<NamedValue<?>> getParameter() {
-        return parameter;
+        return Collections.unmodifiableSortedSet(parameter);
     }
 
     @SuppressWarnings("unchecked")

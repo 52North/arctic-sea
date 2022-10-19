@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.n52</groupId>
         <artifactId>parent</artifactId>
-        <version>24</version>
+        <version>26</version>
     </parent>
 
     <groupId>org.n52.arctic-sea</groupId>
@@ -1176,7 +1176,7 @@
             </plugin>
             <plugin>
                 <groupId>org.jasig.maven</groupId>
-                <artifactId>maven-notice-plugin</artifactId>
+                <artifactId>notice-maven-plugin</artifactId>
                 <inherited>false</inherited>
                 <configuration>
                     <noticeTemplate>etc/notice-template.txt</noticeTemplate>

@@ -17,6 +17,7 @@ package org.n52.shetland.ogc.om.values;
 
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.SortedMap;
 
@@ -88,7 +89,7 @@ public class RectifiedGridCoverage implements DiscreteCoverage<SortedMap<Compara
 
     @Override
     public SortedMap<ComparableValue<?, ?>, Value<?>> getValue() {
-        return value;
+        return Collections.unmodifiableSortedMap(value);
     }
 
     @Override
