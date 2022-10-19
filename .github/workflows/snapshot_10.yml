@@ -1,4 +1,4 @@
-name: Java CI on Pull Request
+name: Create SNAPSHOT with Java 11
 
 on:
   workflow_dispatch:
