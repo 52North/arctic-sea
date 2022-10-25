@@ -15,6 +15,9 @@
  */
 package org.n52.svalbard.encode;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Set;
 
@@ -72,6 +75,20 @@ public class GetCapabilitiesResponseEncoder extends AbstractSosResponseEncoder<G
 
     public GetCapabilitiesResponseEncoder() {
         super(SosConstants.Operations.GetCapabilities.name(), GetCapabilitiesResponse.class);
+    }
+
+    @Override
+    protected void create(GetCapabilitiesResponse response, OutputStream outputStream, EncodingContext encodingValues)
+            throws EncodingException {
+        if (response.isStatic()) {
+            try {
+                outputStream.write(response.getStaticString().getBytes(StandardCharsets.UTF_8));
+            } catch (IOException ioe) {
+                throw new EncodingException("Error while writing element to stream!", ioe);
+            }
+        } else {
+            super.create(response, outputStream, encodingValues);
+        }
     }
 
     @Override
