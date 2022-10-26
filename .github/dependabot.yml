@@ -10,22 +10,13 @@ updates:
   - dependency-name: xml-apis:xml-apis
     versions:
     - ">= 2.a, < 3"
-  - dependency-name: org.elasticsearch.client:elasticsearch-rest-high-level-client
-    versions:
-    - 7.11.0
-  - dependency-name: org.elasticsearch.client:elasticsearch-rest-client
-    versions:
-    - 7.11.0
-  - dependency-name: org.elasticsearch:elasticsearch
-    versions:
-    - 7.11.0
 - package-ecosystem: maven
   directory: "/"
   schedule:
     interval: daily
     time: "04:15"
   open-pull-requests-limit: 10
-  target-branch: "version/v10.0"
+  target-branch: "maintenance/9.x"
   ignore:
   - dependency-name: xml-apis:xml-apis
     versions:
