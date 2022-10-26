@@ -6,7 +6,7 @@ on:
 
 jobs:
   build-java-8:
-    if: github.ref != 'refs/heads/version/v10.0'
+    if: github.ref == 'refs/heads/maintenance/*'
     strategy:
       matrix:
         java: [ 8, 11, 17 ]
@@ -24,7 +24,7 @@ jobs:
     - name: Build with Maven
       run: mvn -fae -U -B clean install -P check
   build-java-11:
-    if: github.ref == 'refs/heads/version/v10.0'
+    if: github.ref != 'refs/heads/maintenance/*'
     strategy:
       matrix:
         java: [ 11, 17 ]
@@ -43,7 +43,7 @@ jobs:
       run: mvn -fae -U -B clean install -P check
       
   publish-snapshot-java-8:
-    if: github.ref != 'refs/heads/version/v10.0'
+    if: github.ref == 'refs/heads/maintenance/*'
     needs: build-java-8
     runs-on: ubuntu-latest
 
@@ -64,7 +64,7 @@ jobs:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
   publish-snapshot-java-11:
-    if: github.ref == 'refs/heads/version/v10.0'
+    if: github.ref != 'refs/heads/maintenance/*'
     needs: build-java-11
     runs-on: ubuntu-latest
 

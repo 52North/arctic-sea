@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-java-8:
-    if: github.ref != 'refs/heads/version/v10.0'
+    if: github.ref == 'refs/heads/maintenance/*'
     runs-on: ubuntu-latest
     name: Java 8 compile
     
@@ -22,7 +22,7 @@ jobs:
     - name: Build with Maven
       run: mvn -U -B clean install
   build-java-11:
-    if: github.ref == 'refs/heads/version/v10.0'
+    if: github.ref != 'refs/heads/maintenance/*'
     runs-on: ubuntu-latest
     name: Java 11 compile
     
@@ -38,7 +38,7 @@ jobs:
       run: mvn -U -B clean install
       
   publish-snapshot-java-8:
-    if: github.ref != 'refs/heads/version/v10.0'
+    if: github.ref == 'refs/heads/maintenance/*'
     needs: build-java-8
     runs-on: ubuntu-latest
 
@@ -59,7 +59,7 @@ jobs:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
   publish-snapshot-java-11:
-    if: github.ref == 'refs/heads/version/v10.0'
+    if: github.ref != 'refs/heads/maintenance/*'
     needs: build-java-11
     runs-on: ubuntu-latest
 
