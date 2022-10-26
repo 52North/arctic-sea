@@ -21,7 +21,7 @@
     <parent>
         <groupId>org.n52.arctic-sea</groupId>
         <artifactId>faroe-parent</artifactId>
-        <version>9.9.0</version>
+        <version>9.10.0-SNAPSHOT</version>
     </parent>
     <artifactId>faroe-annotations</artifactId>
     <name>52°North Faroe Annotations</name>
