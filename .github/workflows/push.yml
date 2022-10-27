@@ -2,7 +2,7 @@ name: Java CI on Push
 
 on:
   push:
-  	branches:
+    branches:
       - master
       - develop
   workflow_dispatch:
