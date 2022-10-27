@@ -139,6 +139,8 @@
 
     <properties>
         <timestamp>${maven.build.timestamp}</timestamp>
+        <maven.build.timestamp.format>yyyy</maven.build.timestamp.format>
+        <currentYear>${maven.build.timestamp}</currentYear>
         <version.spring>5.3.23</version.spring>
         <version.slf4j>2.0.3</version.slf4j>
         <version.xmlbeans>3.1.0</version.xmlbeans>
@@ -1126,21 +1128,6 @@
                 <configuration>
                     <additionalJOption>-Xdoclint:none</additionalJOption>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.gmaven</groupId>
-                <artifactId>groovy-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>initialize</phase>
-                        <goals>
-                            <goal>execute</goal>
-                        </goals>
-                        <configuration>
-                            <source>project.properties['currentYear'] = java.time.Year.now().toString()</source>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>com.mycila</groupId>
