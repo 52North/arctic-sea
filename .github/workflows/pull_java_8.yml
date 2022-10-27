@@ -2,8 +2,8 @@ name: Java CI on Pull Request
 
 on:
   pull_request:
-   branches:
-      - develop
+    branches:
+      - 'maintenance/*'
   workflow_dispatch:
 
 
@@ -11,7 +11,7 @@ jobs:
   build:
     strategy:
       matrix:
-        java: [ 11, 17 ]
+        java: [ 8, 11, 17 ]
     runs-on: ubuntu-latest
     name: Java ${{ matrix.java }} compile
     
@@ -24,4 +24,4 @@ jobs:
         java-version: ${{ matrix.java }}
         cache: 'maven'
     - name: Build with Maven
-      run: mvn -U -B clean install
+      run: mvn -U -B clean instal
