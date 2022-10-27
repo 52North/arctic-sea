@@ -65,9 +65,14 @@ All projects are available on Maven Central.
 
 ```xml
 <properties>
-  <version.arctic-sea>9.6.0</version.arctic-sea>
+  <version.arctic-sea>10.0.0</version.arctic-sea>
 </properties>
 <dependencies>
+  <dependency>
+    <groupId>org.n52.arctic-sea</groupId>
+    <artifactId>bjornoya</artifactId>
+    <version>${version.arctic-sea}</version>
+  </dependency>
   <dependency>
     <groupId>org.n52.arctic-sea</groupId>
     <artifactId>faroe</artifactId>
@@ -130,6 +135,11 @@ All projects are available on Maven Central.
   </dependency>
   <dependency>
     <groupId>org.n52.arctic-sea</groupId>
+    <artifactId>shetland-arcgis</artifactId>
+    <version>${version.arctic-sea}</version>
+  </dependency>
+  <dependency>
+    <groupId>org.n52.arctic-sea</groupId>
     <artifactId>svalbard</artifactId>
     <version>${version.arctic-sea}</version>
   </dependency>
@@ -163,11 +173,6 @@ All projects are available on Maven Central.
     <artifactId>svalbard-xmlstream</artifactId>
     <version>${version.arctic-sea}</version>
   </dependency>
-  <dependency>
-    <groupId>org.n52.arctic-sea</groupId>
-    <artifactId></artifactId>
-    <version>${version.arctic-sea}</version>
-  </dependency>
 </dependencies>
 ```
 
@@ -177,7 +182,7 @@ For convenience the [52Â°North Maven parent](https://github.com/52North/maven-
 <parent>
     <groupId>org.n52</groupId>
     <artifactId>parent</artifactId>
-    <version>16</version>
+    <version>27</version>
 </parent>
 ```
 
