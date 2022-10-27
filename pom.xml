@@ -1148,21 +1148,25 @@
                 <inherited>false</inherited>
                 <configuration>
                     <aggregate>true</aggregate>
-                    <header>etc/license-header.txt</header>
-                    <includes>
-                        <include>**/*.java</include>
-                        <include>**/*.xml</include>
-                    </includes>
-                    <excludes>
-                        <exclude>.mvn/wrapper/*.java</exclude>
-                    </excludes>
                     <strictCheck>true</strictCheck>
-                    <properties>
-                        <year>${project.inceptionYear}-${currentYear}</year>
-                    </properties>
                     <mapping>
                         <java>SLASHSTAR_STYLE</java>
                     </mapping>
+                    <licenseSets>
+						<licenseSet>
+		                    <header>etc/license-header.txt</header>
+		                    <includes>
+		                        <include>**/*.java</include>
+		                        <include>**/*.xml</include>
+		                    </includes>
+		                    <excludes>
+		                        <exclude>.mvn/wrapper/*.java</exclude>
+		                    </excludes>
+		                    <properties>
+		                        <year>${project.inceptionYear}-${currentYear}</year>
+		                    </properties>
+						</licenseSet>
+                    </licenseSets>
                 </configuration>
                 <executions>
                     <execution>
