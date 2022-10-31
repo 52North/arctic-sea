@@ -1,17 +1,16 @@
-name: Java CI on Push
-
+name: Java CI on Push Java 8
+ 
 on:
   push:
     branches:
-      - master
-      - develop
+      - 'maintenance/*'
   workflow_dispatch:
 
 jobs:
   build:
     strategy:
       matrix:
-        java: [ 11, 17 ]
+        java: [ 8, 11, 17 ]
     runs-on: ubuntu-latest
     name: Java ${{ matrix.java }} compile
     
@@ -25,7 +24,7 @@ jobs:
         cache: 'maven'
     - name: Build with Maven
       run: mvn -fae -U -B clean install -P check
-      
+ 
   publish-snapshot:
     needs: build
     runs-on: ubuntu-latest
@@ -36,7 +35,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: 11
+          java-version: 8
           cache: 'maven'
           server-id: sonatype-nexus-snapshots
           server-username: MAVEN_USERNAME

@@ -6,23 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-java-8:
-    if: github.ref == 'refs/heads/maintenance/*'
-    runs-on: ubuntu-latest
-    name: Java 8 compile
-    
-    steps:
-    - uses: actions/checkout@v3
-    - name: Set up JDK 8
-      uses: actions/setup-java@v3
-      with:
-        distribution: 'temurin'
-        java-version: 8
-        cache: 'maven'
-    - name: Build with Maven
-      run: mvn -U -B clean install
-  build-java-11:
-    if: github.ref != 'refs/heads/maintenance/*'
+  build:
     runs-on: ubuntu-latest
     name: Java 11 compile
     
@@ -36,31 +20,9 @@ jobs:
         cache: 'maven'
     - name: Build with Maven
       run: mvn -U -B clean install
-      
-  publish-snapshot-java-8:
-    if: github.ref == 'refs/heads/maintenance/*'
-    needs: build-java-8
-    runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up settings.xml for GitHub Packages
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: 8
-          cache: 'maven'
-          server-id: sonatype-nexus-snapshots
-          server-username: MAVEN_USERNAME
-          server-password: MAVEN_PASSWORD
-      - name: Publish SNAPSHOT version Maven Central
-        run: mvn -B --no-transfer-progress deploy -DskipTests
-        env:
-          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
-  publish-snapshot-java-11:
-    if: github.ref != 'refs/heads/maintenance/*'
-    needs: build-java-11
+  publish-snapshot-:
+    needs: build
     runs-on: ubuntu-latest
 
     steps:
