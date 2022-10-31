@@ -1,5 +1,5 @@
-name: Java CI on Push
-
+name: Java CI on Push Java 8
+ 
 on:
   push:
     branches:

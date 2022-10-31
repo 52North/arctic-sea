@@ -1,4 +1,4 @@
-name: Java CI on Pull Request
+name: Java CI on Pull Request Java 8
 
 on:
   pull_request:
