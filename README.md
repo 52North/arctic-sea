@@ -31,7 +31,7 @@ Shetland consists of classes for OGC models like [SensorML](http://www.opengeosp
 
 #### Bjørnøya (Bjornoya) [![Maven Central](https://img.shields.io/maven-central/v/org.n52.arctic-sea/bjornoya.svg)](https://search.maven.org/search?q=g:org.n52.arctic-sea%20and%20a:bjornoya*%20and%20p:jar)
 
-Bjørnøya contains various classes for scheduling [![Quartz](http://www.quartz-scheduler.org/)] shared across Arctic Sea.
+Bjørnøya contains various classes for scheduling using [![Quartz](http://www.quartz-scheduler.org/)] shared across Arctic Sea. This includes configurations to define the execution of jobs.
 
 ### Key Technologies
 
