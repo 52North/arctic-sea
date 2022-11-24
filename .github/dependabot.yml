@@ -22,8 +22,7 @@ updates:
   target-branch: "maintenance/9.x"
   ignore:
   - dependency-name: "xml-apis:xml-apis"
-    versions:
-    - ">= 2.a, < 3"
+    versions: ">= 2.a, < 3"
   - dependency-name: "org.apache.xmlbeans:xmlbeans"
     versions: ">= 4.x"
   - dependency-name: "org.springframework:*"

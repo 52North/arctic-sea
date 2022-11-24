@@ -34,33 +34,33 @@ import java.util.Set;
 @SuppressWarnings("unchecked")
 public class QueryOptionsFactory {
 
-    public STAQueryOptionsLexer createLexer(String query) {
+    public static STAQueryOptionsLexer createLexer(String query) {
         STAQueryOptionsLexer staQueryOptionsLexer = new STAQueryOptionsLexer(CharStreams.fromString(query.trim()));
         staQueryOptionsLexer.removeErrorListeners();
         staQueryOptionsLexer.addErrorListener(new CustomErrorListener(staQueryOptionsLexer.getVocabulary()));
         return staQueryOptionsLexer;
     }
 
-    public STAQueryOptionsGrammar createGrammar(String query) {
+    public static STAQueryOptionsGrammar createGrammar(String query) {
         return createGrammar(createLexer(query));
     }
 
-    private STAQueryOptionsGrammar createGrammar(STAQueryOptionsLexer lexer) {
+    private static STAQueryOptionsGrammar createGrammar(STAQueryOptionsLexer lexer) {
         STAQueryOptionsGrammar parser = new STAQueryOptionsGrammar(new CommonTokenStream(lexer));
         parser.removeErrorListeners();
         parser.addErrorListener(new CustomErrorListener(lexer.getVocabulary()));
         return parser;
     }
 
-    public QueryOptions createQueryOptions(String query) {
+    public static QueryOptions createQueryOptions(String query) {
         return createGrammar(query).queryOptions().<QueryOptions>accept(new STAQueryOptionVisitor());
     }
 
-    public QueryOptions createQueryOptions(Set<FilterClause> filters) {
+    public static QueryOptions createQueryOptions(Set<FilterClause> filters) {
         return new QueryOptions("", filters);
     }
 
-    public QueryOptions createDummy() {
+    public static QueryOptions createDummy() {
         return new QueryOptions("", null);
     }
 
