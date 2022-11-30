@@ -33,6 +33,10 @@ import java.util.Set;
  */
 @SuppressWarnings("unchecked")
 public class QueryOptionsFactory {
+    
+    private QueryOptionsFactory() {
+
+    }
 
     public static STAQueryOptionsLexer createLexer(String query) {
         STAQueryOptionsLexer staQueryOptionsLexer = new STAQueryOptionsLexer(CharStreams.fromString(query.trim()));
