@@ -32,8 +32,8 @@ import java.util.Set;
  * @author <a href="mailto:j.speckamp@52north.org">Jan Speckamp</a>
  */
 @SuppressWarnings("unchecked")
-public class QueryOptionsFactory {
-    
+public final class QueryOptionsFactory {
+
     private QueryOptionsFactory() {
 
     }
