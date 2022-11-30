@@ -64,7 +64,7 @@ public final class QueryOptionsFactory {
         return new QueryOptions("", filters);
     }
 
-    public static QueryOptions createDummy() {
+    public static QueryOptions createEmpty() {
         return new QueryOptions("", null);
     }
 
