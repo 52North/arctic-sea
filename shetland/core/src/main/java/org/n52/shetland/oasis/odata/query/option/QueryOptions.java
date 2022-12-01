@@ -50,8 +50,6 @@ public class QueryOptions {
     private SkipTopFilter topFilter;
     private FilterFilter filterFilter;
 
-    private String baseURL;
-
     public QueryOptions(Set<FilterClause> queryFilters) {
         if (queryFilters != null) {
             queryFilters.forEach(input -> {
@@ -163,7 +161,7 @@ public class QueryOptions {
 
     @Override
     public int hashCode() {
-        return Objects.hash(baseURL, countFilter, topFilter, skipFilter, orderByFilter, selectFilter, expandFilter,
+        return Objects.hash(countFilter, topFilter, skipFilter, orderByFilter, selectFilter, expandFilter,
                 filterFilter);
     }
 
