@@ -54,6 +54,11 @@ public class JSONResponseWriter
     @Override
     public void write(JsonNode t, OutputStream out, ResponseProxy responseProxy)
             throws IOException {
+        write(t, out);
+    }
+
+    @Override
+    public void write(JsonNode t, OutputStream out) throws IOException {
         Json.print(out, t);
     }
 

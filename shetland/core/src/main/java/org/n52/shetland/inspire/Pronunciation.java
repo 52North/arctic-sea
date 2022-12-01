@@ -66,18 +66,15 @@ public class Pronunciation {
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("ipa", getIPA())
-                .add("soundLink", getSoundLink())
-                .toString();
+        return MoreObjects.toStringHelper(this).add("ipa", getIPA()).add("soundLink", getSoundLink()).toString();
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Pronunciation) {
             Pronunciation that = (Pronunciation) obj;
-            return Objects.equal(this.getIPA(), that.getIPA()) &&
-                   Objects.equal(this.getSoundLink(), that.getSoundLink());
+            return Objects.equal(this.getIPA(), that.getIPA())
+                    && Objects.equal(this.getSoundLink(), that.getSoundLink());
         }
         return false;
     }

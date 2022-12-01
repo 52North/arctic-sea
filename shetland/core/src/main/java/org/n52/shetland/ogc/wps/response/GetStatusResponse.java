@@ -21,6 +21,8 @@ import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.shetland.ogc.wps.StatusInfo;
 import org.n52.shetland.ogc.wps.WPSConstants;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * @author Christian Autermann
  */
@@ -30,6 +32,7 @@ public class GetStatusResponse extends OwsServiceResponse {
     public GetStatusResponse() {
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public GetStatusResponse(String service, String version, StatusInfo status) {
         super(service, version);
         this.status = status;
@@ -40,10 +43,12 @@ public class GetStatusResponse extends OwsServiceResponse {
         return WPSConstants.Operations.GetStatus.toString();
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public StatusInfo getStatus() {
         return status;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setStatusInfo(StatusInfo status) {
         this.status = Objects.requireNonNull(status);
     }

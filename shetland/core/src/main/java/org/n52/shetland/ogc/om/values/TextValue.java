@@ -27,13 +27,18 @@ import com.google.common.base.Strings;
  * @since 1.0.0
  *
  */
-public class TextValue
-        extends SweText
-        implements Value<String> {
+public class TextValue extends SweText implements Value<String> {
     /**
      * Unit of measure
      */
     private UoM unit;
+
+    /**
+     * constructor
+     */
+    public TextValue() {
+        super();
+    }
 
     /**
      * constructor
@@ -44,6 +49,13 @@ public class TextValue
     public TextValue(String value) {
         super();
         super.setValue(value);
+    }
+
+    public TextValue(SweText value) {
+        super();
+        super.setValue(value.getValue());
+        value.copyValueTo(this);
+        this.setConstraint(value.getConstraint());
     }
 
     @Override
@@ -92,7 +104,9 @@ public class TextValue
     }
 
     @Override
-    public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
+    public <
+            X,
+            E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
         return visitor.visit(this);
     }
 

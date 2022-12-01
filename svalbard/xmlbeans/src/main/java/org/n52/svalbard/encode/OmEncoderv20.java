@@ -63,6 +63,8 @@ import org.n52.shetland.ogc.om.values.TLVTValue;
 import org.n52.shetland.ogc.om.values.TVPValue;
 import org.n52.shetland.ogc.om.values.TextValue;
 import org.n52.shetland.ogc.om.values.TimeRangeValue;
+import org.n52.shetland.ogc.om.values.TimeValue;
+import org.n52.shetland.ogc.om.values.TrajectoryValue;
 import org.n52.shetland.ogc.om.values.UnknownValue;
 import org.n52.shetland.ogc.om.values.XmlValue;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
@@ -87,6 +89,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import net.opengis.gml.x32.FeaturePropertyType;
 import net.opengis.gml.x32.TimeInstantPropertyType;
 import net.opengis.om.x20.OMObservationType;
@@ -131,6 +134,7 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
                     OmConstants.OBS_TYPE_MEASUREMENT_TYPE,
                     OmConstants.OBS_TYPE_TEXT_OBSERVATION_TYPE,
                     OmConstants.OBS_TYPE_TRUTH_OBSERVATION_TYPE,
+                    OmConstants.OBS_TYPE_TRAJECTORY_OBSERVATION_TYPE,
                     OmConstants.OBS_TYPE_REFERENCE_OBSERVATION_TYPE));
 
     private static final Map<String, Map<String, Set<String>>> SUPPORTED_RESPONSE_FORMATS = Collections.singletonMap(
@@ -145,6 +149,7 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
     }
 
     @Inject
+    @SuppressFBWarnings({"EI_EXPOSE_REP2"})
     public void setSweHelper(SweHelper sweHelper) {
         this.sweHelper = sweHelper;
     }
@@ -571,6 +576,16 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
         @Override
         public XmlObject visit(ProfileValue value) throws EncodingException {
             return encodeGWML(value, EncodingContext.of(XmlBeansEncodingFlags.FOR_OBSERVATION));
+        }
+
+        @Override
+        public XmlObject visit(TrajectoryValue value) throws EncodingException {
+            return null;
+        }
+
+        @Override
+        public XmlObject visit(TimeValue value) throws EncodingException {
+            return null;
         }
 
         @Override

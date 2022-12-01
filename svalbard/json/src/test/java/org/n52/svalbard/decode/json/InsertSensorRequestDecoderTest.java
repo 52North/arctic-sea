@@ -19,6 +19,7 @@ import static java.util.Collections.singleton;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.IOException;
@@ -32,7 +33,6 @@ import org.junit.jupiter.api.Test;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.sos.request.InsertSensorRequest;
 import org.n52.svalbard.decode.exception.DecodingException;
-import org.n52.svalbard.decode.json.InsertSensorRequestDecoder;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JsonLoader;
@@ -130,8 +130,7 @@ public class InsertSensorRequestDecoderTest {
     @Test
     public void testRelatedFeatures()
             throws OwsExceptionReport, IOException {
-
-        assertThat(req.getRelatedFeatures(), is(nullValue()));
+        assertThat(req.getRelatedFeatures(), is(empty()));
     }
 
     @Test

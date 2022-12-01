@@ -29,14 +29,10 @@ import org.n52.shetland.ogc.om.series.wml.WaterMLConstants.InterpolationType;
  * @since 1.0.0
  * @see <a href="http://www.opengeospatial.org/standards/waterml">OGC WaterML</a>
  */
-public class DefaultTVPMeasurementMetadata implements AbstractDefaultTVPMeasurementMetadata {
+public class DefaultTVPMeasurementMetadata
+        extends AbstractDefaultTVPMeasurementMetadata<DefaultTVPMeasurementMetadata> {
 
     private InterpolationType interpolationtype;
-
-    @Override
-    public boolean isSetInterpolationType() {
-        return interpolationtype != null;
-    }
 
     @Override
     public AbstractInterpolationType getInterpolationtype() {

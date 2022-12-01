@@ -15,7 +15,11 @@
  */
 package org.n52.shetland.ogc.wps.description.impl;
 
-import com.google.common.collect.ImmutableSet;
+import java.util.Collections;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+
 import org.n52.janmayen.AbstractBuildable;
 import org.n52.shetland.ogc.ows.OwsCode;
 import org.n52.shetland.ogc.ows.OwsKeyword;
@@ -24,19 +28,15 @@ import org.n52.shetland.ogc.ows.OwsMetadata;
 import org.n52.shetland.ogc.wps.description.Description;
 import org.n52.shetland.ogc.wps.description.ProcessDescriptionBuilderFactory;
 
-import java.util.Collections;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import com.google.common.collect.ImmutableSet;
 
 /**
  * TODO JavaDoc
  *
  * @author Christian Autermann
  */
-public abstract class AbstractDescription
-        extends AbstractBuildable<ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?>>
-        implements Description {
+public abstract class AbstractDescription extends
+        AbstractBuildable<ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?>> implements Description {
 
     private final OwsCode id;
     private final OwsLanguageString title;
@@ -78,8 +78,9 @@ public abstract class AbstractDescription
         return Collections.unmodifiableSet(this.metadata);
     }
 
-    protected abstract static class AbstractBuilder<T extends Description, B extends AbstractBuilder<T, B>>
-            extends
+    protected abstract static class AbstractBuilder<
+            T extends Description,
+            B extends AbstractBuilder<T, B>> extends
             AbstractBuildable.AbstractBuilder<ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?>, T, B>
             implements Description.Builder<T, B> {
         private OwsCode id;
@@ -89,7 +90,7 @@ public abstract class AbstractDescription
         private final ImmutableSet.Builder<OwsMetadata> metadata = ImmutableSet.builder();
 
         protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
-                                  Description entity) {
+                Description entity) {
             super(factory);
             this.id = entity.getId();
             this.title = entity.getTitle();

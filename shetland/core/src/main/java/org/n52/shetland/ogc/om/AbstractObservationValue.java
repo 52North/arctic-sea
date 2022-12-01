@@ -19,8 +19,8 @@ import org.n52.shetland.ogc.om.series.DefaultPointMetadata;
 import org.n52.shetland.ogc.om.series.Metadata;
 import org.n52.shetland.ogc.om.values.Value;
 
-public abstract class AbstractObservationValue<T extends Value<?>>
-        implements ObservationValue<T> {
+public abstract class AbstractObservationValue<
+        T extends Value<?>> implements ObservationValue<T> {
     private String observationID;
     private String observationType;
     private String observableProperty;

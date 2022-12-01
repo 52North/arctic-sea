@@ -18,16 +18,17 @@ package org.n52.shetland.ogc.ows.service;
 import org.n52.shetland.ogc.ows.OWSConstants;
 import org.n52.shetland.ogc.ows.OwsCapabilities;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
- * Implementation of {@link OwsServiceResponse} for OWS GetCapabilities
- * operation
+ * Implementation of {@link OwsServiceResponse} for OWS GetCapabilities operation
  *
  * @since 1.0.0
  *
  */
 public class GetCapabilitiesResponse extends OwsServiceResponse {
     private OwsCapabilities capabilities;
-    private String xmlString;
+    private String staticString;
 
     public GetCapabilitiesResponse() {
         super(null, null, OWSConstants.Operations.GetCapabilities.name());
@@ -41,19 +42,21 @@ public class GetCapabilitiesResponse extends OwsServiceResponse {
         super(service, version, operationName);
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public OwsCapabilities getCapabilities() {
         return capabilities;
     }
 
     /**
-     * Set {@link OwsCapabilities}. Adds service and version from
-     * {@link OwsCapabilities} to {@link GetCapabilitiesResponse} is missing.
+     * Set {@link OwsCapabilities}. Adds service and version from {@link OwsCapabilities} to
+     * {@link GetCapabilitiesResponse} is missing.
      *
      * @param capabilities
-     *                     {@link OwsCapabilities} to set
+     *            {@link OwsCapabilities} to set
      *
      * @return this
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public GetCapabilitiesResponse setCapabilities(OwsCapabilities capabilities) {
         this.capabilities = capabilities;
         capabilities.getService().ifPresent(this::setService);
@@ -62,15 +65,23 @@ public class GetCapabilitiesResponse extends OwsServiceResponse {
     }
 
     public String getXmlString() {
-        return xmlString;
+        return getStaticString();
     }
 
     public GetCapabilitiesResponse setXmlString(String xmlString) {
-        this.xmlString = xmlString;
+        return setStaticString(xmlString);
+    }
+
+    public String getStaticString() {
+        return staticString;
+    }
+
+    public GetCapabilitiesResponse setStaticString(String staticString) {
+        this.staticString = staticString;
         return this;
     }
 
     public boolean isStatic() {
-        return getXmlString() != null && !getXmlString().isEmpty();
+        return getStaticString() != null && !getStaticString().isEmpty();
     }
 }

@@ -22,24 +22,30 @@ import org.apache.jena.sparql.vocabulary.FOAF;
 import org.apache.jena.vocabulary.RDF;
 import org.n52.shetland.rdf.RDFElement;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class Organization implements RDFElement, FoafRdfPrefix {
 
     private Name name;
 
     private MBox mBox;
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Name getName() {
         return name;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setName(Name name) {
         this.name = name;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public MBox getmBox() {
         return mBox;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setmBox(MBox mBox) {
         this.mBox = mBox;
     }

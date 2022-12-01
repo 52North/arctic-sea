@@ -15,12 +15,13 @@
  */
 package org.n52.shetland.ogc.sta.model;
 
-import org.n52.shetland.ogc.sta.StaConstants;
-
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import org.n52.shetland.ogc.sta.StaConstants;
 
 @SuppressWarnings("VisibilityModifier")
 public abstract class STAEntityDefinition implements StaConstants {
@@ -52,10 +53,8 @@ public abstract class STAEntityDefinition implements StaConstants {
     private final Set<String> entityPropsOptional;
     private final Set<String> entityPropsMandatory;
 
-    protected STAEntityDefinition(Set<String> navPropOptional,
-                                  Set<String> navPropMandatory,
-                                  Set<String> entityPropOptional,
-                                  Set<String> entityPropMandatory) {
+    protected STAEntityDefinition(Set<String> navPropOptional, Set<String> navPropMandatory,
+            Set<String> entityPropOptional, Set<String> entityPropMandatory) {
         this.navPropsOptional = navPropOptional;
         this.navPropsMandatory = navPropMandatory;
         this.entityPropsOptional = entityPropOptional;
@@ -63,19 +62,19 @@ public abstract class STAEntityDefinition implements StaConstants {
     }
 
     public Set<String> getNavPropsOptional() {
-        return navPropsOptional;
+        return Collections.unmodifiableSet(navPropsOptional);
     }
 
     public Set<String> getNavPropsMandatory() {
-        return navPropsMandatory;
+        return Collections.unmodifiableSet(navPropsMandatory);
     }
 
     public Set<String> getEntityPropsOptional() {
-        return entityPropsOptional;
+        return Collections.unmodifiableSet(entityPropsOptional);
     }
 
     public Set<String> getEntityPropsMandatory() {
-        return entityPropsMandatory;
+        return Collections.unmodifiableSet(entityPropsMandatory);
     }
 
     protected static Set<String> combineSets(Set<String>... sets) {

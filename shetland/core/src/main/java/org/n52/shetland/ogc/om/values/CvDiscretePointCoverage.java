@@ -23,6 +23,8 @@ import org.n52.shetland.util.IdGenerator;
 
 import com.google.common.base.Strings;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Class that represents a CV_DiscretePointCoverage
  *
@@ -30,8 +32,7 @@ import com.google.common.base.Strings;
  * @since 1.0.0
  *
  */
-public class CvDiscretePointCoverage
-        implements Value<PointValuePair> {
+public class CvDiscretePointCoverage implements Value<PointValuePair> {
 
     private static final String GML_ID_PREFIX = "dpc_";
     private final String gmlId;
@@ -89,12 +90,14 @@ public class CvDiscretePointCoverage
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public CvDiscretePointCoverage setValue(PointValuePair value) {
         this.value = value;
         return this;
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public PointValuePair getValue() {
         return value;
     }
@@ -129,7 +132,9 @@ public class CvDiscretePointCoverage
     }
 
     @Override
-    public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
+    public <
+            X,
+            E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
         return visitor.visit(this);
     }
 

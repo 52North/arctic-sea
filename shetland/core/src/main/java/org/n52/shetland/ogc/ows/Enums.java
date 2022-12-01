@@ -33,7 +33,6 @@ import java.util.stream.Stream;
  */
 public final class Enums {
 
-
     private static final Map<Class<? extends Enum<?>>, Map<String, Enum<?>>> NAMES = new HashMap<>();
 
     private Enums() {
@@ -48,14 +47,16 @@ public final class Enums {
         return stream.collect(collector);
     }
 
-    static <E extends Enum<E>> boolean contains(Class<? extends E> enumClass, String string) {
+    static <
+            E extends Enum<E>> boolean contains(Class<? extends E> enumClass, String string) {
         return fromString(enumClass, string).isPresent();
     }
 
     @SuppressWarnings(value = "unchecked")
-    static <E extends Enum<E>> Optional<E> fromString(Class<? extends E> enumClass, String string) {
-        return Optional.ofNullable((E) NAMES.computeIfAbsent(enumClass, Enums::getNamesForEnum)
-                .get(string.toLowerCase(Locale.ROOT)));
+    static <
+            E extends Enum<E>> Optional<E> fromString(Class<? extends E> enumClass, String string) {
+        return Optional.ofNullable(
+                (E) NAMES.computeIfAbsent(enumClass, Enums::getNamesForEnum).get(string.toLowerCase(Locale.ROOT)));
     }
 
 }

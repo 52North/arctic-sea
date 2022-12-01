@@ -19,6 +19,7 @@ import org.n52.shetland.ogc.gml.time.IndeterminateValue;
 
 /**
  * TODO JavaDoc
+ *
  * @author Christian Autermann
  */
 public interface ExtendedIndeterminateTime {

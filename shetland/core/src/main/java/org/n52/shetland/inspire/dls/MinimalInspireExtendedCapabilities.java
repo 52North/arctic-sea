@@ -23,6 +23,8 @@ import org.n52.shetland.inspire.InspireSupportedLanguages;
 import org.n52.shetland.inspire.InspireUniqueResourceIdentifier;
 import org.n52.shetland.inspire.dls.InspireCapabilities.InspireExtendedCapabilitiesMetadataURL;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Service internal object to represent the minimal INSPIRE DLS ExtendedCapabilities
  *
@@ -30,8 +32,8 @@ import org.n52.shetland.inspire.dls.InspireCapabilities.InspireExtendedCapabilit
  * @since 1.0.0
  *
  */
-public class MinimalInspireExtendedCapabilities extends InspireExtendedCapabilitiesDLS implements
-        InspireExtendedCapabilitiesMetadataURL {
+public class MinimalInspireExtendedCapabilities extends InspireExtendedCapabilitiesDLS
+        implements InspireExtendedCapabilitiesMetadataURL {
 
     /* MetadataUrl 1..1 */
     private InspireResourceLocator metadataUrl;
@@ -56,11 +58,13 @@ public class MinimalInspireExtendedCapabilities extends InspireExtendedCapabilit
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public InspireResourceLocator getMetadataUrl() {
         return metadataUrl;
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public MinimalInspireExtendedCapabilities setMetadataUrl(InspireResourceLocator metadataUrl) {
         this.metadataUrl = metadataUrl;
         return this;
@@ -73,8 +77,8 @@ public class MinimalInspireExtendedCapabilities extends InspireExtendedCapabilit
 
     @Override
     public String toString() {
-        return String.format("%s %n[%n \tn supportedLanguages=%s," + "%n responseLanguage=%s,"
-                + "%n metadataUrl=%s%n]", this.getClass().getSimpleName(), getSupportedLanguages(),
-                getResponseLanguage(), getMetadataUrl());
+        return String.format(
+                "%s %n[%n \tn supportedLanguages=%s," + "%n responseLanguage=%s," + "%n metadataUrl=%s%n]",
+                this.getClass().getSimpleName(), getSupportedLanguages(), getResponseLanguage(), getMetadataUrl());
     }
 }

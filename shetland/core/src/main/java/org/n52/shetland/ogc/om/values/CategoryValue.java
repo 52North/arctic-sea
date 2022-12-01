@@ -25,9 +25,14 @@ import org.n52.shetland.ogc.swe.simpleType.SweCategory;
  * @since 1.0.0
  *
  */
-public class CategoryValue
-        extends SweCategory
-        implements Value<String> {
+public class CategoryValue extends SweCategory implements Value<String> {
+
+    /**
+     * constructor
+     */
+    public CategoryValue() {
+        super();
+    }
 
     /**
      * constructor
@@ -102,7 +107,9 @@ public class CategoryValue
     }
 
     @Override
-    public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
+    public <
+            X,
+            E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
         return visitor.visit(this);
     }
 }

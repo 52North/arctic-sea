@@ -17,6 +17,8 @@ package org.n52.shetland.ogc.sensorML;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -30,6 +32,8 @@ import org.n52.shetland.ogc.sensorML.elements.SmlIoPredicates;
 import org.n52.shetland.ogc.sensorML.elements.SmlParameter;
 import org.n52.shetland.ogc.swe.simpleType.SweAbstractUomType;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * @since 1.0.0
  *
@@ -41,7 +45,7 @@ public class AbstractProcess extends AbstractSensorML {
     private List<SmlParameter> parameters = new ArrayList<>(0);
     private List<Time> validTime = new ArrayList<>(0);
 
-    public AbstractProcess setDescriptions(List<String> descriptions) {
+    public AbstractProcess setDescriptions(Collection<String> descriptions) {
         if (descriptions != null) {
             if (descriptions.size() == 1) {
                 setDescription(descriptions.iterator().next());
@@ -54,8 +58,7 @@ public class AbstractProcess extends AbstractSensorML {
 
     public AbstractProcess addDescription(final String description) {
         if (isSetDescription()) {
-            setDescription(new StringBuilder(getDescription()).append(", ")
-                    .append(description).toString());
+            setDescription(new StringBuilder(getDescription()).append(", ").append(description).toString());
         } else {
             setDescription(description);
         }
@@ -73,29 +76,42 @@ public class AbstractProcess extends AbstractSensorML {
     }
 
     public List<SmlIo> getInputs() {
-        return inputs;
+        return Collections.unmodifiableList(inputs);
     }
 
-    public AbstractProcess setInputs(final List<SmlIo> inputs) {
-        this.inputs = inputs;
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public AbstractProcess setInputs(final Collection<SmlIo> inputs) {
+        this.inputs.clear();
+        if (inputs != null) {
+            this.inputs.addAll(inputs);
+        }
         return this;
     }
 
     public List<SmlIo> getOutputs() {
-        return outputs;
+        return Collections.unmodifiableList(outputs);
     }
 
-    public AbstractProcess setOutputs(final List<SmlIo> outputs) {
-        this.outputs = outputs;
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public AbstractProcess setOutputs(final Collection<SmlIo> outputs) {
+        this.outputs.clear();
+        if (outputs != null) {
+            this.outputs.addAll(outputs);
+        }
         return this;
     }
 
     public List<SmlParameter> getParameters() {
-        return parameters;
+        return Collections.unmodifiableList(parameters);
     }
 
-    public void setParameters(List<SmlParameter> smlParameters) {
-        this.parameters = smlParameters;
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public AbstractProcess setParameters(Collection<SmlParameter> smlParameters) {
+        this.parameters.clear();
+        if (smlParameters != null) {
+            this.parameters.addAll(smlParameters);
+        }
+        return this;
     }
 
     public boolean isSetInputs() {
@@ -111,7 +127,7 @@ public class AbstractProcess extends AbstractSensorML {
     }
 
     public List<Time> getValidTime() {
-        return validTime;
+        return Collections.unmodifiableList(validTime);
     }
 
     public Time getMergedValidTime() {
@@ -130,7 +146,7 @@ public class AbstractProcess extends AbstractSensorML {
         return this;
     }
 
-    public AbstractProcess setValidTime(List<Time> validTime) {
+    public AbstractProcess setValidTime(Collection<Time> validTime) {
         this.validTime.clear();
         if (validTime != null) {
             this.validTime.addAll(validTime);
@@ -208,7 +224,7 @@ public class AbstractProcess extends AbstractSensorML {
         copyOf.setInputs(getInputs());
         copyOf.setOutputs(getOutputs());
         copyOf.setParameters(getParameters());
+        copyOf.setValidTime(getValidTime());
     }
-
 
 }

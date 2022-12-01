@@ -22,6 +22,8 @@ import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
 import org.n52.shetland.util.DateTimeHelper;
 import org.n52.shetland.w3c.xlink.Referenceable;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * SOS internal representation of SWE simpleType time
  *
@@ -36,11 +38,13 @@ public class SweTime extends SweAbstractUomType<DateTime> {
     private Referenceable<SweAllowedTimes> constraint;
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public DateTime getValue() {
         return value;
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweTime setValue(final DateTime value) {
         this.value = value;
         return this;
@@ -74,14 +78,16 @@ public class SweTime extends SweAbstractUomType<DateTime> {
     }
 
     /**
-     * @param constraint the constraint to set
+     * @param constraint
+     *            the constraint to set
      */
     public void setConstraint(SweAllowedTimes constraint) {
         this.constraint = Referenceable.of(constraint);
     }
 
     /**
-     * @param constraint the constraint to set
+     * @param constraint
+     *            the constraint to set
      */
     public void setConstraint(Referenceable<SweAllowedTimes> constraint) {
         this.constraint = constraint;
@@ -97,12 +103,15 @@ public class SweTime extends SweAbstractUomType<DateTime> {
     }
 
     @Override
-    public <T, X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
+    public <
+            T,
+            X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
         return visitor.visit(this);
     }
 
     @Override
-    public <X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
+    public <
+            X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
         visitor.visit(this);
     }
 

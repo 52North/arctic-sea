@@ -24,12 +24,30 @@ package org.n52.shetland.ogc.om.series;
  * @see <a href="http://www.opengeospatial.org/standards/tsml">OGC TSML</a>
  * @see <a href="http://www.opengeospatial.org/standards/waterml">OGC WaterML</a>
  */
-public interface AbstractDefaultTVPMeasurementMetadata {
+public abstract class AbstractDefaultTVPMeasurementMetadata<
+        T extends AbstractDefaultTVPMeasurementMetadata<?>> {
 
-    boolean isSetInterpolationType();
+    private String aggregationDuration;
 
-    AbstractInterpolationType getInterpolationtype();
+    public String getAggregationDuration() {
+        return aggregationDuration;
+    }
 
-    AbstractDefaultTVPMeasurementMetadata setInterpolationtype(AbstractInterpolationType interpolationtype);
+    public T setAggregationDuration(String aggregationDuration) {
+        this.aggregationDuration = aggregationDuration;
+        return (T) this;
+    }
+
+    public boolean isSetAggregationDuration() {
+        return getAggregationDuration() != null && !getAggregationDuration().isEmpty();
+    }
+
+    public boolean isSetInterpolationType() {
+        return getInterpolationtype() != null;
+    }
+
+    public abstract AbstractInterpolationType getInterpolationtype();
+
+    public abstract T setInterpolationtype(AbstractInterpolationType interpolationtype);
 
 }

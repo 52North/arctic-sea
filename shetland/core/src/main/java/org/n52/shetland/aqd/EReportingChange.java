@@ -66,15 +66,13 @@ public class EReportingChange {
 
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof EReportingChange &&
-               java.util.Objects.equals(getDescription(), ((EReportingChange) obj).getDescription());
+        return obj instanceof EReportingChange
+                && java.util.Objects.equals(getDescription(), ((EReportingChange) obj).getDescription());
     }
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("change", isChange())
-                .add("description", getDescription())
+        return MoreObjects.toStringHelper(this).add("change", isChange()).add("description", getDescription())
                 .toString();
     }
 

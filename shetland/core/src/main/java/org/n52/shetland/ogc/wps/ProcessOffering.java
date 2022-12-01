@@ -15,15 +15,15 @@
  */
 package org.n52.shetland.ogc.wps;
 
-import org.n52.shetland.ogc.wps.description.ProcessDescription;
-import org.n52.shetland.util.CollectionHelper;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+
+import org.n52.shetland.ogc.wps.description.ProcessDescription;
+import org.n52.shetland.util.CollectionHelper;
 
 /**
  * TODO JavaDoc
@@ -38,26 +38,21 @@ public class ProcessOffering implements Comparable<ProcessOffering> {
     private final String processModel;
 
     public ProcessOffering(ProcessDescription processDescription) {
-        this(processDescription,
-             JobControlOption.defaultOptions(),
-             EnumSet.allOf(DataTransmissionMode.class), DEFAULT_PROCESS_MODEL);
+        this(processDescription, JobControlOption.defaultOptions(), EnumSet.allOf(DataTransmissionMode.class),
+                DEFAULT_PROCESS_MODEL);
     }
 
-    public ProcessOffering(ProcessDescription processDescription,
-                           Collection<JobControlOption> jobControlOptions) {
+    public ProcessOffering(ProcessDescription processDescription, Collection<JobControlOption> jobControlOptions) {
         this(processDescription, jobControlOptions, EnumSet.allOf(DataTransmissionMode.class), DEFAULT_PROCESS_MODEL);
     }
 
-    public ProcessOffering(ProcessDescription processDescription,
-                           Collection<JobControlOption> jobControlOptions,
-                           Collection<DataTransmissionMode> outputTransmissionModes) {
+    public ProcessOffering(ProcessDescription processDescription, Collection<JobControlOption> jobControlOptions,
+            Collection<DataTransmissionMode> outputTransmissionModes) {
         this(processDescription, jobControlOptions, outputTransmissionModes, DEFAULT_PROCESS_MODEL);
     }
 
-    public ProcessOffering(ProcessDescription processDescription,
-                           Collection<JobControlOption> jobControlOptions,
-                           Collection<DataTransmissionMode> outputTransmissionModes,
-                           String processModel) {
+    public ProcessOffering(ProcessDescription processDescription, Collection<JobControlOption> jobControlOptions,
+            Collection<DataTransmissionMode> outputTransmissionModes, String processModel) {
         this.processDescription = Objects.requireNonNull(processDescription);
         this.jobControlOptions = CollectionHelper.newSortedSet(jobControlOptions);
         this.outputTransmissionModes = CollectionHelper.newSortedSet(outputTransmissionModes);
@@ -111,9 +106,9 @@ public class ProcessOffering implements Comparable<ProcessOffering> {
             return false;
         }
         final ProcessOffering other = (ProcessOffering) obj;
-        return Objects.equals(this.getProcessModel(), other.getProcessModel()) &&
-               Objects.equals(this.getProcessDescription(), other.getProcessDescription()) &&
-               Objects.equals(this.getJobControlOptions(), other.getJobControlOptions()) &&
-               Objects.equals(this.getOutputTransmissionModes(), other.getOutputTransmissionModes());
+        return Objects.equals(this.getProcessModel(), other.getProcessModel())
+                && Objects.equals(this.getProcessDescription(), other.getProcessDescription())
+                && Objects.equals(this.getJobControlOptions(), other.getJobControlOptions())
+                && Objects.equals(this.getOutputTransmissionModes(), other.getOutputTransmissionModes());
     }
 }

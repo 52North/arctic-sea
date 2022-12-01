@@ -19,6 +19,8 @@ import org.n52.janmayen.Copyable;
 import org.n52.shetland.ogc.swe.simpleType.SweAbstractSimpleType;
 import org.n52.shetland.ogc.swe.simpleType.SweAbstractUomType;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * SOS internal representation of SWE coordinates
  *
@@ -26,8 +28,8 @@ import org.n52.shetland.ogc.swe.simpleType.SweAbstractUomType;
  *            Value type
  * @since 1.0.0
  */
-public class SweCoordinate<T extends Number>
-        implements Copyable<SweCoordinate<T>> {
+public class SweCoordinate<
+        T extends Number> implements Copyable<SweCoordinate<T>> {
 
     /**
      * Coordinate name
@@ -35,8 +37,7 @@ public class SweCoordinate<T extends Number>
     private String name;
 
     /**
-     * Coordinate value TODO is this assignment to generic? maybe, we switch to
-     * {@link SweAbstractUomType}?
+     * Coordinate value TODO is this assignment to generic? maybe, we switch to {@link SweAbstractUomType}?
      */
     private SweAbstractSimpleType<T> value;
 
@@ -48,6 +49,7 @@ public class SweCoordinate<T extends Number>
      * @param value
      *            Coordinate value
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweCoordinate(String name, SweAbstractSimpleType<T> value) {
         super();
         this.name = name;
@@ -72,6 +74,7 @@ public class SweCoordinate<T extends Number>
     /**
      * @return the value
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SweAbstractSimpleType<T> getValue() {
         return value;
     }
@@ -80,6 +83,7 @@ public class SweCoordinate<T extends Number>
      * @param value
      *            the value to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setValue(SweAbstractSimpleType<T> value) {
         this.value = value;
     }

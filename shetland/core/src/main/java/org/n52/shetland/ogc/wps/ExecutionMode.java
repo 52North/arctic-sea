@@ -15,10 +15,10 @@
  */
 package org.n52.shetland.ogc.wps;
 
+import java.util.Optional;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-
-import java.util.Optional;
 
 /**
  * TODO JavaDoc

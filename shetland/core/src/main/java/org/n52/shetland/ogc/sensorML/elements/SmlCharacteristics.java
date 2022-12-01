@@ -15,13 +15,17 @@
  */
 package org.n52.shetland.ogc.sensorML.elements;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
-import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.ogc.swe.DataRecord;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
+import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.collect.Lists;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * SOS internal representation of SensorML characteristics
@@ -49,7 +53,6 @@ public class SmlCharacteristics extends AbstractSmlDataComponentContainer<SmlCha
         super(dataRecord);
     }
 
-
     /**
      * @return the characteristics
      */
@@ -63,37 +66,52 @@ public class SmlCharacteristics extends AbstractSmlDataComponentContainer<SmlCha
             }
             return c;
         }
-        return this.characteristics;
+        return Collections.unmodifiableList(characteristics);
     }
 
     /**
-     * @param characteristics the characteristics to set
+     * @param characteristics
+     *            the characteristics to set
+     * @return this
      */
-    public void setCharacteristic(List<SmlCharacteristic> characteristics) {
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public SmlCharacteristics setCharacteristic(Collection<SmlCharacteristic> characteristics) {
+        this.characteristics.clear();
         if (CollectionHelper.isNotEmpty(characteristics)) {
-            this.characteristics = characteristics;
+            this.characteristics.addAll(characteristics);
             for (SmlCharacteristic smlCharacteristic : characteristics) {
                 addAbstractDataComponents(smlCharacteristic.getAbstractDataComponent());
             }
         }
+        return this;
     }
 
     /**
-     * @param characteristics the characteristics to add
+     * @param characteristics
+     *            the characteristics to add
+     * @return this
      */
-    public void addCharacteristic(List<SmlCharacteristic> characteristics) {
-        this.characteristics.addAll(characteristics);
-        for (SmlCharacteristic smlCharacteristic : characteristics) {
-            addAbstractDataComponents(smlCharacteristic.getAbstractDataComponent());
+    public SmlCharacteristics addCharacteristic(Collection<SmlCharacteristic> characteristics) {
+        if (CollectionHelper.isNotEmpty(characteristics)) {
+            this.characteristics.addAll(characteristics);
+            for (SmlCharacteristic smlCharacteristic : characteristics) {
+                addAbstractDataComponents(smlCharacteristic.getAbstractDataComponent());
+            }
         }
+        return this;
     }
 
     /**
-     * @param characteristic the characteristic to add
+     * @param characteristic
+     *            the characteristic to add
+     * @return this
      */
-    public void addCharacteristic(SmlCharacteristic characteristic) {
-        this.characteristics.add(characteristic);
-        addAbstractDataComponents(characteristic.getAbstractDataComponent());
+    public SmlCharacteristics addCharacteristic(SmlCharacteristic characteristic) {
+        if (characteristic != null) {
+            this.characteristics.add(characteristic);
+            addAbstractDataComponents(characteristic.getAbstractDataComponent());
+        }
+        return this;
     }
 
     public boolean isSetCharacteristics() {

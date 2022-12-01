@@ -25,6 +25,7 @@ import org.n52.shetland.util.CollectionHelper;
 
 /**
  * TODO JavaDoc
+ *
  * @author Christian Autermann
  */
 public class OwsUnNamedDomain {
@@ -36,12 +37,8 @@ public class OwsUnNamedDomain {
     private Optional<OwsValuesUnit> valuesUnit;
     private SortedSet<OwsMetadata> metadata;
 
-    public OwsUnNamedDomain(OwsPossibleValues possibleValues,
-                         OwsValue defaultValue,
-                         OwsDomainMetadata meaning,
-                         OwsDomainMetadata dataType,
-                         OwsValuesUnit valuesUnit,
-                         Collection<OwsMetadata> metadata) {
+    public OwsUnNamedDomain(OwsPossibleValues possibleValues, OwsValue defaultValue, OwsDomainMetadata meaning,
+            OwsDomainMetadata dataType, OwsValuesUnit valuesUnit, Collection<OwsMetadata> metadata) {
         this.possibleValues = Objects.requireNonNull(possibleValues, "possibleValues");
         this.defaultValue = Optional.ofNullable(defaultValue);
         this.meaning = Optional.ofNullable(meaning);
@@ -145,10 +142,9 @@ public class OwsUnNamedDomain {
 
     @Override
     public String toString() {
-        return "OwsUnNamedDomain{" + "possibleValues=" + possibleValues +
-               ", defaultValue=" + defaultValue + ", meaning=" + meaning +
-               ", dataType=" + dataType + ", valuesUnit=" + valuesUnit +
-               ", metadata=" + metadata + '}';
+        return "OwsUnNamedDomain{" + "possibleValues=" + possibleValues + ", defaultValue=" + defaultValue
+                + ", meaning=" + meaning + ", dataType=" + dataType + ", valuesUnit=" + valuesUnit + ", metadata="
+                + metadata + '}';
     }
 
 }

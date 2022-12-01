@@ -43,6 +43,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Class to encapsulate writes and reads to a JSON file.
  *
@@ -61,6 +63,7 @@ public class JsonConfiguration implements Destroyable,
     private static final String WEB_INF_PATH = "WEB-INF";
     private String fileName = DEFAULT_FILE_NAME;
     private int writeTimeout = DEFAULT_WRITE_TIMEOUT;
+    private boolean readonly;
     private final ReadWriteLock lock = new ReentrantReadWriteLock();
     private final JsonNodeFactory nodeFactory = Json.nodeFactory();
     private ObjectNode configuration;
@@ -149,6 +152,7 @@ public class JsonConfiguration implements Destroyable,
      * @return the node (never {@code null})
      */
     @Override
+    @SuppressFBWarnings({"EI_EXPOSE_REP"})
     public ObjectNode get() {
         return this.configuration;
     }
@@ -158,6 +162,7 @@ public class JsonConfiguration implements Destroyable,
      *
      * @param configuration the configuration
      */
+    @SuppressFBWarnings({"EI_EXPOSE_REP2"})
     public void set(ObjectNode configuration) {
         this.configuration = configuration;
     }
@@ -169,6 +174,15 @@ public class JsonConfiguration implements Destroyable,
      */
     public void setWriteTimeout(int writeTimeout) {
         this.writeTimeout = writeTimeout;
+    }
+
+    /**
+     * Sets the flag to persist or not persist the settings, e.g. settings defined externally
+     *
+     * @param readonly the flag to persist settings or not
+     */
+    public synchronized void setReadonly(boolean readonly) {
+        this.readonly = readonly;
     }
 
     /**
@@ -229,16 +243,18 @@ public class JsonConfiguration implements Destroyable,
      * Actually persists the configuration.
      */
     private synchronized void persist() {
-        readLock().lock();
-        try {
-            LOG.debug("Writing configuration file");
-            try (FileOutputStream fos = new FileOutputStream(this.file)) {
-                Json.print(fos, this.configuration);
+        if (!readonly) {
+            readLock().lock();
+            try {
+                LOG.debug("Writing configuration file");
+                try (FileOutputStream fos = new FileOutputStream(this.file)) {
+                    Json.print(fos, this.configuration);
+                }
+            } catch (IOException e) {
+                throw new ConfigurationError("Could not persist configuration", e);
+            } finally {
+                readLock().unlock();
             }
-        } catch (IOException e) {
-            throw new ConfigurationError("Could not persist configuration", e);
-        } finally {
-            readLock().unlock();
         }
     }
 

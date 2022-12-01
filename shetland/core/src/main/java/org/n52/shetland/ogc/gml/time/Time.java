@@ -81,8 +81,7 @@ public abstract class Time implements Comparable<Time>, Serializable {
     }
 
     /**
-     * Get GML id. If not null, first {@code #}
-     * (document reference indicator) is removed
+     * Get GML id. If not null, first {@code #} (document reference indicator) is removed
      *
      * @return GML id
      */
@@ -105,8 +104,7 @@ public abstract class Time implements Comparable<Time>, Serializable {
     /**
      * Check whether GML id contains document reference indicator
      *
-     * @return <code>true</code>, if GML id contains document reference
-     *         indicator
+     * @return <code>true</code>, if GML id contains document reference indicator
      */
     public boolean isReferenced() {
         return isSetGmlId() && this.gmlId.startsWith("#");
@@ -215,8 +213,7 @@ public abstract class Time implements Comparable<Time>, Serializable {
      *            DateTime to check
      * @param indeterminateValue
      *            IndeterminateValue to check
-     * @return Passed DateTime or current time
-     *         {@link IndeterminateValue#NOW}
+     * @return Passed DateTime or current time {@link IndeterminateValue#NOW}
      */
     protected DateTime resolveDateTime(DateTime dateTime, IndeterminateValue indeterminateValue) {
         if (dateTime != null) {

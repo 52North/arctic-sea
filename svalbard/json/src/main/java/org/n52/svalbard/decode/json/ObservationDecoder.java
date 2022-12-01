@@ -125,6 +125,7 @@ public class ObservationDecoder
         oc.setObservableProperty(parseObservableProperty(node));
         oc.setObservationType(parseObservationType(node));
         oc.setFeatureOfInterest(parseFeatureOfInterest(node));
+        oc.setParameter(parseParameter(node));
         return oc;
     }
 
@@ -209,6 +210,10 @@ public class ObservationDecoder
                 NamedValue<Geometry> nv = new NamedValue<>();
                 nv.setValue(new GeometryValue(geometryDecoder.decodeJSON(value, false)));
                 return nv;
+            } else if (value.has(JSONConstants.NAME)) {
+                NamedValue<String> nv = new NamedValue<>();
+                nv.setValue(parseTextValue(value));
+                return nv;
             }
         }
         throw new DecodingException("%s is not yet supported", value.toString());
@@ -254,6 +259,15 @@ public class ObservationDecoder
             throws DecodingException {
         return new QuantityValue(node.path(JSONConstants.VALUE).doubleValue(),
                 node.path(JSONConstants.UOM).textValue());
+    }
+
+    private TextValue parseTextValue(JsonNode node) {
+        TextValue textValue = new TextValue(node.path(JSONConstants.VALUE).textValue());
+        textValue.setName(node.path(JSONConstants.NAME).textValue());
+        if (node.has(JSONConstants.DESCRIPTION)) {
+            textValue.setDescription(node.path(JSONConstants.DESCRIPTION).textValue());
+        }
+        return textValue;
     }
 
     private ObservationValue<?> parseTextObservationValue(JsonNode node)

@@ -50,6 +50,8 @@ public class QueryOptions {
     private SkipTopFilter topFilter;
     private FilterFilter filterFilter;
 
+    private String baseURL;
+
     public QueryOptions(Set<FilterClause> queryFilters) {
         if (queryFilters != null) {
             queryFilters.forEach(input -> {
@@ -61,11 +63,11 @@ public class QueryOptions {
                     selectFilter = (SelectFilter) input;
                 } else if (input instanceof ExpandFilter) {
                     expandFilter = (ExpandFilter) input;
-                } else if (input instanceof SkipTopFilter &&
-                        ((SkipTopFilter) input).getOperator().equals(FilterConstants.SkipTopOperator.Skip)) {
+                } else if (input instanceof SkipTopFilter
+                        && ((SkipTopFilter) input).getOperator().equals(FilterConstants.SkipTopOperator.Skip)) {
                     skipFilter = (SkipTopFilter) input;
-                } else if (input instanceof SkipTopFilter &&
-                        ((SkipTopFilter) input).getOperator().equals(FilterConstants.SkipTopOperator.Top)) {
+                } else if (input instanceof SkipTopFilter
+                        && ((SkipTopFilter) input).getOperator().equals(FilterConstants.SkipTopOperator.Top)) {
                     topFilter = (SkipTopFilter) input;
                 } else if (input instanceof FilterFilter) {
                     filterFilter = (FilterFilter) input;
@@ -159,14 +161,10 @@ public class QueryOptions {
         return result;
     }
 
-    @Override public int hashCode() {
-        return Objects.hash(countFilter,
-                            topFilter,
-                            skipFilter,
-                            orderByFilter,
-                            selectFilter,
-                            expandFilter,
-                            filterFilter);
+    @Override
+    public int hashCode() {
+        return Objects.hash(baseURL, countFilter, topFilter, skipFilter, orderByFilter, selectFilter, expandFilter,
+                filterFilter);
     }
 
     // BaseURI is not always set -> we need to compare each Filter individually
@@ -176,12 +174,9 @@ public class QueryOptions {
             return false;
         }
         QueryOptions obj = (QueryOptions) o;
-        return obj.hasCountFilter() == this.hasCountFilter()
-                && obj.hasOrderByFilter() == this.hasOrderByFilter()
-                && obj.hasSelectFilter() == this.hasSelectFilter()
-                && obj.hasExpandFilter() == this.hasExpandFilter()
-                && obj.hasSkipFilter() == this.hasSkipFilter()
-                && obj.hasTopFilter() == this.hasTopFilter()
+        return obj.hasCountFilter() == this.hasCountFilter() && obj.hasOrderByFilter() == this.hasOrderByFilter()
+                && obj.hasSelectFilter() == this.hasSelectFilter() && obj.hasExpandFilter() == this.hasExpandFilter()
+                && obj.hasSkipFilter() == this.hasSkipFilter() && obj.hasTopFilter() == this.hasTopFilter()
                 && obj.hasFilterFilter() == this.hasFilterFilter()
                 && Objects.equals(obj.getCountFilter(), this.getCountFilter())
                 && Objects.equals(obj.getOrderByFilter(), this.getOrderByFilter())
@@ -194,8 +189,6 @@ public class QueryOptions {
 
     @Override
     public String toString() {
-        return getAllFilters().stream()
-                              .map(FilterClause::toString)
-                              .collect(Collectors.joining("&"));
+        return getAllFilters().stream().map(FilterClause::toString).collect(Collectors.joining("&"));
     }
 }

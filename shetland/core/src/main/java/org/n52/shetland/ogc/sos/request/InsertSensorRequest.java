@@ -16,6 +16,8 @@
 package org.n52.shetland.ogc.sos.request;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
@@ -27,7 +29,8 @@ import org.n52.shetland.ogc.swes.SwesFeatureRelationship;
 import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * @since 1.0.0
@@ -41,15 +44,15 @@ public class InsertSensorRequest extends OwsServiceRequest {
     /**
      * observableProperty parameter
      */
-    private List<String> observableProperty;
-    private List<SwesFeatureRelationship> relatedFeatures;
+    private List<String> observableProperty = new LinkedList<>();
+    private List<SwesFeatureRelationship> relatedFeatures = new LinkedList<>();
 
     /**
      * SOS SensorML description
      */
     private SosProcedureDescription<?> procedureDescription;
     private String assignedProcedureIdentifier;
-    private List<SosOffering> assignedOfferings = Lists.newLinkedList();
+    private List<SosOffering> assignedOfferings = new LinkedList<>();
 
     /**
      * metadata parameter
@@ -75,6 +78,7 @@ public class InsertSensorRequest extends OwsServiceRequest {
         return procedureDescriptionFormat;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public InsertSensorRequest setProcedureDescriptionFormat(String procedureDescriptionFormat) {
         this.procedureDescriptionFormat = procedureDescriptionFormat;
         return this;
@@ -90,17 +94,21 @@ public class InsertSensorRequest extends OwsServiceRequest {
      * @return the observableProperty
      */
     public List<String> getObservableProperty() {
-        return observableProperty;
+        return Collections.unmodifiableList(observableProperty);
     }
 
     /**
      * Set the observableProperty contained in request.
      *
      * @param observableProperty
-     *                           the observableProperty to set
+     *            the observableProperty to set
      */
-    public InsertSensorRequest setObservableProperty(List<String> observableProperty) {
-        this.observableProperty = observableProperty;
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public InsertSensorRequest setObservableProperty(Collection<String> observableProperty) {
+        this.observableProperty.clear();
+        if (observableProperty != null) {
+            this.observableProperty.addAll(observableProperty);
+        }
         return this;
     }
 
@@ -113,6 +121,7 @@ public class InsertSensorRequest extends OwsServiceRequest {
      *
      * @return the sosSensorML
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SosProcedureDescription<?> getProcedureDescription() {
         return procedureDescription;
     }
@@ -121,8 +130,9 @@ public class InsertSensorRequest extends OwsServiceRequest {
      * Set the sensor description contained in request.
      *
      * @param procedureDescription
-     *                             the procedureDescription to set
+     *            the procedureDescription to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public InsertSensorRequest setProcedureDescription(SosProcedureDescription<?> procedureDescription) {
         this.procedureDescription = procedureDescription;
         return this;
@@ -145,8 +155,9 @@ public class InsertSensorRequest extends OwsServiceRequest {
      * Set the metadata contained in request.
      *
      * @param metadata
-     *                 the metadata to set
+     *            the metadata to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public InsertSensorRequest setMetadata(SosInsertionMetadata metadata) {
         this.metadata = metadata;
         return this;
@@ -157,11 +168,15 @@ public class InsertSensorRequest extends OwsServiceRequest {
     }
 
     public List<SwesFeatureRelationship> getRelatedFeatures() {
-        return relatedFeatures;
+        return Collections.unmodifiableList(relatedFeatures);
     }
 
-    public InsertSensorRequest setRelatedFeature(List<SwesFeatureRelationship> relatedFeatures) {
-        this.relatedFeatures = relatedFeatures;
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public InsertSensorRequest setRelatedFeature(Collection<SwesFeatureRelationship> relatedFeatures) {
+        this.relatedFeatures.clear();
+        if (relatedFeatures != null) {
+            this.relatedFeatures.addAll(relatedFeatures);
+        }
         return this;
     }
 
@@ -173,6 +188,7 @@ public class InsertSensorRequest extends OwsServiceRequest {
         return assignedProcedureIdentifier;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public InsertSensorRequest setAssignedProcedureIdentifier(String assignedProcedureID) {
         this.assignedProcedureIdentifier = assignedProcedureID;
         return this;
@@ -183,11 +199,15 @@ public class InsertSensorRequest extends OwsServiceRequest {
     }
 
     public List<SosOffering> getAssignedOfferings() {
-        return assignedOfferings;
+        return Collections.unmodifiableList(assignedOfferings);
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public InsertSensorRequest setAssignedOfferings(Collection<SosOffering> assignedOfferings) {
-        this.assignedOfferings.addAll(assignedOfferings);
+        this.assignedOfferings.clear();
+        if (assignedOfferings != null) {
+            this.assignedOfferings.addAll(assignedOfferings);
+        }
         return this;
     }
 

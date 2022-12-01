@@ -24,6 +24,8 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * TODO JavaDoc
  *
@@ -32,13 +34,15 @@ import com.google.common.base.Preconditions;
 public class ReportObligation {
     private Identifier inspireID;
     private EReportingChange change;
-    private Referenceable<Time> reportingPeriod
-            = Referenceable.of(Nillable.<Time>missing());
+    private Referenceable<Time> reportingPeriod = Referenceable.of(Nillable.<
+            Time> missing());
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public EReportingChange getChange() {
         return change;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public ReportObligation setChange(EReportingChange change) {
         this.change = Preconditions.checkNotNull(change);
         return this;
@@ -48,10 +52,12 @@ public class ReportObligation {
         return getChange() != null;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Identifier getInspireID() {
         return inspireID;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public ReportObligation setInspireID(Identifier inspireID) {
         this.inspireID = Preconditions.checkNotNull(inspireID);
         return this;
@@ -65,8 +71,7 @@ public class ReportObligation {
         return reportingPeriod;
     }
 
-    public ReportObligation setReportingPeriod(
-            Referenceable<Time> reportingPeriod) {
+    public ReportObligation setReportingPeriod(Referenceable<Time> reportingPeriod) {
         this.reportingPeriod = Preconditions.checkNotNull(reportingPeriod);
         return this;
     }
@@ -77,27 +82,22 @@ public class ReportObligation {
 
     @Override
     public int hashCode() {
-        return Objects
-                .hashCode(getInspireID(), getChange(), getReportingPeriod());
+        return Objects.hashCode(getInspireID(), getChange(), getReportingPeriod());
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof ReportObligation) {
             ReportObligation that = (ReportObligation) obj;
-            return Objects.equal(getInspireID(), that.getInspireID()) &&
-                   Objects.equal(getChange(), that.getChange()) &&
-                   Objects.equal(getReportingPeriod(), that.getReportingPeriod());
+            return Objects.equal(getInspireID(), that.getInspireID()) && Objects.equal(getChange(), that.getChange())
+                    && Objects.equal(getReportingPeriod(), that.getReportingPeriod());
         }
         return false;
     }
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("inspireID", getInspireID())
-                .add("change", getChange())
-                .add("reportingPeriod", getReportingPeriod())
-                .toString();
+        return MoreObjects.toStringHelper(this).add("inspireID", getInspireID()).add("change", getChange())
+                .add("reportingPeriod", getReportingPeriod()).toString();
     }
 }

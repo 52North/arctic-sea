@@ -15,8 +15,8 @@
  */
 package org.n52.shetland.ogc.sos.response;
 
-import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
+import org.n52.shetland.ogc.sos.SosConstants;
 
 /**
  * @since 1.0.0

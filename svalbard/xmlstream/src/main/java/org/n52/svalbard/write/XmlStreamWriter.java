@@ -51,6 +51,8 @@ import org.n52.svalbard.write.util.IndentingXMLStreamWriter;
 import com.google.common.base.Strings;
 import com.google.common.xml.XmlEscapers;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Abstract XML stream writer.
  *
@@ -74,6 +76,7 @@ public abstract class XmlStreamWriter<S> {
     private final boolean close;
     private final boolean embedded;
 
+    @SuppressFBWarnings({"EI_EXPOSE_REP2"})
     public XmlStreamWriter(EncodingContext context, OutputStream outputStream, S element) throws XMLStreamException {
         this.context = Objects.requireNonNull(context);
         this.outputStream = Objects.requireNonNull(outputStream);

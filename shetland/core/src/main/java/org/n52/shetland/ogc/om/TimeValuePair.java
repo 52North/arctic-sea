@@ -20,6 +20,8 @@ import java.util.Objects;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.om.values.Value;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Class representing a time value pair
  *
@@ -46,6 +48,7 @@ public class TimeValuePair implements Comparable<TimeValuePair> {
      * @param value
      *            Time value pair value
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public TimeValuePair(Time time, Value<?> value) {
         this.time = time;
         this.value = value;
@@ -56,6 +59,7 @@ public class TimeValuePair implements Comparable<TimeValuePair> {
      *
      * @return Time value pair time
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Time getTime() {
         return time;
     }
@@ -65,6 +69,7 @@ public class TimeValuePair implements Comparable<TimeValuePair> {
      *
      * @return Time value pair value
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Value<?> getValue() {
         return value;
     }
@@ -75,6 +80,7 @@ public class TimeValuePair implements Comparable<TimeValuePair> {
      * @param time
      *            Time value pair time to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setTime(Time time) {
         this.time = time;
     }
@@ -85,6 +91,7 @@ public class TimeValuePair implements Comparable<TimeValuePair> {
      * @param value
      *            Time value pair value to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setValue(Value<?> value) {
         this.value = value;
     }
@@ -114,8 +121,7 @@ public class TimeValuePair implements Comparable<TimeValuePair> {
             return false;
         }
         final TimeValuePair other = (TimeValuePair) obj;
-        return Objects.equals(this.time, other.time) &&
-               Objects.equals(this.value, other.value);
+        return Objects.equals(this.time, other.time) && Objects.equals(this.value, other.value);
     }
 
 }

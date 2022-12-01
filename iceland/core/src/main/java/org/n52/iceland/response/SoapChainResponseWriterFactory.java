@@ -28,6 +28,8 @@ import org.n52.janmayen.component.SingleTypeComponentFactory;
 import org.n52.shetland.w3c.soap.SoapChain;
 import org.n52.svalbard.encode.EncoderRepository;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * {@link ResponseWriterFactory} implementation for {@link SoapChain} and
  * {@link SoapChainResponseWriter}
@@ -50,6 +52,7 @@ public class SoapChainResponseWriterFactory
     }
 
     @Inject
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setEncoderRepository(EncoderRepository encoderRepository) {
         this.encoderRepository = encoderRepository;
     }

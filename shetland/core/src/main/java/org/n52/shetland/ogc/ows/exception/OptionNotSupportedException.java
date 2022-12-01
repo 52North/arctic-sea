@@ -18,15 +18,14 @@ package org.n52.shetland.ogc.ows.exception;
 import org.n52.janmayen.http.HTTPStatus;
 
 /**
- * Implementation of {@link CodedOwsException} to be used if <p> <i>Request is
- * for an option that is not supported by this server.</i>
+ * Implementation of {@link CodedOwsException} to be used if
+ * <p>
+ * <i>Request is for an option that is not supported by this server.</i>
  *
- * @see <a href="http://portal.opengeospatial.org/files/?artifact_id=20040">OGC
- *      Web Service Common Specification 1.1.0, Table 25 — Standard exception codes and
- *      meanings</a>
+ * @see <a href="http://portal.opengeospatial.org/files/?artifact_id=20040">OGC Web Service Common
+ *      Specification 1.1.0, Table 25 — Standard exception codes and meanings</a>
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
- *         J&uuml;rrens</a>
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  *
  * @since 1.0.0
  */

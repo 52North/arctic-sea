@@ -62,9 +62,7 @@ public class SensorEntityDefinition extends STAEntityDefinition {
                                                                     ENTITY_PROPERTIES_MANDATORY));
 
     public SensorEntityDefinition() {
-        super(NAVIGATION_PROPERTIES_OPTIONAL,
-              NAVIGATION_PROPERTIES_MANDATORY,
-              ENTITY_PROPERTIES_OPTIONAL,
-              ENTITY_PROPERTIES_MANDATORY);
+        super(NAVIGATION_PROPERTIES_OPTIONAL, NAVIGATION_PROPERTIES_MANDATORY, ENTITY_PROPERTIES_OPTIONAL,
+                ENTITY_PROPERTIES_MANDATORY);
     }
 }

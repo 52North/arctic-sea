@@ -28,9 +28,18 @@ public class QuantityRangeValue extends SweQuantityRange
 
     /**
      * Creates a new {@code QuantityRangeValue}.
+     */
+    public QuantityRangeValue() {
+        super();
+    }
+
+    /**
+     * Creates a new {@code QuantityRangeValue}.
      *
-     * @param rangeStart the start of the range
-     * @param rangeEnd   the end of the range
+     * @param rangeStart
+     *            the start of the range
+     * @param rangeEnd
+     *            the end of the range
      */
     public QuantityRangeValue(BigDecimal rangeStart, BigDecimal rangeEnd) {
         super();
@@ -40,9 +49,12 @@ public class QuantityRangeValue extends SweQuantityRange
     /**
      * Creates a new {@code QuantityRangeValue}.
      *
-     * @param rangeStart the start of the range
-     * @param rangeEnd   the end of the range
-     * @param unit Unit of measure
+     * @param rangeStart
+     *            the start of the range
+     * @param rangeEnd
+     *            the end of the range
+     * @param unit
+     *            Unit of measure
      */
     public QuantityRangeValue(BigDecimal rangeStart, BigDecimal rangeEnd, String unit) {
         this(rangeStart, rangeEnd);
@@ -87,7 +99,9 @@ public class QuantityRangeValue extends SweQuantityRange
     }
 
     @Override
-    public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
+    public <
+            X,
+            E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
         return visitor.visit(this);
     }
 

@@ -15,13 +15,14 @@
  */
 package org.n52.shetland.iso.gmd;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * TODO JavaDoc
  *
  * @author Christian Autermann
  */
-public class GmdCitation
-        extends AbtractGmd {
+public class GmdCitation extends AbtractGmd {
 
     private static final GmdCitation EC_50_2008 =
             new GmdCitation("EC/50/2008", new GmdCitationDate(GmdDateType.publication(), "2008"));
@@ -41,6 +42,7 @@ public class GmdCitation
         return date;
     }
 
+    @SuppressFBWarnings({ "MS_EXPOSE_REP" })
     public static GmdCitation airQualityDirectiveEC502008() {
         return EC_50_2008;
     }

@@ -15,8 +15,10 @@
  */
 package org.n52.shetland.ogc.om;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.n52.janmayen.Copyable;
@@ -27,17 +29,19 @@ import org.n52.shetland.w3c.Nillable;
 
 import com.google.common.base.Objects;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * @since 1.0.0
  */
-public class OmObservationConstellation
-        extends AbstractFeature
-        implements Copyable<OmObservationConstellation> {
+public class OmObservationConstellation extends AbstractFeature
+        implements ObservationParameterHelper<OmObservationConstellation>, Copyable<OmObservationConstellation> {
 
     /**
      * Identifier of the procedure by which the observation is made
      */
-    private Nillable<AbstractFeature> procedure = Nillable.<AbstractFeature> nil();
+    private Nillable<AbstractFeature> procedure = Nillable.<
+            AbstractFeature> nil();
 
     /**
      * Identifier of the observableProperty to which the observation accords to
@@ -47,12 +51,13 @@ public class OmObservationConstellation
     /**
      * Identifiers of the offerings to which this observation belongs
      */
-    private Set<String> offerings;
+    private Set<String> offerings = new LinkedHashSet<>();
 
     /**
      * Identifier of the featureOfInterest to which this observation belongs
      */
-    private Nillable<AbstractFeature> featureOfInterest = Nillable.<AbstractFeature> nil();
+    private Nillable<AbstractFeature> featureOfInterest = Nillable.<
+            AbstractFeature> nil();
 
     /**
      * type of the observation
@@ -62,6 +67,11 @@ public class OmObservationConstellation
     private DefaultPointMetadata defaultPointMetadata;
 
     private Metadata metadata;
+
+    /**
+     * O&M parameter.
+     */
+    private final ParameterHolder parameterHolder = new ParameterHolder();
 
     /**
      * default constructor
@@ -80,8 +90,9 @@ public class OmObservationConstellation
      * @param featureOfInterest
      *            featureOfInterest to which this observation belongs
      */
-    public OmObservationConstellation(
-            AbstractFeature procedure, AbstractPhenomenon observableProperty, AbstractFeature featureOfInterest) {
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public OmObservationConstellation(AbstractFeature procedure, AbstractPhenomenon observableProperty,
+            AbstractFeature featureOfInterest) {
         this(procedure, observableProperty, null, featureOfInterest, null);
     }
 
@@ -97,9 +108,9 @@ public class OmObservationConstellation
      * @param observationType
      *            the observation type
      */
-    public OmObservationConstellation(
-            AbstractFeature procedure, AbstractPhenomenon observableProperty, AbstractFeature featureOfInterest,
-            String observationType) {
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public OmObservationConstellation(AbstractFeature procedure, AbstractPhenomenon observableProperty,
+            AbstractFeature featureOfInterest, String observationType) {
         this(procedure, observableProperty, null, featureOfInterest, observationType);
     }
 
@@ -117,13 +128,15 @@ public class OmObservationConstellation
      * @param observationType
      *            the observation type
      */
-    public OmObservationConstellation(
-            AbstractFeature procedure, AbstractPhenomenon observableProperty, Set<String> offerings,
-            AbstractFeature featureOfInterest, String observationType) {
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public OmObservationConstellation(AbstractFeature procedure, AbstractPhenomenon observableProperty,
+            Set<String> offerings, AbstractFeature featureOfInterest, String observationType) {
         super("");
         this.procedure = Nillable.of(procedure);
         this.observableProperty = observableProperty;
-        this.offerings = offerings;
+        if (offerings != null) {
+            this.offerings.addAll(offerings);
+        }
         this.featureOfInterest = Nillable.of(featureOfInterest);
         this.observationType = observationType;
     }
@@ -140,11 +153,11 @@ public class OmObservationConstellation
      * @param offerings
      *            offering to which this observation belongs
      */
-    public OmObservationConstellation(
-            AbstractFeature procedure, AbstractPhenomenon observableProperty, AbstractFeature featureOfInterest,
-            Set<String> offerings) {
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public OmObservationConstellation(AbstractFeature procedure, AbstractPhenomenon observableProperty,
+            AbstractFeature featureOfInterest, Collection<String> offerings) {
         this(procedure, observableProperty, featureOfInterest);
-        this.offerings = offerings;
+        setOfferings(offerings);
     }
 
     /**
@@ -179,7 +192,8 @@ public class OmObservationConstellation
      */
     public OmObservationConstellation setProcedure(AbstractFeature procedure) {
         if (procedure == null) {
-            return setProcedure(Nillable.<AbstractFeature> nil());
+            return setProcedure(Nillable.<
+                    AbstractFeature> nil());
         }
         return setProcedure(Nillable.of(procedure));
     }
@@ -201,6 +215,7 @@ public class OmObservationConstellation
      *
      * @return the observableProperty
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public AbstractPhenomenon getObservableProperty() {
         return observableProperty;
     }
@@ -213,6 +228,7 @@ public class OmObservationConstellation
      *
      * @return this
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public OmObservationConstellation setObservableProperty(AbstractPhenomenon observableProperty) {
         this.observableProperty = observableProperty;
         return this;
@@ -228,7 +244,7 @@ public class OmObservationConstellation
      * @return the offering
      */
     public Set<String> getOfferings() {
-        return offerings;
+        return Collections.unmodifiableSet(offerings);
     }
 
     /**
@@ -239,24 +255,18 @@ public class OmObservationConstellation
      *
      * @return this
      */
-    public OmObservationConstellation setOfferings(Set<String> offerings) {
-        this.offerings = offerings;
-        return this;
-    }
-
-    public OmObservationConstellation setOfferings(List<String> offerings) {
-        if (this.offerings == null) {
-            this.offerings = new HashSet<>(offerings.size());
+    public OmObservationConstellation setOfferings(Collection<String> offerings) {
+        this.offerings.clear();
+        if (offerings != null) {
+            this.offerings.addAll(offerings);
         }
-        this.offerings.addAll(offerings);
         return this;
     }
 
     public OmObservationConstellation addOffering(String offering) {
-        if (offerings == null) {
-            offerings = new HashSet<>(1);
+        if (offering != null) {
+            this.offerings.add(offering);
         }
-        offerings.add(offering);
         return this;
     }
 
@@ -287,7 +297,8 @@ public class OmObservationConstellation
      */
     public OmObservationConstellation setFeatureOfInterest(AbstractFeature featureOfInterest) {
         if (featureOfInterest == null) {
-            return setFeatureOfInterest(Nillable.<AbstractFeature> nil());
+            return setFeatureOfInterest(Nillable.<
+                    AbstractFeature> nil());
         }
         return setFeatureOfInterest(Nillable.of(featureOfInterest));
     }
@@ -328,6 +339,12 @@ public class OmObservationConstellation
     public OmObservationConstellation setObservationType(String observationType) {
         this.observationType = observationType;
         return this;
+    }
+
+    @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
+    public ParameterHolder getParameterHolder() {
+        return parameterHolder;
     }
 
     @Override
@@ -383,6 +400,7 @@ public class OmObservationConstellation
         copy.setIdentifier(this.getIdentifier());
         copy.setName(this.getName());
         copy.setDescription(this.getDescription());
+        copy.setParameter(getParameterHolder().getParameter());
         return copy;
     }
 
@@ -410,8 +428,9 @@ public class OmObservationConstellation
         return defaultPointMetadata;
     }
 
-    public void setDefaultPointMetadata(DefaultPointMetadata defaultPointMetadata) {
+    public OmObservationConstellation setDefaultPointMetadata(DefaultPointMetadata defaultPointMetadata) {
         this.defaultPointMetadata = defaultPointMetadata;
+        return this;
     }
 
     public boolean isSetMetadata() {
@@ -422,8 +441,14 @@ public class OmObservationConstellation
         return metadata;
     }
 
-    public void setMetadata(Metadata metadata) {
+    public OmObservationConstellation setMetadata(Metadata metadata) {
         this.metadata = metadata;
+        return this;
+    }
+
+    public OmObservationConstellation setParameter(Collection<NamedValue<?>> parameter) {
+        this.getParameterHolder().addParameter(parameter);
+        return this;
     }
 
     @Override

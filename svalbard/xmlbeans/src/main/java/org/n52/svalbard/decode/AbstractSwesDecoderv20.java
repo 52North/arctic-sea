@@ -15,8 +15,6 @@
  */
 package org.n52.svalbard.decode;
 
-import net.opengis.swes.x20.ExtensibleRequestType;
-
 import org.apache.xmlbeans.XmlObject;
 import org.n52.shetland.ogc.ows.extension.Extension;
 import org.n52.shetland.ogc.ows.extension.Extensions;
@@ -24,6 +22,10 @@ import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 import org.n52.shetland.ogc.swes.SwesExtension;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.svalbard.decode.exception.DecodingException;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import net.opengis.swes.x20.ExtensibleRequestType;
 
 public abstract class AbstractSwesDecoderv20<S>
         extends AbstractXmlDecoder<XmlObject, S> {
@@ -38,7 +40,6 @@ public abstract class AbstractSwesDecoderv20<S>
         if (CollectionHelper.isNotNullOrEmpty(extensionArray)) {
             final Extensions extensions = new Extensions();
             for (XmlObject xbExtension : extensionArray) {
-
                 Object obj = decodeXmlElement(xbExtension);
                 if (obj instanceof Extension<?>) {
                     extensions.addExtension((Extension<?>) obj);
@@ -47,10 +48,44 @@ public abstract class AbstractSwesDecoderv20<S>
                             new SwesExtension<SweAbstractDataComponent>();
                     swesExtension.setIdentifier(((SweAbstractDataComponent) obj).getIdentifier());
                     swesExtension.setDefinition(((SweAbstractDataComponent) obj).getDefinition());
+                    swesExtension.setValue((SweAbstractDataComponent) obj);
                     extensions.addExtension(swesExtension);
                 }
             }
             return extensions;
+        }
+        return null;
+    }
+
+    /**
+     * Check if the namespace of the procedure description element is equal to
+     * the procedure description format of the request.
+     *
+     * @param procedureDescriptionFormat
+     *            the procedure description format of the request
+     * @param namespace
+     *            the namespace of the procedure description element
+     *
+     * @throws DecodingException
+     *             If the {@code procedureDescriptionFormat} and
+     *             {@code namespace} are not equal
+     */
+    protected void checkFormatWithNamespace(String procedureDescriptionFormat, String namespace)
+            throws DecodingException {
+        if (!procedureDescriptionFormat.equals(namespace) && !procedureDescriptionFormat.contains(namespace)) {
+            throw new DecodingException(
+                    "The procedure description namespace '%s' does not match the procedureDescriptionFormat '%s'",
+                    namespace, procedureDescriptionFormat);
+        }
+    }
+
+    protected Node getNodeFromNodeList(final NodeList nodeList) {
+        if (nodeList != null && nodeList.getLength() > 0) {
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                if (nodeList.item(i).getNodeType() == Node.ELEMENT_NODE) {
+                    return nodeList.item(i);
+                }
+            }
         }
         return null;
     }

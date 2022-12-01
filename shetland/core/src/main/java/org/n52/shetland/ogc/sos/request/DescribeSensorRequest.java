@@ -21,6 +21,8 @@ import org.n52.shetland.ogc.sos.SosConstants;
 
 import com.google.common.base.Strings;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * SOS DescribeSensor request
  *
@@ -54,7 +56,6 @@ public class DescribeSensorRequest extends OwsServiceRequest {
     public DescribeSensorRequest(String service, String version, String operationName) {
         super(service, version, operationName);
     }
-
 
     /**
      * Get output format
@@ -107,6 +108,7 @@ public class DescribeSensorRequest extends OwsServiceRequest {
      *
      * @return valid time
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Time getValidTime() {
         return validTime;
     }
@@ -117,6 +119,7 @@ public class DescribeSensorRequest extends OwsServiceRequest {
      * @param validTime
      *            valid time
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setValidTime(Time validTime) {
         this.validTime = validTime;
     }

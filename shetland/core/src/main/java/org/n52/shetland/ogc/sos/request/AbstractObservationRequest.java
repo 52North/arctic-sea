@@ -25,9 +25,7 @@ import com.google.common.base.Strings;
  *
  * @since 1.0.0
  */
-public abstract class AbstractObservationRequest
-        extends OwsServiceRequest
-        implements ResponseFormat, SrsNameRequest {
+public abstract class AbstractObservationRequest extends OwsServiceRequest implements ResponseFormat, SrsNameRequest {
     /**
      * SRS name
      */

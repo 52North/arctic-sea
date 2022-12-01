@@ -15,13 +15,13 @@
  */
 package org.n52.shetland.filter;
 
-import org.n52.shetland.ogc.filter.AbstractSortingClause;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
+import org.n52.shetland.ogc.filter.AbstractSortingClause;
 
 /**
  * class for OrderBy element
@@ -54,11 +54,13 @@ public class OrderByFilter implements AbstractSortingClause {
         return Collections.unmodifiableList(sortProperties);
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
         return Objects.hash(sortProperties);
     }
 
-    @Override public boolean equals(Object o) {
+    @Override
+    public boolean equals(Object o) {
         if (o == this) {
             return true;
         }
@@ -70,8 +72,9 @@ public class OrderByFilter implements AbstractSortingClause {
         return this.sortProperties.equals(((OrderByFilter) o).getSortProperties());
     }
 
-    @Override public String toString() {
-        return "$orderby=" +
-                this.sortProperties.stream().map(OrderProperty::toString).collect(Collectors.joining(", "));
+    @Override
+    public String toString() {
+        return "$orderby="
+                + this.sortProperties.stream().map(OrderProperty::toString).collect(Collectors.joining(", "));
     }
 }

@@ -18,14 +18,14 @@ package org.n52.shetland.ogc.wps.description;
 /**
  * @author Christian Autermann
  */
-public interface GroupOutputDescription extends ProcessOutputDescription,
-                                                ProcessOutputDescriptionContainer {
+public interface GroupOutputDescription extends ProcessOutputDescription, ProcessOutputDescriptionContainer {
 
     Builder<?, ?> newBuilder();
 
-    interface Builder<T extends GroupOutputDescription, B extends Builder<T, B>>
-            extends ProcessOutputDescription.Builder<T, B>,
-                    ProcessOutputDescriptionContainer.Builder<T, B> {
+    interface Builder<
+            T extends GroupOutputDescription,
+            B extends Builder<T, B>>
+            extends ProcessOutputDescription.Builder<T, B>, ProcessOutputDescriptionContainer.Builder<T, B> {
 
     }
 

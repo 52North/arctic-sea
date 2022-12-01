@@ -54,11 +54,11 @@ public interface OWSConstants {
 
     String SOAP_REASON_INVALID_UPDATE_SEQUENCES =
             "The value of the updateSequence parameter in the GetCapabilities operation request "
-            + "was greater than the current value of the service metadata updateSequence number.";
+                    + "was greater than the current value of the service metadata updateSequence number.";
 
     String SOAP_REASON_MISSING_PARAMETER_VALUE =
             "The request did not include a value for a required parameter and this server "
-            + "does not declare a default value for it.";
+                    + "does not declare a default value for it.";
 
     String SOAP_REASON_NO_APPLICABLE_CODE = "A server exception was encountered.";
 
@@ -74,7 +74,7 @@ public interface OWSConstants {
 
     String SOAP_REASON_VERSION_NEGOTIATION_FAILED =
             "The list of versions in the ‘AcceptVersions’ parameter value of the GetCapabilities operation "
-            + "request did not include any version supported by this server.";
+                    + "request did not include any version supported by this server.";
 
     String SOAP_REASON_UNKNOWN = SOAP_REASON_NO_APPLICABLE_CODE;
 
@@ -111,8 +111,7 @@ public interface OWSConstants {
         public static final String DYNAMIC_CAPABILITIES_IDENTIFIER = "dynamic";
 
         /**
-         * Check if the supplied string represents a constant of this
-         * enumeration.
+         * Check if the supplied string represents a constant of this enumeration.
          *
          * @param string
          *            the string value
@@ -124,8 +123,7 @@ public interface OWSConstants {
         }
 
         /**
-         * Get the corresponding enum constant for the supplied string
-         * representation.
+         * Get the corresponding enum constant for the supplied string representation.
          *
          * @param string
          *            the string value
@@ -147,8 +145,7 @@ public interface OWSConstants {
         Contents;
 
         /**
-         * Check if the supplied string represents a constant of this
-         * enumeration.
+         * Check if the supplied string represents a constant of this enumeration.
          *
          * @param string
          *            the string value
@@ -160,8 +157,7 @@ public interface OWSConstants {
         }
 
         /**
-         * Get the corresponding enum constant for the supplied string
-         * representation.
+         * Get the corresponding enum constant for the supplied string representation.
          *
          * @param string
          *            the string value
@@ -174,8 +170,7 @@ public interface OWSConstants {
     }
 
     /**
-     * the names of the operations supported by all versions of the service
-     * specification
+     * the names of the operations supported by all versions of the service specification
      */
     enum Operations {
         GetCapabilities;
@@ -188,8 +183,7 @@ public interface OWSConstants {
         version;
 
         /**
-         * Check if the supplied string represents a constant of this
-         * enumeration.
+         * Check if the supplied string represents a constant of this enumeration.
          *
          * @param string
          *            the string value
@@ -201,8 +195,7 @@ public interface OWSConstants {
         }
 
         /**
-         * Get the corresponding enum constant for the supplied string
-         * representation.
+         * Get the corresponding enum constant for the supplied string representation.
          *
          * @param string
          *            the string value
@@ -221,8 +214,7 @@ public interface OWSConstants {
         returnHumanReadableIdentifier;
 
         /**
-         * Check if the supplied string represents a constant of this
-         * enumeration.
+         * Check if the supplied string represents a constant of this enumeration.
          *
          * @param string
          *            the string value
@@ -234,8 +226,7 @@ public interface OWSConstants {
         }
 
         /**
-         * Get the corresponding enum constant for the supplied string
-         * representation.
+         * Get the corresponding enum constant for the supplied string representation.
          *
          * @param string
          *            the string value

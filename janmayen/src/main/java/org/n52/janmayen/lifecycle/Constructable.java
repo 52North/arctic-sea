@@ -15,7 +15,7 @@
  */
 package org.n52.janmayen.lifecycle;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 
 /**
  *

@@ -63,6 +63,8 @@ import org.n52.shetland.ogc.om.values.TLVTValue;
 import org.n52.shetland.ogc.om.values.TVPValue;
 import org.n52.shetland.ogc.om.values.TextValue;
 import org.n52.shetland.ogc.om.values.TimeRangeValue;
+import org.n52.shetland.ogc.om.values.TimeValue;
+import org.n52.shetland.ogc.om.values.TrajectoryValue;
 import org.n52.shetland.ogc.om.values.UnknownValue;
 import org.n52.shetland.ogc.om.values.Value;
 import org.n52.shetland.ogc.om.values.XmlValue;
@@ -683,8 +685,8 @@ public abstract class AbstractOmEncoderv20
         }
 
         @Override
-        public XmlObject visit(ComplexValue value) {
-            return defaultValue(value);
+        public XmlObject visit(ComplexValue value) throws EncodingException {
+            return encodeSweCommon(value.getValue(), createHelperValues(value));
         }
 
         @Override
@@ -779,6 +781,18 @@ public abstract class AbstractOmEncoderv20
         public XmlObject visit(ProfileValue value)
                 throws EncodingException {
             return defaultValue(value);
+        }
+
+        @Override
+        public XmlObject visit(TrajectoryValue value) throws EncodingException {
+            return defaultValue(value);
+        }
+
+        @Override
+        public XmlObject visit(TimeValue value)
+                throws EncodingException {
+            return encodeObjectToXml(SweConstants.NS_SWE_20, value,
+                    EncodingContext.of(XmlBeansEncodingFlags.PROPERTY_TYPE));
         }
 
         @Override

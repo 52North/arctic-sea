@@ -17,14 +17,18 @@ package org.n52.iceland.event.events;
 
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class ResponseEvent extends AbstractFlowEvent {
     private final OwsServiceResponse response;
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public ResponseEvent(OwsServiceResponse response) {
         super(Thread.currentThread().getId());
         this.response = response;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public OwsServiceResponse getResponse() {
         return response;
     }

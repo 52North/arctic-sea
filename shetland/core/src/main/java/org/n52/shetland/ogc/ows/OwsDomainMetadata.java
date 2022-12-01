@@ -72,15 +72,13 @@ public class OwsDomainMetadata {
             return false;
         }
         final OwsDomainMetadata that = (OwsDomainMetadata) obj;
-        return Objects.equals(this.getValue(), that.getValue()) &&
-               Objects.equals(this.getReference(), that.getReference());
+        return Objects.equals(this.getValue(), that.getValue())
+                && Objects.equals(this.getReference(), that.getReference());
     }
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this).omitNullValues()
-                .add("reference", getReference().orElse(null))
-                .add("value", getValue().orElse(null))
-                .toString();
+        return MoreObjects.toStringHelper(this).omitNullValues().add("reference", getReference().orElse(null))
+                .add("value", getValue().orElse(null)).toString();
     }
 }

@@ -23,6 +23,8 @@ import javax.xml.namespace.QName;
 
 import org.n52.shetland.w3c.wsdl.WSDLConstants.WSDLQNames;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  *
@@ -46,13 +48,16 @@ public class Operation extends AbstractWsdl {
     /**
      * @return the input
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Input getInput() {
         return input;
     }
 
     /**
-     * @param input the input to set
+     * @param input
+     *            the input to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setInput(Input input) {
         this.input = input;
     }
@@ -64,13 +69,16 @@ public class Operation extends AbstractWsdl {
     /**
      * @return the output
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Output getOutput() {
         return output;
     }
 
     /**
-     * @param output the output to set
+     * @param output
+     *            the output to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setOutput(Output output) {
         this.output = output;
     }

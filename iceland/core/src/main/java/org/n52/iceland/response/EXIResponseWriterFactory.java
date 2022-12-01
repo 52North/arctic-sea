@@ -28,6 +28,8 @@ import org.n52.svalbard.encode.EncoderRepository;
 
 import com.siemens.ct.exi.core.EXIFactory;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Writer factory class for {@link EXIObject} and {@link EXIResponseWriter}
  *
@@ -45,6 +47,7 @@ public class EXIResponseWriterFactory
     private EncoderRepository encoderRepository;
 
     @Inject
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setEncoderRepository(EncoderRepository encoderRepository) {
         this.encoderRepository = encoderRepository;
     }

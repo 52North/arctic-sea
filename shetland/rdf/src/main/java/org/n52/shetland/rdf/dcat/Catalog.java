@@ -33,6 +33,8 @@ import org.n52.shetland.rdf.dct.Publisher;
 import org.n52.shetland.rdf.dct.Title;
 import org.n52.shetland.rdf.foaf.Homepage;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class Catalog extends AbstractTitleDescription<Catalog> implements RDFElement, DcatRdfPrefix {
 
     /*
@@ -93,17 +95,19 @@ public class Catalog extends AbstractTitleDescription<Catalog> implements RDFEle
         addDataset(dataset);
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Publisher getPublisher() {
         return publisher;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public Catalog setPublisher(Publisher publisher) {
         this.publisher = publisher;
         return this;
     }
 
     public List<Dataset> getDatasets() {
-        return datasets;
+        return new LinkedList<>(datasets);
     }
 
     public Catalog setDatasets(Collection<Dataset> datasets) {
@@ -122,13 +126,15 @@ public class Catalog extends AbstractTitleDescription<Catalog> implements RDFEle
     }
 
     public List<Language> getLanguages() {
-        return languages;
+        return new LinkedList<>(languages);
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Homepage getHomepage() {
         return homepage;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public Catalog setHomepage(Homepage homepage) {
         this.homepage = homepage;
         return this;
@@ -149,26 +155,30 @@ public class Catalog extends AbstractTitleDescription<Catalog> implements RDFEle
         return this;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Issued getIssued() {
         return issued;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public License getLicense() {
         return license;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public Catalog setLicense(License license) {
         this.license = license;
         return this;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public Catalog setIssued(Issued issued) {
         this.issued = issued;
         return this;
     }
 
     public List<ThemeTaxonomy> getThemeTaxonomies() {
-        return themeTaxonomies;
+        return new LinkedList<>(themeTaxonomies);
     }
 
     public Catalog setThemeTaxonomies(Collection<ThemeTaxonomy> themeTaxonomies) {
@@ -186,10 +196,12 @@ public class Catalog extends AbstractTitleDescription<Catalog> implements RDFEle
         return this;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Modified getModified() {
         return modified;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public Catalog setModified(Modified modified) {
         this.modified = modified;
         return this;

@@ -21,13 +21,15 @@ import org.n52.janmayen.http.MediaType;
 import org.n52.shetland.ogc.OGCConstants;
 import org.n52.shetland.ogc.om.series.AbstractInterpolationType;
 import org.n52.shetland.ogc.om.series.MeasurementTimeseriesMetadata;
+import org.n52.shetland.ogc.om.series.SeriesConstants;
 import org.n52.shetland.w3c.SchemaLocation;
 
 /**
  * @since 1.0.0
- * @see <a href="http://www.opengeospatial.org/standards/waterml">http://www.opengeospatial.org/standards/waterml</a>
+ * @see <a href=
+ *      "http://www.opengeospatial.org/standards/waterml">http://www.opengeospatial.org/standards/waterml</a>
  */
-public interface WaterMLConstants {
+public interface WaterMLConstants extends SeriesConstants {
     String NS_WML_20 = "http://www.opengis.net/waterml/2.0";
 
     String NS_WML_20_DR = "http://www.opengis.net/waterml-dr/2.0";
@@ -60,12 +62,6 @@ public interface WaterMLConstants {
     String OBSERVATION_TYPE_CATEGORICAL_TDR =
             "http://www.opengis.net/def/observationType/waterml/2.0/categoricalDRTimeseriesObservation";
 
-    String TEXT = "text";
-
-    String XML = "xml";
-
-    String SUBTYPE = "subtype";
-
     MediaType WML_CONTENT_TYPE = new MediaType(TEXT, XML, SUBTYPE, "waterml/2.0");
 
     MediaType WML_DR_CONTENT_TYPE = new MediaType(TEXT, XML, SUBTYPE, "waterml-dr/2.0");
@@ -86,38 +82,6 @@ public interface WaterMLConstants {
     SchemaLocation WML_20_DR_SCHEMA_LOCATION = new SchemaLocation(NS_WML_20_DR, SCHEMA_LOCATION_URL_WML_20_DR);
 
     SchemaLocation WML_20_MP_SCHEMA_LOCATION = new SchemaLocation(NS_WML_20, SCHEMA_LOCATION_URL_WML_20_MP);
-
-    String EN_POINT = "point";
-
-    String EN_MEASUREMENT_TVP = "MeasurementTVP";
-
-    String EN_TIME = "time";
-
-    String EN_VALUE = "value";
-
-    String EN_METADATA = "metadata";
-
-    String EN_TVP_MEASUREMENT_METADATA = "TVPMeasurementMetadata";
-
-    String EN_NIL_REASON = "nilReason";
-
-    String EN_MEASUREMENT_TIMESERIES = "MeasurementTimeseries";
-
-    String EN_TIMESERIES_METADATA = "TimeseriesMetadata";
-
-    String EN_MEASUREMENT_TIMESERIES_METADATA = "MeasurementTimeseriesMetadata";
-
-    String EN_TEMPORAL_EXTENT = "temporalExtent";
-
-    String EN_DEFAULT_POINT_METADATA = "defaultPointMetadata";
-
-    String EN_DEFAULT_TVP_MEASUREMENT_METADATA = "DefaultTVPMeasurementMetadata";
-
-    String EN_INTERPOLATION_TYPE = "interpolationType";
-
-    String EN_CUMULATIVE = "cumulative";
-
-    String EN_UOM = "uom";
 
     QName QN_POINT = new QName(NS_WML_20, EN_POINT, NS_WML_20_PREFIX);
 
@@ -151,6 +115,12 @@ public interface WaterMLConstants {
 
     QName QN_CUMULATIVE = new QName(NS_WML_20, EN_CUMULATIVE, NS_WML_20_PREFIX);
 
+    QName QN_CENSORED_REASON = new QName(NS_WML_20, EN_CENSORED_REASON, NS_WML_20_PREFIX);
+
+    QName QN_QUALIFIER = new QName(NS_WML_20, EN_QUALIFIER, NS_WML_20_PREFIX);
+
+    QName QN_AGGREGATION_DURATION = new QName(NS_WML_20, EN_AGGREGATION_DURATION, NS_WML_20_PREFIX);
+
     QName UOM = new QName(NS_WML_20, EN_UOM, NS_WML_20_PREFIX);
 
     /**
@@ -165,89 +135,80 @@ public interface WaterMLConstants {
      *
      * See <code>/req/xsd-measurement-timeseries-tvp/interpolation-type</code>.
      *
-     * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
-     *         J&uuml;rrens</a>
+     * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
      * @since 1.0.0
      */
     enum InterpolationType implements AbstractInterpolationType {
 
         /**
-         * Continuous/Instantaneous
-         * http://www.opengis.net/def/waterml/2.0/interpolationType/Continuous
+         * Continuous/Instantaneous http://www.opengis.net/def/waterml/2.0/interpolationType/Continuous
          */
-        Continuous,
+        Continuous("Continuous"),
         /**
-         * http://www.opengis.net/def/waterml/2.0/interpolationType/
-         * Discontinuous
+         * http://www.opengis.net/def/waterml/2.0/interpolationType/ Discontinuous
          */
-        Discontinuous,
+        Discontinuous("Discontinuous"),
         /**
-         * Instantaneous total
-         * http://www.opengis.net/def/waterml/2.0/interpolationType/InstantTotal
+         * Instantaneous total http://www.opengis.net/def/waterml/2.0/interpolationType/InstantTotal
          */
-        InstantTotal,
+        InstantTotal("Instantaneous Total"),
         /**
-         * Average in preceding interval
-         * http://www.opengis.net/def/waterml/2.0/interpolationType/AveragePrec
+         * Average in preceding interval http://www.opengis.net/def/waterml/2.0/interpolationType/AveragePrec
          */
-        AveragePrec,
+        AveragePrec("Average in Preceding Interval"),
         /**
-         * Maximum in preceding interval
-         * http://www.opengis.net/def/waterml/2.0/interpolationType/MaxPrec
+         * Maximum in preceding interval http://www.opengis.net/def/waterml/2.0/interpolationType/MaxPrec
          */
-        MaxPrec,
+        MaxPrec("Maximum in Preceding Interval"),
         /**
-         * Minimum in preceding interval
-         * http://www.opengis.net/def/waterml/2.0/interpolationType/MinPrec
+         * Minimum in preceding interval http://www.opengis.net/def/waterml/2.0/interpolationType/MinPrec
          */
-        MinPrec,
+        MinPrec("Minimum in Preceding Interval"),
         /**
-         * Preceding total
-         * http://www.opengis.net/def/waterml/2.0/interpolationType/TotalPrec
+         * Preceding total http://www.opengis.net/def/waterml/2.0/interpolationType/TotalPrec
          */
-        TotalPrec,
+        TotalPrec("Preceding Total"),
         /**
-         * Average in succeeding interval
-         * http://www.opengis.net/def/waterml/2.0/interpolationType/AverageSucc
+         * Average in succeeding interval http://www.opengis.net/def/waterml/2.0/interpolationType/AverageSucc
          */
-        AverageSucc,
+        AverageSucc("Average in Succeeding Interval"),
         /**
-         * Succeeding total
-         * http://www.opengis.net/def/waterml/2.0/interpolationType/TotalSucc
+         * Succeeding total http://www.opengis.net/def/waterml/2.0/interpolationType/TotalSucc
          */
-        TotalSucc,
+        TotalSucc("Succeeding Total"),
         /**
-         * Minimum in succeeding interval
-         * http://www.opengis.net/def/waterml/2.0/interpolationType/MinSucc
+         * Minimum in succeeding interval http://www.opengis.net/def/waterml/2.0/interpolationType/MinSucc
          */
-        MinSucc,
+        MinSucc("Minimum in Succeeding Interval"),
         /**
-         * Maximum in succeeding interval
-         * http://www.opengis.net/def/waterml/2.0/interpolationType/MaxSucc
+         * Maximum in succeeding interval http://www.opengis.net/def/waterml/2.0/interpolationType/MaxSucc
          */
-        MaxSucc,
+        MaxSucc("Maximum in Succeeding Interval"),
         /**
-         * Constant in preceding interval
-         * http://www.opengis.net/def/waterml/2.0/interpolationType/ConstPrec
+         * Constant in preceding interval http://www.opengis.net/def/waterml/2.0/interpolationType/ConstPrec
          */
-        ConstPrec,
+        ConstPrec("Constant in Preceding Interval"),
         /**
-         * Constant in succeeding interval
-         * http://www.opengis.net/def/waterml/2.0/interpolationType/ConstSucc
+         * Constant in succeeding interval http://www.opengis.net/def/waterml/2.0/interpolationType/ConstSucc
          */
-        ConstSucc,
+        ConstSucc("Constant in Succeeding Interval"),
         /**
-         * Statistical
-         * http://www.opengis.net/def/waterml/2.0/interpolationType/Statistical
+         * Statistical http://www.opengis.net/def/waterml/2.0/interpolationType/Statistical
          */
-        Statistical;
+        Statistical("Statistical");
+
+        private String title;
+
+        InterpolationType(String title) {
+            this.title = title;
+        }
 
         public String getIdentifier() {
             return INTERPOLATION_TYPE + "/" + this.toString();
         }
 
         public String getTitle() {
-            return this.toString();
+            return title;
         }
 
         public static InterpolationType from(String v) {

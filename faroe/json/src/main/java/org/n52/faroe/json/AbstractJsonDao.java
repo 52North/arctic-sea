@@ -30,6 +30,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * TODO JavaDoc
  *
@@ -41,6 +43,7 @@ public abstract class AbstractJsonDao {
     private JsonConfiguration configuration;
 
     @Inject
+    @SuppressFBWarnings({"EI_EXPOSE_REP2"})
     public void setConfiguration(JsonConfiguration configuration) {
         this.configuration = configuration;
     }

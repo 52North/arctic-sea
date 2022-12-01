@@ -15,17 +15,20 @@
  */
 package org.n52.shetland.ogc.wps.description.impl;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableSet;
-import org.n52.shetland.ogc.wps.Format;
-import org.n52.shetland.ogc.wps.description.ComplexOutputDescription;
-import org.n52.shetland.ogc.wps.description.ProcessDescriptionBuilderFactory;
-
 import java.math.BigInteger;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+
+import org.n52.shetland.ogc.wps.Format;
+import org.n52.shetland.ogc.wps.description.ComplexOutputDescription;
+import org.n52.shetland.ogc.wps.description.ProcessDescriptionBuilderFactory;
+
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableSet;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * TODO JavaDoc
@@ -52,6 +55,7 @@ public class ComplexOutputDescriptionImpl extends AbstractProcessOutputDescripti
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Format getDefaultFormat() {
         return this.defaultFormat;
     }
@@ -66,8 +70,9 @@ public class ComplexOutputDescriptionImpl extends AbstractProcessOutputDescripti
         return getFactory().complexOutput(this);
     }
 
-    public abstract static class AbstractBuilder<T extends ComplexOutputDescription, B extends AbstractBuilder<T, B>>
-            extends AbstractProcessOutputDescription.AbstractBuilder<T, B>
+    public abstract static class AbstractBuilder<
+            T extends ComplexOutputDescription,
+            B extends AbstractBuilder<T, B>> extends AbstractProcessOutputDescription.AbstractBuilder<T, B>
             implements ComplexOutputDescription.Builder<T, B> {
 
         private final ImmutableSet.Builder<Format> supportedFormats = ImmutableSet.builder();
@@ -75,7 +80,7 @@ public class ComplexOutputDescriptionImpl extends AbstractProcessOutputDescripti
         private BigInteger maximumMegabytes;
 
         protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
-                                  ComplexOutputDescription entity) {
+                ComplexOutputDescription entity) {
             super(factory, entity);
             this.defaultFormat = entity.getDefaultFormat();
             this.supportedFormats.addAll(entity.getSupportedFormats());
@@ -88,13 +93,13 @@ public class ComplexOutputDescriptionImpl extends AbstractProcessOutputDescripti
 
         @Override
         public B withMaximumMegabytes(BigInteger maximumMegabytes) {
-            Preconditions.checkArgument(maximumMegabytes == null ||
-                                        maximumMegabytes.compareTo(BigInteger.ZERO) > 0);
+            Preconditions.checkArgument(maximumMegabytes == null || maximumMegabytes.compareTo(BigInteger.ZERO) > 0);
             this.maximumMegabytes = maximumMegabytes;
             return self();
         }
 
         @Override
+        @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
         public B withDefaultFormat(Format format) {
             this.defaultFormat = Objects.requireNonNull(format);
             this.supportedFormats.add(format);
@@ -113,6 +118,7 @@ public class ComplexOutputDescriptionImpl extends AbstractProcessOutputDescripti
             return supportedFormats.build();
         }
 
+        @SuppressFBWarnings({ "EI_EXPOSE_REP" })
         public Format getDefaultFormat() {
             return defaultFormat;
         }
@@ -130,7 +136,7 @@ public class ComplexOutputDescriptionImpl extends AbstractProcessOutputDescripti
         }
 
         protected Builder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
-                          ComplexOutputDescription entity) {
+                ComplexOutputDescription entity) {
             super(factory, entity);
         }
 

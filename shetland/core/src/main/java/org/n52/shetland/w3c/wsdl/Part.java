@@ -40,7 +40,8 @@ public class Part extends AbstractWsdl {
     }
 
     /**
-     * @param element the element to set
+     * @param element
+     *            the element to set
      */
     public void setElement(QName element) {
         this.element = element;

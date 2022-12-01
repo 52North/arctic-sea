@@ -15,7 +15,7 @@
  */
 package org.n52.janmayen.lifecycle;
 
-import javax.annotation.PreDestroy;
+import jakarta.annotation.PreDestroy;
 
 /**
  * @see PreDestroy

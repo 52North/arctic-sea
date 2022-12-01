@@ -52,17 +52,17 @@ public class SamplingFeature extends AbstractSamplingFeature {
     }
 
     @Override
-    public <X> X accept(FeatureOfInterestVisitor<X> visitor) throws OwsExceptionReport {
+    public <
+            X> X accept(FeatureOfInterestVisitor<X> visitor) throws OwsExceptionReport {
         return visitor.visit(this);
     }
 
     @Override
     public String toString() {
-        return String.format(
-                "SamplingFeature [name=%s, description=%s, xmlDescription=%s, geometry=%s, "
+        return String.format("SamplingFeature [name=%s, description=%s, xmlDescription=%s, geometry=%s, "
                 + "featureType=%s, url=%s, sampledFeatures=%s, parameters=%s, encode=%b, relatedSamplingFeatures=%s]",
-                getName(), getDescription(), getXml(), getGeometry(), getFeatureType(), getUrl(),
-                getSampledFeatures(), getParameters(), isEncode(), getRelatedSamplingFeatures());
+                getName(), getDescription(), getXml(), getGeometry(), getFeatureType(), getUrl(), getSampledFeatures(),
+                getParameters(), isEncode(), getRelatedSamplingFeatures());
     }
 
 }

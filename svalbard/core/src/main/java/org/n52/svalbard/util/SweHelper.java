@@ -17,6 +17,7 @@ package org.n52.svalbard.util;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -53,6 +54,8 @@ import org.n52.shetland.ogc.om.values.SweDataArrayValue;
 import org.n52.shetland.ogc.om.values.TLVTValue;
 import org.n52.shetland.ogc.om.values.TVPValue;
 import org.n52.shetland.ogc.om.values.TextValue;
+import org.n52.shetland.ogc.om.values.TimeValue;
+import org.n52.shetland.ogc.om.values.TrajectoryValue;
 import org.n52.shetland.ogc.om.values.TimeRangeValue;
 import org.n52.shetland.ogc.om.values.UnknownValue;
 import org.n52.shetland.ogc.om.values.Value;
@@ -362,6 +365,18 @@ public final class SweHelper {
             }
 
             @Override
+            public SweAbstractDataComponent visit(TrajectoryValue value) throws EncodingException {
+                throw notSupported();
+            }
+
+            @Override
+            public SweAbstractDataComponent visit(TimeValue value) throws EncodingException {
+                SweTime sweTime = new SweTime();
+                sweTime.setUom(value.getUnit());
+                return sweTime;
+            }
+
+            @Override
             public SweAbstractDataComponent visit(TimeRangeValue value) throws EncodingException {
                 SweTimeRange sweTimeRange = new SweTimeRange();
                 sweTimeRange.setUom(value.getUnit());
@@ -492,7 +507,7 @@ public final class SweHelper {
      * @return the northingNames
      */
     public Set<String> getNorthingNames() {
-        return northingNames;
+        return new LinkedHashSet<>(northingNames);
     }
 
     /**
@@ -521,7 +536,7 @@ public final class SweHelper {
      * @return the eastingNames
      */
     public Set<String> getEastingNames() {
-        return eastingNames;
+        return new LinkedHashSet<>(eastingNames);
     }
 
     /**
@@ -550,7 +565,7 @@ public final class SweHelper {
      * @return the altitudeNames
      */
     public Set<String> getAltitudeNames() {
-        return altitudeNames;
+        return new LinkedHashSet<>(altitudeNames);
     }
 
     /**

@@ -16,6 +16,7 @@
 package org.n52.shetland.ogc.ows;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -36,28 +37,35 @@ public class OwsSections {
     }
 
     /**
-     * @param sections the sections to set
+     * @param sections
+     *            the sections to set
      *
      * @return this
      */
-    public OwsSections setSections(List<String> sections) {
+    public OwsSections setSections(Collection<String> sections) {
         this.sections.clear();
-        this.sections = sections;
+        if (sections != null) {
+            this.sections.addAll(sections);
+        }
         return this;
     }
 
     /**
-     * @param sections the sections to add
+     * @param sections
+     *            the sections to add
      *
      * @return this
      */
-    public OwsSections addSections(List<String> sections) {
-        this.sections.addAll(sections);
+    public OwsSections addSections(Collection<String> sections) {
+        if (sections != null) {
+            this.sections.addAll(sections);
+        }
         return this;
     }
 
     /**
-     * @param section the section to add
+     * @param section
+     *            the section to add
      *
      * @return this
      */

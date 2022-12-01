@@ -33,8 +33,7 @@ public class DescribeProcessResponse extends OwsServiceResponse {
         this(service, version, null);
     }
 
-    public DescribeProcessResponse(String service, String version,
-                                   ProcessOfferings offerings) {
+    public DescribeProcessResponse(String service, String version, ProcessOfferings offerings) {
         super(service, version);
         this.offerings = offerings;
     }

@@ -16,6 +16,7 @@
 package org.n52.shetland.w3c.wsdl;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.TreeSet;
 
 import javax.xml.namespace.QName;
@@ -57,7 +58,7 @@ public class Service extends AbstractWsdl {
     }
 
     public Collection<Port> getPorts() {
-        return ports;
+        return Collections.unmodifiableCollection(ports);
     }
 
     public boolean isSetPorts() {

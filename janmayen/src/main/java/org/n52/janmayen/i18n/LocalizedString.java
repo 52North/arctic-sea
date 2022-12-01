@@ -22,6 +22,7 @@ import java.util.Objects;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Immutable localized variant of a string.
@@ -55,6 +56,7 @@ public class LocalizedString implements Serializable {
     /**
      * @return the language of this localized string
      */
+    @SuppressFBWarnings("EI_EXPOSE_REP")
     public Locale getLang() {
         return this.lang;
     }

@@ -39,7 +39,7 @@ public class Location implements ResourceCreator, DctRdfPrefix {
     }
 
     public List<Geometry> getGeometries() {
-        return geometries;
+        return new LinkedList<>(geometries);
     }
 
     public Location setGeometries(Collection<Geometry> geometries) {

@@ -20,8 +20,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-import org.n52.shetland.ogc.sensorML.elements.SmlClassifier;
-
 public class SmlClassifierTest {
 
     @Test public void

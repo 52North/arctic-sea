@@ -1,0 +1,33 @@
+version: 2
+updates:
+- package-ecosystem: "maven"
+  directory: "/"
+  schedule:
+    interval: "daily"
+    time: "04:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: "xml-apis:xml-apis"
+    versions: ">= 2.a, < 3"
+  - dependency-name: "org.apache.xmlbeans:xmlbeans"
+    versions: ">= 4.x"
+  - dependency-name: "org.springframework:*"
+    versions: ">= 6.x"
+- package-ecosystem: "maven"
+  directory: "/"
+  schedule:
+    interval: "daily"
+    time: "04:15"
+  open-pull-requests-limit: 10
+  target-branch: "maintenance/9.x"
+  ignore:
+  - dependency-name: "xml-apis:xml-apis"
+    versions: ">= 2.a, < 3"
+  - dependency-name: "org.apache.xmlbeans:xmlbeans"
+    versions: ">= 4.x"
+  - dependency-name: "org.springframework:*"
+    versions: ">= 6.x"
+- package-ecosystem: "github-actions"
+  directory: "/"
+  schedule:
+    interval: "daily"

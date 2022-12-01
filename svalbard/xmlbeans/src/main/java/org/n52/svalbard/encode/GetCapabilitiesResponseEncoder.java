@@ -15,6 +15,9 @@
  */
 package org.n52.svalbard.encode;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Set;
 
@@ -75,6 +78,20 @@ public class GetCapabilitiesResponseEncoder extends AbstractSosResponseEncoder<G
     }
 
     @Override
+    protected void create(GetCapabilitiesResponse response, OutputStream outputStream, EncodingContext encodingValues)
+            throws EncodingException {
+        if (response.isStatic()) {
+            try {
+                outputStream.write(response.getStaticString().getBytes(StandardCharsets.UTF_8));
+            } catch (IOException ioe) {
+                throw new EncodingException("Error while writing element to stream!", ioe);
+            }
+        } else {
+            super.create(response, outputStream, encodingValues);
+        }
+    }
+
+    @Override
     protected XmlObject create(GetCapabilitiesResponse response) throws EncodingException {
         CapabilitiesDocument doc = CapabilitiesDocument.Factory.newInstance(getXmlOptions());
         CapabilitiesType xbCaps = doc.addNewCapabilities();
@@ -82,7 +99,7 @@ public class GetCapabilitiesResponseEncoder extends AbstractSosResponseEncoder<G
             createExtension(xbCaps, response.getExtensions());
         }
         if (response.isStatic()) {
-            String xml = response.getXmlString();
+            String xml = response.getStaticString();
             LOGGER.trace("Response is static. XML-String:\n{}\n", xml);
             try {
                 doc.set(XmlObject.Factory.parse(xml));

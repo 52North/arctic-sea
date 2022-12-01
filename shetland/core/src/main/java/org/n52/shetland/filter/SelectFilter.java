@@ -15,34 +15,41 @@
  */
 package org.n52.shetland.filter;
 
-import org.n52.shetland.ogc.filter.FilterClause;
-
-import java.util.HashSet;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import org.n52.shetland.ogc.filter.FilterClause;
+
 public class SelectFilter implements FilterClause {
 
-    private final Set<String> items;
+    private final Set<String> items = new LinkedHashSet<>();
 
     public SelectFilter(String item) {
-        this.items = new HashSet<>();
-        items.add(item);
+        if (item != null) {
+            this.items.add(item);
+        }
     }
 
-    public SelectFilter(Set<String> items) {
-        this.items = items;
+    public SelectFilter(Collection<String> items) {
+        if (items != null) {
+            this.items.addAll(items);
+        }
     }
 
     public Set<String> getItems() {
-        return this.items;
+        return Collections.unmodifiableSet(items);
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
         return Objects.hash(items);
     }
 
-    @Override public boolean equals(Object o) {
+    @Override
+    public boolean equals(Object o) {
         if (o == this) {
             return true;
         }
@@ -54,7 +61,8 @@ public class SelectFilter implements FilterClause {
         return Objects.equals(this.getItems(), ((SelectFilter) o).getItems());
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
         return "$select=" + String.join(",", this.items);
     }
 }

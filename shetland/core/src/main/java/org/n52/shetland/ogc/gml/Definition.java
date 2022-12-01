@@ -40,7 +40,8 @@ public abstract class Definition extends DefinitionBase {
     }
 
     /**
-     * @param remarks the remarks to set
+     * @param remarks
+     *            the remarks to set
      */
     public void setRemarks(String remarks) {
         this.remarks = remarks;

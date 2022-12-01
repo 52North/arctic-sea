@@ -37,6 +37,8 @@ import org.n52.svalbard.CodingSettings;
 import org.n52.svalbard.encode.EncoderRepository;
 import org.n52.svalbard.encode.SchemaAwareEncoder;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * XML utility class
  *
@@ -57,6 +59,7 @@ public final class XmlOptionsHelper implements Destroyable, Producer<XmlOptions>
     private boolean prettyPrint = true;
 
     @Inject
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setEncoderRepository(EncoderRepository encoderRepository) {
         this.encoderRepository = encoderRepository;
     }
@@ -83,6 +86,7 @@ public final class XmlOptionsHelper implements Destroyable, Producer<XmlOptions>
      *
      * @return SOS 1.0.0 XML options
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public XmlOptions getXmlOptions() {
         if (xmlOptions == null) {
             lock.lock();

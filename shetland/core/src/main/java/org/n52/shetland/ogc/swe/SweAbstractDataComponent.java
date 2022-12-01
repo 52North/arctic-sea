@@ -16,6 +16,7 @@
 package org.n52.shetland.ogc.swe;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.n52.janmayen.Copyable;
@@ -90,7 +91,7 @@ public abstract class SweAbstractDataComponent
     }
 
     public List<CodeType> getNames() {
-        return names;
+        return Collections.unmodifiableList(names);
     }
 
     public String getIdentifier() {
@@ -113,35 +114,35 @@ public abstract class SweAbstractDataComponent
     }
 
     public SweAbstractDataComponent addName(final String name) {
-        getNames().add(new CodeType(name));
+        this.names.add(new CodeType(name));
         return this;
     }
 
     public SweAbstractDataComponent addName(final CodeType name) {
-        getNames().add(name);
+        this.names.add(name);
         return this;
     }
 
     public SweAbstractDataComponent addName(final Collection<CodeType> names) {
-        getNames().addAll(names);
+        this.names.addAll(names);
         return this;
     }
 
     public SweAbstractDataComponent setName(final String name) {
-        getNames().clear();
-        getNames().add(new CodeType(name));
+        names.clear();
+        this.names.add(new CodeType(name));
         return this;
     }
 
     public SweAbstractDataComponent setName(final CodeType name) {
-        getNames().clear();
-        getNames().add(name);
+        this.names.clear();
+        this.names.add(name);
         return this;
     }
 
     public SweAbstractDataComponent setName(final Collection<CodeType> names) {
-        getNames().clear();
-        getNames().addAll(names);
+        this.names.clear();
+        this.names.addAll(names);
         return this;
     }
 
@@ -229,13 +230,15 @@ public abstract class SweAbstractDataComponent
 
     public abstract SweDataComponentType getDataComponentType();
 
-    public abstract <T, X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X;
+    public abstract <
+            T,
+            X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X;
 
-    public abstract <X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X;
+    public abstract <
+            X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X;
 
     /**
-     * Copies all values from this {@link SweAbstractDataComponent} to the
-     * passed
+     * Copies all values from this {@link SweAbstractDataComponent} to the passed
      *
      * @param copy
      *            {@link SweAbstractDataComponent} to copy values to

@@ -19,7 +19,6 @@ import java.util.Set;
 
 import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CodePointCharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
@@ -27,19 +26,36 @@ import org.antlr.v4.runtime.Vocabulary;
 import org.n52.shetland.oasis.odata.query.option.QueryOptions;
 import org.n52.shetland.ogc.filter.FilterClause;
 import org.n52.svalbard.odata.grammar.STAQueryOptionsGrammar;
-import org.n52.svalbard.odata.grammar.STAQueryOptionsGrammar.QueryOptionsContext;
 import org.n52.svalbard.odata.grammar.STAQueryOptionsLexer;
 
 /**
  * @author <a href="mailto:j.speckamp@52north.org">Jan Speckamp</a>
  */
 @SuppressWarnings("unchecked")
-public class QueryOptionsFactory {
+public final class QueryOptionsFactory {
+
+    private QueryOptionsFactory() {
+
+    }
+
+    public static STAQueryOptionsLexer createLexer(String query) {
+        STAQueryOptionsLexer staQueryOptionsLexer = new STAQueryOptionsLexer(CharStreams.fromString(query.trim()));
+        replaceErrorListener(staQueryOptionsLexer);
+        return staQueryOptionsLexer;
+    }
+
+    public static STAQueryOptionsGrammar createGrammar(String query) {
+        return createGrammar(createLexer(query));
+    }
+
+    private static STAQueryOptionsGrammar createGrammar(STAQueryOptionsLexer lexer) {
+        STAQueryOptionsGrammar parser = new STAQueryOptionsGrammar(new CommonTokenStream(lexer));
+        replaceErrorListener(parser);
+        return parser;
+    }
 
     public static QueryOptions createQueryOptions(String query) {
-        STAQueryOptionsGrammar grammar = createGrammar(query);
-        QueryOptionsContext context = grammar.queryOptions();
-        return context.<QueryOptions>accept(new STAQueryOptionVisitor());
+        return createGrammar(query).queryOptions().<QueryOptions>accept(new STAQueryOptionVisitor());
     }
 
     public static QueryOptions createQueryOptions(Set<FilterClause> filters) {
@@ -48,24 +64,6 @@ public class QueryOptionsFactory {
 
     public static QueryOptions createEmpty() {
         return new QueryOptions(null);
-    }
-
-    static STAQueryOptionsGrammar createGrammar(String query) {
-        return createGrammar(createLexer(query));
-    }
-
-    private static STAQueryOptionsLexer createLexer(String query) {
-        CodePointCharStream charStream = CharStreams.fromString(query.trim());
-        STAQueryOptionsLexer staQueryOptionsLexer = new STAQueryOptionsLexer(charStream);
-        replaceErrorListener(staQueryOptionsLexer);
-        return staQueryOptionsLexer;
-    }
-
-    private static STAQueryOptionsGrammar createGrammar(STAQueryOptionsLexer lexer) {
-        CommonTokenStream tokenStream = new CommonTokenStream(lexer);
-        STAQueryOptionsGrammar parser = new STAQueryOptionsGrammar(tokenStream);
-        replaceErrorListener(parser);
-        return parser;
     }
 
     private static void replaceErrorListener(Recognizer<?, ?> recognizer) {

@@ -16,6 +16,7 @@
 package org.n52.shetland.inspire;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
 
 import org.n52.shetland.util.CollectionHelper;
@@ -72,7 +73,7 @@ public class InspireSupportedLanguages implements InspireObject {
      * @return the supportedLanguages
      */
     public Set<InspireLanguageISO6392B> getSupportedLanguages() {
-        return supportedLanguages;
+        return Collections.unmodifiableSet(supportedLanguages);
     }
 
     /**
@@ -82,9 +83,9 @@ public class InspireSupportedLanguages implements InspireObject {
      *            the supportedLanguages to set
      */
     public void setSupportedLanguages(Collection<InspireLanguageISO6392B> supportedLanguages) {
-        getSupportedLanguages().clear();
+        this.supportedLanguages.clear();
         if (CollectionHelper.isNotEmpty(supportedLanguages)) {
-            getSupportedLanguages().addAll(supportedLanguages);
+            this.supportedLanguages.addAll(supportedLanguages);
         }
 
     }
@@ -97,7 +98,9 @@ public class InspireSupportedLanguages implements InspireObject {
      * @return this
      */
     public InspireSupportedLanguages addSupportedLanguage(InspireLanguageISO6392B supportedLanguage) {
-        getSupportedLanguages().add(supportedLanguage);
+        if (supportedLanguage != null) {
+            this.supportedLanguages.add(supportedLanguage);
+        }
         return this;
     }
 
@@ -112,7 +115,8 @@ public class InspireSupportedLanguages implements InspireObject {
 
     @Override
     public String toString() {
-        return String.format("%s %n[%n defaultLanguage=%s,%n supportedLanguages=%s%n]", this.getClass()
-                .getSimpleName(), getDefaultLanguage(), CollectionHelper.collectionToString(getSupportedLanguages()));
+        return String.format("%s %n[%n defaultLanguage=%s,%n supportedLanguages=%s%n]",
+                this.getClass().getSimpleName(), getDefaultLanguage(),
+                CollectionHelper.collectionToString(getSupportedLanguages()));
     }
 }

@@ -21,6 +21,8 @@ import org.n52.janmayen.lifecycle.Constructable;
 import org.n52.svalbard.decode.DecoderRepository;
 import org.n52.svalbard.encode.EncoderRepository;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class SupportedTypeRepositoryInitializer implements Constructable {
 
     private final EncoderRepository encoderRepository;
@@ -28,6 +30,7 @@ public class SupportedTypeRepositoryInitializer implements Constructable {
     private final SupportedTypeRepository supportedTypeRepository;
 
     @Inject
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SupportedTypeRepositoryInitializer(EncoderRepository encoderRepository,
                                                DecoderRepository decoderRepository,
                                                SupportedTypeRepository responseFormatRepository) {

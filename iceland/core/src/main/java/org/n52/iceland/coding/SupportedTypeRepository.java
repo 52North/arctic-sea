@@ -35,6 +35,8 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Sets;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * TODO JavaDoc
  *
@@ -51,6 +53,7 @@ public class SupportedTypeRepository {
         this.cache = CacheBuilder.newBuilder().build(new CacheLoaderImpl());
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void init(DecoderRepository decoderRepository, EncoderRepository encoderRepository) {
         this.decoderRepository = decoderRepository;
         this.encoderRepository = encoderRepository;

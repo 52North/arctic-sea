@@ -21,17 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import net.opengis.gml.x32.AbstractTimeObjectType;
-import net.opengis.sosgda.x10.DataAvailabilityMemberType;
-import net.opengis.sosgda.x10.GetDataAvailabilityResponseDocument;
-import net.opengis.sosgda.x10.GetDataAvailabilityResponseType;
-import net.opengis.sosgda.x20.FormatDescriptorType;
-import net.opengis.sosgda.x20.ObservationFormatDescriptorType;
-
 import org.apache.xmlbeans.XmlObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityConstants;
@@ -44,11 +34,20 @@ import org.n52.shetland.util.CollectionHelper;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.exception.UnsupportedDecoderInputException;
 import org.n52.svalbard.util.CodingHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+
+import net.opengis.gml.x32.AbstractTimeObjectType;
+import net.opengis.sosgda.x10.DataAvailabilityMemberType;
+import net.opengis.sosgda.x10.GetDataAvailabilityResponseDocument;
+import net.opengis.sosgda.x10.GetDataAvailabilityResponseType;
+import net.opengis.sosgda.x20.FormatDescriptorType;
+import net.opengis.sosgda.x20.ObservationFormatDescriptorType;
 
 /**
  * XML {@link Decoder} for {@link GetDataAvailabilityResponse}

@@ -19,13 +19,14 @@ import javax.inject.Inject;
 
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
-
 import org.n52.iceland.coding.encode.ResponseWriter;
 import org.n52.iceland.coding.encode.ResponseWriterFactory;
 import org.n52.iceland.coding.encode.ResponseWriterKey;
 import org.n52.janmayen.Producer;
 import org.n52.janmayen.component.SingleTypeComponentFactory;
 import org.n52.svalbard.encode.EncoderRepository;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * {@link ResponseWriterFactory} implementation for {@link XmlObject} and
@@ -43,6 +44,7 @@ public class XmlResponseWriterFactory
     private EncoderRepository encoderRepository;
 
     @Inject
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setEncoderRepository(EncoderRepository encoderRepository) {
         this.encoderRepository = encoderRepository;
     }

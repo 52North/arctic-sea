@@ -36,7 +36,7 @@ public abstract class AbstractMeasureType {
      * constructor
      *
      * @param value
-     *              Measured value
+     *            Measured value
      */
     public AbstractMeasureType(Double value) {
         this(value, null);
@@ -46,9 +46,9 @@ public abstract class AbstractMeasureType {
      * constructor
      *
      * @param value
-     *              Measured value
+     *            Measured value
      * @param unit
-     *              Unit of measure
+     *            Unit of measure
      */
     public AbstractMeasureType(Double value, String unit) {
         this.value = value;
@@ -57,7 +57,7 @@ public abstract class AbstractMeasureType {
 
     /**
      * @param value
-     *              Measured value to set
+     *            Measured value to set
      */
     public void setValue(Double value) {
         this.value = value;
@@ -74,7 +74,7 @@ public abstract class AbstractMeasureType {
      * Set unit of measure
      *
      * @param unit
-     *             Unit of measure to set
+     *            Unit of measure to set
      */
     public void setUnit(String unit) {
         this.unit = unit;

@@ -125,39 +125,30 @@ public class Reference {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getActuate(), getArcrole(), getHref(),
-                            getRemoteSchema(), getRole(), getShow(), getTitle(), getType());
+        return Objects.hash(getActuate(), getArcrole(), getHref(), getRemoteSchema(), getRole(), getShow(), getTitle(),
+                getType());
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Reference) {
             Reference that = (Reference) obj;
-            return Objects.equals(getActuate(), that.getActuate()) &&
-                   Objects.equals(getArcrole(), that.getArcrole()) &&
-                   Objects.equals(getHref(), that.getHref()) &&
-                   Objects.equals(getRemoteSchema(), that.getRemoteSchema()) &&
-                   Objects.equals(getRole(), that.getRole()) &&
-                   Objects.equals(getShow(), that.getShow()) &&
-                   Objects.equals(getTitle(), that.getTitle()) &&
-                   Objects.equals(getType(), that.getType());
+            return Objects.equals(getActuate(), that.getActuate()) && Objects.equals(getArcrole(), that.getArcrole())
+                    && Objects.equals(getHref(), that.getHref())
+                    && Objects.equals(getRemoteSchema(), that.getRemoteSchema())
+                    && Objects.equals(getRole(), that.getRole()) && Objects.equals(getShow(), that.getShow())
+                    && Objects.equals(getTitle(), that.getTitle()) && Objects.equals(getType(), that.getType());
         }
         return false;
     }
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .omitNullValues()
-                .add("actuate", getActuate().orElse(null))
-                .add("arcrole", getArcrole().orElse(null))
-                .add("href", getHref().orElse(null))
-                .add("remoteSchema", getRemoteSchema().orElse(null))
-                .add("role", getRole().orElse(null))
-                .add("show", getShow().orElse(null))
-                .add("title", getTitle().orElse(null))
-                .add("type", getType().orElse(null))
-                .toString();
+        return MoreObjects.toStringHelper(this).omitNullValues().add("actuate", getActuate().orElse(null))
+                .add("arcrole", getArcrole().orElse(null)).add("href", getHref().orElse(null))
+                .add("remoteSchema", getRemoteSchema().orElse(null)).add("role", getRole().orElse(null))
+                .add("show", getShow().orElse(null)).add("title", getTitle().orElse(null))
+                .add("type", getType().orElse(null)).toString();
     }
 
 }

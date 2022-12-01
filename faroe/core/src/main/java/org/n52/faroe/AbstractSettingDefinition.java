@@ -17,6 +17,8 @@ package org.n52.faroe;
 
 import java.io.Serializable;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Generic implementation of <code>SettingDefinition</code>.
  *
@@ -98,11 +100,13 @@ public abstract class AbstractSettingDefinition<T> extends AbstractOrdered
     }
 
     @Override
+    @SuppressFBWarnings({"EI_EXPOSE_REP"})
     public SettingDefinitionGroup getGroup() {
         return group;
     }
 
     @Override
+    @SuppressFBWarnings({"EI_EXPOSE_REP2"})
     public AbstractSettingDefinition<T> setGroup(SettingDefinitionGroup g) {
         this.group = g;
         return this;
@@ -149,8 +153,8 @@ public abstract class AbstractSettingDefinition<T> extends AbstractOrdered
                    (getGroup() == null ? o.getGroup() == null : getGroup().equals(o.getGroup())) &&
                    (getDefaultValue() == null ? o.getDefaultValue() == null : getDefaultValue().equals(o
                            .getDefaultValue())) &&
-                   (getType() == o.getType()) &&
-                   (isOptional() == o.isOptional());
+                   getType() == o.getType() &&
+                   isOptional() == o.isOptional();
         }
         return false;
     }

@@ -15,6 +15,8 @@
  */
 package org.n52.shetland.inspire.base2;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -36,7 +38,8 @@ public class DocumentCitation extends AbstractGML {
     }
 
     /**
-     * @param date the date to set
+     * @param date
+     *            the date to set
      * @return this {@link DocumentCitation}
      */
     public DocumentCitation setDate(Nillable<DateTime> date) {
@@ -45,7 +48,8 @@ public class DocumentCitation extends AbstractGML {
     }
 
     /**
-     * @param date the date to set
+     * @param date
+     *            the date to set
      * @return this {@link DocumentCitation}
      */
     public DocumentCitation setDate(DateTime date) {
@@ -57,16 +61,19 @@ public class DocumentCitation extends AbstractGML {
      * @return the links
      */
     public List<Nillable<String>> getLinks() {
-        return links;
+        return Collections.unmodifiableList(links);
     }
 
     /**
-     * @param links the links to set
+     * @param links
+     *            the links to set
      * @return this {@link DocumentCitation}
      */
-    public DocumentCitation setLinks(List<Nillable<String>> links) {
-        getLinks().clear();
-        getLinks().addAll(links);
+    public DocumentCitation setLinks(Collection<Nillable<String>> links) {
+        this.links.clear();
+        if (links != null) {
+            this.links.addAll(links);
+        }
         return this;
     }
 
@@ -76,7 +83,9 @@ public class DocumentCitation extends AbstractGML {
     }
 
     public DocumentCitation addLink(Nillable<String> link) {
-        getLinks().add(link);
+        if (link != null) {
+            this.links.add(link);
+        }
         return this;
     }
 

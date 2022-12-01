@@ -31,7 +31,8 @@ public class Port extends AbstractWsdl {
     }
 
     /**
-     * @param binding the binding to set
+     * @param binding
+     *            the binding to set
      */
     public void setBinding(QName binding) {
         this.binding = binding;

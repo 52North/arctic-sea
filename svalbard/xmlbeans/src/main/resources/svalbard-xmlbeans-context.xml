@@ -33,6 +33,7 @@
     <bean class="org.n52.svalbard.decode.DeleteObservationV20Decoder"/>
     <bean class="org.n52.svalbard.decode.DeleteResultTemplateDecoder"/>
     <bean class="org.n52.svalbard.decode.DeleteResultTemplateStringDecoder"/>
+    <bean class="org.n52.svalbard.decode.DescribeSensorResponseSwesDocumentDecoder"/>
     <bean class="org.n52.svalbard.decode.DocumentCitationTypeDecoder"/>
     <bean class="org.n52.svalbard.decode.FesDecoderv20"/>
     <bean class="org.n52.svalbard.decode.GetDataAvailabilityResponseDecoder"/>
@@ -132,6 +133,7 @@
     <bean class="org.n52.svalbard.encode.IdentifierPropertyTypeEncoder"/>
     <bean class="org.n52.svalbard.encode.IdentifierTypeEncoder"/>
     <bean class="org.n52.svalbard.encode.InsertFeatureOfInterestEncoder"/>
+    <bean class="org.n52.svalbard.encode.InsertFeatureOfInterestRequestEncoder"/>
     <bean class="org.n52.svalbard.encode.InsertObservationRequestEncoder"/>
     <bean class="org.n52.svalbard.encode.InsertObservationResponseEncoder"/>
     <bean class="org.n52.svalbard.encode.InsertResultRequestEncoder"/>

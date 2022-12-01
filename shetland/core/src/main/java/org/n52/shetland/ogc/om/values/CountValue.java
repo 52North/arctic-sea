@@ -25,13 +25,18 @@ import org.n52.shetland.ogc.swe.simpleType.SweCount;
  * @since 1.0.0
  *
  */
-public class CountValue
-        extends SweCount
-        implements Value<Integer> {
+public class CountValue extends SweCount implements Value<Integer> {
     /**
      * Unit of measure
      */
     private UoM unit;
+
+    /**
+     * constructor
+     */
+    public CountValue() {
+        super();
+    }
 
     /**
      * constructor
@@ -80,7 +85,9 @@ public class CountValue
     }
 
     @Override
-    public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
+    public <
+            X,
+            E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
         return visitor.visit(this);
     }
 }

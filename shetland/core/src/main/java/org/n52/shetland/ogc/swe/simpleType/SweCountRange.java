@@ -17,9 +17,11 @@ package org.n52.shetland.ogc.swe.simpleType;
 
 import org.n52.shetland.ogc.swe.RangeValue;
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
-import org.n52.shetland.w3c.xlink.Referenceable;
 import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
 import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
+import org.n52.shetland.w3c.xlink.Referenceable;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * @since 1.0.0
@@ -31,11 +33,13 @@ public class SweCountRange extends SweAbstractSimpleType<RangeValue<Integer>> {
     private Referenceable<SweAllowedValues> constraint;
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public RangeValue<Integer> getValue() {
         return value;
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweCountRange setValue(final RangeValue<Integer> value) {
         this.value = value;
         return this;
@@ -67,14 +71,16 @@ public class SweCountRange extends SweAbstractSimpleType<RangeValue<Integer>> {
     }
 
     /**
-     * @param constraint the constraint to set
+     * @param constraint
+     *            the constraint to set
      */
     public void setConstraint(SweAllowedValues constraint) {
         this.constraint = Referenceable.of(constraint);
     }
 
     /**
-     * @param constraint the constraint to set
+     * @param constraint
+     *            the constraint to set
      */
     public void setConstraint(Referenceable<SweAllowedValues> constraint) {
         this.constraint = constraint;
@@ -90,12 +96,15 @@ public class SweCountRange extends SweAbstractSimpleType<RangeValue<Integer>> {
     }
 
     @Override
-    public <T, X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
+    public <
+            T,
+            X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
         return visitor.visit(this);
     }
 
     @Override
-    public <X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
+    public <
+            X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
         visitor.visit(this);
     }
 
@@ -103,9 +112,7 @@ public class SweCountRange extends SweAbstractSimpleType<RangeValue<Integer>> {
     public SweCountRange copy() {
         SweCountRange copy = new SweCountRange();
         copyValueTo(copy);
-        if (isSetQuality()) {
-            copy.setQuality(cloneQuality());
-        }
+        copyQuality(copy);
         if (isSetValue()) {
             copy.setValue(getValue().copy());
         }

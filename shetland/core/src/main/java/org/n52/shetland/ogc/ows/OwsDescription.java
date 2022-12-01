@@ -30,13 +30,11 @@ import org.n52.shetland.util.CollectionHelper;
  */
 public abstract class OwsDescription {
 
-    private  Optional<MultilingualString> title;
-    private  Optional<MultilingualString> abstrakt;
-    private  SortedSet<OwsKeyword> keywords;
+    private Optional<MultilingualString> title;
+    private Optional<MultilingualString> abstrakt;
+    private SortedSet<OwsKeyword> keywords;
 
-    public OwsDescription(MultilingualString title,
-                          MultilingualString abstrakt,
-                          Collection<OwsKeyword> keywords) {
+    public OwsDescription(MultilingualString title, MultilingualString abstrakt, Collection<OwsKeyword> keywords) {
         this.title = Optional.ofNullable(title);
         this.abstrakt = Optional.ofNullable(abstrakt);
         this.keywords = CollectionHelper.newSortedSet(keywords);

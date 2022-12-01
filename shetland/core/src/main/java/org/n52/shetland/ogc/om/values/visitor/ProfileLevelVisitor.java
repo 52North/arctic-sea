@@ -20,8 +20,8 @@ import java.util.Collection;
 import org.n52.shetland.ogc.om.values.ProfileLevel;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
-public interface ProfileLevelVisitor<T> {
+public interface ProfileLevelVisitor<
+        T> {
 
-    Collection<T> visit(ProfileLevel value)
-            throws OwsExceptionReport;
+    Collection<T> visit(ProfileLevel value) throws OwsExceptionReport;
 }

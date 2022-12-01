@@ -74,5 +74,4 @@ public class InlineBody extends Body {
         return MoreObjects.toStringHelper(this).add("body", getBody()).toString();
     }
 
-
 }

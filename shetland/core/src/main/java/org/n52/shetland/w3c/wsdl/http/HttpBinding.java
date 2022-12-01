@@ -38,7 +38,8 @@ public class HttpBinding extends ExtensibilityElement {
     }
 
     /**
-     * @param verb the verb to set
+     * @param verb
+     *            the verb to set
      */
     public void setVerb(String verb) {
         this.verb = verb;

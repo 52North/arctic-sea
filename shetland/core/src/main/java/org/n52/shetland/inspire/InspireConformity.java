@@ -15,6 +15,8 @@
  */
 package org.n52.shetland.inspire;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Service internal representation of INSPIRE conformity
  *
@@ -46,6 +48,7 @@ public class InspireConformity {
      *
      * @return the inspireSpecification
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public InspireConformityCitation getInspireSpecification() {
         return inspireSpecification;
     }
@@ -96,7 +99,9 @@ public class InspireConformity {
      *
      */
     public enum InspireDegreeOfConformity {
-        conformant, notConformant, notEvaluated;
+        conformant,
+        notConformant,
+        notEvaluated;
     }
 
 }

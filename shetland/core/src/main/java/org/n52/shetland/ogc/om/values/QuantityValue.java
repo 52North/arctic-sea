@@ -27,9 +27,7 @@ import org.n52.shetland.ogc.swe.simpleType.SweQuantity;
  * @since 1.0.0
  *
  */
-public class QuantityValue
-        extends SweQuantity
-        implements ComparableValue<BigDecimal, QuantityValue> {
+public class QuantityValue extends SweQuantity implements ComparableValue<BigDecimal, QuantityValue> {
 
     /**
      * c
@@ -145,7 +143,9 @@ public class QuantityValue
     }
 
     @Override
-    public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
+    public <
+            X,
+            E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
         return visitor.visit(this);
     }
 

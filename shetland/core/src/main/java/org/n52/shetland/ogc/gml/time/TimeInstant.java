@@ -21,13 +21,14 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Instant;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Class represents a GML conform timeInstant element
  *
  * @since 1.0.0
  */
-public class TimeInstant
-        extends Time {
+public class TimeInstant extends Time {
     /**
      * serial number
      */
@@ -63,7 +64,8 @@ public class TimeInstant
     /**
      * Creates a new {@code TimeInstant}.
      *
-     * @param instant the instant
+     * @param instant
+     *            the instant
      */
     public TimeInstant(Instant instant) {
         this(instant != null ? instant.toDateTime() : null, 0, null);
@@ -92,8 +94,7 @@ public class TimeInstant
     }
 
     /**
-     * Constructor using Java Dates, setting unknown indeterminate values if
-     * null
+     * Constructor using Java Dates, setting unknown indeterminate values if null
      *
      * @param date
      *            Value date
@@ -121,6 +122,7 @@ public class TimeInstant
      *
      * @return Returns the value.
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public DateTime getValue() {
         return value;
     }
@@ -131,6 +133,7 @@ public class TimeInstant
      * @param value
      *            The value to set.
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setValue(final DateTime value) {
         this.value = value;
     }
@@ -303,8 +306,7 @@ public class TimeInstant
      *
      * @param value
      *            Expected value
-     * @return <code>true</code>, if this indeterminate value equals expected
-     *         value
+     * @return <code>true</code>, if this indeterminate value equals expected value
      */
     @SuppressWarnings("rawtypes")
     public boolean isIndeterminateValueEqualTo(IndeterminateValue value) {

@@ -24,8 +24,7 @@ import com.google.common.base.Strings;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-public class Identifier
-        extends CodeWithAuthority {
+public class Identifier extends CodeWithAuthority {
 
     private Nillable<String> versionId = Nillable.absent();
 

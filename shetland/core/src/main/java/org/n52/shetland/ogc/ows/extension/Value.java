@@ -26,7 +26,9 @@ package org.n52.shetland.ogc.ows.extension;
  * @param <S>
  *            Instance type
  */
-public interface Value<T, S> {
+public interface Value<
+        T,
+        S> {
 
     /**
      * Get value

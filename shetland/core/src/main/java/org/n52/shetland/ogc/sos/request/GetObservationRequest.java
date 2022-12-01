@@ -18,7 +18,7 @@ package org.n52.shetland.ogc.sos.request;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
-import java.util.LinkedList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -49,14 +49,14 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * SOS GetObservation request.
  *
  * @since 1.0.0
  */
-public class GetObservationRequest
-        extends AbstractObservationRequest
-        implements SpatialFeatureQueryRequest {
+public class GetObservationRequest extends AbstractObservationRequest implements SpatialFeatureQueryRequest {
 
     /**
      * Request as String.
@@ -115,7 +115,7 @@ public class GetObservationRequest
      * @return temporal filters
      */
     public List<TemporalFilter> getTemporalFilters() {
-        return temporalFilters;
+        return Collections.unmodifiableList(temporalFilters);
     }
 
     /**
@@ -124,12 +124,17 @@ public class GetObservationRequest
      * @param temporalFilters
      *            temporal filters
      */
-    public void setTemporalFilters(List<TemporalFilter> temporalFilters) {
-        this.temporalFilters = Optional.ofNullable(temporalFilters).orElseGet(LinkedList::new);
+    public GetObservationRequest setTemporalFilters(List<TemporalFilter> temporalFilters) {
+        this.temporalFilters.clear();
+        if (temporalFilters != null) {
+            this.temporalFilters.addAll(temporalFilters);
+        }
+        return this;
     }
 
-    public void addTemporalFilter(TemporalFilter filter) {
+    public GetObservationRequest addTemporalFilter(TemporalFilter filter) {
         this.temporalFilters.add(filter);
+        return this;
     }
 
     /**
@@ -139,7 +144,7 @@ public class GetObservationRequest
      */
     @Override
     public List<String> getFeatureIdentifiers() {
-        return featureIdentifiers;
+        return Collections.unmodifiableList(featureIdentifiers);
     }
 
     /**
@@ -150,11 +155,15 @@ public class GetObservationRequest
      */
     @Override
     public void setFeatureIdentifiers(List<String> featureIdentifiers) {
-        this.featureIdentifiers = Optional.ofNullable(featureIdentifiers).orElseGet(LinkedList::new);
+        this.featureIdentifiers.clear();
+        if (featureIdentifiers != null) {
+            this.featureIdentifiers.addAll(featureIdentifiers);
+        }
     }
 
-    public void addFeatureIdentifier(String featureIdentifier) {
+    public GetObservationRequest addFeatureIdentifier(String featureIdentifier) {
         this.featureIdentifiers.add(featureIdentifier);
+        return this;
     }
 
     /**
@@ -163,7 +172,7 @@ public class GetObservationRequest
      * @return observableProperties
      */
     public List<String> getObservedProperties() {
-        return observedProperties;
+        return Collections.unmodifiableList(observedProperties);
     }
 
     /**
@@ -172,12 +181,17 @@ public class GetObservationRequest
      * @param observedProperties
      *            observedProperties
      */
-    public void setObservedProperties(List<String> observedProperties) {
-        this.observedProperties = Optional.ofNullable(observedProperties).orElseGet(LinkedList::new);
+    public GetObservationRequest setObservedProperties(List<String> observedProperties) {
+        this.observedProperties.clear();
+        if (observedProperties != null) {
+            this.observedProperties.addAll(observedProperties);
+        }
+        return this;
     }
 
-    public void addObservedProperty(String observedProperty) {
+    public GetObservationRequest addObservedProperty(String observedProperty) {
         this.observedProperties.add(observedProperty);
+        return this;
     }
 
     /**
@@ -186,7 +200,7 @@ public class GetObservationRequest
      * @return offerings
      */
     public List<String> getOfferings() {
-        return offerings;
+        return Collections.unmodifiableList(offerings);
     }
 
     /**
@@ -195,12 +209,17 @@ public class GetObservationRequest
      * @param offerings
      *            offerings
      */
-    public void setOfferings(List<String> offerings) {
-        this.offerings = Optional.ofNullable(offerings).orElseGet(LinkedList::new);
+    public GetObservationRequest setOfferings(List<String> offerings) {
+        this.offerings.clear();
+        if (offerings != null) {
+            this.offerings.addAll(offerings);
+        }
+        return this;
     }
 
-    public void addOffering(String offering) {
+    public GetObservationRequest addOffering(String offering) {
         this.offerings.add(offering);
+        return this;
     }
 
     /**
@@ -209,7 +228,7 @@ public class GetObservationRequest
      * @return procedures
      */
     public List<String> getProcedures() {
-        return procedures;
+        return Collections.unmodifiableList(procedures);
     }
 
     /**
@@ -218,12 +237,17 @@ public class GetObservationRequest
      * @param procedures
      *            procedures
      */
-    public void setProcedures(List<String> procedures) {
-        this.procedures = Optional.ofNullable(procedures).orElseGet(LinkedList::new);
+    public GetObservationRequest setProcedures(List<String> procedures) {
+        this.procedures.clear();
+        if (procedures != null) {
+            this.procedures.addAll(procedures);
+        }
+        return this;
     }
 
-    public void addProcedure(String procedure) {
+    public GetObservationRequest addProcedure(String procedure) {
         this.procedures.add(procedure);
+        return this;
     }
 
     /**
@@ -239,7 +263,6 @@ public class GetObservationRequest
         return resultFilter;
     }
 
-
     public GetObservationRequest setResultFilter(ComparisonFilter filter) {
         this.resultFilter = filter;
         addExtension(new ResultFilter(filter));
@@ -253,11 +276,13 @@ public class GetObservationRequest
      *            result filter(s)
      */
     @SuppressWarnings("rawtypes")
-    public void setResultFilter(Filter resultFilter) {
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public GetObservationRequest setResultFilter(Filter resultFilter) {
         this.resultFilter = resultFilter;
         if (resultFilter instanceof ComparisonFilter) {
             addExtension(new ResultFilter((ComparisonFilter) resultFilter));
         }
+        return this;
     }
 
     /**
@@ -289,8 +314,9 @@ public class GetObservationRequest
      * @param requestString
      *            request as String
      */
-    public void setRequestString(String requestString) {
+    public GetObservationRequest setRequestString(String requestString) {
         this.requestString = requestString;
+        return this;
     }
 
     /**
@@ -299,6 +325,7 @@ public class GetObservationRequest
      * @return spatial filter
      */
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SpatialFilter getSpatialFilter() {
         if (hasExtension(SosSpatialFilterConstants.SPATIAL_FILTER)) {
             return ((SosSpatialFilter) getExtension(SosSpatialFilterConstants.SPATIAL_FILTER).get()).getValue();
@@ -313,6 +340,7 @@ public class GetObservationRequest
      *            spatial filter
      */
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setSpatialFilter(SpatialFilter resultSpatialFilter) {
         this.spatialFilter = resultSpatialFilter;
     }
@@ -343,12 +371,16 @@ public class GetObservationRequest
 
     }
 
-    public void setNamespaces(Map<String, String> namespaces) {
-        this.namespaces = namespaces;
+    public GetObservationRequest setNamespaces(Map<String, String> namespaces) {
+        this.namespaces.clear();
+        if (namespaces != null) {
+            this.namespaces.putAll(namespaces);
+        }
+        return this;
     }
 
     public Map<String, String> getNamespaces() {
-        return namespaces;
+        return Collections.unmodifiableMap(namespaces);
     }
 
     public boolean isSetOffering() {
@@ -406,9 +438,9 @@ public class GetObservationRequest
     public boolean hasSpatialFilteringProfileSpatialFilter() {
         return isSetSpatialFilter() && (getSpatialFilter().getValueReference()
                 .equals(Sos2Constants.VALUE_REFERENCE_SPATIAL_FILTERING_PROFILE)
-                || (hasExtension(SosSpatialFilterConstants.SPATIAL_FILTER)
+                || hasExtension(SosSpatialFilterConstants.SPATIAL_FILTER)
                         && ((SosSpatialFilter) getExtension(SosSpatialFilterConstants.SPATIAL_FILTER).get()).getValue()
-                                .getValueReference().equals(Sos2Constants.VALUE_REFERENCE_SPATIAL_FILTERING_PROFILE)));
+                                .getValueReference().equals(Sos2Constants.VALUE_REFERENCE_SPATIAL_FILTERING_PROFILE));
     }
 
     public boolean isSetRequestString() {
@@ -419,8 +451,9 @@ public class GetObservationRequest
         return CollectionHelper.isNotEmpty(getNamespaces());
     }
 
-    public void setMergeObservationValues(boolean mergeObservationValues) {
+    public GetObservationRequest setMergeObservationValues(boolean mergeObservationValues) {
         this.mergeObservationValues = mergeObservationValues;
+        return this;
     }
 
     public boolean isSetMergeObservationValues() {
@@ -430,8 +463,7 @@ public class GetObservationRequest
     /**
      * Check if the {@link Extensions} contains {@link Filter}
      *
-     * @return <code>true</code>, if the {@link Extensions} contains
-     *         {@link Filter}
+     * @return <code>true</code>, if the {@link Extensions} contains {@link Filter}
      */
     public boolean isSetFesFilterExtension() {
         return getExtensions().stream().anyMatch(this::isFesFilterExtension);
@@ -448,10 +480,8 @@ public class GetObservationRequest
     }
 
     private boolean isFesFilterExtension(Extension<?> extension) {
-        return !((extension instanceof ResultFilter)
-                || (extension instanceof SpatialFilter)
-                || (extension instanceof SosSpatialFilter))
-                && extension.getValue() instanceof Filter<?>;
+        return !(extension instanceof ResultFilter || extension instanceof SpatialFilter
+                || extension instanceof SosSpatialFilter) && extension.getValue() instanceof Filter<?>;
     }
 
     private boolean isFirstLatest(IndeterminateValue v) {

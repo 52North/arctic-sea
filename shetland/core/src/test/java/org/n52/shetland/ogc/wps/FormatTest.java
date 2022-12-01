@@ -15,10 +15,8 @@
  */
 package org.n52.shetland.ogc.wps;
 
-import org.n52.shetland.ogc.wps.Format;
-
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 import java.nio.charset.StandardCharsets;
 

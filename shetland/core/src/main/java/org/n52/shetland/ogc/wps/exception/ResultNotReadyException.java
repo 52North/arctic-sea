@@ -22,9 +22,8 @@ import org.n52.janmayen.http.HTTPStatus;
  * <p>
  * <i>The result for the requested JobID has not yet been generated</i>
  *
- * @see <a href="http://docs.opengeospatial.org/is/14-065/14-065.html#69">OGC
- *      WPS 2.0.2 Interface Standard, Table 50 — Additional exception codes for
- *      the GetResult operation</a>
+ * @see <a href="http://docs.opengeospatial.org/is/14-065/14-065.html#69">OGC WPS 2.0.2 Interface Standard,
+ *      Table 50 — Additional exception codes for the GetResult operation</a>
  * @author <a href="mailto:b.pross@52north.org">Benjamin Pross</a>
  *
  * @since 5.3.0

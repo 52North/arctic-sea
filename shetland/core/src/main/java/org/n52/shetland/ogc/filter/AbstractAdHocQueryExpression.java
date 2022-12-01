@@ -51,7 +51,8 @@ public abstract class AbstractAdHocQueryExpression extends AbstractQueryExpressi
     }
 
     /**
-     * @param projectionClause the projectionClause to add
+     * @param projectionClause
+     *            the projectionClause to add
      *
      * @return this
      */
@@ -61,7 +62,8 @@ public abstract class AbstractAdHocQueryExpression extends AbstractQueryExpressi
     }
 
     /**
-     * @param projectionClauses the projectionClauses to add
+     * @param projectionClauses
+     *            the projectionClauses to add
      *
      * @return this
      */
@@ -71,7 +73,8 @@ public abstract class AbstractAdHocQueryExpression extends AbstractQueryExpressi
     }
 
     /**
-     * @param projectionClauses the projectionClauses to set
+     * @param projectionClauses
+     *            the projectionClauses to set
      *
      * @return this
      */
@@ -92,7 +95,8 @@ public abstract class AbstractAdHocQueryExpression extends AbstractQueryExpressi
     }
 
     /**
-     * @param selectionClause the selectionClause to set
+     * @param selectionClause
+     *            the selectionClause to set
      *
      * @return this
      */
@@ -113,7 +117,8 @@ public abstract class AbstractAdHocQueryExpression extends AbstractQueryExpressi
     }
 
     /**
-     * @param sortingClause the sortingClause to set
+     * @param sortingClause
+     *            the sortingClause to set
      *
      * @return this
      */
@@ -134,7 +139,8 @@ public abstract class AbstractAdHocQueryExpression extends AbstractQueryExpressi
     }
 
     /**
-     * @param typeNames the typeNames to set
+     * @param typeNames
+     *            the typeNames to set
      */
     private void setTypeNames(Collection<QName> typeNames) {
         this.typeNames = Optional.ofNullable(typeNames).map(HashSet::new).orElseGet(HashSet::new);
@@ -148,7 +154,8 @@ public abstract class AbstractAdHocQueryExpression extends AbstractQueryExpressi
     }
 
     /**
-     * @param aliases the aliases to set
+     * @param aliases
+     *            the aliases to set
      *
      * @return this
      */

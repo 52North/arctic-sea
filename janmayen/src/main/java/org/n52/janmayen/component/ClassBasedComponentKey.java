@@ -18,6 +18,7 @@ package org.n52.janmayen.component;
 import java.util.Objects;
 
 import com.google.common.base.MoreObjects;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Generic {@link Component} key that is based on a single {@link Class}.
@@ -28,6 +29,7 @@ import com.google.common.base.MoreObjects;
  *
  * @author Christian Autermann
  */
+@SuppressFBWarnings({"EI_EXPOSE_REP", "EI_EXPOSE_REP2"})
 public class ClassBasedComponentKey<T> {
 
     private final Class<? extends T> type;

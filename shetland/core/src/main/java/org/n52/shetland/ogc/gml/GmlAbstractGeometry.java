@@ -17,6 +17,8 @@ package org.n52.shetland.ogc.gml;
 
 import org.locationtech.jts.geom.Geometry;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * A class that represents a gml:AbstractGeometry (PointType, ...).
  *
@@ -53,6 +55,7 @@ public class GmlAbstractGeometry extends AbstractFeature {
      *
      * @return the geometry
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Geometry getGeometry() {
         return geometry;
     }
@@ -63,6 +66,7 @@ public class GmlAbstractGeometry extends AbstractFeature {
      * @param geometry
      *            the geometry to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setGeometry(Geometry geometry) {
         this.geometry = geometry;
     }

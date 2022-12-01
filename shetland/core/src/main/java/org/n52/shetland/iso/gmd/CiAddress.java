@@ -17,6 +17,7 @@ package org.n52.shetland.iso.gmd;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import com.google.common.base.Strings;
@@ -41,7 +42,7 @@ public class CiAddress extends AbstractObject {
      * @return the deliveryPoints
      */
     public List<String> getDeliveryPoints() {
-        return deliveryPoints;
+        return Collections.unmodifiableList(deliveryPoints);
     }
 
     /**
@@ -49,7 +50,8 @@ public class CiAddress extends AbstractObject {
      *            the deliveryPoints to set
      */
     public CiAddress setDeliveryPoints(Collection<String> deliveryPoints) {
-        if (electronicMailAddresses != null) {
+        this.deliveryPoints.clear();
+        if (deliveryPoints != null) {
             this.deliveryPoints.addAll(deliveryPoints);
         }
         return this;
@@ -60,7 +62,7 @@ public class CiAddress extends AbstractObject {
      *            the deliveryPoints to add
      */
     public CiAddress addDeliveryPoints(String deliveryPoints) {
-        if (electronicMailAddresses != null) {
+        if (deliveryPoints != null) {
             this.deliveryPoints.add(deliveryPoints);
         }
         return this;
@@ -154,7 +156,7 @@ public class CiAddress extends AbstractObject {
      * @return the electronicMailAddresses
      */
     public List<String> getElectronicMailAddresses() {
-        return electronicMailAddresses;
+        return Collections.unmodifiableList(electronicMailAddresses);
     }
 
     /**

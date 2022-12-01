@@ -22,8 +22,7 @@ import org.n52.shetland.ogc.sos.Sos2Constants;
  * @since 1.0.0
  *
  */
-public class DeleteSensorRequest
-        extends OwsServiceRequest {
+public class DeleteSensorRequest extends OwsServiceRequest {
 
     private String procedureIdentifier;
 

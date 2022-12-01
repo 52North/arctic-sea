@@ -17,35 +17,38 @@ package org.n52.shetland.ogc.om;
 
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Optional;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import org.locationtech.jts.geom.Geometry;
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.om.values.GeometryValue;
 import org.n52.shetland.ogc.om.values.QuantityValue;
 import org.n52.shetland.ogc.om.values.Value;
 import org.n52.shetland.util.CollectionHelper;
 
-import org.locationtech.jts.geom.Geometry;
-
 public class ParameterHolder {
 
     private final SortedSet<NamedValue<?>> parameter = new TreeSet<>();
 
     public SortedSet<NamedValue<?>> getParameter() {
-        return parameter;
+        return Collections.unmodifiableSortedSet(parameter);
     }
 
     @SuppressWarnings("unchecked")
-    public <T> Optional<Value<T>> getParameter(String name) {
-        if (name == null || !name.isEmpty()) {
+    public <
+            T> Optional<Value<T>> getParameter(String name) {
+        if (name == null || name.isEmpty()) {
             return Optional.empty();
         }
-        return this.parameter.stream()
-                .filter(nv -> nv.getName().getHref().equals(name))
-                .map(nv -> (Value<T>) nv.getValue())
-                .findAny();
+        return this.parameter.stream().filter(nv -> nv.getName().getHref().equals(name))
+                .map(nv -> (Value<T>) nv.getValue()).findAny();
+    }
+
+    public boolean hasParameter(String name) {
+        return getParameter(name).isPresent();
     }
 
     public ParameterHolder setParameter(Collection<NamedValue<?>> parameter) {
@@ -108,13 +111,13 @@ public class ParameterHolder {
     }
 
     private boolean isHeightParameter(NamedValue<?> namedValue) {
-        return namedValue.isSetName() && namedValue.getName().isSetHref() &&
-               (namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_HEIGHT_URL) ||
-                namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_HEIGHT) ||
-                namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_ELEVATION) ||
-                namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_FROM_HEIGHT) ||
-               namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_TO_HEIGHT)) &&
-               namedValue.getValue() instanceof QuantityValue;
+        return namedValue.isSetName() && namedValue.getName().isSetHref()
+                && (namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_HEIGHT_URL)
+                        || namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_HEIGHT)
+                        || namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_ELEVATION)
+                        || namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_FROM_HEIGHT)
+                        || namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_TO_HEIGHT))
+                && namedValue.getValue() instanceof QuantityValue;
     }
 
     /**
@@ -144,12 +147,12 @@ public class ParameterHolder {
     }
 
     private boolean isDepthParameter(NamedValue<?> namedValue) {
-        return namedValue.isSetName() && namedValue.getName().isSetHref() &&
-                (namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_DEPTH_URL) ||
-                        namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_DEPTH) ||
-                        namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_FROM_DEPTH) ||
-                       namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_TO_DEPTH)) &&
-               namedValue.getValue() instanceof QuantityValue;
+        return namedValue.isSetName() && namedValue.getName().isSetHref()
+                && (namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_DEPTH_URL)
+                        || namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_DEPTH)
+                        || namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_FROM_DEPTH)
+                        || namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_TO_DEPTH))
+                && namedValue.getValue() instanceof QuantityValue;
     }
 
     public boolean isSetHeightDepthParameter() {
@@ -177,31 +180,31 @@ public class ParameterHolder {
     }
 
     private boolean isToParameter(NamedValue<?> namedValue) {
-        return namedValue.isSetName() && namedValue.getName().isSetHref() &&
-               (namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_TO_DEPTH) ||
-                namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_TO_HEIGHT) ||
-                namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_TO)) &&
-               namedValue.getValue() instanceof QuantityValue;
+        return namedValue.isSetName() && namedValue.getName().isSetHref()
+                && (namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_TO_DEPTH)
+                        || namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_TO_HEIGHT)
+                        || namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_TO))
+                && namedValue.getValue() instanceof QuantityValue;
     }
 
     private boolean isFromParameter(NamedValue<?> namedValue) {
-        return namedValue.isSetName() && namedValue.getName().isSetHref() &&
-               (namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_FROM_DEPTH) ||
-                namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_FROM_HEIGHT) ||
-                namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_FROM)) &&
-               namedValue.getValue() instanceof QuantityValue;
+        return namedValue.isSetName() && namedValue.getName().isSetHref()
+                && (namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_FROM_DEPTH)
+                        || namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_FROM_HEIGHT)
+                        || namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_FROM))
+                && namedValue.getValue() instanceof QuantityValue;
     }
 
     @SuppressWarnings("unchecked")
     public NamedValue<BigDecimal> getToParameter() {
-        return getParameter().stream().filter(this::isToParameter)
-                .findFirst().map(nv -> (NamedValue<BigDecimal>) nv).orElse(null);
+        return getParameter().stream().filter(this::isToParameter).findFirst().map(nv -> (NamedValue<BigDecimal>) nv)
+                .orElse(null);
     }
 
     @SuppressWarnings("unchecked")
     public NamedValue<BigDecimal> getFromParameter() {
-        return getParameter().stream().filter(this::isFromParameter)
-                .findFirst().map(nv -> (NamedValue<BigDecimal>) nv).orElse(null);
+        return getParameter().stream().filter(this::isFromParameter).findFirst().map(nv -> (NamedValue<BigDecimal>) nv)
+                .orElse(null);
     }
 
     /**
@@ -216,7 +219,8 @@ public class ParameterHolder {
     /**
      * Add sampling geometry to observation
      *
-     * @param samplingGeometry The sampling geometry to set
+     * @param samplingGeometry
+     *            The sampling geometry to set
      *
      * @return this
      */
@@ -235,8 +239,8 @@ public class ParameterHolder {
      */
     @SuppressWarnings("unchecked")
     public NamedValue<Geometry> getSpatialFilteringProfileParameter() {
-        return getParameter().stream().filter(this::isSamplingGeometryParameter)
-                .findFirst().map(nv -> (NamedValue<Geometry>) nv).orElse(null);
+        return getParameter().stream().filter(this::isSamplingGeometryParameter).findFirst()
+                .map(nv -> (NamedValue<Geometry>) nv).orElse(null);
     }
 
     /**
@@ -245,9 +249,9 @@ public class ParameterHolder {
      * @return <code>true</code>, if sampling geometry for spatial filtering profile is set
      */
     private boolean isSamplingGeometryParameter(NamedValue<?> namedValue) {
-        return namedValue.isSetName() && namedValue.getName().isSetHref() &&
-               namedValue.getName().getHref().equals(OmConstants.PARAM_NAME_SAMPLING_GEOMETRY) &&
-               namedValue.getValue() instanceof GeometryValue;
+        return namedValue.isSetName() && namedValue.getName().isSetHref()
+                && namedValue.getName().getHref().equals(OmConstants.PARAM_NAME_SAMPLING_GEOMETRY)
+                && namedValue.getValue() instanceof GeometryValue;
     }
 
 }

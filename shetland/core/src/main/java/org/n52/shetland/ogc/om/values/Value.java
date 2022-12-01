@@ -15,7 +15,6 @@
  */
 package org.n52.shetland.ogc.om.values;
 
-
 import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
 
@@ -33,7 +32,7 @@ public interface Value<T> {
      * Set the measurment value
      *
      * @param value
-     *              Value to set
+     *            Value to set
      */
     Value<T> setValue(T value);
 
@@ -92,6 +91,8 @@ public interface Value<T> {
         return getUnitObject() != null && !getUnitObject().isEmpty();
     }
 
-    <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E;
+    <
+            X,
+            E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E;
 
 }

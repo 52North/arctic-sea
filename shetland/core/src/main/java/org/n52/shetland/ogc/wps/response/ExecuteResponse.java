@@ -42,8 +42,7 @@ public class ExecuteResponse extends OwsServiceResponse {
         this(service, version, null, status);
     }
 
-    private ExecuteResponse(String service, String version, Result result,
-                            StatusInfo status) {
+    private ExecuteResponse(String service, String version, Result result, StatusInfo status) {
         super(service, version);
         this.result = Optional.ofNullable(result);
         this.status = Optional.ofNullable(status);

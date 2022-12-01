@@ -22,6 +22,7 @@ import java.util.Set;
 
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
+import org.locationtech.jts.geom.Geometry;
 import org.n52.shetland.ogc.OGCConstants;
 import org.n52.shetland.ogc.SupportedType;
 import org.n52.shetland.ogc.gml.AbstractFeature;
@@ -45,7 +46,6 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import org.locationtech.jts.geom.Geometry;
 
 import net.opengis.gml.x32.FeaturePropertyType;
 import net.opengis.samplingSpecimen.x20.SFSpecimenDocument;

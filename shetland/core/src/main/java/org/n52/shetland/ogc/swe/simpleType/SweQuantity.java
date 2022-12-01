@@ -16,13 +16,12 @@
 package org.n52.shetland.ogc.swe.simpleType;
 
 import java.math.BigDecimal;
-import java.util.Collection;
 
 import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
-import org.n52.shetland.w3c.xlink.Referenceable;
 import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
 import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
+import org.n52.shetland.w3c.xlink.Referenceable;
 
 /**
  * SOS internal representation of SWE simpleType quantity
@@ -176,14 +175,16 @@ public class SweQuantity extends SweAbstractUomType<BigDecimal> implements SweQu
     }
 
     /**
-     * @param constraint the constraint to set
+     * @param constraint
+     *            the constraint to set
      */
     public void setConstraint(SweAllowedValues constraint) {
         this.constraint = Referenceable.of(constraint);
     }
 
     /**
-     * @param constraint the constraint to set
+     * @param constraint
+     *            the constraint to set
      */
     public void setConstraint(Referenceable<SweAllowedValues> constraint) {
         this.constraint = constraint;
@@ -204,17 +205,15 @@ public class SweQuantity extends SweAbstractUomType<BigDecimal> implements SweQu
     }
 
     @Override
-    public SweQuantity setQuality(Collection<SweQuality> quality) {
-        return (SweQuantity) super.setQuality(quality);
-    }
-
-    @Override
-    public <T, X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
+    public <
+            T,
+            X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
         return visitor.visit(this);
     }
 
     @Override
-    public <X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
+    public <
+            X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
         visitor.visit(this);
     }
 

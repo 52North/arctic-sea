@@ -17,6 +17,7 @@ package org.n52.shetland.iso.gmd;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.n52.shetland.util.CollectionHelper;
@@ -38,12 +39,14 @@ public class CiTelephone extends AbstractObject {
     }
 
     public List<String> getVoice() {
-        return voice;
+        return Collections.unmodifiableList(voice);
     }
 
     public CiTelephone setVoice(final Collection<String> voice) {
-        voice.clear();
-        this.voice.addAll(voice);
+        this.voice.clear();
+        if (voice != null) {
+            this.voice.addAll(voice);
+        }
         return this;
     }
 
@@ -59,7 +62,7 @@ public class CiTelephone extends AbstractObject {
     }
 
     public List<String> getFacsimile() {
-        return facsimile;
+        return Collections.unmodifiableList(facsimile);
     }
 
     public CiTelephone addFacsimile(final String facsimile) {

@@ -22,8 +22,6 @@ import java.nio.charset.Charset;
 import org.n52.janmayen.http.QueryBuilder;
 import org.n52.shetland.ogc.ows.OWSConstants;
 
-
-
 public class OwsQueryBuilder extends QueryBuilder {
 
     public OwsQueryBuilder(URL url) {

@@ -36,7 +36,8 @@ import org.n52.shetland.ogc.swe.stream.StreamingSweDataArray;
  *
  * @author Christian Autermann
  */
-public abstract class VoidSweDataComponentVisitor<X extends Throwable> implements SweDataComponentVisitor<Void, X> {
+public abstract class VoidSweDataComponentVisitor<
+        X extends Throwable> implements SweDataComponentVisitor<Void, X> {
 
     @Override
     public Void visit(SweField component) throws X {

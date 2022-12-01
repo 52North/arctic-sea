@@ -15,7 +15,6 @@
  */
 package org.n52.shetland.ogc.wps;
 
-
 import java.util.Set;
 
 import org.n52.janmayen.http.MediaTypes;
@@ -23,9 +22,8 @@ import org.n52.janmayen.http.MediaTypes;
 import com.google.common.collect.ImmutableSet;
 
 /**
- * {@code WPSConstants} holds all important and often used constants of OGC WPS (e.g.
- * name of the getCapabilities operation) that are global between all supported
- * versions
+ * {@code WPSConstants} holds all important and often used constants of OGC WPS (e.g. name of the
+ * getCapabilities operation) that are global between all supported versions
  *
  * @since 1.0.0
  */
@@ -45,17 +43,18 @@ public interface WPSConstants {
     String SERVICE = "WPS";
 
     /**
-     * Constant 'inline' for response mode, which means that results are
-     * contained inline the ProcessOutputs element of an execute response
-     * document.
+     * Constant 'inline' for response mode, which means that results are contained inline the ProcessOutputs
+     * element of an execute response document.
+     *
      * @deprecated see {@link ResponseMode}
      */
     @Deprecated
     String RESPONSE_MODE_INLINE = "inline";
 
     /**
-     * Constant 'raw' for response mode, which means that result values of
-     * an execute response are returned directly, i.e. not wrapped in an xml response
+     * Constant 'raw' for response mode, which means that result values of an execute response are returned
+     * directly, i.e. not wrapped in an xml response
+     *
      * @deprecated see {@link ResponseMode}
      */
     @Deprecated
@@ -63,17 +62,16 @@ public interface WPSConstants {
 
     /**
      * Array of constants for response mode.
+     *
      * @deprecated see {@link ResponseMode}
      */
     @Deprecated
-    Set<String> RESPONSE_MODES = ImmutableSet.of(RESPONSE_MODE_INLINE,
-                                                 RESPONSE_MODE_RAW);
+    Set<String> RESPONSE_MODES = ImmutableSet.of(RESPONSE_MODE_INLINE, RESPONSE_MODE_RAW);
 
     String VERSION_200 = "2.0.0";
 
     /**
-     * The names of the operations supported by all versions of the WPS
-     * specification.
+     * The names of the operations supported by all versions of the WPS specification.
      */
     enum Operations {
         GetCapabilities,

@@ -16,13 +16,12 @@
 package org.n52.shetland.ogc.ows.exception;
 
 /**
- * Implementation of {@link CodedOwsException} to be used if <p> <i>No other
- * exceptionCode specified by this service and server applies to this
- * exception.</i>
+ * Implementation of {@link CodedOwsException} to be used if
+ * <p>
+ * <i>No other exceptionCode specified by this service and server applies to this exception.</i>
  *
- * @see <a href="http://portal.opengeospatial.org/files/?artifact_id=20040">OGC
- *      Web Service Common Specification 1.1.0, Table 25 — Standard exception codes and
- *      meanings</a>
+ * @see <a href="http://portal.opengeospatial.org/files/?artifact_id=20040">OGC Web Service Common
+ *      Specification 1.1.0, Table 25 — Standard exception codes and meanings</a>
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  *
  * @since 1.0.0

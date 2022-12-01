@@ -15,7 +15,6 @@
  */
 package org.n52.shetland.inspire;
 
-
 import org.n52.shetland.w3c.Nillable;
 
 import com.google.common.base.MoreObjects;
@@ -25,6 +24,7 @@ import com.google.common.base.Strings;
 
 /**
  * TODO JavaDoc
+ *
  * @author Christian Autermann
  */
 public class Spelling {
@@ -78,26 +78,18 @@ public class Spelling {
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("text", getText())
-                .add("script", getScript())
-                .add("transliterationScheme", getTransliterationScheme())
-                .toString();
+        return MoreObjects.toStringHelper(this).add("text", getText()).add("script", getScript())
+                .add("transliterationScheme", getTransliterationScheme()).toString();
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Spelling) {
             Spelling that = (Spelling) obj;
-            return Objects.equal(this.getText(), that.getText()) &&
-                   Objects.equal(this.getScript(), that.getScript()) &&
-                   Objects.equal(this.getTransliterationScheme(), that.getTransliterationScheme());
+            return Objects.equal(this.getText(), that.getText()) && Objects.equal(this.getScript(), that.getScript())
+                    && Objects.equal(this.getTransliterationScheme(), that.getTransliterationScheme());
         }
         return false;
     }
-
-
-
-
 
 }

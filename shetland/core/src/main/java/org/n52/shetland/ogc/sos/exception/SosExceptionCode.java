@@ -26,6 +26,7 @@ import org.n52.shetland.ogc.sos.SosConstants;
 public enum SosExceptionCode implements ExceptionCode {
     ResponseExceedsSizeLimit(SosConstants.SOAP_REASON_RESPONSE_EXCEEDS_SIZE_LIMIT),
     InvalidPropertyOfferingCombination(SosConstants.SOAP_REASON_INVALID_PROPERTY_OFFERING_COMBINATION);
+
     private final String soapFaultReason;
 
     SosExceptionCode(String soapFaultReason) {

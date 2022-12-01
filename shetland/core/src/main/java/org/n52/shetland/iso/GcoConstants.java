@@ -38,6 +38,4 @@ public interface GcoConstants {
 
     QName QN_GCO_NIL_REASON = new QName(NS_GCO, AN_NIL_REASON, NS_GCO_PREFIX);
 
-
-
 }

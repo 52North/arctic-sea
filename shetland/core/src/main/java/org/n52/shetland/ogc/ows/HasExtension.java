@@ -31,9 +31,11 @@ import org.n52.shetland.ogc.swes.SwesExtension;
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  *
- * @param <T> Extension type
+ * @param <T>
+ *            Extension type
  */
-public interface HasExtension<T extends HasExtension<? extends T>> {
+public interface HasExtension<
+        T extends HasExtension<? extends T>> {
     /**
      * Get the {@link Extension}s
      *
@@ -44,7 +46,8 @@ public interface HasExtension<T extends HasExtension<? extends T>> {
     /**
      * Set the {@link Extensions} object
      *
-     * @param extensions the {@link Extensions} object to set
+     * @param extensions
+     *            the {@link Extensions} object to set
      *
      * @return this
      */
@@ -53,7 +56,8 @@ public interface HasExtension<T extends HasExtension<? extends T>> {
     /**
      * Add a {@link Extensions} to this object
      *
-     * @param extensions the {@link Extensions} to add
+     * @param extensions
+     *            the {@link Extensions} to add
      *
      * @return this
      */
@@ -66,7 +70,8 @@ public interface HasExtension<T extends HasExtension<? extends T>> {
     /**
      * Add a {@link Extension} to this object
      *
-     * @param extension the {@link Extension} to add
+     * @param extension
+     *            the {@link Extension} to add
      *
      * @return this
      */
@@ -79,7 +84,8 @@ public interface HasExtension<T extends HasExtension<? extends T>> {
     /**
      * Add a {@link Extension}s to this object
      *
-     * @param extensions the {@link Extension}s to add
+     * @param extensions
+     *            the {@link Extension}s to add
      *
      * @return this
      */
@@ -96,10 +102,10 @@ public interface HasExtension<T extends HasExtension<? extends T>> {
     /**
      * Check if {@link Extension} for identifier is set
      *
-     * @param identifier Identifier to check
+     * @param identifier
+     *            Identifier to check
      *
-     * @return <code>true</code>, if {@link Extensions} is available for the
-     *         identifier
+     * @return <code>true</code>, if {@link Extensions} is available for the identifier
      */
     default boolean hasExtension(Enum<?> identifier) {
         return getExtensions().containsExtension(identifier);
@@ -108,10 +114,10 @@ public interface HasExtension<T extends HasExtension<? extends T>> {
     /**
      * Check if {@link Extension} for identifier is set
      *
-     * @param identifier Identifier to check
+     * @param identifier
+     *            Identifier to check
      *
-     * @return <code>true</code>, if {@link Extensions} is available for the
-     *         identifier
+     * @return <code>true</code>, if {@link Extensions} is available for the identifier
      */
     default boolean hasExtension(String identifier) {
         return getExtensions().containsExtension(identifier);
@@ -120,7 +126,8 @@ public interface HasExtension<T extends HasExtension<? extends T>> {
     /**
      * Get {@link Extension} for identifier
      *
-     * @param identifier Identifier to get {@link Extension} for
+     * @param identifier
+     *            Identifier to get {@link Extension} for
      *
      * @return The requested {@link Extension}
      *
@@ -132,7 +139,8 @@ public interface HasExtension<T extends HasExtension<? extends T>> {
     /**
      * Get {@link Extension} for identifier
      *
-     * @param identifier Identifier to get {@link Extension} for
+     * @param identifier
+     *            Identifier to get {@link Extension} for
      *
      * @return The requested {@link Extension}
      *
@@ -140,7 +148,6 @@ public interface HasExtension<T extends HasExtension<? extends T>> {
     default Optional<Extension<?>> getExtension(String identifier) {
         return getExtensions().getExtension(identifier);
     }
-
 
     default int getExtensionCount(String identifier) {
         return getExtensions().countExtensions(identifier);
@@ -162,7 +169,8 @@ public interface HasExtension<T extends HasExtension<? extends T>> {
         return getExtensions().getBooleanExtension(identifier, defaultValue);
     }
 
-    default <V extends SweAbstractDataComponent> void addSwesExtension(String name, V value) {
+    default <
+            V extends SweAbstractDataComponent> void addSwesExtension(String name, V value) {
         SwesExtension<V> extension = new SwesExtension<V>();
         extension.setIdentifier(name);
         extension.setValue(value);

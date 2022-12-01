@@ -15,7 +15,6 @@
  */
 package org.n52.iceland.binding;
 
-import java.util.Collections;
 import java.util.Set;
 
 import org.n52.janmayen.http.MediaType;

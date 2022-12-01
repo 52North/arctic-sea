@@ -15,8 +15,8 @@
  */
 package org.n52.shetland.ogc.ows.extension;
 
-public class CapabilitiesExtension<T>
-        extends AbstractExtension<T> {
+public class CapabilitiesExtension<
+        T> extends AbstractExtension<T> {
 
     private T value;
 
@@ -37,6 +37,5 @@ public class CapabilitiesExtension<T>
         this.value = value;
         return this;
     }
-
 
 }

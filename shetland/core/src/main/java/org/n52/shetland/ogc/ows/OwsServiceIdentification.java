@@ -38,14 +38,9 @@ public class OwsServiceIdentification extends OwsDescription {
     private SortedSet<String> fees;
     private SortedSet<String> accessConstraints;
 
-    public OwsServiceIdentification(OwsCode serviceType,
-                                    Set<String> serviceTypeVersion,
-                                    Set<URI> profiles,
-                                    Set<String> fees,
-                                    Set<String> accessConstraints,
-                                    MultilingualString title,
-                                    MultilingualString abstrakt,
-                                    Set<OwsKeyword> keywords) {
+    public OwsServiceIdentification(OwsCode serviceType, Set<String> serviceTypeVersion, Set<URI> profiles,
+            Set<String> fees, Set<String> accessConstraints, MultilingualString title, MultilingualString abstrakt,
+            Set<OwsKeyword> keywords) {
         super(title, abstrakt, keywords);
         this.serviceType = Objects.requireNonNull(serviceType);
         this.serviceTypeVersion = CollectionHelper.newSortedSet(serviceTypeVersion);
@@ -134,11 +129,9 @@ public class OwsServiceIdentification extends OwsDescription {
 
     @Override
     public String toString() {
-        return "OwsServiceIdentification{" + "serviceType=" + serviceType +
-               ", serviceTypeVersion=" + serviceTypeVersion + ", profiles=" +
-               profiles + ", fees=" + fees + ", accessConstraints=" +
-               accessConstraints + '}';
+        return "OwsServiceIdentification{" + "serviceType=" + serviceType + ", serviceTypeVersion="
+                + serviceTypeVersion + ", profiles=" + profiles + ", fees=" + fees + ", accessConstraints="
+                + accessConstraints + '}';
     }
-
 
 }

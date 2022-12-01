@@ -25,13 +25,12 @@ import org.n52.shetland.ogc.swe.simpleType.SweAbstractSimpleType;
 import com.google.common.collect.Sets;
 
 /**
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
- *         J&uuml;rrens</a>
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  *
  * @since 1.0.0
  */
 public abstract class SweAbstractDataRecord extends SweAbstractDataComponent implements DataRecord {
-    private List<SweField> fields;
+    private List<SweField> fields = new LinkedList<SweField>();
 
     /**
      *
@@ -42,21 +41,23 @@ public abstract class SweAbstractDataRecord extends SweAbstractDataComponent imp
 
     @Override
     public List<SweField> getFields() {
-        return fields;
+        return Collections.unmodifiableList(fields);
     }
 
     @Override
     public SweAbstractDataRecord setFields(final List<SweField> fields) {
-        this.fields = fields;
+        this.fields.clear();
+        if (fields != null) {
+            this.fields.addAll(fields);
+        }
         return this;
     }
 
     @Override
     public SweAbstractDataRecord addField(final SweField field) {
-        if (fields == null) {
-            fields = new LinkedList<>();
+        if (field != null) {
+            fields.add(field);
         }
-        fields.add(field);
         return this;
     }
 
@@ -94,8 +95,7 @@ public abstract class SweAbstractDataRecord extends SweAbstractDataComponent imp
     }
 
     boolean isFieldName(final String fieldNameOrElementDefinition, final SweField sweField) {
-        return sweField.isSetName()
-                && sweField.getName().getValue().equalsIgnoreCase(fieldNameOrElementDefinition);
+        return sweField.isSetName() && sweField.getName().getValue().equalsIgnoreCase(fieldNameOrElementDefinition);
     }
 
     boolean isElementDefinition(final String fieldNameOrElementDefinition, final SweField sweField) {
@@ -111,7 +111,7 @@ public abstract class SweAbstractDataRecord extends SweAbstractDataComponent imp
         if (getClass() != obj.getClass()) {
             return false;
         }
-        if (obj instanceof SweAbstractDataRecord)  {
+        if (obj instanceof SweAbstractDataRecord) {
             final SweAbstractDataRecord other = (SweAbstractDataRecord) obj;
             if (getFields() != other.getFields() && (getFields() == null || !getFields().equals(other.getFields()))) {
                 return false;
@@ -125,7 +125,7 @@ public abstract class SweAbstractDataRecord extends SweAbstractDataComponent imp
         final int prime = 42;
         int hash = 7;
         hash = prime * hash + super.hashCode();
-        hash = prime * hash + (getFields() != null ? getFields().hashCode() : 0);
+        hash = prime * hash + getFields().hashCode();
         return hash;
     }
 
@@ -150,6 +150,5 @@ public abstract class SweAbstractDataRecord extends SweAbstractDataComponent imp
 
     @Override
     public abstract SweAbstractDataRecord copy();
-
 
 }

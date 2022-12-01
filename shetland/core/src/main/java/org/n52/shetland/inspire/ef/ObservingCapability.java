@@ -23,6 +23,8 @@ import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.w3c.xlink.Reference;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class ObservingCapability extends Reference {
 
     /**
@@ -68,9 +70,9 @@ public class ObservingCapability extends Reference {
         this(URI.create(href));
     }
 
-    public ObservingCapability(
-            Time observingTime, ReferenceType processType, ReferenceType resultNature, AbstractFeature procedure,
-            ReferenceType observedProperty) {
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public ObservingCapability(Time observingTime, ReferenceType processType, ReferenceType resultNature,
+            AbstractFeature procedure, ReferenceType observedProperty) {
         this.observingTime = observingTime;
         this.processType = processType;
         this.resultNature = resultNature;
@@ -81,6 +83,7 @@ public class ObservingCapability extends Reference {
     /**
      * @return the observingTime
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Time getObservingTime() {
         return observingTime;
     }
@@ -89,6 +92,7 @@ public class ObservingCapability extends Reference {
      * @param observingTime
      *            the observingTime to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setObservingTime(Time observingTime) {
         this.observingTime = observingTime;
     }
@@ -141,6 +145,7 @@ public class ObservingCapability extends Reference {
     /**
      * @return the procedure
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public AbstractFeature getProcedure() {
         return procedure;
     }
@@ -149,6 +154,7 @@ public class ObservingCapability extends Reference {
      * @param procedure
      *            the procedure to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setProcedure(AbstractFeature procedure) {
         this.procedure = procedure;
     }
@@ -156,6 +162,7 @@ public class ObservingCapability extends Reference {
     /**
      * @return the featureOfInterest
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public AbstractFeature getFeatureOfInterest() {
         return featureOfInterest;
     }
@@ -164,6 +171,7 @@ public class ObservingCapability extends Reference {
      * @param featureOfInterest
      *            the featureOfInterest to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setFeatureOfInterest(AbstractFeature featureOfInterest) {
         this.featureOfInterest = featureOfInterest;
     }
@@ -187,8 +195,7 @@ public class ObservingCapability extends Reference {
     public boolean equals(Object obj) {
         if (obj instanceof ObservingCapability) {
             ObservingCapability that = (ObservingCapability) obj;
-            return super.equals(obj)
-                    && Objects.equals(getObservingTime(), that.getObservingTime())
+            return super.equals(obj) && Objects.equals(getObservingTime(), that.getObservingTime())
                     && Objects.equals(getProcessType(), that.getProcessType())
                     && Objects.equals(getResultNature(), that.getResultNature())
                     && Objects.equals(getOnlineResource(), that.getOnlineResource())

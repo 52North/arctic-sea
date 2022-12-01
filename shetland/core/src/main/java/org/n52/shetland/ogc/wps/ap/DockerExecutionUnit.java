@@ -38,7 +38,7 @@ public class DockerExecutionUnit implements ExecutionUnit {
     }
 
     public Map<String, String> getEnvironment() {
-        return environment;
+        return Collections.unmodifiableMap(environment);
     }
 
     public void setEnvironment(Map<String, String> environment) {

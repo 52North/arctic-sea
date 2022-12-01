@@ -17,7 +17,8 @@ package org.n52.shetland.ogc.sensorML;
 
 import org.n52.shetland.ogc.sensorML.elements.SmlConnection;
 
-public interface HasConnections<T> {
+public interface HasConnections<
+        T> {
 
     SmlConnection getConnections();
 

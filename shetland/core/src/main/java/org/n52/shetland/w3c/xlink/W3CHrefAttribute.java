@@ -36,7 +36,7 @@ public class W3CHrefAttribute {
      * Constructor
      *
      * @param href
-     *             value to set
+     *            value to set
      */
     public W3CHrefAttribute(String href) {
         setHref(href);
@@ -51,7 +51,7 @@ public class W3CHrefAttribute {
 
     /**
      * @param href
-     *             value to set
+     *            value to set
      *
      * @return this
      */

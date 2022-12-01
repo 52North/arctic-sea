@@ -15,14 +15,14 @@
  */
 package org.n52.shetland.ogc.wps;
 
-import org.n52.shetland.ogc.wps.data.ProcessData;
-
 import java.time.OffsetDateTime;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+
+import org.n52.shetland.ogc.wps.data.ProcessData;
 
 /**
  * TODO JavaDoc

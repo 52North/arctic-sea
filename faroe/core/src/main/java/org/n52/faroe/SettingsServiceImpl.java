@@ -31,6 +31,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -39,17 +40,19 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import org.n52.faroe.annotation.Configurable;
 import org.n52.faroe.annotation.Setting;
 import org.n52.janmayen.event.EventBus;
 import org.n52.janmayen.function.Functions;
 
 /**
- * Class to handle the settings and configuration of the service. Allows other classes to change, delete, and declare
- * settings and to create, modify and delete administrator users. Classes can subscribe to specific settings using the
- * {@code Configurable} and {@code Setting} annotations. To be recognized by the SettingsManager
- * {@link #configure(java.lang.Object)} has to be called for every object that wants to receive settings. All other
- * classes have to call {@code configure(java.lang.Object)} manually.
+ * Class to handle the settings and configuration of the service. Allows other classes to change, delete, and
+ * declare settings and to create, modify and delete administrator users. Classes can subscribe to specific
+ * settings using the {@code Configurable} and {@code Setting} annotations. To be recognized by the
+ * SettingsManager {@link #configure(java.lang.Object)} has to be called for every object that wants to
+ * receive settings. All other classes have to call {@code configure(java.lang.Object)} manually.
  *
  *
  * @see SettingDefinition
@@ -63,13 +66,14 @@ public class SettingsServiceImpl implements SettingsService {
     private static final Logger LOG = LoggerFactory.getLogger(SettingsServiceImpl.class);
     private final Map<String, Set<ConfigurableObject>> configurableObjects = new HashMap<>();
     private final ReadWriteLock configurableObjectsLock = new ReentrantReadWriteLock();
-    private Set<SettingDefinition<?>> definitions;
-    private Map<String, SettingDefinition<?>> definitionByKey;
+    private Set<SettingDefinition<?>> definitions = new HashSet<>();
+    private Map<String, SettingDefinition<?>> definitionByKey = new TreeMap<>();
     private SettingsDao settingsManagerDao;
     private SettingValueFactory settingValueFactory;
     private EventBus serviceEventBus;
 
     @Inject
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setServiceEventBus(EventBus serviceEventBus) {
         this.serviceEventBus = serviceEventBus;
     }
@@ -80,20 +84,18 @@ public class SettingsServiceImpl implements SettingsService {
     }
 
     @Inject
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setSettingsManagerDao(SettingsDao settingsManagerDao) {
         this.settingsManagerDao = settingsManagerDao;
     }
 
     @Inject
     public void setSettingDefinitions(Optional<Collection<SettingDefinition<?>>> def) {
+        this.definitions.clear();
+        this.definitionByKey.clear();
         if (def.isPresent()) {
             Collection<SettingDefinition<?>> defs = def.get();
-            this.definitions = new HashSet<>(defs.size());
-            this.definitionByKey = new HashMap<>(defs.size());
             addSettings(defs);
-        } else {
-            this.definitions = new HashSet<>(0);
-            this.definitionByKey = new HashMap<>(0);
         }
     }
 
@@ -122,18 +124,20 @@ public class SettingsServiceImpl implements SettingsService {
         return Collections.unmodifiableSet(this.definitions);
     }
 
-
     @Override
     public void configureOnce(Object object) throws ConfigurationError {
         configure(object, false);
     }
 
     /**
-     * Configure {@code o} with the required settings. All changes to a setting required by the object will be applied.
+     * Configure {@code o} with the required settings. All changes to a setting required by the object will be
+     * applied.
      *
-     * @param object the object to configure
+     * @param object
+     *            the object to configure
      *
-     * @throws ConfigurationError if there is a problem configuring the object
+     * @throws ConfigurationError
+     *             if there is a problem configuring the object
      * @see Configurable
      * @see Setting
      */
@@ -141,7 +145,6 @@ public class SettingsServiceImpl implements SettingsService {
     public void configure(Object object) throws ConfigurationError {
         configure(object, true);
     }
-
 
     private void configure(Object object, boolean persist) throws ConfigurationError {
         Class<?> clazz = object.getClass();
@@ -161,8 +164,8 @@ public class SettingsServiceImpl implements SettingsService {
                     throw new ConfigurationError(String.format(
                             "Method %s annotated with @Setting in %s has a invalid method signature", method, clazz));
                 } else if (!Modifier.isPublic(method.getModifiers())) {
-                    throw new ConfigurationError(String.format(
-                            "Non-public method %s annotated with @Setting in %s", method, clazz));
+                    throw new ConfigurationError(
+                            String.format("Non-public method %s annotated with @Setting in %s", method, clazz));
                 } else {
                     configure(new ConfigurableObject(method, object, key, s.required()), persist);
                 }
@@ -190,7 +193,8 @@ public class SettingsServiceImpl implements SettingsService {
     /**
      * Get the definition that is defined with the specified key.
      *
-     * @param key the key
+     * @param key
+     *            the key
      *
      * @return the definition or {@code null} if there is no definition for the key
      */
@@ -202,8 +206,10 @@ public class SettingsServiceImpl implements SettingsService {
     /**
      * Gets the value of the setting defined by {@code key}.
      *
-     * @param <T> the type of the setting and value
-     * @param key the definition of the setting
+     * @param <T>
+     *            the type of the setting and value
+     * @param key
+     *            the definition of the setting
      *
      * @return the value of the setting
      */
@@ -216,8 +222,10 @@ public class SettingsServiceImpl implements SettingsService {
     /**
      * Gets the value of the setting defined by {@code key}.
      *
-     * @param <T> the type of the setting and value
-     * @param key the id of the setting
+     * @param <T>
+     *            the type of the setting and value
+     * @param key
+     *            the id of the setting
      *
      * @return the value of the setting
      */
@@ -232,7 +240,8 @@ public class SettingsServiceImpl implements SettingsService {
     }
 
     /**
-     * Gets all values for all definitions. If there is no value for a definition {@code null} is added to the map.
+     * Gets all values for all definitions. If there is no value for a definition {@code null} is added to the
+     * map.
      *
      * @return all values by definition
      */
@@ -257,14 +266,15 @@ public class SettingsServiceImpl implements SettingsService {
     /**
      * Deletes the setting defined by {@code setting}.
      *
-     * @param setting the definition
+     * @param setting
+     *            the definition
      *
-     * @throws ConfigurationError if there is a problem deleting the setting
+     * @throws ConfigurationError
+     *             if there is a problem deleting the setting
      */
     @Override
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public void deleteSetting(SettingDefinition<?> setting)
-            throws ConfigurationError {
+    public void deleteSetting(SettingDefinition<?> setting) throws ConfigurationError {
         SettingValue<?> oldValue = this.settingsManagerDao.getSettingValue(setting.getKey());
         if (oldValue != null) {
             applySetting(setting, oldValue, null);
@@ -282,13 +292,18 @@ public class SettingsServiceImpl implements SettingsService {
     }
 
     /**
-     * Applies the a new setting to all {@code ConfiguredObject}s. If an error occurs the the old value is reapplied.
+     * Applies the a new setting to all {@code ConfiguredObject}s. If an error occurs the the old value is
+     * reapplied.
      *
-     * @param setting  the definition
-     * @param oldValue the old value (or {@code null} if there is none)
-     * @param newValue the new value (or {@code null} if there is none)
+     * @param setting
+     *            the definition
+     * @param oldValue
+     *            the old value (or {@code null} if there is none)
+     * @param newValue
+     *            the new value (or {@code null} if there is none)
      *
-     * @throws ConfigurationError if there is a error configuring the objects
+     * @throws ConfigurationError
+     *             if there is a error configuring the objects
      */
     private void applySetting(SettingDefinition<?> setting, SettingValue<?> oldValue, SettingValue<?> newValue)
             throws ConfigurationError {
@@ -355,25 +370,26 @@ public class SettingsServiceImpl implements SettingsService {
                 val.setValue(def.getDefaultValue());
                 this.settingsManagerDao.saveSettingValue(val);
             } else {
-                throw new ConfigurationError(String.format(
-                        "No value found for required Setting '%s' with no default value.", key));
+                throw new ConfigurationError(
+                        String.format("No value found for required Setting '%s' with no default value.", key));
             }
             return val;
         }
     }
 
     /**
-     * Changes a setting. The change is propagated to all Objects that are configured. If the change fails for one of
-     * these objects, the setting is reverted to the old value of the setting for all objects.
+     * Changes a setting. The change is propagated to all Objects that are configured. If the change fails for
+     * one of these objects, the setting is reverted to the old value of the setting for all objects.
      *
-     * @param newValue the new value of the setting
+     * @param newValue
+     *            the new value of the setting
      *
-     * @throws ConfigurationError if there is a problem changing the setting.
+     * @throws ConfigurationError
+     *             if there is a problem changing the setting.
      */
     @Override
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public void changeSetting(SettingValue<?> newValue)
-            throws ConfigurationError {
+    public void changeSetting(SettingValue<?> newValue) throws ConfigurationError {
         if (newValue == null) {
             throw new NullPointerException("newValue can not be null");
         }
@@ -387,9 +403,8 @@ public class SettingsServiceImpl implements SettingsService {
         }
 
         if (def.getType() != newValue.getType()) {
-            throw new IllegalArgumentException(String
-                    .format("Invalid type for definition (%s vs. %s)", def
-                            .getType(), newValue.getType()));
+            throw new IllegalArgumentException(
+                    String.format("Invalid type for definition (%s vs. %s)", def.getType(), newValue.getType()));
         }
 
         SettingValue<?> oldValue = this.settingsManagerDao.getSettingValue(newValue.getKey());
@@ -482,10 +497,14 @@ public class SettingsServiceImpl implements SettingsService {
         /**
          * Constructs a new {@code ConfigurableObject}.
          *
-         * @param method   the method of the target
-         * @param target   the target object
-         * @param key      the settings key
-         * @param required if the setting is required
+         * @param method
+         *            the method of the target
+         * @param target
+         *            the target object
+         * @param key
+         *            the settings key
+         * @param required
+         *            if the setting is required
          */
         ConfigurableObject(Method method, Object target, String key, boolean required) {
             this.method = method;
@@ -518,24 +537,27 @@ public class SettingsServiceImpl implements SettingsService {
         /**
          * Configures this object with the specified value.
          *
-         * @param val the value
+         * @param val
+         *            the value
          *
-         * @throws ConfigurationError if an error occurs
+         * @throws ConfigurationError
+         *             if an error occurs
          */
-        public void configure(SettingValue<?> val)
-                throws ConfigurationError {
+        public void configure(SettingValue<?> val) throws ConfigurationError {
             configure(val.getValue());
         }
 
         /**
-         * Configures this object with the specified value. Exceptions are wrapped in a {@code ConfigurationError}.
+         * Configures this object with the specified value. Exceptions are wrapped in a
+         * {@code ConfigurationError}.
          *
-         * @param val the value
+         * @param val
+         *            the value
          *
-         * @throws ConfigurationError if an error occurs
+         * @throws ConfigurationError
+         *             if an error occurs
          */
-        public void configure(Object val)
-                throws ConfigurationError {
+        public void configure(Object val) throws ConfigurationError {
             try {
                 if (getTarget().get() != null) {
                     LOG.debug("Setting value '{}' for {}", val, this);
@@ -548,20 +570,17 @@ public class SettingsServiceImpl implements SettingsService {
             }
         }
 
-        private void logAndThrowError(Object val, Throwable t)
-                throws ConfigurationError {
-            String message = String
-                    .format("Error while setting value '%s' (%s) for property '%s' with method '%s'", val,
-                            val == null ? null : val.getClass(), getKey(), getMethod());
+        private void logAndThrowError(Object val, Throwable t) throws ConfigurationError {
+            String message = String.format("Error while setting value '%s' (%s) for property '%s' with method '%s'",
+                    val, val == null ? null : val.getClass(), getKey(), getMethod());
             LOG.error(message);
             throw new ConfigurationError(message, t);
         }
 
         @Override
         public String toString() {
-            return String
-                    .format("ConfigurableObject[key=%s, method=%s, target=%s]", getKey(), getMethod(),
-                            getTarget().get());
+            return String.format("ConfigurableObject[key=%s, method=%s, target=%s]", getKey(), getMethod(),
+                    getTarget().get());
         }
 
         @Override

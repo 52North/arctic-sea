@@ -39,11 +39,13 @@ public class CiResponsibleParty extends AbstractObject {
     private Nillable<Role> role;
 
     public CiResponsibleParty() {
-        this.role = Nillable.<Role>missing();
+        this.role = Nillable.<
+                Role> missing();
     }
 
     public CiResponsibleParty(Role role) {
-        this.role = Nillable.<Role>of(role);
+        this.role = Nillable.<
+                Role> of(role);
     }
 
     public CiResponsibleParty(Nillable<Role> role) {
@@ -97,7 +99,8 @@ public class CiResponsibleParty extends AbstractObject {
     }
 
     /**
-     * @param contactInfo the contactInfo to set
+     * @param contactInfo
+     *            the contactInfo to set
      *
      * @return {@code this}
      */
@@ -109,7 +112,8 @@ public class CiResponsibleParty extends AbstractObject {
     }
 
     /**
-     * @param contactInfo the contactInfo to set
+     * @param contactInfo
+     *            the contactInfo to set
      *
      * @return {@code this}
      */

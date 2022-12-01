@@ -37,7 +37,8 @@ public class LocalisedCharacterString extends AbtractGmd {
     }
 
     /**
-     * @param value the value to set
+     * @param value
+     *            the value to set
      */
     public LocalisedCharacterString setValue(String value) {
         this.value = value;
@@ -52,7 +53,8 @@ public class LocalisedCharacterString extends AbtractGmd {
     }
 
     /**
-     * @param locale the locale to set
+     * @param locale
+     *            the locale to set
      */
     public LocalisedCharacterString setLocale(String locale) {
         this.locale = locale;
@@ -72,16 +74,14 @@ public class LocalisedCharacterString extends AbtractGmd {
     public boolean equals(Object obj) {
         if (obj instanceof LocalisedCharacterString) {
             LocalisedCharacterString that = (LocalisedCharacterString) obj;
-            return Objects.equal(getValue(), that.getValue())
-                    && Objects.equal(getLocale(), that.getLocale());
+            return Objects.equal(getValue(), that.getValue()) && Objects.equal(getLocale(), that.getLocale());
         }
         return false;
     }
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this).add("Value", getValue())
-                .add("Locale", getLocale()).toString();
+        return MoreObjects.toStringHelper(this).add("Value", getValue()).add("Locale", getLocale()).toString();
     }
 
 }

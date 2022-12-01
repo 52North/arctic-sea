@@ -24,8 +24,10 @@ import org.n52.shetland.inspire.dls.InspireCapabilities.InspireExtendedCapabilit
 import org.n52.shetland.ogc.ows.OwsOperationMetadataExtension;
 import org.n52.shetland.ogc.sos.SosConstants;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
- * Abstract service internal representation of INSPIRE  ExtendedCapabilities.
+ * Abstract service internal representation of INSPIRE ExtendedCapabilities.
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
@@ -67,11 +69,13 @@ public abstract class InspireExtendedCapabilities implements OwsOperationMetadat
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public InspireSupportedLanguages getSupportedLanguages() {
         return supportedLanguages;
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public InspireExtendedCapabilities setSupportedLanguages(InspireSupportedLanguages supportedLanguages) {
         this.supportedLanguages = supportedLanguages;
         return this;

@@ -15,7 +15,6 @@
  */
 package org.n52.shetland.ogc.sos.response;
 
-
 import org.n52.shetland.ogc.sos.SosConstants;
 
 /**

@@ -34,8 +34,8 @@ import org.n52.shetland.ogc.swe.simpleType.SweTime;
 import org.n52.shetland.ogc.swe.simpleType.SweTimeRange;
 import org.n52.shetland.ogc.swe.stream.StreamingSweDataArray;
 
-
-public class AbstractThrowingVoidSweDataComponentVisitor<X extends Throwable> extends VoidSweDataComponentVisitor<X> {
+public class AbstractThrowingVoidSweDataComponentVisitor<
+        X extends Throwable> extends VoidSweDataComponentVisitor<X> {
 
     private final Supplier<X> exceptionSupplier;
 

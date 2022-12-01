@@ -27,6 +27,8 @@ import org.n52.iceland.util.activation.ActivationSource;
 import org.n52.iceland.util.activation.DefaultActivationInitializer;
 import org.n52.iceland.util.activation.FunctionalActivationListener;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * TODO JavaDoc
  *
@@ -37,6 +39,7 @@ public class ActivationService {
     private ActivationDao activationDao;
 
     @Inject
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setActivationDao(ActivationDao dao) {
         this.activationDao = dao;
     }

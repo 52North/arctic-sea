@@ -31,15 +31,15 @@ import com.google.common.collect.Maps;
  *
  * @since 1.0.0
  */
-public class FeatureCollection
-        extends AbstractFeature
-        implements Iterable<AbstractFeature> {
+public class FeatureCollection extends AbstractFeature implements Iterable<AbstractFeature> {
 
     private static String GML_FEATURE_COLLECTION = "gml:FeatureCollection";
     /**
      * members of this feature collection
      */
-    private SortedMap<String, AbstractFeature> members = Maps.<String, AbstractFeature> newTreeMap();
+    private SortedMap<String, AbstractFeature> members = Maps.<
+            String,
+            AbstractFeature> newTreeMap();
 
     /**
      * constructor
@@ -66,7 +66,7 @@ public class FeatureCollection
      * @return the members
      */
     public Map<String, AbstractFeature> getMembers() {
-        return members;
+        return Collections.unmodifiableSortedMap(members);
     }
 
     /**

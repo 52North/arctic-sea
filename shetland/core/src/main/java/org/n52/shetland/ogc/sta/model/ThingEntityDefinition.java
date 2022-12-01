@@ -69,10 +69,8 @@ public class ThingEntityDefinition extends STAEntityDefinition {
                                                                     ENTITY_PROPERTIES_MANDATORY));
 
     public ThingEntityDefinition() {
-        super(NAVIGATION_PROPERTIES_OPTIONAL,
-              NAVIGATION_PROPERTIES_MANDATORY,
-              ENTITY_PROPERTIES_OPTIONAL,
-              ENTITY_PROPERTIES_MANDATORY);
+        super(NAVIGATION_PROPERTIES_OPTIONAL, NAVIGATION_PROPERTIES_MANDATORY, ENTITY_PROPERTIES_OPTIONAL,
+                ENTITY_PROPERTIES_MANDATORY);
     }
 
 }

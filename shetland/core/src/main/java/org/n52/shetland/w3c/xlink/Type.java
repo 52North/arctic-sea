@@ -41,8 +41,6 @@ public enum Type {
             return null;
         }
 
-        return Arrays.stream(values())
-                .filter(type -> type.name().equalsIgnoreCase(str))
-                .findAny().orElse(null);
+        return Arrays.stream(values()).filter(type -> type.name().equalsIgnoreCase(str)).findAny().orElse(null);
     }
 }

@@ -19,6 +19,8 @@ import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class ElasticsearchTypeRegistry {
     private static final String TYPE = "type";
     private static final String INDEX = "index";
@@ -47,10 +49,12 @@ public class ElasticsearchTypeRegistry {
     public static class ElasticsearchType {
         private final Map<String, Object> type;
 
+        @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
         public ElasticsearchType(Map<String, Object> type) {
             this.type = type;
         }
 
+        @SuppressFBWarnings({ "EI_EXPOSE_REP" })
         public Map<String, Object> getType() {
             return type;
         }

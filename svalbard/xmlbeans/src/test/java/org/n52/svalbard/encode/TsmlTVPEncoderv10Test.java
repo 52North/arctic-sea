@@ -15,10 +15,14 @@
  */
 package org.n52.svalbard.encode;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.xmlbeans.XmlBeans;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
@@ -29,6 +33,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.n52.shetland.ogc.OGCConstants;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
@@ -39,6 +44,7 @@ import org.n52.shetland.ogc.om.OmConstants;
 import org.n52.shetland.ogc.om.OmObservableProperty;
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.om.OmObservationConstellation;
+import org.n52.shetland.ogc.om.SingleObservationValue;
 import org.n52.shetland.ogc.om.TimeValuePair;
 import org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeature;
 import org.n52.shetland.ogc.om.series.DefaultPointMetadata;
@@ -47,10 +53,15 @@ import org.n52.shetland.ogc.om.series.Metadata;
 import org.n52.shetland.ogc.om.series.tsml.DefaultTVPMeasurementMetadata;
 import org.n52.shetland.ogc.om.series.tsml.TimeseriesMLConstants;
 import org.n52.shetland.ogc.om.series.tsml.TimeseriesMLConstants.InterpolationType;
+import org.n52.shetland.ogc.om.series.wml.WaterMLConstants;
 import org.n52.shetland.ogc.om.values.MultiValue;
 import org.n52.shetland.ogc.om.values.QuantityValue;
 import org.n52.shetland.ogc.om.values.TVPValue;
 import org.n52.shetland.ogc.sos.SosProcedureDescriptionUnknownType;
+import org.n52.shetland.ogc.swe.simpleType.SweQuality;
+import org.n52.shetland.ogc.swe.simpleType.SweQualityHolder;
+import org.n52.shetland.ogc.swe.simpleType.SweQuantity;
+import org.n52.shetland.ogc.swe.simpleType.SweText;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.encode.exception.EncodingException;
@@ -73,12 +84,17 @@ public class TsmlTVPEncoderv10Test {
 
     private ObservationValue<MultiValue<List<TimeValuePair>>> mv;
 
-    private static final String PROCEDURE = "proceduretest";
-    private static final String OFFERING = "offeringtest";
-    private static final String CODE_SPACE = "codespacetest";
+    private static final String PROCEDURE = "phttp://example.tld/rocedure";
+    private static final String OFFERING = "http://example.tld/offering";
+    private static final String FEATURE = "http://example.tld/feature";
+    private static final String OBSERVABLE_PROPERTY = "http://example.tld/phenomenon";
+    private static final String CODE_SPACE = "http://example.tld/codespace";
+    private static final DateTime DATE_TIME = new DateTime(UTC_TIMESTAMP);
 
     private static final String TOKEN_SEPERATOR = "##";
     private static final String TUPLE_SEPERATOR = "@@";
+
+    private static final String RECREATIONAL = "Recreational";
 
     @BeforeEach
     public void initObjects() {
@@ -101,18 +117,12 @@ public class TsmlTVPEncoderv10Test {
         sweEncoderv20.setXmlOptions(XmlOptions::new);
 
         EncoderRepository encoderRepository = new EncoderRepository();
-        encoderRepository.setEncoders(Arrays.asList(
-                encoder,
-                gmlEncoderv321,
-                sensorMLEncoderv20,
-                sweCommonEncoderv20,
-                samsEncoderv20,
-                sweEncoderv20));
+        encoderRepository.setEncoders(Arrays.asList(encoder, gmlEncoderv321, sensorMLEncoderv20, sweCommonEncoderv20,
+                samsEncoderv20, sweEncoderv20));
         encoderRepository.init();
 
-
         encoderRepository.getEncoders().stream()
-            .forEach(e -> ((AbstractDelegatingEncoder<?,?>)e).setEncoderRepository(encoderRepository));
+                .forEach(e -> ((AbstractDelegatingEncoder<?, ?>) e).setEncoderRepository(encoderRepository));
 
         MultiValue<List<TimeValuePair>> value = new TVPValue();
         String unit = "test-unit";
@@ -120,8 +130,8 @@ public class TsmlTVPEncoderv10Test {
 
         TimeValuePair tvp1 =
                 new TimeValuePair(new TimeInstant(new Date(UTC_TIMESTAMP)), new QuantityValue(52.1234567890));
-        TimeValuePair tvp2 =
-                new TimeValuePair(new TimeInstant(new Date(UTC_TIMESTAMP + 10000000)), new QuantityValue(25.0987654321));
+        TimeValuePair tvp2 = new TimeValuePair(new TimeInstant(new Date(UTC_TIMESTAMP + 10000000)),
+                new QuantityValue(25.0987654321));
         List<TimeValuePair> valueList = CollectionHelper.list(tvp1, tvp2);
         value.setValue(valueList);
 
@@ -134,14 +144,12 @@ public class TsmlTVPEncoderv10Test {
         XmlObject encodedElement = encoder.encode(mv);
 
         MatcherAssert.assertThat(encodedElement, CoreMatchers.instanceOf(TimeseriesTVPDocument.class));
-        final TimeseriesTVPDocument timeseriesDocument =
-                (TimeseriesTVPDocument) encodedElement;
+        final TimeseriesTVPDocument timeseriesDocument = (TimeseriesTVPDocument) encodedElement;
         MatcherAssert.assertThat(timeseriesDocument.getTimeseriesTVP().isSetMetadata(), Is.is(true));
         MatcherAssert.assertThat(timeseriesDocument.getTimeseriesTVP().getMetadata().getTimeseriesMetadata(),
                 CoreMatchers.instanceOf(TimeseriesMetadataType.class));
         final TimeseriesMetadataType measurementTimeseriesMetadataType =
-                timeseriesDocument.getTimeseriesTVP().getMetadata()
-                        .getTimeseriesMetadata();
+                timeseriesDocument.getTimeseriesTVP().getMetadata().getTimeseriesMetadata();
         MatcherAssert.assertThat(measurementTimeseriesMetadataType.isSetCumulative(), Is.is(true));
         MatcherAssert.assertThat(measurementTimeseriesMetadataType.getCumulative(), Is.is(false));
     }
@@ -152,8 +160,8 @@ public class TsmlTVPEncoderv10Test {
 
         XmlObject encodedElement = encoder.encode(mv);
 
-        MatcherAssert.assertThat(((TimeseriesTVPDocument) encodedElement).getTimeseriesTVP()
-                .getMetadata().getTimeseriesMetadata().getCumulative(), Is.is(true));
+        MatcherAssert.assertThat(((TimeseriesTVPDocument) encodedElement).getTimeseriesTVP().getMetadata()
+                .getTimeseriesMetadata().getCumulative(), Is.is(true));
     }
 
     @Test
@@ -169,11 +177,11 @@ public class TsmlTVPEncoderv10Test {
                 ((TimeseriesTVPDocument) encodedElement).getTimeseriesTVP().getDefaultPointMetadata();
         PointMetadataDocument tvpMeasurementMetadataDocument =
                 PointMetadataDocument.Factory.parse(defaultPointMetadata.xmlText());
-        ReferenceType interpolationType =
-                tvpMeasurementMetadataDocument.getPointMetadata().getInterpolationType();
+        ReferenceType interpolationType = tvpMeasurementMetadataDocument.getPointMetadata().getInterpolationType();
         MatcherAssert.assertThat(interpolationType.getHref(),
-                Is.is("http://www.opengis.net/def/timeseries/InterpolationCode/MinPrec"));
-        MatcherAssert.assertThat(interpolationType.getTitle(), Is.is("MinPrec"));
+                Is.is(TimeseriesMLConstants.InterpolationType.MinPrec.getIdentifier()));
+        MatcherAssert.assertThat(interpolationType.getTitle(),
+                Is.is(TimeseriesMLConstants.InterpolationType.MinPrec.getTitle()));
     }
 
     @Test
@@ -184,28 +192,76 @@ public class TsmlTVPEncoderv10Test {
                 ((TimeseriesTVPDocument) encodedElement).getTimeseriesTVP().getDefaultPointMetadata();
         PointMetadataDocument tvpMeasurementMetadataDocument =
                 PointMetadataDocument.Factory.parse(defaultPointMetadata.xmlText());
-        ReferenceType interpolationType =
-                tvpMeasurementMetadataDocument.getPointMetadata().getInterpolationType();
+        ReferenceType interpolationType = tvpMeasurementMetadataDocument.getPointMetadata().getInterpolationType();
         MatcherAssert.assertThat(interpolationType.getHref(),
-                Is.is("http://www.opengis.net/def/timeseries/InterpolationCode/Continuous"));
-        MatcherAssert.assertThat(interpolationType.getTitle(), Is.is("Continuous"));
+                Is.is(TimeseriesMLConstants.InterpolationType.Continuous.getIdentifier()));
+        MatcherAssert.assertThat(interpolationType.getTitle(),
+                Is.is(TimeseriesMLConstants.InterpolationType.Continuous.getTitle()));
     }
 
-   @Test
+    @Test
     public void shouldEncodeOMObservation() throws EncodingException, XmlException, DecodingException {
-        XmlObject encodedElement = encoder.encode(createObservation(), EncodingContext.of(XmlBeansEncodingFlags.DOCUMENT));
-
+        XmlObject encodedElement =
+                encoder.encode(createComplexObservation(), EncodingContext.of(XmlBeansEncodingFlags.DOCUMENT));
         MatcherAssert.assertThat(XmlHelper.validateDocument(encodedElement), Is.is(true));
     }
 
-    private OmObservation createObservation() {
+    @Test
+    public void shouldEncodeQualifier() throws EncodingException, XmlException, DecodingException {
+        XmlObject encodedElement = encoder.encode(createQualifierObservation());
+        MatcherAssert.assertThat(XmlHelper.validateDocument(encodedElement), Is.is(true));
+    }
+
+    @Test
+    public void shouldEncodeQualifierStream() throws EncodingException, XmlException, IOException, DecodingException {
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            encoder.encode(createQualifierObservation(), baos, EncodingContext.empty());
+            XmlObject encodedElement = XmlObject.Factory.parse(baos.toString());
+            MatcherAssert.assertThat(XmlHelper.validateDocument(encodedElement), Is.is(true));
+        }
+    }
+
+    @Test
+    public void shouldEncodeQualifierQuantity() throws EncodingException, XmlException, DecodingException {
+        XmlObject encodedElement = encoder.encode(createQualifierQuantityObservation());
+        MatcherAssert.assertThat(XmlHelper.validateDocument(encodedElement), Is.is(true));
+    }
+
+    @Test
+    public void shouldEncodeQualifierQuantityStream()
+            throws EncodingException, XmlException, IOException, DecodingException {
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            encoder.encode(createQualifierQuantityObservation(), baos, EncodingContext.empty());
+            XmlObject encodedElement = XmlObject.Factory.parse(baos.toString());
+            MatcherAssert.assertThat(XmlHelper.validateDocument(encodedElement), Is.is(true));
+        }
+    }
+
+    @Test
+    public void shouldEncodeDetectionLimit() throws EncodingException, XmlException, DecodingException {
+        XmlObject encodedElement = encoder.encode(createDetectionLimitObservation());
+        MatcherAssert.assertThat(XmlHelper.validateDocument(encodedElement), Is.is(true));
+    }
+
+    @Test
+    public void shouldEncodeDetectionLimitStream()
+            throws EncodingException, XmlException, IOException, DecodingException {
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            encoder.encode(createDetectionLimitObservation(), baos, EncodingContext.empty());
+            XmlObject encodedElement = XmlObject.Factory.parse(baos.toString());
+            MatcherAssert.assertThat(XmlHelper.validateDocument(encodedElement), Is.is(true));
+        }
+    }
+
+    private OmObservation createComplexObservation() {
         final InterpolationType type = TimeseriesMLConstants.InterpolationType.InstantTotal;
         DateTime now = new DateTime(DateTimeZone.UTC);
         TimeInstant resultTime = new TimeInstant(now);
         TimePeriod validTime = new TimePeriod(now.minusMinutes(5), now.plusMinutes(5));
         OmObservation observation = new OmObservation();
         OmObservationConstellation observationConstellation = new OmObservationConstellation();
-        observationConstellation.setFeatureOfInterest(new SamplingFeature(new CodeWithAuthority("feature", CODE_SPACE)));
+        observationConstellation
+                .setFeatureOfInterest(new SamplingFeature(new CodeWithAuthority("feature", CODE_SPACE)));
         observationConstellation.setObservableProperty(new OmObservableProperty("omobservableProperty"));
         observationConstellation.setDefaultPointMetadata(new DefaultPointMetadata()
                 .setDefaultTVPMeasurementMetadata(new DefaultTVPMeasurementMetadata().setInterpolationtype(type)));
@@ -221,5 +277,99 @@ public class TsmlTVPEncoderv10Test {
         observation.setValidTime(validTime);
         observation.setValue(mv);
         return observation;
+    }
+
+    private OmObservation createDetectionLimitObservation() {
+        TimeInstant phenomenonTime = new TimeInstant(DATE_TIME);
+        OmObservation observation = createObservation();
+        QuantityValue value = new QuantityValue();
+        value.setUom("unit");
+        SweQualityHolder holder = new SweQualityHolder();
+        holder.addReference(WaterMLConstants.EN_CENSORED_REASON, createCensoredReference());
+        holder.addQuality(createDetectionLimit());
+        value.setQuality(holder);
+        observation.setValue(new SingleObservationValue<>(phenomenonTime, value));
+        return observation;
+    }
+
+    private OmObservation createQualifierObservation() {
+        TimeInstant phenomenonTime = new TimeInstant(DATE_TIME);
+        OmObservation observation = createObservation();
+        QuantityValue value = new QuantityValue();
+        value.setUom("unit");
+        value.setValue(42.0);
+        SweQualityHolder holder = new SweQualityHolder();
+        holder.addQuality(createQualifier());
+        holder.addQuality(createGrade());
+        value.setQuality(holder);
+        observation.setValue(new SingleObservationValue<>(phenomenonTime, value));
+        return observation;
+    }
+
+    private OmObservation createQualifierQuantityObservation() {
+        TimeInstant phenomenonTime = new TimeInstant(DATE_TIME);
+        OmObservation observation = createObservation();
+        QuantityValue value = new QuantityValue();
+        value.setUom("unit");
+        value.setValue(42.0);
+        SweQualityHolder holder = new SweQualityHolder();
+        holder.addQuality(createDetectionLimit());
+        value.setQuality(holder);
+        observation.setValue(new SingleObservationValue<>(phenomenonTime, value));
+        return observation;
+    }
+
+    private OmObservation createObservation() {
+        TimeInstant resultTime = new TimeInstant(DATE_TIME);
+        TimePeriod validTime = new TimePeriod(DATE_TIME.minusMinutes(5), DATE_TIME.plusMinutes(5));
+        OmObservation observation = new OmObservation();
+        OmObservationConstellation observationConstellation = new OmObservationConstellation();
+        observationConstellation.setFeatureOfInterest(new SamplingFeature(new CodeWithAuthority(FEATURE, CODE_SPACE)));
+        OmObservableProperty observableProperty = new OmObservableProperty(OBSERVABLE_PROPERTY);
+        observationConstellation.setObservableProperty(observableProperty);
+        observationConstellation.setObservationType(OmConstants.OBS_TYPE_MEASUREMENT);
+        observationConstellation.addOffering(OFFERING);
+        AbstractFeature procedure = new SosProcedureDescriptionUnknownType(PROCEDURE);
+        observationConstellation.setProcedure(procedure);
+        observationConstellation.setDefaultPointMetadata(new DefaultPointMetadata());
+        observationConstellation.getDefaultPointMetadata()
+                .setDefaultTVPMeasurementMetadata(new DefaultTVPMeasurementMetadata());
+        observation.setObservationConstellation(observationConstellation);
+        observation.setParameter(null);
+        observation.setResultTime(resultTime);
+        observation.setTokenSeparator(TOKEN_SEPERATOR);
+        observation.setTupleSeparator(TUPLE_SEPERATOR);
+        observation.setValidTime(validTime);
+        return observation;
+    }
+
+    private org.n52.shetland.ogc.gml.ReferenceType createCensoredReference() {
+        return new org.n52.shetland.ogc.gml.ReferenceType(OGCConstants.BELOW_DETECTION_RANGE,
+                "Below threshold of sensor");
+    }
+
+    private SweQuality createDetectionLimit() {
+        SweQuantity quantity = new SweQuantity();
+        quantity.setDefinition("http://www.example.com/sensors/lower_threshold");
+        quantity.setDescription("Lower limit for sensor");
+        quantity.setUom("m");
+        quantity.setValue(new BigDecimal("1.0"));
+        return quantity;
+    }
+
+    private SweQuality createQualifier() {
+        return createText("No Quality or Non-Verifies (NEMS)", "NON-VERIFIED", "200");
+    }
+
+    private SweQuality createGrade() {
+        return createText(RECREATIONAL, RECREATIONAL, RECREATIONAL);
+    }
+
+    private SweText createText(String description, String label, String value) {
+        SweText text = new SweText();
+        text.setLabel(label);
+        text.setDescription(description);
+        text.setValue(value);
+        return text;
     }
 }

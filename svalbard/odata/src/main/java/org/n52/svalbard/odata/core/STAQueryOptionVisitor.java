@@ -105,9 +105,12 @@ public class STAQueryOptionVisitor extends STAQueryOptionsGrammarBaseVisitor {
         return new SkipTopFilter(FilterConstants.SkipTopOperator.Top, Long.parseLong(ctx.decimalLiteral().getText()));
     }
 
-    //TODO: check if we would like to also allow $count=false in the url
     @Override public CountFilter visitCount(STAQueryOptionsGrammar.CountContext ctx) {
-        return new CountFilter(true);
+        if (ctx.False_LLC() != null) {
+            return new CountFilter(false);
+        } else {
+            return new CountFilter(true);
+        }
     }
 
     @Override public SelectFilter visitSelect(STAQueryOptionsGrammar.SelectContext ctx) {

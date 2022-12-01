@@ -15,7 +15,12 @@
  */
 package org.n52.shetland.ogc.wps.description.impl;
 
-import com.google.common.collect.ImmutableSet;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.n52.janmayen.stream.MoreCollectors;
 import org.n52.shetland.ogc.ows.OwsCode;
 import org.n52.shetland.ogc.wps.description.Description;
@@ -23,11 +28,7 @@ import org.n52.shetland.ogc.wps.description.GroupInputDescription;
 import org.n52.shetland.ogc.wps.description.ProcessDescriptionBuilderFactory;
 import org.n52.shetland.ogc.wps.description.ProcessInputDescription;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
+import com.google.common.collect.ImmutableSet;
 
 public class GroupInputDescriptionImpl extends AbstractProcessInputDescription implements GroupInputDescription {
 
@@ -36,16 +37,19 @@ public class GroupInputDescriptionImpl extends AbstractProcessInputDescription i
     protected GroupInputDescriptionImpl(AbstractBuilder<?, ?> builder) {
         super(builder);
         this.inputs = builder.getInputs().stream()
-                             .collect(Collectors.groupingBy(Description::getId, MoreCollectors.toSingleResult()));
+                .collect(Collectors.groupingBy(Description::getId, MoreCollectors.toSingleResult()));
     }
 
     @Override
-    public <T> T visit(ReturningVisitor<T> visitor) {
+    public <
+            T> T visit(ReturningVisitor<T> visitor) {
         return visitor.visit(this);
     }
 
     @Override
-    public <T, X extends Exception> T visit(ThrowingReturningVisitor<T, X> visitor) throws X {
+    public <
+            T,
+            X extends Exception> T visit(ThrowingReturningVisitor<T, X> visitor) throws X {
         return visitor.visit(this);
     }
 
@@ -69,8 +73,9 @@ public class GroupInputDescriptionImpl extends AbstractProcessInputDescription i
         return getFactory().groupInput(this);
     }
 
-    public abstract static class AbstractBuilder<T extends GroupInputDescription, B extends AbstractBuilder<T, B>>
-            extends AbstractProcessInputDescription.AbstractBuilder<T, B>
+    public abstract static class AbstractBuilder<
+            T extends GroupInputDescription,
+            B extends AbstractBuilder<T, B>> extends AbstractProcessInputDescription.AbstractBuilder<T, B>
             implements GroupInputDescription.Builder<T, B> {
 
         private final ImmutableSet.Builder<ProcessInputDescription> inputs = ImmutableSet.builder();
@@ -80,7 +85,7 @@ public class GroupInputDescriptionImpl extends AbstractProcessInputDescription i
         }
 
         protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
-                                  GroupInputDescription entity) {
+                GroupInputDescription entity) {
             super(factory, entity);
             this.inputs.addAll(entity.getInputDescriptions());
         }
@@ -105,7 +110,7 @@ public class GroupInputDescriptionImpl extends AbstractProcessInputDescription i
         }
 
         public Builder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
-                       GroupInputDescription entity) {
+                GroupInputDescription entity) {
             super(factory, entity);
         }
 

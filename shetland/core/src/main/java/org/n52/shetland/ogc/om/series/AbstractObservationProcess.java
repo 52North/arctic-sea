@@ -17,6 +17,7 @@ package org.n52.shetland.ogc.om.series;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.n52.shetland.ogc.gml.AbstractFeature;
@@ -24,31 +25,30 @@ import org.n52.shetland.ogc.gml.CodeWithAuthority;
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.om.NamedValue;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  *
  */
 public abstract class AbstractObservationProcess extends AbstractFeature {
 
     /*
-     * Multiplicity: 1 A defintion of the type of process used in the
-     * observation. This may be a Sensor, ManualMethod, Algorithm or Simulation
-     * (including models).
+     * Multiplicity: 1 A defintion of the type of process used in the observation. This may be a Sensor,
+     * ManualMethod, Algorithm or Simulation (including models).
      */
     private ReferenceType processType;
 
     /*
-     * Multiplicity: 0..1 A reference to the original source of the data. For
-     * example, if this is a post-processed time series (and processType is
-     * algorithm), this link would specify the original process that generated
-     * the data, e.g. the sensor. This allows the origin of the data to be
-     * maintained regardless of the processing that has occured to it.
+     * Multiplicity: 0..1 A reference to the original source of the data. For example, if this is a
+     * post-processed time series (and processType is algorithm), this link would specify the original process
+     * that generated the data, e.g. the sensor. This allows the origin of the data to be maintained
+     * regardless of the processing that has occured to it.
      */
     private ReferenceType originatingProcess;
 
     /*
-     * Multiplicity: 0..1 If the process involves temporal aggregation of a
-     * result set, the time duration over which data has been aggregated should
-     * be expressed here. E.g. hourly, daily aggregates.
+     * Multiplicity: 0..1 If the process involves temporal aggregation of a result set, the time duration over
+     * which data has been aggregated should be expressed here. E.g. hourly, daily aggregates.
      */
     private String aggregationDuration;
 
@@ -58,29 +58,25 @@ public abstract class AbstractObservationProcess extends AbstractFeature {
     private ReferenceType processReference;
 
     /*
-     * Multiplicity: 0..1 Specifies the datum that is used as the zero point for
-     * level measurements. This can be process-specific as opposed the gauge at
-     * the actual monitoring point.
+     * Multiplicity: 0..1 Specifies the datum that is used as the zero point for level measurements. This can
+     * be process-specific as opposed the gauge at the actual monitoring point.
      */
     private ReferenceType verticalDatum;
 
     /*
-     * Multiplicity: 0..* A list of the inputs used in the process. This may be
-     * a list of references to the data sets used (e.g. model input series) or a
-     * input array to an algorithm.
+     * Multiplicity: 0..* A list of the inputs used in the process. This may be a list of references to the
+     * data sets used (e.g. model input series) or a input array to an algorithm.
      */
     private final List<ReferenceType> inputs = new ArrayList<>(0);
 
     /*
-     * Multiplicity: 0..* Comments specific to the process from the operator or
-     * system performing the process.
+     * Multiplicity: 0..* Comments specific to the process from the operator or system performing the process.
      */
     private List<String> comments = new ArrayList<>(0);
 
     /*
-     * Multiplicity: 0..* A defintion of the type of process used in the
-     * observation. This may be a Sensor, ManualMethod, Algorithm or Simulation
-     * (including models).
+     * Multiplicity: 0..* A defintion of the type of process used in the observation. This may be a Sensor,
+     * ManualMethod, Algorithm or Simulation (including models).
      */
     private final List<NamedValue<?>> parameters = new ArrayList<>(0);
 
@@ -152,44 +148,60 @@ public abstract class AbstractObservationProcess extends AbstractFeature {
     }
 
     public List<ReferenceType> getInputs() {
-        return inputs;
+        return Collections.unmodifiableList(inputs);
     }
 
-    public AbstractObservationProcess setInputs(final List<ReferenceType> input) {
-        inputs.addAll(input);
+    public AbstractObservationProcess setInputs(final Collection<ReferenceType> input) {
+        this.inputs.clear();
+        if (input != null) {
+            inputs.addAll(input);
+        }
         return this;
     }
 
     public AbstractObservationProcess addInputs(final ReferenceType input) {
-        inputs.add(input);
+        if (input != null) {
+            inputs.add(input);
+        }
         return this;
     }
 
     public List<String> getComments() {
-        return comments;
+        return Collections.unmodifiableList(comments);
     }
 
-    public AbstractObservationProcess setComments(final List<String> comments) {
-        this.comments = comments;
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public AbstractObservationProcess setComments(final Collection<String> comments) {
+        this.comments.clear();
+        if (comments != null) {
+            this.comments.addAll(comments);
+        }
         return this;
     }
 
     public AbstractObservationProcess addComment(final String comment) {
-        comments.add(comment);
+        if (comment != null) {
+            comments.add(comment);
+        }
         return this;
     }
 
     public List<NamedValue<?>> getParameters() {
-        return parameters;
+        return Collections.unmodifiableList(parameters);
     }
 
     public AbstractObservationProcess setParameters(final Collection<NamedValue<?>> parameters) {
-        this.parameters.addAll(parameters);
+        this.parameters.clear();
+        if (parameters != null) {
+            this.parameters.addAll(parameters);
+        }
         return this;
     }
 
     public AbstractObservationProcess addParameter(final NamedValue<?> parameter) {
-        parameters.add(parameter);
+        if (parameter != null) {
+            parameters.add(parameter);
+        }
         return this;
     }
 

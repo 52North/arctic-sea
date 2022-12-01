@@ -40,7 +40,7 @@ public final class CRSHelper {
      * Parse the srsName to integer value
      *
      * @param srsName
-     *                the srsName to parse
+     *            the srsName to parse
      *
      * @return srsName integer value
      *

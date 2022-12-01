@@ -91,15 +91,12 @@ public class GroupProcessData extends ProcessData implements Iterable<ProcessDat
             return false;
         }
         final GroupProcessData other = (GroupProcessData) obj;
-        return Objects.equals(getId(), other.getId()) &&
-                Objects.equals(getElements(), other.getElements());
+        return Objects.equals(getId(), other.getId()) && Objects.equals(getElements(), other.getElements());
     }
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this).omitNullValues()
-                .add("id", getId())
-                .add("elements", getElements())
+        return MoreObjects.toStringHelper(this).omitNullValues().add("id", getId()).add("elements", getElements())
                 .toString();
     }
 
@@ -111,7 +108,5 @@ public class GroupProcessData extends ProcessData implements Iterable<ProcessDat
     public Stream<ProcessData> stream() {
         return this.elements.stream();
     }
-
-
 
 }

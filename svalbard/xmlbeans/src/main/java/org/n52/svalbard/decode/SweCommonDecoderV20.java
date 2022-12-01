@@ -19,7 +19,6 @@ import java.math.BigDecimal;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -50,6 +49,7 @@ import org.n52.shetland.ogc.swe.simpleType.SweCategory;
 import org.n52.shetland.ogc.swe.simpleType.SweCount;
 import org.n52.shetland.ogc.swe.simpleType.SweCountRange;
 import org.n52.shetland.ogc.swe.simpleType.SweQuality;
+import org.n52.shetland.ogc.swe.simpleType.SweQualityHolder;
 import org.n52.shetland.ogc.swe.simpleType.SweQuantity;
 import org.n52.shetland.ogc.swe.simpleType.SweQuantityRange;
 import org.n52.shetland.ogc.swe.simpleType.SweText;
@@ -722,8 +722,9 @@ public class SweCommonDecoderV20
         return allowedTimes;
     }
 
-    private Collection<SweQuality> parseQuality(QualityPropertyType... qualityArray) throws DecodingException {
+    private SweQualityHolder parseQuality(QualityPropertyType... qualityArray) throws DecodingException {
         if (qualityArray != null && qualityArray.length > 0) {
+            SweQualityHolder sweQualityHolder = new SweQualityHolder();
             final ArrayList<SweQuality> sosQualities = Lists.newArrayListWithCapacity(qualityArray.length);
             for (final QualityPropertyType quality : qualityArray) {
                 if (quality.isSetQuantity()) {
@@ -736,9 +737,10 @@ public class SweCommonDecoderV20
                     sosQualities.add((SweQuality) parseText(quality.getText()));
                 }
             }
-            return sosQualities;
+            sweQualityHolder.setQuality(sosQualities);
+            return sweQualityHolder;
         }
-        return Collections.emptyList();
+        return null;
     }
 
     private SweAbstractDataComponent parseVector(VectorType vector) throws DecodingException {

@@ -15,9 +15,9 @@
  */
 package org.n52.shetland.filter;
 
-import org.n52.shetland.ogc.filter.FilterConstants.SortOrder;
-
 import java.util.Objects;
+
+import org.n52.shetland.ogc.filter.FilterConstants.SortOrder;
 
 public class OrderProperty {
 
@@ -53,11 +53,13 @@ public class OrderProperty {
         return getSortOrder() != null;
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
         return Objects.hash(valueReference, sortOrder);
     }
 
-    @Override public boolean equals(Object o) {
+    @Override
+    public boolean equals(Object o) {
         if (o == this) {
             return true;
         }
@@ -66,12 +68,12 @@ public class OrderProperty {
             return false;
         }
 
-        return Objects.equals(this.valueReference, ((OrderProperty) o).getValueReference()) &&
-                Objects.equals(this.sortOrder, ((OrderProperty) o).getSortOrder());
+        return Objects.equals(this.valueReference, ((OrderProperty) o).getValueReference())
+                && Objects.equals(this.sortOrder, ((OrderProperty) o).getSortOrder());
     }
 
-    @Override public String toString() {
-        return valueReference +
-                ((getSortOrder() != null) ? " " + getSortOrder().toString().toLowerCase() : "");
+    @Override
+    public String toString() {
+        return valueReference + ((getSortOrder() != null) ? " " + getSortOrder().toString().toLowerCase() : "");
     }
 }

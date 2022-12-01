@@ -19,6 +19,8 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletResponse;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Proxy class for HttpServletResponse to give ResponseWriters access to selected methods, including addHeader and
  * setContentLength.
@@ -30,6 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 public class ResponseProxy {
     private final HttpServletResponse response;
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public ResponseProxy(HttpServletResponse response) throws IOException {
         if (response == null) {
             throw new NullPointerException("Response cannot be null");

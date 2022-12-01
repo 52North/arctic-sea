@@ -15,7 +15,6 @@
  */
 package org.n52.svalbard.encode;
 
-import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collections;
 import java.util.HashSet;
@@ -48,8 +47,7 @@ import com.google.common.collect.Sets;
  * @since 1.0.0
  *
  */
-public class InspireOmObservationEncoder
-        extends AbstractXmlEncoder<XmlObject, Object>
+public class InspireOmObservationEncoder extends AbstractXmlEncoder<XmlObject, Object>
         implements ObservationEncoder<XmlObject, Object>, StreamingEncoder<XmlObject, Object> {
 
     private static final Set<EncoderKey> ENCODER_KEYS =
@@ -87,10 +85,13 @@ public class InspireOmObservationEncoder
                                 .with(XmlEncoderFlags.XML_OPTIONS, (Supplier<XmlOptions>) this::getXmlOptions),
                         outputStream, (OmObservation) element).write();
             } else {
-                // writeIndent(encodingValues.getIndent(), outputStream);
-                encode(element, ctx).save(outputStream, getXmlOptions());
+                new InspireOmObservationXmlStreamWriter(
+                        ctx.with(EncoderFlags.ENCODER_REPOSITORY, getEncoderRepository())
+                                .with(XmlEncoderFlags.XML_OPTIONS, (Supplier<XmlOptions>) this::getXmlOptions),
+                        outputStream, (OmObservation) element, this).write();
+
             }
-        } catch (IOException | XMLStreamException e) {
+        } catch (XMLStreamException e) {
             throw new EncodingException("Error while writing element to stream!", e);
         }
     }

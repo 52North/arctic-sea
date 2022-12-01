@@ -33,19 +33,23 @@ public interface ComplexOutputDescription extends ComplexDescription, ProcessOut
     }
 
     @Override
-    default <T> T visit(ReturningVisitor<T> visitor) {
+    default <
+            T> T visit(ReturningVisitor<T> visitor) {
         return visitor.visit(this);
     }
 
     @Override
-    default <T, X extends Exception> T visit(ThrowingReturningVisitor<T, X> visitor) throws X {
+    default <
+            T,
+            X extends Exception> T visit(ThrowingReturningVisitor<T, X> visitor) throws X {
         return visitor.visit(this);
     }
 
     Builder<?, ?> newBuilder();
 
-    interface Builder<T extends ComplexOutputDescription, B extends Builder<T, B>>
-            extends ProcessOutputDescription.Builder<T, B>, ComplexDescription.Builder<T, B> {
+    interface Builder<
+            T extends ComplexOutputDescription,
+            B extends Builder<T, B>> extends ProcessOutputDescription.Builder<T, B>, ComplexDescription.Builder<T, B> {
     }
 
 }

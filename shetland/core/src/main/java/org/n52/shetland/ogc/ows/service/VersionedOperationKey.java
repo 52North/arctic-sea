@@ -20,9 +20,7 @@ import java.util.Comparator;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
-public class VersionedOperationKey
-        extends OwsOperationKey
-        implements Comparable<OwsOperationKey> {
+public class VersionedOperationKey extends OwsOperationKey implements Comparable<OwsOperationKey> {
 
     private static final Comparator<VersionedOperationKey> COMPARATOR =
             Comparator.comparing(VersionedOperationKey::getService).thenComparing(VersionedOperationKey::getVersion)

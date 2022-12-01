@@ -15,13 +15,6 @@
  */
 package org.n52.shetland.ogc.ows;
 
-import com.google.common.base.Strings;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import org.n52.janmayen.Optionals;
-import org.n52.shetland.util.CollectionHelper;
-import org.n52.shetland.w3c.xlink.Actuate;
-import org.n52.shetland.w3c.xlink.Show;
-
 import java.net.URI;
 import java.util.Collection;
 import java.util.Collections;
@@ -29,16 +22,24 @@ import java.util.Comparator;
 import java.util.Objects;
 import java.util.SortedSet;
 
+import org.n52.janmayen.Optionals;
+import org.n52.shetland.util.CollectionHelper;
+import org.n52.shetland.w3c.xlink.Actuate;
+import org.n52.shetland.w3c.xlink.Show;
+
+import com.google.common.base.Strings;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * TODO JavaDoc
  *
  * @author Christian Autermann
  */
 public class OwsRequestMethod extends OwsOnlineResource implements Comparable<OwsRequestMethod> {
-    private static final Comparator<OwsRequestMethod> COMPARATOR
-            = Comparator.nullsLast(Comparator.comparing(OwsRequestMethod::getHttpMethod)
-                                             .thenComparing(OwsRequestMethod::getHref, Optionals.nullsLast())
-                                             .thenComparing(OwsRequestMethod::getTitle, Optionals.nullsLast()));
+    private static final Comparator<OwsRequestMethod> COMPARATOR = Comparator.nullsLast(Comparator
+            .comparing(OwsRequestMethod::getHttpMethod).thenComparing(OwsRequestMethod::getHref, Optionals.nullsLast())
+            .thenComparing(OwsRequestMethod::getTitle, Optionals.nullsLast()));
 
     private final SortedSet<OwsDomain> constraints;
     private final String httpMethod;
@@ -48,8 +49,8 @@ public class OwsRequestMethod extends OwsOnlineResource implements Comparable<Ow
     }
 
     @SuppressFBWarnings("NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
-    public OwsRequestMethod(URI href, Collection<OwsDomain> constraints, String httpMethod,
-                            URI role, URI arcrole, String title, Show show, Actuate actuate) {
+    public OwsRequestMethod(URI href, Collection<OwsDomain> constraints, String httpMethod, URI role, URI arcrole,
+            String title, Show show, Actuate actuate) {
         super(href, role, arcrole, title, show, actuate);
         this.httpMethod = Objects.requireNonNull(Strings.emptyToNull(httpMethod));
         this.constraints = CollectionHelper.newSortedSet(constraints);
@@ -82,14 +83,13 @@ public class OwsRequestMethod extends OwsOnlineResource implements Comparable<Ow
             return false;
         }
         final OwsRequestMethod other = (OwsRequestMethod) obj;
-        return Objects.equals(this.httpMethod, other.httpMethod) &&
-               Objects.equals(this.constraints, other.constraints);
+        return Objects.equals(this.httpMethod, other.httpMethod)
+                && Objects.equals(this.constraints, other.constraints);
     }
 
     @Override
     public String toString() {
-        return "OwsRequestMethod{" + "constraints=" + constraints +
-               ", httpMethod=" + httpMethod + '}';
+        return "OwsRequestMethod{" + "constraints=" + constraints + ", httpMethod=" + httpMethod + '}';
     }
 
 }

@@ -16,6 +16,7 @@
 package org.n52.shetland.w3c.wsdl;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.TreeSet;
 
 import javax.xml.namespace.QName;
@@ -80,7 +81,7 @@ public class Binding extends AbstractWsdl {
     }
 
     public Collection<BindingOperation> getBindingOperations() {
-        return bindingOperations;
+        return Collections.unmodifiableCollection(bindingOperations);
     }
 
     public boolean isSetBindingOperations() {

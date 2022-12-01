@@ -89,11 +89,13 @@ public interface AqdConstants {
 
     String NS_OMPR_PREFIX = "ompr";
 
-    Map<String, String> NAMESPACE_PREFIX_MAP = ImmutableMap.<String, String> builder().put(NS_AQD, NS_AQD_PREFIX)
-            .put(NS_AD, NS_AD_PREFIX).put(NS_AM, NS_AM_PREFIX).put(NS_AU, NS_AU_PREFIX).put(NS_BASE, NS_BASE_PREFIX)
-            .put(NS_BASE2, NS_BASE2_PREFIX).put(NS_EF, NS_EF_PREFIX).put(NS_GN, NS_GN_PREFIX)
-            .put(NS_OMPR, NS_OMPR_PREFIX).put(GcoConstants.NS_GCO, GcoConstants.NS_GCO_PREFIX)
-            .put(GmdConstants.NS_GMD, GmdConstants.NS_GMD_PREFIX).build();
+    Map<String, String> NAMESPACE_PREFIX_MAP = ImmutableMap.<
+            String,
+            String> builder().put(NS_AQD, NS_AQD_PREFIX).put(NS_AD, NS_AD_PREFIX).put(NS_AM, NS_AM_PREFIX)
+            .put(NS_AU, NS_AU_PREFIX).put(NS_BASE, NS_BASE_PREFIX).put(NS_BASE2, NS_BASE2_PREFIX)
+            .put(NS_EF, NS_EF_PREFIX).put(NS_GN, NS_GN_PREFIX).put(NS_OMPR, NS_OMPR_PREFIX)
+            .put(GcoConstants.NS_GCO, GcoConstants.NS_GCO_PREFIX).put(GmdConstants.NS_GMD, GmdConstants.NS_GMD_PREFIX)
+            .build();
 
     String AN_CODE_SPACE = "codeSpace";
 
@@ -324,16 +326,22 @@ public interface AqdConstants {
     String MODEL = "model";
 
     /**
-     * the names of the operations supported by all versions of the SOS
-     * specification
+     * the names of the operations supported by all versions of the SOS specification
      */
     enum Operations {
-        GetCapabilities, GetObservation, DescribeSensor
+        GetCapabilities,
+        GetObservation,
+        DescribeSensor
     }
 
     enum PrimaryObservation {
-        Hourly(HOUR), Daily(DAY), Weekly(WEEK), Fortnightly(FORTNIGHT), Monthly(MONTH), Quarterly(QUARTER), Variable(
-                VAR);
+        Hourly(HOUR),
+        Daily(DAY),
+        Weekly(WEEK),
+        Fortnightly(FORTNIGHT),
+        Monthly(MONTH),
+        Quarterly(QUARTER),
+        Variable(VAR);
 
         private static final String BASE_URI = "http://dd.eionet.europa.eu/vocabulary/aq/primaryObservation/";
 

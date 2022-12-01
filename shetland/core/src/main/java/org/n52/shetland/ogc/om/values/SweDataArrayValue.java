@@ -37,14 +37,15 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Sets;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Multi value representing a SweDataArray for observations
  *
  * @since 1.0.0
  *
  */
-public class SweDataArrayValue
-        implements MultiValue<SweDataArray> {
+public class SweDataArrayValue implements MultiValue<SweDataArray> {
     private static final Logger LOGGER = LoggerFactory.getLogger(SweDataArrayValue.class);
 
     /**
@@ -57,17 +58,20 @@ public class SweDataArrayValue
         this(null);
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweDataArrayValue(SweDataArray value) {
         this.value = value;
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SweDataArrayValue setValue(final SweDataArray value) {
         this.value = value;
         return this;
     }
 
     @Override
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SweDataArray getValue() {
         return value;
     }
@@ -97,8 +101,7 @@ public class SweDataArrayValue
     }
 
     /**
-     * Adds the given block - a {@link List}&lt;{@link String}&gt; - add the end of
-     * the current list of blocks
+     * Adds the given block - a {@link List}&lt;{@link String}&gt; - add the end of the current list of blocks
      *
      * @param blockOfTokensToAddAtTheEnd
      *
@@ -179,7 +182,9 @@ public class SweDataArrayValue
     }
 
     @Override
-    public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
+    public <
+            X,
+            E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
         return visitor.visit(this);
     }
 

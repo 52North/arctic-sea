@@ -17,6 +17,8 @@ package org.n52.shetland.ogc.gml;
 
 import org.locationtech.jts.geom.Geometry;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class AbstractGeometry extends AbstractGML {
     /**
      * Geometry
@@ -33,7 +35,7 @@ public class AbstractGeometry extends AbstractGML {
      * constructor
      *
      * @param id
-     *           GML id
+     *            GML id
      */
     public AbstractGeometry(String id) {
         setGmlId(id);
@@ -44,6 +46,7 @@ public class AbstractGeometry extends AbstractGML {
      *
      * @return the geometry
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Geometry getGeometry() {
         return geometry;
     }
@@ -52,8 +55,9 @@ public class AbstractGeometry extends AbstractGML {
      * set geometry
      *
      * @param geometry
-     *                 the geometry to set
+     *            the geometry to set
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public AbstractGeometry setGeometry(Geometry geometry) {
         this.geometry = geometry;
         return this;

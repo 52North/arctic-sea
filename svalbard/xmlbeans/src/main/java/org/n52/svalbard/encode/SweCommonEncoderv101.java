@@ -20,7 +20,6 @@ import static java.util.stream.Collectors.joining;
 import java.math.BigInteger;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -60,6 +59,7 @@ import org.n52.shetland.ogc.swe.simpleType.SweCount;
 import org.n52.shetland.ogc.swe.simpleType.SweCountRange;
 import org.n52.shetland.ogc.swe.simpleType.SweObservableProperty;
 import org.n52.shetland.ogc.swe.simpleType.SweQuality;
+import org.n52.shetland.ogc.swe.simpleType.SweQualityHolder;
 import org.n52.shetland.ogc.swe.simpleType.SweQuantity;
 import org.n52.shetland.ogc.swe.simpleType.SweQuantityRange;
 import org.n52.shetland.ogc.swe.simpleType.SweText;
@@ -346,10 +346,10 @@ public class SweCommonEncoderv101
         return xbBoolean;
     }
 
-    private QualityPropertyType[] createQuality(Collection<SweQuality> quality) {
+    private QualityPropertyType[] createQuality(SweQualityHolder quality) {
         if (!quality.isEmpty()) {
-            ArrayList<QualityPropertyType> xbQualities = Lists.newArrayListWithCapacity(quality.size());
-            for (SweQuality sweQuality : quality) {
+            ArrayList<QualityPropertyType> xbQualities = Lists.newArrayListWithCapacity(quality.getQuality().size());
+            for (SweQuality sweQuality : quality.getQuality()) {
                 QualityPropertyType xbQuality = QualityPropertyType.Factory.newInstance();
                 if (sweQuality instanceof SweText) {
                     xbQuality.addNewText().set(createText((SweText) sweQuality));

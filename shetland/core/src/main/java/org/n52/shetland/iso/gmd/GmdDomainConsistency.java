@@ -18,9 +18,7 @@ package org.n52.shetland.iso.gmd;
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.om.quality.OmResultQuality;
 
-public abstract class GmdDomainConsistency
-        extends AbtractGmd
-        implements OmResultQuality {
+public abstract class GmdDomainConsistency extends AbtractGmd implements OmResultQuality {
 
     public static GmdConformanceResult dataCapture(boolean pass) {
         return new GmdConformanceResult(pass, GmdSpecification.dataCapture());

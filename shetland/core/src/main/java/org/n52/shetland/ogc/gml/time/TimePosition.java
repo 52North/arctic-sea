@@ -18,14 +18,13 @@ package org.n52.shetland.ogc.gml.time;
 import java.util.Optional;
 
 import org.joda.time.DateTime;
-
 import org.n52.shetland.ogc.gml.time.Time.TimeFormat;
 
 import com.google.common.base.MoreObjects;
 
 /**
- * Representation class for GML TimePosition. Used by TimeInstant and TimePeriod
- * during encoding to reduce duplicate code.
+ * Representation class for GML TimePosition. Used by TimeInstant and TimePeriod during encoding to reduce
+ * duplicate code.
  *
  * @since 1.0.0
  *
@@ -129,9 +128,7 @@ public class TimePosition {
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("time", this.time.get())
-                .add("indeterminate time", this.indeterminateValue.get())
-                .omitNullValues().toString();
+        return MoreObjects.toStringHelper(this).add("time", this.time.get())
+                .add("indeterminate time", this.indeterminateValue.get()).omitNullValues().toString();
     }
 }

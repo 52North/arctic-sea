@@ -20,9 +20,7 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.xmlbeans.XmlCursor;
@@ -32,10 +30,6 @@ import org.apache.xmlbeans.XmlString;
 import org.n52.janmayen.exception.CompositeException;
 import org.n52.shetland.ogc.filter.SpatialFilter;
 import org.n52.shetland.ogc.filter.TemporalFilter;
-import org.n52.shetland.ogc.gml.AbstractFeature;
-import org.n52.shetland.ogc.gml.time.Time;
-import org.n52.shetland.ogc.gml.time.TimeInstant;
-import org.n52.shetland.ogc.gml.time.TimePeriod;
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.om.OmObservationConstellation;
 import org.n52.shetland.ogc.ows.service.GetCapabilitiesRequest;
@@ -299,28 +293,17 @@ public class SosDecoderv20
         insertObservationRequest.setExtensions(parseExtensibleRequest(insertObservationType));
 
         if (insertObservationType.getObservationArray() != null) {
-            final int length = insertObservationType.getObservationArray().length;
-            final Map<String, Time> phenomenonTimes = new HashMap<>(length);
-            final Map<String, TimeInstant> resultTimes = new HashMap<>(length);
-            final Map<String, AbstractFeature> features = new HashMap<>(length);
-
             CompositeException exceptions = new CompositeException();
             for (final Observation observation : insertObservationType.getObservationArray()) {
                 final Object decodedObject = decodeXmlElement(observation.getOMObservation());
                 if (decodedObject instanceof OmObservation) {
-                    final OmObservation sosObservation = (OmObservation) decodedObject;
-                    checkAndAddPhenomenonTime(sosObservation.getPhenomenonTime(), phenomenonTimes);
-                    checkAndAddResultTime(sosObservation.getResultTime(), resultTimes);
-                    checkAndAddFeatures(sosObservation.getObservationConstellation().getFeatureOfInterest(), features);
-                    insertObservationRequest.addObservation(sosObservation);
+                    insertObservationRequest.addObservation((OmObservation) decodedObject);
                 } else {
                     exceptions.add(new DecodingException(Sos2Constants.InsertObservationParams.observation,
                             "The requested observation type (%s) is not supported by this server!",
                             observation.getOMObservation().getDomNode().getNodeName()));
                 }
             }
-            checkReferencedElements(insertObservationRequest.getObservations(), phenomenonTimes, resultTimes,
-                    features);
             try {
                 exceptions.throwIfNotEmpty();
             } catch (CompositeException ex) {
@@ -588,60 +571,4 @@ public class SosDecoderv20
         }
     }
 
-    private void checkAndAddPhenomenonTime(final Time phenomenonTime, final Map<String, Time> phenomenonTimes) {
-        if (!phenomenonTime.isReferenced()) {
-            phenomenonTimes.put(phenomenonTime.getGmlId(), phenomenonTime);
-        }
-    }
-
-    private void checkAndAddResultTime(final TimeInstant resultTime, final Map<String, TimeInstant> resultTimes) {
-        if (!resultTime.isReferenced()) {
-            resultTimes.put(resultTime.getGmlId(), resultTime);
-        }
-    }
-
-    private void checkAndAddFeatures(final AbstractFeature featureOfInterest,
-            final Map<String, AbstractFeature> features) {
-        if (!featureOfInterest.isReferenced()) {
-            features.put(featureOfInterest.getGmlId(), featureOfInterest);
-        }
-    }
-
-    private void checkReferencedElements(final List<OmObservation> observations,
-            final Map<String, Time> phenomenonTimes, final Map<String, TimeInstant> resultTimes,
-            final Map<String, AbstractFeature> features)
-            throws DecodingException {
-        for (final OmObservation observation : observations) {
-            // phenomenonTime
-            final Time phenomenonTime = observation.getPhenomenonTime();
-            if (phenomenonTime.isReferenced()) {
-                observation.getValue().setPhenomenonTime(phenomenonTimes.get(phenomenonTime.getGmlId()));
-            }
-            // resultTime
-            final TimeInstant resultTime = observation.getResultTime();
-            if (resultTime.isReferenced()) {
-                if (resultTimes.containsKey(resultTime.getGmlId())) {
-                    observation.setResultTime(resultTimes.get(resultTime.getGmlId()));
-                } else if (phenomenonTimes.containsKey(resultTime.getGmlId())) {
-                    final Time iTime = phenomenonTimes.get(resultTime.getGmlId());
-                    if (iTime instanceof TimeInstant) {
-                        observation.setResultTime((TimeInstant) iTime);
-                    } else if (iTime instanceof TimePeriod) {
-                        final TimePeriod timePeriod = (TimePeriod) iTime;
-                        observation.setResultTime(new TimeInstant(timePeriod.getEnd()));
-                    } else {
-                        throw new DecodingException("observation.resultTime", "The time value type is not supported");
-                    }
-
-                }
-            }
-            // featureOfInterest
-            final AbstractFeature featureOfInterest = observation.getObservationConstellation().getFeatureOfInterest();
-            if (featureOfInterest.isReferenced()) {
-                observation.getObservationConstellation()
-                        .setFeatureOfInterest(features.get(featureOfInterest.getGmlId()));
-            }
-
-        }
-    }
 }

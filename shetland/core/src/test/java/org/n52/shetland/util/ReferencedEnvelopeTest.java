@@ -15,15 +15,12 @@
  */
 package org.n52.shetland.util;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.IsNot.not;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import org.n52.shetland.util.ReferencedEnvelope;
-
 import org.locationtech.jts.geom.Envelope;
 
 /**

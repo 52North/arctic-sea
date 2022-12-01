@@ -15,7 +15,8 @@
  */
 package org.n52.shetland.ogc.sensorML.v20;
 
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.n52.shetland.ogc.sensorML.HasComponents;
@@ -24,6 +25,8 @@ import org.n52.shetland.ogc.sensorML.elements.SmlComponent;
 import org.n52.shetland.ogc.sensorML.elements.SmlConnection;
 import org.n52.shetland.util.IdGenerator;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Class that represents SensorML 2.0 AggregateProcess
  *
@@ -31,12 +34,11 @@ import org.n52.shetland.util.IdGenerator;
  * @since 1.0.0
  *
  */
-public class AggregateProcess
-        extends DescribedObject
+public class AggregateProcess extends DescribedObject
         implements HasComponents<AggregateProcess>, HasConnections<AggregateProcess> {
 
     public static final String ID_PREFIX = "ap_";
-    private final List<SmlComponent> components = new ArrayList<>(0);
+    private final List<SmlComponent> components = new LinkedList<>();
     private SmlConnection connections;
 
     public AggregateProcess() {
@@ -45,7 +47,7 @@ public class AggregateProcess
 
     @Override
     public List<SmlComponent> getComponents() {
-        return components;
+        return Collections.unmodifiableList(components);
     }
 
     @Override
@@ -69,10 +71,12 @@ public class AggregateProcess
         return true;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SmlConnection getConnections() {
         return connections;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public AggregateProcess setConnections(SmlConnection connections) {
         this.connections = connections;
         return this;

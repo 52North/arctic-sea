@@ -24,16 +24,17 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.n52.iceland.service.CommunicationObjectWithSoapHeader;
 import org.n52.janmayen.http.HTTPStatus;
 import org.n52.janmayen.http.MediaType;
 import org.n52.shetland.w3c.soap.SoapHeader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * @since 1.0.0
@@ -79,6 +80,7 @@ public class ServiceResponse implements CommunicationObjectWithSoapHeader {
      *            the HTTP response code as specified in
      *            {@link HttpServletResponse}
      */
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public ServiceResponse(ByteArrayOutputStream baos, MediaType contentType, HTTPStatus status) {
         this.byteArrayOutputStream = baos;
         this.contentType = contentType;

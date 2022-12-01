@@ -35,7 +35,8 @@ public abstract class AbstractQueryExpression {
     }
 
     /**
-     * @param handle the handle to set
+     * @param handle
+     *            the handle to set
      */
     public AbstractQueryExpression setHandle(String handle) {
         this.handle = handle;

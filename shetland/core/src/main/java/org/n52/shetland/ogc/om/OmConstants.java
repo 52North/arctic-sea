@@ -28,8 +28,7 @@ import com.google.common.collect.ImmutableSet;
 /**
  * Class contains element names and namespaces used to encode the O&amp;M responses.
  *
- * Interface contains element names and namespaces used to encode the OGC O&amp;M
- * responses.
+ * Interface contains element names and namespaces used to encode the OGC O&amp;M responses.
  *
  * @since 1.0.0
  */
@@ -211,6 +210,10 @@ public interface OmConstants {
 
     String PARAMETER_NAME_TO_ELEVATION = "toElevation";
 
+    String PARAMETER_NAME_CATEGORY = "category";
+
+    String PARAMETER_NAME_PLATFORM = "platform";
+
     String PARAMETER = EN_PARAMETER;
 
     String OM_PARAMETER = "om:" + PARAMETER;
@@ -251,6 +254,9 @@ public interface OmConstants {
 
     String OBS_TYPE_PROFILE_OBSERVATION =
             "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_ProfileObservation";
+
+    String OBS_TYPE_TRAJECTORY_OBSERVATION =
+            "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_TrajectoryObservation";
 
     String OBS_TYPE_UNKNOWN = OGCConstants.UNKNOWN;
 
@@ -324,16 +330,10 @@ public interface OmConstants {
     ObservationType OBS_TYPE_TRUTH_OBSERVATION_TYPE = new ObservationType(OBS_TYPE_TRUTH_OBSERVATION);
     ObservationType OBS_TYPE_MEASUREMENT_TYPE = new ObservationType(OBS_TYPE_MEASUREMENT);
     ObservationType OBS_TYPE_REFERENCE_OBSERVATION_TYPE = new ObservationType(OBS_TYPE_REFERENCE_OBSERVATION);
+    ObservationType OBS_TYPE_TRAJECTORY_OBSERVATION_TYPE = new ObservationType(OBS_TYPE_TRAJECTORY_OBSERVATION);
 
-    Set<String> OBSERVATION_TYPES =
-            ImmutableSet.of(OBS_TYPE_MEASUREMENT,
-                    OBS_TYPE_CATEGORY_OBSERVATION,
-                    OBS_TYPE_COMPLEX_OBSERVATION,
-                    OBS_TYPE_COUNT_OBSERVATION,
-                    OBS_TYPE_GEOMETRY_OBSERVATION,
-                    OBS_TYPE_TEXT_OBSERVATION,
-                    OBS_TYPE_TRUTH_OBSERVATION,
-                    OBS_TYPE_SWE_ARRAY_OBSERVATION,
-                    OBS_TYPE_PROFILE_OBSERVATION,
-                    OBS_TYPE_REFERENCE_OBSERVATION);
+    Set<String> OBSERVATION_TYPES = ImmutableSet.of(OBS_TYPE_MEASUREMENT, OBS_TYPE_CATEGORY_OBSERVATION,
+            OBS_TYPE_COMPLEX_OBSERVATION, OBS_TYPE_COUNT_OBSERVATION, OBS_TYPE_GEOMETRY_OBSERVATION,
+            OBS_TYPE_TEXT_OBSERVATION, OBS_TYPE_TRUTH_OBSERVATION, OBS_TYPE_SWE_ARRAY_OBSERVATION,
+            OBS_TYPE_PROFILE_OBSERVATION, OBS_TYPE_TRAJECTORY_OBSERVATION, OBS_TYPE_REFERENCE_OBSERVATION);
 }

@@ -15,9 +15,9 @@
  */
 package org.n52.shetland.ogc.wps.description;
 
-import org.n52.shetland.ogc.ows.OwsCode;
-
 import java.util.Comparator;
+
+import org.n52.shetland.ogc.ows.OwsCode;
 
 /**
  * TODO JavaDoc
@@ -27,14 +27,20 @@ import java.util.Comparator;
 public interface ProcessDescription
         extends ProcessInputDescriptionContainer, ProcessOutputDescriptionContainer, Comparable<ProcessDescription> {
 
-    Comparator<ProcessDescription> COMPARATOR = Comparator.nullsLast(
-            Comparator.comparing(ProcessDescription::getId,
-                                 Comparator.comparing(OwsCode::getCodeSpace,
-                                                      Comparator.comparing(x -> x.orElse(null),
-                                                                           Comparator.nullsLast(
-                                                                                   Comparator.naturalOrder())))
-                                           .thenComparing(OwsCode::getValue))
-                      .thenComparing(ProcessDescription::getVersion, Comparator.nullsLast(Comparator.naturalOrder())));
+    Comparator<
+            ProcessDescription> COMPARATOR =
+                    Comparator
+                            .nullsLast(
+                                    Comparator
+                                            .comparing(ProcessDescription::getId,
+                                                    Comparator
+                                                            .comparing(OwsCode::getCodeSpace,
+                                                                    Comparator.comparing(x -> x.orElse(null),
+                                                                            Comparator.nullsLast(
+                                                                                    Comparator.naturalOrder())))
+                                                            .thenComparing(OwsCode::getValue))
+                                            .thenComparing(ProcessDescription::getVersion,
+                                                    Comparator.nullsLast(Comparator.naturalOrder())));
 
     String getVersion();
 
@@ -49,7 +55,9 @@ public interface ProcessDescription
         return COMPARATOR.compare(this, o);
     }
 
-    interface Builder<T extends ProcessDescription, B extends Builder<T, B>>
+    interface Builder<
+            T extends ProcessDescription,
+            B extends Builder<T, B>>
             extends ProcessInputDescriptionContainer.Builder<T, B>, ProcessOutputDescriptionContainer.Builder<T, B> {
 
         B statusSupported(boolean statusSupported);

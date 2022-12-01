@@ -45,7 +45,7 @@ public class Spatial extends AbstractResource implements DctRdfPrefix {
     }
 
     public List<Location> getLocations() {
-        return locations;
+        return new LinkedList<>(locations);
     }
 
     public Spatial setLocations(Collection<Location> locations) {

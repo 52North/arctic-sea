@@ -26,9 +26,15 @@ import org.n52.shetland.ogc.swe.simpleType.SweTimeRange;
  *
  * @author Christian Autermann
  */
-public class TimeRangeValue
-        extends SweTimeRange
-        implements Value<RangeValue<DateTime>> {
+public class TimeRangeValue extends SweTimeRange implements Value<RangeValue<DateTime>> {
+
+    /**
+     * constructor
+     */
+    public TimeRangeValue() {
+        super();
+    }
+
     /**
      * constructor
      *
@@ -101,7 +107,9 @@ public class TimeRangeValue
     }
 
     @Override
-    public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
+    public <
+            X,
+            E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
         return visitor.visit(this);
     }
 

@@ -18,6 +18,8 @@ package org.n52.shetland.ogc.sensorML.elements;
 import org.n52.shetland.ogc.gml.AbstractReferenceType;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * @author <a href="mailto:m.radtke@52north.org">Maurin Radtke</a>
  */
@@ -33,15 +35,19 @@ public class SmlParameter extends AbstractReferenceType {
         return name;
     }
 
-    public void setName(String name) {
+    public SmlParameter setName(String name) {
         this.name = name;
+        return this;
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public SweAbstractDataComponent getParameter() {
         return parameter;
     }
 
-    public void setParameter(SweAbstractDataComponent parameters) {
+    @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
+    public SmlParameter setParameter(SweAbstractDataComponent parameters) {
         parameter = parameters;
+        return this;
     }
 }

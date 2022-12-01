@@ -17,14 +17,14 @@ package org.n52.shetland.ogc.swes;
 
 import org.n52.shetland.ogc.ows.extension.AbstractExtension;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
-import org.n52.shetland.ogc.swe.SweConstants;
 
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  *
  * @since 1.0.0
  */
-public class SwesExtension<T> extends AbstractExtension<T> {
+public class SwesExtension<
+        T> extends AbstractExtension<T> {
 
     private T value;
 
@@ -38,7 +38,7 @@ public class SwesExtension<T> extends AbstractExtension<T> {
 
     @Override
     public String getNamespace() {
-        return SweConstants.NS_SWE_20;
+        return SwesConstants.NS_SWES_20;
     }
 
     @Override
@@ -59,7 +59,7 @@ public class SwesExtension<T> extends AbstractExtension<T> {
 
     @Override
     public String toString() {
-        return String.format("SwesExtension [value=%s, identifier=%s, definition=%s]",
-                             value, getIdentifier(), getDefinition());
+        return String.format("SwesExtension [value=%s, identifier=%s, definition=%s]", value, getIdentifier(),
+                getDefinition());
     }
 }

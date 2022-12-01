@@ -17,6 +17,7 @@ package org.n52.shetland.ogc.om.values;
 
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.SortedMap;
 
@@ -36,8 +37,7 @@ import com.google.common.collect.Maps;
  * @since 1.0.0
  *
  */
-public class RectifiedGridCoverage
-        implements DiscreteCoverage<SortedMap<ComparableValue<?, ?>, Value<?>>> {
+public class RectifiedGridCoverage implements DiscreteCoverage<SortedMap<ComparableValue<?, ?>, Value<?>>> {
 
     private static final String GML_ID_PREFIX = "rgc_";
     private final String gmlId;
@@ -89,7 +89,7 @@ public class RectifiedGridCoverage
 
     @Override
     public SortedMap<ComparableValue<?, ?>, Value<?>> getValue() {
-        return value;
+        return Collections.unmodifiableSortedMap(value);
     }
 
     @Override
@@ -127,8 +127,9 @@ public class RectifiedGridCoverage
     }
 
     @Override
-    public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor)
-            throws E {
+    public <
+            X,
+            E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
         return visitor.visit(this);
     }
 

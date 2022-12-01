@@ -20,6 +20,8 @@ import java.util.Optional;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * TODO JavaDoc
  *
@@ -43,6 +45,7 @@ public class EnvelopeOrGeometry {
         this(geometry, null);
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Optional<Geometry> getGeometry() {
         return Optional.ofNullable(this.geometry);
     }
@@ -89,6 +92,7 @@ public class EnvelopeOrGeometry {
         }
     }
 
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
     public Geometry toGeometry() {
         if (this.geometry != null) {
             return this.geometry;

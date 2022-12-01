@@ -15,11 +15,11 @@
  */
 package org.n52.shetland.ogc.wps.data;
 
-import org.n52.shetland.ogc.ows.OwsCode;
-import org.n52.shetland.ogc.wps.Format;
-
 import java.io.IOException;
 import java.io.InputStream;
+
+import org.n52.shetland.ogc.ows.OwsCode;
+import org.n52.shetland.ogc.wps.Format;
 
 /**
  * TODO JavaDoc

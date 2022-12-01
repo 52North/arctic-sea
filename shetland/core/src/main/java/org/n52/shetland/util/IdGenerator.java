@@ -52,7 +52,7 @@ public class IdGenerator {
      * Generates a sensor id from description and current time as long.
      *
      * @param message
-     *                sensor description
+     *            sensor description
      *
      * @return generated sensor id as hex SHA-256.
      */
@@ -66,7 +66,7 @@ public class IdGenerator {
      * Transforms byte to hex representation
      *
      * @param bytes
-     *          bytes
+     *            bytes
      *
      * @return hex
      */

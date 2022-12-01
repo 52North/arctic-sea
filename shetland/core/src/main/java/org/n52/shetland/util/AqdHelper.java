@@ -15,6 +15,7 @@
  */
 package org.n52.shetland.util;
 
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -31,11 +32,12 @@ public class AqdHelper {
      * @return the validityFlags
      */
     public Set<Integer> getValidityFlags() {
-        return validityFlags;
+        return Collections.unmodifiableSet(validityFlags);
     }
 
     /**
-     * @param validityFlags the validityFlags to set
+     * @param validityFlags
+     *            the validityFlags to set
      */
     @Setting(value = EReportingSetting.EREPORTING_VALIDITY_FLAGS, required = false)
     public void setValidityFlags(String validityFlags) {
@@ -53,11 +55,12 @@ public class AqdHelper {
      * @return the verificationFlags
      */
     public Set<Integer> getVerificationFlags() {
-        return verificationFlags;
+        return Collections.unmodifiableSet(validityFlags);
     }
 
     /**
-     * @param verificationFlags the verificationFlags to set
+     * @param verificationFlags
+     *            the verificationFlags to set
      */
     @Setting(value = EReportingSetting.EREPORTING_VERIFICATION_FLAGS, required = false)
     public void setVerificationFlags(String verificationFlags) {

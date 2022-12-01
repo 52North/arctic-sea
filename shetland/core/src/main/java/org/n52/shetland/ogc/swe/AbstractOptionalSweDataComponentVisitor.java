@@ -33,8 +33,9 @@ import org.n52.shetland.ogc.swe.simpleType.SweTime;
 import org.n52.shetland.ogc.swe.simpleType.SweTimeRange;
 import org.n52.shetland.ogc.swe.stream.StreamingSweDataArray;
 
-public class AbstractOptionalSweDataComponentVisitor<T, X extends Throwable>
-        implements SweDataComponentVisitor<Optional<T>, X> {
+public class AbstractOptionalSweDataComponentVisitor<
+        T,
+        X extends Throwable> implements SweDataComponentVisitor<Optional<T>, X> {
 
     @Override
     public Optional<T> visit(SweField component) throws X {

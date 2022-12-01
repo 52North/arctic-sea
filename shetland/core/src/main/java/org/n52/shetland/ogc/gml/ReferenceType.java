@@ -15,7 +15,6 @@
  */
 package org.n52.shetland.ogc.gml;
 
-
 /**
  * Class represents a GML conform ReferenceType element
  *
