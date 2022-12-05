@@ -390,7 +390,7 @@ public class FullInspireExtendedCapabilities extends InspireExtendedCapabilities
 
     @Override
     public boolean isSetMandatoryKeyword() {
-        return getMandatoryKeywords() != null;
+        return !getMandatoryKeywords().isEmpty();
     }
 
     @Override
@@ -402,7 +402,6 @@ public class FullInspireExtendedCapabilities extends InspireExtendedCapabilities
     public FullInspireExtendedCapabilities setKeywords(Collection<InspireKeyword> keywords) {
         this.keywords.clear();
         if (CollectionHelper.isNotEmpty(keywords)) {
-
             this.keywords.addAll(keywords);
         }
         return this;

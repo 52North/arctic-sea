@@ -81,7 +81,7 @@ public abstract class AbstractPofileTrajectoryElement<
     }
 
     public boolean isSetValue() {
-        return getValue() != null;
+        return !getValue().isEmpty();
     }
 
     /**
