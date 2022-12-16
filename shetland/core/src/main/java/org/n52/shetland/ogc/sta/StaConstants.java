@@ -118,7 +118,7 @@ public interface StaConstants {
     String PROP_TYPE = "type";
     String PROP_DISPLAY_NAME = "displayName";
     String PROP_ROLE = "role";
-    String PROP_RUNTIME = "runtime";
+    String PROP_RUNTIME = "runTime";
     String PROP_URL = "url";
     String PROP_LOGO = "logo";
     String PROP_CLASSIFICATION = "classification";
