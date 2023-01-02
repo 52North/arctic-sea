@@ -13,16 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.svalbard.encode.json;
 
 import java.net.URI;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collector;
 
@@ -62,6 +57,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @since 1.0.0
  */
 public abstract class JSONEncoder<T> implements Encoder<JsonNode, T> {
+
     public static final String CONTENT_TYPE = "application/json";
     private final Set<EncoderKey> encoderKeys;
     private EncoderRepository encoderRepository;
@@ -79,14 +75,14 @@ public abstract class JSONEncoder<T> implements Encoder<JsonNode, T> {
         this.encoderKeys = set.build();
     }
 
+    protected EncoderRepository getEncoderRepository() {
+        return encoderRepository;
+    }
+
     @Inject
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public void setEncoderRepository(EncoderRepository encoderRepository) {
         this.encoderRepository = Objects.requireNonNull(encoderRepository);
-    }
-
-    protected EncoderRepository getEncoderRepository() {
-        return encoderRepository;
     }
 
     @Override
@@ -95,23 +91,17 @@ public abstract class JSONEncoder<T> implements Encoder<JsonNode, T> {
     }
 
     @Override
-    public MediaType getContentType() {
-        return MediaTypes.APPLICATION_JSON;
-    }
-
-    @Override
-    public JsonNode encode(T objectToEncode, EncodingContext v)
-            throws EncodingException {
-        return encode(objectToEncode);
-    }
-
-    @Override
     public JsonNode encode(T objectToEncode)
-            throws EncodingException {
+        throws EncodingException {
         if (objectToEncode == null) {
             return nodeFactory().nullNode();
         }
         return encodeJSON(objectToEncode);
+    }
+
+    @Override
+    public JsonNode encode(T objectToEncode, EncodingContext v) throws EncodingException {
+        return encode(objectToEncode);
     }
 
     protected <T> void encode(ArrayNode json, T obj, Function<T, JsonNode> encoder) {
@@ -122,15 +112,38 @@ public abstract class JSONEncoder<T> implements Encoder<JsonNode, T> {
         json.set(name, encoder.apply(obj));
     }
 
-    public abstract JsonNode encodeJSON(T t)
-            throws EncodingException;
+    @Override
+    public MediaType getContentType() {
+        return MediaTypes.APPLICATION_JSON;
+    }
 
-    protected JsonNode encodeObjectToJson(Object o)
-            throws EncodingException {
+    public abstract JsonNode encodeJSON(T t)
+        throws EncodingException;
+
+    /**
+     * Encodes a List of Objects to JSON. Uses ListEncoderKey if the List has elements and default JSONEncoderKey if
+     * not. Needed in SensorML20 Encoding as List-encoding is dependent on type of the list.
+     *
+     * @param o List to be encoded
+     * @return encoded String
+     * @throws EncodingException if encoding failed
+     */
+    protected JsonNode encodeListObjectToJson(List<?> o) throws EncodingException {
+        EncoderKey key;
+        if (o.size() > 0) {
+            key = new ListEncoderKey(((List) o).get(0).getClass());
+        } else {
+            key = new JSONEncoderKey(o.getClass());
+        }
+        Encoder<JsonNode, Object> encoder = this.encoderRepository.getEncoder(key);
+        return Optional.ofNullable(encoder).orElseThrow(() -> new NoEncoderForKeyException(key)).encode(o);
+    }
+
+    protected JsonNode encodeObjectToJson(Object o) throws EncodingException {
         if (o == null) {
             return nodeFactory().nullNode();
         }
-        JSONEncoderKey key = new JSONEncoderKey(o.getClass());
+        EncoderKey key = new JSONEncoderKey(o.getClass());
         Encoder<JsonNode, Object> encoder = this.encoderRepository.getEncoder(key);
         return Optional.ofNullable(encoder).orElseThrow(() -> new NoEncoderForKeyException(key)).encode(o);
     }
@@ -139,14 +152,13 @@ public abstract class JSONEncoder<T> implements Encoder<JsonNode, T> {
         ThrowingFunction<Object, JsonNode, EncodingException> encodeObjectToJson = this::encodeObjectToJson;
         CompositeException composite = new CompositeException();
         ArrayNode root = objects.stream()
-                                .map(composite.wrapFunction(encodeObjectToJson))
-                                .filter(Optional::isPresent).map(Optional::get)
-                                .collect(toJsonArray());
+            .map(composite.wrapFunction(encodeObjectToJson))
+            .filter(Optional::isPresent).map(Optional::get)
+            .collect(toJsonArray());
         if (!composite.isEmpty()) {
             composite.throwIfNotEmpty(EncodingException::new);
         }
         return root;
-
     }
 
     protected JsonNodeFactory nodeFactory() {
@@ -163,7 +175,7 @@ public abstract class JSONEncoder<T> implements Encoder<JsonNode, T> {
 
     protected <T, X extends Exception> void encodeOptionalChecked(ObjectNode json, String name, Optional<T> obj,
                                                                   ThrowingFunction<T, JsonNode, X> encoder)
-            throws X {
+        throws X {
         if (obj.isPresent()) {
             Optional.ofNullable(encoder.apply(obj.get())).ifPresent(node -> json.set(name, node));
         }
@@ -171,7 +183,7 @@ public abstract class JSONEncoder<T> implements Encoder<JsonNode, T> {
 
     protected <T, X extends Exception> void encodeOptionalChecked(ArrayNode json, Optional<T> obj,
                                                                   ThrowingFunction<T, JsonNode, X> encoder)
-            throws X {
+        throws X {
         if (obj.isPresent()) {
             Optional.ofNullable(encoder.apply(obj.get())).ifPresent(json::add);
         }
@@ -186,11 +198,11 @@ public abstract class JSONEncoder<T> implements Encoder<JsonNode, T> {
 
     protected <T, X extends Exception> void encodeListChecked(ObjectNode json, String name, Collection<T> collection,
                                                               ThrowingFunction<T, JsonNode, X> encoder)
-            throws CompositeException {
+        throws CompositeException {
         if (!collection.isEmpty()) {
             CompositeException exceptions = new CompositeException();
             json.set(name, collection.stream().map(exceptions.wrapFunction(encoder))
-                                     .map(o -> o.orElseGet(nodeFactory()::nullNode)).collect(toJsonArray()));
+                .map(o -> o.orElseGet(nodeFactory()::nullNode)).collect(toJsonArray()));
             if (!exceptions.isEmpty()) {
                 throw exceptions;
             }
@@ -199,13 +211,13 @@ public abstract class JSONEncoder<T> implements Encoder<JsonNode, T> {
 
     protected <T, X extends Exception> void encodeChecked(ObjectNode json, String name, T obj,
                                                           ThrowingFunction<T, JsonNode, X> encoder)
-            throws X {
+        throws X {
         json.set(name, encoder.apply(obj));
     }
 
     protected <T, X extends Exception> void encodeChecked(ArrayNode json, T obj,
                                                           ThrowingFunction<T, JsonNode, X> encoder)
-            throws X {
+        throws X {
         json.add(encoder.apply(obj));
     }
 
@@ -243,10 +255,10 @@ public abstract class JSONEncoder<T> implements Encoder<JsonNode, T> {
     }
 
     protected <T> Collector<T, ?, ObjectNode> toJsonObject(
-            Collector<T, ?, ? extends Map<String, ? extends JsonNode>> mapper) {
+        Collector<T, ?, ? extends Map<String, ? extends JsonNode>> mapper) {
         @SuppressWarnings("unchecked")
         Collector<T, Object, Map<String, ? extends JsonNode>> m =
-                (Collector<T, Object, Map<String, ? extends JsonNode>>) mapper;
+            (Collector<T, Object, Map<String, ? extends JsonNode>>) mapper;
         Function<Map<String, ? extends JsonNode>, ObjectNode> finisher = map -> {
             ObjectNode node = nodeFactory().objectNode();
             node.setAll(map);

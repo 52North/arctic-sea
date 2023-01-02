@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.encode.json;
 
-import org.n52.svalbard.encode.exception.EncodingException;
+package org.n52.svalbard.encode.json;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import org.n52.svalbard.encode.exception.EncodingException;
 
 /**
  * TODO JavaDoc
@@ -33,7 +33,7 @@ public class IterableJSONEncoder extends JSONEncoder<Iterable<?>> {
 
     @Override
     public JsonNode encodeJSON(Iterable<?> iterable)
-            throws EncodingException {
+        throws EncodingException {
         ArrayNode node = nodeFactory().arrayNode();
         for (Object t : iterable) {
             node.add(encodeObjectToJson(t));
