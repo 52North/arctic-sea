@@ -157,7 +157,7 @@
         <version.httpcore>4.4.16</version.httpcore>
         <version.elastic>7.17.6</version.elastic>
         <version.antlr4>4.9.3</version.antlr4>
-        <version.maven-javadoc-plugin>3.4.1</version.maven-javadoc-plugin>
+        <version.maven-javadoc-plugin>3.5.0</version.maven-javadoc-plugin>
     </properties>
 
     <dependencyManagement>
