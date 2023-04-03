@@ -1,0 +1,62 @@
+{
+  "settingDefinitions" : {
+    "serviceProvider.isrequired" : {
+      "type" : "boolean",
+      "order" : 0.0,
+      "optional" : true,
+      "title" : "Required",
+      "description" : "Is this field required",
+      "group" : {
+        "order" : 0.0,
+        "title" : "Service Provider",
+        "description" : null,
+        "showInDefaultSettings" : true
+      },
+      "defaultValue" : true,
+      "key" : "serviceProvider.isrequired",
+      "optionalDefaultValue" : true
+    },
+    "serviceProvider.eval" : {
+      "type" : "boolean",
+      "order" : 0.0,
+      "optional" : true,
+      "title" : "Eval",
+      "description" : "Project eval for GSOC22",
+      "group" : {
+        "order" : 0.0,
+        "title" : "Service Provider",
+        "description" : null,
+        "showInDefaultSettings" : true
+      },
+      "defaultValue" : false,
+      "key" : "serviceProvider.eval",
+      "optionalDefaultValue" : false
+    },
+    "serviceProvider.evaluation" : {
+      "type" : "string",
+      "order" : 0.0,
+      "optional" : true,
+      "title" : "Eval",
+      "description" : "Project eval for GSOC22",
+      "group" : {
+        "order" : 0.0,
+        "title" : "Service Provider",
+        "description" : null,
+        "showInDefaultSettings" : true
+      },
+      "defaultValue" : "Pass/Fail",
+      "key" : "serviceProvider.evaluation",
+      "optionalDefaultValue" : "Pass/Fail"
+    }
+  },
+  "settings" : {
+    "serviceProvider.isrequired" : {
+      "type" : "boolean",
+      "value" : false
+    },
+    "serviceProvider.eval" : {
+      "type" : "boolean",
+      "value" : true
+    }
+  }
+}
