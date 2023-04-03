@@ -237,3 +237,12 @@ The development of the 52Â°North Arctic Sea implementation was supported by se
 | [![BMVI](https://raw.githubusercontent.com/52North/arctic-sea/master/etc/images/bmvi-logo.png)](https://www.bmvi.de/)[![mFund](https://raw.githubusercontent.com/52North/arctic-sea/master/etc/images/mfund-logo.jpg)](https://www.bmvi.de/DE/Themen/Digitales/mFund/Ueberblick/ueberblick.html)[![WaCoDis](https://raw.githubusercontent.com/52North/arctic-sea/master/etc/images/wacodis-logo.png)](http://wacodis.fbg-hsbo.de/) | The development of this version of 52Â°North Arctic Sea was supported by the [German Federal Ministry of of Transport and Digital Infrastructure](https://www.bmvi.de/) research project [WaCoDis](http://wacodis.fbg-hsbo.de/) (co-funded by the German Federal Ministry of Transport and Digital Infrastructure, programme mFund) |
 | [![BMBF](https://raw.githubusercontent.com/52North/arctic-sea/master/etc/images/bmbf-logo.png)](https://www.bmbf.de/)[![fona](https://raw.githubusercontent.com/52North/arctic-sea/master/etc/images/fona-logo.png)](https://www.fona.de/)[![MuDak-WRM](https://raw.githubusercontent.com/52North/arctic-sea/master/etc/images/mudak-wrm-logo.png)](http://www.mudak-wrm.kit.edu/) | The development of this version of 52Â°North Arctic Sea was supported by the [German Federal Ministry of Education and Research](https://www.bmbf.de/) research project [MuDak-WRM](http://www.mudak-wrm.kit.edu/) (co-funded by the German Federal Ministry of Education and Research, programme [fona](https://www.fona.de/)) |
 | [![BRIDGES](https://raw.githubusercontent.com/52North/arctic-sea/master/etc/images/bridges-logo.jpg)](http://www.bridges-h2020.eu/)| The development of this version of the 52Â°North Arctic Sea was supported by the [Horizon 2020](https://ec.europa.eu/programmes/horizon2020/) research project [BRIDGES](http://www.bridges-h2020.eu/) (co-funded by the European Commission under the grant agreement nÂ°635359)
+
+<hr>
+
+## Steps to Run Faroe REST Backend--------->
+
+  - 1. Open the project in a Java IDE (Ecplise or intellij)
+  - 2. Go to the faroe--->rest--->src/main/java/--->org.n52.faroeREST.springrest--->SpringrestApplication.java
+  - 3. Run this file as a Java Application
+  - (The above steps aresufficient, however, If you encounter any error, then try:  maven clean ---> maven build ---> update project---> and repeat step 3)
