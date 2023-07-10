@@ -3,21 +3,21 @@
 
 ## Description
 
-### 52°North's backbone for OGC services, clients and middleware
+### 52°North's backbone for OGC services, Clients and Middleware
 
 **A framework for developing OGC services, clients and middleware sharing concepts for encoding and decoding of different formats and encodings, workflows and configuration.**
 
 Arctic Sea is a stack of projects that eases the development of OGC related services such as the 52°North implementation of the OGC [SOS](https://github.com/52North/SOS) and [WPS](https://github.com/52North/javaPS), as well as clients and middleware. It compromises the following modules.
 
-![Overview](https://github.com/52North/arctic-sea/raw/master/etc/overview.jpg)
+![Overview](https://github.com/52North/arctic-sea/raw/master/etc/ArcticSea22.jpg)
 
 #### Iceland [![Maven Central](https://img.shields.io/maven-central/v/org.n52.arctic-sea/iceland.svg)](https://search.maven.org/search?q=g:org.n52.arctic-sea%20and%20a:iceland*%20and%20p:jar)
 
-Iceland is a service framework that enables the development of OGC RPC based services. It features bindings for KVP, POX, SOAP, as well as JSON-based bindings. Iceland facilitates the rapid development of modular services that use Faroe for easy configuration and Svalbard for request parsing and response generation.
+Iceland is a service framework that enables the development of OGC RPC (remote procedure call) based services. It features bindings for KVP, POX, SOAP, as well as JSON-based bindings. Iceland facilitates the rapid development of modular services that use Faroe for easy configuration and Svalbard for request parsing and response generation.
 
 #### Svalbard [![Maven Central](https://img.shields.io/maven-central/v/org.n52.arctic-sea/svalbard.svg)](https://search.maven.org/search?q=g:org.n52.arctic-sea%20and%20a:svalbard*%20and%20p:jar)
 
-Svalbard consists of various decoders and encoders for OGC models (e.g. [SensorML](http://www.opengeospatial.org/standards/sensorml), [O&M](http://www.opengeospatial.org/standards/om) and [SWE Common](http://www.opengeospatial.org/standards/swecommon), service interfaces (like [SOS](http://www.opengeospatial.org/standards/sos) and [WPS](http://www.opengeospatial.org/standards/wps)) and a framework for developing these. This enables the creation of decoupled and reusable encoders and decoders for various encodings (e.g. XML, JSON or NetCDF). The object models used are found in 52Â°North Shetland and are shared across 52Â°North components.
+Svalbard consists of various decoders and encoders for OGC models (e.g. [SensorML](http://www.opengeospatial.org/standards/sensorml), [O&M](http://www.opengeospatial.org/standards/om) and [SWE Common](http://www.opengeospatial.org/standards/swecommon), service interfaces (like [SOS](http://www.opengeospatial.org/standards/sos) and [WPS](http://www.opengeospatial.org/standards/wps)) and a framework for developing these. This enables the creation of decoupled and reusable encoders and decoders for various encodings (e.g. XML, JSON or NetCDF). The object models used are found in 52°North Shetland and are shared across 52°North components.
 
 #### Faroe [![Maven Central](https://img.shields.io/maven-central/v/org.n52.arctic-sea/faroe.svg)](https://search.maven.org/search?q=g:org.n52.arctic-sea%20and%20a:faroe*%20and%20p:jar)
 
@@ -31,16 +31,16 @@ Shetland consists of classes for OGC models like [SensorML](http://www.opengeosp
 
 #### Bjørnøya (Bjornoya) [![Maven Central](https://img.shields.io/maven-central/v/org.n52.arctic-sea/bjornoya.svg)](https://search.maven.org/search?q=g:org.n52.arctic-sea%20and%20a:bjornoya*%20and%20p:jar)
 
-Bjørnøya contains various classes for scheduling using [![Quartz](http://www.quartz-scheduler.org/)] shared across Arctic Sea. This includes configurations to define the execution of jobs.
+Bjørnøya contains various classes for [![Quartz](http://www.quartz-scheduler.org/)] scheduling shared across Arctic Sea. These include configurations to define the execution of jobs.
 
 ### Key Technologies
 
 - OGC Web Services
-- Web Processing Service (WPS)
-- Sensor Observation Service (SOS)
-- SWE Common
-- SensorML
-- Observation and Measurement (O&M)
+- OGC Web Processing Service (WPS)
+- OGC Sensor Observation Service (SOS)
+- OGC SWE Common
+- OGC SensorML
+- OGC Observation and Measurement (O&M)
 - Spring
 - Java
 - XML
