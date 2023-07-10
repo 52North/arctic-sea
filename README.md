@@ -9,7 +9,7 @@
 
 Arctic Sea is a stack of projects that eases the development of OGC related services such as the 52°North implementation of the OGC [SOS](https://github.com/52North/SOS) and [WPS](https://github.com/52North/javaPS), as well as clients and middleware. It compromises the following modules.
 
-![Overview](https://github.com/52North/arctic-sea/raw/master/etc/ArcticSea22.jpg)
+![Overview](https://github.com/52North/arctic-sea/raw/master/etc/22_ArcticSea.jpg)
 
 #### Iceland [![Maven Central](https://img.shields.io/maven-central/v/org.n52.arctic-sea/iceland.svg)](https://search.maven.org/search?q=g:org.n52.arctic-sea%20and%20a:iceland*%20and%20p:jar)
 
