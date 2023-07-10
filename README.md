@@ -33,7 +33,7 @@ Jan Mayen contains various utility classes shared throughout Arctic Sea.
 
 #### Bjørnøya (Bjornoya) [![Maven Central](https://img.shields.io/maven-central/v/org.n52.arctic-sea/bjornoya.svg)](https://search.maven.org/search?q=g:org.n52.arctic-sea%20and%20a:bjornoya*%20and%20p:jar)
 
-Bjørnøya contains various classes for [![Quartz](http://www.quartz-scheduler.org/)] scheduling shared across Arctic Sea. These include configurations to define the execution of jobs.
+Bjørnøya contains various classes for [[Quartz](http://www.quartz-scheduler.org/)] scheduling shared across Arctic Sea. These include configurations to define the execution of jobs.
 
 ### Key Technologies
 
