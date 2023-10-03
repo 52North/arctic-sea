@@ -27,7 +27,7 @@
 
     <artifactId>iceland-parent</artifactId>
     <packaging>pom</packaging>
-    <name>52°North Iceland Aggregator Project</name>
+    <name>52°south Iceland Aggregator Project</name>
     <description>52°North OWS Framework</description>
 
     <modules>
