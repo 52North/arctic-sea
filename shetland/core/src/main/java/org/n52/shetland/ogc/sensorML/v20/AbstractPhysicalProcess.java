@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.shetland.ogc.sensorML.v20;
 
 import org.n52.shetland.ogc.gml.ReferenceType;
@@ -26,11 +27,12 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
- *
  */
 public class AbstractPhysicalProcess extends DescribedObject implements HasPosition<AbstractPhysicalProcess> {
 
     private ReferenceType attachedTo;
+
+    // TODO: According to SensorML20 7.5.1 this should have cardinality [0..*]
     private SpatialFrame localReferenceFrame;
     private TemporalFrame localTimeFrame;
 
@@ -49,8 +51,7 @@ public class AbstractPhysicalProcess extends DescribedObject implements HasPosit
      * Set the attachedTo reference. It is automatically added to parentProcedure list. If title is set, the
      * title is used, else the href.
      *
-     * @param attachedTo
-     *            the attachedTo to set
+     * @param attachedTo the attachedTo to set
      */
     public void setAttachedTo(ReferenceType attachedTo) {
         this.attachedTo = attachedTo;
@@ -68,8 +69,7 @@ public class AbstractPhysicalProcess extends DescribedObject implements HasPosit
     }
 
     /**
-     * @param localReferenceFrame
-     *            the localReferenceFrame to set
+     * @param localReferenceFrame the localReferenceFrame to set
      */
     public void setLocalReferenceFrame(SpatialFrame localReferenceFrame) {
         this.localReferenceFrame = localReferenceFrame;
@@ -83,8 +83,7 @@ public class AbstractPhysicalProcess extends DescribedObject implements HasPosit
     }
 
     /**
-     * @param localTimeFrame
-     *            the localTimeFrame to set
+     * @param localTimeFrame the localTimeFrame to set
      */
     public void setLocalTimeFrame(TemporalFrame localTimeFrame) {
         this.localTimeFrame = localTimeFrame;
@@ -99,8 +98,7 @@ public class AbstractPhysicalProcess extends DescribedObject implements HasPosit
     }
 
     /**
-     * @param position
-     *            the position to set
+     * @param position the position to set
      */
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public AbstractPhysicalProcess setPosition(SmlPosition position) {
@@ -116,8 +114,7 @@ public class AbstractPhysicalProcess extends DescribedObject implements HasPosit
     }
 
     /**
-     * @param timePosition
-     *            the timePosition to set
+     * @param timePosition the timePosition to set
      */
     public void setTimePosition(Object timePosition) {
         this.timePosition = timePosition;

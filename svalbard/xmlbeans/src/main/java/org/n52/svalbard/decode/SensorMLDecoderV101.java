@@ -93,7 +93,6 @@ import net.opengis.sensorML.x101.ContactInfoDocument.ContactInfo.Address;
 import net.opengis.sensorML.x101.ContactInfoDocument.ContactInfo.Phone;
 import net.opengis.sensorML.x101.ContactListDocument.ContactList;
 import net.opengis.sensorML.x101.DocumentationDocument.Documentation;
-import net.opengis.sensorML.x101.HistoryDocument.History;
 import net.opengis.sensorML.x101.IdentificationDocument.Identification;
 import net.opengis.sensorML.x101.IdentificationDocument.Identification.IdentifierList.Identifier;
 import net.opengis.sensorML.x101.InputsDocument.Inputs;
@@ -250,9 +249,11 @@ public class SensorMLDecoderV101 extends AbstractSensorMLDecoder {
         if (xbAbstractProcess.getDocumentationArray() != null) {
             abstractProcess.setDocumentation(parseDocumentation(xbAbstractProcess.getDocumentationArray()));
         }
+        /*
         if (xbAbstractProcess.getHistoryArray() != null) {
             abstractProcess.setHistory(parseHistory(xbAbstractProcess.getHistoryArray()));
         }
+        */
         if (xbAbstractProcess.getKeywordsArray() != null) {
             abstractProcess.setKeywords(parseKeywords(xbAbstractProcess.getKeywordsArray()));
         }
@@ -728,11 +729,6 @@ public class SensorMLDecoderV101 extends AbstractSensorMLDecoder {
             }
         }
         return Lists.newArrayList(keywords);
-    }
-
-    private String parseHistory(final History[] historyArray) {
-        // TODO Auto-generated method stub
-        return "";
     }
 
     /**

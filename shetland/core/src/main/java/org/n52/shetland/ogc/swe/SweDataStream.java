@@ -29,22 +29,10 @@ import com.google.common.collect.Lists;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-public class SweDataStream implements HasDefaultEncoding<SweDataStream>, Copyable<SweDataStream> {
 
-    /**
-     * optional: swe:description[0..1]
-     */
-    private String description;
+public class SweDataStream extends AbstractSWEIdentifiable
+    implements HasDefaultEncoding<SweDataStream>, Copyable<SweDataStream> {
 
-    /**
-     * optional: swe:label [0..1]
-     */
-    private String label;
-
-    /**
-     * optional: swe:identifier [0..1]
-     */
-    private String identifier;
     /**
      * swe:values<br />
      * Each list entry represents one block, a list of tokens.<br />
@@ -68,36 +56,6 @@ public class SweDataStream implements HasDefaultEncoding<SweDataStream>, Copyabl
 
     private String xml;
 
-    public String getDescription() {
-        return description;
-    }
-
-    public String getLabel() {
-        if (label != null && !label.isEmpty()) {
-            return label;
-        }
-        return null;
-    }
-
-    public String getIdentifier() {
-        return identifier;
-    }
-
-    public SweDataStream setDescription(final String description) {
-        this.description = description;
-        return this;
-    }
-
-    public SweDataStream setLabel(final String label) {
-        this.label = label;
-        return this;
-    }
-
-    public SweDataStream setIdentifier(final String identifier) {
-        this.identifier = identifier;
-        return this;
-    }
-
     /**
      * @return the values
      */
@@ -106,9 +64,7 @@ public class SweDataStream implements HasDefaultEncoding<SweDataStream>, Copyabl
     }
 
     /**
-     *
-     * @param values
-     *            the values to set
+     * @param values the values to set
      * @return This SweDataStream
      */
     public SweDataStream setValues(final List<List<String>> values) {
@@ -128,8 +84,7 @@ public class SweDataStream implements HasDefaultEncoding<SweDataStream>, Copyabl
     }
 
     /**
-     * @param elementType
-     *            the elementType to set
+     * @param elementType the elementType to set
      * @return This SweDataStream
      */
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
@@ -146,6 +101,12 @@ public class SweDataStream implements HasDefaultEncoding<SweDataStream>, Copyabl
             return this.elementCount;
         }
         return new SweCount().setValue(0);
+    }
+
+    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
+    public SweDataStream setElementCount(final SweCount elementCount) {
+        this.elementCount = elementCount;
+        return this;
     }
 
     @SuppressFBWarnings({ "EI_EXPOSE_REP" })
@@ -176,10 +137,9 @@ public class SweDataStream implements HasDefaultEncoding<SweDataStream>, Copyabl
     /**
      * Adds the given block - a {@link List}&lt;{@link String}&gt; - add the end of the current list of blocks
      *
-     * @param blockOfTokensToAddAtTheEnd
-     *            the blocks of tokens to add
+     * @param blockOfTokensToAddAtTheEnd the blocks of tokens to add
      * @return <tt>true</tt> (as specified by {@link Collection#add}) <br />
-     *         <tt>false</tt> if block could not be added
+     * <tt>false</tt> if block could not be added
      */
     public boolean add(final List<String> blockOfTokensToAddAtTheEnd) {
         return values.add(blockOfTokensToAddAtTheEnd);
@@ -230,22 +190,22 @@ public class SweDataStream implements HasDefaultEncoding<SweDataStream>, Copyabl
             return false;
         }
         if (getElementType() != other.getElementType()
-                && (getElementType() == null || !getElementType().equals(other.getElementType()))) {
+            && (getElementType() == null || !getElementType().equals(other.getElementType()))) {
             return false;
         }
         if (getEncoding() != other.getEncoding()
-                && (getEncoding() == null || !getEncoding().equals(other.getEncoding()))) {
+            && (getEncoding() == null || !getEncoding().equals(other.getEncoding()))) {
             return false;
         }
         if ((getDescription() == null) ? (other.getDescription() != null)
-                : !getDescription().equals(other.getDescription())) {
+            : !getDescription().equals(other.getDescription())) {
             return false;
         }
         if ((getLabel() == null) ? (other.getLabel() != null) : !getLabel().equals(other.getLabel())) {
             return false;
         }
         if ((getIdentifier() == null) ? (other.getIdentifier() != null)
-                : !getIdentifier().equals(other.getIdentifier())) {
+            : !getIdentifier().equals(other.getIdentifier())) {
             return false;
         }
         return super.equals(obj);
@@ -259,12 +219,6 @@ public class SweDataStream implements HasDefaultEncoding<SweDataStream>, Copyabl
         return encoding != null;
     }
 
-    @SuppressFBWarnings({ "EI_EXPOSE_REP" })
-    public SweDataStream setElementCount(final SweCount elementCount) {
-        this.elementCount = elementCount;
-        return this;
-    }
-
     public boolean isSetElementCount() {
         return elementCount != null || isSetValues();
     }
@@ -273,22 +227,11 @@ public class SweDataStream implements HasDefaultEncoding<SweDataStream>, Copyabl
         return isSetElementTyp() && isSetEncoding() && isSetValues();
     }
 
-    @Override
-    public String getDefaultElementEncoding() {
-        return defaultEncoding;
-    }
-
-    @Override
-    public SweDataStream setDefaultElementEncoding(String defaultEncoding) {
-        this.defaultEncoding = defaultEncoding;
-        return this;
-    }
-
     public SweDataStream copy() {
         SweDataStream clone = new SweDataStream();
-        clone.setDescription(description);
-        clone.setIdentifier(identifier);
-        clone.setLabel(label);
+        clone.setDescription(getDescription());
+        clone.setIdentifier(getIdentifier());
+        clone.setLabel(getLabel());
         if (isSetElementTyp()) {
             clone.setElementType(getElementType().copy());
         }
@@ -302,6 +245,17 @@ public class SweDataStream implements HasDefaultEncoding<SweDataStream>, Copyabl
             clone.setValues(Lists.newArrayList(getValues()));
         }
         return clone;
+    }
+
+    @Override
+    public String getDefaultElementEncoding() {
+        return defaultEncoding;
+    }
+
+    @Override
+    public SweDataStream setDefaultElementEncoding(String defaultEncoding) {
+        this.defaultEncoding = defaultEncoding;
+        return this;
     }
 
 }

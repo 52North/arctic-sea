@@ -15,69 +15,11 @@
  */
 package org.n52.svalbard.decode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.apache.xmlbeans.XmlObject;
-import org.isotc211.x2005.gmd.CIResponsiblePartyPropertyType;
-import org.n52.shetland.ogc.OGCConstants;
-import org.n52.shetland.ogc.SupportedType;
-import org.n52.shetland.ogc.gml.AbstractFeature;
-import org.n52.shetland.ogc.gml.CodeWithAuthority;
-import org.n52.shetland.ogc.gml.ReferenceType;
-import org.n52.shetland.ogc.sensorML.AbstractProcess;
-import org.n52.shetland.ogc.sensorML.AbstractSensorML;
-import org.n52.shetland.ogc.sensorML.SensorML20Constants;
-import org.n52.shetland.ogc.sensorML.SensorMLConstants;
-import org.n52.shetland.ogc.sensorML.SmlContact;
-import org.n52.shetland.ogc.sensorML.Term;
-import org.n52.shetland.ogc.sensorML.elements.SmlCapabilities;
-import org.n52.shetland.ogc.sensorML.elements.SmlCapability;
-import org.n52.shetland.ogc.sensorML.elements.SmlCharacteristic;
-import org.n52.shetland.ogc.sensorML.elements.SmlCharacteristics;
-import org.n52.shetland.ogc.sensorML.elements.SmlClassifier;
-import org.n52.shetland.ogc.sensorML.elements.SmlComponent;
-import org.n52.shetland.ogc.sensorML.elements.SmlConnection;
-import org.n52.shetland.ogc.sensorML.elements.SmlIdentifier;
-import org.n52.shetland.ogc.sensorML.elements.SmlIo;
-import org.n52.shetland.ogc.sensorML.elements.SmlLink;
-import org.n52.shetland.ogc.sensorML.elements.SmlParameter;
-import org.n52.shetland.ogc.sensorML.elements.SmlPosition;
-import org.n52.shetland.ogc.sensorML.v20.AbstractPhysicalProcess;
-import org.n52.shetland.ogc.sensorML.v20.AbstractProcessV20;
-import org.n52.shetland.ogc.sensorML.v20.AggregateProcess;
-import org.n52.shetland.ogc.sensorML.v20.DescribedObject;
-import org.n52.shetland.ogc.sensorML.v20.PhysicalComponent;
-import org.n52.shetland.ogc.sensorML.v20.PhysicalSystem;
-import org.n52.shetland.ogc.sensorML.v20.SimpleProcess;
-import org.n52.shetland.ogc.sensorML.v20.SmlDataInterface;
-import org.n52.shetland.ogc.sensorML.v20.SmlFeatureOfInterest;
-import org.n52.shetland.ogc.sos.ProcedureDescriptionFormat;
-import org.n52.shetland.ogc.sos.Sos2Constants;
-import org.n52.shetland.ogc.sos.SosConstants;
-import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
-import org.n52.shetland.ogc.swe.SweDataRecord;
-import org.n52.shetland.ogc.swe.SweDataStream;
-import org.n52.shetland.ogc.swe.SweVector;
-import org.n52.shetland.ogc.swe.simpleType.SweObservableProperty;
-import org.n52.shetland.util.CollectionHelper;
-import org.n52.svalbard.decode.exception.DecodingException;
-import org.n52.svalbard.decode.exception.UnsupportedDecoderXmlInputException;
-import org.n52.svalbard.util.CodingHelper;
-import org.n52.svalbard.util.XmlHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-
 import net.opengis.gml.x32.FeaturePropertyType;
 import net.opengis.sensorml.x20.AbstractPhysicalProcessType;
 import net.opengis.sensorml.x20.AbstractProcessDocument;
@@ -108,6 +50,10 @@ import net.opengis.sensorml.x20.DataInterfaceType;
 import net.opengis.sensorml.x20.DescribedObjectDocument;
 import net.opengis.sensorml.x20.DescribedObjectType;
 import net.opengis.sensorml.x20.DescribedObjectType.Capabilities;
+import net.opengis.sensorml.x20.EventListPropertyType;
+import net.opengis.sensorml.x20.EventListType;
+import net.opengis.sensorml.x20.EventPropertyType;
+import net.opengis.sensorml.x20.EventType;
 import net.opengis.sensorml.x20.IdentifierListPropertyType;
 import net.opengis.sensorml.x20.IdentifierListType.Identifier;
 import net.opengis.sensorml.x20.InputListType.Input;
@@ -127,43 +73,109 @@ import net.opengis.sensorml.x20.SimpleProcessDocument;
 import net.opengis.sensorml.x20.SimpleProcessPropertyType;
 import net.opengis.sensorml.x20.SimpleProcessType;
 import net.opengis.sensorml.x20.TermType;
+import net.opengis.swe.x20.AbstractDataComponentPropertyType;
+import org.apache.xmlbeans.XmlObject;
+import org.isotc211.x2005.gmd.CIResponsiblePartyPropertyType;
+import org.n52.shetland.ogc.OGCConstants;
+import org.n52.shetland.ogc.SupportedType;
+import org.n52.shetland.ogc.gml.AbstractFeature;
+import org.n52.shetland.ogc.gml.CodeWithAuthority;
+import org.n52.shetland.ogc.gml.ReferenceType;
+import org.n52.shetland.ogc.sensorML.AbstractProcess;
+import org.n52.shetland.ogc.sensorML.AbstractSensorML;
+import org.n52.shetland.ogc.sensorML.SensorML20Constants;
+import org.n52.shetland.ogc.sensorML.SensorMLConstants;
+import org.n52.shetland.ogc.sensorML.SmlContact;
+import org.n52.shetland.ogc.sensorML.SmlContactList;
+import org.n52.shetland.ogc.sensorML.Term;
+import org.n52.shetland.ogc.sensorML.elements.SmlCapabilities;
+import org.n52.shetland.ogc.sensorML.elements.SmlCapability;
+import org.n52.shetland.ogc.sensorML.elements.SmlCharacteristic;
+import org.n52.shetland.ogc.sensorML.elements.SmlCharacteristics;
+import org.n52.shetland.ogc.sensorML.elements.SmlClassifier;
+import org.n52.shetland.ogc.sensorML.elements.SmlClassifierList;
+import org.n52.shetland.ogc.sensorML.elements.SmlComponent;
+import org.n52.shetland.ogc.sensorML.elements.SmlConnection;
+import org.n52.shetland.ogc.sensorML.elements.SmlEvent;
+import org.n52.shetland.ogc.sensorML.elements.SmlIdentifier;
+import org.n52.shetland.ogc.sensorML.elements.SmlIdentifierList;
+import org.n52.shetland.ogc.sensorML.elements.SmlIo;
+import org.n52.shetland.ogc.sensorML.elements.SmlLink;
+import org.n52.shetland.ogc.sensorML.elements.SmlParameter;
+import org.n52.shetland.ogc.sensorML.elements.SmlPosition;
+import org.n52.shetland.ogc.sensorML.elements.SmlProperty;
+import org.n52.shetland.ogc.sensorML.v20.AbstractPhysicalProcess;
+import org.n52.shetland.ogc.sensorML.v20.AbstractProcessV20;
+import org.n52.shetland.ogc.sensorML.v20.AggregateProcess;
+import org.n52.shetland.ogc.sensorML.v20.DescribedObject;
+import org.n52.shetland.ogc.sensorML.v20.PhysicalComponent;
+import org.n52.shetland.ogc.sensorML.v20.PhysicalSystem;
+import org.n52.shetland.ogc.sensorML.v20.SimpleProcess;
+import org.n52.shetland.ogc.sensorML.v20.SmlDataInterface;
+import org.n52.shetland.ogc.sensorML.v20.SmlFeatureOfInterest;
+import org.n52.shetland.ogc.sos.ProcedureDescriptionFormat;
+import org.n52.shetland.ogc.sos.Sos2Constants;
+import org.n52.shetland.ogc.sos.SosConstants;
+import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
+import org.n52.shetland.ogc.swe.SweDataRecord;
+import org.n52.shetland.ogc.swe.SweDataStream;
+import org.n52.shetland.ogc.swe.SweVector;
+import org.n52.shetland.ogc.swe.simpleType.SweObservableProperty;
+import org.n52.shetland.util.CollectionHelper;
+import org.n52.svalbard.decode.exception.DecodingException;
+import org.n52.svalbard.decode.exception.UnsupportedDecoderXmlInputException;
+import org.n52.svalbard.util.CodingHelper;
+import org.n52.svalbard.util.XmlHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * {@link AbstractSensorMLDecoder} class to decode OGC SensorML 2.0
  *
  * @author Carsten Hollmann
  * @since 1.0.0
- *
  */
 public class SensorMLDecoderV20
-        extends AbstractSensorMLDecoder {
+    extends AbstractSensorMLDecoder {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SensorMLDecoderV20.class);
 
     private static final Set<DecoderKey> DECODER_KEYS
-            = CodingHelper.decoderKeysForElements(SensorML20Constants.NS_SML_20, DescribedObjectDocument.class,
-                    SimpleProcessDocument.class, PhysicalComponentDocument.class, PhysicalSystemDocument.class,
-                    AggregateProcessDocument.class, AbstractProcessDocument.class);
+        = CodingHelper.decoderKeysForElements(SensorML20Constants.NS_SML_20,
+                                              DescribedObjectDocument.class,
+                                              SimpleProcessDocument.class,
+                                              PhysicalComponentDocument.class,
+                                              PhysicalSystemDocument.class,
+                                              AggregateProcessDocument.class,
+                                              AbstractProcessDocument.class);
 
     private static final Set<String> REMOVABLE_CAPABILITIES_NAMES
-            = Sets.newHashSet(SensorMLConstants.ELEMENT_NAME_OFFERINGS);
+        = Sets.newHashSet(SensorMLConstants.ELEMENT_NAME_OFFERINGS);
 
     private static final Set<String> REMOVABLE_COMPONENTS_ROLES
-            = Collections.singleton(SensorMLConstants.ELEMENT_NAME_CHILD_PROCEDURES);
+        = Collections.singleton(SensorMLConstants.ELEMENT_NAME_CHILD_PROCEDURES);
 
     private static final ImmutableSet<SupportedType> SUPPORTED_TYPES = ImmutableSet.<SupportedType>builder()
-            .add(new ProcedureDescriptionFormat(SensorML20Constants.SENSORML_20_OUTPUT_FORMAT_URL)).build();
+        .add(new ProcedureDescriptionFormat(SensorML20Constants.SENSORML_20_OUTPUT_FORMAT_URL)).build();
 
     // CHECKSTYLE:OFF
-    private static final Map<String, ImmutableMap<String, Set<String>>> SUPPORTED_TRANSACTIONAL_PROCEDURE_DESCRIPTION_FORMATS
-            = ImmutableMap.of(SosConstants.SOS, ImmutableMap.<String, Set<String>>builder()
-                    .put(Sos2Constants.SERVICEVERSION, ImmutableSet.of(SensorMLConstants.SENSORML_OUTPUT_FORMAT_URL))
-                    .build());
+    private static final Map<String, ImmutableMap<String, Set<String>>>
+        SUPPORTED_TRANSACTIONAL_PROCEDURE_DESCRIPTION_FORMATS
+        = ImmutableMap.of(SosConstants.SOS, ImmutableMap.<String, Set<String>>builder()
+        .put(Sos2Constants.SERVICEVERSION, ImmutableSet.of(SensorMLConstants.SENSORML_OUTPUT_FORMAT_URL))
+        .build());
     // CHECKSTYLE:ON
 
     public SensorMLDecoderV20() {
         LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
-                Joiner.on(", ").join(DECODER_KEYS));
+                     Joiner.on(", ").join(DECODER_KEYS));
     }
 
     @Override
@@ -172,14 +184,9 @@ public class SensorMLDecoderV20
     }
 
     @Override
-    public Set<SupportedType> getSupportedTypes() {
-        return Collections.unmodifiableSet(SUPPORTED_TYPES);
-    }
-
-    @Override
     public Set<String> getSupportedProcedureDescriptionFormats(final String service, final String version) {
         if (SUPPORTED_TRANSACTIONAL_PROCEDURE_DESCRIPTION_FORMATS.containsKey(service)
-                && SUPPORTED_TRANSACTIONAL_PROCEDURE_DESCRIPTION_FORMATS.get(service).containsKey(version)) {
+            && SUPPORTED_TRANSACTIONAL_PROCEDURE_DESCRIPTION_FORMATS.get(service).containsKey(version)) {
             return SUPPORTED_TRANSACTIONAL_PROCEDURE_DESCRIPTION_FORMATS.get(service).get(version);
         }
         return Collections.emptySet();
@@ -190,6 +197,11 @@ public class SensorMLDecoderV20
         // validate document
         XmlHelper.validateDocument(element);
         return parse(element);
+    }
+
+    @Override
+    public Set<SupportedType> getSupportedTypes() {
+        return Collections.unmodifiableSet(SUPPORTED_TYPES);
     }
 
     private AbstractSensorML parse(XmlObject element) throws DecodingException {
@@ -280,7 +292,7 @@ public class SensorMLDecoderV20
         if (describedObject.isSetComponents()) {
             ps.addComponents(parseComponents(describedObject.getComponents()));
             final List<Integer> compsToRemove
-                    = checkComponentsForRemoval(describedObject.getComponents().getComponentList());
+                = checkComponentsForRemoval(describedObject.getComponents().getComponentList());
             compsToRemove.forEach(describedObject.getComponents().getComponentList()::removeComponent);
             if (removeEmptyComponents(describedObject.getComponents())) {
                 describedObject.unsetComponents();
@@ -311,7 +323,7 @@ public class SensorMLDecoderV20
         if (describedObject.isSetComponents()) {
             ap.addComponents(parseComponents(describedObject.getComponents()));
             List<Integer> compsToRemove
-                    = checkComponentsForRemoval(describedObject.getComponents().getComponentList());
+                = checkComponentsForRemoval(describedObject.getComponents().getComponentList());
             compsToRemove.forEach(describedObject.getComponents().getComponentList()::removeComponent);
             if (removeEmptyComponents(describedObject.getComponents())) {
                 describedObject.unsetComponents();
@@ -324,7 +336,7 @@ public class SensorMLDecoderV20
     }
 
     private void parseDescribedObject(DescribedObjectType dot, DescribedObject describedObject)
-            throws DecodingException {
+        throws DecodingException {
         if (dot.getId() != null && !dot.getId().isEmpty()) {
             describedObject.setGmlId(dot.getId());
         }
@@ -372,16 +384,125 @@ public class SensorMLDecoderV20
         // if (CollectionHelper.isNotNullOrEmpty(dot.getDocumentationArray())) {
         //
         // }
-        // if (CollectionHelper.isNotNullOrEmpty(dot.getHistoryArray())) {
-        //
-        // }
+        if (CollectionHelper.isNotNullOrEmpty(dot.getHistoryArray())) {
+            describedObject.setHistory(parseHistoryArray(dot.getHistoryArray()));
+        }
         // if (dot.isSetLocation()) {
         //
         // }
     }
 
+    private List<SmlEvent> parseHistoryArray(EventListPropertyType[] history) throws DecodingException {
+        final List<SmlEvent> sosEvents = new ArrayList<>(history.length);
+        for (final EventListPropertyType eventListPropertyType : history) {
+            if (eventListPropertyType.isSetEventList()) {
+                EventListType eventList = eventListPropertyType.getEventList();
+                if (CollectionHelper.isNotNullOrEmpty(eventList.getEventArray())) {
+                    for (EventPropertyType e : eventList.getEventArray()) {
+                        sosEvents.add(parseEvent(e));
+                    }
+                }
+            }
+        }
+        return sosEvents;
+    }
+
+    private SmlEvent parseEvent(EventPropertyType event) throws DecodingException {
+        if (event.isSetEvent()) {
+            SmlEvent smlEvent = new SmlEvent();
+            EventType e = event.getEvent();
+            // Parse identifier
+            if (e.isSetIdentifier()) {
+                smlEvent.setIdentifier(e.getIdentifier());
+            }
+            // Parse label
+            if (e.isSetLabel()) {
+                smlEvent.setLabel(e.getLabel());
+            }
+            // parse description
+            if (e.isSetDescription()) {
+                smlEvent.setDescription(e.getDescription());
+            }
+            // parse definition
+            if (e.isSetDefinition()) {
+                smlEvent.setDefinition(e.getDefinition());
+            }
+            // parse keywords
+            /*
+            if (CollectionHelper.isNotNullOrEmpty(e.getKeywordsArray()())) {
+                SmlKeywordList keywords = new SmlKeywordList();
+                keywords.setKeywords(parseKeyWords(e.getKeywordsArray()()));
+                smlEvent.setKeywords(keywords);
+            }
+            */
+
+            // Parse Identification
+            if (CollectionHelper.isNotNullOrEmpty(e.getIdentificationArray())) {
+                SmlIdentifierList identification = new SmlIdentifierList();
+                identification.setIdentification(parseIdentifications(e.getIdentificationArray()));
+                smlEvent.setIdentification(identification.getIdentification());
+            }
+            // Parse classification
+            if (CollectionHelper.isNotNullOrEmpty(e.getClassificationArray())) {
+                SmlClassifierList classification = new SmlClassifierList();
+                classification.setClassification(parseClassification(e.getClassificationArray()));
+                smlEvent.setClassification(classification);
+            }
+            // Parse contacts
+            if (CollectionHelper.isNotNullOrEmpty(e.getContactsArray())) {
+                SmlContactList contacts = new SmlContactList();
+                contacts.setMembers(parseContact(e.getContactsArray()));
+                smlEvent.setContacts(contacts);
+            }
+            // Parse documentation
+            /*
+            if (CollectionHelper.isNotNullOrEmpty(e.getDocumentationArray())) {
+                SmlDocumentationList documentation = new SmlDocumentationList();
+                documentation.setMember(parseDocumentation(e.getDocumentationArray()));
+                smlEvent.setDocumentation(documentation);
+            }
+             */
+            // Parse time
+            // Delegates to GML decoder
+            if (e.getTime() != null) {
+                if (e.getTime().isSetTimeInstant()) {
+                    smlEvent.setTime(decodeXmlElement(e.getTime().getTimeInstant()));
+                } else {
+                    smlEvent.setTime(decodeXmlElement(e.getTime().getTimePeriod()));
+                }
+            }
+            // Parse property
+            if (CollectionHelper.isNotNullOrEmpty(e.getPropertyArray())) {
+                smlEvent.setProperty(parseProperty(e.getPropertyArray()));
+            }
+            // Parse configuration
+            /*
+            if (e.isSetConfiguration()) {
+                smlEvent.setConfiguration(parseConfiguration(e.getConfiguration()));
+            }
+            */
+            return smlEvent;
+        } else {
+            return null;
+        }
+    }
+
+    private List<SmlProperty> parseProperty(AbstractDataComponentPropertyType[] propertyArray)
+        throws DecodingException {
+        List<SmlProperty> properties = Lists.newArrayList();
+        if (CollectionHelper.isNotNullOrEmpty(propertyArray)) {
+            for (AbstractDataComponentPropertyType abstractDataComponentPropertyType : propertyArray) {
+                SmlProperty smlProperty = new SmlProperty();
+                smlProperty.setAbstractDataComponent(
+                    decodeXmlElement(abstractDataComponentPropertyType.getAbstractDataComponent()));
+                properties.add(smlProperty);
+            }
+        }
+        return properties;
+    }
+
     private void parseAbstractProcess(AbstractProcessType apt, AbstractProcessV20 abstractProcess)
-            throws DecodingException {
+        throws DecodingException {
         if (apt.isSetTypeOf()) {
             Object decodedElement = decodeXmlElement(apt.getTypeOf());
             if (decodedElement instanceof ReferenceType) {
@@ -409,7 +530,8 @@ public class SensorMLDecoderV20
     }
 
     private void parseAbstractPhysicalProcess(AbstractPhysicalProcessType appt,
-            AbstractPhysicalProcess abstractPhysicalProcess) throws DecodingException {
+                                              AbstractPhysicalProcess abstractPhysicalProcess)
+        throws DecodingException {
 
         if (appt.isSetAttachedTo()) {
             Object decodeXmlElement = decodeXmlElement(appt.getAttachedTo());
@@ -454,10 +576,10 @@ public class SensorMLDecoderV20
     }
 
     private void parseIdentifications(DescribedObject describedObject,
-            IdentifierListPropertyType[] identificationArray) {
+                                      IdentifierListPropertyType[] identificationArray) {
         for (final IdentifierListPropertyType ilpt : identificationArray) {
             if (ilpt.isSetIdentifierList()
-                    && CollectionHelper.isNotNullOrEmpty(ilpt.getIdentifierList().getIdentifier2Array())) {
+                && CollectionHelper.isNotNullOrEmpty(ilpt.getIdentifierList().getIdentifier2Array())) {
                 for (final Identifier i : ilpt.getIdentifierList().getIdentifier2Array()) {
                     if (i.getTerm() != null) {
                         final SmlIdentifier identifier = new SmlIdentifier();
@@ -470,6 +592,23 @@ public class SensorMLDecoderV20
                 }
             }
         }
+    }
+
+    private List<SmlIdentifier> parseIdentifications(IdentifierListPropertyType[] identificationArray) {
+        List<SmlIdentifier> sosIdentifiers = new ArrayList<>();
+        for (final IdentifierListPropertyType ilpt : identificationArray) {
+            if (ilpt.isSetIdentifierList()
+                && CollectionHelper.isNotNullOrEmpty(ilpt.getIdentifierList().getIdentifier2Array())) {
+                for (final Identifier i : ilpt.getIdentifierList().getIdentifier2Array()) {
+                    if (i.getTerm() != null) {
+                        final SmlIdentifier identifier = new SmlIdentifier();
+                        parseTerm(i.getTerm(), identifier);
+                        sosIdentifiers.add(identifier);
+                    }
+                }
+            }
+        }
+        return sosIdentifiers;
     }
 
     /**
@@ -514,12 +653,10 @@ public class SensorMLDecoderV20
      *
      * @param clpts XML characteristics
      * @return SOS characteristics
-     *
-     *
      * @throws DecodingException * if an error occurs
      */
     private List<SmlCharacteristics> parseCharacteristics(final CharacteristicListPropertyType[] clpts)
-            throws DecodingException {
+        throws DecodingException {
         final List<SmlCharacteristics> sosCharacteristicsList = new ArrayList<>(clpts.length);
         for (final CharacteristicListPropertyType clpt : clpts) {
             final SmlCharacteristics sosCharacteristics = new SmlCharacteristics();
@@ -534,9 +671,9 @@ public class SensorMLDecoderV20
                                 characteristic.setAbstractDataComponent((SweAbstractDataComponent) o);
                             } else {
                                 throw new DecodingException(XmlHelper.getLocalName(clpt),
-                                        "Error while parsing the characteristics of the SensorML "
-                                        + "(the characteristics' data record is not of "
-                                        + "type DataRecordPropertyType)!");
+                                                            "Error while parsing the characteristics of the SensorML "
+                                                                + "(the characteristics' data record is not of "
+                                                                + "type DataRecordPropertyType)!");
                             }
                         } else if (c.isSetHref()) {
                             characteristic.setHref(c.getHref());
@@ -557,14 +694,13 @@ public class SensorMLDecoderV20
      * Parses the capabilities, processing and removing special insertion
      * metadata
      *
-     * @param abstractProcess The AbstractProcess to which capabilities and
-     * insertion metadata are added
+     * @param abstractProcess   The AbstractProcess to which capabilities and
+     *                          insertion metadata are added
      * @param capabilitiesArray XML capabilities
-     *
      * @throws DecodingException * if an error occurs
      */
     private void parseCapabilities(final AbstractProcess abstractProcess, final Capabilities[] capabilitiesArray)
-            throws DecodingException {
+        throws DecodingException {
         for (final Capabilities cs : capabilitiesArray) {
             final SmlCapabilities capabilities = new SmlCapabilities(cs.getName());
             if (cs.isSetCapabilityList()) {
@@ -579,9 +715,9 @@ public class SensorMLDecoderV20
                                 capabilities.addCapability(capability);
                             } else {
                                 throw new DecodingException(XmlHelper.getLocalName(cs),
-                                        "Error while parsing the capabilities of "
-                                        + "the SensorML (the capabilities data record "
-                                        + "is not of type DataRecordPropertyType)!");
+                                                            "Error while parsing the capabilities of "
+                                                                + "the SensorML (the capabilities data record "
+                                                                + "is not of type DataRecordPropertyType)!");
                             }
                         } else if (c.isSetHref()) {
                             capability.setHref(c.getHref());
@@ -600,14 +736,14 @@ public class SensorMLDecoderV20
         List<SmlContact> smlContacts = Lists.newArrayList();
         for (ContactListPropertyType clpt : clpts) {
             if (clpt.isSetContactList()
-                    && CollectionHelper.isNotNullOrEmpty(clpt.getContactList().getContactArray())) {
+                && CollectionHelper.isNotNullOrEmpty(clpt.getContactList().getContactArray())) {
                 for (CIResponsiblePartyPropertyType c : clpt.getContactList().getContactArray()) {
                     final Object o = decodeXmlElement(c);
                     if (o instanceof SmlContact) {
                         smlContacts.add((SmlContact) o);
                     } else {
                         throw new DecodingException(XmlHelper.getLocalName(c),
-                                "Error while parsing the contacts of the SensorML!");
+                                                    "Error while parsing the contacts of the SensorML!");
                     }
                 }
             }
@@ -616,10 +752,10 @@ public class SensorMLDecoderV20
     }
 
     private List<SmlParameter> parseParameters(Parameters parameters)
-            throws DecodingException {
+        throws DecodingException {
         if (CollectionHelper.isNotNullOrEmpty(parameters.getParameterList().getParameterArray())) {
             final List<SmlParameter> sweComponents
-                    = new ArrayList<>(parameters.getParameterList().getParameterArray().length);
+                = new ArrayList<>(parameters.getParameterList().getParameterArray().length);
             for (final Parameter sweComponent : parameters.getParameterList().getParameterArray()) {
                 sweComponents.add(parseSweParameter(sweComponent));
             }
@@ -651,7 +787,7 @@ public class SensorMLDecoderV20
     }
 
     private void parseFeatureOfInterest(FeaturesOfInterest featuresOfInterest, AbstractProcessV20 abstractProcess)
-            throws DecodingException {
+        throws DecodingException {
         if (CollectionHelper.isNotNullOrEmpty(featuresOfInterest.getFeatureList().getFeatureArray())) {
             SmlFeatureOfInterest smlFeatureOfInterest = new SmlFeatureOfInterest();
             for (FeaturePropertyType fpt : featuresOfInterest.getFeatureList().getFeatureArray()) {
@@ -725,14 +861,14 @@ public class SensorMLDecoderV20
     }
 
     private SmlConnection parseConnections(ConnectionListPropertyType connections)
-            throws DecodingException {
+        throws DecodingException {
         SmlConnection sosSmlConnection = new SmlConnection();
         if (connections.isSetConnectionList() && connections.getConnectionList().getConnectionArray() != null) {
             for (final Connection connection : connections.getConnectionList().getConnectionArray()) {
                 if (connection.getLink() != null) {
                     LinkType link = connection.getLink();
                     sosSmlConnection
-                            .addConnection(new SmlLink(link.getDestination().getRef(), link.getSource().getRef()));
+                        .addConnection(new SmlLink(link.getDestination().getRef(), link.getSource().getRef()));
                 }
             }
         }
@@ -741,11 +877,11 @@ public class SensorMLDecoderV20
 
     private boolean checkIdentifierCodeSpace(AbstractProcessV20 ap) throws DecodingException {
         if (ap.getIdentifierCodeWithAuthority().isSetCodeSpace()
-                && OGCConstants.UNIQUE_ID.equals(ap.getIdentifierCodeWithAuthority().getCodeSpace())) {
+            && OGCConstants.UNIQUE_ID.equals(ap.getIdentifierCodeWithAuthority().getCodeSpace())) {
             return true;
         } else {
             throw new DecodingException("gml:identifier[@codesSpace]",
-                    ap.getIdentifierCodeWithAuthority().getCodeSpace());
+                                        ap.getIdentifierCodeWithAuthority().getCodeSpace());
         }
     }
 
@@ -768,7 +904,7 @@ public class SensorMLDecoderV20
             final Component[] componentArray = componentList.getComponentArray();
             for (int i = 0; i < componentArray.length; i++) {
                 if (componentArray[i].getRole() != null
-                        && REMOVABLE_COMPONENTS_ROLES.contains(componentArray[i].getRole())) {
+                    && REMOVABLE_COMPONENTS_ROLES.contains(componentArray[i].getRole())) {
                     removeableComponents.add(i);
                 }
             }
@@ -782,8 +918,8 @@ public class SensorMLDecoderV20
             if (components.getComponentList() == null) {
                 removeComponents = true;
             } else if (components.getComponentList().getComponentArray() == null
-                    || components.getComponentList().getComponentArray() != null
-                    && components.getComponentList().getComponentArray().length == 0) {
+                || components.getComponentList().getComponentArray() != null
+                && components.getComponentList().getComponentArray().length == 0) {
                 removeComponents = true;
             }
         }
@@ -791,7 +927,7 @@ public class SensorMLDecoderV20
     }
 
     private SmlParameter parseSweParameter(Parameter xbParameter)
-            throws DecodingException {
+        throws DecodingException {
         SmlParameter param = new SmlParameter();
         String name = xbParameter.getName();
         if (xbParameter.isSetHref()) {
@@ -804,7 +940,7 @@ public class SensorMLDecoderV20
         Object parameter = decodeXmlElement(xbParameter.getAbstractDataComponent());
         if (parameter instanceof SweAbstractDataComponent) {
             if (xbParameter.getName() != null
-                    && !xbParameter.getName().isEmpty()) {
+                && !xbParameter.getName().isEmpty()) {
                 ((SweAbstractDataComponent) parameter).setName(name);
             }
 
@@ -813,7 +949,7 @@ public class SensorMLDecoderV20
             return param;
         } else {
             throw new DecodingException(XmlHelper.getLocalName(xbParameter),
-                    "An 'SweAbstractDataComponent' is not supported");
+                                        "An 'SweAbstractDataComponent' is not supported");
         }
     }
 
@@ -853,12 +989,10 @@ public class SensorMLDecoderV20
      *
      * @param adcpt XML components
      * @return SOS component
-     *
-     *
      * @throws DecodingException * if an error occurs
      */
     private SweAbstractDataComponent parseDataComponentOrObservablePropertyType(
-            final DataComponentOrObservablePropertyType adcpt) throws DecodingException {
+        final DataComponentOrObservablePropertyType adcpt) throws DecodingException {
         XmlObject toDecode = null;
         if (adcpt.isSetObservableProperty()) {
             return parseObservableProperty(adcpt.getObservableProperty());
@@ -868,15 +1002,15 @@ public class SensorMLDecoderV20
                 return (SweAbstractDataComponent) decodedObject;
             } else {
                 throw new DecodingException(XmlHelper.getLocalName(adcpt),
-                        "The 'DataComponentOrObservablePropertyType' with "
-                        + "type '%s' as value for '%s' is not supported.",
-                        XmlHelper.getLocalName(toDecode), XmlHelper.getLocalName(adcpt));
+                                            "The 'DataComponentOrObservablePropertyType' with "
+                                                + "type '%s' as value for '%s' is not supported.",
+                                            XmlHelper.getLocalName(toDecode), XmlHelper.getLocalName(adcpt));
             }
         } else if (adcpt.isSetDataInterface()) {
             return parseDataInterfaceType(adcpt.getDataInterface());
         } else {
             throw new DecodingException(XmlHelper.getLocalName(adcpt),
-                    "An 'DataComponentOrObservablePropertyType' is not supported");
+                                        "An 'DataComponentOrObservablePropertyType' is not supported");
         }
     }
 

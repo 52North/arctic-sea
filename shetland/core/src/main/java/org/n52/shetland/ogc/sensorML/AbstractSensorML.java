@@ -32,6 +32,7 @@ import org.n52.shetland.ogc.sensorML.elements.SmlCapabilities;
 import org.n52.shetland.ogc.sensorML.elements.SmlCapability;
 import org.n52.shetland.ogc.sensorML.elements.SmlCharacteristics;
 import org.n52.shetland.ogc.sensorML.elements.SmlClassifier;
+import org.n52.shetland.ogc.sensorML.elements.SmlEvent;
 import org.n52.shetland.ogc.sensorML.elements.SmlIdentifier;
 import org.n52.shetland.ogc.sensorML.elements.SmlIdentifierPredicates;
 import org.n52.shetland.ogc.swe.SweDataRecord;
@@ -55,13 +56,12 @@ public abstract class AbstractSensorML extends AbstractFeature implements Phenom
     private List<SmlCapabilities> capabilities = new ArrayList<>(0);
     private List<SmlContact> contacts = new ArrayList<>(0);
     private List<AbstractSmlDocumentation> documentations = new ArrayList<>(0);
-    // private Map<String, AbstractFeature> featuresOfInterestMap = new
-    // HashMap<>();
+    private List<SmlEvent> history = new ArrayList<>(0);
+    // private Map<String, AbstractFeature> featuresOfInterestMap = new HashMap<>();
     // private Set<String> featuresOfInterest = Sets.newLinkedHashSet();
     // private Map<String, AbstractPhenomenon> phenomenonMap = new HashMap<>();
     // private ReferenceType parentProcedure;
     // private Set<AbstractSensorML> childProcedures = new LinkedHashSet<>();
-    private String history;
 
     /**
      * constructor
@@ -351,11 +351,11 @@ public abstract class AbstractSensorML extends AbstractFeature implements Phenom
         return this;
     }
 
-    public String getHistory() {
+    public List<SmlEvent> getHistory() {
         return history;
     }
 
-    public AbstractSensorML setHistory(final String history) {
+    public AbstractSensorML setHistory(final List<SmlEvent> history) {
         this.history = history;
         return this;
     }
