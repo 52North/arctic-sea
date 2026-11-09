@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,14 @@
  */
 package org.n52.faroe;
 
+import java.io.Serial;
+
 /**
  * @since 1.0.0
  *
  */
 public class ConfigurationError extends Error {
+    @Serial
     private static final long serialVersionUID = -7249708070675332849L;
 
     public ConfigurationError() {

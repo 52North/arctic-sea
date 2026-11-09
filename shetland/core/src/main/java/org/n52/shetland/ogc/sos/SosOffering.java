@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -143,8 +143,7 @@ public class SosOffering extends AbstractFeature implements Comparable<SosOfferi
 
     @Override
     public boolean equals(Object o) {
-        if (o instanceof SosOffering) {
-            SosOffering other = (SosOffering) o;
+        if (o instanceof SosOffering other) {
             return Objects.equals(getIdentifier(), other.getIdentifier()) && Objects.equals(getName(), other.getName())
                     && Objects.equals(isParentOffering(), other.isParentOffering());
         }

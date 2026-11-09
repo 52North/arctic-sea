@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -160,7 +160,7 @@ public final class Optionals {
     public static <U, T> Optional<U> mapOrElse(Optional<T> optional,
                                                Function<? super T, ? extends U> mapper,
                                                Runnable ifNotPresent) {
-        if (!optional.isPresent()) {
+        if (optional.isEmpty()) {
             ifNotPresent.run();
             return Optional.empty();
         } else {

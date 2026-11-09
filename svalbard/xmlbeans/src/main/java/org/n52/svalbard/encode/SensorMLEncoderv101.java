@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -224,8 +224,8 @@ public class SensorMLEncoderv101
     @Override
     public XmlObject encode(final Object response, final EncodingContext additionalValues) throws EncodingException {
         XmlObject encodedObject = null;
-        if (response instanceof AbstractSensorML) {
-            encodedObject = createSensorDescription((AbstractSensorML) response);
+        if (response instanceof AbstractSensorML mL) {
+            encodedObject = createSensorDescription(mL);
             // }
             // FIXME workaround? if of type UnknowProcedureType try to parse the
             // description string, UNIT is missing "NOT_DEFINED"?!
@@ -269,50 +269,48 @@ public class SensorMLEncoderv101
     protected XmlObject createSensorDescriptionFromString(final AbstractSensorML sensorDesc) throws EncodingException {
         try {
             final XmlObject xmlObject = XmlObject.Factory.parse(sensorDesc.getXml());
-            if (xmlObject instanceof SensorMLDocument) {
-                final SensorMLDocument sensorML = (SensorMLDocument) xmlObject;
+            if (xmlObject instanceof SensorMLDocument sensorML) {
                 for (final Member member : sensorML.getSensorML().getMemberArray()) {
-                    if (sensorDesc instanceof SensorML) {
-                        for (final AbstractProcess absProcess : ((SensorML) sensorDesc).getMembers()) {
+                    if (sensorDesc instanceof SensorML mL) {
+                        for (final AbstractProcess absProcess : mL.getMembers()) {
                             addAbstractProcessValues(member.getProcess(), absProcess);
-                            if (member.getProcess() instanceof SystemType && absProcess instanceof System) {
-                                addSystemValues((SystemType) member.getProcess(), (System) absProcess);
+                            if (member.getProcess() instanceof SystemType && absProcess instanceof System system) {
+                                addSystemValues((SystemType) member.getProcess(), system);
                             } else if (member.getProcess() instanceof ProcessModelType
-                                    && absProcess instanceof ProcessModel) {
+                                    && absProcess instanceof ProcessModel model) {
                                 addProcessModelValues((ProcessModelType) member.getProcess(),
-                                        (ProcessModel) absProcess);
+                                        model);
                             } else if (member.getProcess() instanceof ComponentType
-                                    && absProcess instanceof org.n52.shetland.ogc.sensorML.Component) {
+                                    && absProcess instanceof org.n52.shetland.ogc.sensorML.Component component) {
                                 addComponentValues((ComponentType) member.getProcess(),
-                                        (org.n52.shetland.ogc.sensorML.Component) absProcess);
+                                        component);
                             }
                         }
-                    } else if (sensorDesc instanceof AbstractProcess) {
-                        addAbstractProcessValues(member.getProcess(), (AbstractProcess) sensorDesc);
-                        if (member.getProcess() instanceof SystemType && sensorDesc instanceof System) {
-                            addSystemValues((SystemType) member.getProcess(), (System) sensorDesc);
+                    } else if (sensorDesc instanceof AbstractProcess process) {
+                        addAbstractProcessValues(member.getProcess(), process);
+                        if (member.getProcess() instanceof SystemType && sensorDesc instanceof System system1) {
+                            addSystemValues((SystemType) member.getProcess(), system1);
                         } else if (member.getProcess() instanceof ProcessModelType
-                                && sensorDesc instanceof ProcessModel) {
-                            addProcessModelValues((ProcessModelType) member.getProcess(), (ProcessModel) sensorDesc);
+                                && sensorDesc instanceof ProcessModel model1) {
+                            addProcessModelValues((ProcessModelType) member.getProcess(), model1);
                         } else if (member.getProcess() instanceof ComponentType
-                                && sensorDesc instanceof org.n52.shetland.ogc.sensorML.Component) {
+                                && sensorDesc instanceof org.n52.shetland.ogc.sensorML.Component component1) {
                             addComponentValues((ComponentType) member.getProcess(),
-                                    (org.n52.shetland.ogc.sensorML.Component) sensorDesc);
+                                    component1);
                         }
                     }
                 }
 
-            } else if (xmlObject instanceof AbstractProcessType) {
-                final AbstractProcessType abstractProcess = (AbstractProcessType) xmlObject;
+            } else if (xmlObject instanceof AbstractProcessType abstractProcess) {
                 addAbstractProcessValues(abstractProcess, (AbstractProcess) sensorDesc);
-                if (abstractProcess instanceof SystemType && sensorDesc instanceof System) {
-                    addSystemValues((SystemType) abstractProcess, (System) sensorDesc);
-                } else if (abstractProcess instanceof ProcessModelType && sensorDesc instanceof ProcessModel) {
-                    addProcessModelValues((ProcessModelType) abstractProcess, (ProcessModel) sensorDesc);
-                } else if (abstractProcess instanceof ComponentType
-                        && sensorDesc instanceof org.n52.shetland.ogc.sensorML.Component) {
-                    addComponentValues((ComponentType) abstractProcess,
-                            (org.n52.shetland.ogc.sensorML.Component) sensorDesc);
+                if (abstractProcess instanceof SystemType type2 && sensorDesc instanceof System system2) {
+                    addSystemValues(type2, system2);
+                } else if (abstractProcess instanceof ProcessModelType type1 && sensorDesc instanceof ProcessModel model2) {
+                    addProcessModelValues(type1, model2);
+                } else if (abstractProcess instanceof ComponentType type
+                        && sensorDesc instanceof org.n52.shetland.ogc.sensorML.Component component2) {
+                    addComponentValues(type,
+                            component2);
                 }
             }
             return xmlObject;
@@ -322,10 +320,10 @@ public class SensorMLEncoderv101
     }
 
     private XmlObject createSensorDescriptionFromObject(final AbstractSensorML sensorDesc) throws EncodingException {
-        if (sensorDesc instanceof SensorML) {
-            return createSensorMLDescription((SensorML) sensorDesc);
-        } else if (sensorDesc instanceof AbstractProcess) {
-            return createProcessDescription((AbstractProcess) sensorDesc);
+        if (sensorDesc instanceof SensorML mL) {
+            return createSensorMLDescription(mL);
+        } else if (sensorDesc instanceof AbstractProcess process) {
+            return createProcessDescription(process);
         } else {
             throw unsupportedDescriptionType();
         }
@@ -334,23 +332,19 @@ public class SensorMLEncoderv101
 
     private XmlObject createProcessDescription(final AbstractProcess sensorDesc) throws EncodingException {
         // TODO Review: System -> return doc; ProcessModel -> return type
-        if (sensorDesc instanceof System) {
-            System system = (System) sensorDesc;
+        if (sensorDesc instanceof System system) {
             SystemDocument xbSystemDoc = SystemDocument.Factory.newInstance(getXmlOptions());
             SystemType xbSystem = xbSystemDoc.addNewSystem();
             addAbstractProcessValues(xbSystem, system);
             addSystemValues(xbSystem, system);
             return xbSystem;
-        } else if (sensorDesc instanceof ProcessModel) {
-            // TODO: set values
-            ProcessModel processModel = (ProcessModel) sensorDesc;
+        } else if (sensorDesc instanceof ProcessModel processModel) {
             ProcessModelDocument xbProcessModelDoc = ProcessModelDocument.Factory.newInstance(getXmlOptions());
             ProcessModelType xbProcessModel = xbProcessModelDoc.addNewProcessModel();
             addAbstractProcessValues(xbProcessModel, processModel);
             addProcessModelValues(xbProcessModel, processModel);
             return xbProcessModel;
-        } else if (sensorDesc instanceof org.n52.shetland.ogc.sensorML.Component) {
-            org.n52.shetland.ogc.sensorML.Component component = (org.n52.shetland.ogc.sensorML.Component) sensorDesc;
+        } else if (sensorDesc instanceof org.n52.shetland.ogc.sensorML.Component component) {
             ComponentDocument cd = ComponentDocument.Factory.newInstance(getXmlOptions());
             ComponentType ct = cd.addNewComponent();
             addAbstractProcessValues(ct, component);
@@ -366,26 +360,22 @@ public class SensorMLEncoderv101
         xbSensorML.setVersion(SensorMLConstants.VERSION_V101);
         if (smlSensorDesc.isSetMembers()) {
             for (final AbstractProcess sml : smlSensorDesc.getMembers()) {
-                if (sml instanceof System) {
+                if (sml instanceof System smlSystem) {
                     final SystemType xbSystem = (SystemType) xbSensorML.addNewMember().addNewProcess().substitute(
                             new QName(SensorMLConstants.NS_SML, SensorMLConstants.EN_SYSTEM), SystemType.type);
-                    final System smlSystem = (System) sml;
                     addAbstractProcessValues(xbSystem, smlSystem);
                     addSystemValues(xbSystem, smlSystem);
-                } else if (sml instanceof ProcessModel) {
+                } else if (sml instanceof ProcessModel smlProcessModel) {
                     final ProcessModelType xbProcessModel =
                             (ProcessModelType) xbSensorML.addNewMember().addNewProcess().substitute(
                                     new QName(SensorMLConstants.NS_SML, SensorMLConstants.EN_PROCESS_MODEL),
                                     ProcessModelType.type);
-                    final ProcessModel smlProcessModel = (ProcessModel) sml;
                     addAbstractProcessValues(xbProcessModel, smlProcessModel);
                     addProcessModelValues(xbProcessModel, smlProcessModel);
-                } else if (sml instanceof org.n52.shetland.ogc.sensorML.Component) {
+                } else if (sml instanceof org.n52.shetland.ogc.sensorML.Component smlComponent) {
                     final ComponentType xbCompontent = (ComponentType) xbSensorML.addNewMember().addNewProcess()
                             .substitute(new QName(SensorMLConstants.NS_SML, SensorMLConstants.EN_COMPONENT),
                                     ComponentType.type);
-                    final org.n52.shetland.ogc.sensorML.Component smlComponent =
-                            (org.n52.shetland.ogc.sensorML.Component) sml;
                     addAbstractProcessValues(xbCompontent, smlComponent);
                     addComponentValues(xbCompontent, smlComponent);
                 }
@@ -406,20 +396,19 @@ public class SensorMLEncoderv101
                 if (smlContact.isSetRole()) {
                     member.setRole(smlContact.getRole());
                 }
-            } else if (smlContact instanceof SmlPerson) {
+            } else if (smlContact instanceof SmlPerson person) {
                 ContactList.Member member = xbContacts.addNewMember();
-                member.addNewPerson().set(createPerson((SmlPerson) smlContact));
+                member.addNewPerson().set(createPerson(person));
                 if (smlContact.isSetRole()) {
                     member.setRole(smlContact.getRole());
                 }
-            } else if (smlContact instanceof SmlResponsibleParty) {
+            } else if (smlContact instanceof SmlResponsibleParty party) {
                 ContactList.Member member = xbContacts.addNewMember();
-                member.addNewResponsibleParty().set(createResponsibleParty((SmlResponsibleParty) smlContact));
+                member.addNewResponsibleParty().set(createResponsibleParty(party));
                 if (smlContact.isSetRole()) {
                     member.setRole(smlContact.getRole());
                 }
-            } else if (smlContact instanceof SmlContactList) {
-                SmlContactList contactList = (SmlContactList) smlContact;
+            } else if (smlContact instanceof SmlContactList contactList) {
                 ContactList innerContactList = createContactList(contactList.getMembers());
                 int innerContactLength = innerContactList.getMemberArray().length;
                 for (int i = 0; i < innerContactLength; i++) {
@@ -923,11 +912,11 @@ public class SensorMLEncoderv101
     protected Documentation[] createDocumentationArray(final List<AbstractSmlDocumentation> sosDocumentation) {
         return sosDocumentation.stream().map(abstractSosSMLDocumentation -> {
             Documentation documentation = Documentation.Factory.newInstance();
-            if (abstractSosSMLDocumentation instanceof SmlDocumentation) {
-                documentation.setDocument(createDocument((SmlDocumentation) abstractSosSMLDocumentation));
-            } else if (abstractSosSMLDocumentation instanceof SmlDocumentationList) {
+            if (abstractSosSMLDocumentation instanceof SmlDocumentation smlDocumentation) {
+                documentation.setDocument(createDocument(smlDocumentation));
+            } else if (abstractSosSMLDocumentation instanceof SmlDocumentationList list) {
                 documentation
-                        .setDocumentList(createDocumentationList((SmlDocumentationList) abstractSosSMLDocumentation));
+                        .setDocumentList(createDocumentationList(list));
             }
             return documentation;
         }).toArray(l -> new Documentation[l]);
@@ -1034,8 +1023,8 @@ public class SensorMLEncoderv101
         final SmlLocation2 xbLocation = SmlLocation2.Factory.newInstance(getXmlOptions());
         if (location.isSetPoint()) {
             XmlObject xbPoint = encodeObjectToXml(GmlConstants.NS_GML, location.getPoint());
-            if (xbPoint instanceof PointType) {
-                xbLocation.setPoint((PointType) xbPoint);
+            if (xbPoint instanceof PointType type) {
+                xbLocation.setPoint(type);
             }
         }
         return xbLocation;
@@ -1193,14 +1182,13 @@ public class SensorMLEncoderv101
                 }
                 if (xmlObject != null) {
                     AbstractProcessType xbProcess = null;
-                    if (xmlObject instanceof SensorMLDocument) {
-                        final SensorMLDocument smlDoc = (SensorMLDocument) xmlObject;
+                    if (xmlObject instanceof SensorMLDocument smlDoc) {
                         for (final Member member : smlDoc.getSensorML().getMemberArray()) {
                             xbProcess = member.getProcess();
                             break;
                         }
-                    } else if (xmlObject instanceof AbstractProcessType) {
-                        xbProcess = (AbstractProcessType) xmlObject;
+                    } else if (xmlObject instanceof AbstractProcessType type) {
+                        xbProcess = type;
                     }
 
                     if (xbProcess == null) {
@@ -1288,8 +1276,8 @@ public class SensorMLEncoderv101
             XmlObject encodeObjectToXml;
             XmlObject xml = encodeObjectToXml(SweConstants.NS_SWE_101, sosSMLIO.getIoValue());
 
-            if (xml instanceof DataArrayDocument) {
-                encodeObjectToXml = ((DataArrayDocument) xml).getDataArray1();
+            if (xml instanceof DataArrayDocument document) {
+                encodeObjectToXml = document.getDataArray1();
             } else {
                 encodeObjectToXml = xml;
             }

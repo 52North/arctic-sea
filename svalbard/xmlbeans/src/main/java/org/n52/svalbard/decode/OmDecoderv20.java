@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -124,11 +124,10 @@ public class OmDecoderv20 extends AbstractOmDecoderv20 {
     public Object decode(Object object) throws DecodingException {
         // validate document
         // XmlHelper.validateDocument((XmlObject) object);
-        if (object instanceof OMObservationDocument) {
-            OMObservationDocument omObservationDocument = (OMObservationDocument) object;
+        if (object instanceof OMObservationDocument omObservationDocument) {
             return parseOmObservation(omObservationDocument.getOMObservation());
-        } else if (object instanceof OMObservationType) {
-            return parseOmObservation((OMObservationType) object);
+        } else if (object instanceof OMObservationType type) {
+            return parseOmObservation(type);
 
         }
         return super.decode(object);
@@ -188,8 +187,8 @@ public class OmDecoderv20 extends AbstractOmDecoderv20 {
             return new TimeInstant(IndeterminateValue.TEMPLATE);
         } else if (phenomenonTime.isSetAbstractTimeObject()) {
             Object decodedObject = decodeXmlObject(phenomenonTime.getAbstractTimeObject());
-            if (decodedObject instanceof Time) {
-                return (Time) decodedObject;
+            if (decodedObject instanceof Time time) {
+                return time;
             }
             // FIXME else
         }
@@ -218,8 +217,8 @@ public class OmDecoderv20 extends AbstractOmDecoderv20 {
             return timeInstant;
         } else if (omObservation.getResultTime().isSetTimeInstant()) {
             Object decodedObject = decodeXmlObject(omObservation.getResultTime().getTimeInstant());
-            if (decodedObject instanceof TimeInstant) {
-                return (TimeInstant) decodedObject;
+            if (decodedObject instanceof TimeInstant instant) {
+                return instant;
             }
             throw unsupportedResultTimeType();
         } else {
@@ -230,8 +229,8 @@ public class OmDecoderv20 extends AbstractOmDecoderv20 {
     private TimePeriod getValidTime(OMObservationType omObservation) throws DecodingException {
         if (omObservation.isSetValidTime()) {
             Object decodedObject = decodeXmlObject(omObservation.getValidTime().getTimePeriod());
-            if (decodedObject instanceof TimePeriod) {
-                return (TimePeriod) decodedObject;
+            if (decodedObject instanceof TimePeriod period) {
+                return period;
             }
             throw new DecodingException(Sos2Constants.InsertObservationParams.observation,
                     "The requested validTime type is not supported by this service!");
@@ -291,28 +290,27 @@ public class OmDecoderv20 extends AbstractOmDecoderv20 {
         } else {
             // result elements with other encoding like SWE_ARRAY_OBSERVATION
             Object decodedObject = decodeXmlObject(xbResult);
-            if (decodedObject instanceof ObservationValue) {
-                return (ObservationValue<?>) decodedObject;
-            } else if (decodedObject instanceof GmlMeasureType) {
-                GmlMeasureType measureType = (GmlMeasureType) decodedObject;
+            if (decodedObject instanceof ObservationValue<?> value) {
+                return value;
+            } else if (decodedObject instanceof GmlMeasureType measureType) {
                 QuantityValue quantitiyValue = new QuantityValue(measureType.getValue(), measureType.getUnit());
                 return new SingleObservationValue<>(quantitiyValue);
-            } else if (decodedObject instanceof ReferenceType) {
+            } else if (decodedObject instanceof ReferenceType type) {
                 if (omObservation.isSetType() && omObservation.getType().isSetHref()
                         && omObservation.getType().getHref().equals(OmConstants.OBS_TYPE_REFERENCE_OBSERVATION)) {
-                    return new SingleObservationValue<>(new ReferenceValue((ReferenceType) decodedObject));
+                    return new SingleObservationValue<>(new ReferenceValue(type));
                 }
-                return new SingleObservationValue<>(new CategoryValue(((ReferenceType) decodedObject).getHref()));
-            } else if (decodedObject instanceof Geometry) {
-                return new SingleObservationValue<>(new GeometryValue((Geometry) decodedObject));
-            } else if (decodedObject instanceof AbstractGeometry) {
+                return new SingleObservationValue<>(new CategoryValue(type.getHref()));
+            } else if (decodedObject instanceof Geometry geometry1) {
+                return new SingleObservationValue<>(new GeometryValue(geometry1));
+            } else if (decodedObject instanceof AbstractGeometry geometry) {
                 SingleObservationValue<Geometry> result = new SingleObservationValue<>();
-                result.setValue(new GeometryValue(((AbstractGeometry) decodedObject).getGeometry()));
+                result.setValue(new GeometryValue(geometry.getGeometry()));
                 return result;
-            } else if (decodedObject instanceof SweDataArray) {
-                return new SingleObservationValue<>(new SweDataArrayValue((SweDataArray) decodedObject));
-            } else if (decodedObject instanceof SweDataRecord) {
-                return new SingleObservationValue<>(new ComplexValue((SweDataRecord) decodedObject));
+            } else if (decodedObject instanceof SweDataArray array) {
+                return new SingleObservationValue<>(new SweDataArrayValue(array));
+            } else if (decodedObject instanceof SweDataRecord record) {
+                return new SingleObservationValue<>(new ComplexValue(record));
             }
             throw new DecodingException(Sos2Constants.InsertObservationParams.observation,
                     "The requested result type '%s' is not supported by this service!",
@@ -353,8 +351,7 @@ public class OmDecoderv20 extends AbstractOmDecoderv20 {
             }
         } else {
             Object decodeXmlElement = decodeXmlElement(omot.getFeatureOfInterest());
-            if (decodeXmlElement instanceof AbstractFeature) {
-                AbstractFeature featureOfInterest = (AbstractFeature) decodeXmlElement;
+            if (decodeXmlElement instanceof AbstractFeature featureOfInterest) {
                 return Nillable.of(checkFeatureWithMap(featureOfInterest, featureMap));
             }
         }

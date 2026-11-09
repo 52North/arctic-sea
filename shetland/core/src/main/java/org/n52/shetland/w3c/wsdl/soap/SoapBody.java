@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -68,8 +68,8 @@ public class SoapBody extends ExtensibilityElement {
     @Override
     public int compareTo(ExtensibilityElement o) {
         Objects.requireNonNull(o);
-        if (o instanceof SoapBody) {
-            return Comparables.compare(getUse(), ((SoapBody) o).getUse());
+        if (o instanceof SoapBody body) {
+            return Comparables.compare(getUse(), body.getUse());
         }
         return Comparables.compare(getQName().getNamespaceURI(), o.getQName().getNamespaceURI());
     }

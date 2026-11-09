@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package org.n52.iceland.exception.ows.concrete;
 
+import java.io.Serial;
 import java.util.Arrays;
 import java.util.List;
 
@@ -31,6 +32,7 @@ import com.google.common.base.Joiner;
  */
 public class InvalidAcceptVersionsParameterException extends VersionNegotiationFailedException {
 
+    @Serial
     private static final long serialVersionUID = -4208117985311582007L;
 
     @SuppressWarnings("ThrowableResultIgnored")

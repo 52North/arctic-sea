@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -107,8 +107,7 @@ public class ProxyChain {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof ProxyChain) {
-            ProxyChain other = (ProxyChain) obj;
+        if (obj instanceof ProxyChain other) {
             return Objects.equals(getOrigin(), other.getOrigin()) &&
                    Objects.equals(getProxies(), other.getProxies());
 

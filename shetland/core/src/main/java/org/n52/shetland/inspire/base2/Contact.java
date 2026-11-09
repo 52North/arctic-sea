@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -279,8 +279,7 @@ public class Contact {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof Contact) {
-            Contact that = (Contact) obj;
+        if (obj instanceof Contact that) {
             return Objects.equal(getAddress(), that.getAddress())
                     && Objects.equal(getContactInstructions(), that.getContactInstructions())
                     && Objects.equal(getElectronicMailAddress(), that.getElectronicMailAddress())

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -78,10 +78,10 @@ public class Schema extends ExtensibilityElement {
     @Override
     public int compareTo(ExtensibilityElement o) {
         Objects.requireNonNull(o);
-        if (o instanceof Schema) {
-            return ComparisonChain.start().compare(this.getTargetNamespace(), ((Schema) o).getTargetNamespace())
-                    .compare(this.getElementFormDefault(), ((Schema) o).getElementFormDefault())
-                    .compare(this.getInclude(), ((Schema) o).getInclude()).result();
+        if (o instanceof Schema schema) {
+            return ComparisonChain.start().compare(this.getTargetNamespace(), schema.getTargetNamespace())
+                    .compare(this.getElementFormDefault(), schema.getElementFormDefault())
+                    .compare(this.getInclude(), schema.getInclude()).result();
         }
         return Comparables.compare(getQName().getNamespaceURI(), o.getQName().getNamespaceURI());
     }

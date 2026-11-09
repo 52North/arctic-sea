@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -74,8 +74,8 @@ public class Iso19139GcoEncoder extends AbstractIso19139GcoEncoder {
     public XmlObject encode(Object element, EncodingContext additionalValues)
             throws EncodingException, UnsupportedEncoderInputException {
         XmlObject encodedObject = null;
-        if (element instanceof AbstractRole) {
-            encodedObject = encodeRole((AbstractRole) element);
+        if (element instanceof AbstractRole role) {
+            encodedObject = encodeRole(role);
         } else {
             throw new UnsupportedEncoderInputException(this, element);
         }

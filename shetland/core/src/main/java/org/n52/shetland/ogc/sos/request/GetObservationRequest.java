@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -279,8 +279,8 @@ public class GetObservationRequest extends AbstractObservationRequest implements
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public GetObservationRequest setResultFilter(Filter resultFilter) {
         this.resultFilter = resultFilter;
-        if (resultFilter instanceof ComparisonFilter) {
-            addExtension(new ResultFilter((ComparisonFilter) resultFilter));
+        if (resultFilter instanceof ComparisonFilter filter) {
+            addExtension(new ResultFilter(filter));
         }
         return this;
     }

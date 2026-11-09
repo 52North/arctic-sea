@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,10 +44,10 @@ public interface ExtensibleResponseDecoder {
             for (XmlObject xbExtension : extensionArray) {
 
                 Object obj = decodeXmlElement(xbExtension);
-                if (obj instanceof Extension<?>) {
-                    extensions.addExtension((Extension<?>) obj);
-                } else if (obj instanceof SweAbstractDataComponent) {
-                    extensions.addExtension(new SwesExtension<>().setValue((SweAbstractDataComponent) obj));
+                if (obj instanceof Extension<?> extension) {
+                    extensions.addExtension(extension);
+                } else if (obj instanceof SweAbstractDataComponent component) {
+                    extensions.addExtension(new SwesExtension<>().setValue(component));
                 }
             }
             return extensions;

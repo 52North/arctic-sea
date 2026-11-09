@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+    Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -57,31 +57,7 @@
             <organizationUrl>${project.organization.url}</organizationUrl>
             <timezone>GMT+1</timezone>
         </developer>
-        <developer>
-            <id>CarstenHollmann</id>
-            <name>Carsten Hollmann</name>
-            <email>c.hollmann@52north.org</email>
-            <organization>${project.organization.name}</organization>
-            <organizationUrl>${project.organization.url}</organizationUrl>
-            <timezone>GMT+1</timezone>
-        </developer>
-        <developer>
-            <id>nuest</id>
-            <name>Daniel Nüst</name>
-            <email>d.nuest@52north.org</email>
-            <organization>${project.organization.name}</organization>
-            <organizationUrl>${project.organization.url}</organizationUrl>
-            <timezone>GMT+1</timezone>
-        </developer>
     </developers>
-
-    <mailingLists>
-        <mailingList>
-            <name>Sensor Web Community Mailing List</name>
-            <subscribe>https://list.52north.org/mailman/listinfo/sensorweb</subscribe>
-            <unsubscribe>https://list.52north.org/mailman/listinfo/sensorweb</unsubscribe>
-        </mailingList>
-    </mailingLists>
 
     <scm>
         <url>https://github.com/52North/arctic-sea</url>
@@ -94,11 +70,6 @@
         <system>GitHub issues</system>
         <url>https://github.com/52North/arctic-sea/issues?state=open</url>
     </issueManagement>
-
-    <ciManagement>
-        <system>Travis CI</system>
-        <url>https://travis-ci.org/52North/arctic-sea</url>
-    </ciManagement>
 
     <licenses>
         <license>
@@ -141,26 +112,27 @@
         <timestamp>${maven.build.timestamp}</timestamp>
         <maven.build.timestamp.format>yyyy</maven.build.timestamp.format>
         <currentYear>${maven.build.timestamp}</currentYear>
-        <version.spring>5.3.24</version.spring>
-        <version.slf4j>2.0.6</version.slf4j>
+        <version.spring>6.2.11</version.spring>
+        <version.slf4j>2.0.18</version.slf4j>
         <version.xmlbeans>3.1.0</version.xmlbeans>
-        <version.exificient>1.0.4</version.exificient>
+        <version.exificient>1.0.7</version.exificient>
         <version.jaxb>2.3.0</version.jaxb>
         <version.n52CommonXML>2.7.0</version.n52CommonXML>
-        <version.olingo>4.9.0</version.olingo>
+        <version.olingo>5.0.0</version.olingo>
         <version.findbugs>3.0.2</version.findbugs>
-        <version.spotbugs>4.7.2</version.spotbugs>
-        <version.jakarta-annotation-api>2.1.1</version.jakarta-annotation-api>
-        <version.jena>4.6.1</version.jena>
-        <version.jackson>2.14.0</version.jackson>
-        <version.junit>5.9.1</version.junit>
-        <version.mockito>4.10.0</version.mockito>
-        <version.hamcrest>2.2</version.hamcrest>
+        <version.spotbugs>4.10.2</version.spotbugs>
+        <version.jakarta-annotation-api>3.0.0</version.jakarta-annotation-api>
+        <version.jena>6.1.0</version.jena>
+        <version.jackson>2.22.0</version.jackson>
+        <version.junit>6.1.0</version.junit>
+        <version.mockito>5.23.0</version.mockito>
+        <version.hamcrest>3.0</version.hamcrest>
         <version.httpcore>4.4.16</version.httpcore>
         <version.elastic>7.17.6</version.elastic>
-        <version.antlr4>4.11.1</version.antlr4>
+        <version.antlr4>4.13.2</version.antlr4>
         <version.maven-javadoc-plugin>3.4.1</version.maven-javadoc-plugin>
         <version.java>11</version.java>
+        <version.java>17</version.java>
     </properties>
 
     <dependencyManagement>
@@ -277,9 +249,9 @@
 
             <!-- javax -->
             <dependency>
-                <groupId>javax.servlet</groupId>
-                <artifactId>javax.servlet-api</artifactId>
-                <version>4.0.1</version>
+                <groupId>jakarta.servlet</groupId>
+                <artifactId>jakarta.servlet-api</artifactId>
+                <version>6.0.0</version>
             </dependency>
             <dependency>
                 <groupId>javax.activation</groupId>
@@ -287,9 +259,9 @@
                 <version>1.1.1</version>
             </dependency>
             <dependency>
-                <groupId>javax.inject</groupId>
-                <artifactId>javax.inject</artifactId>
-                <version>1</version>
+                <groupId>jakarta.inject</groupId>
+                <artifactId>jakarta.inject-api</artifactId>
+                <version>2.0.1</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.annotation</groupId>
@@ -298,9 +270,9 @@
                 <scope>provided</scope>
             </dependency>
             <dependency>
-                <groupId>javax.xml.soap</groupId>
-                <artifactId>javax.xml.soap-api</artifactId>
-                <version>${version.javax-xml-soap}</version>
+                <groupId>jakarta.xml.soap</groupId>
+                <artifactId>jakarta.xml.soap-api</artifactId>
+                <version>2.0.1</version>
             </dependency>
 
             <!-- Findbugs -->
@@ -319,24 +291,24 @@
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>31.1-jre</version>
+                <version>33.6.0-jre</version>
             </dependency>
 
             <!-- Space & Time -->
             <dependency>
                 <groupId>joda-time</groupId>
                 <artifactId>joda-time</artifactId>
-                <version>2.12.2</version>
+                <version>2.14.2</version>
             </dependency>
             <dependency>
                 <groupId>org.locationtech.jts</groupId>
                 <artifactId>jts-core</artifactId>
-                <version>1.19.0</version>
+                <version>1.20.0</version>
             </dependency>
             <dependency>
                 <groupId>org.geolatte</groupId>
                 <artifactId>geolatte-geom</artifactId>
-                <version>1.9.0</version>
+                <version>1.12</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.locationtech.jts</groupId>
@@ -347,7 +319,7 @@
             <dependency>
                 <groupId>org.quartz-scheduler</groupId>
                 <artifactId>quartz</artifactId>
-                <version>2.3.2</version>
+                <version>2.5.2</version>
             </dependency>
 
             <!-- Logging -->
@@ -395,7 +367,7 @@
             <dependency>
                 <groupId>org.junit.platform</groupId>
                 <artifactId>junit-platform-commons</artifactId>
-                <version>1.9.1</version>
+                <version>6.1.0</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -472,7 +444,7 @@
             <dependency>
                 <groupId>commons-codec</groupId>
                 <artifactId>commons-codec</artifactId>
-                <version>1.15</version>
+                <version>1.22.0</version>
             </dependency>
             <dependency>
                 <groupId>commons-lang</groupId>
@@ -482,12 +454,12 @@
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
-                <version>2.11.0</version>
+                <version>2.22.0</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-compress</artifactId>
-                <version>1.22</version>
+                <version>1.28.0</version>
             </dependency>
 
 
@@ -546,7 +518,7 @@
             <dependency>
                 <groupId>xml-apis</groupId>
                 <artifactId>xml-apis</artifactId>
-                <version>1.4.01</version>
+                <version>2.0.2</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.xmlbeans</groupId>
@@ -571,7 +543,7 @@
             <dependency>
                 <groupId>net.sf.saxon</groupId>
                 <artifactId>Saxon-HE</artifactId>
-                <version>11.4</version>
+                <version>13.0</version>
             </dependency>
 
 
@@ -593,6 +565,10 @@
                         <groupId>javax.xml.bind</groupId>
                         <artifactId>jaxb-impl</artifactId>
                     </exclusion>
+          <exclusion>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+          </exclusion>
                 </exclusions>
             </dependency>
             <dependency>
@@ -606,19 +582,14 @@
                 <version>${version.exificient}</version>
             </dependency>
             <dependency>
-                <groupId>javax.xml.bind</groupId>
-                <artifactId>jaxb-api</artifactId>
-                <version>${version.jaxb}</version>
+                <groupId>jakarta.xml.bind</groupId>
+                <artifactId>jakarta.xml.bind-api</artifactId>
+                <version>2.3.3</version>
             </dependency>
             <dependency>
-                <groupId>com.sun.xml.bind</groupId>
-                <artifactId>jaxb-core</artifactId>
-                <version>${version.jaxb}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.sun.xml.bind</groupId>
-                <artifactId>jaxb-impl</artifactId>
-                <version>${version.jaxb}</version>
+                <groupId>org.glassfish.jaxb</groupId>
+                <artifactId>jaxb-runtime</artifactId>
+                <version>2.3.9</version>
             </dependency>
 
             <!-- ElasticSearch -->
@@ -641,7 +612,7 @@
             <dependency>
                 <groupId>org.elasticsearch.client</groupId>
                 <artifactId>elasticsearch-rest-high-level-client</artifactId>
-                <version>${version.elastic}</version>
+                <version>7.17.29</version>
             </dependency>
             <dependency>
                 <groupId>pl.allegro.tech</groupId>
@@ -651,17 +622,17 @@
             <dependency>
                 <groupId>org.apache.lucene</groupId>
                 <artifactId>lucene-core</artifactId>
-                <version>9.4.1</version>
+                <version>10.4.0</version>
             </dependency>
             <dependency>
                 <groupId>com.maxmind.db</groupId>
                 <artifactId>maxmind-db</artifactId>
-                <version>2.0.0</version>
+                <version>4.1.0</version>
             </dependency>
             <dependency>
                 <groupId>com.maxmind.geoip2</groupId>
                 <artifactId>geoip2</artifactId>
-                <version>3.0.1</version>
+                <version>5.1.0</version>
                 <exclusions>
                     <exclusion>
                         <groupId>commons-logging</groupId>
@@ -1075,18 +1046,22 @@
                         <groupId>org.jetbrains.kotlin</groupId>
                         <artifactId>kotlin-stdlib</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>com.google.errorprone</groupId>
+                        <artifactId>error_prone_annotations</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
-                <version>3.12.0</version>
+                <version>3.20.0</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-stdlib</artifactId>
-                <version>1.7.20</version>
+                <version>2.4.0</version>
                 <scope>runtime</scope>
             </dependency>
             <dependency>
@@ -1188,19 +1163,24 @@
                     <dependency>
                         <groupId>com.sun.istack</groupId>
                         <artifactId>istack-commons-runtime</artifactId>
-                        <version>4.1.1</version>
+                        <version>4.2.0</version>
                         <scope>runtime</scope>
                     </dependency>
                 </dependencies>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <excludes>
+                        <exclude>org.apache.commons:commons-collections4</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
         </plugins>
         <pluginManagement>
             <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>${version.maven-javadoc-plugin}</version>
-                </plugin>
                 <plugin>
                     <groupId>org.antlr</groupId>
                     <artifactId>antlr4-maven-plugin</artifactId>

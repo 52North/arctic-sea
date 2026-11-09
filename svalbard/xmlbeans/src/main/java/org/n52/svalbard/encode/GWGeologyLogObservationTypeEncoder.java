@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -132,13 +132,13 @@ public class GWGeologyLogObservationTypeEncoder
     @Override
     protected void addAddtitionalInformation(OMObservationType omot, OmObservation observation)
             throws EncodingException {
-        if (omot instanceof GWGeologyLogType && observation.getValue().getValue() instanceof ProfileValue) {
+        if (omot instanceof GWGeologyLogType type && observation.getValue().getValue() instanceof ProfileValue) {
             ProfileValue value = (ProfileValue) observation.getValue().getValue();
             if (value.isSetFromLevel()) {
-                encodeStartDepth(((GWGeologyLogType) omot) .addNewStartDepth(), value.getFromLevel());
+                encodeStartDepth(type .addNewStartDepth(), value.getFromLevel());
             }
             if (value.isSetToLevel()) {
-                encodeEndDepth(((GWGeologyLogType) omot) .addNewEndDepth(), value.getToLevel());
+                encodeEndDepth(type .addNewEndDepth(), value.getToLevel());
             }
         }
     }

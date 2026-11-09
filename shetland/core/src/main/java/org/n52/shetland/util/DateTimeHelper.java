@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -162,14 +162,13 @@ public final class DateTimeHelper {
      * @see #formatDateTime2IsoString(DateTime)
      */
     public static String format(Time time) {
-        if (time instanceof TimeInstant) {
+        if (time instanceof TimeInstant instant) {
             try {
-                return formatDateTime2String(((TimeInstant) time).getTimePosition());
+                return formatDateTime2String(instant.getTimePosition());
             } catch (DateTimeFormatException e) {
                 throw new IllegalArgumentException(e);
             }
-        } else if (time instanceof TimePeriod) {
-            TimePeriod period = (TimePeriod) time;
+        } else if (time instanceof TimePeriod period) {
             return String.format("%s/%s", formatDateTime2IsoString(period.getStart()),
                     formatDateTime2IsoString(period.getEnd()));
         }

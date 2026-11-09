@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -94,14 +94,14 @@ public class Soap12Encoder extends AbstractSoapEncoder<XmlObject, Object>
 
     @Override
     public XmlObject encode(final Object element, EncodingContext additionalValues) throws EncodingException {
-        if (element instanceof SoapResponse) {
-            return createEnvelope((SoapResponse) element, additionalValues);
-        } else if (element instanceof SoapRequest) {
-            return createEnvelope((SoapRequest) element, additionalValues);
-        } else if (element instanceof SoapFault) {
-            return createFault((SoapFault) element);
-        } else if (element instanceof OwsExceptionReport) {
-            return createFaultFromExceptionResponse((OwsExceptionReport) element);
+        if (element instanceof SoapResponse response) {
+            return createEnvelope(response, additionalValues);
+        } else if (element instanceof SoapRequest request) {
+            return createEnvelope(request, additionalValues);
+        } else if (element instanceof SoapFault fault) {
+            return createFault(fault);
+        } else if (element instanceof OwsExceptionReport report) {
+            return createFaultFromExceptionResponse(report);
         } else {
             throw new UnsupportedEncoderInputException(this, element);
         }
@@ -110,11 +110,11 @@ public class Soap12Encoder extends AbstractSoapEncoder<XmlObject, Object>
     @Override
     public void encode(Object element, OutputStream outputStream, EncodingContext ctx)
             throws EncodingException {
-        if (element instanceof SoapResponse) {
+        if (element instanceof SoapResponse response) {
             try {
                 EncodingContext context = ctx.with(EncoderFlags.ENCODER_REPOSITORY, getEncoderRepository())
                     .with(XmlEncoderFlags.XML_OPTIONS, (Supplier<XmlOptions>) this::getXmlOptions);
-                new Soap12XmlStreamWriter(context, outputStream, (SoapResponse) element).write();
+                new Soap12XmlStreamWriter(context, outputStream, response).write();
             } catch (XMLStreamException ex) {
                 throw new EncodingException(ex);
             }
@@ -136,8 +136,7 @@ public class Soap12Encoder extends AbstractSoapEncoder<XmlObject, Object>
         if (soap.getSoapFault() != null) {
             body.set(createFault(soap.getSoapFault()));
         } else {
-            if (soap instanceof SoapResponse && ((SoapResponse) soap).hasException()) {
-                SoapResponse response = (SoapResponse) soap;
+            if (soap instanceof SoapResponse response && response.hasException()) {
                 if (!response.getException().getExceptions().isEmpty()) {
                     final CodedException firstException = response.getException().getExceptions().get(0);
                     action = getExceptionActionURI(firstException.getCode());

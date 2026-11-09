@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -84,8 +84,8 @@ public class GetDataAvailabilityXmlDecoder
     @Override
     public GetDataAvailabilityRequest parseGetDataAvailability(XmlObject xml)
             throws DecodingException {
-        if (xml instanceof GetDataAvailabilityDocument) {
-            return parseGetDataAvailability((GetDataAvailabilityDocument) xml);
+        if (xml instanceof GetDataAvailabilityDocument document) {
+            return parseGetDataAvailability(document);
         }
         throw new UnsupportedDecoderXmlInputException(this, xml);
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,6 @@ import java.util.Set;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
-import org.apache.xmlbeans.XmlObject.Factory;
 import org.locationtech.jts.geom.Geometry;
 import org.n52.shetland.ogc.filter.BinaryLogicFilter;
 import org.n52.shetland.ogc.filter.ComparisonFilter;
@@ -102,20 +101,20 @@ public class FesDecoderv20 extends AbstractXmlDecoder<XmlObject, Object> {
 
     @Override
     public Object decode(XmlObject xmlObject) throws DecodingException {
-        if (xmlObject instanceof SpatialOpsType) {
-            return parseSpatialFilterType((SpatialOpsType) xmlObject);
-        } else if (xmlObject instanceof TemporalOpsType) {
-            return parseTemporalFilterType((TemporalOpsType) xmlObject);
-        } else if (xmlObject instanceof TemporalOpsDocument) {
-            return parseTemporalFilterType(((TemporalOpsDocument) xmlObject).getTemporalOps());
-        } else if (xmlObject instanceof ComparisonOpsType) {
-            return parseComparisonFilterType((ComparisonOpsType) xmlObject);
-        } else if (xmlObject instanceof LogicOpsType) {
-            return parseLogicFilterType((LogicOpsType) xmlObject);
-        } else if (xmlObject instanceof FilterType) {
-            return parseFilterType((FilterType) xmlObject);
-        } else if (xmlObject instanceof FilterDocument) {
-            return parseFilterType(((FilterDocument) xmlObject).getFilter());
+        if (xmlObject instanceof SpatialOpsType type4) {
+            return parseSpatialFilterType(type4);
+        } else if (xmlObject instanceof TemporalOpsType type3) {
+            return parseTemporalFilterType(type3);
+        } else if (xmlObject instanceof TemporalOpsDocument document1) {
+            return parseTemporalFilterType(document1.getTemporalOps());
+        } else if (xmlObject instanceof ComparisonOpsType type2) {
+            return parseComparisonFilterType(type2);
+        } else if (xmlObject instanceof LogicOpsType type1) {
+            return parseLogicFilterType(type1);
+        } else if (xmlObject instanceof FilterType type) {
+            return parseFilterType(type);
+        } else if (xmlObject instanceof FilterDocument document) {
+            return parseFilterType(document.getFilter());
         } else {
             throw new UnsupportedDecoderXmlInputException(this, xmlObject);
         }
@@ -166,20 +165,17 @@ public class FesDecoderv20 extends AbstractXmlDecoder<XmlObject, Object> {
         try {
             String localName = XmlHelper.getLocalName(xbSpatialOpsType);
             spatialFilter.setOperator(FilterConstants.SpatialOperator.valueOf(localName));
-            if (xbSpatialOpsType instanceof BBOXType) {
-                BBOXType xbBBOX = (BBOXType) xbSpatialOpsType;
+            if (xbSpatialOpsType instanceof BBOXType xbBBOX) {
                 if (isValueReferenceExpression(xbBBOX.getExpression())) {
                     spatialFilter.setValueReference(parseValueReference(xbBBOX.getExpression()));
                 }
                 parseGeometry(xbSpatialOpsType, spatialFilter);
-            } else if (xbSpatialOpsType instanceof BinarySpatialOpType) {
-                BinarySpatialOpType binarySpatialOpType = (BinarySpatialOpType) xbSpatialOpsType;
+            } else if (xbSpatialOpsType instanceof BinarySpatialOpType binarySpatialOpType) {
                 if (isValueReferenceExpression(binarySpatialOpType.getExpression())) {
                     spatialFilter.setValueReference(parseValueReference(binarySpatialOpType.getExpression()));
                 }
                 parseGeometry(xbSpatialOpsType, spatialFilter);
-            } else if (xbSpatialOpsType instanceof DistanceBufferType) {
-                DistanceBufferType distanceBufferType = (DistanceBufferType) xbSpatialOpsType;
+            } else if (xbSpatialOpsType instanceof DistanceBufferType distanceBufferType) {
                 if (isValueReferenceExpression(distanceBufferType.getExpression())) {
                     spatialFilter.setValueReference(parseValueReference(distanceBufferType.getExpression()));
                 }
@@ -209,11 +205,11 @@ public class FesDecoderv20 extends AbstractXmlDecoder<XmlObject, Object> {
                     || geometryCursor.toChild(GmlConstants.QN_LINESTRING_32)
                     || geometryCursor.toChild(GmlConstants.QN_POLYGON_32)
                     || geometryCursor.toChild(GmlConstants.QN_MULTI_CURVE_32)) {
-                Object sosGeometry = decodeXmlObject(Factory.parse(geometryCursor.getDomNode()));
-                if (sosGeometry instanceof Geometry) {
-                    spatialFilter.setGeometry((Geometry) sosGeometry);
-                } else if (sosGeometry instanceof ReferencedEnvelope) {
-                    spatialFilter.setGeometry((ReferencedEnvelope) sosGeometry);
+                Object sosGeometry = decodeXmlObject(XmlObject.Factory.parse(geometryCursor.getDomNode()));
+                if (sosGeometry instanceof Geometry geometry) {
+                    spatialFilter.setGeometry(geometry);
+                } else if (sosGeometry instanceof ReferencedEnvelope envelope) {
+                    spatialFilter.setGeometry(envelope);
                 } else {
                     throw new UnsupportedDecoderXmlInputException(this, xbSpatialOpsType);
                 }
@@ -243,8 +239,7 @@ public class FesDecoderv20 extends AbstractXmlDecoder<XmlObject, Object> {
     private TemporalFilter parseTemporalFilterType(TemporalOpsType xbTemporalOpsType) throws DecodingException {
         TemporalFilter temporalFilter = new TemporalFilter();
         try {
-            if (xbTemporalOpsType instanceof BinaryTemporalOpType) {
-                BinaryTemporalOpType btot = (BinaryTemporalOpType) xbTemporalOpsType;
+            if (xbTemporalOpsType instanceof BinaryTemporalOpType btot) {
                 if (btot.getValueReference() != null && !btot.getValueReference().isEmpty()) {
                     temporalFilter.setValueReference(btot.getValueReference().trim());
                 }
@@ -252,10 +247,9 @@ public class FesDecoderv20 extends AbstractXmlDecoder<XmlObject, Object> {
                 for (int i = 0; i < nodes.getLength(); i++) {
                     if (nodes.item(i).getNamespaceURI() != null
                             && !nodes.item(i).getLocalName().equals(FilterConstants.EN_VALUE_REFERENCE)) {
-                        Object timeObject = decodeXmlObject(Factory.parse(nodes.item(i)));
-                        if (timeObject instanceof Time) {
+                        Object timeObject = decodeXmlObject(XmlObject.Factory.parse(nodes.item(i)));
+                        if (timeObject instanceof Time time) {
                             TimeOperator operator;
-                            Time time = (Time) timeObject;
                             String localName = XmlHelper.getLocalName(xbTemporalOpsType);
                             if (localName.equals(TimeOperator2.After.name())) {
                                 operator = TimeOperator.TM_After;
@@ -315,16 +309,16 @@ public class FesDecoderv20 extends AbstractXmlDecoder<XmlObject, Object> {
      *             if creation of the ComparisonFilter failed
      */
     private ComparisonFilter parseComparisonFilterType(ComparisonOpsType comparisonOpsType) throws DecodingException {
-        if (comparisonOpsType instanceof BinaryComparisonOpType) {
-            return parseBinaryComparisonFilter((BinaryComparisonOpType) comparisonOpsType);
-        } else if (comparisonOpsType instanceof PropertyIsLikeType) {
-            return parsePropertyIsLikeFilter((PropertyIsLikeType) comparisonOpsType);
-        } else if (comparisonOpsType instanceof PropertyIsNullType) {
-            return parsePropertyIsNullFilter((PropertyIsNullType) comparisonOpsType);
-        } else if (comparisonOpsType instanceof PropertyIsNilType) {
-            return parsePropertyIsNilFilter((PropertyIsNilType) comparisonOpsType);
-        } else if (comparisonOpsType instanceof PropertyIsBetweenType) {
-            return parsePropertyIsBetweenFilter((PropertyIsBetweenType) comparisonOpsType);
+        if (comparisonOpsType instanceof BinaryComparisonOpType type4) {
+            return parseBinaryComparisonFilter(type4);
+        } else if (comparisonOpsType instanceof PropertyIsLikeType type3) {
+            return parsePropertyIsLikeFilter(type3);
+        } else if (comparisonOpsType instanceof PropertyIsNullType type2) {
+            return parsePropertyIsNullFilter(type2);
+        } else if (comparisonOpsType instanceof PropertyIsNilType type1) {
+            return parsePropertyIsNilFilter(type1);
+        } else if (comparisonOpsType instanceof PropertyIsBetweenType type) {
+            return parsePropertyIsBetweenFilter(type);
         } else {
             throw new UnsupportedDecoderXmlInputException(this, comparisonOpsType);
         }
@@ -375,9 +369,9 @@ public class FesDecoderv20 extends AbstractXmlDecoder<XmlObject, Object> {
                 } catch (XmlException xmle) {
                     throw valueReferenceParsingException(xmle);
                 }
-            } else if (xmlObject instanceof LiteralType) {
+            } else if (xmlObject instanceof LiteralType type) {
                 // TODO is this the best way?
-                comparisonFilter.setValue(parseLiteralValue((LiteralType) xmlObject));
+                comparisonFilter.setValue(parseLiteralValue(type));
             }
         }
     }
@@ -496,10 +490,10 @@ public class FesDecoderv20 extends AbstractXmlDecoder<XmlObject, Object> {
      *             if creation of the logic filter failed
      */
     private Filter<?> parseLogicFilterType(LogicOpsType logicOpsType) throws DecodingException {
-        if (logicOpsType instanceof UnaryLogicOpType) {
-            return parseUnaryLogicalFilter((UnaryLogicOpType) logicOpsType);
-        } else if (logicOpsType instanceof BinaryLogicOpType) {
-            return parseBinaryLogicalFilter((BinaryLogicOpType) logicOpsType);
+        if (logicOpsType instanceof UnaryLogicOpType type1) {
+            return parseUnaryLogicalFilter(type1);
+        } else if (logicOpsType instanceof BinaryLogicOpType type) {
+            return parseBinaryLogicalFilter(type);
         }
         throw new UnsupportedDecoderXmlInputException(this, logicOpsType);
     }

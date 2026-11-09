@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 package org.n52.shetland.ogc.wps.exception;
+
+import java.io.Serial;
 
 import org.n52.janmayen.http.HTTPStatus;
 
@@ -30,6 +32,7 @@ import org.n52.janmayen.http.HTTPStatus;
  */
 public class ResultNotReadyException extends CodedWpsException {
 
+    @Serial
     private static final long serialVersionUID = 8025824035646499811L;
 
     public ResultNotReadyException() {

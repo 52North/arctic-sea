@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -89,9 +89,9 @@ public class GetFeatureOfInterestRequestEncoder extends AbstractSosRequestEncode
             for (SpatialFilter spatialFilter : request.getSpatialFilters()) {
                 // TODO fixme
                 XmlObject encodeFes = encodeFes(spatialFilter);
-                if (encodeFes instanceof SpatialOpsDocument) {
+                if (encodeFes instanceof SpatialOpsDocument document) {
                     substitute(got.addNewSpatialFilter().getSpatialOps(),
-                            ((SpatialOpsDocument) encodeFes).getSpatialOps());
+                            document.getSpatialOps());
                 }
             }
         }

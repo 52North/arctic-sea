@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package org.n52.shetland.ogc.gml.time;
 
+import java.io.Serial;
 import java.util.Date;
 
 import org.joda.time.DateTime;
@@ -32,6 +33,7 @@ public class TimeInstant extends Time {
     /**
      * serial number
      */
+    @Serial
     private static final long serialVersionUID = -1426561343329882331L;
 
     /** date for this timeInstant */
@@ -188,8 +190,7 @@ public class TimeInstant extends Time {
      */
     @Override
     public int compareTo(final Time o) {
-        if (o instanceof TimeInstant) {
-            final TimeInstant ti = (TimeInstant) o;
+        if (o instanceof TimeInstant ti) {
             if (isSetValue() && ti.isSetValue()) {
                 if (getValue().isBefore(ti.getValue())) {
                     return -1;
@@ -197,8 +198,7 @@ public class TimeInstant extends Time {
                     return 1;
                 }
             }
-        } else if (o instanceof TimePeriod) {
-            final TimePeriod tp = (TimePeriod) o;
+        } else if (o instanceof TimePeriod tp) {
             if (isSetValue() && tp.isSetStart() && tp.isSetEnd()) {
                 if (getValue().isBefore(tp.getStart())) {
                     return -1;
@@ -222,8 +222,7 @@ public class TimeInstant extends Time {
      */
     @Override
     public boolean equals(final Object paramObject) {
-        if (paramObject instanceof TimeInstant) {
-            TimeInstant toCheck = (TimeInstant) paramObject;
+        if (paramObject instanceof TimeInstant toCheck) {
             if (isSetValue() && toCheck.isSetValue()) {
                 return getValue().isEqual(toCheck.getValue());
             } else if (isSetIndeterminateValue() && toCheck.isSetIndeterminateValue()) {

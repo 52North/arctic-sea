@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,14 +41,14 @@ public abstract class AbstractSwesDecoderv20<S>
             final Extensions extensions = new Extensions();
             for (XmlObject xbExtension : extensionArray) {
                 Object obj = decodeXmlElement(xbExtension);
-                if (obj instanceof Extension<?>) {
-                    extensions.addExtension((Extension<?>) obj);
-                } else if (obj instanceof SweAbstractDataComponent) {
+                if (obj instanceof Extension<?> extension) {
+                    extensions.addExtension(extension);
+                } else if (obj instanceof SweAbstractDataComponent component) {
                     SwesExtension<SweAbstractDataComponent> swesExtension =
                             new SwesExtension<SweAbstractDataComponent>();
-                    swesExtension.setIdentifier(((SweAbstractDataComponent) obj).getIdentifier());
-                    swesExtension.setDefinition(((SweAbstractDataComponent) obj).getDefinition());
-                    swesExtension.setValue((SweAbstractDataComponent) obj);
+                    swesExtension.setIdentifier(component.getIdentifier());
+                    swesExtension.setDefinition(component.getDefinition());
+                    swesExtension.setValue(component);
                     extensions.addExtension(swesExtension);
                 }
             }

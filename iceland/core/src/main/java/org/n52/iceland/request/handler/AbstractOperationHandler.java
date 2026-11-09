@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.n52.faroe.ConfigurationError;
 import org.n52.faroe.Validation;
@@ -154,7 +154,7 @@ public abstract class AbstractOperationHandler implements OperationHandler {
     private Set<OwsValue> getMediaTypes(Binding binding) {
         return binding.getKeys().stream()
                 .map(Functions.castIfInstanceOf(MediaTypeBindingKey.class))
-                .filter(Optional::isPresent).map(Optional::get)
+                .flatMap(Optional::stream)
                 .map(MediaTypeBindingKey::getMediaType)
                 .map(MediaType::toString)
                 .map(OwsValue::new)
@@ -173,7 +173,7 @@ public abstract class AbstractOperationHandler implements OperationHandler {
         Set<OwsDomain> constraints = createContentTypeDomains(getMediaTypes(binding));
         return binding.getKeys().stream()
                 .map(Functions.castIfInstanceOf(PathBindingKey.class))
-                .filter(Optional::isPresent).map(Optional::get)
+                .flatMap(Optional::stream)
                 .map(PathBindingKey::getPath)
                 .map(path -> URI.create(this.serviceURL + path))
                 .flatMap(uri -> HTTPMethods.METHODS.stream()

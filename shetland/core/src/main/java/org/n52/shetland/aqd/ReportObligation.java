@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -87,8 +87,7 @@ public class ReportObligation {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof ReportObligation) {
-            ReportObligation that = (ReportObligation) obj;
+        if (obj instanceof ReportObligation that) {
             return Objects.equal(getInspireID(), that.getInspireID()) && Objects.equal(getChange(), that.getChange())
                     && Objects.equal(getReportingPeriod(), that.getReportingPeriod());
         }

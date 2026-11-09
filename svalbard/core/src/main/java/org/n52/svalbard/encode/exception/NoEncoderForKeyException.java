@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,8 @@
  */
 package org.n52.svalbard.encode.exception;
 
+import java.io.Serial;
+
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
@@ -23,6 +25,7 @@ package org.n52.svalbard.encode.exception;
  * @since 1.0.0
  */
 public class NoEncoderForKeyException extends EncodingException {
+    @Serial
     private static final long serialVersionUID = -5532147003138146625L;
 
     public NoEncoderForKeyException(Object key) {

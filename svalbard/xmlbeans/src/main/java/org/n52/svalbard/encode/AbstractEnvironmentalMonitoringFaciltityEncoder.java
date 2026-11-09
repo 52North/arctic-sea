@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,6 +27,8 @@ import org.n52.shetland.w3c.xlink.Referenceable;
 import org.n52.svalbard.encode.exception.EncodingException;
 
 import eu.europa.ec.inspire.schemas.ef.x40.EnvironmentalMonitoringFacilityDocument;
+
+import java.util.concurrent.ThreadLocalRandom;
 import eu.europa.ec.inspire.schemas.ef.x40.EnvironmentalMonitoringFacilityType;
 import eu.europa.ec.inspire.schemas.ef.x40.EnvironmentalMonitoringFacilityType.BelongsTo;
 import eu.europa.ec.inspire.schemas.ef.x40.EnvironmentalMonitoringFacilityType.RelatedTo;
@@ -50,7 +52,7 @@ public abstract class AbstractEnvironmentalMonitoringFaciltityEncoder extends Ab
 
     @Override
     protected String generateGmlId() {
-        return "emf_" + IdGenerator.generate(Double.toString(System.currentTimeMillis() * Math.random()));
+        return "emf_" + IdGenerator.generate(Double.toString(System.currentTimeMillis() * ThreadLocalRandom.current().nextDouble()));
     }
 
     @Override

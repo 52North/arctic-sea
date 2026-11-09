@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,9 +15,9 @@
  */
 package org.n52.iceland.util;
 
-import java.nio.file.Paths;
+import java.nio.file.Path;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 
 /**
  * TODO JavaDoc
@@ -30,7 +30,7 @@ public class ServletContextPropertyFileHandler extends PropertyFileHandlerImpl {
 
     public ServletContextPropertyFileHandler(ServletContext ctx, String name) {
         super(ctx.getRealPath(name) != null ? ctx.getRealPath(name)
-                : Paths.get(ctx.getRealPath("/"), name).toString());
+                : Path.of(ctx.getRealPath("/"), name).toString());
     }
 
 }

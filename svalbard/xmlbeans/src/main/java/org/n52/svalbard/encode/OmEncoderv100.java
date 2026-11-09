@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.apache.xmlbeans.XmlBoolean;
 import org.apache.xmlbeans.XmlInteger;
@@ -220,14 +220,12 @@ public class OmEncoderv100
     public XmlObject encode(Object element, EncodingContext additionalValues)
             throws EncodingException {
         XmlObject encodedObject = null;
-        if (element instanceof OmObservation) {
-            encodedObject = createObservation((OmObservation) element, additionalValues);
-        } else if (element instanceof GetObservationResponse) {
-            GetObservationResponse response = (GetObservationResponse) element;
+        if (element instanceof OmObservation observation) {
+            encodedObject = createObservation(observation, additionalValues);
+        } else if (element instanceof GetObservationResponse response) {
             encodedObject =
                     createObservationCollection(response);
-        } else if (element instanceof GetObservationByIdResponse) {
-            GetObservationByIdResponse response = (GetObservationByIdResponse) element;
+        } else if (element instanceof GetObservationByIdResponse response) {
             encodedObject =
                     createObservationCollection(response);
         } else {

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.xmlbeans.XmlBoolean;
@@ -218,10 +218,10 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
 
     @Override
     public XmlObject encode(Object element, EncodingContext additionalValues) throws EncodingException {
-        if (element instanceof ObservationValue) {
-            return encodeResult((ObservationValue<?>) element);
-        } else if (element instanceof OmObservationConstellation) {
-            return encodeObservationTemplate((OmObservationConstellation) element);
+        if (element instanceof ObservationValue<?> value) {
+            return encodeResult(value);
+        } else if (element instanceof OmObservationConstellation constellation) {
+            return encodeObservationTemplate(constellation);
         }
         return super.encode(element, additionalValues);
     }
@@ -229,12 +229,12 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
     @Override
     public void encode(Object objectToEncode, OutputStream outputStream, EncodingContext ctx)
             throws EncodingException {
-        if (objectToEncode instanceof OmObservation) {
+        if (objectToEncode instanceof OmObservation observation) {
             try {
                 new OmV20XmlStreamWriter(
                         ctx.with(EncoderFlags.ENCODER_REPOSITORY, getEncoderRepository())
                                 .with(XmlEncoderFlags.XML_OPTIONS, (Supplier<XmlOptions>) this::getXmlOptions),
-                        outputStream, (OmObservation) objectToEncode).write();
+                        outputStream, observation).write();
             } catch (XMLStreamException xmlse) {
                 throw new EncodingException("Error while writing element to stream!", xmlse);
             }
@@ -252,8 +252,7 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
     protected XmlObject createResult(OmObservation sosObservation) throws EncodingException {
         ObservationValue<?> value = sosObservation.getValue();
         // TODO if OM_SWEArrayObservation and ResultEncoding and ResultStructure exists,
-        if (value instanceof AbstractObservationValue) {
-            AbstractObservationValue<?> abstractObservationValue = (AbstractObservationValue<?>) value;
+        if (value instanceof AbstractObservationValue<?> abstractObservationValue) {
             abstractObservationValue.setValuesForResultEncoding(sosObservation);
             return encodeResult(abstractObservationValue);
         }
@@ -262,10 +261,10 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
 
     @Override
     protected XmlObject encodeResult(ObservationValue<?> observationValue) throws EncodingException {
-        if (observationValue instanceof SingleObservationValue) {
-            return createSingleObservationToResult((SingleObservationValue<?>) observationValue);
-        } else if (observationValue instanceof MultiObservationValues) {
-            return createMultiObservationValueToResult((MultiObservationValues<?>) observationValue);
+        if (observationValue instanceof SingleObservationValue<?> value) {
+            return createSingleObservationToResult(value);
+        } else if (observationValue instanceof MultiObservationValues<?> values) {
+            return createMultiObservationValueToResult(values);
         }
         return null;
     }

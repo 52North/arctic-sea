@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -108,12 +108,12 @@ public abstract class OwsServiceRequest extends OwsServiceCommunicationObject
 
     public String getRequestedLanguage() {
         return getExtension(OWSConstants.AdditionalRequestParams.language).map(e -> e.getValue()).map(value -> {
-            if (value instanceof Value<?, ?>) {
-                return ((Value<?, ?>) value).getStringValue();
-            } else if (value instanceof String) {
-                return (String) value;
-            } else if (value instanceof SweText) {
-                return ((SweText) value).getValue();
+            if (value instanceof Value<?, ?> value1) {
+                return value1.getStringValue();
+            } else if (value instanceof String string) {
+                return string;
+            } else if (value instanceof SweText text) {
+                return text.getValue();
             } else {
                 return "";
             }

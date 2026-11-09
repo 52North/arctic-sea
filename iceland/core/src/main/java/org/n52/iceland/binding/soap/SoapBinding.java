@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,8 +24,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.n52.iceland.binding.AbstractXmlBinding;
 import org.n52.iceland.binding.Binding;
@@ -246,10 +246,10 @@ public class SoapBinding extends AbstractXmlBinding<SoapRequest> {
     private List<SoapHeader> checkSoapHeaders(List<SoapHeader> headers) {
         if (CollectionHelper.isNotEmpty(headers)) {
             return headers.stream().map(header -> {
-                if (header instanceof WsaMessageIDHeader) {
-                    return ((WsaMessageIDHeader) header).getRelatesToHeader();
-                } else if (header instanceof WsaReplyToHeader) {
-                    return ((WsaReplyToHeader) header).getToHeader();
+                if (header instanceof WsaMessageIDHeader dHeader) {
+                    return dHeader.getRelatesToHeader();
+                } else if (header instanceof WsaReplyToHeader toHeader) {
+                    return toHeader.getToHeader();
                 } else if (!(header instanceof WsaToHeader)) {
                     return header;
                 } else {

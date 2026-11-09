@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -197,10 +197,10 @@ public abstract class AbstractGetDataAvailabilityStreamWriter
         for (Entry<String, NamedValue<?>> entry : map.entrySet()) {
             Object o = getEncoder(OmConstants.NS_OM_2, entry.getValue())
                     .encode(entry.getValue(), EncodingContext.of(XmlBeansEncodingFlags.DOCUMENT));
-            if (o != null && o instanceof XmlObject) {
+            if (o != null && o instanceof XmlObject object) {
                 start(GetDataAvailabilityConstants.GDA_EXTENSION);
                 attr(AN_NAME, entry.getKey());
-                writeXmlObject((XmlObject) o);
+                writeXmlObject(object);
                 end(GetDataAvailabilityConstants.GDA_EXTENSION);
             }
         }

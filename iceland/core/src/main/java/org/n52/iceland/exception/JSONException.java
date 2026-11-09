@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,13 @@
 package org.n52.iceland.exception;
 
 
+import java.io.Serial;
+
 import com.fasterxml.jackson.core.JsonLocation;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 public class JSONException extends JsonProcessingException {
+    @Serial
     private static final long serialVersionUID = -62239056976814895L;
 
     public JSONException(String msg, JsonLocation loc, Throwable rootCause) {

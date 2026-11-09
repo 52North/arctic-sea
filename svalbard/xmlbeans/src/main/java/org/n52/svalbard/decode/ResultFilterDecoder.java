@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,12 +50,12 @@ public class ResultFilterDecoder
     @Override
     public ResultFilter decode(XmlObject xmlObject)
             throws DecodingException {
-        if (xmlObject instanceof ResultFilterType) {
-            return parseType((ResultFilterType) xmlObject);
-        } else if (xmlObject instanceof ResultFilterPropertyType) {
-            return parseType(((ResultFilterPropertyType) xmlObject).getResultFilter());
-        } else if (xmlObject instanceof ResultFilterDocument) {
-            return parseType(((ResultFilterDocument) xmlObject).getResultFilter());
+        if (xmlObject instanceof ResultFilterType type1) {
+            return parseType(type1);
+        } else if (xmlObject instanceof ResultFilterPropertyType type) {
+            return parseType(type.getResultFilter());
+        } else if (xmlObject instanceof ResultFilterDocument document) {
+            return parseType(document.getResultFilter());
         } else {
             throw new UnsupportedDecoderInputException(this, xmlObject);
         }

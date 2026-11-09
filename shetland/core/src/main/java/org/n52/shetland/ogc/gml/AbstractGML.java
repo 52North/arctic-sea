@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -96,8 +96,7 @@ public abstract class AbstractGML {
 
     @Override
     public boolean equals(Object o) {
-        if (o instanceof AbstractGML) {
-            AbstractGML feature = (AbstractGML) o;
+        if (o instanceof AbstractGML feature) {
             if (feature.isSetIdentifier() && this.isSetIdentifier() && feature.isSetGmlID() && this.isSetGmlID()) {
                 return feature.getIdentifierCodeWithAuthority().equals(this.getIdentifierCodeWithAuthority())
                         && feature.getGmlId().equals(this.getGmlId());

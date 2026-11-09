@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,8 @@
  */
 package org.n52.svalbard.encode.json;
 
+import java.io.Serial;
+
 import org.n52.svalbard.encode.exception.EncodingException;
 
 /**
@@ -26,6 +28,7 @@ import org.n52.svalbard.encode.exception.EncodingException;
  */
 public class JSONEncodingException extends EncodingException {
 
+    @Serial
     private static final long serialVersionUID = 43255040132887078L;
 
     public JSONEncodingException(String message) {

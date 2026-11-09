@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Properties;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -105,7 +104,7 @@ public class PropertyFileHandlerImpl implements PropertyFileHandler {
     @Override
     public File getFile(boolean create) throws IOException {
         try {
-            Path parent = Paths.get(propertiesFile.getParent());
+            Path parent = Path.of(propertiesFile.getParent());
             if (parent != null) {
                 if (!Files.isSymbolicLink(parent)) {
                     Files.createDirectories(parent);

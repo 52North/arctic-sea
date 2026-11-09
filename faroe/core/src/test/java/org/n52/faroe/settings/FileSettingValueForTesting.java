@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 package org.n52.faroe.settings;
 
 import java.io.File;
+import java.io.Serial;
 
 import org.n52.faroe.SettingType;
 import org.n52.faroe.SettingValue;
@@ -26,6 +27,7 @@ import org.n52.faroe.SettingValue;
  */
 public class FileSettingValueForTesting implements SettingValue<File> {
 
+    @Serial
     private static final long serialVersionUID = 861199163939435975L;
 
     private String key;

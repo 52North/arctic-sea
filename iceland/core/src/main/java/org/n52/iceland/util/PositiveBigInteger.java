@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package org.n52.iceland.util;
 
+import java.io.Serial;
 import java.math.BigInteger;
 
 /**
@@ -23,6 +24,7 @@ import java.math.BigInteger;
  */
 public class PositiveBigInteger extends BigInteger {
 
+    @Serial
     private static final long serialVersionUID = -8551747145360341868L;
 
     public PositiveBigInteger(byte[] val) {

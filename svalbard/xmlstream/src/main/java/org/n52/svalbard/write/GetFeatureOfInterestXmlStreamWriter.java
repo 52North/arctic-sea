@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -73,16 +73,16 @@ public class GetFeatureOfInterestXmlStreamWriter
             writeExtensions(getElement().getExtensions());
         }
         AbstractFeature feature = getElement().getAbstractFeature();
-        if (feature instanceof FeatureCollection) {
-            for (AbstractFeature f : (FeatureCollection) feature) {
-                if (f instanceof AbstractSamplingFeature && ((AbstractSamplingFeature) f).isSetGeometry()) {
+        if (feature instanceof FeatureCollection collection) {
+            for (AbstractFeature f : collection) {
+                if (f instanceof AbstractSamplingFeature samplingFeature && samplingFeature.isSetGeometry()) {
                     writeFeatureMember(f);
                 } else {
                     writeReferencedFeatureMember(f);
                 }
             }
-        } else if (feature instanceof AbstractSamplingFeature) {
-            if (((AbstractSamplingFeature) feature).isSetGeometry()) {
+        } else if (feature instanceof AbstractSamplingFeature samplingFeature1) {
+            if (samplingFeature1.isSetGeometry()) {
                 writeFeatureMember(feature);
             } else {
                 writeReferencedFeatureMember(feature);
@@ -101,9 +101,9 @@ public class GetFeatureOfInterestXmlStreamWriter
     private void writeFeatureMember(AbstractFeature af) throws XMLStreamException, EncodingException {
         Object o =
                 getEncoder(GmlConstants.NS_GML_32, af).encode(af, EncodingContext.of(XmlBeansEncodingFlags.DOCUMENT));
-        if (o != null && o instanceof XmlObject) {
+        if (o != null && o instanceof XmlObject object) {
             start(Sos2StreamingConstants.QN_FEATURE_MEMBER);
-            rawText(((XmlObject) o).xmlText(getXmlOptions()));
+            rawText(object.xmlText(getXmlOptions()));
             end(Sos2StreamingConstants.QN_FEATURE_MEMBER);
         }
     }

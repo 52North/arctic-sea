@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Supplier;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.xmlbeans.XmlException;
@@ -137,12 +137,12 @@ public class AqdEncoder extends AbstractXmlEncoder<XmlObject, Object>
     @Override
     public XmlObject encode(Object element, EncodingContext ctx)
             throws EncodingException, UnsupportedEncoderInputException {
-        if (element instanceof GetObservationResponse) {
-            return encodeGetObservationResponse((GetObservationResponse) element, ctx);
-        } else if (element instanceof OmObservation) {
-            return encodeOmObservation((OmObservation) element, ctx);
-        } else if (element instanceof EReportingHeader) {
-            return encodeEReportingHeader((EReportingHeader) element, ctx);
+        if (element instanceof GetObservationResponse response) {
+            return encodeGetObservationResponse(response, ctx);
+        } else if (element instanceof OmObservation observation) {
+            return encodeOmObservation(observation, ctx);
+        } else if (element instanceof EReportingHeader header) {
+            return encodeEReportingHeader(header, ctx);
         }
         throw new UnsupportedEncoderInputException(this, element);
     }

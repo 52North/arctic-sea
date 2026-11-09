@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,9 +43,8 @@ public class DocumentCitationTypeDecoder
 
     @Override
     public DocumentCitation decode(XmlObject xmlObject) throws DecodingException {
-        if (xmlObject instanceof DocumentCitationType) {
+        if (xmlObject instanceof DocumentCitationType dct) {
             DocumentCitation documentCitation = new DocumentCitation();
-            DocumentCitationType dct = (DocumentCitationType) xmlObject;
             documentCitation.setDescription(dct.getDescription().getStringValue());
             if (dct.isNilDate()) {
                 if (dct.getDate().isSetNilReason()) {

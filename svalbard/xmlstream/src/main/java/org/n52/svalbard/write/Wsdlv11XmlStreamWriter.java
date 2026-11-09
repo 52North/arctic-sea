@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -287,26 +287,26 @@ public class Wsdlv11XmlStreamWriter extends XmlStreamWriter<Definitions> {
     private void encodeExtensibilityElements(AbstractWsdl wsdl) throws XMLStreamException {
         if (wsdl.isSetExtensibilityElements()) {
             for (ExtensibilityElement extensibilityElement : wsdl.getExtensibilityElements()) {
-                if (extensibilityElement instanceof AbstractAddress) {
-                    encodeAddress((AbstractAddress) extensibilityElement);
-                } else if (extensibilityElement instanceof Schema) {
-                    encodeSchema((Schema) extensibilityElement);
-                } else if (extensibilityElement instanceof HttpBinding) {
-                    encodeHttpBinding((HttpBinding) extensibilityElement);
-                } else if (extensibilityElement instanceof HttpOperation) {
-                    encodeHttpOperation((HttpOperation) extensibilityElement);
-                } else if (extensibilityElement instanceof HttpUrlEncoded) {
-                    encodeHttpUrlEncoded((HttpUrlEncoded) extensibilityElement);
-                } else if (extensibilityElement instanceof MimeXml) {
-                    encodeMimeXml((MimeXml) extensibilityElement);
-                } else if (extensibilityElement instanceof SoapBinding) {
-                    encodeSoapBinding((SoapBinding) extensibilityElement);
-                } else if (extensibilityElement instanceof SoapBody) {
-                    encodeSoapBody((SoapBody) extensibilityElement);
-                } else if (extensibilityElement instanceof SoapFault) {
-                    encodeSoapFault((SoapFault) extensibilityElement);
-                } else if (extensibilityElement instanceof SoapOperation) {
-                    encodeSoapOperation((SoapOperation) extensibilityElement);
+                if (extensibilityElement instanceof AbstractAddress address) {
+                    encodeAddress(address);
+                } else if (extensibilityElement instanceof Schema schema) {
+                    encodeSchema(schema);
+                } else if (extensibilityElement instanceof HttpBinding binding1) {
+                    encodeHttpBinding(binding1);
+                } else if (extensibilityElement instanceof HttpOperation operation1) {
+                    encodeHttpOperation(operation1);
+                } else if (extensibilityElement instanceof HttpUrlEncoded encoded) {
+                    encodeHttpUrlEncoded(encoded);
+                } else if (extensibilityElement instanceof MimeXml xml) {
+                    encodeMimeXml(xml);
+                } else if (extensibilityElement instanceof SoapBinding binding) {
+                    encodeSoapBinding(binding);
+                } else if (extensibilityElement instanceof SoapBody body) {
+                    encodeSoapBody(body);
+                } else if (extensibilityElement instanceof SoapFault fault) {
+                    encodeSoapFault(fault);
+                } else if (extensibilityElement instanceof SoapOperation operation) {
+                    encodeSoapOperation(operation);
                 }
             }
         }

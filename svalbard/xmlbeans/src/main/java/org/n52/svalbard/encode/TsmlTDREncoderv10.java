@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -161,8 +161,8 @@ public class TsmlTDREncoderv10 extends AbstractTsmlEncoderv10 {
 
     @Override
     public XmlObject encode(Object element, EncodingContext additionalValues) throws EncodingException {
-        if (element instanceof ObservationValue) {
-            return encodeResult((ObservationValue<?>) element);
+        if (element instanceof ObservationValue<?> value) {
+            return encodeResult(value);
         } else {
             return super.encode(element, additionalValues);
         }
@@ -171,10 +171,10 @@ public class TsmlTDREncoderv10 extends AbstractTsmlEncoderv10 {
     @Override
     public void encode(Object objectToEncode, OutputStream outputStream, EncodingContext ctx)
             throws EncodingException {
-        if (objectToEncode instanceof OmObservation) {
+        if (objectToEncode instanceof OmObservation observation) {
             try {
                 new TsmlTDREncoderv10XmlStreamWriter(ctx.with(StreamingEncoderFlags.ENCODER, this), outputStream,
-                        (OmObservation) objectToEncode).write();
+                        observation).write();
             } catch (XMLStreamException xmlse) {
                 throw new EncodingException("Error while writing element to stream!", xmlse);
             }
@@ -257,9 +257,9 @@ public class TsmlTDREncoderv10 extends AbstractTsmlEncoderv10 {
         }
         quantityList.setUom(unit);
         // set unit to SosObservableProperty if not set.
-        if (observableProperty instanceof OmObservableProperty
-                && !((OmObservableProperty) observableProperty).isSetUnit()) {
-            ((OmObservableProperty) observableProperty).setUnit(unit);
+        if (observableProperty instanceof OmObservableProperty property
+                && !property.isSetUnit()) {
+            property.setUnit(unit);
         }
         // set up range set
         xbMeasurementTimeseriesDomainRange.addNewRangeSet().set(quantityListDoc);
@@ -292,8 +292,8 @@ public class TsmlTDREncoderv10 extends AbstractTsmlEncoderv10 {
         // create quantity list from values
         QuantityListDocument quantityListDoc = QuantityListDocument.Factory.newInstance();
         MeasureOrNilReasonListType quantityList = quantityListDoc.addNewQuantityList();
-        if (observationValue instanceof MultiObservationValues) {
-            TVPValue tvpValue = (TVPValue) ((MultiObservationValues<?>) observationValue).getValue();
+        if (observationValue instanceof MultiObservationValues<?> values) {
+            TVPValue tvpValue = (TVPValue) values.getValue();
             List<TimeValuePair> timeValuePairs = tvpValue.getValue();
             if (CollectionHelper.isNotEmpty(timeValuePairs) && timeValuePairs.get(0).getValue().isSetUnit()) {
                 unit = timeValuePairs.get(0).getValue().getUnit();
@@ -335,9 +335,9 @@ public class TsmlTDREncoderv10 extends AbstractTsmlEncoderv10 {
         SweQuantity quantity = new SweQuantity();
         quantity.setDefinition(observableProperty.getIdentifier());
         quantity.setDescription(observableProperty.getDescription());
-        if (observableProperty instanceof OmObservableProperty
-                && ((OmObservableProperty) observableProperty).isSetUnit()) {
-            quantity.setUom(((OmObservableProperty) observableProperty).getUnit());
+        if (observableProperty instanceof OmObservableProperty property
+                && property.isSetUnit()) {
+            quantity.setUom(property.getUnit());
         }
         return createDataRecord(quantity, sosObservation.getObservationID());
     }

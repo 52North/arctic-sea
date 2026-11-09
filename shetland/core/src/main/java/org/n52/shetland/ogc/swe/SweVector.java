@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -149,10 +149,10 @@ public class SweVector extends SweAbstractDataComponent {
     @Override
     public SweAbstractDataComponent copyValueTo(SweAbstractDataComponent copy) {
         super.copyValueTo(copy);
-        if (copy instanceof SweVector) {
-            ((SweVector) copy).setReferenceFrame(getReferenceFrame());
-            ((SweVector) copy).setLocalFrame(getLocalFrame());
-            ((SweVector) copy).setCoordinates(getCoordinates());
+        if (copy instanceof SweVector vector) {
+            vector.setReferenceFrame(getReferenceFrame());
+            vector.setLocalFrame(getLocalFrame());
+            vector.setCoordinates(getCoordinates());
         }
         return copy;
     }

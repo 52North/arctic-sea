@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -183,10 +183,9 @@ public abstract class AbstractTimeLocationValueTripleTypeEncoder<T>
      * @return Time as DateTime
      */
     private DateTime getTime(Time time) {
-        if (time instanceof TimeInstant) {
-            return ((TimeInstant) time).getValue();
-        } else if (time instanceof TimePeriod) {
-            TimePeriod timePeriod = (TimePeriod) time;
+        if (time instanceof TimeInstant instant) {
+            return instant.getValue();
+        } else if (time instanceof TimePeriod timePeriod) {
             if (timePeriod.getEnd() != null) {
                 return timePeriod.getEnd();
             } else {

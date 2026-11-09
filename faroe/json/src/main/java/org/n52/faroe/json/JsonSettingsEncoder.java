@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -80,8 +80,7 @@ public class JsonSettingsEncoder {
         j.put(JSONSettingConstants.REQUIRED_KEY, !def.isOptional());
         j.set(JSONSettingConstants.DEFAULT_KEY, def.hasDefaultValue() ? encodeDefaultValue(def) : null);
 
-        if (def instanceof IntegerSettingDefinition) {
-            IntegerSettingDefinition iDef = (IntegerSettingDefinition) def;
+        if (def instanceof IntegerSettingDefinition iDef) {
             if (iDef.hasMinimum()) {
                 j.put(JSONSettingConstants.MINIMUM_KEY, iDef.getMinimum());
                 j.put(JSONSettingConstants.MINIMUM_EXCLUSIVE_KEY, iDef.isExclusiveMinimum());
@@ -92,8 +91,7 @@ public class JsonSettingsEncoder {
             }
         }
 
-        if (def instanceof ChoiceSettingDefinition) {
-            ChoiceSettingDefinition cDef = (ChoiceSettingDefinition) def;
+        if (def instanceof ChoiceSettingDefinition cDef) {
             ObjectNode options = j.putObject(JSONSettingConstants.OPTIONS_KEY);
             cDef.getOptions().entrySet().forEach(o -> options.put(o.getKey(), o.getValue()));
         }

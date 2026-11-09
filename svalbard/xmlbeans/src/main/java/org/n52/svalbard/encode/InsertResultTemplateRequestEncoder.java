@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,10 +65,10 @@ public class InsertResultTemplateRequestEncoder extends AbstractSwesRequestEncod
                 request.getObservationTemplate().getOfferings().size() != 1) {
             throw new UnsupportedEncoderInputException(this, "missing offering");
         }
-        if (!request.isSetResultStructure() || !request.getResultStructure().get().isPresent()) {
+        if (!request.isSetResultStructure() || request.getResultStructure().get().isEmpty()) {
             throw new UnsupportedEncoderInputException(this, "missing resultStructure");
         }
-        if (!request.isSetResultEncoding() || !request.getResultEncoding().get().isPresent()) {
+        if (!request.isSetResultEncoding() || request.getResultEncoding().get().isEmpty()) {
             throw new UnsupportedEncoderInputException(this, "missing resultEncoding");
         }
     }

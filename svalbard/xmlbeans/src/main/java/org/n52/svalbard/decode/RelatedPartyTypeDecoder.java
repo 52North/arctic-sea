@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -54,8 +54,7 @@ public class RelatedPartyTypeDecoder
 
     @Override
     public RelatedParty decode(XmlObject xmlObject) throws DecodingException {
-        if (xmlObject instanceof RelatedPartyType) {
-            RelatedPartyType rpt = (RelatedPartyType) xmlObject;
+        if (xmlObject instanceof RelatedPartyType rpt) {
             RelatedParty relatedParty = new RelatedParty();
             relatedParty.setContact(parseContact(rpt));
             relatedParty.setIndividualName((PT_FreeText) decodeXmlElement(rpt.getIndividualName()));

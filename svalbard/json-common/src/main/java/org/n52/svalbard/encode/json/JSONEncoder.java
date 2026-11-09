@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collector;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.n52.janmayen.Json;
 import org.n52.janmayen.exception.CompositeException;
@@ -140,7 +140,7 @@ public abstract class JSONEncoder<T> implements Encoder<JsonNode, T> {
         CompositeException composite = new CompositeException();
         ArrayNode root = objects.stream()
                                 .map(composite.wrapFunction(encodeObjectToJson))
-                                .filter(Optional::isPresent).map(Optional::get)
+                                .flatMap(Optional::stream)
                                 .collect(toJsonArray());
         if (!composite.isEmpty()) {
             composite.throwIfNotEmpty(EncodingException::new);

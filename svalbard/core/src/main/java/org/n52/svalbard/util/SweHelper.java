@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -197,8 +197,7 @@ public final class SweHelper {
         SweDataArray dataArray = new SweDataArray();
         dataArray.setEncoding(createTextEncoding(observationValue));
         dataArrayValue.setValue(dataArray);
-        if (observationValue instanceof SingleObservationValue) {
-            SingleObservationValue<?> singleValue = (SingleObservationValue<?>) observationValue;
+        if (observationValue instanceof SingleObservationValue<?> singleValue) {
             if (singleValue.getValue() instanceof SweDataArrayValue) {
                 return (SweDataArray) singleValue.getValue().getValue();
             } else {
@@ -206,8 +205,7 @@ public final class SweHelper {
                 dataArrayValue.addBlock(createBlock(dataArray.getElementType(), observationValue.getPhenomenonTime(),
                         observablePropertyIdentifier, singleValue.getValue()));
             }
-        } else if (observationValue instanceof MultiObservationValues) {
-            MultiObservationValues<?> multiValue = (MultiObservationValues<?>) observationValue;
+        } else if (observationValue instanceof MultiObservationValues<?> multiValue) {
             if (multiValue.getValue() instanceof SweDataArrayValue) {
                 return ((SweDataArrayValue) multiValue.getValue()).getValue();
             } else if (multiValue.getValue() instanceof TVPValue) {
@@ -464,8 +462,7 @@ public final class SweHelper {
     @SuppressFBWarnings("BC_VACUOUS_INSTANCEOF")
     private List<String> createBlock(SweAbstractDataComponent elementType, Time phenomenonTime, String phenID,
             Value<?> value) {
-        if (elementType instanceof SweDataRecord) {
-            SweDataRecord elementTypeRecord = (SweDataRecord) elementType;
+        if (elementType instanceof SweDataRecord elementTypeRecord) {
             List<String> block = new ArrayList<>(elementTypeRecord.getFields().size());
             if (!(value instanceof NilTemplateValue)) {
                 elementTypeRecord.getFields().forEach(field -> {

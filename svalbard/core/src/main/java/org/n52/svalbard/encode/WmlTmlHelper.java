@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,9 +26,9 @@ import org.n52.shetland.ogc.swe.simpleType.SweTimeRange;
 public interface WmlTmlHelper {
 
     default boolean checkSweDataArray(Value<?> value) {
-        return value instanceof SweDataArrayValue
+        return value instanceof SweDataArrayValue sdav
                 && ((SweDataArrayValue) value).getValue().getElementType() instanceof SweAbstractDataRecord
-                && checkFields((SweAbstractDataRecord) ((SweDataArrayValue) value).getValue().getElementType());
+                && checkFields((SweAbstractDataRecord) sdav.getValue().getElementType());
     }
 
     default boolean checkFields(SweAbstractDataRecord sweAbstractDataRecord) {

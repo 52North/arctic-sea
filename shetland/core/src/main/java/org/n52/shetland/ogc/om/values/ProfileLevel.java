@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -178,8 +178,7 @@ public class ProfileLevel extends AbstractPofileTrajectoryElement<ProfileLevel> 
     public SweDataRecord valueAsDataRecord(SweDataRecord dataRecord) {
         int counter = 1;
         for (Value<?> v : getValue()) {
-            if (v instanceof SweAbstractDataComponent) {
-                SweAbstractDataComponent adc = (SweAbstractDataComponent) v;
+            if (v instanceof SweAbstractDataComponent adc) {
                 String name;
                 if (adc.isSetName()) {
                     name = adc.getName().getValue();

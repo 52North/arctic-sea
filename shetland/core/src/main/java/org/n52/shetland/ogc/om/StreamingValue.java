@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -236,16 +236,16 @@ public abstract class StreamingValue<
             Object additionalRequestParam = getAdditionalRequestParams(AdditionalRequestParams.crs);
             int targetCRS = -1;
             int target3DCRS = -1;
-            if (additionalRequestParam instanceof Integer) {
-                targetCRS = (Integer) additionalRequestParam;
+            if (additionalRequestParam instanceof Integer integer) {
+                targetCRS = integer;
                 target3DCRS = targetCRS;
-            } else if (additionalRequestParam instanceof String) {
-                targetCRS = Integer.parseInt((String) additionalRequestParam);
+            } else if (additionalRequestParam instanceof String string) {
+                targetCRS = Integer.parseInt(string);
                 target3DCRS = targetCRS;
-            } else if (additionalRequestParam instanceof List && ((List) additionalRequestParam).size() > 0) {
-                targetCRS = JavaHelper.asInteger(((List) additionalRequestParam).get(0));
-                if (((List) additionalRequestParam).size() == 2) {
-                    target3DCRS = JavaHelper.asInteger(((List) additionalRequestParam).get(1));
+            } else if (additionalRequestParam instanceof List list && list.size() > 0) {
+                targetCRS = JavaHelper.asInteger(list.get(0));
+                if (list.size() == 2) {
+                    target3DCRS = JavaHelper.asInteger(list.get(1));
                 } else {
                     target3DCRS = targetCRS;
                 }

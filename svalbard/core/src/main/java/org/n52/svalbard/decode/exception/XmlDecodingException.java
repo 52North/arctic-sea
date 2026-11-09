@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,8 @@
  */
 package org.n52.svalbard.decode.exception;
 
+import java.io.Serial;
+
 import org.apache.xmlbeans.XmlException;
 
 /**
@@ -25,6 +27,7 @@ import org.apache.xmlbeans.XmlException;
  * @since 1.0.0
  */
 public class XmlDecodingException extends DecodingException {
+    @Serial
     private static final long serialVersionUID = -495706406337738990L;
 
     public XmlDecodingException(String name, String xml, XmlException e) {

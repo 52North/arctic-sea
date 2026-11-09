@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,16 +24,15 @@ import java.net.URI;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
-
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.entity.ByteArrayEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.core5.http.Header;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.classic.methods.HttpUriRequest;
+import org.apache.hc.core5.http.io.entity.ByteArrayEntity;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 
 import com.google.common.io.ByteStreams;
 import com.google.common.io.CharStreams;
@@ -56,7 +55,7 @@ public final class HTTP {
     public static String getAsString(URI uri) throws IOException {
         try (CloseableHttpResponse response = CLIENT.execute(new HttpGet(uri))) {
             HttpEntity entity = response.getEntity();
-            String encoding = Optional.ofNullable(entity.getContentEncoding()).map(Header::getValue)
+            String encoding = Optional.ofNullable(entity.getContentEncoding())
                     .orElse(StandardCharsets.UTF_8.name());
             Charset charset = Charset.forName(encoding);
             try (InputStream is = entity.getContent(); Reader reader = new InputStreamReader(is, charset)) {
@@ -75,13 +74,13 @@ public final class HTTP {
 
     public static byte[] post(URI uri, byte[] bytes) throws IOException {
         HttpPost request = new HttpPost(uri);
-        request.setEntity(new ByteArrayEntity(bytes));
+        request.setEntity(new ByteArrayEntity(bytes, null));
         return execute(request);
     }
 
     public static void post(URI uri, byte[] bytes, OutputStream out) throws IOException {
         HttpPost request = new HttpPost(uri);
-        request.setEntity(new ByteArrayEntity(bytes));
+        request.setEntity(new ByteArrayEntity(bytes, null));
         execute(request, out);
     }
 

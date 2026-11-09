@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -145,55 +145,51 @@ public class SweCommonDecoderV20
 
     @Override
     public Object decode(Object element) throws DecodingException {
-        if (element instanceof DataArrayPropertyType) {
-            final DataArrayPropertyType dataArrayPropertyType = (DataArrayPropertyType) element;
+        if (element instanceof DataArrayPropertyType dataArrayPropertyType) {
             return parseAbstractDataComponent(dataArrayPropertyType.getDataArray1());
-        } else if (element instanceof DataRecordPropertyType) {
-            final DataRecordPropertyType dataRecordPropertyType = (DataRecordPropertyType) element;
+        } else if (element instanceof DataRecordPropertyType dataRecordPropertyType) {
             return parseAbstractDataComponent(dataRecordPropertyType.getDataRecord());
-        } else if (element instanceof AbstractDataComponentDocument) {
-            return parseAbstractDataComponentDocument((AbstractDataComponentDocument) element);
-        } else if (element instanceof AbstractDataComponentType) {
-            return parseAbstractDataComponent((AbstractDataComponentType) element);
-        } else if (element instanceof Coordinate[]) {
-            return parseCoordinates((Coordinate[]) element);
-        } else if (element instanceof AnyScalarPropertyType[]) {
-            return parseAnyScalarPropertyTypeArray((AnyScalarPropertyType[]) element);
-        } else if (element instanceof TextEncodingDocument) {
-            final TextEncodingDocument textEncodingDoc = (TextEncodingDocument) element;
+        } else if (element instanceof AbstractDataComponentDocument document1) {
+            return parseAbstractDataComponentDocument(document1);
+        } else if (element instanceof AbstractDataComponentType type8) {
+            return parseAbstractDataComponent(type8);
+        } else if (element instanceof Coordinate[] coordinates) {
+            return parseCoordinates(coordinates);
+        } else if (element instanceof AnyScalarPropertyType[] types) {
+            return parseAnyScalarPropertyTypeArray(types);
+        } else if (element instanceof TextEncodingDocument textEncodingDoc) {
             final SweTextEncoding sosTextEncoding = parseTextEncoding(textEncodingDoc.getTextEncoding());
             sosTextEncoding.setXml(textEncodingDoc.xmlText(getXmlOptions()));
             return sosTextEncoding;
-        } else if (element instanceof TextEncodingType) {
+        } else if (element instanceof TextEncodingType textEncoding) {
             TextEncodingDocument textEncodingDoc = TextEncodingDocument.Factory.newInstance(getXmlOptions());
-            TextEncodingType textEncoding = (TextEncodingType) element;
             textEncodingDoc.setTextEncoding(textEncoding);
             SweTextEncoding sosTextEncoding = parseTextEncoding(textEncoding);
             sosTextEncoding.setXml(textEncodingDoc.xmlText(getXmlOptions()));
             return sosTextEncoding;
-        } else if (element instanceof AbstractEncodingType) {
-            SweAbstractEncoding absEncoding = parseEncoding((AbstractEncodingType) element);
+        } else if (element instanceof AbstractEncodingType type7) {
+            SweAbstractEncoding absEncoding = parseEncoding(type7);
             TextEncodingDocument absEncodingDoc = TextEncodingDocument.Factory.newInstance(getXmlOptions());
             absEncoding.setXml(absEncodingDoc.xmlText(getXmlOptions()));
             return absEncoding;
-        } else if (element instanceof TextPropertyType) {
-            return parseAbstractDataComponent(((TextPropertyType) element).getText());
-        } else if (element instanceof CountPropertyType) {
-            return parseAbstractDataComponent(((CountPropertyType) element).getCount());
-        } else if (element instanceof BooleanPropertyType) {
-            return parseAbstractDataComponent(((BooleanPropertyType) element).getBoolean());
-        } else if (element instanceof CategoryPropertyType) {
-            return parseAbstractDataComponent(((CategoryPropertyType) element).getCategory());
-        } else if (element instanceof QuantityPropertyType) {
-            return parseAbstractDataComponent(((QuantityPropertyType) element).getQuantity());
-        } else if (element instanceof DataStreamPropertyType) {
-            return parseDataStream(((DataStreamPropertyType) element).getDataStream());
-        } else if (element instanceof DataStreamType) {
-            return parseDataStream((DataStreamType) element);
-        } else if (element instanceof DataStreamDocument) {
-            return parseDataStream(((DataStreamDocument) element).getDataStream());
-        } else if (element instanceof XmlObject) {
-            throw new UnsupportedDecoderXmlInputException(this, (XmlObject) element);
+        } else if (element instanceof TextPropertyType type6) {
+            return parseAbstractDataComponent(type6.getText());
+        } else if (element instanceof CountPropertyType type5) {
+            return parseAbstractDataComponent(type5.getCount());
+        } else if (element instanceof BooleanPropertyType type4) {
+            return parseAbstractDataComponent(type4.getBoolean());
+        } else if (element instanceof CategoryPropertyType type3) {
+            return parseAbstractDataComponent(type3.getCategory());
+        } else if (element instanceof QuantityPropertyType type2) {
+            return parseAbstractDataComponent(type2.getQuantity());
+        } else if (element instanceof DataStreamPropertyType type1) {
+            return parseDataStream(type1.getDataStream());
+        } else if (element instanceof DataStreamType type) {
+            return parseDataStream(type);
+        } else if (element instanceof DataStreamDocument document) {
+            return parseDataStream(document.getDataStream());
+        } else if (element instanceof XmlObject object) {
+            throw new UnsupportedDecoderXmlInputException(this, object);
         } else {
             throw new UnsupportedDecoderInputException(this, element);
         }
@@ -202,36 +198,36 @@ public class SweCommonDecoderV20
     private SweAbstractDataComponent parseAbstractDataComponent(AbstractDataComponentType abstractDataComponent)
             throws DecodingException {
         SweAbstractDataComponent sosAbstractDataComponent = null;
-        if (abstractDataComponent instanceof BooleanType) {
-            sosAbstractDataComponent = parseBoolean((BooleanType) abstractDataComponent);
-        } else if (abstractDataComponent instanceof CategoryType) {
-            sosAbstractDataComponent = parseCategory((CategoryType) abstractDataComponent);
-        } else if (abstractDataComponent instanceof CountRangeType) {
-            sosAbstractDataComponent = parseCountRange((CountRangeType) abstractDataComponent);
-        } else if (abstractDataComponent instanceof CountType) {
-            sosAbstractDataComponent = parseCount((CountType) abstractDataComponent);
-        } else if (abstractDataComponent instanceof QuantityType) {
-            sosAbstractDataComponent = parseQuantity((QuantityType) abstractDataComponent);
-        } else if (abstractDataComponent instanceof QuantityRangeType) {
-            sosAbstractDataComponent = parseQuantityRange((QuantityRangeType) abstractDataComponent);
-        } else if (abstractDataComponent instanceof TextType) {
-            sosAbstractDataComponent = parseText((TextType) abstractDataComponent);
-        } else if (abstractDataComponent instanceof TimeType) {
-            sosAbstractDataComponent = parseTime((TimeType) abstractDataComponent);
-        } else if (abstractDataComponent instanceof TimeRangeType) {
-            sosAbstractDataComponent = parseTimeRange((TimeRangeType) abstractDataComponent);
-        } else if (abstractDataComponent instanceof VectorType) {
-            sosAbstractDataComponent = parseVector((VectorType) abstractDataComponent);
-        } else if (abstractDataComponent instanceof DataRecordType) {
-            SweDataRecord sosDataRecord = parseDataRecord((DataRecordType) abstractDataComponent);
+        if (abstractDataComponent instanceof BooleanType type11) {
+            sosAbstractDataComponent = parseBoolean(type11);
+        } else if (abstractDataComponent instanceof CategoryType type10) {
+            sosAbstractDataComponent = parseCategory(type10);
+        } else if (abstractDataComponent instanceof CountRangeType type9) {
+            sosAbstractDataComponent = parseCountRange(type9);
+        } else if (abstractDataComponent instanceof CountType type8) {
+            sosAbstractDataComponent = parseCount(type8);
+        } else if (abstractDataComponent instanceof QuantityType type7) {
+            sosAbstractDataComponent = parseQuantity(type7);
+        } else if (abstractDataComponent instanceof QuantityRangeType type6) {
+            sosAbstractDataComponent = parseQuantityRange(type6);
+        } else if (abstractDataComponent instanceof TextType type5) {
+            sosAbstractDataComponent = parseText(type5);
+        } else if (abstractDataComponent instanceof TimeType type4) {
+            sosAbstractDataComponent = parseTime(type4);
+        } else if (abstractDataComponent instanceof TimeRangeType type3) {
+            sosAbstractDataComponent = parseTimeRange(type3);
+        } else if (abstractDataComponent instanceof VectorType type2) {
+            sosAbstractDataComponent = parseVector(type2);
+        } else if (abstractDataComponent instanceof DataRecordType type1) {
+            SweDataRecord sosDataRecord = parseDataRecord(type1);
             DataRecordDocument dataRecordDoc = DataRecordDocument.Factory.newInstance(getXmlOptions());
-            dataRecordDoc.setDataRecord((DataRecordType) abstractDataComponent);
+            dataRecordDoc.setDataRecord(type1);
             sosDataRecord.setXml(dataRecordDoc.xmlText(getXmlOptions()));
             sosAbstractDataComponent = sosDataRecord;
-        } else if (abstractDataComponent instanceof DataArrayType) {
-            SweDataArray sosDataArray = parseDataArray((DataArrayType) abstractDataComponent);
+        } else if (abstractDataComponent instanceof DataArrayType type) {
+            SweDataArray sosDataArray = parseDataArray(type);
             DataArrayDocument dataArrayDoc = DataArrayDocument.Factory.newInstance(getXmlOptions());
-            dataArrayDoc.setDataArray1((DataArrayType) abstractDataComponent);
+            dataArrayDoc.setDataArray1(type);
             sosDataArray.setXml(dataArrayDoc.xmlText(getXmlOptions()));
             sosAbstractDataComponent = sosDataArray;
         } else if (abstractDataComponent == null) {
@@ -367,8 +363,8 @@ public class SweCommonDecoderV20
     }
 
     private SweAbstractEncoding parseEncoding(AbstractEncodingType abstractEncodingType) throws DecodingException {
-        if (abstractEncodingType instanceof TextEncodingType) {
-            return parseTextEncoding((TextEncodingType) abstractEncodingType);
+        if (abstractEncodingType instanceof TextEncodingType type) {
+            return parseTextEncoding(type);
         }
         throw new NotYetSupportedDecodingException(SweConstants.EN_ENCODING_TYPE, abstractEncodingType,
                 TextEncodingType.type.getName());

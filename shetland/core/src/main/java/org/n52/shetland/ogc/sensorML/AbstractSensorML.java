@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -301,14 +301,14 @@ public abstract class AbstractSensorML extends AbstractFeature implements Phenom
     private SmlContact getContact(Collection<SmlContact> contacts, String contactRole) {
         if (contacts != null) {
             for (SmlContact contact : contacts) {
-                if (contact instanceof SmlContactList) {
-                    SmlContact cont = getContact(((SmlContactList) contact).getMembers(), contactRole);
+                if (contact instanceof SmlContactList list) {
+                    SmlContact cont = getContact(list.getMembers(), contactRole);
                     if (cont != null) {
                         return cont;
                     }
                 } else if (contact.getRole() != null && contact.getRole().equals(contactRole)
-                        && contact instanceof SmlResponsibleParty) {
-                    return (SmlResponsibleParty) contact;
+                        && contact instanceof SmlResponsibleParty party) {
+                    return party;
                 }
             }
         }
@@ -430,8 +430,8 @@ public abstract class AbstractSensorML extends AbstractFeature implements Phenom
     }
 
     private SweBoolean getSweBooleanFromCapabilitiesFor(Collection<String> definitions) {
-        if (this instanceof SensorML && ((SensorML) this).isWrapper()) {
-            for (AbstractProcess absProcess : ((SensorML) this).getMembers()) {
+        if (this instanceof SensorML mL && mL.isWrapper()) {
+            for (AbstractProcess absProcess : mL.getMembers()) {
                 return getSweBooleanFromCapabilitiesFor(absProcess, definitions);
             }
         } else {

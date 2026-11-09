@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,60 +44,61 @@ import org.n52.svalbard.decode.exception.DecodingException;
 public class OmDecoderV20Test {
 
     String getComplexObservationXml() {
-        return "<om:OM_Observation \n" +
-               "    xmlns:om=\"http://www.opengis.net/om/2.0\"\n" +
-               "    xmlns:gml=\"http://www.opengis.net/gml/3.2\"\n" +
-               "    xmlns:swe=\"http://www.opengis.net/swe/2.0\"\n" +
-               "    xmlns:xlink=\"http://www.w3.org/1999/xlink\"\n" +
-               "    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n" +
-               "  <om:type xlink:href=\"http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_ComplexObservation\"/>\n" +
-               "  <om:phenomenonTime>\n" +
-               "    <gml:TimeInstant gml:id=\"phenomenonTime\">\n" +
-               "      <gml:timePosition>2014-08-13T07:26:56.196Z</gml:timePosition>\n" +
-               "    </gml:TimeInstant>\n" +
-               "  </om:phenomenonTime>\n" +
-               "  <om:resultTime xlink:href=\"#phenomenonTime\"/>\n" +
-               "  <om:validTime>\n" +
-               "    <gml:TimePeriod gml:id=\"validTime\">\n" +
-               "      <gml:beginPosition>2014-08-13T07:21:56.196Z</gml:beginPosition>\n" +
-               "      <gml:endPosition>2014-08-13T07:31:56.196Z</gml:endPosition>\n" +
-               "    </gml:TimePeriod>\n" +
-               "  </om:validTime>\n" +
-               "  <om:procedure xlink:href=\"procedure\"/>\n" +
-               "  <om:observedProperty xlink:href=\"http://example.tld/phenomenon/parent\"/>\n" +
-               "  <om:featureOfInterest xlink:href=\"http://example.tld/feature/1\"/>\n" +
-               "  <om:result xsi:type=\"swe:DataRecordPropertyType\">\n" +
-               "    <swe:DataRecord>\n" +
-               "      <swe:field name=\"child1\">\n" +
-               "        <swe:Quantity definition=\"http://example.tld/phenomenon/child/1\">\n" +
-               "          <swe:uom code=\"unit\"/>\n" +
-               "          <swe:value>42.0</swe:value>\n" +
-               "        </swe:Quantity>\n" +
-               "      </swe:field>\n" +
-               "      <swe:field name=\"child2\">\n" +
-               "        <swe:Boolean definition=\"http://example.tld/phenomenon/child/2\">\n" +
-               "          <swe:value>true</swe:value>\n" +
-               "        </swe:Boolean>\n" +
-               "      </swe:field>\n" +
-               "      <swe:field name=\"child3\">\n" +
-               "        <swe:Count definition=\"http://example.tld/phenomenon/child/3\">\n" +
-               "          <swe:value>42</swe:value>\n" +
-               "        </swe:Count>\n" +
-               "      </swe:field>\n" +
-               "      <swe:field name=\"child4\">\n" +
-               "        <swe:Text definition=\"http://example.tld/phenomenon/child/4\">\n" +
-               "          <swe:value>42</swe:value>\n" +
-               "        </swe:Text>\n" +
-               "      </swe:field>\n" +
-               "      <swe:field name=\"child5\">\n" +
-               "        <swe:Category definition=\"http://example.tld/phenomenon/child/5\">\n" +
-               "          <swe:codeSpace xlink:href=\"codespace\"/>\n" +
-               "          <swe:value>52</swe:value>\n" +
-               "        </swe:Category>\n" +
-               "      </swe:field>\n" +
-               "    </swe:DataRecord>\n" +
-               "  </om:result>\n" +
-               "</om:OM_Observation>";
+        return """
+               <om:OM_Observation\s
+                   xmlns:om="http://www.opengis.net/om/2.0"
+                   xmlns:gml="http://www.opengis.net/gml/3.2"
+                   xmlns:swe="http://www.opengis.net/swe/2.0"
+                   xmlns:xlink="http://www.w3.org/1999/xlink"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                 <om:type xlink:href="http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_ComplexObservation"/>
+                 <om:phenomenonTime>
+                   <gml:TimeInstant gml:id="phenomenonTime">
+                     <gml:timePosition>2014-08-13T07:26:56.196Z</gml:timePosition>
+                   </gml:TimeInstant>
+                 </om:phenomenonTime>
+                 <om:resultTime xlink:href="#phenomenonTime"/>
+                 <om:validTime>
+                   <gml:TimePeriod gml:id="validTime">
+                     <gml:beginPosition>2014-08-13T07:21:56.196Z</gml:beginPosition>
+                     <gml:endPosition>2014-08-13T07:31:56.196Z</gml:endPosition>
+                   </gml:TimePeriod>
+                 </om:validTime>
+                 <om:procedure xlink:href="procedure"/>
+                 <om:observedProperty xlink:href="http://example.tld/phenomenon/parent"/>
+                 <om:featureOfInterest xlink:href="http://example.tld/feature/1"/>
+                 <om:result xsi:type="swe:DataRecordPropertyType">
+                   <swe:DataRecord>
+                     <swe:field name="child1">
+                       <swe:Quantity definition="http://example.tld/phenomenon/child/1">
+                         <swe:uom code="unit"/>
+                         <swe:value>42.0</swe:value>
+                       </swe:Quantity>
+                     </swe:field>
+                     <swe:field name="child2">
+                       <swe:Boolean definition="http://example.tld/phenomenon/child/2">
+                         <swe:value>true</swe:value>
+                       </swe:Boolean>
+                     </swe:field>
+                     <swe:field name="child3">
+                       <swe:Count definition="http://example.tld/phenomenon/child/3">
+                         <swe:value>42</swe:value>
+                       </swe:Count>
+                     </swe:field>
+                     <swe:field name="child4">
+                       <swe:Text definition="http://example.tld/phenomenon/child/4">
+                         <swe:value>42</swe:value>
+                       </swe:Text>
+                     </swe:field>
+                     <swe:field name="child5">
+                       <swe:Category definition="http://example.tld/phenomenon/child/5">
+                         <swe:codeSpace xlink:href="codespace"/>
+                         <swe:value>52</swe:value>
+                       </swe:Category>
+                     </swe:field>
+                   </swe:DataRecord>
+                 </om:result>
+               </om:OM_Observation>""";
     }
 
     private OmDecoderv20 omDecoderv20;

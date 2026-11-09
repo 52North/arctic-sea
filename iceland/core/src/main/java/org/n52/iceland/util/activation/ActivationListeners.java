@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,8 +53,8 @@ public class ActivationListeners<K> implements ActivationManager<K> {
     public boolean isActive(K key) {
         Boolean active = this.actives.get(key);
         if (active == null) {
-            if (key instanceof DefaultActive) {
-                return ((DefaultActive) key).isDefaultActive();
+            if (key instanceof DefaultActive defaultActive) {
+                return defaultActive.isDefaultActive();
             }
             return this.stateForMissingKey;
         }

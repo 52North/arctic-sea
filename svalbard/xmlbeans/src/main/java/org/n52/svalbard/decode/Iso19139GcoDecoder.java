@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -57,8 +57,8 @@ public class Iso19139GcoDecoder implements Decoder<Object, XmlObject> {
 
     @Override
     public Object decode(XmlObject element) throws DecodingException {
-        if (element instanceof CodeListValueType) {
-            return encodeCodeListValue((CodeListValueType) element);
+        if (element instanceof CodeListValueType type) {
+            return encodeCodeListValue(type);
         } else {
             throw new UnsupportedDecoderXmlInputException(this, element);
         }

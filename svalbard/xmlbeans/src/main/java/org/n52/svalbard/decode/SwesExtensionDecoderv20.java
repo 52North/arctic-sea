@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -67,8 +67,8 @@ public class SwesExtensionDecoderv20 extends AbstractXmlDecoder<XmlObject, Exten
             XmlObject[] children = xmlObject.selectPath("./*");
             if (children.length == 1) {
                 Object xmlObj = decodeXmlElement(children[0]);
-                if (xmlObj instanceof Extension) {
-                    return (Extension<?>) xmlObj;
+                if (xmlObj instanceof Extension<?> extension1) {
+                    return extension1;
                 } else {
                     final SwesExtension<Object> extension = new SwesExtension<Object>();
                     extension.setValue(xmlObj);
@@ -83,7 +83,7 @@ public class SwesExtensionDecoderv20 extends AbstractXmlDecoder<XmlObject, Exten
     }
 
     private boolean isSweAbstractDataComponent(final Object xmlObj) {
-        return xmlObj instanceof SweAbstractDataComponent && ((SweAbstractDataComponent) xmlObj).isSetDefinition();
+        return xmlObj instanceof SweAbstractDataComponent sadc && sadc.isSetDefinition();
     }
 
     private boolean isSwesExtension(XmlObject xmlObject) {

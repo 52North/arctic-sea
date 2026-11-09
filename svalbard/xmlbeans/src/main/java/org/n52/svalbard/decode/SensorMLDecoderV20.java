@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -194,30 +194,30 @@ public class SensorMLDecoderV20
 
     private AbstractSensorML parse(XmlObject element) throws DecodingException {
         AbstractSensorML sml = null;
-        if (element instanceof PhysicalSystemDocument) {
-            sml = parsePhysicalSystem(((PhysicalSystemDocument) element).getPhysicalSystem());
-        } else if (element instanceof PhysicalSystemPropertyType) {
-            sml = parsePhysicalSystem(((PhysicalSystemPropertyType) element).getPhysicalSystem());
-        } else if (element instanceof PhysicalSystemType) {
-            sml = parsePhysicalSystem((PhysicalSystemType) element);
-        } else if (element instanceof PhysicalComponentDocument) {
-            sml = parsePhysicalComponent(((PhysicalComponentDocument) element).getPhysicalComponent());
-        } else if (element instanceof PhysicalComponentPropertyType) {
-            sml = parsePhysicalComponent(((PhysicalComponentPropertyType) element).getPhysicalComponent());
-        } else if (element instanceof PhysicalComponentType) {
-            sml = parsePhysicalComponent((PhysicalComponentType) element);
-        } else if (element instanceof SimpleProcessDocument) {
-            sml = parseSimpleProcess(((SimpleProcessDocument) element).getSimpleProcess());
-        } else if (element instanceof SimpleProcessPropertyType) {
-            sml = parseSimpleProcess(((SimpleProcessPropertyType) element).getSimpleProcess());
-        } else if (element instanceof SimpleProcessType) {
-            sml = parseSimpleProcess((SimpleProcessType) element);
-        } else if (element instanceof AggregateProcessDocument) {
-            sml = parseAggregateProcess(((AggregateProcessDocument) element).getAggregateProcess());
-        } else if (element instanceof AggregateProcessPropertyType) {
-            sml = parseAggregateProcess(((AggregateProcessPropertyType) element).getAggregateProcess());
-        } else if (element instanceof AggregateProcessType) {
-            sml = parseAggregateProcess((AggregateProcessType) element);
+        if (element instanceof PhysicalSystemDocument document3) {
+            sml = parsePhysicalSystem(document3.getPhysicalSystem());
+        } else if (element instanceof PhysicalSystemPropertyType type7) {
+            sml = parsePhysicalSystem(type7.getPhysicalSystem());
+        } else if (element instanceof PhysicalSystemType type6) {
+            sml = parsePhysicalSystem(type6);
+        } else if (element instanceof PhysicalComponentDocument document2) {
+            sml = parsePhysicalComponent(document2.getPhysicalComponent());
+        } else if (element instanceof PhysicalComponentPropertyType type5) {
+            sml = parsePhysicalComponent(type5.getPhysicalComponent());
+        } else if (element instanceof PhysicalComponentType type4) {
+            sml = parsePhysicalComponent(type4);
+        } else if (element instanceof SimpleProcessDocument document1) {
+            sml = parseSimpleProcess(document1.getSimpleProcess());
+        } else if (element instanceof SimpleProcessPropertyType type3) {
+            sml = parseSimpleProcess(type3.getSimpleProcess());
+        } else if (element instanceof SimpleProcessType type2) {
+            sml = parseSimpleProcess(type2);
+        } else if (element instanceof AggregateProcessDocument document) {
+            sml = parseAggregateProcess(document.getAggregateProcess());
+        } else if (element instanceof AggregateProcessPropertyType type1) {
+            sml = parseAggregateProcess(type1.getAggregateProcess());
+        } else if (element instanceof AggregateProcessType type) {
+            sml = parseAggregateProcess(type);
         } else {
             throw new UnsupportedDecoderXmlInputException(this, element);
         }
@@ -233,37 +233,37 @@ public class SensorMLDecoderV20
             xmlToString = xml;
         } else {
             // check and create documents if necessary
-            if (xml instanceof PhysicalSystemPropertyType) {
+            if (xml instanceof PhysicalSystemPropertyType type7) {
                 PhysicalSystemDocument psd = PhysicalSystemDocument.Factory.newInstance(getXmlOptions());
-                psd.setPhysicalSystem(((PhysicalSystemPropertyType) xml).getPhysicalSystem());
+                psd.setPhysicalSystem(type7.getPhysicalSystem());
                 xmlToString = psd;
-            } else if (xml instanceof PhysicalSystemType) {
+            } else if (xml instanceof PhysicalSystemType type6) {
                 PhysicalSystemDocument psd = PhysicalSystemDocument.Factory.newInstance(getXmlOptions());
-                psd.setPhysicalSystem((PhysicalSystemType) xml);
+                psd.setPhysicalSystem(type6);
                 xmlToString = psd;
-            } else if (xml instanceof PhysicalComponentPropertyType) {
+            } else if (xml instanceof PhysicalComponentPropertyType type5) {
                 PhysicalComponentDocument pcd = PhysicalComponentDocument.Factory.newInstance(getXmlOptions());
-                pcd.setPhysicalComponent(((PhysicalComponentPropertyType) xml).getPhysicalComponent());
+                pcd.setPhysicalComponent(type5.getPhysicalComponent());
                 xmlToString = pcd;
-            } else if (xml instanceof PhysicalComponentType) {
+            } else if (xml instanceof PhysicalComponentType type4) {
                 PhysicalComponentDocument pcd = PhysicalComponentDocument.Factory.newInstance(getXmlOptions());
-                pcd.setPhysicalComponent((PhysicalComponentType) xml);
+                pcd.setPhysicalComponent(type4);
                 xmlToString = pcd;
-            } else if (xml instanceof SimpleProcessPropertyType) {
+            } else if (xml instanceof SimpleProcessPropertyType type3) {
                 SimpleProcessDocument spd = SimpleProcessDocument.Factory.newInstance(getXmlOptions());
-                spd.setSimpleProcess(((SimpleProcessPropertyType) xml).getSimpleProcess());
+                spd.setSimpleProcess(type3.getSimpleProcess());
                 xmlToString = spd;
-            } else if (xml instanceof SimpleProcessType) {
+            } else if (xml instanceof SimpleProcessType type2) {
                 SimpleProcessDocument spd = SimpleProcessDocument.Factory.newInstance(getXmlOptions());
-                spd.setSimpleProcess((SimpleProcessType) xml);
+                spd.setSimpleProcess(type2);
                 xmlToString = spd;
-            } else if (xml instanceof AggregateProcessPropertyType) {
+            } else if (xml instanceof AggregateProcessPropertyType type1) {
                 AggregateProcessDocument apd = AggregateProcessDocument.Factory.newInstance(getXmlOptions());
-                apd.setAggregateProcess(((AggregateProcessPropertyType) xml).getAggregateProcess());
+                apd.setAggregateProcess(type1.getAggregateProcess());
                 xmlToString = apd;
-            } else if (xml instanceof AggregateProcessType) {
+            } else if (xml instanceof AggregateProcessType type) {
                 AggregateProcessDocument apd = AggregateProcessDocument.Factory.newInstance(getXmlOptions());
-                apd.setAggregateProcess((AggregateProcessType) xml);
+                apd.setAggregateProcess(type);
                 xmlToString = apd;
             }
         }
@@ -384,8 +384,8 @@ public class SensorMLDecoderV20
             throws DecodingException {
         if (apt.isSetTypeOf()) {
             Object decodedElement = decodeXmlElement(apt.getTypeOf());
-            if (decodedElement instanceof ReferenceType) {
-                abstractProcess.setTypeOf((ReferenceType) decodedElement);
+            if (decodedElement instanceof ReferenceType type) {
+                abstractProcess.setTypeOf(type);
             }
         }
         // if (apt.isSetConfiguration()) {
@@ -413,8 +413,8 @@ public class SensorMLDecoderV20
 
         if (appt.isSetAttachedTo()) {
             Object decodeXmlElement = decodeXmlElement(appt.getAttachedTo());
-            if (decodeXmlElement != null && decodeXmlElement instanceof ReferenceType) {
-                abstractPhysicalProcess.setAttachedTo((ReferenceType) decodeXmlElement);
+            if (decodeXmlElement != null && decodeXmlElement instanceof ReferenceType type) {
+                abstractPhysicalProcess.setAttachedTo(type);
             }
         }
         // if
@@ -530,8 +530,8 @@ public class SensorMLDecoderV20
                         final SmlCharacteristic characteristic = new SmlCharacteristic(c.getName());
                         if (c.isSetAbstractDataComponent()) {
                             final Object o = decodeXmlElement(c.getAbstractDataComponent());
-                            if (o instanceof SweAbstractDataComponent) {
-                                characteristic.setAbstractDataComponent((SweAbstractDataComponent) o);
+                            if (o instanceof SweAbstractDataComponent component) {
+                                characteristic.setAbstractDataComponent(component);
                             } else {
                                 throw new DecodingException(XmlHelper.getLocalName(clpt),
                                         "Error while parsing the characteristics of the SensorML "
@@ -574,8 +574,8 @@ public class SensorMLDecoderV20
                         final SmlCapability capability = new SmlCapability(c.getName());
                         if (c.isSetAbstractDataComponent()) {
                             final Object o = decodeXmlElement(c.getAbstractDataComponent());
-                            if (o instanceof SweAbstractDataComponent) {
-                                capability.setAbstractDataComponent((SweAbstractDataComponent) o);
+                            if (o instanceof SweAbstractDataComponent component) {
+                                capability.setAbstractDataComponent(component);
                                 capabilities.addCapability(capability);
                             } else {
                                 throw new DecodingException(XmlHelper.getLocalName(cs),
@@ -603,8 +603,8 @@ public class SensorMLDecoderV20
                     && CollectionHelper.isNotNullOrEmpty(clpt.getContactList().getContactArray())) {
                 for (CIResponsiblePartyPropertyType c : clpt.getContactList().getContactArray()) {
                     final Object o = decodeXmlElement(c);
-                    if (o instanceof SmlContact) {
-                        smlContacts.add((SmlContact) o);
+                    if (o instanceof SmlContact contact) {
+                        smlContacts.add(contact);
                     } else {
                         throw new DecodingException(XmlHelper.getLocalName(c),
                                 "Error while parsing the contacts of the SensorML!");
@@ -656,8 +656,8 @@ public class SensorMLDecoderV20
             SmlFeatureOfInterest smlFeatureOfInterest = new SmlFeatureOfInterest();
             for (FeaturePropertyType fpt : featuresOfInterest.getFeatureList().getFeatureArray()) {
                 Object o = decodeXmlElement(fpt);
-                if (o instanceof AbstractFeature) {
-                    smlFeatureOfInterest.addFeatureOfInterest((AbstractFeature) o);
+                if (o instanceof AbstractFeature feature) {
+                    smlFeatureOfInterest.addFeatureOfInterest(feature);
                 }
             }
             abstractProcess.setSmlFeatureOfInterest(smlFeatureOfInterest);
@@ -668,8 +668,8 @@ public class SensorMLDecoderV20
         SmlPosition position = new SmlPosition();
         if (pupt.isSetVector()) {
             Object decodeXmlElement = decodeXmlElement(pupt.getVector());
-            if (decodeXmlElement != null && decodeXmlElement instanceof SweVector) {
-                position.setVector((SweVector) decodeXmlElement);
+            if (decodeXmlElement != null && decodeXmlElement instanceof SweVector vector) {
+                position.setVector(vector);
             }
             // } else if (pupt.isSetAbstractProcess()) {
             // AbstractSensorML decode = decode(pupt.getAbstractProcess());
@@ -678,8 +678,8 @@ public class SensorMLDecoderV20
             // CodingHelper.decodeXmlElement(pupt.getDataArray1());
         } else if (pupt.isSetDataRecord()) {
             Object decodeXmlElement = decodeXmlElement(pupt.getDataRecord());
-            if (decodeXmlElement != null && decodeXmlElement instanceof SweDataRecord) {
-                position.setAbstractDataComponent((SweDataRecord) decodeXmlElement);
+            if (decodeXmlElement != null && decodeXmlElement instanceof SweDataRecord record) {
+                position.setAbstractDataComponent(record);
             }
             // } else if (pupt.isSetPoint()){
             // Object decodeXmlElement =
@@ -802,14 +802,14 @@ public class SensorMLDecoderV20
             return param;
         }
         Object parameter = decodeXmlElement(xbParameter.getAbstractDataComponent());
-        if (parameter instanceof SweAbstractDataComponent) {
+        if (parameter instanceof SweAbstractDataComponent component) {
             if (xbParameter.getName() != null
                     && !xbParameter.getName().isEmpty()) {
-                ((SweAbstractDataComponent) parameter).setName(name);
+                component.setName(name);
             }
 
             param.setName(name);
-            param.setParameter((SweAbstractDataComponent) parameter);
+            param.setParameter(component);
             return param;
         } else {
             throw new DecodingException(XmlHelper.getLocalName(xbParameter),
@@ -864,8 +864,8 @@ public class SensorMLDecoderV20
             return parseObservableProperty(adcpt.getObservableProperty());
         } else if (adcpt.isSetAbstractDataComponent()) {
             final Object decodedObject = decodeXmlElement(adcpt.getAbstractDataComponent());
-            if (decodedObject instanceof SweAbstractDataComponent) {
-                return (SweAbstractDataComponent) decodedObject;
+            if (decodedObject instanceof SweAbstractDataComponent component) {
+                return component;
             } else {
                 throw new DecodingException(XmlHelper.getLocalName(adcpt),
                         "The 'DataComponentOrObservablePropertyType' with "
@@ -886,13 +886,13 @@ public class SensorMLDecoderV20
         // When starting implementation: Do not forget to activate the already
         // available unit tests
         Object data = decodeXmlElement(xbDataInterface.getData());
-        if (data instanceof SweDataStream) {
-            dataInterface.setData((SweDataStream) data);
+        if (data instanceof SweDataStream stream) {
+            dataInterface.setData(stream);
         }
         if (xbDataInterface.isSetInterfaceParameters()) {
             Object parameter = decodeXmlElement(xbDataInterface.getInterfaceParameters());
-            if (parameter instanceof SweDataRecord) {
-                dataInterface.setInputParameters((SweDataRecord) parameter);
+            if (parameter instanceof SweDataRecord record) {
+                dataInterface.setInputParameters(record);
             }
             // TODO throw exception if not instance of SweDataRecord
         }

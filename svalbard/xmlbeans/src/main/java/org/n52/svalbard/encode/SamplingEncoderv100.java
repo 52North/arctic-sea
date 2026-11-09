@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -119,8 +119,7 @@ public class SamplingEncoderv100
     }
 
     private XmlObject createFeature(AbstractFeature absFeature) throws EncodingException {
-        if (absFeature instanceof AbstractSamplingFeature) {
-            AbstractSamplingFeature sampFeat = (AbstractSamplingFeature) absFeature;
+        if (absFeature instanceof AbstractSamplingFeature sampFeat) {
             if (sampFeat.getFeatureType().equals(SfConstants.FT_SAMPLINGPOINT)
                     || sampFeat.getFeatureType().equals(SfConstants.SAMPLING_FEAT_TYPE_SF_SAMPLING_POINT)
                     || sampFeat.getGeometry() instanceof Point) {
@@ -153,8 +152,8 @@ public class SamplingEncoderv100
                 sampFeat.wasEncoded();
                 return xbSamplingSurfaceDoc;
             }
-        } else if (absFeature instanceof FeatureCollection) {
-            createFeatureCollection((FeatureCollection) absFeature);
+        } else if (absFeature instanceof FeatureCollection collection) {
+            createFeatureCollection(collection);
         }
         throw new UnsupportedEncoderInputException(this, absFeature);
     }

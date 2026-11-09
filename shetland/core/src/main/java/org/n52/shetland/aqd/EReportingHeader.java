@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61,8 +61,8 @@ public class EReportingHeader extends AbstractEReportingHeader {
 
     @Override
     public AbstractGML setIdentifier(CodeWithAuthority identifier) {
-        if (identifier instanceof Identifier) {
-            setInspireID((Identifier) identifier);
+        if (identifier instanceof Identifier identifier1) {
+            setInspireID(identifier1);
         }
         return super.setIdentifier(identifier);
     }
@@ -140,8 +140,7 @@ public class EReportingHeader extends AbstractEReportingHeader {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof EReportingHeader) {
-            EReportingHeader that = (EReportingHeader) obj;
+        if (obj instanceof EReportingHeader that) {
             return Objects.equal(getInspireID(), that.getInspireID())
                     && Objects.equal(getReportingAuthority(), that.getReportingAuthority())
                     && Objects.equal(getChange(), that.getChange())

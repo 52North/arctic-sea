@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -103,15 +103,15 @@ public class FesEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> impleme
     @Override
     public XmlObject encode(Object element, EncodingContext additionalValues) throws EncodingException {
         XmlObject encodedObject = null;
-        if (element instanceof org.n52.shetland.ogc.filter.FilterCapabilities) {
-            encodedObject = encodeFilterCapabilities((org.n52.shetland.ogc.filter.FilterCapabilities) element);
+        if (element instanceof org.n52.shetland.ogc.filter.FilterCapabilities capabilities) {
+            encodedObject = encodeFilterCapabilities(capabilities);
             // LOGGER.debug("Encoded object {} is valid: {}",
             // encodedObject.schemaType().toString(),
             // XmlHelper.validateDocument(encodedObject));
-        } else if (element instanceof TemporalFilter) {
-            encodedObject = encodeTemporalFilter((TemporalFilter) element);
-        } else if (element instanceof SpatialFilter) {
-            encodedObject = encodeSpatialFilter((SpatialFilter) element);
+        } else if (element instanceof TemporalFilter filter1) {
+            encodedObject = encodeTemporalFilter(filter1);
+        } else if (element instanceof SpatialFilter filter) {
+            encodedObject = encodeSpatialFilter(filter);
         } else {
             throw new UnsupportedEncoderInputException(this, element);
         }

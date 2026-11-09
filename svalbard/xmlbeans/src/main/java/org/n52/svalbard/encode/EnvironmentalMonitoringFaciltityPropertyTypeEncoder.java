@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -55,11 +55,11 @@ public class EnvironmentalMonitoringFaciltityPropertyTypeEncoder
 
     @Override
     public XmlObject encode(AbstractFeature abstractFeature, EncodingContext context) throws EncodingException {
-        if (abstractFeature instanceof EnvironmentalMonitoringFacility) {
+        if (abstractFeature instanceof EnvironmentalMonitoringFacility facility) {
             EnvironmentalMonitoringFacilityPropertyType emfpt =
                     EnvironmentalMonitoringFacilityPropertyType.Factory.newInstance();
             emfpt.setEnvironmentalMonitoringFacility(
-                    createEnvironmentalMonitoringFaciltityType((EnvironmentalMonitoringFacility) abstractFeature));
+                    createEnvironmentalMonitoringFaciltityType(facility));
             return emfpt;
         }
         throw new UnsupportedEncoderInputException(this, abstractFeature);

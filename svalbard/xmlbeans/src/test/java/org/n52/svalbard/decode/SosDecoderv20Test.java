@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -102,14 +102,18 @@ public class SosDecoderv20Test {
     @Test
     public void should_decode_boolean_swesExtensions() throws XmlException, OwsExceptionReport, DecodingException {
         final GetObservationDocument doc =
-                GetObservationDocument.Factory.parse("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                        + "<sos:GetObservation service=\"SOS\" version=\"2.0.0\"\n"
-                        + "    xmlns:sos=\"http://www.opengis.net/sos/2.0\"\n"
-                        + "    xmlns:swe=\"http://www.opengis.net/swe/2.0\"\n"
-                        + "    xmlns:swes=\"http://www.opengis.net/swes/2.0\">\n" + "    <swes:extension>\n"
-                        + "        <swe:Boolean definition=\"MergeObservationsIntoDataArray\">\n"
-                        + "            <swe:value>true</swe:value>\n" + "        </swe:Boolean>\n"
-                        + "    </swes:extension>\n" + "</sos:GetObservation>");
+                GetObservationDocument.Factory.parse("""
+                        <?xml version="1.0" encoding="UTF-8"?>
+                        <sos:GetObservation service="SOS" version="2.0.0"
+                            xmlns:sos="http://www.opengis.net/sos/2.0"
+                            xmlns:swe="http://www.opengis.net/swe/2.0"
+                            xmlns:swes="http://www.opengis.net/swes/2.0">
+                            <swes:extension>
+                                <swe:Boolean definition="MergeObservationsIntoDataArray">
+                                    <swe:value>true</swe:value>
+                                </swe:Boolean>
+                            </swes:extension>
+                        </sos:GetObservation>""");
 
         final OwsServiceCommunicationObject decodedObject = decoder.decode(doc);
 
@@ -122,16 +126,20 @@ public class SosDecoderv20Test {
     @Test
     public void should_decode_text_swesExtensions() throws XmlException, OwsExceptionReport, DecodingException {
         final GetObservationDocument doc =
-                GetObservationDocument.Factory.parse("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                        + "<sos:GetObservation service=\"SOS\" version=\"2.0.0\"\n"
-                        + "    xmlns:sos=\"http://www.opengis.net/sos/2.0\"\n"
-                        + "    xmlns:swe=\"http://www.opengis.net/swe/2.0\"\n"
-                        + "    xmlns:xlink=\"http://www.w3.org/1999/xlink\"\n"
-                        + "    xmlns:swes=\"http://www.opengis.net/swes/2.0\"\n"
-                        + "    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.opengis.net/sos/2.0 http://schemas.opengis.net/sos/2.0/sos.xsd\">\n"
-                        + "    <swes:extension>\n" + "        <swe:Text definition=\"my-text-extension\">\n"
-                        + "            <swe:value>true</swe:value>\n" + "        </swe:Text>\n"
-                        + "    </swes:extension>\n" + "</sos:GetObservation>");
+                GetObservationDocument.Factory.parse("""
+                        <?xml version="1.0" encoding="UTF-8"?>
+                        <sos:GetObservation service="SOS" version="2.0.0"
+                            xmlns:sos="http://www.opengis.net/sos/2.0"
+                            xmlns:swe="http://www.opengis.net/swe/2.0"
+                            xmlns:xlink="http://www.w3.org/1999/xlink"
+                            xmlns:swes="http://www.opengis.net/swes/2.0"
+                            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/sos/2.0 http://schemas.opengis.net/sos/2.0/sos.xsd">
+                            <swes:extension>
+                                <swe:Text definition="my-text-extension">
+                                    <swe:value>true</swe:value>
+                                </swe:Text>
+                            </swes:extension>
+                        </sos:GetObservation>""");
 
         final OwsServiceCommunicationObject decodedObject = decoder.decode(doc);
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,8 +52,8 @@ public class XlinkDecoderv1999 implements Decoder<Object, XmlObject> {
 
     @Override
     public Object decode(XmlObject xmlObject) throws DecodingException {
-        if (xmlObject instanceof HrefAttribute) {
-            return encodeHrefAttribute((HrefAttribute) xmlObject);
+        if (xmlObject instanceof HrefAttribute attribute) {
+            return encodeHrefAttribute(attribute);
         } else {
             throw new UnsupportedDecoderXmlInputException(this, xmlObject);
         }

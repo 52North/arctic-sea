@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,15 +51,16 @@ public class KibanaImporterIT extends ElasticsearchAwareTest {
         Thread.sleep(1500);
         Assertions.assertTrue(getEmbeddedClient().indices().exists(new GetIndexRequest(".kibana"), RequestOptions.DEFAULT));
 
-        SearchResponse resp = getEmbeddedClient().search(new SearchRequest(".kibana").types("visualization"), RequestOptions.DEFAULT);
+        SearchResponse resp = getEmbeddedClient().search(new SearchRequest(".kibana").searchType("visualization"),
+                RequestOptions.DEFAULT);
         Assertions.assertTrue(resp.getHits().getTotalHits().value > 0);
 
         for (SearchHit hit : resp.getHits().getHits()) {
             Assertions.assertFalse(hit.getSourceAsString().contains(KibanaImporter.INDEX_NEEDLE));
         }
 
-        SearchResponse resp2 = getEmbeddedClient().search(new SearchRequest(".kibana").types("dashboard"), RequestOptions.DEFAULT);
-        Assertions.assertTrue(resp2.getHits().getTotalHits().value > 0);
+        SearchResponse resp2 = getEmbeddedClient().search(new SearchRequest(".kibana").searchType("dashboard"), RequestOptions.DEFAULT);
+        Assertions.assertTrue(resp2.getHits().getTotalHits().value() > 0);
 
         for (SearchHit hit : resp2.getHits().getHits()) {
             Assertions.assertFalse(hit.getSourceAsString().contains(KibanaImporter.INDEX_NEEDLE));

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,9 +21,9 @@ import java.io.OutputStream;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.inject.Inject;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -140,8 +140,8 @@ public class HttpUtils {
                 }
             }
         } finally {
-            if (out instanceof CountingOutputStream) {
-                Long bytesWritten = ((CountingOutputStream) out).getCount();
+            if (out instanceof CountingOutputStream stream) {
+                Long bytesWritten = stream.getCount();
                 eventBus.submit(new CountingOutputStreamEvent(bytesWritten));
             }
             if (out != null) {
@@ -153,8 +153,8 @@ public class HttpUtils {
     }
 
     private Writable getWritable(Object writeOwsExceptionReport, MediaType contentType) {
-        if (writeOwsExceptionReport instanceof ServiceResponse) {
-            return new ServiceResponseWritable((ServiceResponse) writeOwsExceptionReport);
+        if (writeOwsExceptionReport instanceof ServiceResponse response) {
+            return new ServiceResponseWritable(response);
         }
         return new GenericWritable(writeOwsExceptionReport, contentType);
     }
@@ -238,8 +238,8 @@ public class HttpUtils {
 
         @Override
         public MediaType getEncodedContentType() {
-            if (object instanceof ResponseFormat) {
-                return writer.getEncodedContentType((ResponseFormat) object);
+            if (object instanceof ResponseFormat format) {
+                return writer.getEncodedContentType(format);
             }
             return writer.getContentType();
         }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -183,25 +183,25 @@ public class Iso19139GmdEncoder
             throws EncodingException, UnsupportedEncoderInputException {
         XmlObject encodedObject = null;
         // try {
-        if (element instanceof SmlResponsibleParty) {
-            encodedObject = encodeResponsibleParty((SmlResponsibleParty) element, additionalValues);
-        } else if (element instanceof CiResponsibleParty) {
-            encodedObject = encodeResponsibleParty((CiResponsibleParty) element, additionalValues);
-        } else if (element instanceof MDMetadata) {
-            encodedObject = encodeMDMetadata((MDMetadata) element, additionalValues);
-        } else if (element instanceof MDDataIdentification) {
-            encodedObject = encodeMDDataIdentification((MDDataIdentification) element, additionalValues);
-        } else if (element instanceof PT_FreeText) {
-            encodedObject = encodePTFreeText((PT_FreeText) element, additionalValues);
-        } else if (element instanceof CiOnlineResource) {
-            encodedObject = encodeCiOnlineResource((CiOnlineResource) element, additionalValues);
-        } else if (element instanceof EXExtent) {
-            encodedObject = encodeEXExtent((EXExtent) element, additionalValues);
-        } else if (element instanceof EXVerticalExtent) {
-            encodedObject = encodeEXVerticalExtent((EXVerticalExtent) element, additionalValues);
+        if (element instanceof SmlResponsibleParty party1) {
+            encodedObject = encodeResponsibleParty(party1, additionalValues);
+        } else if (element instanceof CiResponsibleParty party) {
+            encodedObject = encodeResponsibleParty(party, additionalValues);
+        } else if (element instanceof MDMetadata metadata) {
+            encodedObject = encodeMDMetadata(metadata, additionalValues);
+        } else if (element instanceof MDDataIdentification identification) {
+            encodedObject = encodeMDDataIdentification(identification, additionalValues);
+        } else if (element instanceof PT_FreeText text) {
+            encodedObject = encodePTFreeText(text, additionalValues);
+        } else if (element instanceof CiOnlineResource resource) {
+            encodedObject = encodeCiOnlineResource(resource, additionalValues);
+        } else if (element instanceof EXExtent extent1) {
+            encodedObject = encodeEXExtent(extent1, additionalValues);
+        } else if (element instanceof EXVerticalExtent extent) {
+            encodedObject = encodeEXVerticalExtent(extent, additionalValues);
         } else {
-            if (element instanceof GmdDomainConsistency) {
-                encodedObject = encodeGmdDomainConsistency((GmdDomainConsistency) element, additionalValues);
+            if (element instanceof GmdDomainConsistency consistency) {
+                encodedObject = encodeGmdDomainConsistency(consistency, additionalValues);
             } else {
                 throw new UnsupportedEncoderInputException(this, element);
             }
@@ -637,10 +637,10 @@ public class Iso19139GmdEncoder
 
     private void encodeGmdDomainConsistency(DQResultPropertyType xbResult, GmdDomainConsistency domainConsistency)
             throws EncodingException {
-        if (domainConsistency instanceof GmdConformanceResult) {
-            encodeGmdConformanceResult(xbResult, (GmdConformanceResult) domainConsistency);
-        } else if (domainConsistency instanceof GmdQuantitativeResult) {
-            encodeGmdQuantitativeResult(xbResult, (GmdQuantitativeResult) domainConsistency);
+        if (domainConsistency instanceof GmdConformanceResult result1) {
+            encodeGmdConformanceResult(xbResult, result1);
+        } else if (domainConsistency instanceof GmdQuantitativeResult result) {
+            encodeGmdQuantitativeResult(xbResult, result);
         } else {
             throw new UnsupportedEncoderInputException(this, domainConsistency);
         }
@@ -822,8 +822,8 @@ public class Iso19139GmdEncoder
                         Nillable<EXVerticalExtent> nillable = verticalExtent.getInstance();
                         if (nillable.isPresent()) {
                             XmlObject xml = encodeEXVerticalExtent(nillable.get(), EncodingContext.empty());
-                            if (xml != null && xml instanceof EXVerticalExtentType) {
-                                exvept.setEXVerticalExtent((EXVerticalExtentType) xml);
+                            if (xml != null && xml instanceof EXVerticalExtentType type) {
+                                exvept.setEXVerticalExtent(type);
                             } else {
                                 exvept.setNil();
                                 exvept.setNilReason(Nillable.missing().get());

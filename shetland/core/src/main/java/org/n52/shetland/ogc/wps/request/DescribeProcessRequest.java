@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,7 +65,7 @@ public class DescribeProcessRequest extends OwsServiceRequest {
     }
 
     public boolean isAll() {
-        return getProcessIdentifier().stream().filter(id -> !id.getCodeSpace().isPresent())
+        return getProcessIdentifier().stream().filter(id -> id.getCodeSpace().isEmpty())
                 .anyMatch(id -> id.getValue().equalsIgnoreCase(ALL_KEYWORD));
     }
 

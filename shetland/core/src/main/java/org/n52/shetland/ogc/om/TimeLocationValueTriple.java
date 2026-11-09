@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -68,8 +68,8 @@ public class TimeLocationValueTriple extends TimeValuePair {
     @Override
     public int compareTo(TimeValuePair o) {
         CompareToBuilder compareToBuilder = new CompareToBuilder().appendSuper(super.compareTo(o));
-        if (o instanceof TimeLocationValueTriple) {
-            compareToBuilder.append(this.getLocation(), ((TimeLocationValueTriple) o).getLocation());
+        if (o instanceof TimeLocationValueTriple triple) {
+            compareToBuilder.append(this.getLocation(), triple.getLocation());
         }
         return compareToBuilder.toComparison();
     }

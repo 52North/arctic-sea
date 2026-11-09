@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,8 +52,8 @@ public abstract class ExiEncoder<T>
             throws EncodingException {
         Encoder<Object, T> encoder = getEncoder(response);
         Object encode = encoder.encode(response);
-        if (encode != null && encode instanceof XmlObject) {
-            return new EXIObject<XmlObject>((XmlObject) encode);
+        if (encode != null && encode instanceof XmlObject object) {
+            return new EXIObject<XmlObject>(object);
         } else {
             throw new UnsupportedEncoderInputException(encoder, response);
         }
@@ -92,8 +92,8 @@ public abstract class ExiEncoder<T>
      * @return Encoding {@link MediaType}
      */
     protected MediaType getEncodedContentType(OwsServiceResponse response) {
-        if (response instanceof ResponseFormat) {
-            return getEncodedContentType((ResponseFormat) response);
+        if (response instanceof ResponseFormat format) {
+            return getEncodedContentType(format);
         }
         return MediaTypes.APPLICATION_XML;
     }

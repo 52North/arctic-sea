@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -140,11 +140,11 @@ public class GetCapabilitiesResponseEncoder extends AbstractSosResponseEncoder<G
     }
 
     private void setExtensions(XmlObject xml, OwsCapabilitiesExtension extension) throws EncodingException {
-        if (extension instanceof SosInsertionCapabilities) {
-            xml.set(createInsertionCapabilities((SosInsertionCapabilities) extension));
-        } else if (extension instanceof StringBasedExtension) {
+        if (extension instanceof SosInsertionCapabilities capabilities) {
+            xml.set(createInsertionCapabilities(capabilities));
+        } else if (extension instanceof StringBasedExtension basedExtension) {
             try {
-                xml.set(XmlObject.Factory.parse(((StringBasedExtension) extension).getExtension()));
+                xml.set(XmlObject.Factory.parse(basedExtension.getExtension()));
             } catch (XmlException ex) {
                 throw errorEncodingSwesExtension(ex);
             }

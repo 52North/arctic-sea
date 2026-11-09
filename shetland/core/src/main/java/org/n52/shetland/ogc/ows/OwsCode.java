@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package org.n52.shetland.ogc.ows;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.net.URI;
 import java.util.Comparator;
@@ -34,6 +35,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @author Christian Autermann
  */
 public class OwsCode implements Comparable<OwsCode>, Serializable {
+    @Serial
     private static final long serialVersionUID = -1884521299174349193L;
 
     private static final Comparator<OwsCode> COMPARATOR = Comparator.nullsLast(

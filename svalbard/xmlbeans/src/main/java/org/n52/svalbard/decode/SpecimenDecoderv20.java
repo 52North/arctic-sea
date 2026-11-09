@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -82,10 +82,10 @@ public class SpecimenDecoderv20
     public AbstractFeature decode(final XmlObject element) throws DecodingException {
         // validate XmlObject
         XmlHelper.validateDocument(element);
-        if (element instanceof SFSpecimenDocument) {
-            return parseSpatialSamplingFeature(((SFSpecimenDocument) element).getSFSpecimen());
-        } else if (element instanceof SFSpecimenType) {
-            return parseSpatialSamplingFeature((SFSpecimenType) element);
+        if (element instanceof SFSpecimenDocument document) {
+            return parseSpatialSamplingFeature(document.getSFSpecimen());
+        } else if (element instanceof SFSpecimenType type) {
+            return parseSpatialSamplingFeature(type);
         }
         return super.decode(element);
     }
@@ -127,8 +127,8 @@ public class SpecimenDecoderv20
     private Time getSamplingTime(SFSpecimenType sfst) throws DecodingException {
         if (sfst.getSamplingTime().isSetAbstractTimeObject()) {
             Object decodedObject = decodeXmlObject(sfst.getSamplingTime().getAbstractTimeObject());
-            if (decodedObject instanceof Time) {
-                return (Time) decodedObject;
+            if (decodedObject instanceof Time time) {
+                return time;
             }
         }
         return null;
@@ -205,8 +205,8 @@ public class SpecimenDecoderv20
                 }
                 if (abstractFeature != null) {
                     final Object decodedObject = decodeXmlObject(abstractFeature);
-                    if (decodedObject instanceof AbstractFeature) {
-                        sampledFeatures.add((AbstractFeature) decodedObject);
+                    if (decodedObject instanceof AbstractFeature feature) {
+                        sampledFeatures.add(feature);
                     }
                 }
                 throw new DecodingException("The requested sampledFeature type is not supported by this service!");
@@ -217,10 +217,10 @@ public class SpecimenDecoderv20
 
     private Geometry getGeometry(final SFSpecimenType sfst) throws DecodingException {
         final Object decodedObject = decodeXmlElement(sfst.getSamplingLocation());
-        if (decodedObject instanceof Geometry) {
-            return (Geometry) decodedObject;
-        } else if (decodedObject instanceof AbstractGeometry) {
-            return ((AbstractGeometry) decodedObject).getGeometry();
+        if (decodedObject instanceof Geometry geometry1) {
+            return geometry1;
+        } else if (decodedObject instanceof AbstractGeometry geometry) {
+            return geometry.getGeometry();
         }
         throw new DecodingException(
                 "The requested geometry type of featureOfInterest is not supported by this service!");

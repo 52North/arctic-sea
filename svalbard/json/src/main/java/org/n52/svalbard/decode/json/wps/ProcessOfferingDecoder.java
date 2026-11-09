@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,8 +50,7 @@ public class ProcessOfferingDecoder extends JSONDecoder<ProcessOffering> {
         List<DataTransmissionMode> outputTransmissionModes = Streams.stream(outputTransmissionNode)
                                                                     .map(JsonNode::asText)
                                                                     .map(DataTransmissionMode::fromString)
-                                                                    .filter(Optional::isPresent)
-                                                                    .map(Optional::get)
+                                                                    .flatMap(Optional::stream)
                                                                     .collect(toList());
         if (node.path(JSONConstants.PROCESS_VERSION).isValueNode()) {
             processDescription = processDescription.newBuilder()

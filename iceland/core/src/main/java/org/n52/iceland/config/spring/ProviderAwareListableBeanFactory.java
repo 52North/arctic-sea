@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ package org.n52.iceland.config.spring;
 
 import static java.util.stream.Collectors.toMap;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Objects;
@@ -24,7 +25,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 
-import javax.inject.Provider;
+import jakarta.inject.Provider;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
@@ -38,6 +39,7 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
  * @author Christian Autermann
  */
 public class ProviderAwareListableBeanFactory extends DefaultListableBeanFactory implements Serializable {
+    @Serial
     private static final long serialVersionUID = -6826027137321052707L;
 
     public ProviderAwareListableBeanFactory() {
@@ -65,6 +67,7 @@ public class ProviderAwareListableBeanFactory extends DefaultListableBeanFactory
     }
 
     private static class OptionalDependencyDescriptor extends DependencyDescriptor {
+        @Serial
         private static final long serialVersionUID = -6623409266686702545L;
 
         OptionalDependencyDescriptor(DependencyDescriptor original) {
@@ -79,6 +82,7 @@ public class ProviderAwareListableBeanFactory extends DefaultListableBeanFactory
     }
 
     private static class DependencyProvider implements ObjectFactory<Object>, Provider<Object>, Serializable {
+        @Serial
         private static final long serialVersionUID = 2498323681896163119L;
         private final DependencyDescriptor descriptor;
         private final boolean optional;

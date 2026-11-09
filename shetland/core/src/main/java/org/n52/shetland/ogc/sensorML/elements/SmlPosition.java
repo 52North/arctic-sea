@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -228,8 +228,8 @@ public class SmlPosition extends SweAbstractDataComponent {
 
     @SuppressFBWarnings({ "EI_EXPOSE_REP2" })
     public SmlPosition setAbstractDataComponent(SweAbstractDataComponent dataComponent) {
-        if (dataComponent instanceof SweVector) {
-            setVector((SweVector) dataComponent);
+        if (dataComponent instanceof SweVector sweVector) {
+            setVector(sweVector);
         }
         this.dataComponent = dataComponent;
         return this;
@@ -277,16 +277,16 @@ public class SmlPosition extends SweAbstractDataComponent {
     @Override
     public SweAbstractDataComponent copyValueTo(SweAbstractDataComponent copy) {
         super.copyValueTo(copy);
-        if (copy instanceof SmlPosition) {
-            ((SmlPosition) copy).setFixed(isFixed());
-            ((SmlPosition) copy).setReferenceFrame(getReferenceFrame());
+        if (copy instanceof SmlPosition smlPosition) {
+            smlPosition.setFixed(isFixed());
+            smlPosition.setReferenceFrame(getReferenceFrame());
             if (isSetPosition()) {
-                ((SmlPosition) copy).setPosition(Lists.newArrayList(getPosition()));
+                smlPosition.setPosition(Lists.newArrayList(getPosition()));
             }
             if (isSetVector()) {
-                ((SmlPosition) copy).setVector(getVector());
+                smlPosition.setVector(getVector());
             } else if (isSetAbstractDataComponent()) {
-                ((SmlPosition) copy).setAbstractDataComponent(getAbstractDataComponent());
+                smlPosition.setAbstractDataComponent(getAbstractDataComponent());
             }
         }
         return copy;

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,8 +21,8 @@ import java.util.Enumeration;
 import java.util.Map;
 import java.util.Optional;
 
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.inject.Inject;
+import jakarta.servlet.http.HttpServletRequest;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.slf4j.Logger;
@@ -86,8 +86,7 @@ public abstract class AbstractXmlBinding<T> extends SimpleBinding {
             // the service or version parameter is not set or not supported
             Optional<String> service = Optional.empty();
             Optional<String> version = Optional.empty();
-            if (key instanceof XmlStringOperationDecoderKey) {
-                XmlStringOperationDecoderKey xmlStringKey = (XmlStringOperationDecoderKey) key;
+            if (key instanceof XmlStringOperationDecoderKey xmlStringKey) {
                 service = Optional.ofNullable(xmlStringKey.getService());
                 version = Optional.ofNullable(xmlStringKey.getVersion());
             }

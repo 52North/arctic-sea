@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -107,10 +107,10 @@ public class InsertSensorRequestDecoder
                         "The requested %s is not supported!", JSONConstants.PROCEDURE_DESCRIPTION_FORMAT);
             }
             Object decode = decoder.decode(xb);
-            if (decode instanceof SosProcedureDescription<?>) {
-                return (SosProcedureDescription<?>) decode;
-            } else if (decode instanceof AbstractFeature) {
-                return new SosProcedureDescription<AbstractFeature>((AbstractFeature) decode);
+            if (decode instanceof SosProcedureDescription<?> description) {
+                return description;
+            } else if (decode instanceof AbstractFeature feature) {
+                return new SosProcedureDescription<AbstractFeature>(feature);
             } else {
                 throw new DecodingException("The decoded element {} is not of type {}!", decode.getClass().getName(),
                         AbstractFeature.class.getName());

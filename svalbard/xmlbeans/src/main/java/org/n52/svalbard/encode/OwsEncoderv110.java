@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -160,30 +160,30 @@ public class OwsEncoderv110 extends AbstractXmlEncoder<XmlObject, Object> {
 
     @Override
     public XmlObject encode(Object element, EncodingContext additionalValues) throws EncodingException {
-        if (element instanceof OwsServiceIdentification) {
-            return encodeServiceIdentification((OwsServiceIdentification) element);
-        } else if (element instanceof OwsServiceProvider) {
-            return encodeServiceProvider((OwsServiceProvider) element);
-        } else if (element instanceof OwsOperationsMetadata) {
-            return encodeOperationsMetadata((OwsOperationsMetadata) element);
-        } else if (element instanceof OwsExceptionReport) {
+        if (element instanceof OwsServiceIdentification identification) {
+            return encodeServiceIdentification(identification);
+        } else if (element instanceof OwsServiceProvider provider) {
+            return encodeServiceProvider(provider);
+        } else if (element instanceof OwsOperationsMetadata metadata1) {
+            return encodeOperationsMetadata(metadata1);
+        } else if (element instanceof OwsExceptionReport report) {
             if (isEncodeExceptionsOnly(additionalValues)
-                    && !((OwsExceptionReport) element).getExceptions().isEmpty()) {
-                return encodeOwsException(((OwsExceptionReport) element).getExceptions().get(0));
+                    && !report.getExceptions().isEmpty()) {
+                return encodeOwsException(report.getExceptions().get(0));
             }
-            return encodeOwsExceptionReport((OwsExceptionReport) element);
-        } else if (element instanceof OwsMetadata) {
+            return encodeOwsExceptionReport(report);
+        } else if (element instanceof OwsMetadata metadata) {
             MetadataType metadataType = MetadataType.Factory.newInstance(getXmlOptions());
-            encodeOwsMetadata((OwsMetadata) element, metadataType);
+            encodeOwsMetadata(metadata, metadataType);
             return metadataType;
-        } else if (element instanceof OwsDomain) {
+        } else if (element instanceof OwsDomain domain) {
             DomainType domainType = DomainType.Factory.newInstance(getXmlOptions());
-            encodeOwsDomain((OwsDomain) element, domainType);
+            encodeOwsDomain(domain, domainType);
             return domainType;
-        } else if (element instanceof OwsAcceptVersions) {
-            return encodeAcceptVersions((OwsAcceptVersions) element);
-        } else if (element instanceof OwsSections) {
-            return encodeSections((OwsSections) element);
+        } else if (element instanceof OwsAcceptVersions versions) {
+            return encodeAcceptVersions(versions);
+        } else if (element instanceof OwsSections sections) {
+            return encodeSections(sections);
         }
         throw new UnsupportedEncoderInputException(this, element);
     }

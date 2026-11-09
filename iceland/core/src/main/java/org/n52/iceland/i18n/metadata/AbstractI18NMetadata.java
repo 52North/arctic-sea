@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -100,8 +100,7 @@ public abstract class AbstractI18NMetadata {
 
     @Override
     public boolean equals(Object o) {
-        if (o instanceof AbstractI18NMetadata) {
-            AbstractI18NMetadata that = (AbstractI18NMetadata) o;
+        if (o instanceof AbstractI18NMetadata that) {
             return Objects.equal(this.getIdentifier(), that.getIdentifier()) &&
                    Objects.equal(this.getName(), that.getName()) &&
                    Objects.equal(this.getDescription(), that.getDescription());

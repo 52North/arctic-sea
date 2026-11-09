@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ package org.n52.janmayen;
 @FunctionalInterface
 public interface Producer<T> extends java.util.function.Supplier<T>,
                                      com.google.common.base.Supplier<T>,
-                                     javax.inject.Provider<T> {
+                                     jakarta.inject.Provider<T> {
 
     @Override
     T get();

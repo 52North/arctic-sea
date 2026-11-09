@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -174,14 +174,14 @@ public class SensorMLDecoderV101 extends AbstractSensorMLDecoder {
     public AbstractSensorML decode(XmlObject element) throws DecodingException {
         // validate document
         XmlHelper.validateDocument(element);
-        if (element instanceof SensorMLDocument) {
-            return parseSensorML((SensorMLDocument) element);
-        } else if (element instanceof SystemDocument) {
-            return parseSystem(((SystemDocument) element).getSystem());
-        } else if (element instanceof SystemType) {
-            return parseSystem((SystemType) element);
-        } else if (element instanceof ProcessModelType) {
-            return parseProcessModel((ProcessModelType) element);
+        if (element instanceof SensorMLDocument document1) {
+            return parseSensorML(document1);
+        } else if (element instanceof SystemDocument document) {
+            return parseSystem(document.getSystem());
+        } else if (element instanceof SystemType type1) {
+            return parseSystem(type1);
+        } else if (element instanceof ProcessModelType type) {
+            return parseProcessModel(type);
         } else {
             throw new UnsupportedDecoderXmlInputException(this, element);
         }
@@ -260,8 +260,8 @@ public class SensorMLDecoderV101 extends AbstractSensorMLDecoder {
             final int length = xbAbstractProcess.getNameArray().length;
             for (int i = 0; i < length; i++) {
                 final Object decodedElement = decodeXmlElement(xbAbstractProcess.getNameArray(i));
-                if (decodedElement instanceof CodeType) {
-                    abstractProcess.addName((CodeType) decodedElement);
+                if (decodedElement instanceof CodeType type) {
+                    abstractProcess.addName(type);
                 }
             }
         }
@@ -441,8 +441,8 @@ public class SensorMLDecoderV101 extends AbstractSensorMLDecoder {
             }
             if (xbCharacteristics.isSetAbstractDataRecord()) {
                 final Object decodedObject = decodeXmlElement(xbCharacteristics.getAbstractDataRecord());
-                if (decodedObject instanceof DataRecord) {
-                    sosCharacteristics.setDataRecord((DataRecord) decodedObject);
+                if (decodedObject instanceof DataRecord record) {
+                    sosCharacteristics.setDataRecord(record);
                 } else {
                     throw new DecodingException(XmlHelper.getLocalName(xbCharacteristics),
                                                 "Error while parsing the characteristics of the SensorML (the " +
@@ -479,8 +479,7 @@ public class SensorMLDecoderV101 extends AbstractSensorMLDecoder {
             }
             if (xbcaps.isSetAbstractDataRecord()) {
                 final Object o = decodeXmlElement(xbcaps.getAbstractDataRecord());
-                if (o instanceof DataRecord) {
-                    final DataRecord record = (DataRecord) o;
+                if (o instanceof DataRecord record) {
                     caps.setDataRecord(record).setName(xbcaps.getName());
                 } else {
                     throw new DecodingException(XmlHelper.getLocalName(xbcaps),
@@ -540,8 +539,8 @@ public class SensorMLDecoderV101 extends AbstractSensorMLDecoder {
         }
         org.n52.shetland.ogc.sensorML.elements.SmlLocation sosSmlLocation = null;
         final Object point = decodeXmlElement(location.getPoint());
-        if (point instanceof Point) {
-            sosSmlLocation = new org.n52.shetland.ogc.sensorML.elements.SmlLocation((Point) point);
+        if (point instanceof Point point1) {
+            sosSmlLocation = new org.n52.shetland.ogc.sensorML.elements.SmlLocation(point1);
         }
         return sosSmlLocation;
     }
@@ -850,8 +849,8 @@ public class SensorMLDecoderV101 extends AbstractSensorMLDecoder {
         }
 
         final Object decodedObject = decodeXmlElement(toDecode);
-        if (decodedObject instanceof SweAbstractDataComponent) {
-            sosIo.setIoValue((SweAbstractDataComponent) decodedObject);
+        if (decodedObject instanceof SweAbstractDataComponent component) {
+            sosIo.setIoValue(component);
         } else {
             throw new DecodingException(XmlHelper.getLocalName(xbIoCompPropType),
                                         "The 'IoComponentProperty' with type '%s' as value for '%s' is not supported.",
@@ -900,8 +899,8 @@ public class SensorMLDecoderV101 extends AbstractSensorMLDecoder {
         }
 
         final Object decodedObject = decodeXmlElement(toDecode);
-        if (decodedObject instanceof SweAbstractDataComponent) {
-            smlParameter.setParameter((SweAbstractDataComponent) decodedObject);
+        if (decodedObject instanceof SweAbstractDataComponent component) {
+            smlParameter.setParameter(component);
         } else {
             throw new DecodingException(XmlHelper.getLocalName(xbDataComponentPropertyType),
                     "The 'DataComponentProperty' with type '%s' as value for '%s' is not supported.",

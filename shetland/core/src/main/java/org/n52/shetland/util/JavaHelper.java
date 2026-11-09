@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -56,14 +56,14 @@ public final class JavaHelper {
      * @return String value
      */
     public static String asString(final Object object) {
-        if (object instanceof String) {
-            return (String) object;
-        } else if (object instanceof BigDecimal) {
-            return ((BigDecimal) object).toPlainString();
-        } else if (object instanceof Double) {
-            return ((Double) object).toString();
-        } else if (object instanceof Integer) {
-            return ((Integer) object).toString();
+        if (object instanceof String string) {
+            return string;
+        } else if (object instanceof BigDecimal decimal) {
+            return decimal.toPlainString();
+        } else if (object instanceof Double double1) {
+            return double1.toString();
+        } else if (object instanceof Integer integer) {
+            return integer.toString();
         }
         // TODO why not object.toString()?
         return "";
@@ -78,10 +78,10 @@ public final class JavaHelper {
      * @return Double value
      */
     public static Double asDouble(final Object object) {
-        if (object instanceof String) {
-            return Double.parseDouble((String) object);
-        } else if (object instanceof Number) {
-            return ((Number) object).doubleValue();
+        if (object instanceof String string) {
+            return Double.parseDouble(string);
+        } else if (object instanceof Number number) {
+            return number.doubleValue();
         }
         return Double.NaN;
     }
@@ -97,10 +97,10 @@ public final class JavaHelper {
     public static Integer asInteger(Object object) {
         if (object == null) {
             return null;
-        } else if (object instanceof Integer) {
-            return (Integer) object;
-        } else if (object instanceof String) {
-            return Integer.valueOf((String) object);
+        } else if (object instanceof Integer integer) {
+            return integer;
+        } else if (object instanceof String string) {
+            return Integer.valueOf(string);
         }
         return null;
     }
@@ -117,10 +117,10 @@ public final class JavaHelper {
     public static Boolean asBoolean(Object object) {
         if (object == null) {
             return null;
-        } else if (object instanceof Boolean) {
-            return (Boolean) object;
-        } else if (object instanceof String) {
-            return Boolean.valueOf((String) object);
+        } else if (object instanceof Boolean boolean1) {
+            return boolean1;
+        } else if (object instanceof String string) {
+            return Boolean.valueOf(string);
         }
         return null;
     }

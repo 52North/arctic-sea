@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -146,12 +146,12 @@ public abstract class AbstractWmlEncoderv20 extends AbstractOmEncoderv20
 
     @Override
     public XmlObject encode(Object element, EncodingContext context) throws EncodingException {
-        if (element instanceof ObservationProcess) {
-            return createObservationProcess((ObservationProcess) element, context);
+        if (element instanceof ObservationProcess process) {
+            return createObservationProcess(process, context);
         } else if (element instanceof OmObservation) {
             return super.encode(element, context);
-        } else if (element instanceof AbstractFeature) {
-            return encodeAbstractFeature((AbstractFeature) element, context);
+        } else if (element instanceof AbstractFeature feature) {
+            return encodeAbstractFeature(feature, context);
         } else {
             return super.encode(element, context);
         }
@@ -269,8 +269,7 @@ public abstract class AbstractWmlEncoderv20 extends AbstractOmEncoderv20
      *             If an error occurs
      */
     protected XmlObject createMonitoringPoint(AbstractFeature absFeature) throws EncodingException {
-        if (absFeature instanceof AbstractSamplingFeature) {
-            AbstractSamplingFeature sampFeat = (AbstractSamplingFeature) absFeature;
+        if (absFeature instanceof AbstractSamplingFeature sampFeat) {
             StringBuilder builder = new StringBuilder();
             builder.append("mp_");
             builder.append(IdGenerator.generate(absFeature.getIdentifierCodeWithAuthority().getValue()));
@@ -281,10 +280,10 @@ public abstract class AbstractWmlEncoderv20 extends AbstractOmEncoderv20
                 try {
                     XmlObject feature = XmlObject.Factory.parse(sampFeat.getXml());
                     if (XmlHelper.getNamespace(feature).equals(WaterMLConstants.NS_WML_20)) {
-                        if (feature instanceof MonitoringPointDocument) {
-                            monitoringPointDoc = (MonitoringPointDocument) feature;
-                        } else if (feature instanceof MonitoringPointType) {
-                            monitoringPointDoc.setSFSpatialSamplingFeature((MonitoringPointType) feature);
+                        if (feature instanceof MonitoringPointDocument document) {
+                            monitoringPointDoc = document;
+                        } else if (feature instanceof MonitoringPointType type) {
+                            monitoringPointDoc.setSFSpatialSamplingFeature(type);
                         }
                         XmlHelper.updateGmlIDs(monitoringPointDoc.getDomNode(), absFeature.getGmlId(), null);
                         return monitoringPointDoc;
@@ -359,8 +358,8 @@ public abstract class AbstractWmlEncoderv20 extends AbstractOmEncoderv20
             } else {
                 throw new EncodingException("Error while encoding geometry for feature, needed encoder is missing!");
             }
-            if (absFeature instanceof WmlMonitoringPoint) {
-                addMonitoringPointValues(mpt, (WmlMonitoringPoint) absFeature);
+            if (absFeature instanceof WmlMonitoringPoint point) {
+                addMonitoringPointValues(mpt, point);
             }
             sampFeat.wasEncoded();
             return monitoringPointDoc;
@@ -536,8 +535,8 @@ public abstract class AbstractWmlEncoderv20 extends AbstractOmEncoderv20
                     Nillable<VerticalDatum> nillable = verticalDatum.getInstance();
                     if (nillable.isPresent()) {
                         XmlObject xml = encodeGML(nillable.get());
-                        if (xml != null && xml instanceof VerticalDatumType) {
-                            vdpt.setVerticalDatum((VerticalDatumType) xml);
+                        if (xml != null && xml instanceof VerticalDatumType type) {
+                            vdpt.setVerticalDatum(type);
                         } else {
                             vdpt.setNil();
                             vdpt.setNilReason(Nillable.missing().get());
@@ -701,10 +700,9 @@ public abstract class AbstractWmlEncoderv20 extends AbstractOmEncoderv20
      * @return Time as DateTime
      */
     private DateTime getTime(Time time) {
-        if (time instanceof TimeInstant) {
-            return ((TimeInstant) time).getValue();
-        } else if (time instanceof TimePeriod) {
-            TimePeriod timePeriod = (TimePeriod) time;
+        if (time instanceof TimeInstant instant) {
+            return instant.getValue();
+        } else if (time instanceof TimePeriod timePeriod) {
             if (timePeriod.getEnd() != null) {
                 return timePeriod.getEnd();
             } else {
@@ -749,8 +747,8 @@ public abstract class AbstractWmlEncoderv20 extends AbstractOmEncoderv20
                     Nillable<CiResponsibleParty> nillable = relatedParty.getInstance();
                     if (nillable.isPresent()) {
                         XmlObject xml = encodeObjectToXml(nillable.get().getDefaultElementEncoding(), nillable.get());
-                        if (xml != null && xml instanceof CIResponsiblePartyType) {
-                            citppt.setCIResponsibleParty((CIResponsiblePartyType) xml);
+                        if (xml != null && xml instanceof CIResponsiblePartyType type) {
+                            citppt.setCIResponsibleParty(type);
                         } else {
                             citppt.setNil();
                             citppt.setNilReason(Nillable.missing().get());

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -127,8 +127,8 @@ public class SamplingEncoderv20
         final XmlObject encodedObject;
         if (!ctx.isEmpty() && ctx.has(XmlBeansEncodingFlags.PROPERTY_TYPE)) {
             XmlObject tmp = createFeature(abstractFeature);
-            if (tmp instanceof SFSpatialSamplingFeatureDocument) {
-                encodedObject = ((SFSpatialSamplingFeatureDocument) tmp).getSFSamplingFeature();
+            if (tmp instanceof SFSpatialSamplingFeatureDocument document) {
+                encodedObject = document.getSFSamplingFeature();
             } else {
                 encodedObject = ((AbstractFeatureDocument) tmp).getAbstractFeature();
             }
@@ -142,8 +142,7 @@ public class SamplingEncoderv20
     }
 
     protected XmlObject createFeature(final AbstractFeature absFeature) throws EncodingException {
-        if (absFeature instanceof AbstractSamplingFeature) {
-            final AbstractSamplingFeature sampFeat = (AbstractSamplingFeature) absFeature;
+        if (absFeature instanceof AbstractSamplingFeature sampFeat) {
             final SFSpatialSamplingFeatureDocument xbSampFeatDoc =
                     SFSpatialSamplingFeatureDocument.Factory.newInstance(getXmlOptions());
             if (sampFeat.isSetXml()) {
@@ -151,8 +150,8 @@ public class SamplingEncoderv20
                     final XmlObject feature = XmlObject.Factory.parse(sampFeat.getXml(), getXmlOptions());
                     if (XmlHelper.getNamespace(feature).equals(SfConstants.NS_SAMS)) {
                         XmlHelper.updateGmlIDs(feature.getDomNode().getFirstChild(), absFeature.getGmlId(), null);
-                        if (feature instanceof SFSpatialSamplingFeatureType) {
-                            xbSampFeatDoc.setSFSpatialSamplingFeature((SFSpatialSamplingFeatureType) feature);
+                        if (feature instanceof SFSpatialSamplingFeatureType type) {
+                            xbSampFeatDoc.setSFSpatialSamplingFeature(type);
                             encodeShape(xbSampFeatDoc.getSFSpatialSamplingFeature().getShape(), sampFeat);
                             addNameDescription(xbSampFeatDoc.getSFSpatialSamplingFeature(), sampFeat);
                             return xbSampFeatDoc;
@@ -199,8 +198,7 @@ public class SamplingEncoderv20
     @Override
     protected XmlObject createFeature(FeaturePropertyType featurePropertyType, AbstractFeature abstractFeature,
             EncodingContext context) throws EncodingException {
-        if (abstractFeature instanceof AbstractSamplingFeature) {
-            final AbstractSamplingFeature samplingFeature = (AbstractSamplingFeature) abstractFeature;
+        if (abstractFeature instanceof AbstractSamplingFeature samplingFeature) {
             String namespace;
             if (context.has(XmlEncoderFlags.ENCODE_NAMESPACE)
                     && context.get(XmlEncoderFlags.ENCODE_NAMESPACE).isPresent()

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -485,16 +485,14 @@ public class ObservationEncoder
         final SweAbstractDataComponent def;
         if (value instanceof BooleanValue) {
             def = new SweBoolean();
-        } else if (value instanceof CategoryValue) {
+        } else if (value instanceof CategoryValue categoryValue) {
             SweCategory sweCategory = new SweCategory();
-            CategoryValue categoryValue = (CategoryValue) value;
             sweCategory.setCodeSpace(categoryValue.getUnit());
             def = sweCategory;
         } else if (value instanceof CountValue) {
             def = new SweCount();
-        } else if (value instanceof QuantityValue) {
+        } else if (value instanceof QuantityValue quantityValue) {
             SweQuantity sweQuantity = new SweQuantity();
-            QuantityValue quantityValue = (QuantityValue) value;
             sweQuantity.setUom(quantityValue.getUnit());
             def = sweQuantity;
         } else if (value instanceof TextValue) {
@@ -512,23 +510,17 @@ public class ObservationEncoder
 
     private JsonNode getTokenForValue(Value<?> value)
             throws EncodingException {
-        if (value instanceof QuantityValue) {
-            QuantityValue quantityValue = (QuantityValue) value;
+        if (value instanceof QuantityValue quantityValue) {
             return nodeFactory().numberNode(quantityValue.getValue());
-        } else if (value instanceof CountValue) {
-            CountValue countValue = (CountValue) value;
+        } else if (value instanceof CountValue countValue) {
             return nodeFactory().numberNode(countValue.getValue());
-        } else if (value instanceof TextValue) {
-            TextValue textValue = (TextValue) value;
+        } else if (value instanceof TextValue textValue) {
             return nodeFactory().textNode(textValue.getValue());
-        } else if (value instanceof BooleanValue) {
-            BooleanValue booleanValue = (BooleanValue) value;
+        } else if (value instanceof BooleanValue booleanValue) {
             return nodeFactory().booleanNode(booleanValue.getValue());
-        } else if (value instanceof CategoryValue) {
-            CategoryValue categoryValue = (CategoryValue) value;
+        } else if (value instanceof CategoryValue categoryValue) {
             return nodeFactory().textNode(categoryValue.getValue());
-        } else if (value instanceof GeometryValue) {
-            GeometryValue geometryValue = (GeometryValue) value;
+        } else if (value instanceof GeometryValue geometryValue) {
             // TODO WKT?
             return encodeObjectToJson(geometryValue);
         } else if (value instanceof NilTemplateValue) {

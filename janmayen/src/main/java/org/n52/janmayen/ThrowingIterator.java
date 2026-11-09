@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,9 +18,6 @@ package org.n52.janmayen;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
-
-import javax.annotation.CheckReturnValue;
-
 import org.n52.janmayen.function.ThrowingConsumer;
 
 /**
@@ -61,7 +58,6 @@ public interface ThrowingIterator<T, X extends Exception> {
      * @throws X                      if the next element could not be acquired
      * @see Iterator#next()
      */
-    @CheckReturnValue
     T next() throws NoSuchElementException, X;
 
     /**
@@ -73,7 +69,6 @@ public interface ThrowingIterator<T, X extends Exception> {
      * @throws X if the check for the next value fails
      * @see Iterator#hasNext()
      */
-    @CheckReturnValue
     boolean hasNext() throws X;
 
     /**

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61,8 +61,7 @@ public class DeleteResultTemplateDecoder
     public DeleteResultTemplateRequest decode(XmlObject xmlObject) throws DecodingException {
         LOGGER.debug(String.format("REQUESTTYPE: %s", xmlObject != null ? xmlObject.getClass() : "null recevied"));
         XmlHelper.validateDocument(xmlObject);
-        if (xmlObject instanceof DeleteResultTemplateDocument) {
-            DeleteResultTemplateDocument drtd = (DeleteResultTemplateDocument) xmlObject;
+        if (xmlObject instanceof DeleteResultTemplateDocument drtd) {
             DeleteResultTemplateRequest decodedRequest = parseDeleteResultTemplate(drtd);
             LOGGER.debug(String.format("Decoded request: %s", decodedRequest));
             return decodedRequest;

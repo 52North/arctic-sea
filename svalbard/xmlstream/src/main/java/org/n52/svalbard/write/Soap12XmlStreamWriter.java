@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -88,8 +88,8 @@ public class Soap12XmlStreamWriter extends XmlStreamWriter<SoapResponse> {
         schemaLocations.add(SoapConstants.SOAP_12_SCHEMA_LOCATION);
         if (response.isSetBodyContent()) {
             Encoder<Object, OwsServiceResponse> encoder = getEncoder(response.getBodyContent());
-            if (encoder != null && encoder instanceof SchemaAwareEncoder) {
-                schemaLocations.addAll(((SchemaAwareEncoder<?, ?>) encoder).getSchemaLocations());
+            if (encoder != null && encoder instanceof SchemaAwareEncoder<?, ?> awareEncoder) {
+                schemaLocations.addAll(awareEncoder.getSchemaLocations());
             }
         }
         return schemaLocations;
@@ -130,13 +130,13 @@ public class Soap12XmlStreamWriter extends XmlStreamWriter<SoapResponse> {
                 new OperationResponseEncoderKey(
                         new OwsOperationKey(bodyResponse),
                         MediaTypes.APPLICATION_XML));
-        if (encoder instanceof StreamingEncoder<?, ?>) {
+        if (encoder instanceof StreamingEncoder streamingEncoder) {
             EncodingContext ctx = getContext()
                     .with(XmlBeansEncodingFlags.DOCUMENT)
                     .without(XmlBeansEncodingFlags.PROPERTY_TYPE)
                     .without(XmlBeansEncodingFlags.TYPE)
                     .with(StreamingEncoderFlags.EMBEDDED, true);
-            ((StreamingEncoder) encoder).encode(bodyResponse, getOutputStream(), ctx);
+            streamingEncoder.encode(bodyResponse, getOutputStream(), ctx);
         } else {
             String soapBodyContent = ((XmlObject) encoder.encode(bodyResponse)).xmlText(getXmlOptions());
             rawText(stripXmlDeclaration(soapBodyContent));

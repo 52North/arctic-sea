@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -97,8 +97,8 @@ public class UoM {
 
     @Override
     public boolean equals(Object o) {
-        if (o instanceof UoM) {
-            return getUom().equals(((UoM) o).getUom());
+        if (o instanceof UoM uoM) {
+            return getUom().equals(uoM.getUom());
         }
         return false;
     }

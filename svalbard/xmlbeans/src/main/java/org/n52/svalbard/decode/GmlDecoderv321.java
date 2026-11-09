@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -146,54 +146,54 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
 
     @Override
     public Object decode(XmlObject xmlObject) throws DecodingException {
-        if (xmlObject instanceof FeaturePropertyType) {
-            return parseFeaturePropertyType((FeaturePropertyType) xmlObject);
-        } else if (xmlObject instanceof EnvelopeDocument) {
-            return parseEnvelope(((EnvelopeDocument) xmlObject).getEnvelope());
-        } else if (xmlObject instanceof EnvelopeType) {
-            return parseEnvelope((EnvelopeType) xmlObject);
-        } else if (xmlObject instanceof TimeInstantType) {
-            return parseTimeInstant((TimeInstantType) xmlObject);
-        } else if (xmlObject instanceof TimePeriodType) {
-            return parseTimePeriod((TimePeriodType) xmlObject);
-        } else if (xmlObject instanceof TimeInstantDocument) {
-            return parseTimeInstant(((TimeInstantDocument) xmlObject).getTimeInstant());
-        } else if (xmlObject instanceof TimePeriodDocument) {
-            return parseTimePeriod(((TimePeriodDocument) xmlObject).getTimePeriod());
-        } else if (xmlObject instanceof ReferenceType) {
-            return parseReferenceType((ReferenceType) xmlObject);
-        } else if (xmlObject instanceof MeasureType) {
-            return parseMeasureType((MeasureType) xmlObject);
-        } else if (xmlObject instanceof PointType) {
-            return parsePointType((PointType) xmlObject);
-        } else if (xmlObject instanceof PointDocument) {
-            return parsePointType(((PointDocument) xmlObject).getPoint());
-        } else if (xmlObject instanceof LineStringType) {
-            return parseLineStringType((LineStringType) xmlObject);
-        } else if (xmlObject instanceof LineStringDocument) {
-            return parseLineStringType(((LineStringDocument) xmlObject).getLineString());
-        } else if (xmlObject instanceof PolygonType) {
-            return parsePolygonType((PolygonType) xmlObject);
-        } else if (xmlObject instanceof PolygonDocument) {
-            return parsePolygonType(((PolygonDocument) xmlObject).getPolygon());
-        } else if (xmlObject instanceof CompositeSurfaceType) {
-            return parseCompositeSurfaceType((CompositeSurfaceType) xmlObject);
-        } else if (xmlObject instanceof CodeWithAuthorityType) {
-            return parseCodeWithAuthorityTye((CodeWithAuthorityType) xmlObject);
-        } else if (xmlObject instanceof CodeType) {
-            return parseCodeType((CodeType) xmlObject);
-        } else if (xmlObject instanceof GeometryPropertyType) {
-            return parseGeometryPropertyType((GeometryPropertyType) xmlObject);
-        } else if (xmlObject instanceof VerticalDatumPropertyType) {
-            return parseVerticalDatumPropertyType((VerticalDatumPropertyType) xmlObject);
-        } else if (xmlObject instanceof FeatureCollectionDocument) {
-            return parseFeatureCollectionDocument((FeatureCollectionDocument) xmlObject);
-        } else if (xmlObject instanceof FeatureCollectionType) {
-            return parseFeatureCollectionType((FeatureCollectionType) xmlObject);
-        } else if (xmlObject instanceof MultiCurveDocument) {
-            return parseMultiCurveDocument((MultiCurveDocument) xmlObject);
-        } else if (xmlObject instanceof MultiCurveType) {
-            return parseMultiCurveType((MultiCurveType) xmlObject);
+        if (xmlObject instanceof FeaturePropertyType type15) {
+            return parseFeaturePropertyType(type15);
+        } else if (xmlObject instanceof EnvelopeDocument document7) {
+            return parseEnvelope(document7.getEnvelope());
+        } else if (xmlObject instanceof EnvelopeType type14) {
+            return parseEnvelope(type14);
+        } else if (xmlObject instanceof TimeInstantType type13) {
+            return parseTimeInstant(type13);
+        } else if (xmlObject instanceof TimePeriodType type12) {
+            return parseTimePeriod(type12);
+        } else if (xmlObject instanceof TimeInstantDocument document6) {
+            return parseTimeInstant(document6.getTimeInstant());
+        } else if (xmlObject instanceof TimePeriodDocument document5) {
+            return parseTimePeriod(document5.getTimePeriod());
+        } else if (xmlObject instanceof ReferenceType type11) {
+            return parseReferenceType(type11);
+        } else if (xmlObject instanceof MeasureType type10) {
+            return parseMeasureType(type10);
+        } else if (xmlObject instanceof PointType type9) {
+            return parsePointType(type9);
+        } else if (xmlObject instanceof PointDocument document4) {
+            return parsePointType(document4.getPoint());
+        } else if (xmlObject instanceof LineStringType type8) {
+            return parseLineStringType(type8);
+        } else if (xmlObject instanceof LineStringDocument document3) {
+            return parseLineStringType(document3.getLineString());
+        } else if (xmlObject instanceof PolygonType type7) {
+            return parsePolygonType(type7);
+        } else if (xmlObject instanceof PolygonDocument document2) {
+            return parsePolygonType(document2.getPolygon());
+        } else if (xmlObject instanceof CompositeSurfaceType type6) {
+            return parseCompositeSurfaceType(type6);
+        } else if (xmlObject instanceof CodeWithAuthorityType type5) {
+            return parseCodeWithAuthorityTye(type5);
+        } else if (xmlObject instanceof CodeType type4) {
+            return parseCodeType(type4);
+        } else if (xmlObject instanceof GeometryPropertyType type3) {
+            return parseGeometryPropertyType(type3);
+        } else if (xmlObject instanceof VerticalDatumPropertyType type2) {
+            return parseVerticalDatumPropertyType(type2);
+        } else if (xmlObject instanceof FeatureCollectionDocument document1) {
+            return parseFeatureCollectionDocument(document1);
+        } else if (xmlObject instanceof FeatureCollectionType type1) {
+            return parseFeatureCollectionType(type1);
+        } else if (xmlObject instanceof MultiCurveDocument document) {
+            return parseMultiCurveDocument(document);
+        } else if (xmlObject instanceof MultiCurveType type) {
+            return parseMultiCurveType(type);
         } else {
             throw new UnsupportedDecoderXmlInputException(this, xmlObject);
         }
@@ -228,8 +228,8 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
             }
             if (abstractFeature != null) {
                 Object decodedObject = decodeXmlObject(abstractFeature);
-                if (decodedObject instanceof AbstractSamplingFeature) {
-                    feature = (AbstractSamplingFeature) decodedObject;
+                if (decodedObject instanceof AbstractSamplingFeature samplingFeature) {
+                    feature = samplingFeature;
                 } else {
                     throw unsupportedFeaturePropertyType();
                 }
@@ -471,8 +471,7 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
 
         if (xbExterior != null) {
             AbstractRingType xbExteriorRing = xbExterior.getAbstractRing();
-            if (xbExteriorRing instanceof LinearRingType) {
-                LinearRingType xbLinearRing = (LinearRingType) xbExteriorRing;
+            if (xbExteriorRing instanceof LinearRingType xbLinearRing) {
                 exteriorCoordString = getCoordString4LinearRing(xbLinearRing);
             } else {
                 throw new DecodingException(
@@ -524,8 +523,8 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
     }
 
     private Geometry parseAbstractCurveType(AbstractCurveType abstractCurveType) throws DecodingException {
-        if (abstractCurveType instanceof LineStringType) {
-            return parseLineStringType((LineStringType) abstractCurveType);
+        if (abstractCurveType instanceof LineStringType type) {
+            return parseLineStringType(type);
         } else {
             throw new UnsupportedDecoderInputException(this, abstractCurveType);
         }
@@ -544,8 +543,8 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
             if (srid == -1 && xbAbstractSurface.getSrsName() != null) {
                 srid = CRSHelper.parseSrsName(xbAbstractSurface.getSrsName());
             }
-            if (xbAbstractSurface instanceof PolygonType) {
-                polygons.add((Polygon) parsePolygonType((PolygonType) xbAbstractSurface));
+            if (xbAbstractSurface instanceof PolygonType type) {
+                polygons.add((Polygon) parsePolygonType(type));
             } else {
                 throw new DecodingException("The FeatureType %s is not supportted! Only PolygonType",
                                             xbAbstractSurface);

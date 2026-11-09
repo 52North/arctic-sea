@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -54,8 +54,8 @@ public class EnvironmentalMonitoringFaciltityTypeEncoder
 
     @Override
     public XmlObject encode(AbstractFeature abstractFeature, EncodingContext context) throws EncodingException {
-        if (abstractFeature instanceof EnvironmentalMonitoringFacility) {
-            return createEnvironmentalMonitoringFaciltityType((EnvironmentalMonitoringFacility) abstractFeature);
+        if (abstractFeature instanceof EnvironmentalMonitoringFacility facility) {
+            return createEnvironmentalMonitoringFaciltityType(facility);
         }
         throw new UnsupportedEncoderInputException(this, abstractFeature);
     }

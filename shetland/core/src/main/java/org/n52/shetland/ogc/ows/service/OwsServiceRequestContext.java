@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Optional;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.n52.janmayen.http.HTTPHeaders;
 import org.n52.janmayen.http.MediaType;
@@ -65,11 +65,9 @@ public class OwsServiceRequestContext {
             LOG.warn("Ignoring invalid IP address: " + req.getRemoteAddr(), e);
         }
 
-        if (addr instanceof Inet4Address) {
-            Inet4Address inet4Address = (Inet4Address) addr;
+        if (addr instanceof Inet4Address inet4Address) {
             return new IPAddress(inet4Address);
-        } else if (addr instanceof Inet6Address) {
-            Inet6Address inet6Address = (Inet6Address) addr;
+        } else if (addr instanceof Inet6Address inet6Address) {
             // embedded form
             if (InetAddresses.isCompatIPv4Address(inet6Address)) {
                 return new IPAddress(InetAddresses.getCompatIPv4Address(inet6Address));

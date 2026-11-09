@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -66,8 +66,7 @@ public class ConverterKey implements Comparable<ConverterKey> {
 
     @Override
     public boolean equals(Object paramObject) {
-        if (paramObject instanceof ConverterKey) {
-            ConverterKey toCheck = (ConverterKey) paramObject;
+        if (paramObject instanceof ConverterKey toCheck) {
             return Objects.equals(getFromNamespace(), toCheck.getFromNamespace()) &&
                    Objects.equals(getToNamespace(), toCheck.getToNamespace());
         }

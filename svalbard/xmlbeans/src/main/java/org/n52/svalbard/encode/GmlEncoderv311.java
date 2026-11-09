@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -142,26 +142,25 @@ public class GmlEncoderv311
     @Override
     public XmlObject encode(Object element, EncodingContext ctx) throws EncodingException {
         XmlObject encodedObject = null;
-        if (element instanceof Time) {
-            encodedObject = createTime((Time) element, ctx);
-        } else if (element instanceof Geometry) {
-            encodedObject = createPosition((Geometry) element, ctx.get(XmlBeansEncodingFlags.GMLID));
-        } else if (element instanceof CategoryValue) {
-            encodedObject = createReferenceTypeForCategroyValue((CategoryValue) element);
-        } else if (element instanceof org.n52.shetland.ogc.gml.ReferenceType) {
-            encodedObject = createReferencType((org.n52.shetland.ogc.gml.ReferenceType) element);
-        } else if (element instanceof CodeWithAuthority) {
-            encodedObject = createCodeWithAuthorityType((CodeWithAuthority) element);
-        } else if (element instanceof QuantityValue) {
-            encodedObject = createMeasureType((QuantityValue) element);
-        } else if (element instanceof org.n52.shetland.ogc.gml.CodeType) {
-            encodedObject = createCodeType((org.n52.shetland.ogc.gml.CodeType) element);
-        } else if (element instanceof AbstractFeature) {
-            encodedObject = createFeature((AbstractFeature) element);
-        } else if (element instanceof ReferencedEnvelope) {
-            encodedObject = createEnvelope((ReferencedEnvelope) element);
-        } else if (element instanceof EnvelopeOrGeometry) {
-            EnvelopeOrGeometry geom = (EnvelopeOrGeometry) element;
+        if (element instanceof Time time) {
+            encodedObject = createTime(time, ctx);
+        } else if (element instanceof Geometry geometry) {
+            encodedObject = createPosition(geometry, ctx.get(XmlBeansEncodingFlags.GMLID));
+        } else if (element instanceof CategoryValue value1) {
+            encodedObject = createReferenceTypeForCategroyValue(value1);
+        } else if (element instanceof org.n52.shetland.ogc.gml.ReferenceType type1) {
+            encodedObject = createReferencType(type1);
+        } else if (element instanceof CodeWithAuthority authority) {
+            encodedObject = createCodeWithAuthorityType(authority);
+        } else if (element instanceof QuantityValue value) {
+            encodedObject = createMeasureType(value);
+        } else if (element instanceof org.n52.shetland.ogc.gml.CodeType type) {
+            encodedObject = createCodeType(type);
+        } else if (element instanceof AbstractFeature feature) {
+            encodedObject = createFeature(feature);
+        } else if (element instanceof ReferencedEnvelope envelope) {
+            encodedObject = createEnvelope(envelope);
+        } else if (element instanceof EnvelopeOrGeometry geom) {
             if (geom.getGeometry().isPresent()) {
                 encodedObject = createPosition(geom.getGeometry().get(), ctx.get(XmlBeansEncodingFlags.GMLID));
             } else if (geom.getEnvelope().isPresent()) {
@@ -169,8 +168,8 @@ public class GmlEncoderv311
             } else {
                 throw new UnsupportedEncoderInputException(this, element);
             }
-        } else if (element instanceof GenericMetaData) {
-            encodedObject = createGenericMetaData((GenericMetaData) element, ctx);
+        } else if (element instanceof GenericMetaData data) {
+            encodedObject = createGenericMetaData(data, ctx);
         } else {
             throw new UnsupportedEncoderInputException(this, element);
         }
@@ -180,17 +179,17 @@ public class GmlEncoderv311
 
     private XmlObject createTime(Time time, EncodingContext ctx) throws EncodingException {
         if (time != null) {
-            if (time instanceof TimeInstant) {
+            if (time instanceof TimeInstant instant) {
                 if (ctx.has(XmlBeansEncodingFlags.DOCUMENT)) {
-                    return createTimeInstantDocument((TimeInstant) time);
+                    return createTimeInstantDocument(instant);
                 } else {
-                    return createTimeInstantType((TimeInstant) time, null);
+                    return createTimeInstantType(instant, null);
                 }
-            } else if (time instanceof TimePeriod) {
+            } else if (time instanceof TimePeriod period) {
                 if (ctx.has(XmlBeansEncodingFlags.DOCUMENT)) {
-                    return createTimePeriodDocument((TimePeriod) time);
+                    return createTimePeriodDocument(period);
                 } else {
-                    return createTimePeriodType((TimePeriod) time, null);
+                    return createTimePeriodType(period, null);
                 }
             } else {
                 throw new UnsupportedEncoderInputException(this, time);
@@ -298,26 +297,26 @@ public class GmlEncoderv311
             throws UnsupportedEncoderInputException {
         String gmlId = (optional != null && optional.isPresent() && optional.get() instanceof String)
                 ? (String) optional.get() : null;
-        if (geom instanceof Point) {
+        if (geom instanceof Point point) {
             PointType xbPoint = PointType.Factory.newInstance(getXmlOptions());
             if (gmlId != null) {
                 xbPoint.setId(geom.getGeometryType() + "_" + gmlId);
             }
-            createPointFromJtsGeometry((Point) geom, xbPoint);
+            createPointFromJtsGeometry(point, xbPoint);
             return xbPoint;
-        } else if (geom instanceof LineString) {
+        } else if (geom instanceof LineString string) {
             LineStringType xbLineString = LineStringType.Factory.newInstance(getXmlOptions());
             if (gmlId != null) {
                 xbLineString.setId(geom.getGeometryType() + "_" + gmlId);
             }
-            createLineStringFromJtsGeometry((LineString) geom, xbLineString);
+            createLineStringFromJtsGeometry(string, xbLineString);
             return xbLineString;
-        } else if (geom instanceof Polygon) {
+        } else if (geom instanceof Polygon polygon) {
             PolygonType xbPolygon = PolygonType.Factory.newInstance(getXmlOptions());
             if (gmlId != null) {
                 xbPolygon.setId(geom.getGeometryType() + "_" + gmlId);
             }
-            createPolygonFromJtsGeometry((Polygon) geom, xbPolygon);
+            createPolygonFromJtsGeometry(polygon, xbPolygon);
             return xbPolygon;
         } else {
             throw new UnsupportedEncoderInputException(this, geom);
@@ -477,8 +476,7 @@ public class GmlEncoderv311
     }
 
     private XmlObject createFeature(AbstractFeature sosAbstractFeature) throws EncodingException {
-        if (sosAbstractFeature instanceof SamplingFeature) {
-            SamplingFeature sampFeat = (SamplingFeature) sosAbstractFeature;
+        if (sosAbstractFeature instanceof SamplingFeature sampFeat) {
             if (sosAbstractFeature.isSetGmlID() && sosAbstractFeature.isEncoded()) {
                 FeaturePropertyType featureProperty = FeaturePropertyType.Factory.newInstance(getXmlOptions());
                 featureProperty.setHref("#" + sosAbstractFeature.getGmlId());
@@ -499,8 +497,8 @@ public class GmlEncoderv311
                 Encoder<XmlObject, SamplingFeature> encoder = getEncoder(SfConstants.NS_SA, sampFeat);
                 return encoder.encode(sampFeat);
             }
-        } else if (sosAbstractFeature instanceof FeatureCollection) {
-            return createFeatureCollection((FeatureCollection) sosAbstractFeature);
+        } else if (sosAbstractFeature instanceof FeatureCollection collection) {
+            return createFeatureCollection(collection);
         }
         throw new UnsupportedEncoderInputException(this, sosAbstractFeature);
     }

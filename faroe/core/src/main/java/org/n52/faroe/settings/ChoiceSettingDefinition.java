@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 package org.n52.faroe.settings;
 
 
+import java.io.Serial;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -41,6 +42,7 @@ import org.n52.janmayen.stream.MoreCollectors;
  */
 public class ChoiceSettingDefinition extends AbstractSettingDefinition<String> {
 
+    @Serial
     private static final long serialVersionUID = 4783164088023177712L;
     private final Map<String, String> options = new HashMap<>();
 

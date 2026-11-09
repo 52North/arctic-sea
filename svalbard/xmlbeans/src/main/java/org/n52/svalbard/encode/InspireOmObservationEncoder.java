@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -64,8 +64,8 @@ public class InspireOmObservationEncoder extends AbstractXmlEncoder<XmlObject, O
 
     @Override
     public XmlObject encode(Object element, EncodingContext ec) throws EncodingException {
-        if (element instanceof OmObservation) {
-            return encodeInspireOmsoType((OmObservation) element, ec);
+        if (element instanceof OmObservation observation) {
+            return encodeInspireOmsoType(observation, ec);
         }
         throw new UnsupportedEncoderInputException(this, element);
     }
@@ -78,12 +78,12 @@ public class InspireOmObservationEncoder extends AbstractXmlEncoder<XmlObject, O
     @Override
     public void encode(Object element, OutputStream outputStream, EncodingContext ctx) throws EncodingException {
         try {
-            if (element instanceof OmObservation && InspireOMSOConstants.OBS_TYPE_POINT_TIME_SERIES_OBSERVATION
-                    .equals(((OmObservation) element).getObservationConstellation().getObservationType())) {
+            if (element instanceof OmObservation observation && InspireOMSOConstants.OBS_TYPE_POINT_TIME_SERIES_OBSERVATION
+                    .equals(observation.getObservationConstellation().getObservationType())) {
                 new PointTimeSeriesObservationXmlStreamWriter(
                         ctx.with(EncoderFlags.ENCODER_REPOSITORY, getEncoderRepository())
                                 .with(XmlEncoderFlags.XML_OPTIONS, (Supplier<XmlOptions>) this::getXmlOptions),
-                        outputStream, (OmObservation) element).write();
+                        outputStream, observation).write();
             } else {
                 new InspireOmObservationXmlStreamWriter(
                         ctx.with(EncoderFlags.ENCODER_REPOSITORY, getEncoderRepository())

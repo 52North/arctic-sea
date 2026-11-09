@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -174,8 +174,7 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
 
         @Override
         public boolean equals(Object obj) {
-            if (obj instanceof KeyedProducer) {
-                KeyedProducer<?, ?> that = (KeyedProducer) obj;
+            if (obj instanceof KeyedProducer<?, ?> that) {
                 return Objects.equals(this.key, that.getKey());
             }
             return false;
@@ -243,8 +242,7 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
 
         @Override
         public boolean equals(Object obj) {
-            if (obj instanceof InstanceProducer) {
-                InstanceProducer<?, ?> that = (InstanceProducer) obj;
+            if (obj instanceof InstanceProducer<?, ?> that) {
                 return super.equals(that) && Objects.equals(this.component, that.getComponent());
             }
             return false;
@@ -310,8 +308,7 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
 
         @Override
         public boolean equals(Object obj) {
-            if (obj instanceof FactoryProducer) {
-                FactoryProducer<?, ?, ?> that = (FactoryProducer) obj;
+            if (obj instanceof FactoryProducer<?, ?, ?> that) {
                 return super.equals(that) &&
                        Objects.equals(this.factory, that.getFactory());
             }

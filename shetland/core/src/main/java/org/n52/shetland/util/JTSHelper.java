@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -256,37 +256,37 @@ public class JTSHelper {
         }
 
         public Geometry convertSequence(Geometry geometry) {
-            if (geometry instanceof Point) {
-                return createPoint(((Point) geometry).getCoordinateSequence());
-            } else if (geometry instanceof LinearRing) {
-                return createLinearRing(((LinearRing) geometry).getCoordinates());
-            } else if (geometry instanceof LineString) {
-                return createLineString(((LineString) geometry).getCoordinates());
-            } else if (geometry instanceof Polygon) {
-                LinearRing[] linearRings = new LinearRing[((Polygon) geometry).getNumInteriorRing()];
-                for (int i = 0; i < ((Polygon) geometry).getNumInteriorRing(); i++) {
-                    linearRings[i] = (LinearRing) convertSequence(((Polygon) geometry).getInteriorRingN(i));
+            if (geometry instanceof Point point1) {
+                return createPoint(point1.getCoordinateSequence());
+            } else if (geometry instanceof LinearRing ring) {
+                return createLinearRing(ring.getCoordinates());
+            } else if (geometry instanceof LineString string1) {
+                return createLineString(string1.getCoordinates());
+            } else if (geometry instanceof Polygon polygon1) {
+                LinearRing[] linearRings = new LinearRing[polygon1.getNumInteriorRing()];
+                for (int i = 0; i < polygon1.getNumInteriorRing(); i++) {
+                    linearRings[i] = (LinearRing) convertSequence(polygon1.getInteriorRingN(i));
                 }
-                return createPolygon((LinearRing) convertSequence(getExteriorRingFromPolygon((Polygon) geometry)),
+                return createPolygon((LinearRing) convertSequence(getExteriorRingFromPolygon(polygon1)),
                         linearRings);
-            } else if (geometry instanceof MultiPoint) {
-                return createMultiPointFromCoords(((MultiPoint) geometry).getCoordinates());
-            } else if (geometry instanceof MultiLineString) {
-                LineString[] lineStrings = new LineString[((MultiLineString) geometry).getNumGeometries()];
-                for (int i = 0; i < ((MultiLineString) geometry).getNumGeometries(); i++) {
-                    lineStrings[i] = (LineString) convertSequence(((MultiLineString) geometry).getGeometryN(i));
+            } else if (geometry instanceof MultiPoint point) {
+                return createMultiPointFromCoords(point.getCoordinates());
+            } else if (geometry instanceof MultiLineString string) {
+                LineString[] lineStrings = new LineString[string.getNumGeometries()];
+                for (int i = 0; i < string.getNumGeometries(); i++) {
+                    lineStrings[i] = (LineString) convertSequence(string.getGeometryN(i));
                 }
                 return createMultiLineString(lineStrings);
-            } else if (geometry instanceof MultiPolygon) {
-                Polygon[] polygons = new Polygon[((MultiPolygon) geometry).getNumGeometries()];
-                for (int i = 0; i < ((MultiPolygon) geometry).getNumGeometries(); i++) {
-                    polygons[i] = (Polygon) convertSequence(((MultiPolygon) geometry).getGeometryN(i));
+            } else if (geometry instanceof MultiPolygon polygon) {
+                Polygon[] polygons = new Polygon[polygon.getNumGeometries()];
+                for (int i = 0; i < polygon.getNumGeometries(); i++) {
+                    polygons[i] = (Polygon) convertSequence(polygon.getGeometryN(i));
                 }
                 return createMultiPolygon(polygons);
-            } else if (geometry instanceof GeometryCollection) {
-                Geometry[] geometries = new Geometry[((GeometryCollection) geometry).getNumGeometries()];
-                for (int i = 0; i < ((GeometryCollection) geometry).getNumGeometries(); i++) {
-                    geometries[i] = convertSequence(((GeometryCollection) geometry).getGeometryN(i));
+            } else if (geometry instanceof GeometryCollection collection) {
+                Geometry[] geometries = new Geometry[collection.getNumGeometries()];
+                for (int i = 0; i < collection.getNumGeometries(); i++) {
+                    geometries[i] = convertSequence(collection.getGeometryN(i));
                 }
                 return createGeometryCollection(geometries);
             }

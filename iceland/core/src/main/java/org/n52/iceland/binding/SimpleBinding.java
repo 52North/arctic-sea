@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,9 +20,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.inject.Inject;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -140,8 +140,8 @@ public abstract class SimpleBinding implements Binding {
                                           EncodingException ex) throws HTTPException {
         try {
             OwsExceptionReport oer;
-            if (ex instanceof OwsEncodingException) {
-                oer = ((OwsEncodingException) ex).getCause();
+            if (ex instanceof OwsEncodingException exception) {
+                oer = exception.getCause();
             } else if (ex.getCause() instanceof OwsExceptionReport) {
                 oer = (OwsExceptionReport) ex.getCause();
             } else {
@@ -276,8 +276,7 @@ public abstract class SimpleBinding implements Binding {
         checkServiceOperatorKeyTypes(request);
         String service = request.getService();
         String version = request.getVersion();
-        if (request instanceof GetCapabilitiesRequest) {
-            GetCapabilitiesRequest gcr = (GetCapabilitiesRequest) request;
+        if (request instanceof GetCapabilitiesRequest gcr) {
             if (gcr.isSetAcceptVersions()) {
                 return gcr.getAcceptVersions().stream().map(v -> new OwsServiceKey(service, v))
                         .map(this::getServiceOperator).filter(Objects::nonNull).findFirst()
@@ -300,8 +299,7 @@ public abstract class SimpleBinding implements Binding {
             throw new MissingServiceParameterException();
         } else if (!getServiceOperatorRepository().isServiceSupported(service)) {
             throw new InvalidServiceParameterException(service);
-        } else if (request instanceof GetCapabilitiesRequest) {
-            GetCapabilitiesRequest gcr = (GetCapabilitiesRequest) request;
+        } else if (request instanceof GetCapabilitiesRequest gcr) {
             if (gcr.isSetAcceptVersions() && !gcr.getAcceptVersions().stream()
                 .anyMatch(v -> isVersionSupported(service, v))) {
                 throw new InvalidAcceptVersionsParameterException(gcr.getAcceptVersions());

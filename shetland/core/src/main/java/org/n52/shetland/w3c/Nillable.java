@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -338,7 +338,7 @@ public abstract class Nillable<
 
         @Override
         public boolean equals(Object obj) {
-            return obj instanceof Present && Objects.equals(get(), ((Present) obj).get());
+            return obj instanceof Present p && Objects.equals(get(), p.get());
         }
 
         @Override
@@ -397,7 +397,7 @@ public abstract class Nillable<
 
         @Override
         public boolean equals(Object obj) {
-            return obj instanceof Nil && Objects.equals(getNilReason(), ((Nil) obj).getNilReason());
+            return obj instanceof Nil n && Objects.equals(getNilReason(), n.getNilReason());
         }
 
         @SuppressWarnings("unchecked")

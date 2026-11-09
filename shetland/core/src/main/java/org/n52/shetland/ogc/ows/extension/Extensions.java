@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -99,12 +99,12 @@ public class Extensions {
 
     public boolean getBooleanExtension(String identifier, boolean defaultValue) {
         return getExtension(identifier).map(e -> e.getValue()).map(value -> {
-            if (value instanceof Boolean) {
-                return (Boolean) value;
-            } else if (value instanceof Value && ((Value) value).getValue() instanceof Boolean) {
-                return (Boolean) ((Value) value).getValue();
-            } else if (value instanceof SweBoolean) {
-                return ((SweBoolean) value).getValue();
+            if (value instanceof Boolean boolean2) {
+                return boolean2;
+            } else if (value instanceof Value value1 && ((Value) value).getValue() instanceof Boolean) {
+                return (Boolean) value1.getValue();
+            } else if (value instanceof SweBoolean boolean1) {
+                return boolean1.getValue();
             }
             return false;
         }).orElse(defaultValue);

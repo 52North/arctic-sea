@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -163,8 +163,8 @@ public class WmlTVPEncoderv20 extends AbstractWmlEncoderv20 {
     @Override
     public XmlObject encode(Object element, EncodingContext additionalValues)
             throws EncodingException, UnsupportedEncoderInputException {
-        if (element instanceof ObservationValue) {
-            return encodeResult((ObservationValue<?>) element);
+        if (element instanceof ObservationValue<?> value) {
+            return encodeResult(value);
         } else {
             return super.encode(element, additionalValues);
         }
@@ -173,11 +173,11 @@ public class WmlTVPEncoderv20 extends AbstractWmlEncoderv20 {
     @Override
     public void encode(Object objectToEncode, OutputStream outputStream, EncodingContext ctx)
             throws EncodingException {
-        if (objectToEncode instanceof OmObservation) {
+        if (objectToEncode instanceof OmObservation observation) {
             try {
                 new WmlTVPEncoderv20XmlStreamWriter(ctx.with(EncoderFlags.ENCODER_REPOSITORY, getEncoderRepository())
                         .with(XmlEncoderFlags.XML_OPTIONS, (Supplier<XmlOptions>) this::getXmlOptions), outputStream,
-                        (OmObservation) objectToEncode).write();
+                        observation).write();
             } catch (XMLStreamException xmlse) {
                 throw new EncodingException("Error while writing element to stream!", xmlse);
             }
@@ -386,8 +386,7 @@ public class WmlTVPEncoderv20 extends AbstractWmlEncoderv20 {
     private String addValues(MeasurementTimeseriesType measurementTimeseries, ObservationValue<?> observationValue)
             throws EncodingException, CodedException {
         String unit = null;
-        if (observationValue instanceof SingleObservationValue) {
-            SingleObservationValue<?> singleObservationValue = (SingleObservationValue<?>) observationValue;
+        if (observationValue instanceof SingleObservationValue<?> singleObservationValue) {
             String time = getTimeString(singleObservationValue.getPhenomenonTime());
             unit = singleObservationValue.getValue()
                     .getUnit();
@@ -424,8 +423,7 @@ public class WmlTVPEncoderv20 extends AbstractWmlEncoderv20 {
                     }
                 }
             }
-        } else if (observationValue instanceof MultiObservationValues) {
-            MultiObservationValues<?> mov = (MultiObservationValues<?>) observationValue;
+        } else if (observationValue instanceof MultiObservationValues<?> mov) {
             TVPValue tvpValue = (TVPValue) mov.getValue();
             List<TimeValuePair> timeValuePairs = tvpValue.getValue();
             unit = tvpValue.getUnit();

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -216,14 +216,14 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
     }
 
     private XmlObject encode1(Object sosSweType, EncodingContext additionalValues) throws EncodingException {
-        if (sosSweType instanceof SweCoordinate) {
-            return createCoordinate((SweCoordinate<?>) sosSweType);
-        } else if (sosSweType instanceof SweAbstractEncoding) {
-            AbstractEncodingType encoding = createAbstractEncoding((SweAbstractEncoding) sosSweType);
+        if (sosSweType instanceof SweCoordinate<?> coordinate) {
+            return createCoordinate(coordinate);
+        } else if (sosSweType instanceof SweAbstractEncoding abstractEncoding) {
+            AbstractEncodingType encoding = createAbstractEncoding(abstractEncoding);
             if (additionalValues.has(XmlBeansEncodingFlags.DOCUMENT)) {
-                if (encoding instanceof TextEncodingType) {
+                if (encoding instanceof TextEncodingType type) {
                     TextEncodingDocument doc = TextEncodingDocument.Factory.newInstance(getXmlOptions());
-                    doc.setTextEncoding((TextEncodingType) encoding);
+                    doc.setTextEncoding(type);
                     return doc;
                 } else {
                     AbstractEncodingDocument doc = AbstractEncodingDocument.Factory.newInstance(getXmlOptions());
@@ -233,8 +233,8 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
             } else {
                 return encoding;
             }
-        } else if (sosSweType instanceof SweAbstractDataComponent) {
-            return createAbstractDataComponent((SweAbstractDataComponent) sosSweType, additionalValues);
+        } else if (sosSweType instanceof SweAbstractDataComponent component) {
+            return createAbstractDataComponent(component, additionalValues);
         } else {
             throw new UnsupportedEncoderInputException(this, sosSweType);
         }
@@ -271,65 +271,65 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
     }
 
     private XmlObject asPropertyType(AbstractDataComponentType type) throws NotYetSupportedEncodingException {
-        if (type instanceof BooleanType) {
+        if (type instanceof BooleanType booleanType) {
             BooleanPropertyType propertyType = BooleanPropertyType.Factory.newInstance();
-            propertyType.setBoolean((BooleanType) type);
+            propertyType.setBoolean(booleanType);
             return propertyType;
-        } else if (type instanceof CountType) {
+        } else if (type instanceof CountType countType) {
             CountPropertyType propertyType = CountPropertyType.Factory.newInstance();
-            propertyType.setCount((CountType) type);
+            propertyType.setCount(countType);
             return propertyType;
-        } else if (type instanceof CountRangeType) {
+        } else if (type instanceof CountRangeType rangeType3) {
             CountRangePropertyType propertyType = CountRangePropertyType.Factory.newInstance();
-            propertyType.setCountRange((CountRangeType) type);
+            propertyType.setCountRange(rangeType3);
             return propertyType;
-        } else if (type instanceof QuantityType) {
+        } else if (type instanceof QuantityType quantityType) {
             QuantityPropertyType propertyType = QuantityPropertyType.Factory.newInstance();
-            propertyType.setQuantity((QuantityType) type);
+            propertyType.setQuantity(quantityType);
             return propertyType;
-        } else if (type instanceof QuantityRangeType) {
+        } else if (type instanceof QuantityRangeType rangeType2) {
             QuantityRangePropertyType propertyType = QuantityRangePropertyType.Factory.newInstance();
-            propertyType.setQuantityRange((QuantityRangeType) type);
+            propertyType.setQuantityRange(rangeType2);
             return propertyType;
-        } else if (type instanceof TimeType) {
+        } else if (type instanceof TimeType timeType) {
             TimePropertyType propertyType = TimePropertyType.Factory.newInstance();
-            propertyType.setTime((TimeType) type);
+            propertyType.setTime(timeType);
             return propertyType;
-        } else if (type instanceof TimeRangeType) {
+        } else if (type instanceof TimeRangeType rangeType1) {
             TimeRangePropertyType propertyType = TimeRangePropertyType.Factory.newInstance();
-            propertyType.setTimeRange((TimeRangeType) type);
+            propertyType.setTimeRange(rangeType1);
             return propertyType;
-        } else if (type instanceof CategoryType) {
+        } else if (type instanceof CategoryType categoryType) {
             CategoryPropertyType propertyType = CategoryPropertyType.Factory.newInstance();
-            propertyType.setCategory((CategoryType) type);
+            propertyType.setCategory(categoryType);
             return propertyType;
-        } else if (type instanceof CategoryRangeType) {
+        } else if (type instanceof CategoryRangeType rangeType) {
             CategoryRangePropertyType propertyType = CategoryRangePropertyType.Factory.newInstance();
-            propertyType.setCategoryRange((CategoryRangeType) type);
+            propertyType.setCategoryRange(rangeType);
             return propertyType;
-        } else if (type instanceof MatrixType) {
+        } else if (type instanceof MatrixType matrixType) {
             MatrixPropertyType propertyType = MatrixPropertyType.Factory.newInstance();
-            propertyType.setMatrix((MatrixType) type);
+            propertyType.setMatrix(matrixType);
             return propertyType;
-        } else if (type instanceof DataArrayType) {
+        } else if (type instanceof DataArrayType arrayType) {
             DataArrayPropertyType propertyType = DataArrayPropertyType.Factory.newInstance();
-            propertyType.setDataArray1((DataArrayType) type);
+            propertyType.setDataArray1(arrayType);
             return propertyType;
-        } else if (type instanceof DataChoiceType) {
+        } else if (type instanceof DataChoiceType choiceType) {
             DataChoicePropertyType propertyType = DataChoicePropertyType.Factory.newInstance();
-            propertyType.setDataChoice((DataChoiceType) type);
+            propertyType.setDataChoice(choiceType);
             return propertyType;
-        } else if (type instanceof DataRecordType) {
+        } else if (type instanceof DataRecordType recordType) {
             DataRecordPropertyType propertyType = DataRecordPropertyType.Factory.newInstance();
-            propertyType.setDataRecord((DataRecordType) type);
+            propertyType.setDataRecord(recordType);
             return propertyType;
-        } else if (type instanceof TextType) {
+        } else if (type instanceof TextType textType) {
             TextPropertyType propertyType = TextPropertyType.Factory.newInstance();
-            propertyType.setText((TextType) type);
+            propertyType.setText(textType);
             return propertyType;
-        } else if (type instanceof VectorType) {
+        } else if (type instanceof VectorType vectorType) {
             VectorPropertyType propertyType = VectorPropertyType.Factory.newInstance();
-            propertyType.setVector((VectorType) type);
+            propertyType.setVector(vectorType);
             return propertyType;
         } else {
             throw new NotYetSupportedEncodingException(type.getClass().getName(), type);
@@ -337,65 +337,65 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
     }
 
     private XmlObject asDocument(AbstractDataComponentType type) throws NotYetSupportedEncodingException {
-        if (type instanceof BooleanType) {
+        if (type instanceof BooleanType booleanType) {
             BooleanDocument document = BooleanDocument.Factory.newInstance();
-            document.setBoolean((BooleanType) type);
+            document.setBoolean(booleanType);
             return document;
-        } else if (type instanceof CountType) {
+        } else if (type instanceof CountType countType) {
             CountDocument document = CountDocument.Factory.newInstance();
-            document.setCount((CountType) type);
+            document.setCount(countType);
             return document;
-        } else if (type instanceof CountRangeType) {
+        } else if (type instanceof CountRangeType rangeType3) {
             CountRangeDocument document = CountRangeDocument.Factory.newInstance();
-            document.setCountRange((CountRangeType) type);
+            document.setCountRange(rangeType3);
             return document;
-        } else if (type instanceof QuantityType) {
+        } else if (type instanceof QuantityType quantityType) {
             QuantityDocument document = QuantityDocument.Factory.newInstance();
-            document.setQuantity((QuantityType) type);
+            document.setQuantity(quantityType);
             return document;
-        } else if (type instanceof QuantityRangeType) {
+        } else if (type instanceof QuantityRangeType rangeType2) {
             QuantityRangeDocument document = QuantityRangeDocument.Factory.newInstance();
-            document.setQuantityRange((QuantityRangeType) type);
+            document.setQuantityRange(rangeType2);
             return document;
-        } else if (type instanceof TimeType) {
+        } else if (type instanceof TimeType timeType) {
             TimeDocument document = TimeDocument.Factory.newInstance();
-            document.setTime((TimeType) type);
+            document.setTime(timeType);
             return document;
-        } else if (type instanceof TimeRangeType) {
+        } else if (type instanceof TimeRangeType rangeType1) {
             TimeRangeDocument document = TimeRangeDocument.Factory.newInstance();
-            document.setTimeRange((TimeRangeType) type);
+            document.setTimeRange(rangeType1);
             return document;
-        } else if (type instanceof CategoryType) {
+        } else if (type instanceof CategoryType categoryType) {
             CategoryDocument document = CategoryDocument.Factory.newInstance();
-            document.setCategory((CategoryType) type);
+            document.setCategory(categoryType);
             return document;
-        } else if (type instanceof CategoryRangeType) {
+        } else if (type instanceof CategoryRangeType rangeType) {
             CategoryRangeDocument document = CategoryRangeDocument.Factory.newInstance();
-            document.setCategoryRange((CategoryRangeType) type);
+            document.setCategoryRange(rangeType);
             return document;
-        } else if (type instanceof MatrixType) {
+        } else if (type instanceof MatrixType matrixType) {
             MatrixDocument document = MatrixDocument.Factory.newInstance();
-            document.setMatrix((MatrixType) type);
+            document.setMatrix(matrixType);
             return document;
-        } else if (type instanceof DataArrayType) {
+        } else if (type instanceof DataArrayType arrayType) {
             DataArrayDocument document = DataArrayDocument.Factory.newInstance();
-            document.setDataArray1((DataArrayType) type);
+            document.setDataArray1(arrayType);
             return document;
-        } else if (type instanceof DataChoiceType) {
+        } else if (type instanceof DataChoiceType choiceType) {
             DataChoiceDocument document = DataChoiceDocument.Factory.newInstance();
-            document.setDataChoice((DataChoiceType) type);
+            document.setDataChoice(choiceType);
             return document;
-        } else if (type instanceof DataRecordType) {
+        } else if (type instanceof DataRecordType recordType) {
             DataRecordDocument document = DataRecordDocument.Factory.newInstance();
-            document.setDataRecord((DataRecordType) type);
+            document.setDataRecord(recordType);
             return document;
-        } else if (type instanceof TextType) {
+        } else if (type instanceof TextType textType) {
             TextDocument document = TextDocument.Factory.newInstance();
-            document.setText((TextType) type);
+            document.setText(textType);
             return document;
-        } else if (type instanceof VectorType) {
+        } else if (type instanceof VectorType vectorType) {
             VectorDocument document = VectorDocument.Factory.newInstance();
-            document.setVector((VectorType) type);
+            document.setVector(vectorType);
             return document;
         } else {
             throw new NotYetSupportedEncodingException(type.getClass().getName(), type);
@@ -440,16 +440,16 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
     }
 
     private AbstractEncodingType createAbstractEncoding(SweAbstractEncoding encoding) throws EncodingException {
-        if (encoding instanceof SweTextEncoding) {
-            return createTextEncoding((SweTextEncoding) encoding);
+        if (encoding instanceof SweTextEncoding textEncoding) {
+            return createTextEncoding(textEncoding);
         }
 
         try {
             String xml = encoding.getXml();
             if (xml != null && !xml.isEmpty()) {
                 XmlObject xmlObject = XmlObject.Factory.parse(xml, getXmlOptions());
-                if (xmlObject instanceof AbstractEncodingType) {
-                    return (AbstractEncodingType) xmlObject;
+                if (xmlObject instanceof AbstractEncodingType type) {
+                    return type;
                 }
             }
             throw new EncodingException("AbstractEncoding can not be encoded!");
@@ -625,17 +625,17 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
                     Lists.newArrayListWithCapacity(quality.getQuality().size());
             for (final SweQuality sweQuality : quality.getQuality()) {
                 final QualityPropertyType xbQuality = QualityPropertyType.Factory.newInstance();
-                if (sweQuality instanceof SweText) {
-                    xbQuality.addNewText().set(((SweText) sweQuality).accept(new SweDataComponentVisitorImpl()));
-                } else if (sweQuality instanceof SweCategory) {
+                if (sweQuality instanceof SweText text) {
+                    xbQuality.addNewText().set(text.accept(new SweDataComponentVisitorImpl()));
+                } else if (sweQuality instanceof SweCategory category) {
                     xbQuality.addNewCategory()
-                            .set(((SweCategory) sweQuality).accept(new SweDataComponentVisitorImpl()));
-                } else if (sweQuality instanceof SweQuantity) {
+                            .set(category.accept(new SweDataComponentVisitorImpl()));
+                } else if (sweQuality instanceof SweQuantity quantity) {
                     xbQuality.addNewQuantity()
-                            .set(((SweQuantity) sweQuality).accept(new SweDataComponentVisitorImpl()));
-                } else if (sweQuality instanceof SweQuantityRange) {
+                            .set(quantity.accept(new SweDataComponentVisitorImpl()));
+                } else if (sweQuality instanceof SweQuantityRange range) {
                     xbQuality.addNewQuantityRange()
-                            .set(((SweQuantityRange) sweQuality).accept(new SweDataComponentVisitorImpl()));
+                            .set(range.accept(new SweDataComponentVisitorImpl()));
                 }
                 xbQualities.add(xbQuality);
             }
@@ -687,10 +687,10 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
             if (component.isSetXml()) {
                 try {
                     XmlObject parse = XmlObject.Factory.parse(component.getXml());
-                    if (parse instanceof DataArrayType) {
-                        return (DataArrayType) parse;
-                    } else if (parse instanceof DataArrayDocument) {
-                        return ((DataArrayDocument) parse).getDataArray1();
+                    if (parse instanceof DataArrayType type) {
+                        return type;
+                    } else if (parse instanceof DataArrayDocument document) {
+                        return document.getDataArray1();
                     }
                 } catch (XmlException e) {
                     LOGGER.warn("Error while parsing XML representation of DataArray^", e);

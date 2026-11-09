@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -165,14 +165,14 @@ public class SweCommonEncoderv101
     @Override
     public XmlObject encode(Object element, EncodingContext context) throws EncodingException {
         XmlObject encodedObject = null;
-        if (element instanceof SweAbstractSimpleType) {
-            encodedObject = createSimpleType((SweAbstractSimpleType<?>) element, context);
-        } else if (element instanceof SweCoordinate) {
-            encodedObject = createCoordinate((SweCoordinate<?>) element);
-        } else if (element instanceof SweDataArray) {
-            encodedObject = createDataArray((SweDataArray) element);
-        } else if (element instanceof SweDataRecord) {
-            DataRecordType drt = createDataRecord((SweDataRecord) element);
+        if (element instanceof SweAbstractSimpleType<?> type) {
+            encodedObject = createSimpleType(type, context);
+        } else if (element instanceof SweCoordinate<?> coordinate) {
+            encodedObject = createCoordinate(coordinate);
+        } else if (element instanceof SweDataArray array) {
+            encodedObject = createDataArray(array);
+        } else if (element instanceof SweDataRecord record1) {
+            DataRecordType drt = createDataRecord(record1);
             if (context.has(XmlBeansEncodingFlags.DOCUMENT)) {
                 DataRecordDocument drd = DataRecordDocument.Factory.newInstance(getXmlOptions());
                 drd.setDataRecord(drt);
@@ -180,12 +180,12 @@ public class SweCommonEncoderv101
             } else {
                 encodedObject = drt;
             }
-        } else if (element instanceof SweEnvelope) {
-            encodedObject = createEnvelope((SweEnvelope) element);
-        } else if (element instanceof SweSimpleDataRecord) {
-            encodedObject = createSimpleDataRecord((SweSimpleDataRecord) element);
-        } else if (element instanceof TimePeriod) {
-            encodedObject = createTimeGeometricPrimitivePropertyType((TimePeriod) element);
+        } else if (element instanceof SweEnvelope envelope) {
+            encodedObject = createEnvelope(envelope);
+        } else if (element instanceof SweSimpleDataRecord record) {
+            encodedObject = createSimpleDataRecord(record);
+        } else if (element instanceof TimePeriod period) {
+            encodedObject = createTimeGeometricPrimitivePropertyType(period);
         } else {
             throw new UnsupportedEncoderInputException(this, element);
         }
@@ -201,26 +201,26 @@ public class SweCommonEncoderv101
     private AbstractDataComponentType createSimpleType(SweAbstractSimpleType<?> sosSimpleType,
             EncodingContext additionalValues) throws EncodingException {
         AbstractDataComponentType abstractDataComponentType = null;
-        if (sosSimpleType instanceof SweBoolean) {
-            abstractDataComponentType = createBoolean((SweBoolean) sosSimpleType);
-        } else if (sosSimpleType instanceof SweCategory) {
-            abstractDataComponentType = createCategory((SweCategory) sosSimpleType);
-        } else if (sosSimpleType instanceof SweCount) {
-            abstractDataComponentType = createCount((SweCount) sosSimpleType);
-        } else if (sosSimpleType instanceof SweCountRange) {
-            abstractDataComponentType = createCountRange((SweCountRange) sosSimpleType);
-        } else if (sosSimpleType instanceof SweObservableProperty) {
-            abstractDataComponentType = createObservableProperty((SweObservableProperty) sosSimpleType);
-        } else if (sosSimpleType instanceof SweQuantity) {
-            abstractDataComponentType = createQuantity((SweQuantity) sosSimpleType);
-        } else if (sosSimpleType instanceof SweQuantityRange) {
-            abstractDataComponentType = createQuantityRange((SweQuantityRange) sosSimpleType);
-        } else if (sosSimpleType instanceof SweText) {
-            abstractDataComponentType = createText((SweText) sosSimpleType);
-        } else if (sosSimpleType instanceof SweTimeRange) {
-            abstractDataComponentType = createTimeRange((SweTimeRange) sosSimpleType);
-        } else if (sosSimpleType instanceof SweTime) {
-            abstractDataComponentType = createTime((SweTime) sosSimpleType);
+        if (sosSimpleType instanceof SweBoolean boolean1) {
+            abstractDataComponentType = createBoolean(boolean1);
+        } else if (sosSimpleType instanceof SweCategory category) {
+            abstractDataComponentType = createCategory(category);
+        } else if (sosSimpleType instanceof SweCount count) {
+            abstractDataComponentType = createCount(count);
+        } else if (sosSimpleType instanceof SweCountRange range2) {
+            abstractDataComponentType = createCountRange(range2);
+        } else if (sosSimpleType instanceof SweObservableProperty property) {
+            abstractDataComponentType = createObservableProperty(property);
+        } else if (sosSimpleType instanceof SweQuantity quantity) {
+            abstractDataComponentType = createQuantity(quantity);
+        } else if (sosSimpleType instanceof SweQuantityRange range1) {
+            abstractDataComponentType = createQuantityRange(range1);
+        } else if (sosSimpleType instanceof SweText text) {
+            abstractDataComponentType = createText(text);
+        } else if (sosSimpleType instanceof SweTimeRange range) {
+            abstractDataComponentType = createTimeRange(range);
+        } else if (sosSimpleType instanceof SweTime time) {
+            abstractDataComponentType = createTime(time);
         } else {
             throw new NotYetSupportedEncodingException(SweAbstractSimpleType.class.getSimpleName(), sosSimpleType);
         }
@@ -261,24 +261,24 @@ public class SweCommonEncoderv101
         }
         AbstractDataComponentType xbDCD;
         if (element != null) {
-            if (element instanceof SweBoolean) {
+            if (element instanceof SweBoolean boolean1) {
                 xbDCD = xbField.addNewBoolean();
-                xbDCD.set(createSimpleType((SweBoolean) element));
-            } else if (element instanceof SweCategory) {
+                xbDCD.set(createSimpleType(boolean1));
+            } else if (element instanceof SweCategory category) {
                 xbDCD = xbField.addNewCategory();
-                xbDCD.set(createSimpleType((SweCategory) element));
-            } else if (element instanceof SweCount) {
+                xbDCD.set(createSimpleType(category));
+            } else if (element instanceof SweCount count) {
                 xbDCD = xbField.addNewCount();
-                xbDCD.set(createSimpleType((SweCount) element));
-            } else if (element instanceof SweQuantity) {
+                xbDCD.set(createSimpleType(count));
+            } else if (element instanceof SweQuantity quantity) {
                 xbDCD = xbField.addNewQuantity();
-                xbDCD.set(createSimpleType((SweQuantity) element));
-            } else if (element instanceof SweText) {
+                xbDCD.set(createSimpleType(quantity));
+            } else if (element instanceof SweText text) {
                 xbDCD = xbField.addNewText();
-                xbDCD.set(createSimpleType((SweText) element));
-            } else if (element instanceof SweTime) {
+                xbDCD.set(createSimpleType(text));
+            } else if (element instanceof SweTime time) {
                 xbDCD = xbField.addNewTime();
-                xbDCD.set(createSimpleType((SweTime) element));
+                xbDCD.set(createSimpleType(time));
             } else {
                 throw new EncodingException(
                         "The element type '%s' of the received %s is not supported by this encoder '%s'.",
@@ -295,36 +295,36 @@ public class SweCommonEncoderv101
         if (sweField.isSetName()) {
             xbField.setName(sweField.getName().getValue());
         }
-        if (element instanceof SweBoolean) {
-            xbField.addNewBoolean().set(createSimpleType((SweBoolean) element));
-        } else if (element instanceof SweCategory) {
-            xbField.addNewCategory().set(createSimpleType((SweCategory) element));
-        } else if (element instanceof SweCount) {
-            xbField.addNewCount().set(createSimpleType((SweCount) element));
-        } else if (element instanceof SweCountRange) {
-            xbField.addNewCount().set(createSimpleType((SweCountRange) element));
-        } else if (element instanceof SweQuantity) {
-            xbField.addNewQuantity().set(createSimpleType((SweQuantity) element));
-        } else if (element instanceof SweQuantityRange) {
-            xbField.addNewQuantity().set(createSimpleType((SweQuantityRange) element));
-        } else if (element instanceof SweText) {
-            xbField.addNewText().set(createSimpleType((SweText) element));
-        } else if (element instanceof SweTimeRange) {
-            xbField.addNewTimeRange().set(createSimpleType((SweTimeRange) element));
-        } else if (element instanceof SweTime) {
-            xbField.addNewTime().set(createSimpleType((SweTime) element));
-        } else if (element instanceof SweEnvelope) {
+        if (element instanceof SweBoolean boolean1) {
+            xbField.addNewBoolean().set(createSimpleType(boolean1));
+        } else if (element instanceof SweCategory category) {
+            xbField.addNewCategory().set(createSimpleType(category));
+        } else if (element instanceof SweCount count) {
+            xbField.addNewCount().set(createSimpleType(count));
+        } else if (element instanceof SweCountRange range2) {
+            xbField.addNewCount().set(createSimpleType(range2));
+        } else if (element instanceof SweQuantity quantity) {
+            xbField.addNewQuantity().set(createSimpleType(quantity));
+        } else if (element instanceof SweQuantityRange range1) {
+            xbField.addNewQuantity().set(createSimpleType(range1));
+        } else if (element instanceof SweText text) {
+            xbField.addNewText().set(createSimpleType(text));
+        } else if (element instanceof SweTimeRange range) {
+            xbField.addNewTimeRange().set(createSimpleType(range));
+        } else if (element instanceof SweTime time) {
+            xbField.addNewTime().set(createSimpleType(time));
+        } else if (element instanceof SweEnvelope envelope) {
             EnvelopeType xbEnvelope = (EnvelopeType) xbField.addNewAbstractDataRecord()
                     .substitute(SweConstants.QN_ENVELOPE_SWE_101, EnvelopeType.type);
-            xbEnvelope.set(createEnvelope((SweEnvelope) element));
-        } else if (element instanceof SweDataRecord) {
+            xbEnvelope.set(createEnvelope(envelope));
+        } else if (element instanceof SweDataRecord record) {
             DataRecordType xbEnvelope = (DataRecordType) xbField.addNewAbstractDataRecord()
                     .substitute(SweConstants.QN_DATA_RECORD_SWE_101, DataRecordType.type);
-            xbEnvelope.set(createDataRecord((SweDataRecord) element));
-        } else if (element instanceof SweDataArray) {
+            xbEnvelope.set(createDataRecord(record));
+        } else if (element instanceof SweDataArray array) {
             DataArrayType xbEnvelope = (DataArrayType) xbField.addNewAbstractDataRecord()
                     .substitute(SweConstants.QN_DATA_RECORD_SWE_101, DataArrayType.type);
-            xbEnvelope.set(createDataArray((SweDataArray) element).getDataArray1());
+            xbEnvelope.set(createDataArray(array).getDataArray1());
         } else {
             throw new EncodingException(
                     "The element type '%s' of the received '%s' is not supported by this encoder '%s'.",
@@ -351,14 +351,14 @@ public class SweCommonEncoderv101
             ArrayList<QualityPropertyType> xbQualities = Lists.newArrayListWithCapacity(quality.getQuality().size());
             for (SweQuality sweQuality : quality.getQuality()) {
                 QualityPropertyType xbQuality = QualityPropertyType.Factory.newInstance();
-                if (sweQuality instanceof SweText) {
-                    xbQuality.addNewText().set(createText((SweText) sweQuality));
-                } else if (sweQuality instanceof SweCategory) {
-                    xbQuality.addNewCategory().set(createCategory((SweCategory) sweQuality));
-                } else if (sweQuality instanceof SweQuantity) {
-                    xbQuality.addNewQuantity().set(createQuantity((SweQuantity) sweQuality));
-                } else if (sweQuality instanceof SweQuantityRange) {
-                    xbQuality.addNewQuantityRange().set(createQuantityRange((SweQuantityRange) sweQuality));
+                if (sweQuality instanceof SweText text) {
+                    xbQuality.addNewText().set(createText(text));
+                } else if (sweQuality instanceof SweCategory category) {
+                    xbQuality.addNewCategory().set(createCategory(category));
+                } else if (sweQuality instanceof SweQuantity quantity) {
+                    xbQuality.addNewQuantity().set(createQuantity(quantity));
+                } else if (sweQuality instanceof SweQuantityRange range) {
+                    xbQuality.addNewQuantityRange().set(createQuantityRange(range));
                 }
                 xbQualities.add(xbQuality);
             }
@@ -819,8 +819,8 @@ public class SweCommonEncoderv101
             } else if (sosDataArray.isSetXml()) {
                 try {
                     XmlObject xmlObject = XmlObject.Factory.parse(sosDataArray.getXml().trim());
-                    if (xmlObject instanceof DataArrayDocument) {
-                        return (DataArrayDocument) xmlObject;
+                    if (xmlObject instanceof DataArrayDocument document) {
+                        return document;
                     } else {
                         DataArrayDocument xbDataArrayDoc = DataArrayDocument.Factory.newInstance(getXmlOptions());
                         xbDataArrayDoc.setDataArray1(DataArrayType.Factory.parse(sosDataArray.getXml().trim()));
@@ -858,8 +858,8 @@ public class SweCommonEncoderv101
             throws EncodingException {
 
         try {
-            if (sosSweAbstractEncoding instanceof SweTextEncoding) {
-                return createTextEncoding((SweTextEncoding) sosSweAbstractEncoding);
+            if (sosSweAbstractEncoding instanceof SweTextEncoding encoding) {
+                return createTextEncoding(encoding);
             }
             if (sosSweAbstractEncoding.getXml() != null && !sosSweAbstractEncoding.getXml().isEmpty()) {
                 XmlObject xmlObject = XmlObject.Factory.parse(sosSweAbstractEncoding.getXml());

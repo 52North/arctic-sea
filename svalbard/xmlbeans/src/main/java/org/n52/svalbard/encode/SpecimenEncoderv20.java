@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -94,8 +94,8 @@ public class SpecimenEncoderv20
     @Override
     public XmlObject encode(final AbstractFeature abstractFeature, final EncodingContext ec) throws EncodingException {
         XmlObject encodedObject;
-        if (abstractFeature instanceof SfSpecimen) {
-            encodedObject = createSpecimen((SfSpecimen) abstractFeature);
+        if (abstractFeature instanceof SfSpecimen specimen) {
+            encodedObject = createSpecimen(specimen);
         } else {
             encodedObject = createFeature(abstractFeature);
         }
@@ -111,8 +111,8 @@ public class SpecimenEncoderv20
             try {
                 final XmlObject feature = XmlObject.Factory.parse(specimen.getXml(), getXmlOptions());
                 XmlHelper.updateGmlIDs(feature.getDomNode().getFirstChild(), specimen.getGmlId(), null);
-                if (XmlHelper.getNamespace(feature).equals(SfConstants.NS_SPEC) && feature instanceof SFSpecimenType) {
-                    sfsd.setSFSpecimen((SFSpecimenType) feature);
+                if (XmlHelper.getNamespace(feature).equals(SfConstants.NS_SPEC) && feature instanceof SFSpecimenType type) {
+                    sfsd.setSFSpecimen(type);
                     addName(sfsd.getSFSpecimen(), specimen);
                     addDescription(sfsd.getSFSpecimen(), specimen);
                     return sfsd;

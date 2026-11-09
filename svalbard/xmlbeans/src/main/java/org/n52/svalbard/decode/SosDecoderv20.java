@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -130,28 +130,28 @@ public class SosDecoderv20
         LOGGER.debug("REQUESTTYPE:" + xml.getClass());
         // validate document
         XmlHelper.validateDocument(xml);
-        if (xml instanceof GetCapabilitiesDocument) {
-            return parseGetCapabilities((GetCapabilitiesDocument) xml);
-        } else if (xml instanceof GetObservationDocument) {
-            return parseGetObservation((GetObservationDocument) xml);
-        } else if (xml instanceof GetFeatureOfInterestDocument) {
-            return parseGetFeatureOfInterest((GetFeatureOfInterestDocument) xml);
-        } else if (xml instanceof GetObservationByIdDocument) {
-            return parseGetObservationById((GetObservationByIdDocument) xml);
-        } else if (xml instanceof InsertObservationDocument) {
-            return parseInsertObservation((InsertObservationDocument) xml);
-        } else if (xml instanceof InsertResultTemplateDocument) {
-            return parseInsertResultTemplate((InsertResultTemplateDocument) xml);
-        } else if (xml instanceof InsertResultDocument) {
-            return parseInsertResult((InsertResultDocument) xml);
-        } else if (xml instanceof GetResultTemplateDocument) {
-            return parseGetResultTemplate((GetResultTemplateDocument) xml);
-        } else if (xml instanceof GetResultDocument) {
-            return parseGetResult((GetResultDocument) xml);
-        } else if (xml instanceof GetResultTemplateResponseDocument) {
-            return parseGetResultTemplateResponse((GetResultTemplateResponseDocument) xml);
-        } else if (xml instanceof GetResultResponseDocument) {
-            return parseGetResultResponse((GetResultResponseDocument) xml);
+        if (xml instanceof GetCapabilitiesDocument document10) {
+            return parseGetCapabilities(document10);
+        } else if (xml instanceof GetObservationDocument document9) {
+            return parseGetObservation(document9);
+        } else if (xml instanceof GetFeatureOfInterestDocument document8) {
+            return parseGetFeatureOfInterest(document8);
+        } else if (xml instanceof GetObservationByIdDocument document7) {
+            return parseGetObservationById(document7);
+        } else if (xml instanceof InsertObservationDocument document6) {
+            return parseInsertObservation(document6);
+        } else if (xml instanceof InsertResultTemplateDocument document5) {
+            return parseInsertResultTemplate(document5);
+        } else if (xml instanceof InsertResultDocument document4) {
+            return parseInsertResult(document4);
+        } else if (xml instanceof GetResultTemplateDocument document3) {
+            return parseGetResultTemplate(document3);
+        } else if (xml instanceof GetResultDocument document2) {
+            return parseGetResult(document2);
+        } else if (xml instanceof GetResultTemplateResponseDocument document1) {
+            return parseGetResultTemplateResponse(document1);
+        } else if (xml instanceof GetResultResponseDocument document) {
+            return parseGetResultResponse(document);
         } else {
             throw new UnsupportedDecoderXmlInputException(this, xml);
         }
@@ -296,8 +296,8 @@ public class SosDecoderv20
             CompositeException exceptions = new CompositeException();
             for (final Observation observation : insertObservationType.getObservationArray()) {
                 final Object decodedObject = decodeXmlElement(observation.getOMObservation());
-                if (decodedObject instanceof OmObservation) {
-                    insertObservationRequest.addObservation((OmObservation) decodedObject);
+                if (decodedObject instanceof OmObservation omObservation) {
+                    insertObservationRequest.addObservation(omObservation);
                 } else {
                     exceptions.add(new DecodingException(Sos2Constants.InsertObservationParams.observation,
                             "The requested observation type (%s) is not supported by this server!",
@@ -428,8 +428,8 @@ public class SosDecoderv20
             throws DecodingException {
         if (spatialFilter != null && spatialFilter.getSpatialOps() != null) {
             final Object filter = decodeXmlElement(spatialFilter.getSpatialOps());
-            if (filter instanceof SpatialFilter) {
-                return (SpatialFilter) filter;
+            if (filter instanceof SpatialFilter spatialFilter1) {
+                return spatialFilter1;
             }
         }
         return null;
@@ -454,8 +454,8 @@ public class SosDecoderv20
         final List<SpatialFilter> sosSpatialFilters = new ArrayList<>(spatialFilters.length);
         for (final net.opengis.sos.x20.GetFeatureOfInterestType.SpatialFilter spatialFilter : spatialFilters) {
             final Object filter = decodeXmlElement(spatialFilter.getSpatialOps());
-            if (filter instanceof SpatialFilter) {
-                sosSpatialFilters.add((SpatialFilter) filter);
+            if (filter instanceof SpatialFilter spatialFilter1) {
+                sosSpatialFilters.add(spatialFilter1);
             }
         }
         return sosSpatialFilters;
@@ -466,8 +466,8 @@ public class SosDecoderv20
             throws DecodingException {
         if (spatialFilter != null && spatialFilter.getSpatialOps() != null) {
             final Object filter = decodeXmlElement(spatialFilter.getSpatialOps());
-            if (filter instanceof SpatialFilter) {
-                return (SpatialFilter) filter;
+            if (filter instanceof SpatialFilter spatialFilter1) {
+                return spatialFilter1;
             }
         }
         return null;
@@ -492,8 +492,8 @@ public class SosDecoderv20
         final List<TemporalFilter> sosTemporalFilters = new ArrayList<>(temporalFilters.length);
         for (final net.opengis.sos.x20.GetObservationType.TemporalFilter temporalFilter : temporalFilters) {
             final Object filter = decodeXmlElement(temporalFilter.getTemporalOps());
-            if (filter instanceof TemporalFilter) {
-                sosTemporalFilters.add((TemporalFilter) filter);
+            if (filter instanceof TemporalFilter temporalFilter1) {
+                sosTemporalFilters.add(temporalFilter1);
             }
         }
         return sosTemporalFilters;
@@ -505,8 +505,8 @@ public class SosDecoderv20
         final List<TemporalFilter> sosTemporalFilters = new ArrayList<>(temporalFilters.length);
         for (final net.opengis.sos.x20.GetResultType.TemporalFilter temporalFilter : temporalFilters) {
             final Object filter = decodeXmlElement(temporalFilter.getTemporalOps());
-            if (filter instanceof TemporalFilter) {
-                sosTemporalFilters.add((TemporalFilter) filter);
+            if (filter instanceof TemporalFilter temporalFilter1) {
+                sosTemporalFilters.add(temporalFilter1);
             }
         }
         return sosTemporalFilters;
@@ -515,8 +515,7 @@ public class SosDecoderv20
     private OmObservationConstellation parseObservationTemplate(final ObservationTemplate observationTemplate)
             throws DecodingException {
         final Object decodedObject = decodeXmlElement(observationTemplate.getOMObservation());
-        if (decodedObject instanceof OmObservation) {
-            final OmObservation observation = (OmObservation) decodedObject;
+        if (decodedObject instanceof OmObservation observation) {
             return observation.getObservationConstellation();
         }
         return null;
@@ -525,8 +524,7 @@ public class SosDecoderv20
     private SosResultStructure parseResultStructure(XmlObject resultStructure)
             throws DecodingException {
         Object decodedObject = decodeXmlElement(resultStructure);
-        if (decodedObject instanceof SweAbstractDataComponent) {
-            final SweAbstractDataComponent sosSweData = (SweAbstractDataComponent) decodedObject;
+        if (decodedObject instanceof SweAbstractDataComponent sosSweData) {
             return new SosResultStructure(sosSweData, sosSweData.getXml());
         } else {
             throw new DecodingException(Sos2Constants.InsertResultTemplateParams.resultStructure,
@@ -538,8 +536,7 @@ public class SosDecoderv20
     private SosResultEncoding parseResultEncoding(XmlObject resultEncoding)
             throws DecodingException {
         Object decodedObject = decodeXmlElement(resultEncoding);
-        if (decodedObject instanceof SweAbstractEncoding) {
-            final SweAbstractEncoding sosSweEncoding = (SweAbstractEncoding) decodedObject;
+        if (decodedObject instanceof SweAbstractEncoding sosSweEncoding) {
             return new SosResultEncoding(sosSweEncoding, sosSweEncoding.getXml());
         } else {
             throw new DecodingException(Sos2Constants.InsertResultTemplateParams.resultEncoding,

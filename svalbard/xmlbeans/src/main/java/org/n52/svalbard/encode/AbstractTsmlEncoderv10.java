@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -154,12 +154,12 @@ public abstract class AbstractTsmlEncoderv10
     @Override
     public XmlObject encode(Object element, EncodingContext context)
             throws EncodingException {
-        if (element instanceof ObservationProcess) {
-            return createObservationProcess((ObservationProcess) element, context);
+        if (element instanceof ObservationProcess process) {
+            return createObservationProcess(process, context);
         } else if (element instanceof OmObservation) {
             return super.encode(element, context);
-        } else if (element instanceof AbstractFeature) {
-            return encodeAbstractFeature((AbstractFeature) element, context);
+        } else if (element instanceof AbstractFeature feature) {
+            return encodeAbstractFeature(feature, context);
         } else {
             return super.encode(element, context);
         }
@@ -280,8 +280,7 @@ public abstract class AbstractTsmlEncoderv10
      */
     protected XmlObject createMonitoringPoint(AbstractFeature absFeature)
             throws EncodingException {
-        if (absFeature instanceof AbstractSamplingFeature) {
-            AbstractSamplingFeature sampFeat = (AbstractSamplingFeature) absFeature;
+        if (absFeature instanceof AbstractSamplingFeature sampFeat) {
             StringBuilder builder = new StringBuilder();
             builder.append("mp_");
             builder.append(IdGenerator.generate(absFeature.getIdentifierCodeWithAuthority().getValue()));
@@ -293,10 +292,10 @@ public abstract class AbstractTsmlEncoderv10
                 try {
                     XmlObject feature = XmlObject.Factory.parse(sampFeat.getXml());
                     if (XmlHelper.getNamespace(feature).equals(TimeseriesMLConstants.NS_TSML_10)) {
-                        if (feature instanceof MonitoringFeatureDocument) {
-                            monitoringPointDoc = (MonitoringFeatureDocument) feature;
-                        } else if (feature instanceof MonitoringFeatureType) {
-                            monitoringPointDoc.setSFSpatialSamplingFeature((MonitoringFeatureType) feature);
+                        if (feature instanceof MonitoringFeatureDocument document) {
+                            monitoringPointDoc = document;
+                        } else if (feature instanceof MonitoringFeatureType type) {
+                            monitoringPointDoc.setSFSpatialSamplingFeature(type);
                         }
                         XmlHelper.updateGmlIDs(monitoringPointDoc.getDomNode(), absFeature.getGmlId(), null);
                         return monitoringPointDoc;
@@ -371,8 +370,8 @@ public abstract class AbstractTsmlEncoderv10
             } else {
                 throw new EncodingException("Error while encoding geometry for feature, needed encoder is missing!");
             }
-            if (absFeature instanceof TsmlMonitoringFeature) {
-                addMonitoringPointValues(mpt, (TsmlMonitoringFeature) absFeature);
+            if (absFeature instanceof TsmlMonitoringFeature feature) {
+                addMonitoringPointValues(mpt, feature);
             }
             sampFeat.wasEncoded();
             return monitoringPointDoc;
@@ -550,8 +549,8 @@ public abstract class AbstractTsmlEncoderv10
                     Nillable<VerticalDatum> nillable = verticalDatum.getInstance();
                     if (nillable.isPresent()) {
                         XmlObject xml = encodeGML(nillable.get());
-                        if (xml != null && xml instanceof VerticalDatumType) {
-                            vdpt.setVerticalDatum((VerticalDatumType) xml);
+                        if (xml != null && xml instanceof VerticalDatumType type) {
+                            vdpt.setVerticalDatum(type);
                         } else {
                             vdpt.setNil();
                             vdpt.setNilReason(Nillable.missing().get());
@@ -717,10 +716,9 @@ public abstract class AbstractTsmlEncoderv10
      * @return Time as DateTime
      */
     private DateTime getTime(Time time) {
-        if (time instanceof TimeInstant) {
-            return ((TimeInstant) time).getValue();
-        } else if (time instanceof TimePeriod) {
-            TimePeriod timePeriod = (TimePeriod) time;
+        if (time instanceof TimeInstant instant) {
+            return instant.getValue();
+        } else if (time instanceof TimePeriod timePeriod) {
             if (timePeriod.getEnd() != null) {
                 return timePeriod.getEnd();
             } else {
@@ -765,8 +763,8 @@ public abstract class AbstractTsmlEncoderv10
                     Nillable<CiResponsibleParty> nillable = relatedParty.getInstance();
                     if (nillable.isPresent()) {
                         XmlObject xml = encodeObjectToXml(nillable.get().getDefaultElementEncoding(), nillable.get());
-                        if (xml != null && xml instanceof CIResponsiblePartyType) {
-                            citppt.setCIResponsibleParty((CIResponsiblePartyType) xml);
+                        if (xml != null && xml instanceof CIResponsiblePartyType type) {
+                            citppt.setCIResponsibleParty(type);
                         } else {
                             citppt.setNil();
                             citppt.setNilReason(Nillable.missing().get());

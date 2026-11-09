@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -114,25 +114,15 @@ public class SosDecoderv100 extends AbstractXmlDecoder<XmlObject, OwsServiceComm
         // validate document
         XmlHelper.validateDocument(xmlObject);
 
-        if (xmlObject instanceof GetCapabilitiesDocument) {
-            // getCapabilities request
-            GetCapabilitiesDocument getCapsDoc = (GetCapabilitiesDocument) xmlObject;
+        if (xmlObject instanceof GetCapabilitiesDocument getCapsDoc) {
             request = parseGetCapabilities(getCapsDoc);
-        } else if (xmlObject instanceof DescribeSensorDocument) {
-            // DescribeSensor request (still SOS 1.0 NS_URI
-            DescribeSensorDocument descSensorDoc = (DescribeSensorDocument) xmlObject;
+        } else if (xmlObject instanceof DescribeSensorDocument descSensorDoc) {
             request = parseDescribeSensor(descSensorDoc);
-        } else if (xmlObject instanceof GetObservationDocument) {
-            // getObservation request
-            GetObservationDocument getObsDoc = (GetObservationDocument) xmlObject;
+        } else if (xmlObject instanceof GetObservationDocument getObsDoc) {
             request = parseGetObservation(getObsDoc);
-        } else if (xmlObject instanceof GetFeatureOfInterestDocument) {
-            // getFeatureOfInterest request
-            GetFeatureOfInterestDocument getFoiDoc = (GetFeatureOfInterestDocument) xmlObject;
+        } else if (xmlObject instanceof GetFeatureOfInterestDocument getFoiDoc) {
             request = parseGetFeatureOfInterest(getFoiDoc);
-        } else if (xmlObject instanceof GetObservationByIdDocument) {
-            // getObservationById request
-            GetObservationByIdDocument getObsByIdDoc = (GetObservationByIdDocument) xmlObject;
+        } else if (xmlObject instanceof GetObservationByIdDocument getObsByIdDoc) {
             request = parseGetObservationById(getObsByIdDoc);
         } else {
             throw new UnsupportedDecoderXmlInputException(this, xmlObject);
@@ -219,8 +209,8 @@ public class SosDecoderv100 extends AbstractXmlDecoder<XmlObject, OwsServiceComm
             FeatureOfInterest featureOfInterest = getObs.getFeatureOfInterest();
             if (featureOfInterest.isSetSpatialOps()) {
                 Object filter = decodeXmlElement(featureOfInterest.getSpatialOps());
-                if (filter instanceof SpatialFilter) {
-                    getObsRequest.setSpatialFilter((SpatialFilter) filter);
+                if (filter instanceof SpatialFilter spatialFilter) {
+                    getObsRequest.setSpatialFilter(spatialFilter);
                 }
             } else if (featureOfInterest.getObjectIDArray() != null) {
                 Set<String> featureIdentifiers = Sets.newHashSet();
@@ -313,8 +303,8 @@ public class SosDecoderv100 extends AbstractXmlDecoder<XmlObject, OwsServiceComm
         List<SpatialFilter> sosSpatialFilters = new LinkedList<>();
         if (location != null && location.getSpatialOps() != null) {
             Object filter = decodeXmlElement(location.getSpatialOps());
-            if (filter instanceof SpatialFilter) {
-                sosSpatialFilters.add((SpatialFilter) filter);
+            if (filter instanceof SpatialFilter spatialFilter) {
+                sosSpatialFilters.add(spatialFilter);
             }
         }
         return sosSpatialFilters;
@@ -340,8 +330,8 @@ public class SosDecoderv100 extends AbstractXmlDecoder<XmlObject, OwsServiceComm
 
         for (GetObservation.EventTime temporalFilter : temporalFilters) {
             Object filter = decodeXmlElement(temporalFilter.getTemporalOps());
-            if (filter instanceof TemporalFilter) {
-                sosTemporalFilters.add((TemporalFilter) filter);
+            if (filter instanceof TemporalFilter temporalFilter1) {
+                sosTemporalFilters.add(temporalFilter1);
             }
         }
         return sosTemporalFilters;
@@ -350,8 +340,8 @@ public class SosDecoderv100 extends AbstractXmlDecoder<XmlObject, OwsServiceComm
     private ComparisonFilter parseResultFilter(Result result) throws DecodingException {
         if (result != null && result.getComparisonOps() != null) {
             Object decodeXmlElement = decodeXmlElement(result.getComparisonOps());
-            if (decodeXmlElement instanceof ComparisonFilter) {
-                return (ComparisonFilter) decodeXmlElement;
+            if (decodeXmlElement instanceof ComparisonFilter filter) {
+                return filter;
             }
         }
         return null;

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package org.n52.janmayen.i18n;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
@@ -33,6 +34,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.MoreObjects.ToStringHelper;
 
 public class MultilingualString implements Serializable, StreamingIterable<LocalizedString> {
+    @Serial
     private static final long serialVersionUID = -1120455418520277338L;
     private final Map<Locale, LocalizedString> localizations = new HashMap<>();
 
@@ -100,8 +102,7 @@ public class MultilingualString implements Serializable, StreamingIterable<Local
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof MultilingualString) {
-            MultilingualString that = (MultilingualString) obj;
+        if (obj instanceof MultilingualString that) {
             return Objects.equals(this.getLocalizations(),
                                   that.getLocalizations());
         }

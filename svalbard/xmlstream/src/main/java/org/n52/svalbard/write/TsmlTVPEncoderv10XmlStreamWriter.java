@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ import java.io.OutputStream;
 import java.util.List;
 import java.util.Optional;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.commons.lang.StringEscapeUtils;
@@ -283,19 +283,15 @@ public class TsmlTVPEncoderv10XmlStreamWriter extends AbstractOmV20XmlStreamWrit
 
     private void writePoint(String time, Value<?> value) throws XMLStreamException, EncodingException {
         if (value != null) {
-            if (value instanceof QuantityValue) {
-                QuantityValue quantityValue = (QuantityValue) value;
+            if (value instanceof QuantityValue quantityValue) {
                 writePoint(time, quantityValue);
-            } else if (value instanceof ProfileValue) {
-                ProfileValue gwglcValue = (ProfileValue) value;
+            } else if (value instanceof ProfileValue gwglcValue) {
                 if (gwglcValue.isSetValue()) {
                     writePoint(time, gwglcValue.getValue().iterator().next().getSimpleValue());
                 }
-            } else if (value instanceof CountValue) {
-                CountValue countValue = (CountValue) value;
+            } else if (value instanceof CountValue countValue) {
                 writePoint(time, countValue);
-            } else if (value instanceof TextValue) {
-                TextValue textValue = (TextValue) value;
+            } else if (value instanceof TextValue textValue) {
                 String nonXmlEscapedText = textValue.getValue();
                 writePoint(time, StringEscapeUtils.escapeXml(nonXmlEscapedText), textValue.getQuality());
             }

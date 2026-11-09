@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -137,14 +137,13 @@ public class ProcessTypeEncoder
             XmlObject encodedObject = null;
             try {
                 encodedObject = XmlObject.Factory.parse(process.getXml());
-                if (encodedObject instanceof ProcessType) {
-                    ProcessType pt = (ProcessType) encodedObject;
+                if (encodedObject instanceof ProcessType pt) {
                     checkForInspireId(pt, process);
                     return pt;
-                } else if (encodedObject instanceof ProcessDocument) {
-                    return ((ProcessDocument) encodedObject).getProcess();
-                } else if (encodedObject instanceof ProcessPropertyType) {
-                    return ((ProcessPropertyType) encodedObject).getProcess();
+                } else if (encodedObject instanceof ProcessDocument document) {
+                    return document.getProcess();
+                } else if (encodedObject instanceof ProcessPropertyType type) {
+                    return type.getProcess();
                 } else {
                     throw new UnsupportedEncoderInputException(this, process);
                 }

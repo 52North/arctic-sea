@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -105,14 +105,14 @@ public class SwesDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicati
     public OwsServiceRequest decode(XmlObject xmlObject) throws DecodingException {
         LOGGER.debug("REQUESTTYPE:" + xmlObject.getClass());
         XmlHelper.validateDocument(xmlObject);
-        if (xmlObject instanceof DescribeSensorDocument) {
-            return parseDescribeSensor((DescribeSensorDocument) xmlObject);
-        } else if (xmlObject instanceof InsertSensorDocument) {
-            return parseInsertSensor((InsertSensorDocument) xmlObject);
-        } else if (xmlObject instanceof UpdateSensorDescriptionDocument) {
-            return parseUpdateSensorDescription((UpdateSensorDescriptionDocument) xmlObject);
-        } else if (xmlObject instanceof DeleteSensorDocument) {
-            return parseDeleteSensor((DeleteSensorDocument) xmlObject);
+        if (xmlObject instanceof DescribeSensorDocument document3) {
+            return parseDescribeSensor(document3);
+        } else if (xmlObject instanceof InsertSensorDocument document2) {
+            return parseInsertSensor(document2);
+        } else if (xmlObject instanceof UpdateSensorDescriptionDocument document1) {
+            return parseUpdateSensorDescription(document1);
+        } else if (xmlObject instanceof DeleteSensorDocument document) {
+            return parseDeleteSensor(document);
         } else {
             throw new UnsupportedDecoderXmlInputException(this, xmlObject);
         }
@@ -176,11 +176,11 @@ public class SwesDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicati
                             xbProcedureDescription.getClass()));
             if (decoder != null) {
                 final Object decodedProcedureDescription = decoder.decode(xbProcedureDescription);
-                if (decodedProcedureDescription instanceof SosProcedureDescription) {
-                    request.setProcedureDescription((SosProcedureDescription) decodedProcedureDescription);
-                } else if (decodedProcedureDescription instanceof AbstractFeature) {
+                if (decodedProcedureDescription instanceof SosProcedureDescription description) {
+                    request.setProcedureDescription(description);
+                } else if (decodedProcedureDescription instanceof AbstractFeature feature) {
                     request.setProcedureDescription(new SosProcedureDescription<>(
-                            (AbstractFeature) decodedProcedureDescription));
+                            feature));
                 }
             }
         } catch (final XmlException xmle) {
@@ -237,10 +237,10 @@ public class SwesDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicati
                 final Object decodedObject = decoder.decode(xmlObject);
 
                 SosProcedureDescription<?> sosProcedureDescription = null;
-                if (decodedObject instanceof SosProcedureDescription) {
-                    sosProcedureDescription = (SosProcedureDescription) decodedObject;
-                } else if (decodedObject instanceof AbstractFeature) {
-                    sosProcedureDescription = new SosProcedureDescription<>((AbstractFeature) decodedObject);
+                if (decodedObject instanceof SosProcedureDescription procedureDescription) {
+                    sosProcedureDescription = procedureDescription;
+                } else if (decodedObject instanceof AbstractFeature feature) {
+                    sosProcedureDescription = new SosProcedureDescription<>(feature);
                 }
                 if (sosProcedureDescription != null) {
                     if (sensorDescription.isSetValidTime()) {
@@ -312,8 +312,8 @@ public class SwesDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicati
                 sosFeatureRelationship.setFeature(feature);
             } else {
                 final Object decodedObject = decodeXmlElement(fpt);
-                if (decodedObject instanceof AbstractSamplingFeature) {
-                    sosFeatureRelationship.setFeature((AbstractSamplingFeature) decodedObject);
+                if (decodedObject instanceof AbstractSamplingFeature feature) {
+                    sosFeatureRelationship.setFeature(feature);
                 } else {
                     throw new DecoderResponseUnsupportedException(fpt.xmlText(getXmlOptions()), decodedObject);
                 }
@@ -330,8 +330,8 @@ public class SwesDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicati
 
     private Time getValidTime(net.opengis.swes.x20.DescribeSensorType.ValidTime validTime) throws DecodingException {
         Object decodeXmlElement = decodeXmlElement(validTime.getAbstractTimeGeometricPrimitive());
-        if (decodeXmlElement instanceof Time) {
-            return (Time) decodeXmlElement;
+        if (decodeXmlElement instanceof Time time) {
+            return time;
         } else {
             throw unsupportedValidTime(Sos2Constants.DescribeSensorParams.validTime,
                                        validTime.getAbstractTimeGeometricPrimitive());
@@ -341,8 +341,8 @@ public class SwesDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicati
     private Time getValidTime(net.opengis.swes.x20.SensorDescriptionType.ValidTime validTime)
             throws DecodingException {
         Object decodeXmlElement = decodeXmlElement(validTime.getAbstractTimeGeometricPrimitive());
-        if (decodeXmlElement instanceof Time) {
-            return (Time) decodeXmlElement;
+        if (decodeXmlElement instanceof Time time) {
+            return time;
         } else {
             throw unsupportedValidTime(Sos2Constants.UpdateSensorDescriptionParams.validTime,
                                        validTime.getAbstractTimeGeometricPrimitive());

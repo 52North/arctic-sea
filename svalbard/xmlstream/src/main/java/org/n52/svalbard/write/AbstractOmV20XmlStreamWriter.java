@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
@@ -211,10 +212,10 @@ public abstract class AbstractOmV20XmlStreamWriter extends XmlStreamWriter<OmObs
         for (Entry<String, NamedValue<?>> entry : map.entrySet()) {
             Object o = getEncoder(OmConstants.NS_OM_2, entry.getValue()).encode(entry.getValue(),
                     EncodingContext.of(XmlBeansEncodingFlags.DOCUMENT));
-            if (o != null && o instanceof XmlObject) {
+            if (o != null && o instanceof XmlObject object) {
                 start(GetDataAvailabilityConstants.GDA_EXTENSION);
                 attr("name", entry.getKey());
-                rawText(((XmlObject) o).xmlText(getXmlOptions()));
+                rawText(object.xmlText(getXmlOptions()));
                 end(GetDataAvailabilityConstants.GDA_EXTENSION);
             }
         }
@@ -225,9 +226,9 @@ public abstract class AbstractOmV20XmlStreamWriter extends XmlStreamWriter<OmObs
         for (AbstractMetaData abstractMetaData : metaDataProperty) {
             Object o = getEncoder(GmlConstants.NS_GML_32, abstractMetaData).encode(abstractMetaData,
                     EncodingContext.of(XmlBeansEncodingFlags.DOCUMENT));
-            if (o != null && o instanceof XmlObject) {
+            if (o != null && o instanceof XmlObject object) {
                 start(GmlConstants.QN_OM_20_META_DATA_PROPERTY_32);
-                rawText(((XmlObject) o).xmlText(getXmlOptions()));
+                rawText(object.xmlText(getXmlOptions()));
                 end(GmlConstants.QN_OM_20_META_DATA_PROPERTY_32);
             }
         }
@@ -432,7 +433,7 @@ public abstract class AbstractOmV20XmlStreamWriter extends XmlStreamWriter<OmObs
         if (createResult != null) {
             if (createResult.xmlText()
                     .contains(XML_FRAGMENT)) {
-                XmlObject set = OMObservationType.Factory.newInstance(getXmlOptions())
+                XmlObject set = ((OMObservationType) OMObservationType.Factory.newInstance(getXmlOptions()))
                         .addNewResult()
                         .set(createResult);
                 writeXmlObject(set, OmConstants.QN_OM_20_RESULT);
@@ -523,7 +524,7 @@ public abstract class AbstractOmV20XmlStreamWriter extends XmlStreamWriter<OmObs
      *             If an error occurs when writing to stream
      */
     private String addGmlId(OmObservation observation) throws XMLStreamException {
-        String observationID = IdGenerator.generate(Double.toString(System.currentTimeMillis() * Math.random()));
+        String observationID = IdGenerator.generate(Double.toString(System.currentTimeMillis() * ThreadLocalRandom.current().nextDouble()));
         if (observation.isSetObservationID()) {
             observationID = observation.getObservationID();
         } else {
@@ -578,10 +579,9 @@ public abstract class AbstractOmV20XmlStreamWriter extends XmlStreamWriter<OmObs
      * @return Time as DateTime
      */
     private DateTime getTime(Time time) {
-        if (time instanceof TimeInstant) {
-            return ((TimeInstant) time).getValue();
-        } else if (time instanceof TimePeriod) {
-            TimePeriod timePeriod = (TimePeriod) time;
+        if (time instanceof TimeInstant instant) {
+            return instant.getValue();
+        } else if (time instanceof TimePeriod timePeriod) {
             if (timePeriod.getEnd() != null) {
                 return timePeriod.getEnd();
             } else {

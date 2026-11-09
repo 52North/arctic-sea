@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -76,18 +76,18 @@ public class Iso19139GmdDecoder
 
     @Override
     public Object decode(XmlObject element) throws DecodingException {
-        if (element instanceof CIResponsiblePartyDocument) {
-            return decodeCIResponsibleParty(((CIResponsiblePartyDocument) element).getCIResponsibleParty());
-        } else if (element instanceof CIResponsiblePartyPropertyType) {
-            return decodeCIResponsiblePartyPropertyType((CIResponsiblePartyPropertyType) element);
-        } else if (element instanceof CIResponsiblePartyType) {
-            return decodeCIResponsibleParty((CIResponsiblePartyType) element);
-        } else if (element instanceof PTFreeTextDocument) {
-            return decodePTFreeTextType(((PTFreeTextDocument) element).getPTFreeText());
-        } else if (element instanceof PTFreeTextPropertyType) {
-            return decodePTFreeTextType(((PTFreeTextPropertyType) element).getPTFreeText());
-        } else if (element instanceof PTFreeTextType) {
-            return decodePTFreeTextType((PTFreeTextType) element);
+        if (element instanceof CIResponsiblePartyDocument document1) {
+            return decodeCIResponsibleParty(document1.getCIResponsibleParty());
+        } else if (element instanceof CIResponsiblePartyPropertyType type3) {
+            return decodeCIResponsiblePartyPropertyType(type3);
+        } else if (element instanceof CIResponsiblePartyType type2) {
+            return decodeCIResponsibleParty(type2);
+        } else if (element instanceof PTFreeTextDocument document) {
+            return decodePTFreeTextType(document.getPTFreeText());
+        } else if (element instanceof PTFreeTextPropertyType type1) {
+            return decodePTFreeTextType(type1.getPTFreeText());
+        } else if (element instanceof PTFreeTextType type) {
+            return decodePTFreeTextType(type);
         } else {
             throw new UnsupportedDecoderXmlInputException(this, element);
         }
@@ -136,8 +136,8 @@ public class Iso19139GmdDecoder
         }
         if (element.getRole().isSetCIRoleCode()) {
             Object decodeXmlElement = decodeXmlElement(element.getRole().getCIRoleCode());
-            if (decodeXmlElement instanceof Role) {
-                responsibleParty.setRole((Role) decodeXmlElement);
+            if (decodeXmlElement instanceof Role role) {
+                responsibleParty.setRole(role);
             }
         }
         return responsibleParty;

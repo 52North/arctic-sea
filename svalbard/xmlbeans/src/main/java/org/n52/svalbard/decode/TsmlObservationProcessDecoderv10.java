@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -88,12 +88,12 @@ public class TsmlObservationProcessDecoderv10
     @Override
     public Object decode(Object object)
             throws DecodingException {
-        if (object instanceof ObservationProcessDocument) {
-            return parseObservationProcess(((ObservationProcessDocument) object).getObservationProcess());
-        } else if (object instanceof ObservationProcessPropertyType) {
-            return parseObservationProcess(((ObservationProcessPropertyType) object).getObservationProcess());
-        } else if (object instanceof ObservationProcessType) {
-            return parseObservationProcess((ObservationProcessType) object);
+        if (object instanceof ObservationProcessDocument document) {
+            return parseObservationProcess(document.getObservationProcess());
+        } else if (object instanceof ObservationProcessPropertyType type1) {
+            return parseObservationProcess(type1.getObservationProcess());
+        } else if (object instanceof ObservationProcessType type) {
+            return parseObservationProcess(type);
         }
         return super.decode(object);
     }
@@ -162,8 +162,8 @@ public class TsmlObservationProcessDecoderv10
             throws DecodingException {
         if (opt.isSetVerticalDatum()) {
             Object decodeXmlElement = decodeXmlElement(opt.getVerticalDatum());
-            if (decodeXmlElement instanceof ReferenceType) {
-                observationProcess.setVerticalDatum((ReferenceType) decodeXmlElement);
+            if (decodeXmlElement instanceof ReferenceType type) {
+                observationProcess.setVerticalDatum(type);
             }
         }
     }

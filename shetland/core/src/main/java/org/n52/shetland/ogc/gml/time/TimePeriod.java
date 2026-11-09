@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package org.n52.shetland.ogc.gml.time;
 
+import java.io.Serial;
 import java.text.ParseException;
 import java.util.Collection;
 import java.util.Date;
@@ -38,6 +39,7 @@ public class TimePeriod extends Time {
     /**
      * serial number
      */
+    @Serial
     private static final long serialVersionUID = -1784577421975774171L;
 
     /** start Date of timePeriod */
@@ -403,10 +405,10 @@ public class TimePeriod extends Time {
      *            To contain {@link Time}
      */
     public void extendToContain(Time time) {
-        if (time instanceof TimeInstant) {
-            extendToContain((TimeInstant) time);
-        } else if (time instanceof TimePeriod) {
-            extendToContain((TimePeriod) time);
+        if (time instanceof TimeInstant instant) {
+            extendToContain(instant);
+        } else if (time instanceof TimePeriod period) {
+            extendToContain(period);
         } else {
             String errorMsg = String.format("Received Time type \"%s\" unknown.",
                     Optional.ofNullable(time).map(Object::getClass).map(Class::getName).orElse("null"));
@@ -517,15 +519,13 @@ public class TimePeriod extends Time {
 
     @Override
     public int compareTo(Time o) {
-        if (o instanceof TimeInstant) {
-            TimeInstant ti = (TimeInstant) o;
+        if (o instanceof TimeInstant ti) {
             if (getEnd().isBefore(ti.getValue())) {
                 return -1;
             } else if (getStart().isAfter(ti.getValue())) {
                 return 1;
             }
-        } else if (o instanceof TimePeriod) {
-            TimePeriod tp = (TimePeriod) o;
+        } else if (o instanceof TimePeriod tp) {
             if (getStart().isBefore(tp.getStart())) {
                 return -1;
             } else if (getEnd().isAfter(tp.getEnd())) {

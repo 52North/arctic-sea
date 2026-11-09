@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ package org.n52.svalbard.encode;
 import java.util.Optional;
 import java.util.Set;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.apache.xmlbeans.XmlObject;
 import org.n52.faroe.ConfigurationError;
@@ -203,8 +203,8 @@ public abstract class AbstractAqdResponseEncoder<T extends OwsServiceResponse> e
         Encoder<Object, OwsServiceResponse> encoder = getEncoder(changeResponseServiceVersion(response));
         if (encoder != null) {
             Object encode = encoder.encode(response);
-            if (encode != null && encode instanceof XmlObject) {
-                return (XmlObject) encode;
+            if (encode != null && encode instanceof XmlObject object) {
+                return object;
             }
         }
         return null;

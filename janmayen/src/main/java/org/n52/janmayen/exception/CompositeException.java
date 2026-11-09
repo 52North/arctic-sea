@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package org.n52.janmayen.exception;
 
+import java.io.Serial;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -54,6 +55,7 @@ import com.google.common.base.Throwables;
  */
 @SuppressWarnings("unchecked")
 public class CompositeException extends Exception implements Iterable<Throwable> {
+    @Serial
     private static final long serialVersionUID = -5245180365129871997L;
 
     private final List<Throwable> exceptions = new LinkedList<>();
@@ -71,8 +73,8 @@ public class CompositeException extends Exception implements Iterable<Throwable>
     }
 
     private Stream<Throwable> stream(Throwable t) {
-        if (t instanceof CompositeException) {
-            return ((CompositeException) t).stream();
+        if (t instanceof CompositeException exception) {
+            return exception.stream();
         } else {
             return Stream.of(t);
         }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package org.n52.shetland.ogc.ows.exception;
 
+import java.io.Serial;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,6 +26,7 @@ import java.util.List;
  * @since 1.0.0
  */
 public abstract class CodedException extends OwsExceptionReport {
+    @Serial
     private static final long serialVersionUID = 8213294348107603436L;
     private final List<CodedException> exceptions = Collections.singletonList(this);
     private final ExceptionCode code;

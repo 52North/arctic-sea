@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,8 +65,7 @@ public class ClassToClassEncoderKey implements EncoderKey {
 
     @Override
     public int getSimilarity(EncoderKey key) {
-        if (key instanceof ClassToClassEncoderKey) {
-            ClassToClassEncoderKey xmlKey = (ClassToClassEncoderKey) key;
+        if (key instanceof ClassToClassEncoderKey xmlKey) {
             if (Objects.equal(getInternalClass(), xmlKey.getInternalClass())) {
                 return ClassHelper.getSimiliarity(getEncodedClass() != null ? getEncodedClass() : Object.class,
                         xmlKey.getEncodedClass() != null ? xmlKey.getEncodedClass() : Object.class);

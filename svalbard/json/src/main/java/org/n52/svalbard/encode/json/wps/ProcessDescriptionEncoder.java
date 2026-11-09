@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -72,20 +72,20 @@ public class ProcessDescriptionEncoder extends JSONEncoder<Object> {
     public JsonNode encodeJSON(Object object) throws EncodingException {
         if (object == null) {
             return nodeFactory().nullNode();
-        } else if (object instanceof ProcessDescription) {
-            return createProcessDescription((ProcessDescription) object);
-        } else if (object instanceof LiteralInputDescription) {
-            return createLiteralInput((LiteralInputDescription) object);
-        } else if (object instanceof ComplexInputDescription) {
-            return createComplexInput((ComplexInputDescription) object);
-        } else if (object instanceof BoundingBoxInputDescription) {
-            return createBoundingBoxInput((BoundingBoxInputDescription) object);
-        } else if (object instanceof LiteralOutputDescription) {
-            return createLiteralOutput((LiteralOutputDescription) object);
-        } else if (object instanceof ComplexOutputDescription) {
-            return createComplexOutput((ComplexOutputDescription) object);
-        } else if (object instanceof BoundingBoxOutputDescription) {
-            return createBoundingBoxOutput((BoundingBoxOutputDescription) object);
+        } else if (object instanceof ProcessDescription description6) {
+            return createProcessDescription(description6);
+        } else if (object instanceof LiteralInputDescription description5) {
+            return createLiteralInput(description5);
+        } else if (object instanceof ComplexInputDescription description4) {
+            return createComplexInput(description4);
+        } else if (object instanceof BoundingBoxInputDescription description3) {
+            return createBoundingBoxInput(description3);
+        } else if (object instanceof LiteralOutputDescription description2) {
+            return createLiteralOutput(description2);
+        } else if (object instanceof ComplexOutputDescription description1) {
+            return createComplexOutput(description1);
+        } else if (object instanceof BoundingBoxOutputDescription description) {
+            return createBoundingBoxOutput(description);
         } else {
             throw new EncodingException("not supported: " + object.getClass());
         }

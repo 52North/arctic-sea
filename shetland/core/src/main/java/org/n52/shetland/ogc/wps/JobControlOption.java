@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -64,8 +64,7 @@ public class JobControlOption implements Comparable<JobControlOption> {
         if (obj == null) {
             return false;
         }
-        if (obj instanceof JobControlOption) {
-            final JobControlOption other = (JobControlOption) obj;
+        if (obj instanceof JobControlOption other) {
             return Objects.equals(this.getValue(), other.getValue());
         }
         return false;

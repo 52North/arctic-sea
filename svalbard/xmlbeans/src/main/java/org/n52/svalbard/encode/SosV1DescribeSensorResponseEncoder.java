@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,8 +46,8 @@ public class SosV1DescribeSensorResponseEncoder extends AbstractSosV1ResponseEnc
             AbstractFeature procedureDescription =
                     response.getProcedureDescriptions().iterator().next().getProcedureDescription();
             if (checkFormat(response.getOutputFormat()) && !(procedureDescription instanceof SensorML)
-                    && procedureDescription instanceof AbstractProcess) {
-                procedureDescription = new SensorML().addMember((AbstractProcess) procedureDescription);
+                    && procedureDescription instanceof AbstractProcess process) {
+                procedureDescription = new SensorML().addMember(process);
             }
             return encodeObjectToXml(response.getOutputFormat(), procedureDescription);
         }

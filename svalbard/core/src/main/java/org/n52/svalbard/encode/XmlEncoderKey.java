@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -67,8 +67,7 @@ public class XmlEncoderKey implements EncoderKey {
 
     @Override
     public int getSimilarity(EncoderKey key) {
-        if (key instanceof XmlEncoderKey) {
-            XmlEncoderKey xmlKey = (XmlEncoderKey) key;
+        if (key instanceof XmlEncoderKey xmlKey) {
             if (Objects.equal(getNamespace(), xmlKey.getNamespace())) {
                 return ClassHelper.getSimiliarity(getType() != null ? getType() : Object.class,
                         xmlKey.getType() != null ? xmlKey.getType() : Object.class);

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -72,7 +72,6 @@ import org.n52.svalbard.odata.core.expr.temporal.TimeValueExpr;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.CheckReturnValue;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -145,7 +144,7 @@ public class ODataFesParser
             // UriInfo parseUri = parser.parseUri(PATH, "$filter=" + encode,
             // FRAGMENT, this.edm);
             return parseUri.getFilterOption().getExpression().accept(new ExpressionGenerator())
-                           .accept(new RenamingVisitor(csdlProvider::mapProperty)).accept(new FilterGenerator());
+                    .accept(new RenamingVisitor(csdlProvider::mapProperty)).accept(new FilterGenerator());
         } catch (ODataException ex) {
             throw new DecodingException(ex);
         }
@@ -161,7 +160,7 @@ public class ODataFesParser
         String modified = objectToDecode;
         if (objectToDecode.contains("geo.")) {
             modified = objectToDecode.replace(",'SRID", ",geometry'SRID").replace("(featureOfInterest,",
-                                                                                  "(featureOfInterest/shape,");
+                    "(featureOfInterest/shape,");
         } else if (objectToDecode.contains(FEATURE_EQUALS)) {
             modified = modified.replace(FEATURE_EQUALS, "featureOfInterest/id eq '");
         }
@@ -262,11 +261,10 @@ public class ODataFesParser
      * @param value the string value
      * @return the string value without quotes
      */
-    @CheckReturnValue
     private static String stripQuotes(String value) {
         return value != null && value.length() >= 2 && value.startsWith("'") && value.endsWith("'")
-               ? value.substring(1, value.length() - 1)
-               : value;
+                ? value.substring(1, value.length() - 1)
+                : value;
     }
 
     /**
@@ -448,11 +446,11 @@ public class ODataFesParser
                 throws ExpressionVisitException {
             Supplier<ExpressionVisitException> exceptionSupplier =
                     () -> new ExpressionVisitException(String.format("Operator is not supported: %s %s", op,
-                                                                     operand));
+                            operand));
             switch (op) {
                 case NOT:
                     return new BooleanUnaryExpr(UnaryLogicOperator.Not,
-                                                operand.asBoolean().orElseThrow(exceptionSupplier));
+                            operand.asBoolean().orElseThrow(exceptionSupplier));
                 case MINUS:
                 default:
                     throw exceptionSupplier.get();
@@ -470,7 +468,7 @@ public class ODataFesParser
         public Expr visitMember(UriInfoResource member)
                 throws ExpressionVisitException {
             return new MemberExpr(member.getUriResourceParts().stream().map(UriResource::getSegmentValue)
-                                        .collect(Collectors.joining("/")));
+                    .collect(Collectors.joining("/")));
         }
 
         @Override
@@ -507,8 +505,8 @@ public class ODataFesParser
         @Override
         public Filter<?> visitBooleanBinary(BooleanBinaryExpr expr) throws DecodingException {
             return new BinaryLogicFilter(expr.getOperator(),
-                                         expr.getLeft().accept(this),
-                                         expr.getRight().accept(this));
+                    expr.getLeft().accept(this),
+                    expr.getRight().accept(this));
         }
 
         @Override
@@ -520,8 +518,8 @@ public class ODataFesParser
         public Filter<?> visitComparison(ComparisonExpr expr) throws DecodingException {
             MemberValueExprPair memberValuePair = getMemberValuePair(expr).orElseThrow(this::unsupported);
             return new ComparisonFilter(expr.getOperator(),
-                                        memberValuePair.getMember().getValue(),
-                                        memberValuePair.getValue().getValue());
+                    memberValuePair.getMember().getValue(),
+                    memberValuePair.getValue().getValue());
         }
 
         @Override

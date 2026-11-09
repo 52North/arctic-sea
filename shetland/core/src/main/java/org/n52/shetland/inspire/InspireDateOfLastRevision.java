@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,8 @@
  */
 package org.n52.shetland.inspire;
 
+import java.io.Serial;
+
 import org.joda.time.DateTime;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
 
@@ -27,6 +29,7 @@ import org.n52.shetland.ogc.gml.time.TimeInstant;
  */
 public class InspireDateOfLastRevision extends TimeInstant implements InspireDateOf {
 
+    @Serial
     private static final long serialVersionUID = 3842229920288313917L;
 
     /**

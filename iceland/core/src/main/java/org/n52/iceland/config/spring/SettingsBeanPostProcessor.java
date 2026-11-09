@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 package org.n52.iceland.config.spring;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.n52.faroe.SettingDefinition;
 import org.n52.faroe.SettingsService;
@@ -63,8 +63,8 @@ public class SettingsBeanPostProcessor implements BeanPostProcessor {
      */
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) {
-        if (bean instanceof SettingDefinition<?>) {
-            this.settingsService.addSetting((SettingDefinition<?>) bean);
+        if (bean instanceof SettingDefinition<?> definition) {
+            this.settingsService.addSetting(definition);
         }
         return bean;
     }

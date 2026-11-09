@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,14 @@
  */
 package org.n52.shetland.util;
 
+import java.io.Serial;
+
 /**
  * @since 1.0.0
  *
  */
 public abstract class DateTimeException extends IllegalArgumentException {
+    @Serial
     private static final long serialVersionUID = 8540884805202157733L;
 
     public DateTimeException(String s) {

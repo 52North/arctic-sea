@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -203,8 +203,7 @@ public class UVFEncoder implements ObservationEncoder<BinaryAttachmentResponse, 
     @Override
     public BinaryAttachmentResponse encode(Object objectToEncode, EncodingContext additionalValues)
             throws EncodingException {
-        if (objectToEncode instanceof AbstractObservationResponse) {
-            AbstractObservationResponse aor = (AbstractObservationResponse) objectToEncode;
+        if (objectToEncode instanceof AbstractObservationResponse aor) {
             try {
                 if (aor.getObservationCollection() != null && aor.getObservationCollection().hasNext()) {
                     return encodeGetObsResponse(aor);
@@ -571,9 +570,9 @@ public class UVFEncoder implements ObservationEncoder<BinaryAttachmentResponse, 
     private void writeSingleObservationValue(Writer fw, Time phenomenonTime, Value<?> value, String lineEnding)
             throws IOException, EncodingException {
         StringBuilder sb = new StringBuilder(20);
-        if (phenomenonTime instanceof TimeInstant) {
+        if (phenomenonTime instanceof TimeInstant instant) {
             sb.append(DateTimeHelper.formatDateTime2FormattedString(
-                    checkTimeZone(((TimeInstant) phenomenonTime).getValue()), UVFConstants.TIME_FORMAT));
+                    checkTimeZone(instant.getValue()), UVFConstants.TIME_FORMAT));
         } else {
             sb.append(DateTimeHelper.formatDateTime2FormattedString(
                     checkTimeZone(((TimePeriod) phenomenonTime).getEnd()), UVFConstants.TIME_FORMAT));
@@ -630,8 +629,8 @@ public class UVFEncoder implements ObservationEncoder<BinaryAttachmentResponse, 
         DateTime end = null;
         for (OmObservation observation : observationCollection) {
             Time phenomenonTime = observation.getPhenomenonTime();
-            if (phenomenonTime instanceof TimeInstant) {
-                final DateTime time = ((TimeInstant) phenomenonTime).getTimePosition().getTime();
+            if (phenomenonTime instanceof TimeInstant instant) {
+                final DateTime time = instant.getTimePosition().getTime();
                 if (start == null || time.isBefore(start)) {
                     start = time;
                 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -92,15 +92,15 @@ public class WmlMonitoringPointDecoderv20 extends SamplingDecoderv20 {
     public AbstractFeature decode(XmlObject element) throws DecodingException {
         // validate XmlObject
         XmlHelper.validateDocument(element);
-        if (element instanceof MonitoringPointDocument) {
-            return decode(((MonitoringPointDocument) element).getMonitoringPoint());
-        } else if (element instanceof MonitoringPointPropertyType) {
-            if (((MonitoringPointPropertyType) element).getMonitoringPoint() != null) {
-                return decode(((MonitoringPointPropertyType) element).getMonitoringPoint());
+        if (element instanceof MonitoringPointDocument document) {
+            return decode(document.getMonitoringPoint());
+        } else if (element instanceof MonitoringPointPropertyType type1) {
+            if (type1.getMonitoringPoint() != null) {
+                return decode(type1.getMonitoringPoint());
             }
-            return parseMonitoringPointPropertyType((MonitoringPointPropertyType) element);
-        } else if (element instanceof MonitoringPointType) {
-            return parseMonitoringPoint((MonitoringPointType) element);
+            return parseMonitoringPointPropertyType(type1);
+        } else if (element instanceof MonitoringPointType type) {
+            return parseMonitoringPoint(type);
         }
         throw new UnsupportedDecoderXmlInputException(this, element);
     }

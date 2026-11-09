@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@
 package org.n52.iceland.config.spring.converter;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import org.springframework.core.convert.converter.Converter;
 
@@ -29,7 +28,7 @@ public class PathConverter implements Converter<String, Path> {
 
     @Override
     public Path convert(String source) {
-        return Paths.get(source);
+        return Path.of(source);
     }
 
 }

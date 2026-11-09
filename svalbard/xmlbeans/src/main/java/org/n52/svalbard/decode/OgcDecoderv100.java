@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -91,26 +91,25 @@ public class OgcDecoderv100
 
         // FIXME Validation currently fails against abstract types
         // XmlHelper.validateDocument(xmlObject);
-        if (xmlObject instanceof BinaryTemporalOpType) {
-            return parseTemporalOperatorType((BinaryTemporalOpType) xmlObject);
+        if (xmlObject instanceof BinaryTemporalOpType type) {
+            return parseTemporalOperatorType(type);
         }
         if (xmlObject instanceof TemporalOperatorType) {
             throw unsupportedTemporalFilterOperand();
         }
         // add propertyNameDoc here
-        if (xmlObject instanceof PropertyNameDocument) {
-            PropertyNameDocument xbPropertyNameDoc = (PropertyNameDocument) xmlObject;
+        if (xmlObject instanceof PropertyNameDocument xbPropertyNameDoc) {
             return xbPropertyNameDoc.getPropertyName();
         }
         // add BBOXType here
-        if (xmlObject instanceof BinarySpatialOpType) {
-            return parseSpatialOperatorType((BinarySpatialOpType) xmlObject);
+        if (xmlObject instanceof BinarySpatialOpType type1) {
+            return parseSpatialOperatorType(type1);
         }
         if (xmlObject instanceof BBOXType) {
             return parseBBOXFilterType((BBOXTypeImpl) xmlObject);
         }
-        if (xmlObject instanceof ComparisonOpsType) {
-            return parseComparisonOpsType((ComparisonOpsType) xmlObject);
+        if (xmlObject instanceof ComparisonOpsType type2) {
+            return parseComparisonOpsType(type2);
         }
         throw new UnsupportedDecoderXmlInputException(this, xmlObject);
         // TODO more spatial filters (contains, intersects, overlaps Point
@@ -147,17 +146,15 @@ public class OgcDecoderv100
                     // GML decoder will return TimeInstant or TimePriod
                     Object timeObject = decodeXmlElement(XmlObject.Factory.parse(nodes.item(i)));
 
-                    if (timeObject instanceof PropertyNameType) {
-                        PropertyNameType propType = (PropertyNameType) timeObject;
+                    if (timeObject instanceof PropertyNameType propType) {
 
                         // TODO here apply logic for ogc property
                         // om:samplingTime etc
                         // valueRef = propType.getDomNode().getNodeValue();
                     }
 
-                    if (timeObject instanceof Time) {
+                    if (timeObject instanceof Time time) {
                         TimeOperator operator;
-                        Time time = (Time) timeObject;
                         String localName = XmlHelper.getLocalName(xbBinaryTemporalOp);
                         // change to SOS 1.0. TMDuring kind of
                         if (localName.equals(TimeOperator.TM_During.name()) && time instanceof TimePeriod) {
@@ -220,8 +217,8 @@ public class OgcDecoderv100
                 // urn:ogc:data:location etc
                 // valueRef = propType.getDomNode().getNodeValue();
                 // }
-                if (sosGeometry instanceof Geometry) {
-                    spatialFilter.setGeometry((Geometry) sosGeometry);
+                if (sosGeometry instanceof Geometry geometry) {
+                    spatialFilter.setGeometry(geometry);
                     spatialFilter.setValueReference(valueRef);
                 }
 
@@ -240,15 +237,14 @@ public class OgcDecoderv100
             throws DecodingException {
         SpatialFilter spatialFilter = new SpatialFilter();
         try {
-            if (xbSpatialOpsType instanceof BBOXTypeImpl) {
+            if (xbSpatialOpsType instanceof BBOXTypeImpl xbBBOX) {
                 spatialFilter.setOperator(FilterConstants.SpatialOperator.BBOX);
-                BBOXTypeImpl xbBBOX = (BBOXTypeImpl) xbSpatialOpsType;
                 spatialFilter.setOperator(FilterConstants.SpatialOperator.BBOX);
                 XmlCursor geometryCursor = xbBBOX.newCursor();
                 if (geometryCursor.toChild(GmlConstants.QN_ENVELOPE)) {
                     Object sosGeometry = decodeXmlElement(XmlObject.Factory.parse(geometryCursor.getDomNode()));
-                    if (sosGeometry instanceof Geometry) {
-                        spatialFilter.setGeometry((Geometry) sosGeometry);
+                    if (sosGeometry instanceof Geometry geometry) {
+                        spatialFilter.setGeometry(geometry);
                     }
 
                 } else {
@@ -266,14 +262,14 @@ public class OgcDecoderv100
 
     private ComparisonFilter parseComparisonOpsType(ComparisonOpsType comparisonOpsType)
             throws DecodingException {
-        if (comparisonOpsType instanceof BinaryComparisonOpType) {
-            return parseBinaryComparisonFilter((BinaryComparisonOpType) comparisonOpsType);
-        } else if (comparisonOpsType instanceof PropertyIsLikeType) {
-            return parsePropertyIsLikeFilter((PropertyIsLikeType) comparisonOpsType);
-        } else if (comparisonOpsType instanceof PropertyIsNullType) {
-            return parsePropertyIsNullFilter((PropertyIsNullType) comparisonOpsType);
-        } else if (comparisonOpsType instanceof PropertyIsBetweenType) {
-            return parsePropertyIsBetweenFilter((PropertyIsBetweenType) comparisonOpsType);
+        if (comparisonOpsType instanceof BinaryComparisonOpType type3) {
+            return parseBinaryComparisonFilter(type3);
+        } else if (comparisonOpsType instanceof PropertyIsLikeType type2) {
+            return parsePropertyIsLikeFilter(type2);
+        } else if (comparisonOpsType instanceof PropertyIsNullType type1) {
+            return parsePropertyIsNullFilter(type1);
+        } else if (comparisonOpsType instanceof PropertyIsBetweenType type) {
+            return parsePropertyIsBetweenFilter(type);
         } else {
             throw new UnsupportedDecoderInputException(this, comparisonOpsType);
         }
@@ -373,9 +369,9 @@ public class OgcDecoderv100
             } catch (XmlException xmle) {
                 throw new DecodingException("Error while parsing propertyName element!", xmle);
             }
-        } else if (xmlObject instanceof LiteralType) {
+        } else if (xmlObject instanceof LiteralType type) {
             // TODO is this the best way?
-            comparisonFilter.setValue(parseLiteralValue((LiteralType) xmlObject));
+            comparisonFilter.setValue(parseLiteralValue(type));
         }
     }
 

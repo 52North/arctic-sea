@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,17 +22,14 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
-import javax.annotation.CheckReturnValue;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.Immutable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  * TODO JavaDoc
  *
  * @author Christian Autermann
  */
-@Immutable
 public class EncodingContext {
 
     private static final EncodingContext EMTPY = new EncodingContext();
@@ -127,22 +124,18 @@ public class EncodingContext {
         return get(key, DEFAULT_INTEGER_VALUE);
     }
 
-    @CheckReturnValue
     public EncodingContext with(@Nonnull String key) {
         return with(key, null);
     }
 
-    @CheckReturnValue
     public EncodingContext with(@Nonnull Enum<?> key) {
         return with(key.name());
     }
 
-    @CheckReturnValue
     public EncodingContext with(@Nonnull Enum<?> key, @Nullable Object value) {
         return with(key.name(), value);
     }
 
-    @CheckReturnValue
     public EncodingContext with(@Nonnull String key, @Nullable Object value) {
         Object nonNullValue = Optional.ofNullable(value).orElse(NONE);
 
@@ -155,7 +148,6 @@ public class EncodingContext {
         return new EncodingContext(map);
     }
 
-    @CheckReturnValue
     public EncodingContext without(@Nonnull String key) {
         if (!this.properties.containsKey(key)) {
             return this;
@@ -165,7 +157,6 @@ public class EncodingContext {
         return map.isEmpty() ? EMTPY : new EncodingContext(map);
     }
 
-    @CheckReturnValue
     public EncodingContext without(@Nonnull Enum<?> key) {
         return without(key.name());
     }

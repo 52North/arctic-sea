@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,8 +53,7 @@ public abstract class AbstractPhenomenon extends AbstractFeature implements Comp
 
     @Override
     public boolean equals(final Object paramObject) {
-        if (paramObject instanceof AbstractPhenomenon) {
-            final AbstractPhenomenon phen = (AbstractPhenomenon) paramObject;
+        if (paramObject instanceof AbstractPhenomenon phen) {
             return getIdentifierCodeWithAuthority().equals(phen.getIdentifierCodeWithAuthority());
         }
         return false;

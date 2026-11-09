@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 package org.n52.svalbard.encode;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.n52.shetland.ogc.om.values.ProfileLevel;
 import org.n52.shetland.ogc.om.values.ProfileValue;
@@ -39,7 +41,7 @@ public abstract class AbstractGWGeologyLogCoverageType<T>
     private void setGmlId(GWGeologyLogCoverageType gwglct, ProfileValue gwGeologyLogCoverage) {
         if (!gwGeologyLogCoverage.isSetGmlID()) {
             gwGeologyLogCoverage
-                    .setGmlId(IdGenerator.generate(Double.toString(System.currentTimeMillis() * Math.random())));
+                    .setGmlId(IdGenerator.generate(Double.toString(System.currentTimeMillis() * ThreadLocalRandom.current().nextDouble())));
         }
         gwGeologyLogCoverage.setGmlId("gwglc_" + gwGeologyLogCoverage.getGmlId());
         gwglct.setId(gwGeologyLogCoverage.getGmlId());

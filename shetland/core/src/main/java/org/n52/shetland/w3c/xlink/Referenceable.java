@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -98,7 +98,7 @@ public abstract class Referenceable<
 
         @Override
         public boolean equals(Object obj) {
-            return obj instanceof Instance && Objects.equals(this.getInstance(), ((Instance) obj).getInstance());
+            return obj instanceof Instance i && Objects.equals(this.getInstance(), i.getInstance());
         }
 
         @Override
@@ -152,7 +152,7 @@ public abstract class Referenceable<
 
         @Override
         public boolean equals(Object obj) {
-            return obj instanceof Ref && Objects.equals(getReference(), ((Ref) obj).getReference());
+            return obj instanceof Ref r && Objects.equals(getReference(), r.getReference());
         }
 
         @Override

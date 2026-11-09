@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,22 +53,22 @@ public class QueryOptions {
     public QueryOptions(Set<FilterClause> queryFilters) {
         if (queryFilters != null) {
             queryFilters.forEach(input -> {
-                if (input instanceof CountFilter) {
-                    countFilter = (CountFilter) input;
-                } else if (input instanceof OrderByFilter) {
-                    orderByFilter = (OrderByFilter) input;
-                } else if (input instanceof SelectFilter) {
-                    selectFilter = (SelectFilter) input;
-                } else if (input instanceof ExpandFilter) {
-                    expandFilter = (ExpandFilter) input;
-                } else if (input instanceof SkipTopFilter
-                        && ((SkipTopFilter) input).getOperator().equals(FilterConstants.SkipTopOperator.Skip)) {
-                    skipFilter = (SkipTopFilter) input;
-                } else if (input instanceof SkipTopFilter
-                        && ((SkipTopFilter) input).getOperator().equals(FilterConstants.SkipTopOperator.Top)) {
-                    topFilter = (SkipTopFilter) input;
-                } else if (input instanceof FilterFilter) {
-                    filterFilter = (FilterFilter) input;
+                if (input instanceof CountFilter filter6) {
+                    countFilter = filter6;
+                } else if (input instanceof OrderByFilter filter5) {
+                    orderByFilter = filter5;
+                } else if (input instanceof SelectFilter filter4) {
+                    selectFilter = filter4;
+                } else if (input instanceof ExpandFilter filter3) {
+                    expandFilter = filter3;
+                } else if (input instanceof SkipTopFilter filter2
+                        && filter2.getOperator().equals(FilterConstants.SkipTopOperator.Skip)) {
+                    skipFilter = filter2;
+                } else if (input instanceof SkipTopFilter filter1
+                        && filter1.getOperator().equals(FilterConstants.SkipTopOperator.Top)) {
+                    topFilter = filter1;
+                } else if (input instanceof FilterFilter filter) {
+                    filterFilter = filter;
                 }
             });
         }

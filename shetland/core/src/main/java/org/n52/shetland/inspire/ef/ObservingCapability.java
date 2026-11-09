@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -193,8 +193,7 @@ public class ObservingCapability extends Reference {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof ObservingCapability) {
-            ObservingCapability that = (ObservingCapability) obj;
+        if (obj instanceof ObservingCapability that) {
             return super.equals(obj) && Objects.equals(getObservingTime(), that.getObservingTime())
                     && Objects.equals(getProcessType(), that.getProcessType())
                     && Objects.equals(getResultNature(), that.getResultNature())

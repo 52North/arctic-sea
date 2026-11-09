@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -75,23 +75,22 @@ public class Soap11Decoder extends AbstractSoapDecoder {
     protected AbstractSoap<?> createEnvelope(XmlObject doc) throws DecodingException {
         AbstractSoap<?> soap = null;
         String soapAction = "";
-        if (doc instanceof EnvelopeDocument) {
-            EnvelopeDocument envDoc = (EnvelopeDocument) doc;
+        if (doc instanceof EnvelopeDocument envDoc) {
             OwsServiceCommunicationObject bodyContent = getBodyContent(envDoc);
-            soap = bodyContent instanceof OwsServiceRequest
+            soap = bodyContent instanceof OwsServiceRequest osr
                     ? new SoapRequest(SoapConstants.NS_SOAP_11, SoapConstants.SOAP_1_1_VERSION)
-                            .setBodyContent((OwsServiceRequest) bodyContent)
+                            .setBodyContent(osr)
                     : new SoapResponse(SoapConstants.NS_SOAP_11, SoapConstants.SOAP_1_1_VERSION)
                             .setBodyContent((OwsServiceResponse) bodyContent);
 
             // FIXME well... soapAction is always "" at this point
             // if SOAPAction is not spec conform, create SOAPFault
-            if (soap instanceof SoapRequest && (soapAction.isEmpty() || !soapAction.startsWith(SOAP_ACTION))) {
+            if (soap instanceof SoapRequest request && (soapAction.isEmpty() || !soapAction.startsWith(SOAP_ACTION))) {
                 SoapFault fault = new SoapFault();
                 fault.setFaultCode(QN_CLIENT);
                 fault.setFaultReason("The SOAPAction parameter in the HTTP-Header is missing or not valid!");
                 fault.setLocale(Locale.ENGLISH);
-                ((SoapRequest) soap).setSoapFault(fault);
+                request.setSoapFault(fault);
             } else {
                 soap.setAction(checkSoapAction(soapAction, soap.getSoapHeader()));
             }
@@ -152,12 +151,12 @@ public class Soap11Decoder extends AbstractSoapDecoder {
             if (cursor.toFirstChild()) {
                 do {
                     Object object = decodeXmlElement(XmlObject.Factory.parse(cursor.xmlText(getXmlOptions())));
-                    if (object instanceof SoapHeader) {
-                        soapHeaders.add((SoapHeader) object);
-                    } else if (object instanceof List<?>) {
-                        for (Object o : (List<?>) object) {
-                            if (o instanceof SoapHeader) {
-                                soapHeaders.add((SoapHeader) o);
+                    if (object instanceof SoapHeader soapHeader1) {
+                        soapHeaders.add(soapHeader1);
+                    } else if (object instanceof List<?> list) {
+                        for (Object o : list) {
+                            if (o instanceof SoapHeader soapHeader) {
+                                soapHeaders.add(soapHeader);
                             }
                         }
                     }

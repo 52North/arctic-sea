@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -70,8 +70,7 @@ public class PT_FreeText extends AbtractGmd {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof PT_FreeText) {
-            PT_FreeText that = (PT_FreeText) obj;
+        if (obj instanceof PT_FreeText that) {
             return Objects.equal(getTextGroup(), that.getTextGroup());
         }
         return false;

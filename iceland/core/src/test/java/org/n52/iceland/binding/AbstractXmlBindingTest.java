@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -79,19 +79,19 @@ public class AbstractXmlBindingTest {
     @Test
     public void test_GetObs() throws CodedException {
         DecoderKey decoderKey = binding.getDecoderKey(xmlStringGetObs, characterEncoding);
-        if (decoderKey instanceof OperationDecoderKey) {
-            assertThat(((OperationDecoderKey) decoderKey).getService(), is("SOS"));
-            assertThat(((OperationDecoderKey) decoderKey).getVersion(), is("2.0.0"));
-            assertThat(((OperationDecoderKey) decoderKey).getOperation(), is("GetObservation"));
+        if (decoderKey instanceof OperationDecoderKey key) {
+            assertThat(key.getService(), is("SOS"));
+            assertThat(key.getVersion(), is("2.0.0"));
+            assertThat(key.getOperation(), is("GetObservation"));
         }
     }
 
     @Test
     public void test_GetCaps() throws CodedException {
         DecoderKey decoderKey = binding.getDecoderKey(xmlStringGetCaps, characterEncoding);
-        if (decoderKey instanceof OperationDecoderKey) {
-            assertThat(((OperationDecoderKey) decoderKey).getService(), is("SOS"));
-            assertThat(((OperationDecoderKey) decoderKey).getOperation(), is("GetCapabilities"));
+        if (decoderKey instanceof OperationDecoderKey key) {
+            assertThat(key.getService(), is("SOS"));
+            assertThat(key.getOperation(), is("GetCapabilities"));
         }
     }
 

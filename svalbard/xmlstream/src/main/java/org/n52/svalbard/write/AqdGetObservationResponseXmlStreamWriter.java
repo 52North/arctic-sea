@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -92,8 +92,7 @@ public class AqdGetObservationResponseXmlStreamWriter extends XmlStreamWriter<Fe
         for (AbstractFeature abstractFeature : featureCollection.getMembers().values()) {
             long start = System.currentTimeMillis();
             Encoder<XmlObject, AbstractFeature> encoder = getEncoder(abstractFeature);
-            if (abstractFeature instanceof OmObservation) {
-                OmObservation observation = (OmObservation) abstractFeature;
+            if (abstractFeature instanceof OmObservation observation) {
                 if (observation.getValue() instanceof ObservationStream) {
                     try {
                         // start the timer task to write blank strings to avoid

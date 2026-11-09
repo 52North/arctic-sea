@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,27 +41,28 @@ public class GeographicalNameReaderTest {
     @Test
     public void test() throws UnsupportedEncodingException, XMLStreamException, URISyntaxException, DecodingException {
 
-        String xml = "<gn:GeographicalName xmlns:gn=\"urn:x-inspire:specification:gmlas:GeographicalNames:3.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n" +
-                     "  <gn:language>eng</gn:language>\n" +
-                     "  <gn:nativeness>&lt;asdfasdf</gn:nativeness>\n" +
-                     "  <gn:nameStatus xsi:nil=\"true\" nilReason=\"unknown\"/>\n" +
-                     "  <gn:sourceOfName xsi:nil=\"true\" nilReason=\"missing\"/>\n" +
-                     "  <gn:pronunciation>\n" +
-                     "    <gn:PronunciationOfName>\n" +
-                     "      <gn:pronunciationSoundLink>http://asdfasdf</gn:pronunciationSoundLink>\n" +
-                     "      <gn:pronunciationIPA>asdfasdf</gn:pronunciationIPA>\n" +
-                     "    </gn:PronunciationOfName>\n" +
-                     "  </gn:pronunciation>\n" +
-                     "  <gn:spelling>\n" +
-                     "    <gn:SpellingOfName>\n" +
-                     "      <gn:text>asdfasdf</gn:text>\n" +
-                     "      <gn:script>asdfasdf</gn:script>\n" +
-                     "      <gn:transliterationScheme>asdfasdfasdf</gn:transliterationScheme>\n" +
-                     "    </gn:SpellingOfName>\n" +
-                     "  </gn:spelling>\n" +
-                     "  <gn:grammaticalGender codeSpace=\"b\">a</gn:grammaticalGender>\n" +
-                     "  <gn:grammaticalNumber codeSpace=\"d\">c</gn:grammaticalNumber>\n" +
-                     "</gn:GeographicalName>";
+        String xml = """
+                     <gn:GeographicalName xmlns:gn="urn:x-inspire:specification:gmlas:GeographicalNames:3.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                       <gn:language>eng</gn:language>
+                       <gn:nativeness>&lt;asdfasdf</gn:nativeness>
+                       <gn:nameStatus xsi:nil="true" nilReason="unknown"/>
+                       <gn:sourceOfName xsi:nil="true" nilReason="missing"/>
+                       <gn:pronunciation>
+                         <gn:PronunciationOfName>
+                           <gn:pronunciationSoundLink>http://asdfasdf</gn:pronunciationSoundLink>
+                           <gn:pronunciationIPA>asdfasdf</gn:pronunciationIPA>
+                         </gn:PronunciationOfName>
+                       </gn:pronunciation>
+                       <gn:spelling>
+                         <gn:SpellingOfName>
+                           <gn:text>asdfasdf</gn:text>
+                           <gn:script>asdfasdf</gn:script>
+                           <gn:transliterationScheme>asdfasdfasdf</gn:transliterationScheme>
+                         </gn:SpellingOfName>
+                       </gn:spelling>
+                       <gn:grammaticalGender codeSpace="b">a</gn:grammaticalGender>
+                       <gn:grammaticalNumber codeSpace="d">c</gn:grammaticalNumber>
+                     </gn:GeographicalName>""";
 
         GeographicalName gn = new GeographicalNameReader()
                 .read(new ByteArrayInputStream(xml.getBytes("UTF-8")));

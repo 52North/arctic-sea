@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
@@ -87,8 +87,8 @@ public abstract class AbstractSoapDecoder extends AbstractXmlDecoder<XmlObject, 
             return soapAction;
         } else if (CollectionHelper.isNotEmpty(soapHeaders)) {
             for (SoapHeader soapHeader : soapHeaders) {
-                if (WsaConstants.NS_WSA.equals(soapHeader.getNamespace()) && soapHeader instanceof WsaActionHeader) {
-                    return ((WsaActionHeader) soapHeader).getValue();
+                if (WsaConstants.NS_WSA.equals(soapHeader.getNamespace()) && soapHeader instanceof WsaActionHeader header) {
+                    return header.getValue();
                 }
             }
         }

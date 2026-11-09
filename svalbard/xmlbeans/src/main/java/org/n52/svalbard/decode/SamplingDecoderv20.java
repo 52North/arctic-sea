@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -113,11 +113,11 @@ public class SamplingDecoderv20
     public AbstractFeature decode(XmlObject element) throws DecodingException {
         // validate XmlObject
         XmlHelper.validateDocument(element);
-        if (element instanceof SFSpatialSamplingFeatureDocument) {
+        if (element instanceof SFSpatialSamplingFeatureDocument document) {
             return parseSpatialSamplingFeature(
-                    ((SFSpatialSamplingFeatureDocument) element).getSFSpatialSamplingFeature());
-        } else if (element instanceof SFSpatialSamplingFeatureType) {
-            return parseSpatialSamplingFeature((SFSpatialSamplingFeatureType) element);
+                    document.getSFSpatialSamplingFeature());
+        } else if (element instanceof SFSpatialSamplingFeatureType type) {
+            return parseSpatialSamplingFeature(type);
         }
         throw new UnsupportedDecoderXmlInputException(this, element);
     }
@@ -214,8 +214,8 @@ public class SamplingDecoderv20
                 }
                 if (abstractFeature != null) {
                     final Object decodedObject = decodeXmlObject(abstractFeature);
-                    if (decodedObject instanceof AbstractFeature) {
-                        sampledFeatures.add((AbstractFeature) decodedObject);
+                    if (decodedObject instanceof AbstractFeature feature) {
+                        sampledFeatures.add(feature);
                     }
                 }
                 throw new DecodingException(Sos2Constants.InsertObservationParams.observation,
@@ -227,8 +227,8 @@ public class SamplingDecoderv20
 
     private Geometry getGeometry(final ShapeType shape) throws DecodingException {
         final Object decodedObject = decodeXmlElement(shape.getAbstractGeometry());
-        if (decodedObject instanceof Geometry) {
-            return (Geometry) decodedObject;
+        if (decodedObject instanceof Geometry geometry) {
+            return geometry;
         }
         throw new DecodingException(Sos2Constants.InsertObservationParams.observation,
                 "The requested geometry type of featureOfInterest is not supported by this service!");

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -90,8 +90,8 @@ public class PointObservation extends AbstractInspireObservation {
             if (geometry != null) {
                 cvDiscretePointCoverage.setDomainExtent("#" + geometry.getGeometryType() + "_" + domainExtent);
                 Point point = null;
-                if (geometry instanceof Point) {
-                    point = (Point) geometry;
+                if (geometry instanceof Point point1) {
+                    point = point1;
                 } else {
                     point = geometry.getCentroid();
                 }

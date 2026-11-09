@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -105,14 +105,14 @@ public class I18NJsonEncoder {
 
     public ObjectNode encode(AbstractI18NMetadata i18n)
             throws JSONException {
-        if (i18n instanceof I18NFeatureMetadata) {
-            return encode((I18NFeatureMetadata) i18n);
-        } else if (i18n instanceof I18NOfferingMetadata) {
-            return encode((I18NOfferingMetadata) i18n);
-        } else if (i18n instanceof I18NProcedureMetadata) {
-            return encode((I18NProcedureMetadata) i18n);
-        } else if (i18n instanceof I18NObservablePropertyMetadata) {
-            return encode((I18NObservablePropertyMetadata) i18n);
+        if (i18n instanceof I18NFeatureMetadata metadata3) {
+            return encode(metadata3);
+        } else if (i18n instanceof I18NOfferingMetadata metadata2) {
+            return encode(metadata2);
+        } else if (i18n instanceof I18NProcedureMetadata metadata1) {
+            return encode(metadata1);
+        } else if (i18n instanceof I18NObservablePropertyMetadata metadata) {
+            return encode(metadata);
         } else {
             throw new JSONException("Unknown metadata type: " + i18n);
         }

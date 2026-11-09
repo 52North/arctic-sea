@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -93,10 +93,10 @@ public class SosRequestEncoderv20 extends AbstractXmlEncoder<XmlObject, OwsServi
     }
 
     private XmlObject encodeRequests(OwsServiceRequest request) throws EncodingException {
-        if (request instanceof GetResultTemplateRequest) {
-            return createGetResultTemplateRequest((GetResultTemplateRequest) request);
-        } else if (request instanceof GetResultRequest) {
-            return createGetResultRequest((GetResultRequest) request);
+        if (request instanceof GetResultTemplateRequest templateRequest) {
+            return createGetResultTemplateRequest(templateRequest);
+        } else if (request instanceof GetResultRequest resultRequest) {
+            return createGetResultRequest(resultRequest);
         }
         throw new UnsupportedEncoderInputException(this, request);
     }

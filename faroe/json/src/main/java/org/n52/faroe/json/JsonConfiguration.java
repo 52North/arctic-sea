@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,13 +20,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -99,9 +98,9 @@ public class JsonConfiguration implements Destroyable,
 
     private Path buildPath() {
         if (configLocationProvider != null && configLocationProvider.get() != null) {
-            return Paths.get(configLocationProvider.get(), WEB_INF_PATH, CONFIG_PATH, this.fileName);
+            return Path.of(configLocationProvider.get(), WEB_INF_PATH, CONFIG_PATH, this.fileName);
         }
-        return Paths.get(WEB_INF_PATH, CONFIG_PATH, this.fileName);
+        return Path.of(WEB_INF_PATH, CONFIG_PATH, this.fileName);
     }
 
     /**

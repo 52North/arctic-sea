@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -154,40 +154,40 @@ public class SweCommonDecoderV101
 
     @Override
     public Object decode(Object element) throws DecodingException {
-        if (element instanceof DataArrayDocument) {
-            return parseAbstractDataComponentType(((DataArrayDocument) element).getDataArray1());
-        } else if (element instanceof AbstractDataComponentType) {
-            return parseAbstractDataComponentType((AbstractDataComponentType) element);
-        } else if (element instanceof BooleanDocument) {
-            return parseAbstractDataComponentType(((BooleanDocument) element).getBoolean());
-        } else if (element instanceof CategoryDocument) {
-            return parseAbstractDataComponentType(((CategoryDocument) element).getCategory());
-        } else if (element instanceof CountDocument) {
-            return parseAbstractDataComponentType(((CountDocument) element).getCount());
-        } else if (element instanceof CountRangeDocument) {
-            return parseAbstractDataComponentType(((CountRangeDocument) element).getCountRange());
-        } else if (element instanceof ObservablePropertyDocument) {
-            return parseAbstractDataComponentType(((ObservablePropertyDocument) element).getObservableProperty());
-        } else if (element instanceof QuantityDocument) {
-            return parseAbstractDataComponentType(((QuantityDocument) element).getQuantity());
-        } else if (element instanceof QuantityRangeDocument) {
-            return parseAbstractDataComponentType(((QuantityRangeDocument) element).getQuantityRange());
-        } else if (element instanceof TextDocument) {
-            return parseAbstractDataComponentType(((TextDocument) element).getText());
-        } else if (element instanceof TimeDocument) {
-            return parseAbstractDataComponentType(((TimeDocument) element).getTime());
-        } else if (element instanceof TimeRangeDocument) {
-            return parseAbstractDataComponentType(((TimeRangeDocument) element).getTimeRange());
-        } else if (element instanceof DataComponentPropertyType[]) {
-            return parseDataComponentPropertyArray((DataComponentPropertyType[]) element);
-        } else if (element instanceof Coordinate[]) {
-            return parseCoordinates((Coordinate[]) element);
-        } else if (element instanceof AnyScalarPropertyType[]) {
-            return parseAnyScalarPropertyArray((AnyScalarPropertyType[]) element);
-        } else if (element instanceof AbstractDataRecordDocument) {
-            return parseAbstractDataComponentType(((AbstractDataRecordDocument) element).getAbstractDataRecord());
-        } else if (element instanceof XmlObject) {
-            throw new UnsupportedDecoderXmlInputException(this, (XmlObject) element);
+        if (element instanceof DataArrayDocument document11) {
+            return parseAbstractDataComponentType(document11.getDataArray1());
+        } else if (element instanceof AbstractDataComponentType type) {
+            return parseAbstractDataComponentType(type);
+        } else if (element instanceof BooleanDocument document10) {
+            return parseAbstractDataComponentType(document10.getBoolean());
+        } else if (element instanceof CategoryDocument document9) {
+            return parseAbstractDataComponentType(document9.getCategory());
+        } else if (element instanceof CountDocument document8) {
+            return parseAbstractDataComponentType(document8.getCount());
+        } else if (element instanceof CountRangeDocument document7) {
+            return parseAbstractDataComponentType(document7.getCountRange());
+        } else if (element instanceof ObservablePropertyDocument document6) {
+            return parseAbstractDataComponentType(document6.getObservableProperty());
+        } else if (element instanceof QuantityDocument document5) {
+            return parseAbstractDataComponentType(document5.getQuantity());
+        } else if (element instanceof QuantityRangeDocument document4) {
+            return parseAbstractDataComponentType(document4.getQuantityRange());
+        } else if (element instanceof TextDocument document3) {
+            return parseAbstractDataComponentType(document3.getText());
+        } else if (element instanceof TimeDocument document2) {
+            return parseAbstractDataComponentType(document2.getTime());
+        } else if (element instanceof TimeRangeDocument document1) {
+            return parseAbstractDataComponentType(document1.getTimeRange());
+        } else if (element instanceof DataComponentPropertyType[] types1) {
+            return parseDataComponentPropertyArray(types1);
+        } else if (element instanceof Coordinate[] coordinates) {
+            return parseCoordinates(coordinates);
+        } else if (element instanceof AnyScalarPropertyType[] types) {
+            return parseAnyScalarPropertyArray(types);
+        } else if (element instanceof AbstractDataRecordDocument document) {
+            return parseAbstractDataComponentType(document.getAbstractDataRecord());
+        } else if (element instanceof XmlObject object) {
+            throw new UnsupportedDecoderXmlInputException(this, object);
         } else {
             throw new UnsupportedDecoderInputException(this, element);
         }
@@ -196,38 +196,38 @@ public class SweCommonDecoderV101
     private SweAbstractDataComponent parseAbstractDataComponentType(
             final AbstractDataComponentType abstractDataComponent) throws DecodingException {
         SweAbstractDataComponent component = null;
-        if (abstractDataComponent instanceof net.opengis.swe.x101.BooleanDocument.Boolean) {
-            component = parseBoolean((net.opengis.swe.x101.BooleanDocument.Boolean) abstractDataComponent);
-        } else if (abstractDataComponent instanceof Category) {
-            component = parseCategory((Category) abstractDataComponent);
-        } else if (abstractDataComponent instanceof Count) {
-            component = parseCount((Count) abstractDataComponent);
-        } else if (abstractDataComponent instanceof CountRange) {
-            component = parseCountRange((CountRange) abstractDataComponent);
-        } else if (abstractDataComponent instanceof ObservableProperty) {
-            component = parseObservableProperty((ObservableProperty) abstractDataComponent);
-        } else if (abstractDataComponent instanceof Quantity) {
-            component = parseQuantity((Quantity) abstractDataComponent);
-        } else if (abstractDataComponent instanceof QuantityRange) {
-            component = parseQuantityRange((QuantityRange) abstractDataComponent);
-        } else if (abstractDataComponent instanceof Text) {
-            component = parseText((Text) abstractDataComponent);
-        } else if (abstractDataComponent instanceof Time) {
-            component = parseTime((Time) abstractDataComponent);
-        } else if (abstractDataComponent instanceof TimeRange) {
-            component = parseTimeRange((TimeRange) abstractDataComponent);
-        } else if (abstractDataComponent instanceof PositionType) {
-            component = parsePosition((PositionType) abstractDataComponent);
-        } else if (abstractDataComponent instanceof DataRecordPropertyType) {
-            component = parseDataRecordProperty((DataRecordPropertyType) abstractDataComponent);
-        } else if (abstractDataComponent instanceof SimpleDataRecordType) {
-            component = parseSimpleDataRecord((SimpleDataRecordType) abstractDataComponent);
-        } else if (abstractDataComponent instanceof DataArrayType) {
-            component = parseSweDataArrayType((DataArrayType) abstractDataComponent);
-        } else if (abstractDataComponent instanceof DataRecordType) {
-            component = parseDataRecord((DataRecordType) abstractDataComponent);
-        } else if (abstractDataComponent instanceof EnvelopeType) {
-            component = parseEnvelope((EnvelopeType) abstractDataComponent);
+        if (abstractDataComponent instanceof net.opengis.swe.x101.BooleanDocument.Boolean boolean1) {
+            component = parseBoolean(boolean1);
+        } else if (abstractDataComponent instanceof Category category) {
+            component = parseCategory(category);
+        } else if (abstractDataComponent instanceof Count count) {
+            component = parseCount(count);
+        } else if (abstractDataComponent instanceof CountRange range2) {
+            component = parseCountRange(range2);
+        } else if (abstractDataComponent instanceof ObservableProperty property) {
+            component = parseObservableProperty(property);
+        } else if (abstractDataComponent instanceof Quantity quantity) {
+            component = parseQuantity(quantity);
+        } else if (abstractDataComponent instanceof QuantityRange range1) {
+            component = parseQuantityRange(range1);
+        } else if (abstractDataComponent instanceof Text text) {
+            component = parseText(text);
+        } else if (abstractDataComponent instanceof Time time) {
+            component = parseTime(time);
+        } else if (abstractDataComponent instanceof TimeRange range) {
+            component = parseTimeRange(range);
+        } else if (abstractDataComponent instanceof PositionType type5) {
+            component = parsePosition(type5);
+        } else if (abstractDataComponent instanceof DataRecordPropertyType type4) {
+            component = parseDataRecordProperty(type4);
+        } else if (abstractDataComponent instanceof SimpleDataRecordType type3) {
+            component = parseSimpleDataRecord(type3);
+        } else if (abstractDataComponent instanceof DataArrayType type2) {
+            component = parseSweDataArrayType(type2);
+        } else if (abstractDataComponent instanceof DataRecordType type1) {
+            component = parseDataRecord(type1);
+        } else if (abstractDataComponent instanceof EnvelopeType type) {
+            component = parseEnvelope(type);
         } else {
             throw new UnsupportedDecoderXmlInputException(this, abstractDataComponent);
         }

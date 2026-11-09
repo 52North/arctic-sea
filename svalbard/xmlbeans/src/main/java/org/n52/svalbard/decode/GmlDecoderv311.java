@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -81,20 +81,20 @@ public class GmlDecoderv311 implements Decoder<Object, XmlObject> {
 
     @Override
     public Object decode(XmlObject xmlObject) throws DecodingException {
-        if (xmlObject instanceof EnvelopeDocument) {
-            return getGeometry4BBOX((EnvelopeDocument) xmlObject);
-        } else if (xmlObject instanceof TimeInstantType) {
-            return parseTimeInstant((TimeInstantType) xmlObject);
-        } else if (xmlObject instanceof TimePeriodType) {
-            return parseTimePeriod((TimePeriodType) xmlObject);
-        } else if (xmlObject instanceof TimeInstantDocument) {
-            return parseTimeInstant(((TimeInstantDocument) xmlObject).getTimeInstant());
-        } else if (xmlObject instanceof TimePeriodDocument) {
-            return parseTimePeriod(((TimePeriodDocument) xmlObject).getTimePeriod());
-        } else if (xmlObject instanceof CodeType) {
-            return parseCodeType((CodeType) xmlObject);
-        } else if (xmlObject instanceof PointType) {
-            return parsePointType((PointType) xmlObject);
+        if (xmlObject instanceof EnvelopeDocument document2) {
+            return getGeometry4BBOX(document2);
+        } else if (xmlObject instanceof TimeInstantType type3) {
+            return parseTimeInstant(type3);
+        } else if (xmlObject instanceof TimePeriodType type2) {
+            return parseTimePeriod(type2);
+        } else if (xmlObject instanceof TimeInstantDocument document1) {
+            return parseTimeInstant(document1.getTimeInstant());
+        } else if (xmlObject instanceof TimePeriodDocument document) {
+            return parseTimePeriod(document.getTimePeriod());
+        } else if (xmlObject instanceof CodeType type1) {
+            return parseCodeType(type1);
+        } else if (xmlObject instanceof PointType type) {
+            return parsePointType(type);
         } else {
             throw new UnsupportedDecoderXmlInputException(this, xmlObject);
         }

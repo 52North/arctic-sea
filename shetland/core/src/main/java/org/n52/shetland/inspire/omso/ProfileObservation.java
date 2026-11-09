@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -116,8 +116,7 @@ public class ProfileObservation extends AbstractInspireObservation {
 
     private void setFeatureGeometry(List<Coordinate> coordinates, int srid) {
         AbstractFeature featureOfInterest = getObservationConstellation().getFeatureOfInterest();
-        if (featureOfInterest instanceof AbstractSamplingFeature) {
-            AbstractSamplingFeature sf = (AbstractSamplingFeature) featureOfInterest;
+        if (featureOfInterest instanceof AbstractSamplingFeature sf) {
             Coordinate[] coords = coordinates.toArray(new Coordinate[0]);
             try {
                 LineString lineString = new GeometryFactory().createLineString(coords);

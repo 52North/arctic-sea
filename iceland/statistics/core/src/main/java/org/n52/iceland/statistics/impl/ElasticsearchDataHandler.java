@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -57,7 +57,7 @@ public class ElasticsearchDataHandler implements IStatisticsDataHandler {
         dataMap.put(ServiceEventDataMapping.UUID_FIELD.getName(), settings.getUuid());
         logger.debug("Persisting {}", dataMap);
         IndexResponse response = adminHandler.getElasticsearchClient().index(
-                new IndexRequest(settings.getIndexId()).type(settings.getTypeId()).source(dataMap),
+                new IndexRequest(settings.getIndexId()).opType(settings.getTypeId()).source(dataMap),
                 RequestOptions.DEFAULT);
         return response;
     }

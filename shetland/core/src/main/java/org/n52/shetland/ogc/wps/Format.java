@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -219,8 +219,7 @@ public class Format implements Comparable<Format> {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof Format) {
-            final Format that = (Format) obj;
+        if (obj instanceof Format that) {
             return Objects.equals(this.mimeType, that.mimeType) && Objects.equals(this.encoding, that.encoding)
                     && Objects.equals(this.schema, that.schema);
         }

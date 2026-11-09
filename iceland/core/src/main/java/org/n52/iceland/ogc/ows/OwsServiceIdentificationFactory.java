@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -90,8 +90,8 @@ public class OwsServiceIdentificationFactory
     @Setting(OwsServiceIdentificationFactorySettings.TITLE)
     public void setTitle(Object title) throws ConfigurationError {
         Validation.notNull("Service Identification Title", title);
-        if (title instanceof MultilingualString) {
-            this.title = (MultilingualString) title;
+        if (title instanceof MultilingualString string) {
+            this.title = string;
         } else if (title instanceof String) {
             this.title = createFromString(title);
         } else {
@@ -108,8 +108,8 @@ public class OwsServiceIdentificationFactory
     @Setting(OwsServiceIdentificationFactorySettings.ABSTRACT)
     public void setAbstract(Object description) throws ConfigurationError {
         Validation.notNull("Service Identification Abstract", description);
-        if (description instanceof MultilingualString) {
-            this.abstrakt = (MultilingualString) description;
+        if (description instanceof MultilingualString string) {
+            this.abstrakt = string;
         } else if (description instanceof String) {
             this.abstrakt = createFromString(description);
         } else {

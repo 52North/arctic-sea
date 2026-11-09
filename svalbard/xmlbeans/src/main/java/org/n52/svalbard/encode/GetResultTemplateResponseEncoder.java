@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -75,8 +75,8 @@ public class GetResultTemplateResponseEncoder
             }
         } else {
             XmlObject xml = encodeSwe(EncodingContext.of(XmlBeansEncodingFlags.DOCUMENT), resultEncoding.get().get());
-            if (xml instanceof TextEncodingDocument) {
-                xbEncoding = (TextEncodingDocument) xml;
+            if (xml instanceof TextEncodingDocument document) {
+                xbEncoding = document;
             } else {
                 throw unsupportedResultEncoding();
             }
@@ -100,8 +100,8 @@ public class GetResultTemplateResponseEncoder
             }
         } else {
             XmlObject xml = encodeSwe(EncodingContext.of(XmlBeansEncodingFlags.DOCUMENT), resultStructure.get().get());
-            if (xml instanceof DataRecordDocument) {
-                dataRecordDoc = (DataRecordDocument) xml;
+            if (xml instanceof DataRecordDocument document) {
+                dataRecordDoc = document;
             } else {
                 throw unsupportedResultStructure();
             }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package org.n52.faroe;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -29,6 +30,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  */
 public abstract class AbstractSettingDefinition<T> extends AbstractOrdered
         implements SettingDefinition<T>, Serializable {
+    @Serial
     private static final long serialVersionUID = -4844522246101262287L;
     private boolean optional;
     private String identifier;
@@ -144,8 +146,7 @@ public abstract class AbstractSettingDefinition<T> extends AbstractOrdered
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof AbstractSettingDefinition) {
-            AbstractSettingDefinition<?> o = (AbstractSettingDefinition<?>) obj;
+        if (obj instanceof AbstractSettingDefinition<?> o) {
             return (getKey() == null ? o.getKey() == null : getKey().equals(o.getKey())) &&
                    (getTitle() == null ? o.getTitle() == null : getTitle().equals(o.getTitle())) &&
                    (getDescription() == null ? o.getDescription() == null : getDescription()

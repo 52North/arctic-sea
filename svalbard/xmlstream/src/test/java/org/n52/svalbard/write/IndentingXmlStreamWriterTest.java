@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,64 +41,65 @@ public class IndentingXmlStreamWriterTest {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         writeXML(baos);
 
-        String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                          "<document attribute=\"attributeValue\">\n" +
-                          "    <startElement attribute=\"attributeValue\"></startElement>\n" +
-                          "    <emptyElement attribute=\"attributeValue\"/>\n" +
-                          "    <startElement>non-line-breaking-text</startElement>\n" +
-                          "    <startElement>non-line-breaking-text</startElement>\n" +
-                          "    <startElement>non-line-breaking-text</startElement>\n" +
-                          "    <startElement>non-line-breaking-text</startElement>\n" +
-                          "    <startElement>non-line-breaking-text</startElement>\n" +
-                          "    <startElement>non-line-breaking-text</startElement>\n" +
-                          "    <startElement>non-line-breaking-text</startElement>\n" +
-                          "    <startElement>\n" +
-                          "        line-breaking-text\n" +
-                          "        line-breaking-text\n" +
-                          "        line-breaking-text\n" +
-                          "        line-breaking-text\n" +
-                          "    </startElement>\n" +
-                          "    <startElement>\n" +
-                          "        line-breaking-text\n" +
-                          "        line-breaking-text\n" +
-                          "        line-breaking-text\n" +
-                          "        line-breaking-text\n" +
-                          "    </startElement>\n" +
-                          "    <startElement>\n" +
-                          "        line-breaking-text\n" +
-                          "        line-breaking-text\n" +
-                          "        line-breaking-text\n" +
-                          "        line-breaking-text\n" +
-                          "    </startElement>\n" +
-                          "    <startElement>\n" +
-                          "        line-breaking-text\n" +
-                          "        line-breaking-text\n" +
-                          "        line-breaking-text\n" +
-                          "        line-breaking-text\n" +
-                          "    </startElement>\n" +
-                          "    <emptyElement attribute=\"attributeValue\"/>\n" +
-                          "    <some-externally-generated-xml/>\n" +
-                          "    <some-externally-generated-xml>\n" +
-                          "        <some-inner-tag/>\n" +
-                          "    </some-externally-generated-xml>\n" +
-                          "    <some-externally-generated-xml>\n" +
-                          "        <some-inner-tag/>\n" +
-                          "    </some-externally-generated-xml>\n" +
-                          "    <wrapper1>\n" +
-                          "        <wrapper2>\n" +
-                          "            <some-externally-generated-xml>\n" +
-                          "                <some-inner-tag/>\n" +
-                          "            </some-externally-generated-xml>\n" +
-                          "        </wrapper2>\n" +
-                          "    </wrapper1>\n" +
-                          "    <wrapper1>\n" +
-                          "        <wrapper2>\n" +
-                          "            <some-externally-generated-xml>\n" +
-                          "                <some-inner-tag/>\n" +
-                          "            </some-externally-generated-xml>\n" +
-                          "        </wrapper2>\n" +
-                          "    </wrapper1>\n" +
-                          "</document>";
+        String expected = """
+                          <?xml version="1.0" encoding="UTF-8"?>
+                          <document attribute="attributeValue">
+                              <startElement attribute="attributeValue"></startElement>
+                              <emptyElement attribute="attributeValue"/>
+                              <startElement>non-line-breaking-text</startElement>
+                              <startElement>non-line-breaking-text</startElement>
+                              <startElement>non-line-breaking-text</startElement>
+                              <startElement>non-line-breaking-text</startElement>
+                              <startElement>non-line-breaking-text</startElement>
+                              <startElement>non-line-breaking-text</startElement>
+                              <startElement>non-line-breaking-text</startElement>
+                              <startElement>
+                                  line-breaking-text
+                                  line-breaking-text
+                                  line-breaking-text
+                                  line-breaking-text
+                              </startElement>
+                              <startElement>
+                                  line-breaking-text
+                                  line-breaking-text
+                                  line-breaking-text
+                                  line-breaking-text
+                              </startElement>
+                              <startElement>
+                                  line-breaking-text
+                                  line-breaking-text
+                                  line-breaking-text
+                                  line-breaking-text
+                              </startElement>
+                              <startElement>
+                                  line-breaking-text
+                                  line-breaking-text
+                                  line-breaking-text
+                                  line-breaking-text
+                              </startElement>
+                              <emptyElement attribute="attributeValue"/>
+                              <some-externally-generated-xml/>
+                              <some-externally-generated-xml>
+                                  <some-inner-tag/>
+                              </some-externally-generated-xml>
+                              <some-externally-generated-xml>
+                                  <some-inner-tag/>
+                              </some-externally-generated-xml>
+                              <wrapper1>
+                                  <wrapper2>
+                                      <some-externally-generated-xml>
+                                          <some-inner-tag/>
+                                      </some-externally-generated-xml>
+                                  </wrapper2>
+                              </wrapper1>
+                              <wrapper1>
+                                  <wrapper2>
+                                      <some-externally-generated-xml>
+                                          <some-inner-tag/>
+                                      </some-externally-generated-xml>
+                                  </wrapper2>
+                              </wrapper1>
+                          </document>""";
 
         //System.out.println(baos.toString("UTF-8"));
         //System.out.println(expected);
@@ -153,10 +154,12 @@ public class IndentingXmlStreamWriterTest {
                 writer.writeEndElement();
 
                 writer.writeStartElement("startElement");
-                    writer.writeCharacters("line-breaking-text\n" +
-                                           "line-breaking-text\n" +
-                                           "line-breaking-text\n" +
-                                           "line-breaking-text\n");
+                    writer.writeCharacters("""
+                                           line-breaking-text
+                                           line-breaking-text
+                                           line-breaking-text
+                                           line-breaking-text
+                                           """);
                 writer.writeEndElement();
 
                 writer.writeStartElement("startElement");
@@ -180,9 +183,10 @@ public class IndentingXmlStreamWriterTest {
                     writer.writeAttribute("attribute", "attributeValue");
 
                 writer.writeXML("<some-externally-generated-xml/>");
-                writer.writeXML("<some-externally-generated-xml>\n" +
-                                "    <some-inner-tag/>\n" +
-                                "</some-externally-generated-xml>");
+                writer.writeXML("""
+                                <some-externally-generated-xml>
+                                    <some-inner-tag/>
+                                </some-externally-generated-xml>""");
 
                 writer.writeXML("<some-externally-generated-xml>\r\n" +
                                 "    <some-inner-tag/>\r\n" +
@@ -190,9 +194,10 @@ public class IndentingXmlStreamWriterTest {
 
                 writer.writeStartElement("wrapper1");
                     writer.writeStartElement("wrapper2");
-                        writer.writeXML("<some-externally-generated-xml>\n" +
-                                        "    <some-inner-tag/>\n" +
-                                        "</some-externally-generated-xml>");
+                        writer.writeXML("""
+                                        <some-externally-generated-xml>
+                                            <some-inner-tag/>
+                                        </some-externally-generated-xml>""");
                     writer.writeEndElement();
                 writer.writeEndElement();
 

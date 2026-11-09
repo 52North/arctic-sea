@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -222,83 +222,83 @@ public abstract class AbstractGmlDecoderv321<T, S>
         } else {
             value = decodeXmlObject(xmlObject);
         }
-        if (value instanceof BooleanValue) {
+        if (value instanceof BooleanValue booleanValue) {
             NamedValue<Boolean> namedValue = new NamedValue<>();
-            namedValue.setValue((BooleanValue) value);
+            namedValue.setValue(booleanValue);
             return namedValue;
-        } else if (value instanceof SweBoolean) {
+        } else if (value instanceof SweBoolean boolean2) {
             NamedValue<Boolean> namedValue = new NamedValue<>();
-            namedValue.setValue(new BooleanValue(((SweBoolean) value).getValue()));
+            namedValue.setValue(new BooleanValue(boolean2.getValue()));
             return namedValue;
-        } else if (value instanceof Boolean) {
+        } else if (value instanceof Boolean boolean1) {
             NamedValue<Boolean> namedValue = new NamedValue<>();
-            namedValue.setValue(new BooleanValue((Boolean) value));
+            namedValue.setValue(new BooleanValue(boolean1));
             return namedValue;
-        } else if (value instanceof CategoryValue) {
+        } else if (value instanceof CategoryValue categoryValue) {
             NamedValue<String> namedValue = new NamedValue<>();
-            namedValue.setValue((CategoryValue) value);
+            namedValue.setValue(categoryValue);
             return namedValue;
-        } else if (value instanceof SweCategory) {
+        } else if (value instanceof SweCategory category) {
             NamedValue<String> namedValue = new NamedValue<>();
             namedValue.setValue(
-                    new CategoryValue(((SweCategory) value).getValue(), ((SweCategory) value).getCodeSpace()));
+                    new CategoryValue(category.getValue(), category.getCodeSpace()));
             return namedValue;
-        } else if (value instanceof CountValue) {
+        } else if (value instanceof CountValue countValue) {
             NamedValue<Integer> namedValue = new NamedValue<>();
-            namedValue.setValue((CountValue) value);
+            namedValue.setValue(countValue);
             return namedValue;
-        } else if (value instanceof SweCount) {
+        } else if (value instanceof SweCount count) {
             NamedValue<Integer> namedValue = new NamedValue<>();
-            namedValue.setValue(new CountValue(((SweCount) value).getValue()));
+            namedValue.setValue(new CountValue(count.getValue()));
             return namedValue;
-        } else if (value instanceof Integer) {
+        } else if (value instanceof Integer integer) {
             NamedValue<Integer> namedValue = new NamedValue<>();
-            namedValue.setValue(new CountValue((Integer) value));
+            namedValue.setValue(new CountValue(integer));
             return namedValue;
-        } else if (value instanceof GeometryValue) {
+        } else if (value instanceof GeometryValue geometryValue) {
             NamedValue<Geometry> namedValue = new NamedValue<>();
-            namedValue.setValue((GeometryValue) value);
+            namedValue.setValue(geometryValue);
             return namedValue;
-        } else if (value instanceof QuantityValue) {
+        } else if (value instanceof QuantityValue quantityValue) {
             NamedValue<BigDecimal> namedValue = new NamedValue<>();
-            namedValue.setValue((QuantityValue) value);
+            namedValue.setValue(quantityValue);
             return namedValue;
-        } else if (value instanceof GmlMeasureType) {
+        } else if (value instanceof GmlMeasureType type1) {
             NamedValue<BigDecimal> namedValue = new NamedValue<>();
             namedValue.setValue(
-                    new QuantityValue(((GmlMeasureType) value).getValue(), ((GmlMeasureType) value).getUnit()));
+                    new QuantityValue(type1.getValue(), type1.getUnit()));
             return namedValue;
-        } else if (value instanceof SweQuantity) {
+        } else if (value instanceof SweQuantity quantity) {
             NamedValue<BigDecimal> namedValue = new NamedValue<>();
-            namedValue.setValue(new QuantityValue(((SweQuantity) value).getValue(), ((SweQuantity) value).getUom()));
+            namedValue.setValue(new QuantityValue(quantity.getValue(), quantity.getUom()));
             return namedValue;
-        } else if (value instanceof Double) {
+        } else if (value instanceof Double double1) {
             NamedValue<BigDecimal> namedValue = new NamedValue<>();
-            namedValue.setValue(new QuantityValue((Double) value));
+            namedValue.setValue(new QuantityValue(double1));
             return namedValue;
-        } else if (value instanceof TextValue) {
+        } else if (value instanceof TextValue textValue) {
             NamedValue<String> namedValue = new NamedValue<>();
-            namedValue.setValue((TextValue) value);
+            namedValue.setValue(textValue);
             return namedValue;
-        } else if (value instanceof SweText) {
+        } else if (value instanceof SweText text) {
             NamedValue<String> namedValue = new NamedValue<>();
-            namedValue.setValue(new TextValue((SweText) value));
+            namedValue.setValue(new TextValue(text));
             return namedValue;
-        } else if (value instanceof String) {
+        } else if (value instanceof String string) {
             NamedValue<String> namedValue = new NamedValue<>();
-            namedValue.setValue(new TextValue((String) value));
+            namedValue.setValue(new TextValue(string));
             return namedValue;
-        } else if (value instanceof AbstractGeometry) {
+        } else if (value instanceof AbstractGeometry geometry) {
             NamedValue<Geometry> namedValue = new NamedValue<>();
-            namedValue.setValue(new GeometryValue((AbstractGeometry) value));
+            namedValue.setValue(new GeometryValue(geometry));
             return namedValue;
-        } else if (value instanceof org.n52.shetland.ogc.gml.ReferenceType) {
+        } else if (value instanceof org.n52.shetland.ogc.gml.ReferenceType type) {
             NamedValue<org.n52.shetland.ogc.gml.ReferenceType> namedValue = new NamedValue<>();
-            namedValue.setValue(new ReferenceValue((org.n52.shetland.ogc.gml.ReferenceType) value));
+            namedValue.setValue(new ReferenceValue(type));
             return namedValue;
-        } else if (value instanceof W3CHrefAttribute) {
+        } else if (value instanceof W3CHrefAttribute attribute) {
             NamedValue<W3CHrefAttribute> namedValue = new NamedValue<>();
-            namedValue.setValue(new HrefAttributeValue((W3CHrefAttribute) value));
+            namedValue.setValue(new HrefAttributeValue(attribute));
             return namedValue;
         } else {
             throw new UnsupportedDecoderInputException(this, xmlObject);

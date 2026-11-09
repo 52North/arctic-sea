@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -89,9 +89,9 @@ public class SoapBinding extends ExtensibilityElement {
     @Override
     public int compareTo(ExtensibilityElement o) {
         Objects.requireNonNull(o);
-        if (o instanceof SoapBinding) {
-            return ComparisonChain.start().compare(this.getStyle(), ((SoapBinding) o).getStyle())
-                    .compare(this.getTransport(), ((SoapBinding) o).getTransport()).result();
+        if (o instanceof SoapBinding binding) {
+            return ComparisonChain.start().compare(this.getStyle(), binding.getStyle())
+                    .compare(this.getTransport(), binding.getTransport()).result();
         }
         return Comparables.compare(getQName().getNamespaceURI(), o.getQName().getNamespaceURI());
     }

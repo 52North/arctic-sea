@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,10 +15,13 @@
  */
 package org.n52.shetland.ogc.sta.exception;
 
+import java.io.Serial;
+
 import org.n52.janmayen.http.HTTPStatus;
 
 public class STACRUDException extends Exception {
 
+    @Serial
     private static final long serialVersionUID = -6227925530093069656L;
 
     private final HTTPStatus responseStatus;

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -245,10 +245,9 @@ public class InsertObservationRequest extends OwsServiceRequest {
                     observation.setResultTime(resultTimes.get(resultTime.getGmlId()));
                 } else if (phenomenonTimes.containsKey(resultTime.getGmlId())) {
                     final Time iTime = phenomenonTimes.get(resultTime.getGmlId());
-                    if (iTime instanceof TimeInstant) {
-                        observation.setResultTime((TimeInstant) iTime);
-                    } else if (iTime instanceof TimePeriod) {
-                        final TimePeriod timePeriod = (TimePeriod) iTime;
+                    if (iTime instanceof TimeInstant instant) {
+                        observation.setResultTime(instant);
+                    } else if (iTime instanceof TimePeriod timePeriod) {
                         observation.setResultTime(new TimeInstant(timePeriod.getEnd()));
                     }
                 }

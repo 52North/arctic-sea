@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import org.n52.iceland.exception.ows.concrete.InvalidServiceParameterException;
 import org.n52.iceland.ogc.ows.OwsServiceMetadataRepository;
@@ -222,7 +222,7 @@ public abstract class AbstractGetCapabilitiesHandler<T> extends AbstractOperatio
     private Set<CapabilitiesSection> getRequestedSections(GetCapabilitiesRequest request) {
         Set<CapabilitiesSection> sections = request.getSections().stream()
                 .map(OWSConstants.CapabilitiesSection::from)
-                .filter(Optional::isPresent).map(Optional::get)
+                .flatMap(Optional::stream)
                 .collect(toSet());
         if (sections.contains(CapabilitiesSection.All) || sections.isEmpty()) {
             sections.addAll(Arrays.asList(CapabilitiesSection.values()));

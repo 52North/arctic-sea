@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -92,10 +92,10 @@ public abstract class AbstractRectifiedGridCoverageTypeEncoder<T>
             lst.setUomLabels(getUoms(domainSet));
             for (ComparableValue<?, ?> quantityValued : domainSet) {
                 Object value = quantityValued.getValue();
-                if (value instanceof Double) {
-                    lst.addNewPos().setListValue(Lists.newArrayList((Double) value));
-                } else if (value instanceof RangeValue) {
-                    lst.addNewPos().setListValue(((RangeValue) value).getRangeAsList());
+                if (value instanceof Double double1) {
+                    lst.addNewPos().setListValue(Lists.newArrayList(double1));
+                } else if (value instanceof RangeValue rangeValue) {
+                    lst.addNewPos().setListValue(rangeValue.getRangeAsList());
                 }
             }
             return lsd;

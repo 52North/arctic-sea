@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -217,11 +217,10 @@ public class SensorMLEncoderv20
             throws EncodingException {
         XmlObject encodedObject = null;
         try {
-            if (objectToEncode instanceof AbstractSensorML) {
-                AbstractSensorML description = (AbstractSensorML) objectToEncode;
+            if (objectToEncode instanceof AbstractSensorML description) {
                 if (description.isSetXml()) {
-                    encodedObject = XmlObject.Factory.parse(((AbstractSensorML) objectToEncode).getXml());
-                    addValuesToXmlObject(encodedObject, (AbstractSensorML) objectToEncode);
+                    encodedObject = XmlObject.Factory.parse(description.getXml());
+                    addValuesToXmlObject(encodedObject, description);
                     encodedObject = checkForAdditionalValues(encodedObject, additionalValues);
                 } else {
                     encodedObject = encodeDescription(description, additionalValues);
@@ -242,107 +241,107 @@ public class SensorMLEncoderv20
         boolean doc = additionalValues.has(XmlBeansEncodingFlags.DOCUMENT);
         boolean propertyType = additionalValues.has(XmlBeansEncodingFlags.PROPERTY_TYPE);
         boolean type = additionalValues.has(XmlBeansEncodingFlags.TYPE);
-        if (element instanceof PhysicalSystemDocument) {
+        if (element instanceof PhysicalSystemDocument document3) {
             if (propertyType) {
                 PhysicalSystemPropertyType pspt = PhysicalSystemPropertyType.Factory.newInstance(getXmlOptions());
-                pspt.setPhysicalSystem(((PhysicalSystemDocument) element).getPhysicalSystem());
+                pspt.setPhysicalSystem(document3.getPhysicalSystem());
                 return pspt;
             } else if (type) {
-                return ((PhysicalSystemDocument) element).getPhysicalSystem();
+                return document3.getPhysicalSystem();
             }
-        } else if (element instanceof PhysicalSystemPropertyType) {
+        } else if (element instanceof PhysicalSystemPropertyType systemPropertyType) {
             if (doc) {
                 PhysicalSystemDocument psd = PhysicalSystemDocument.Factory.newInstance(getXmlOptions());
-                psd.setPhysicalSystem(((PhysicalSystemPropertyType) element).getPhysicalSystem());
+                psd.setPhysicalSystem(systemPropertyType.getPhysicalSystem());
                 return psd;
             } else if (type) {
-                return ((PhysicalSystemPropertyType) element).getPhysicalSystem();
+                return systemPropertyType.getPhysicalSystem();
             }
-        } else if (element instanceof PhysicalSystemType) {
+        } else if (element instanceof PhysicalSystemType systemType) {
             if (doc) {
                 PhysicalSystemDocument psd = PhysicalSystemDocument.Factory.newInstance(getXmlOptions());
-                psd.setPhysicalSystem((PhysicalSystemType) element);
+                psd.setPhysicalSystem(systemType);
                 return psd;
             } else if (propertyType) {
                 PhysicalSystemPropertyType pspt = PhysicalSystemPropertyType.Factory.newInstance(getXmlOptions());
-                pspt.setPhysicalSystem((PhysicalSystemType) element);
+                pspt.setPhysicalSystem(systemType);
                 return pspt;
             }
-        } else if (element instanceof PhysicalComponentDocument) {
+        } else if (element instanceof PhysicalComponentDocument document2) {
             if (propertyType) {
                 PhysicalComponentPropertyType pcpt =
                         PhysicalComponentPropertyType.Factory.newInstance(getXmlOptions());
-                pcpt.setPhysicalComponent(((PhysicalComponentDocument) element).getPhysicalComponent());
+                pcpt.setPhysicalComponent(document2.getPhysicalComponent());
             } else if (type) {
-                return ((PhysicalComponentDocument) element).getPhysicalComponent();
+                return document2.getPhysicalComponent();
             }
-        } else if (element instanceof PhysicalComponentPropertyType) {
+        } else if (element instanceof PhysicalComponentPropertyType componentPropertyType) {
             if (doc) {
                 PhysicalComponentDocument pcd = PhysicalComponentDocument.Factory.newInstance(getXmlOptions());
-                pcd.setPhysicalComponent(((PhysicalComponentPropertyType) element).getPhysicalComponent());
+                pcd.setPhysicalComponent(componentPropertyType.getPhysicalComponent());
                 return pcd;
             } else if (type) {
-                return ((PhysicalComponentPropertyType) element).getPhysicalComponent();
+                return componentPropertyType.getPhysicalComponent();
             }
-        } else if (element instanceof PhysicalComponentType) {
+        } else if (element instanceof PhysicalComponentType componentType) {
             if (doc) {
                 PhysicalComponentDocument pcd = PhysicalComponentDocument.Factory.newInstance(getXmlOptions());
-                pcd.setPhysicalComponent((PhysicalComponentType) element);
+                pcd.setPhysicalComponent(componentType);
                 return pcd;
             } else if (propertyType) {
                 PhysicalComponentPropertyType pcpt =
                         PhysicalComponentPropertyType.Factory.newInstance(getXmlOptions());
-                pcpt.setPhysicalComponent((PhysicalComponentType) element);
+                pcpt.setPhysicalComponent(componentType);
                 return pcpt;
             }
-        } else if (element instanceof SimpleProcessDocument) {
+        } else if (element instanceof SimpleProcessDocument document1) {
             if (propertyType) {
                 SimpleProcessPropertyType sppt = SimpleProcessPropertyType.Factory.newInstance(getXmlOptions());
-                sppt.setSimpleProcess(((SimpleProcessDocument) element).getSimpleProcess());
+                sppt.setSimpleProcess(document1.getSimpleProcess());
             } else if (type) {
-                return ((SimpleProcessDocument) element).getSimpleProcess();
+                return document1.getSimpleProcess();
             }
-        } else if (element instanceof SimpleProcessPropertyType) {
+        } else if (element instanceof SimpleProcessPropertyType processPropertyType1) {
             if (doc) {
                 SimpleProcessDocument spd = SimpleProcessDocument.Factory.newInstance(getXmlOptions());
-                spd.setSimpleProcess(((SimpleProcessPropertyType) element).getSimpleProcess());
+                spd.setSimpleProcess(processPropertyType1.getSimpleProcess());
                 return spd;
             } else if (type) {
-                return ((SimpleProcessPropertyType) element).getSimpleProcess();
+                return processPropertyType1.getSimpleProcess();
             }
-        } else if (element instanceof SimpleProcessType) {
+        } else if (element instanceof SimpleProcessType processType1) {
             if (doc) {
                 SimpleProcessDocument spd = SimpleProcessDocument.Factory.newInstance(getXmlOptions());
-                spd.setSimpleProcess((SimpleProcessType) element);
+                spd.setSimpleProcess(processType1);
                 return spd;
             } else if (propertyType) {
                 SimpleProcessPropertyType sppt = SimpleProcessPropertyType.Factory.newInstance(getXmlOptions());
-                sppt.setSimpleProcess((SimpleProcessType) element);
+                sppt.setSimpleProcess(processType1);
                 return sppt;
             }
-        } else if (element instanceof AggregateProcessDocument) {
+        } else if (element instanceof AggregateProcessDocument document) {
             if (propertyType) {
                 AggregateProcessPropertyType appt = AggregateProcessPropertyType.Factory.newInstance(getXmlOptions());
-                appt.setAggregateProcess(((AggregateProcessDocument) element).getAggregateProcess());
+                appt.setAggregateProcess(document.getAggregateProcess());
             } else if (type) {
-                return ((AggregateProcessDocument) element).getAggregateProcess();
+                return document.getAggregateProcess();
             }
-        } else if (element instanceof AggregateProcessPropertyType) {
+        } else if (element instanceof AggregateProcessPropertyType processPropertyType) {
             if (doc) {
                 AggregateProcessDocument apd = AggregateProcessDocument.Factory.newInstance(getXmlOptions());
-                apd.setAggregateProcess(((AggregateProcessPropertyType) element).getAggregateProcess());
+                apd.setAggregateProcess(processPropertyType.getAggregateProcess());
                 return apd;
             } else if (type) {
-                return ((AggregateProcessPropertyType) element).getAggregateProcess();
+                return processPropertyType.getAggregateProcess();
             }
-        } else if (element instanceof AggregateProcessType) {
+        } else if (element instanceof AggregateProcessType processType) {
             if (doc) {
                 AggregateProcessDocument apd = AggregateProcessDocument.Factory.newInstance(getXmlOptions());
-                apd.setAggregateProcess((AggregateProcessType) element);
+                apd.setAggregateProcess(processType);
                 return apd;
             } else if (propertyType) {
                 AggregateProcessPropertyType appt = AggregateProcessPropertyType.Factory.newInstance(getXmlOptions());
-                appt.setAggregateProcess((AggregateProcessType) element);
+                appt.setAggregateProcess(processType);
                 return appt;
             }
         }
@@ -351,41 +350,41 @@ public class SensorMLEncoderv20
 
     private void addValuesToXmlObject(XmlObject element, AbstractSensorML description)
             throws EncodingException {
-        if (element instanceof PhysicalSystemDocument) {
-            addPhysicalSystemValues(((PhysicalSystemDocument) element).getPhysicalSystem(),
+        if (element instanceof PhysicalSystemDocument document3) {
+            addPhysicalSystemValues(document3.getPhysicalSystem(),
                     (PhysicalSystem) description);
-        } else if (element instanceof PhysicalSystemPropertyType) {
-            addPhysicalSystemValues(((PhysicalSystemPropertyType) element).getPhysicalSystem(),
+        } else if (element instanceof PhysicalSystemPropertyType type3) {
+            addPhysicalSystemValues(type3.getPhysicalSystem(),
                     (PhysicalSystem) description);
-        } else if (element instanceof PhysicalComponentDocument && description instanceof PhysicalComponent) {
-            addPhysicalComponentValues(((PhysicalComponentDocument) element).getPhysicalComponent(),
-                    (PhysicalComponent) description);
-        } else if (element instanceof PhysicalComponentPropertyType && description instanceof PhysicalComponent) {
-            addPhysicalComponentValues(((PhysicalComponentPropertyType) element).getPhysicalComponent(),
-                    (PhysicalComponent) description);
-        } else if (element instanceof SimpleProcessDocument && description instanceof SimpleProcess) {
-            addSimpleProcessValues(((SimpleProcessDocument) element).getSimpleProcess(), (SimpleProcess) description);
-        } else if (element instanceof SimpleProcessPropertyType && description instanceof SimpleProcess) {
-            addSimpleProcessValues(((SimpleProcessPropertyType) element).getSimpleProcess(),
-                    (SimpleProcess) description);
-        } else if (element instanceof AggregateProcessDocument && description instanceof AggregateProcess) {
-            addAggregateProcessValues(((AggregateProcessDocument) element).getAggregateProcess(),
-                    (AggregateProcess) description);
-        } else if (element instanceof AggregateProcessPropertyType && description instanceof AggregateProcess) {
-            addAggregateProcessValues(((AggregateProcessPropertyType) element).getAggregateProcess(),
-                    (AggregateProcess) description);
+        } else if (element instanceof PhysicalComponentDocument document2 && description instanceof PhysicalComponent component1) {
+            addPhysicalComponentValues(document2.getPhysicalComponent(),
+                    component1);
+        } else if (element instanceof PhysicalComponentPropertyType type2 && description instanceof PhysicalComponent component) {
+            addPhysicalComponentValues(type2.getPhysicalComponent(),
+                    component);
+        } else if (element instanceof SimpleProcessDocument document1 && description instanceof SimpleProcess process3) {
+            addSimpleProcessValues(document1.getSimpleProcess(), process3);
+        } else if (element instanceof SimpleProcessPropertyType type1 && description instanceof SimpleProcess process2) {
+            addSimpleProcessValues(type1.getSimpleProcess(),
+                    process2);
+        } else if (element instanceof AggregateProcessDocument document && description instanceof AggregateProcess process1) {
+            addAggregateProcessValues(document.getAggregateProcess(),
+                    process1);
+        } else if (element instanceof AggregateProcessPropertyType type && description instanceof AggregateProcess process) {
+            addAggregateProcessValues(type.getAggregateProcess(),
+                    process);
         }
     }
 
     private XmlObject encodeDescription(AbstractSensorML description, EncodingContext additionalValues)
             throws EncodingException {
         XmlObject absProc = null;
-        if (description instanceof AbstractPhysicalProcess) {
-            absProc = encodeAbstractPhysicalProcess((AbstractPhysicalProcess) description, additionalValues);
-        } else if (description instanceof SimpleProcess) {
-            absProc = encodeSimpleProcess((SimpleProcess) description, additionalValues);
-        } else if (description instanceof AggregateProcess) {
-            absProc = encodeAggregateProcess((AggregateProcess) description, additionalValues);
+        if (description instanceof AbstractPhysicalProcess process2) {
+            absProc = encodeAbstractPhysicalProcess(process2, additionalValues);
+        } else if (description instanceof SimpleProcess process1) {
+            absProc = encodeSimpleProcess(process1, additionalValues);
+        } else if (description instanceof AggregateProcess process) {
+            absProc = encodeAggregateProcess(process, additionalValues);
         } else {
             throw new UnsupportedEncoderInputException(this, description);
         }
@@ -453,10 +452,10 @@ public class SensorMLEncoderv20
             EncodingContext additionalValues)
             throws EncodingException {
         XmlObject absPhysObj = null;
-        if (abstractPhysicalProcess instanceof PhysicalSystem) {
-            absPhysObj = encodePhysicalSystem((PhysicalSystem) abstractPhysicalProcess, additionalValues);
-        } else if (abstractPhysicalProcess instanceof PhysicalComponent) {
-            absPhysObj = encodePhysicalComponent((PhysicalComponent) abstractPhysicalProcess, additionalValues);
+        if (abstractPhysicalProcess instanceof PhysicalSystem system) {
+            absPhysObj = encodePhysicalSystem(system, additionalValues);
+        } else if (abstractPhysicalProcess instanceof PhysicalComponent component) {
+            absPhysObj = encodePhysicalComponent(component, additionalValues);
         } else {
             throw new UnsupportedEncoderInputException(this, abstractPhysicalProcess);
         }
@@ -637,9 +636,9 @@ public class SensorMLEncoderv20
             if (CollectionHelper.isNullOrEmpty(dot.getContactsArray())) {
                 ContactListType cl = ContactListType.Factory.newInstance();
                 for (SmlContact contact : describedObject.getContact()) {
-                    if (contact instanceof SmlResponsibleParty) {
+                    if (contact instanceof SmlResponsibleParty party) {
                         if (contact.isSetHref()) {
-                            XmlObject xml = encodeObjectToXml(GmdConstants.NS_GMD, (SmlResponsibleParty) contact,
+                            XmlObject xml = encodeObjectToXml(GmdConstants.NS_GMD, party,
                                     EncodingContext.of(XmlBeansEncodingFlags.PROPERTY_TYPE));
                             cl.addNewContact().set(xml);
                         } else {
@@ -738,8 +737,8 @@ public class SensorMLEncoderv20
     private List<SmlComponent> checkForComponents(AbstractProcess abstractProcess)
             throws EncodingException {
         List<SmlComponent> smlComponents = Lists.newArrayList();
-        if (abstractProcess instanceof HasComponents<?> && ((HasComponents<?>) abstractProcess).isSetComponents()) {
-            smlComponents.addAll(((HasComponents<?>) abstractProcess).getComponents());
+        if (abstractProcess instanceof HasComponents<?> components && components.isSetComponents()) {
+            smlComponents.addAll(components.getComponents());
         }
         return smlComponents;
     }
@@ -1099,10 +1098,10 @@ public class SensorMLEncoderv20
     protected DocumentListPropertyType[] createDocumentationArray(List<AbstractSmlDocumentation> sosDocumentation) {
         return sosDocumentation.stream().map(doc -> {
             DocumentListPropertyType documentation = DocumentListPropertyType.Factory.newInstance();
-            if (doc instanceof SmlDocumentation) {
-                documentation.setDocumentList(createDocument((SmlDocumentation) doc));
-            } else if (doc instanceof SmlDocumentationList) {
-                documentation.setDocumentList(createDocumentationList((SmlDocumentationList) doc));
+            if (doc instanceof SmlDocumentation smlDocumentation) {
+                documentation.setDocumentList(createDocument(smlDocumentation));
+            } else if (doc instanceof SmlDocumentationList list) {
+                documentation.setDocumentList(createDocumentationList(list));
             }
             return documentation;
         }).toArray(DocumentListPropertyType[]::new);

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,16 +65,16 @@ public class WsaDecoder extends AbstractXmlDecoder<XmlObject, WsaHeader> {
 
     @Override
     public WsaHeader decode(XmlObject element) throws DecodingException {
-       if (element instanceof ToDocument) {
-           return parseToDocument((ToDocument) element);
-       } else if (element instanceof ActionDocument) {
-           return parseActionDocument((ActionDocument) element);
-       } else if (element instanceof MessageIDDocument) {
-           return parseMessageIDDocument((MessageIDDocument) element);
-       } else if (element instanceof RelatesToDocument) {
-           return parseRelatesToDocument((RelatesToDocument) element);
-       } else if (element instanceof ReplyToDocument) {
-           return parseReplyToDocument((ReplyToDocument) element);
+       if (element instanceof ToDocument document4) {
+           return parseToDocument(document4);
+       } else if (element instanceof ActionDocument document3) {
+           return parseActionDocument(document3);
+       } else if (element instanceof MessageIDDocument document2) {
+           return parseMessageIDDocument(document2);
+       } else if (element instanceof RelatesToDocument document1) {
+           return parseRelatesToDocument(document1);
+       } else if (element instanceof ReplyToDocument document) {
+           return parseReplyToDocument(document);
        }
        throw new UnsupportedDecoderXmlInputException(this, element);
     }

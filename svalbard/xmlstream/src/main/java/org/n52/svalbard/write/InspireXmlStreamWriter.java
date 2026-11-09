@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -251,12 +251,12 @@ public class InspireXmlStreamWriter extends XmlStreamWriter<InspireObject> imple
      *             If an error occurs when writing the object to stream
      */
     private void writeDateOf(InspireDateOf dateOf) throws XMLStreamException {
-        if (dateOf instanceof InspireDateOfPublication) {
-            writeDateOfPublication((InspireDateOfPublication) dateOf);
-        } else if (dateOf instanceof InspireDateOfCreation) {
-            writeDateOfCreation((InspireDateOfCreation) dateOf);
-        } else if (dateOf instanceof InspireDateOfLastRevision) {
-            writeDateOfLastRevision((InspireDateOfLastRevision) dateOf);
+        if (dateOf instanceof InspireDateOfPublication publication) {
+            writeDateOfPublication(publication);
+        } else if (dateOf instanceof InspireDateOfCreation creation) {
+            writeDateOfCreation(creation);
+        } else if (dateOf instanceof InspireDateOfLastRevision revision) {
+            writeDateOfLastRevision(revision);
         }
     }
 
@@ -753,10 +753,10 @@ public class InspireXmlStreamWriter extends XmlStreamWriter<InspireObject> imple
      */
     private void writeTemporalExtent(Time temporalExtent) throws XMLStreamException {
         start(QN_TEMPORAL_EXTENT);
-        if (temporalExtent instanceof TimeInstant) {
-            writeIndividualDate((TimeInstant) temporalExtent);
-        } else if (temporalExtent instanceof TimePeriod) {
-            writeIntervalOfTime((TimePeriod) temporalExtent);
+        if (temporalExtent instanceof TimeInstant instant) {
+            writeIndividualDate(instant);
+        } else if (temporalExtent instanceof TimePeriod period) {
+            writeIntervalOfTime(period);
         }
         end(QN_TEMPORAL_EXTENT);
 

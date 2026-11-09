@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,9 +65,9 @@ public class LifecycleBeanPostProcessor implements DestructionAwareBeanPostProce
 
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) {
-        if (bean instanceof Constructable) {
+        if (bean instanceof Constructable constructable) {
             try {
-                ((Constructable) bean).init();
+                constructable.init();
             } catch (Throwable t) {
                 throw new BeanInitializationException("Couldn't counstruct bean " + beanName, t);
             }
@@ -77,9 +77,9 @@ public class LifecycleBeanPostProcessor implements DestructionAwareBeanPostProce
 
     @Override
     public void postProcessBeforeDestruction(Object bean, String beanName) {
-        if (bean instanceof Destroyable) {
+        if (bean instanceof Destroyable destroyable) {
             try {
-                ((Destroyable) bean).destroy();
+                destroyable.destroy();
             } catch (Throwable t) {
                 LOG.error("Couldn't invoke destroy method on " + beanName, t);
             }

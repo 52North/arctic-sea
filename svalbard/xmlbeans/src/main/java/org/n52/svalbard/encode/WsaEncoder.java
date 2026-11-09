@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -83,16 +83,16 @@ public class WsaEncoder extends AbstractXmlEncoder<XmlObject, WsaHeader> {
         if (!wsaHeader.isSetValue()) {
             return null;
         }
-        if (wsaHeader instanceof WsaReplyToHeader) {
-            return encodeReplyToHeader((WsaReplyToHeader) wsaHeader);
-        } else if (wsaHeader instanceof WsaMessageIDHeader) {
-            return encodeMessageIDHeader((WsaMessageIDHeader) wsaHeader);
-        } else if (wsaHeader instanceof WsaActionHeader) {
-            return encodeActionHeader((WsaActionHeader) wsaHeader);
-        } else if (wsaHeader instanceof WsaToHeader) {
-            return encodeToHeader((WsaToHeader) wsaHeader);
-        } else if (wsaHeader instanceof WsaRelatesToHeader) {
-            return encodeRelatesToHeader((WsaRelatesToHeader) wsaHeader);
+        if (wsaHeader instanceof WsaReplyToHeader header4) {
+            return encodeReplyToHeader(header4);
+        } else if (wsaHeader instanceof WsaMessageIDHeader header3) {
+            return encodeMessageIDHeader(header3);
+        } else if (wsaHeader instanceof WsaActionHeader header2) {
+            return encodeActionHeader(header2);
+        } else if (wsaHeader instanceof WsaToHeader header1) {
+            return encodeToHeader(header1);
+        } else if (wsaHeader instanceof WsaRelatesToHeader header) {
+            return encodeRelatesToHeader(header);
         } else {
             throw new UnsupportedEncoderInputException(this, wsaHeader);
         }

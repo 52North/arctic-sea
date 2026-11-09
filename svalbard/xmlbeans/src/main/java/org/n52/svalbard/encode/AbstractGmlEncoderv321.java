@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,24 +43,24 @@ public abstract class AbstractGmlEncoderv321<T, S> extends AbstractXmlEncoder<T,
             } else {
                 if (context.has(XmlBeansEncodingFlags.ENCODE)
                         && !context.getBoolean(XmlBeansEncodingFlags.ENCODE)
-                        || abstractFeature instanceof FeatureWithEncode
-                                && !((FeatureWithEncode) abstractFeature).isEncode()) {
+                        || abstractFeature instanceof FeatureWithEncode encode
+                                && !encode.isEncode()) {
                     featurePropertyType.setHref(abstractFeature.getIdentifierCodeWithAuthority().getValue());
                     if (abstractFeature.isSetName()) {
                         featurePropertyType.setTitle(abstractFeature.getFirstName().getValue());
                     }
                     return featurePropertyType;
                 }
-                if (abstractFeature instanceof FeatureWithGeometry
-                        && !((FeatureWithGeometry) abstractFeature).isSetGeometry()) {
+                if (abstractFeature instanceof FeatureWithGeometry geometry
+                        && !geometry.isSetGeometry()) {
                     featurePropertyType.setHref(abstractFeature.getIdentifierCodeWithAuthority().getValue());
                     if (abstractFeature.isSetName()) {
                         featurePropertyType.setTitle(abstractFeature.getFirstName().getValue());
                     }
                     return featurePropertyType;
                 }
-                if (abstractFeature instanceof FeatureWithUrl && ((FeatureWithUrl) abstractFeature).isSetUrl()) {
-                    featurePropertyType.setHref(((FeatureWithUrl) abstractFeature).getUrl());
+                if (abstractFeature instanceof FeatureWithUrl url && url.isSetUrl()) {
+                    featurePropertyType.setHref(url.getUrl());
                     if (abstractFeature.isSetIdentifier()) {
                         featurePropertyType.setTitle(abstractFeature.getIdentifierCodeWithAuthority().getValue());
                     } else {

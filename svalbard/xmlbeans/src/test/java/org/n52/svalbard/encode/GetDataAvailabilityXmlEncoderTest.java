@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -80,30 +80,31 @@ public class GetDataAvailabilityXmlEncoderTest {
         //System.out.println(encoded.xmlText());
 
         assertThat(encoded.xmlText(), is(String
-                         .format("<gda:GetDataAvailabilityResponse xsi:schemaLocation=\"http://www.opengis.net/sosgda/1.0 http://waterml2.org/schemas/gda/1.0/gda.xsd\" " +
-                                 "xmlns:gda=\"http://www.opengis.net/sosgda/1.0\" " +
-                                 "xmlns:gml=\"http://www.opengis.net/gml/3.2\" " +
-                                 "xmlns:swe=\"http://www.opengis.net/swe/2.0\" " +
-                                 "xmlns:xlink=\"http://www.w3.org/1999/xlink\" " +
-                                 "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n" +
-                                 "  <gda:dataAvailabilityMember gml:id=\"dam_1\">\n" +
-                                 "    <gda:procedure xlink:href=\"procedure\" xlink:title=\"procedure\"/>\n" +
-                                 "    <gda:observedProperty xlink:href=\"observedProperty\" xlink:title=\"observedProperty\"/>\n" +
-                                 "    <gda:featureOfInterest xlink:href=\"featureOfInterest\" xlink:title=\"featureOfInterest\"/>\n" +
-                                 "    <gda:phenomenonTime>\n" +
-                                 "      <gml:TimePeriod gml:id=\"tp_1\">\n" +
-                                 "        <gml:beginPosition>%s</gml:beginPosition>\n" +
-                                 "        <gml:endPosition>%s</gml:endPosition>\n" +
-                                 "      </gml:TimePeriod>\n" +
-                                 "    </gda:phenomenonTime>\n" +
-                                 "    <gda:count>100</gda:count>\n" +
-                                 "    <gda:extension>\n" +
-                                 "      <swe:Text definition=\"offering\">\n" +
-                                 "        <swe:value>offering</swe:value>\n" +
-                                 "      </swe:Text>\n" +
-                                 "    </gda:extension>\n" +
-                                 "  </gda:dataAvailabilityMember>\n" +
-                                 "</gda:GetDataAvailabilityResponse>",
+                         .format("""
+                                 <gda:GetDataAvailabilityResponse xsi:schemaLocation="http://www.opengis.net/sosgda/1.0 http://waterml2.org/schemas/gda/1.0/gda.xsd" \
+                                 xmlns:gda="http://www.opengis.net/sosgda/1.0" \
+                                 xmlns:gml="http://www.opengis.net/gml/3.2" \
+                                 xmlns:swe="http://www.opengis.net/swe/2.0" \
+                                 xmlns:xlink="http://www.w3.org/1999/xlink" \
+                                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                   <gda:dataAvailabilityMember gml:id="dam_1">
+                                     <gda:procedure xlink:href="procedure" xlink:title="procedure"/>
+                                     <gda:observedProperty xlink:href="observedProperty" xlink:title="observedProperty"/>
+                                     <gda:featureOfInterest xlink:href="featureOfInterest" xlink:title="featureOfInterest"/>
+                                     <gda:phenomenonTime>
+                                       <gml:TimePeriod gml:id="tp_1">
+                                         <gml:beginPosition>%s</gml:beginPosition>
+                                         <gml:endPosition>%s</gml:endPosition>
+                                       </gml:TimePeriod>
+                                     </gda:phenomenonTime>
+                                     <gda:count>100</gda:count>
+                                     <gda:extension>
+                                       <swe:Text definition="offering">
+                                         <swe:value>offering</swe:value>
+                                       </swe:Text>
+                                     </gda:extension>
+                                   </gda:dataAvailabilityMember>
+                                 </gda:GetDataAvailabilityResponse>""",
                                  begin.toString(ISODateTimeFormat.dateTime()),
                                  end.toString(ISODateTimeFormat.dateTime()))));
 

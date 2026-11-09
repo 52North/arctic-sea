@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -79,15 +79,13 @@ public class InspireXmlEncoder extends AbstractXmlEncoder<XmlObject, Object> {
     @Override
     public XmlObject encode(Object objectToEncode, EncodingContext ctx)
             throws EncodingException {
-        if (objectToEncode instanceof InspireObject) {
-            return encodeObject((InspireObject) objectToEncode, ctx);
-        } else if (objectToEncode instanceof SwesExtension<?>) {
-            SwesExtension<?> swesExtension = (SwesExtension<?>) objectToEncode;
+        if (objectToEncode instanceof InspireObject object) {
+            return encodeObject(object, ctx);
+        } else if (objectToEncode instanceof SwesExtension<?> swesExtension) {
             if (swesExtension.getValue() instanceof InspireObject) {
                 return encodeObject((InspireObject) swesExtension.getValue(), ctx);
             }
-        } else if (objectToEncode instanceof CapabilitiesExtension<?>) {
-            CapabilitiesExtension<?> extension = (CapabilitiesExtension<?>) objectToEncode;
+        } else if (objectToEncode instanceof CapabilitiesExtension<?> extension) {
             if (extension.getValue() instanceof InspireObject) {
                 return encodeObject((InspireObject) extension.getValue(), ctx);
             }

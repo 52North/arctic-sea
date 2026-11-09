@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -468,13 +468,12 @@ public class OmObservation extends AbstractFeature implements ObservationParamet
         } else {
             tvpValue = (TVPValue) ((MultiObservationValues<?>) value).getValue();
         }
-        if (observationValue instanceof SingleObservationValue) {
-            final SingleObservationValue<?> singleValue = (SingleObservationValue<?>) observationValue;
+        if (observationValue instanceof SingleObservationValue<?> singleValue) {
             if (!(singleValue.getValue() instanceof NilTemplateValue)) {
                 tvpValue.addValue(new TimeValuePair(singleValue.getPhenomenonTime(), singleValue.getValue()));
             }
-        } else if (observationValue instanceof MultiObservationValues) {
-            tvpValue.addValues(((TVPValue) ((MultiObservationValues<?>) observationValue).getValue()).getValue());
+        } else if (observationValue instanceof MultiObservationValues<?> values) {
+            tvpValue.addValues(((TVPValue) values.getValue()).getValue());
         }
         return true;
     }

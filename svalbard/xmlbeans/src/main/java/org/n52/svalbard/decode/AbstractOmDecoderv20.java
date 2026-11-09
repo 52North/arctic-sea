@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,10 +24,10 @@ public abstract class AbstractOmDecoderv20 extends AbstractGmlDecoderv321<Object
 
     @Override
     public Object decode(Object object) throws DecodingException {
-        if (object instanceof NamedValuePropertyType) {
-            return parseNamedValueType((NamedValuePropertyType) object);
-        } else if (object instanceof NamedValuePropertyType[]) {
-            return parseNamedValueTypeArray((NamedValuePropertyType[]) object);
+        if (object instanceof NamedValuePropertyType type) {
+            return parseNamedValueType(type);
+        } else if (object instanceof NamedValuePropertyType[] types) {
+            return parseNamedValueTypeArray(types);
         }
         throw new UnsupportedDecoderInputException(this, object);
     }

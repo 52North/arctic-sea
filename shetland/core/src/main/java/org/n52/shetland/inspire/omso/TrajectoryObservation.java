@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -108,9 +108,9 @@ public class TrajectoryObservation extends AbstractInspireObservation {
                     new MultiObservationValues<List<TimeLocationValueTriple>>();
             multiValue.setValue(tlvpValue);
             if (!multiValue.isSetObservationID()) {
-                if (value instanceof AbstractObservationValue
-                        && ((AbstractObservationValue) value).isSetObservationID()) {
-                    multiValue.setObservationID(((AbstractObservationValue) value).getObservationID());
+                if (value instanceof AbstractObservationValue observationValue
+                        && observationValue.isSetObservationID()) {
+                    multiValue.setObservationID(observationValue.getObservationID());
                 } else if (isSetObservationID()) {
                     multiValue.setObservationID(getObservationID());
                 }
@@ -153,8 +153,7 @@ public class TrajectoryObservation extends AbstractInspireObservation {
      */
     private void checkForFeature(List<TimeLocationValueTriple> values) {
         AbstractFeature featureOfInterest = getObservationConstellation().getFeatureOfInterest();
-        if (featureOfInterest instanceof AbstractSamplingFeature) {
-            AbstractSamplingFeature sf = (AbstractSamplingFeature) featureOfInterest;
+        if (featureOfInterest instanceof AbstractSamplingFeature sf) {
             Coordinate[] coords = getCoordinates(values);
             int srid = 0;
             if (sf.isSetGeometry()) {

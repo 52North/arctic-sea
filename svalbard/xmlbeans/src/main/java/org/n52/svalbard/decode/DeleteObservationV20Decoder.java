@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -66,8 +66,7 @@ public class DeleteObservationV20Decoder
     public DeleteObservationRequest decode(XmlObject xmlObject) throws DecodingException {
         LOGGER.debug(String.format("REQUESTTYPE: %s", xmlObject != null ? xmlObject.getClass() : "null recevied"));
         // XmlHelper.validateDocument(xmlObject);
-        if (xmlObject instanceof DeleteObservationDocument) {
-            DeleteObservationDocument delObsDoc = (DeleteObservationDocument) xmlObject;
+        if (xmlObject instanceof DeleteObservationDocument delObsDoc) {
             DeleteObservationRequest decodedRequest = parseDeleteObservation(delObsDoc);
             LOGGER.debug(String.format("Decoded request: %s", decodedRequest));
             return decodedRequest;
@@ -139,8 +138,8 @@ public class DeleteObservationV20Decoder
         final Set<TemporalFilter> sosTemporalFilters = Sets.newHashSetWithExpectedSize(temporalFilters.length);
         for (final DeleteObservationType.TemporalFilter temporalFilter : temporalFilters) {
             final Object filter = decodeXmlElement(temporalFilter.getTemporalOps());
-            if (filter instanceof TemporalFilter) {
-                sosTemporalFilters.add((TemporalFilter) filter);
+            if (filter instanceof TemporalFilter temporalFilter1) {
+                sosTemporalFilters.add(temporalFilter1);
             }
         }
         return sosTemporalFilters;

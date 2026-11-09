@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,8 +65,7 @@ public class InsertFeatureOfInterestDecoder
     public InsertFeatureOfInterestRequest decode(XmlObject xmlObject) throws DecodingException {
         LOGGER.debug(String.format("REQUESTTYPE: %s", xmlObject != null ? xmlObject.getClass() : "null recevied"));
         // XmlHelper.validateDocument(xmlObject);
-        if (xmlObject instanceof InsertFeatureOfInterestDocument) {
-            InsertFeatureOfInterestDocument ifoid = (InsertFeatureOfInterestDocument) xmlObject;
+        if (xmlObject instanceof InsertFeatureOfInterestDocument ifoid) {
             InsertFeatureOfInterestRequest decodedRequest = parseInsertFeatureOfInterest(ifoid);
             LOGGER.debug(String.format("Decoded request: %s", decodedRequest));
             return decodedRequest;
@@ -100,8 +99,8 @@ public class InsertFeatureOfInterestDecoder
             throws DecodingException {
         for (FeaturePropertyType fpt : ifoit.getFeatureMemberArray()) {
             final Object decodedObject = decodeXmlElement(fpt);
-            if (decodedObject != null && decodedObject instanceof AbstractFeature) {
-                request.addFeatureMember((AbstractFeature) decodedObject);
+            if (decodedObject != null && decodedObject instanceof AbstractFeature feature) {
+                request.addFeatureMember(feature);
             }
         }
     }

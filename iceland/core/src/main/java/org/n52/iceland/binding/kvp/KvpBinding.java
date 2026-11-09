@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,8 +24,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collector;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.n52.faroe.annotation.Configurable;
 import org.n52.faroe.annotation.Setting;
@@ -182,29 +182,29 @@ public class KvpBinding extends SimpleBinding {
     }
 
     private OwsExceptionReport toOwsExceptionReport(Throwable ex) {
-        if (ex instanceof OwsExceptionReport) {
-            return (OwsExceptionReport) ex;
+        if (ex instanceof OwsExceptionReport report) {
+            return report;
         }
 
         Throwable cause = ex.getCause();
 
-        if (cause instanceof OwsExceptionReport) {
-            return (OwsExceptionReport) cause;
+        if (cause instanceof OwsExceptionReport report1) {
+            return report1;
         }
 
-        if (ex instanceof CompositeException) {
-            return toOwsExceptionReport((CompositeException) ex);
+        if (ex instanceof CompositeException exception) {
+            return toOwsExceptionReport(exception);
         }
 
-        if (cause instanceof CompositeException) {
-            return toOwsExceptionReport((CompositeException) cause);
+        if (cause instanceof CompositeException exception1) {
+            return toOwsExceptionReport(exception1);
         }
 
         String location = null;
-        if (ex instanceof LocationHintException) {
-            location = ((LocationHintException) ex).getLocation().orElse(null);
-        } else if (cause instanceof LocationHintException) {
-            location = ((LocationHintException) cause).getLocation().orElse(null);
+        if (ex instanceof LocationHintException exception3) {
+            location = exception3.getLocation().orElse(null);
+        } else if (cause instanceof LocationHintException exception2) {
+            location = exception2.getLocation().orElse(null);
         }
 
         return new InvalidParameterValueException().withMessage(ex.getMessage()).causedBy(ex).at(location);

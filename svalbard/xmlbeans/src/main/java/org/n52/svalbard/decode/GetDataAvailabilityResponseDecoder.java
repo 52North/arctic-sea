@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -80,10 +80,10 @@ public class GetDataAvailabilityResponseDecoder
 
     @Override
     public GetDataAvailabilityResponse decode(XmlObject document) throws DecodingException {
-        if (document instanceof GetDataAvailabilityResponseDocument) {
-            return decodeV10((GetDataAvailabilityResponseDocument) document);
-        } else if (document instanceof net.opengis.sosgda.x20.GetDataAvailabilityResponseDocument) {
-            return decodeV20((net.opengis.sosgda.x20.GetDataAvailabilityResponseDocument) document);
+        if (document instanceof GetDataAvailabilityResponseDocument responseDocument1) {
+            return decodeV10(responseDocument1);
+        } else if (document instanceof net.opengis.sosgda.x20.GetDataAvailabilityResponseDocument responseDocument) {
+            return decodeV20(responseDocument);
         }
         throw new UnsupportedDecoderInputException(this, document);
     }

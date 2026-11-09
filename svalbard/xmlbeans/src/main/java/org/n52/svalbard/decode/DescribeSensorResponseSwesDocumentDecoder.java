@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,9 +42,8 @@ public class DescribeSensorResponseSwesDocumentDecoder extends AbstractSwesDecod
 
     @Override
     public DescribeSensorResponse decode(XmlObject objectToDecode) throws DecodingException {
-        if (objectToDecode instanceof DescribeSensorResponseDocument) {
+        if (objectToDecode instanceof DescribeSensorResponseDocument dsrd) {
             DescribeSensorResponse response = new DescribeSensorResponse();
-            DescribeSensorResponseDocument dsrd = (DescribeSensorResponseDocument) objectToDecode;
             DescribeSensorResponseType dsrt = dsrd.getDescribeSensorResponse();
             response.setOutputFormat(dsrt.getProcedureDescriptionFormat());
             for (Description description : dsrt.getDescriptionArray()) {
@@ -63,11 +62,11 @@ public class DescribeSensorResponseSwesDocumentDecoder extends AbstractSwesDecod
                                     xbProcedureDescription.getClass()));
                     if (decoder != null) {
                         final Object decodedProcedureDescription = decoder.decode(xbProcedureDescription);
-                        if (decodedProcedureDescription instanceof SosProcedureDescription) {
-                            response.addSensorDescription((SosProcedureDescription) decodedProcedureDescription);
-                        } else if (decodedProcedureDescription instanceof AbstractFeature) {
+                        if (decodedProcedureDescription instanceof SosProcedureDescription procedureDescription) {
+                            response.addSensorDescription(procedureDescription);
+                        } else if (decodedProcedureDescription instanceof AbstractFeature feature) {
                             response.addSensorDescription(
-                                    new SosProcedureDescription<>((AbstractFeature) decodedProcedureDescription));
+                                    new SosProcedureDescription<>(feature));
                         }
                     }
                 } catch (final XmlException xmle) {

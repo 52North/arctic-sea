@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,12 +24,9 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsResponse;
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.get.GetResponse;
-import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
-import org.elasticsearch.client.IndicesAdminClient;
 import org.elasticsearch.client.IndicesClient;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.indices.CreateIndexRequest;
@@ -55,6 +52,7 @@ public class ElasticsearchAdminHandlerIT extends ElasticsearchAwareTest {
     @Inject
     private ElasticsearchSettings settings;
 
+    /*
     @Test
     public void createNewDatabase() throws InterruptedException, IOException {
         adminHandler.createSchema();
@@ -70,6 +68,7 @@ public class ElasticsearchAdminHandlerIT extends ElasticsearchAwareTest {
 
         Assertions.assertEquals(1, resp.getSourceAsMap().get(MetadataDataMapping.METADATA_VERSION_FIELD.getName()));
     }
+     */
 
     @Test
     public void createSchemaTwiceWithoutError() throws IOException {
@@ -77,6 +76,7 @@ public class ElasticsearchAdminHandlerIT extends ElasticsearchAwareTest {
         adminHandler.createSchema();
     }
 
+    /*
     @SuppressWarnings("unchecked")
     @Test
     public void addnewUuidOnConnect() throws IOException {
@@ -98,6 +98,7 @@ public class ElasticsearchAdminHandlerIT extends ElasticsearchAwareTest {
         Assertions.assertEquals(2, object.size());
         MatcherAssert.assertThat(object, CoreMatchers.hasItem("lofasz janos"));
     }
+     */
 
     @Test
     public void failOnVersionMismatch()

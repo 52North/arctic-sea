@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -198,9 +198,9 @@ public final class XmlHelper {
             while (iter.hasNext()) {
                 XmlError error = iter.next();
                 boolean shouldPass = false;
-                if (error instanceof XmlValidationError) {
+                if (error instanceof XmlValidationError validationError) {
                     for (LaxValidationCase lvc : LaxValidationCase.values()) {
-                        if (lvc.shouldPass((XmlValidationError) error)) {
+                        if (lvc.shouldPass(validationError)) {
                             shouldPass = true;
                             LOGGER.debug("Lax validation case found for XML validation error: {}", error);
                             break;
@@ -699,7 +699,7 @@ public final class XmlHelper {
 
     public static Map<?, ?> getNamespaces(XmlObject xmlObject) {
         XmlCursor cursor = xmlObject.newCursor();
-        Map<?, ?> nsMap = Maps.newHashMap();
+        Map<String, String> nsMap = Maps.newHashMap();
         cursor.getAllNamespaces(nsMap);
         cursor.dispose();
         return nsMap;

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package org.n52.janmayen.i18n;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Locale;
 import java.util.Objects;
@@ -32,6 +33,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  */
 public class LocalizedString implements Serializable {
     private static final Locale NULL_LOCALE = new Locale("");
+    @Serial
     private static final long serialVersionUID = 8336541273458492969L;
     private final Locale lang;
     private final String text;
@@ -86,8 +88,7 @@ public class LocalizedString implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof LocalizedString) {
-            LocalizedString that = (LocalizedString) obj;
+        if (obj instanceof LocalizedString that) {
             return Objects.equals(this.getLang(), that.getLang()) &&
                    Objects.equals(this.getText(), that.getText());
         }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -413,10 +413,10 @@ public class EReportingHeaderEncoder
     }
 
     private void encodeTime(Time v) throws XMLStreamException, EncodingException {
-        if (v instanceof TimePeriod) {
-            encodeTimePeriod((TimePeriod) v);
-        } else if (v instanceof TimeInstant) {
-            encodeTimeInstant((TimeInstant) v);
+        if (v instanceof TimePeriod period) {
+            encodeTimePeriod(period);
+        } else if (v instanceof TimeInstant instant) {
+            encodeTimeInstant(instant);
         }
     }
 

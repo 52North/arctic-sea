@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import java.io.OutputStream;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.apache.xmlbeans.XmlBoolean;
 import org.apache.xmlbeans.XmlInteger;
@@ -162,10 +163,10 @@ public abstract class AbstractOmEncoderv20
     public XmlObject encode(Object element, EncodingContext additionalValues)
             throws EncodingException {
         XmlObject encodedObject = null;
-        if (element instanceof OmObservation) {
-            encodedObject = encodeOmObservation((OmObservation) element, additionalValues);
-        } else if (element instanceof NamedValue) {
-            NamedValueType nvt = createNamedValue((NamedValue<?>) element);
+        if (element instanceof OmObservation observation) {
+            encodedObject = encodeOmObservation(observation, additionalValues);
+        } else if (element instanceof NamedValue<?> value) {
+            NamedValueType nvt = createNamedValue(value);
             if (additionalValues.has(XmlBeansEncodingFlags.DOCUMENT)) {
                 NamedValueDocument nvd = NamedValueDocument.Factory.newInstance();
                 nvd.setNamedValue(nvt);
@@ -177,10 +178,10 @@ public abstract class AbstractOmEncoderv20
             } else {
                 encodedObject = nvt;
             }
-        } else if (element instanceof SosProcedureDescription) {
-            encodedObject = encodeProcedureDescription((SosProcedureDescription<?>) element);
-        } else if (element instanceof AbstractFeature) {
-            encodedObject = encodeFeatureOfInterest((AbstractFeature) element);
+        } else if (element instanceof SosProcedureDescription<?> description) {
+            encodedObject = encodeProcedureDescription(description);
+        } else if (element instanceof AbstractFeature feature) {
+            encodedObject = encodeFeatureOfInterest(feature);
         } else {
             throw new UnsupportedEncoderInputException(this, element);
         }
@@ -230,7 +231,7 @@ public abstract class AbstractOmEncoderv20
 
         if (!sosObservation.isSetObservationID()) {
             sosObservation.setObservationID(
-                    IdGenerator.generate(Double.toString(System.currentTimeMillis() * Math.random())));
+                    IdGenerator.generate(Double.toString(System.currentTimeMillis() * ThreadLocalRandom.current().nextDouble())));
         }
         String observationID = sosObservation.getObservationID();
         if (!sosObservation.isSetGmlID()) {
@@ -425,9 +426,9 @@ public abstract class AbstractOmEncoderv20
             throws EncodingException {
         if (!(procedureDescription instanceof SosProcedureDescriptionUnknownType)) {
             XmlObject encodedProcedure;
-            if (procedureDescription instanceof SosProcedureDescription<?>) {
+            if (procedureDescription instanceof SosProcedureDescription<?> description) {
                 encodedProcedure = encodeObjectToXml(procedureDescription.getDefaultElementEncoding(),
-                        ((SosProcedureDescription<?>) procedureDescription).getProcedureDescription());
+                        description.getProcedureDescription());
             } else {
                 encodedProcedure = encodeObjectToXmlPropertyType(procedureDescription.getDefaultElementEncoding(),
                         procedureDescription);
@@ -664,7 +665,7 @@ public abstract class AbstractOmEncoderv20
 
     private static String generateObservationGMLId() {
         return OBSERVATION_ID_PREFIX
-                + IdGenerator.generate(Double.toString(System.currentTimeMillis() * Math.random()));
+                + IdGenerator.generate(Double.toString(System.currentTimeMillis() * ThreadLocalRandom.current().nextDouble()));
     }
 
     private class NamedValueValueEncoder

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,9 @@
  */
 package org.n52.janmayen.exception;
 
-import javax.annotation.Nullable;
+import java.io.Serial;
+
+import jakarta.annotation.Nullable;
 
 /**
  * Exception with additional formatting parameters.
@@ -23,6 +25,7 @@ import javax.annotation.Nullable;
  * @author Christian Autermann
  */
 public abstract class StringInterpolationException extends Exception {
+    @Serial
     private static final long serialVersionUID = -3972285029743751087L;
 
     public StringInterpolationException(@Nullable String message,

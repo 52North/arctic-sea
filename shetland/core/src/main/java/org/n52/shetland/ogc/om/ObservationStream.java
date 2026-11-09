@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015-2022 52°North Spatial Information Research GmbH
+ * Copyright (C) 2015-2026 52°North Spatial Information Research GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,8 +25,6 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
-
-import javax.annotation.CheckReturnValue;
 
 import org.n52.janmayen.ThrowingIterator;
 import org.n52.janmayen.function.ThrowingConsumer;
@@ -119,7 +117,6 @@ public interface ObservationStream extends ThrowingIterator<OmObservation, OwsEx
      *
      * @return the new stream
      */
-    @CheckReturnValue
     default ObservationStream modify(ThrowingConsumer<OmObservation, OwsExceptionReport> consumer) {
         Objects.requireNonNull(consumer);
         return map(o -> {
@@ -137,7 +134,6 @@ public interface ObservationStream extends ThrowingIterator<OmObservation, OwsEx
      *
      * @return the new stream
      */
-    @CheckReturnValue
     default ObservationStream flatMap(ThrowingFunction<OmObservation, ObservationStream, OwsExceptionReport> mapper) {
         Objects.requireNonNull(mapper);
         ObservationStream delegate = this;
@@ -182,7 +178,6 @@ public interface ObservationStream extends ThrowingIterator<OmObservation, OwsEx
      *
      * @return the new stream
      */
-    @CheckReturnValue
     default ObservationStream map(ThrowingUnaryOperator<OmObservation, OwsExceptionReport> operator) {
         Objects.requireNonNull(operator);
         ObservationStream delegate = this;
@@ -211,7 +206,6 @@ public interface ObservationStream extends ThrowingIterator<OmObservation, OwsEx
      *
      * @return the new stream
      */
-    @CheckReturnValue
     default ObservationStream filter(Predicate<OmObservation> predicate) {
         Objects.requireNonNull(predicate);
         ObservationStream delegate = this;
@@ -246,7 +240,6 @@ public interface ObservationStream extends ThrowingIterator<OmObservation, OwsEx
      * @see OmObservation#checkForMerge(org.n52.shetland.ogc.om.OmObservation)
      * @see OmObservation#mergeWithObservation(org.n52.shetland.ogc.om.OmObservation)
      */
-    @CheckReturnValue
     default ObservationStream merge() throws OwsExceptionReport {
         return merge(ObservationMergeIndicator.sameObservationConstellation());
     }
@@ -265,7 +258,6 @@ public interface ObservationStream extends ThrowingIterator<OmObservation, OwsEx
      * @see OmObservation#checkForMerge(org.n52.shetland.ogc.om.OmObservation)
      * @see OmObservation#mergeWithObservation(org.n52.shetland.ogc.om.OmObservation)
      */
-    @CheckReturnValue
     default ObservationStream merge(ObservationMergeIndicator indicator) throws OwsExceptionReport {
         List<OmObservation> mergedObservations = new LinkedList<>();
         int obsIdCounter = 1;
