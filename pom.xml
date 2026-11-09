@@ -27,7 +27,7 @@
 
     <groupId>org.n52.arctic-sea</groupId>
     <artifactId>arctic-sea</artifactId>
-    <version>11.0.0</version>
+    <version>11.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>52°North Arctic Sea</name>
@@ -63,7 +63,7 @@
         <url>https://github.com/52North/arctic-sea</url>
         <connection>scm:git:https://github.com/52North/arctic-sea.git</connection>
         <developerConnection>scm:git:https://github.com/52North/arctic-sea.git</developerConnection>
-        <tag>v11.0.0</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <issueManagement>
